@@ -6,16 +6,13 @@
 #    By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/07 14:49:27 by llelievr          #+#    #+#              #
-#    Updated: 2019/04/07 23:38:04 by llelievr         ###   ########.fr        #
+#    Updated: 2019/04/09 15:04:03 by llelievr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME=doom
-SDL=${HOME}/.brew/Cellar/sdl2/2.0.9
-SDL_IMG=${HOME}/.brew/Cellar/sdl2_image/2.0.4
-SDL_TTF=${HOME}/.brew/Cellar/sdl2_ttf/2.0.14
 CFLAGS=-Wall -Wextra -ffast-math -O3 -flto
-LIBS=-lSDL2_image -lSDL2_ttf -lSDL2
+LIBS=-lm
 CC=clang
 
 -include src.mk
@@ -35,12 +32,8 @@ OBJDIR	=./objs/
 
 UNAME :=$(shell uname)
 
-ifeq ($(UNAME), Linux)
-	INCLUDE += $(shell pkg-config --cflags sdl2 SDL2_image SDL2_mixer SDL2_ttf)
-else
-	INCLUDE += -Iinclude -I$(SDL_IMG)/include/SDL2 -I$(SDL_TTF)/include/SDL2 -I$(SDL)/include/SDL2
-	LIBS+=-L$(SDL)/lib -lSDL2 -L$(SDL_IMG)/lib -lSDL2_image -L$(SDL_TTF)/lib -lSDL2_ttf
-endif
+INCLUDE += $(shell pkg-config --cflags sdl2 SDL2_image SDL2_ttf)
+LIBS += $(shell pkg-config --libs sdl2 SDL2_image SDL2_ttf)
 
 all: $(FT_LIB) $(NAME)
 
@@ -59,7 +52,7 @@ $(FT_LIB):
 	make -j4 -C $(FT)
 
 $(NAME): $(OBJS) $(FT_LIB)
-	$(CC) $(CFLAGS) -o $(NAME) $(FT_LNK) $(INCLUDE) $(LIBS) -lm $(OBJS) $(FT_LIB)
+	$(CC) $(CFLAGS) -o $(NAME) $(FT_LNK) $(INCLUDE) $(LIBS) $(OBJS) $(FT_LIB)
 
 clean:
 	make -C $(FT) clean
