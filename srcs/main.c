@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/09 14:54:33 by llelievr          #+#    #+#             */
-/*   Updated: 2019/04/11 20:28:23 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/04/12 15:18:24 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,8 @@ t_bool	intersect(t_line *line, t_line *seg, t_vec2 *intersect)
 		return (FALSE);
 	intersect->x = (i2.y * c1 - i1.y * c2) / d;
 	intersect->y = (i1.x * c2 - i2.x * c1) / d;
-	if (intersect->x < min(seg->a.x, seg->b.x) || intersect->x > max(seg->a.x, seg->b.x) // FAUX ! Ca ne verifie pas si le point d intersection est dans le segment
-	|| intersect->y < min(seg->a.y, seg->b.y) || intersect->y > max(seg->a.y, seg->b.y)) // (ref https://stackoverflow.com/questions/4030565/line-and-line-segment-intersection?rq=1)
+	if (intersect->x < fmin(seg->a.x, seg->b.x) || intersect->x > fmax(seg->a.x, seg->b.x) // FAUX ! Ca ne verifie pas si le point d intersection est dans le segment
+	|| intersect->y < fmin(seg->a.y, seg->b.y) || intersect->y > fmax(seg->a.y, seg->b.y)) // (ref https://stackoverflow.com/questions/4030565/line-and-line-segment-intersection?rq=1)
 		return (FALSE);
 	return (TRUE);
 }
@@ -141,39 +141,60 @@ t_side	get_side(t_line *partition, t_line *seg)
 	return (dot < 0 ? S_BACK : S_FRONT);
 }
 
+void	append_line(t_line *p, t_line *line, t_line_list *front, t_line_list *back, int *front_count, int *back_count)
+{
+	t_side side = get_side(p, line);
+	if (side == S_FRONT)
+	{
+		append_list(&front, line);
+		(*front_count)++;
+	}
+	else if (side == S_BACK)
+	{
+		append_list(&back, line);
+		(*back_count)++;
+	}
+}
 
 t_node	*build_node(t_line_list *lines, int lines_count)
 {
-	t_line_list	*front = NULL;
-	int			front_count = 0;
-	t_line_list	*back = NULL;
-	int			back_count = 0;
+	t_line_list	*front		= NULL;
+	int			front_count	= 0;
+	t_line_list	*back		= NULL;
+	int			back_count	= 0;
 	t_node		*node;
 
-	if (lines_count == 0 || !(node = (t_node *)malloc(sizeof(t_node))))
+	if (lines_count == 0 || !lines || !lines->next || !(node = (t_node *)malloc(sizeof(t_node))))
 		return (NULL);
 	node->segments = lines;
-	node->partition = lines->line;
+	node->partition = lines->next->line;
+	lines = lines->next;
 	while (lines)
 	{
 		t_vec2 it;
-		if (intersect(&node->partition, &lines->line, &it) == FALSE)
+		if (intersect(&node->partition, &lines->line, &it) == TRUE)
 		{
-			lines = lines->next;
-			continue;
+			t_line a = { lines->line.a, it };
+			t_line b = { it, lines->line.b };
+			append_line(&node->partition, &a, front, back, &front_count, &back_count);
+			append_line(&node->partition, &b, front, back, &front_count, &back_count);
 		}
-		t_side side = get_side(&node->partition, &lines->line);
-		if (side == S_FRONT)
+		else
 		{
-			append_list(&front, &lines->line);
-			front_count++;
+			append_line(&node->partition, &lines->line, front, back, &front_count, &back_count);
+			/*t_side side = get_side(&node->partition, &lines->line);
+			if (side == S_FRONT)
+			{
+				append_list(&front, &lines->line);
+				front_count++;
+			}
+			else if (side == S_BACK)
+			{
+				append_list(&back, &lines->line);
+				back_count++;
+			}*/
 		}
-		else if (side == S_BACK)
-		{
-			append_list(&back, &lines->line);
-			back_count++;
-		}
-		printf("(%d) (%f, %f)\n", side, it.x, it.y);
+		//printf("(%d) (%f, %f)\n", side, it.x, it.y);
 		lines = lines->next;
 	}
  
