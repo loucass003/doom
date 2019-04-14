@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/09 14:54:33 by llelievr          #+#    #+#             */
-/*   Updated: 2019/04/12 17:02:57 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/04/14 17:08:11 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,15 @@ typedef enum		e_side
 {
 	S_COLINEAR = 0,
 	S_FRONT = 1,
-	S_BACK = 2
+	S_BACK = 2,
+	S_SPANNING = 3
 }					t_side;
+
+typedef enum		e_node_type
+{
+	N_NODE,
+	N_LEAF
+}					t_node_type;
 
 typedef struct		s_line
 {
@@ -37,6 +44,7 @@ typedef struct			s_line_list
 
 typedef struct		s_node
 {
+	t_node_type		type;
 	t_line			partition;
 	t_line_list		*segments;
 	struct s_node	*front;
@@ -55,7 +63,7 @@ t_line lines[] = {
 	{ {500, 300}, { 800, 300 }},
 	{ {800, 300}, { 800, 450 }},
 	{ {800, 450}, {0, 450 }},
-	{ {0, 450}, {0, 150}}
+//	{ {0, 450}, {0, 150}}
 };
 
 t_bool	intersect(t_line *line, t_line *seg, t_vec2 *intersect)
@@ -75,12 +83,14 @@ t_bool	intersect(t_line *line, t_line *seg, t_vec2 *intersect)
 	float c2 = i2.x * (seg->a.x) + i2.y * (seg->a.y);
 	float d = i1.x * i2.y - i2.x * i1.y;
 	if (d == 0)
+	{
+		intersect->x = -1;
+		intersect->y = -1;
 		return (FALSE);
+	}
 	intersect->x = (i2.y * c1 - i1.y * c2) / d;
 	intersect->y = (i1.x * c2 - i2.x * c1) / d;
-	if (intersect->x < fmin(seg->a.x, seg->b.x) || intersect->x > fmax(seg->a.x, seg->b.x) // FAUX ! Ca ne verifie pas si le point d intersection est dans le segment
-	|| intersect->y < fmin(seg->a.y, seg->b.y) || intersect->y > fmax(seg->a.y, seg->b.y)) // (ref https://stackoverflow.com/questions/4030565/line-and-line-segment-intersection?rq=1)
-		return (FALSE);
+	
 	return (TRUE);
 }
 
@@ -118,90 +128,130 @@ Iterer sur le polygone
 d va aussi servir a savoir de quel cote sont les segements des autres sections
 */
 
+t_vec2	line_normal(t_line *line)
+{
+	return (ft_vec2_norm((t_vec2) {
+		line->b.y - line->a.y,
+		line->a.x - line->b.x
+	}));
+}
+
+t_side	get_side_thin(t_line *partition, t_vec2 seg)
+{
+	const t_vec2 n = line_normal(partition);
+	const float side = (seg.x - partition->a.x) * n.x + (seg.y - partition->a.y) * n.y;
+	if (side == 0)
+		return (S_COLINEAR);
+	return (side < 0 ? S_BACK : S_FRONT);
+}
+
+t_side	get_side_thick(t_line *partition, t_vec2 seg)
+{
+	const t_vec2 n = line_normal(partition);
+	t_side f_side = get_side_thin(partition, (t_vec2){ (seg.x - n.x) / 2, (seg.y - n.y) / 2 });
+	if (f_side == S_FRONT)
+		return (S_FRONT);
+	else if (f_side == S_BACK)
+	{
+		t_side b_side = get_side_thin(partition, (t_vec2){ (seg.x + n.x) / 2, (seg.y + n.y) / 2 });
+		if (b_side == S_BACK)
+			return (S_BACK);
+	}
+	return (S_COLINEAR);
+}
+
+
 
 t_side	get_side(t_line *partition, t_line seg)
 {
-	const float dot = ft_vec2_cross(
+	if (partition->a.x == seg.a.x && partition->a.y == seg.a.y 
+		&& partition->b.x == seg.b.x && partition->b.y == seg.b.y)
+		return (S_COLINEAR);
+	/*const float dot = ft_vec2_cross(
 		ft_vec2_norm((t_vec2) { partition->b.x - partition->a.x, partition->b.y - partition->a.y }),
 		ft_vec2_norm((t_vec2) { seg.b.x - seg.a.x, seg.b.y - seg.a.y }));
 	if (dot == 0)
 		return (S_COLINEAR);
-	return (dot < 0 ? S_BACK : S_FRONT);
+	return (dot < 0 ? S_BACK : S_FRONT);*/
+	t_side s1 = get_side_thick(partition, seg.a);
+	t_side s2 = get_side_thick(partition, seg.b);
+	if (s1 == s2)
+		return (s1);
+	else if (s1 == S_COLINEAR)
+		return (s2);
+	else if (s2 == S_COLINEAR)
+		return (s1);
+	else
+		return (S_SPANNING);
 }
 
-void	append_line(t_line *p, t_line line, t_line_list **front, t_line_list **back, int *front_count, int *back_count)
+t_node	*create_node(t_line_list *segments)
 {
+	t_node *node;
 
-	}
-
-t_node	*build_node(t_line_list *lines, int lines_count)
-{
-	t_line_list	*front		= NULL;
-	int			front_count	= 0;
-	t_line_list	*back		= NULL;
-	int			back_count	= 0;
-	t_node		*node;
-
-	if (lines_count == 0 || !(node = (t_node *)malloc(sizeof(t_node))))
+	if (!(node = (t_node *)malloc(sizeof(t_node))))
 		return (NULL);
-	node->segments = lines;
-	node->partition = lines->line;
-	if (!lines->next)
-		return (node);
-	lines = lines->next;
-	while (lines)
+	node->front = NULL;
+	node->back = NULL;
+	node->segments = segments;
+	node->type = N_NODE;
+	if (segments)
+		node->partition = segments->line;
+	else
 	{
-		t_vec2 it;
-		if (intersect(&node->partition, &lines->line, &it) == TRUE)
+		node->type = N_LEAF;
+		//TODO: add more data (floor_height, ceil_height)
+	}
+	return (node);
+}
+
+void build_node(t_node *node)
+{
+	t_line_list	*lst;
+	t_line_list	*front;
+	t_line_list	*back;
+	t_line_list	*colinear;
+
+	if (node->type == N_LEAF)
+		return;
+	lst = node->segments;
+	front = NULL;
+	back = NULL;
+	colinear = NULL;
+	while (lst)
+	{
+		t_side side = get_side(&node->partition, lst->line);
+		if (side == S_COLINEAR)
+			append_list(&colinear, lst->line);
+		else if (side == S_FRONT)
+			append_list(&front, lst->line);
+		else if (side == S_BACK)
+			append_list(&back, lst->line);
+		else if (side == S_SPANNING)
 		{
-			t_line a = { lines->line.a, it };
-			t_line b = { it, lines->line.b };
+			t_vec2 it;
+			if (!intersect(&node->partition, &lst->line, &it))
+				continue;
+			t_line a = { lst->line.a, it };
+			t_line b = { it, lst->line.b };
 			t_side side = get_side(&node->partition, a);
 			if (side == S_FRONT)
-			{
 				append_list(&front, a);
-				front_count++;
-			}
 			else if (side == S_BACK)
-			{
 				append_list(&back, a);
-				back_count++;
-			}
 			side = get_side(&node->partition, b);
 			if (side == S_FRONT)
-			{
 				append_list(&front, b);
-				front_count++;
-			}
 			else if (side == S_BACK)
-			{
 				append_list(&back, b);
-				back_count++;
-			}
 		}
-		else
-		{
-			t_side side = get_side(&node->partition, lines->line);
-			if (side == S_FRONT)
-			{
-				append_list(&front, lines->line);
-				front_count++;
-			}
-			else if (side == S_BACK)
-			{
-				append_list(&back, lines->line);
-				back_count++;
-			}
-		}
-		//printf("(%d) (%f, %f)\n", side, it.x, it.y);
-		lines = lines->next;
+		lst = lst->next;
 	}
- 
-	printf("build front node with %d segments\n", front_count);
-	node->front = build_node(front, front_count);
-	printf("build back node with %d segments\n", back_count);
-	node->back = build_node(back, back_count);
-	return (node);
+	node->segments = colinear;
+	node->front = create_node(front);
+	node->back = create_node(back);
+	build_node(node->front);
+	build_node(node->back);
 }
 
 int		main(void)
@@ -220,8 +270,8 @@ int		main(void)
 	t_line_list *lst = NULL;
 	for (int i = 0; i < count; i++)
 		append_list(&lst, lines[i]);
-	t_node *n = NULL;
-	n = build_node(lst, count);
+	t_node *n = create_node(lst);
+	build_node(n);
 	if (!n)
 		return (-1);
 	return (0);
