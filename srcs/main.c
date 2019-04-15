@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/09 14:54:33 by llelievr          #+#    #+#             */
-/*   Updated: 2019/04/14 17:08:11 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/04/15 20:06:59 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,15 +61,13 @@ t_line lines[] = {
 	{ { 0, 150 }, { 500, 75 } },
 	{ { 500, 75 }, { 500, 300 } },
 	{ {500, 300}, { 800, 300 }},
-	{ {800, 300}, { 800, 450 }},
+	//{ {800, 300}, { 800, 450 }},
 	{ {800, 450}, {0, 450 }},
-//	{ {0, 450}, {0, 150}}
+	//{ {0, 450}, {0, 150}}
 };
 
 t_bool	intersect(t_line *line, t_line *seg, t_vec2 *intersect)
 {
-	if (line->a.x == seg->a.x && line->a.y == seg->a.y && line->b.x == seg->b.x && line->b.y == seg->b.y)
-		return (FALSE);
 	t_vec2 i1 = (t_vec2) {
 		line->b.y - line->a.y,
 		line->a.x - line->b.x
@@ -142,18 +140,18 @@ t_side	get_side_thin(t_line *partition, t_vec2 seg)
 	const float side = (seg.x - partition->a.x) * n.x + (seg.y - partition->a.y) * n.y;
 	if (side == 0)
 		return (S_COLINEAR);
-	return (side < 0 ? S_BACK : S_FRONT);
+	return (side > 0 ? S_BACK : S_FRONT);
 }
 
 t_side	get_side_thick(t_line *partition, t_vec2 seg)
 {
 	const t_vec2 n = line_normal(partition);
-	t_side f_side = get_side_thin(partition, (t_vec2){ (seg.x - n.x) / 2, (seg.y - n.y) / 2 });
+	t_side f_side = get_side_thin(partition, (t_vec2){ seg.x + n.x / 2, seg.y + n.y / 2 });
 	if (f_side == S_FRONT)
 		return (S_FRONT);
 	else if (f_side == S_BACK)
 	{
-		t_side b_side = get_side_thin(partition, (t_vec2){ (seg.x + n.x) / 2, (seg.y + n.y) / 2 });
+		t_side b_side = get_side_thin(partition, (t_vec2){ seg.x - n.x / 2, seg.y - n.y / 2 });
 		if (b_side == S_BACK)
 			return (S_BACK);
 	}
@@ -231,7 +229,10 @@ void build_node(t_node *node)
 		{
 			t_vec2 it;
 			if (!intersect(&node->partition, &lst->line, &it))
+			{
+				lst = lst->next;
 				continue;
+			}
 			t_line a = { lst->line.a, it };
 			t_line b = { it, lst->line.b };
 			t_side side = get_side(&node->partition, a);
@@ -254,6 +255,43 @@ void build_node(t_node *node)
 	build_node(node->back);
 }
 
+void print_node(t_node *n, int i, int l)
+{
+	if (!n)
+		return;
+
+	/*printf("%1$s%2$d --> %1$s(%3$f, %4$f - %5$f, %6$f)\n",
+		l == 0 ? "F" : "B",
+		i++,
+		n->partition.a.x,
+		n->partition.a.y,
+		n->partition.b.x,
+		n->partition.b.y
+	);*/
+
+	if (n->front)
+		printf ("N%p ==> N%p\n",n, n->front);
+	if (n->back)
+		printf ("N%p --> N%p\n",n, n->back);
+	if (n->type == N_NODE)
+	{
+		printf("N%p(%s - %.3f, %.3f - %.3f, %.3f)\n", n, 
+			n->type == N_LEAF ? "LEAF" : "NODE",
+			n->partition.a.x,
+			n->partition.a.y,
+			n->partition.b.x,
+			n->partition.b.y
+		);
+	}
+	else
+	{
+		printf("N%p[LEAF]\n", n);
+	}
+	
+	print_node(n->front, i, 0);
+	print_node(n->back, i, 1);
+}
+
 int		main(void)
 {
 	t_vec2 max = {INT_MIN, INT_MIN};
@@ -266,7 +304,7 @@ int		main(void)
 		min.x = fmin(min.x, fmin(lines[i].a.x, lines[i].b.x));
 		min.y = fmin(min.y, fmin(lines[i].a.y, lines[i].b.y));
 	}
-	printf("(%f, %f) (%f, %f)\n", min.x, min.y, max.x, max.y);
+	//printf("(%f, %f) (%f, %f)\n", min.x, min.y, max.x, max.y);
 	t_line_list *lst = NULL;
 	for (int i = 0; i < count; i++)
 		append_list(&lst, lines[i]);
@@ -274,5 +312,6 @@ int		main(void)
 	build_node(n);
 	if (!n)
 		return (-1);
+	//print_node(n, 0, 0);
 	return (0);
 }
