@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/04/16 19:53:10 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/04/16 22:46:30 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,9 @@ t_line lines[] = {
 
 int		main(void)
 {
+	t_doom doom = (t_doom) {
+		.running = TRUE
+	};
 	t_line_list *lst = NULL;
 	int count = sizeof(lines) / sizeof(t_line);
 	for (int i = 0; i < count; i++)
@@ -32,5 +35,12 @@ int		main(void)
 	if (!n)
 		return (-1);
 	print_node(n);
+	if (!init_sdl(&doom))
+	{
+		ft_putstr("ERROR");
+		return (-1);
+	}
+	game_loop(&doom);
+	sdl_quit(&doom);
 	return (0);
 }
