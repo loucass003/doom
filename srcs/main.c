@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/04/16 22:46:30 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/04/17 17:38:35 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int		main(void)
 		ft_putstr("ERROR");
 		return (-1);
 	}
+	doom.bsp = n;
 	game_loop(&doom);
 	sdl_quit(&doom);
 	return (0);

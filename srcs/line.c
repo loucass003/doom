@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:38:39 by llelievr          #+#    #+#             */
-/*   Updated: 2019/04/16 19:43:59 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/04/17 18:57:14 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,4 +92,33 @@ t_side	get_side(t_line *partition, t_line seg)
 		return (s1);
 	else
 		return (S_SPANNING);
+}
+
+void	draw_line(t_img *img, t_line l, int color)
+{
+	t_pixel			d;
+	t_pixel			s;
+	int				e[2];
+	unsigned int	index;
+
+	d = (t_pixel){ ft_absf(l.b.x - l.a.x), ft_absf(l.b.y - l.a.y), 0 };
+	s = (t_pixel){ (l.a.x < l.b.x ? 1 : -1), (l.a.y < l.b.y ? 1 : -1), 0 };
+	e[0] = (d.x > d.y ? d.x : -d.y) / 2;
+	while (l.a.x != l.b.x || l.a.y != l.b.y)
+	{
+		if (index < 0 || (index = l.a.y * img->width + l.a.x) >= img->size)
+			break ;
+		img->pixels[index] = color;
+		e[1] = e[0];
+		if (e[1] > -d.x)
+		{
+			e[0] -= d.y;
+			l.a.x += s.x;
+		}
+		if (e[1] < d.y)
+		{
+			e[0] += d.x;
+			l.a.y += s.y;
+		}
+	}
 }

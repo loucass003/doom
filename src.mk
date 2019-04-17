@@ -5,4 +5,5 @@ SRC+=game.c
 SRC+=image.c
 SRC+=line.c
 SRC+=main.c
+SRC+=render.c
 SRC+=sdl.c

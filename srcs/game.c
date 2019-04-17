@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:01:13 by llelievr          #+#    #+#             */
-/*   Updated: 2019/04/17 15:51:22 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/04/17 17:42:35 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,12 @@ static void		update_fps(t_doom *doom)
 
 void			game_loop(t_doom *doom)
 {
+	doom->player.pos = (t_vec2){ 250, 140 };
 	while (doom->running)
 	{
 		clear_image(&doom->screen);
-		fill_color(&doom->screen, 0xFF0000);
+		//fill_color(&doom->screen, 0xFF0000);
+		render(doom);
 		//DO RENDERING HERE !
 		render_debug(doom);
 		update_image(&doom->screen);
