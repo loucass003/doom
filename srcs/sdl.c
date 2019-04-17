@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 20:10:35 by llelievr          #+#    #+#             */
-/*   Updated: 2019/04/16 22:46:49 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/04/17 14:44:37 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_bool			init_sdl(t_doom *doom)
 		|| TTF_Init() < 0)
 		return (sdl_quit(doom));
 	if (!(doom->win = SDL_CreateWindow("|| DOOM ||", SDL_WINDOWPOS_CENTERED,
-		SDL_WINDOWPOS_CENTERED, W_WIDTH, S_HEIGHT, SDL_WINDOW_SHOWN)))
+		SDL_WINDOWPOS_CENTERED, W_WIDTH, W_HEIGHT, SDL_WINDOW_SHOWN)))
 		return (sdl_quit(doom));
 	if (!(doom->renderer = SDL_CreateRenderer(doom->win, -1,
 		SDL_RENDERER_ACCELERATED)))
