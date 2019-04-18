@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:38:39 by llelievr          #+#    #+#             */
-/*   Updated: 2019/04/17 18:57:14 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/04/18 19:15:47 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,31 +94,30 @@ t_side	get_side(t_line *partition, t_line seg)
 		return (S_SPANNING);
 }
 
-void	draw_line(t_img *img, t_line l, int color)
+void	draw_line(t_img *img, t_pixel p0, t_pixel p1)
 {
 	t_pixel			d;
 	t_pixel			s;
 	int				e[2];
 	unsigned int	index;
 
-	d = (t_pixel){ ft_absf(l.b.x - l.a.x), ft_absf(l.b.y - l.a.y), 0 };
-	s = (t_pixel){ (l.a.x < l.b.x ? 1 : -1), (l.a.y < l.b.y ? 1 : -1), 0 };
+	d = (t_pixel){ ft_abs(p1.x - p0.x), ft_abs(p1.y - p0.y), 0 };
+	s = (t_pixel){ (p0.x < p1.x ? 1 : -1), (p0.y < p1.y ? 1 : -1), 0 };
 	e[0] = (d.x > d.y ? d.x : -d.y) / 2;
-	while (l.a.x != l.b.x || l.a.y != l.b.y)
+	while (p0.x != p1.x || p0.y != p1.y)
 	{
-		if (index < 0 || (index = l.a.y * img->width + l.a.x) >= img->size)
-			break ;
-		img->pixels[index] = color;
+		if (p0.x >= 0 && p0.x < img->width && p0.y >= 0 && p0.y < img->height)
+			img->pixels[index = p0.y * img->width + p0.x] = p0.color;
 		e[1] = e[0];
 		if (e[1] > -d.x)
 		{
 			e[0] -= d.y;
-			l.a.x += s.x;
+			p0.x += s.x;
 		}
 		if (e[1] < d.y)
 		{
 			e[0] += d.x;
-			l.a.y += s.y;
+			p0.y += s.y;
 		}
 	}
 }

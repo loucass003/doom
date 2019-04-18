@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:34:25 by llelievr          #+#    #+#             */
-/*   Updated: 2019/04/17 16:54:04 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/04/18 19:05:06 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ typedef struct		s_node
 	t_node_type		type;
 	t_line			partition;
 	t_line_list		*segments;
+	struct s_node	*parent;
 	struct s_node	*front;
 	struct s_node	*back;
 }					t_node;
@@ -33,6 +34,6 @@ t_bool				append_list(t_line_list **list, t_line line);
 t_node				*create_node(t_line_list *segments);
 void				build_node(t_node *node);
 void				print_node(t_node *n);
-void				draw_line(t_img *img, t_line l, int color);
+void				draw_line(t_img *img, t_pixel p0, t_pixel p1);
 
 #endif

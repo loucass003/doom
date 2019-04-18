@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:44:41 by llelievr          #+#    #+#             */
-/*   Updated: 2019/04/16 19:46:34 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/04/18 16:34:15 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ t_node	*create_node(t_line_list *segments)
 	node->front = NULL;
 	node->back = NULL;
 	node->segments = segments;
+	node->parent = NULL;
 	node->type = N_NODE;
 	if (segments)
 		node->partition = segments->line;
@@ -100,7 +101,9 @@ void	build_node(t_node *node)
 	}
 	node->segments = colinear;
 	node->front = create_node(front);
+	node->front->parent = node;
 	node->back = create_node(back);
+	node->back->parent = node;
 	build_node(node->front);
 	build_node(node->back);
 }
