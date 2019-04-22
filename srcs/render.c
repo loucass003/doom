@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 16:49:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/04/18 22:37:27 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/04/22 18:59:31 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,42 @@ t_node	*player_node(t_doom *doom)
 	return (n);
 }
 
+#define H_FOV (0.73f * S_HEIGHT)  // Affects the horizontal field of vision
+#define V_FOV (0.2f * S_HEIGHT)    // Affects the vertical field of vision
+
 void	draw_wall(t_doom *doom, t_line *line)
 {
 	t_mat2 m = ft_mat2_rotation(doom->player.rotation);
-	t_vec2 ta = ft_vec2_add(ft_mat2_mulv(m, ft_vec2_sub(line->a, doom->player.pos)), (t_vec2){doom->screen.width / 2, doom->screen.height / 2});
-	t_vec2 tb = ft_vec2_add(ft_mat2_mulv(m, ft_vec2_sub(line->b, doom->player.pos)), (t_vec2){doom->screen.width / 2, doom->screen.height / 2});
-	draw_line(&doom->screen, (t_pixel){ta.x, S_HEIGHT - ta.y, 0xFFFFFF}, (t_pixel){tb.x, S_HEIGHT - tb.y});
-	
+	//t_vec2 ta = ft_vec2_add(ft_mat2_mulv(m, ft_vec2_sub(line->a, doom->player.pos)), (t_vec2){doom->screen.width / 2, doom->screen.height / 2});
+	//t_vec2 tb = ft_vec2_add(ft_mat2_mulv(m, ft_vec2_sub(line->b, doom->player.pos)), (t_vec2){doom->screen.width / 2, doom->screen.height / 2});
+
+	t_vec2 a = ft_vec2_sub(line->a, doom->player.pos);
+	t_vec2 b = ft_vec2_sub(line->b, doom->player.pos);
+	t_vec2 ta = ft_mat2_mulv(m, a);
+	t_vec2 tb = ft_mat2_mulv(m, b);
+
+	float heigthA = H_FOV / ta.y;
+
+	float heigthB = H_FOV / tb.y;
+
+	printf("%f %f %f %f\n", ta.x, tb.x, heigthA, heigthB);
+	if (ta.y <= 0 || tb.y <= 0)
+		return ;
+	if (ta.y <= 0 || tb.y <= 0)
+	{
+		t_vec2 i1 = it(ta, tb, (t_vec2){-0.00001, 0.0001}, (t_vec2){-20, 5});
+		t_vec2 i2 = it(ta, tb, (t_vec2){0.00001, 0.0001}, (t_vec2){20, 5});
+		if (ta.y <= 0.00001)
+			ta = i1.y > 0 ? i1 : i2;
+		if (tb.y <= 0.00001)
+			tb = i1.y > 0 ? i1 : i2;
+	}
+	int x1 = S_WIDTH_2 - ta.x * (V_FOV / ta.y);
+	int x2 = S_WIDTH_2 - tb.x * (V_FOV / tb.y);
+	draw_line(&doom->screen, (t_pixel){x1, S_HEIGHT_2 + (heigthA * 100) / 2, 0xFFFFFF}, (t_pixel){x2, S_HEIGHT_2 + (heigthB * 100) / 2});
+	draw_line(&doom->screen, (t_pixel){x1, S_HEIGHT_2 - (heigthA * 100) / 2, 0xFFFFFF}, (t_pixel){x2, S_HEIGHT_2 - (heigthB * 100) / 2});
+	draw_line(&doom->screen, (t_pixel){x1, S_HEIGHT_2 - (heigthA * 100) / 2, 0xFF0000}, (t_pixel){x1, S_HEIGHT_2 + (heigthA * 100) / 2});
+	draw_line(&doom->screen, (t_pixel){x2, S_HEIGHT_2 - (heigthB * 100)/ 2, 0x00FF00}, (t_pixel){x2, S_HEIGHT_2 + (heigthB * 100) / 2});
 }
 
 void	render(t_doom *doom)
