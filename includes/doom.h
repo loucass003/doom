@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/04/17 17:07:56 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/04/23 16:23:29 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,12 @@ typedef struct		s_fonts
 	TTF_Font	*helvetica;
 }					t_fonts;
 
+typedef struct		s_textures
+{
+	SDL_Surface		*bricks;
+	
+}					t_textures;
+
 typedef struct		s_player
 {
 	t_vec2			pos;
@@ -53,6 +59,9 @@ typedef struct		s_doom
 	t_fonts			fonts;
 	t_node			*bsp;
 	t_player		player;
+	t_node			*first_node;
+	uint8_t			*rendered_area;
+	t_textures		textures;
 }					t_doom;
 
 t_bool				init_sdl(t_doom *doom);

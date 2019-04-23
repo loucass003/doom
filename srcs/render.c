@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 16:49:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/04/23 00:56:09 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/04/23 18:52:31 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,8 @@ t_node	*player_node(t_doom *doom)
 void	draw_wall(t_doom *doom, t_line *line)
 {
 	t_mat2 m = ft_mat2_rotation(doom->player.rotation);
-	//t_vec2 ta = ft_vec2_add(ft_mat2_mulv(m, ft_vec2_sub(line->a, doom->player.pos)), (t_vec2){doom->screen.width / 2, doom->screen.height / 2});
-	//t_vec2 tb = ft_vec2_add(ft_mat2_mulv(m, ft_vec2_sub(line->b, doom->player.pos)), (t_vec2){doom->screen.width / 2, doom->screen.height / 2});
-
-	t_vec2 a = ft_vec2_sub(line->a, doom->player.pos);
-	t_vec2 b = ft_vec2_sub(line->b, doom->player.pos);
-	t_vec2 ta = ft_mat2_mulv(m, a);
-	t_vec2 tb = ft_mat2_mulv(m, b);
+	t_vec2 ta = ft_mat2_mulv(m, ft_vec2_sub(line->a, doom->player.pos));
+	t_vec2 tb = ft_mat2_mulv(m, ft_vec2_sub(line->b, doom->player.pos));
 
 	if (ta.y <= 0 && tb.y <= 0)
 		return ;
@@ -60,20 +55,31 @@ void	draw_wall(t_doom *doom, t_line *line)
 	float heigthB = H_FOV / tb.y * 100;
 	int x1 = S_WIDTH_2 - ta.x * (V_FOV / ta.y);
 	int x2 = S_WIDTH_2 - tb.x * (V_FOV / tb.y);
+	if (x1 >= x2)
+		return ;
 	int color = 0xFFFFFF / fmax(1, ft_abs(line->a.x + line->b.x + 1));
 	for (int x = x1; x < x2; x++)
 	{
 		//printf("%d\n", (x2 - x1));
-		if (x2 - x1 == 0)
-			break;
+		if (x < 0 || x >= S_WIDTH || doom->rendered_area[x] != FALSE)
+			continue ;
+		doom->rendered_area[x] = TRUE;
 		//assert((heigthB - heigthA) < 0.001);
-		float h = heigthA + (x - x1) * ((heigthB - heigthA) / (x2 - x1));
-		draw_line(&doom->screen, (t_pixel){x, S_HEIGHT_2 - (h) / 2, color}, (t_pixel){x, S_HEIGHT_2 + (h) / 2});
+		float h = (heigthA + (x - x1) * ((heigthB - heigthA) / (x2 - x1))) / 2;
+		/*for (int y = fmax(0, S_HEIGHT_2 - h); y < fmin(S_HEIGHT, S_HEIGHT_2 + h); y++)
+		{
+			doom->screen.pixels[(y * doom->screen.width) + x] = color;
+		}*/
+		//draw_line(&doom->screen, (t_pixel){x,  fmax(0, S_HEIGHT_2 - (h) / 2), color}, (t_pixel){x, fmin(S_HEIGHT, S_HEIGHT_2 + (h) / 2)});
+		float ax = (float)(x - x1) * (1. / (float)(x2 - x1));
+		printf("ax: %f\n", ax);
+		float ux = (((1. - ax) * ((float)x1 / ta.y)) + (ax * ((float)x2 / tb.y))) / (((1. - ax) * (1. / ta.y)) + (ax * (1. / tb.y)));
+		apply_surface(&doom->screen, doom->textures.bricks, (SDL_Rect){ (int)ux %  doom->textures.bricks->h, 0, 1, doom->textures.bricks->h }, (SDL_Rect){ x, S_HEIGHT_2 - h, 1, h * 2});
 	}
-/*	draw_line(&doom->screen, (t_pixel){x1, S_HEIGHT_2 + (heigthA) / 2, 0xFFFFFF}, (t_pixel){x2, S_HEIGHT_2 + (heigthB) / 2});
+	draw_line(&doom->screen, (t_pixel){x1, S_HEIGHT_2 + (heigthA) / 2, 0xFFFFFF}, (t_pixel){x2, S_HEIGHT_2 + (heigthB) / 2});
 	draw_line(&doom->screen, (t_pixel){x1, S_HEIGHT_2 - (heigthA) / 2, 0xFFFFFF}, (t_pixel){x2, S_HEIGHT_2 - (heigthB) / 2});
 	draw_line(&doom->screen, (t_pixel){x2, S_HEIGHT_2 - (heigthB) / 2, 0x00FF00}, (t_pixel){x2, S_HEIGHT_2 + (heigthB) / 2});
-	draw_line(&doom->screen, (t_pixel){x1, S_HEIGHT_2 - (heigthA) / 2, 0xFF0000}, (t_pixel){x1, S_HEIGHT_2 + (heigthA) / 2});*/
+	draw_line(&doom->screen, (t_pixel){x1, S_HEIGHT_2 - (heigthA) / 2, 0xFF0000}, (t_pixel){x1, S_HEIGHT_2 + (heigthA) / 2});
 }
 
 void visitNode(t_doom *doom, t_node *node)
@@ -112,5 +118,6 @@ void traverseDrawOrder(t_doom *doom, t_node *node)
 
 void	render(t_doom *doom)
 {
+	ft_bzero(doom->rendered_area, doom->screen.width);
 	traverseDrawOrder(doom, doom->bsp);
 }

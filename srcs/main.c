@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/04/18 13:55:14 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/04/23 15:32:42 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,9 @@ t_line lines[] = {
 	{ {500, 300}, { 800, 300 }},
 	{ {800, 300}, { 800, 450 }},
 	{ {800, 450}, {0, 450 }},
-	{ {0, 450}, {0, 150}}
+	{ {0, 450}, {0, 150}},
+	
+	{{ 50, 260}, { 50, 160}},
 };
 
 int		main(void)
@@ -30,17 +32,19 @@ int		main(void)
 	int count = sizeof(lines) / sizeof(t_line);
 	for (int i = 0; i < count; i++)
 		append_list(&lst, lines[i]);
-	t_node *n = create_node(lst);
-	build_node(n);
-	if (!n)
+	doom.first_node = create_node(lst);
+	build_node(doom.first_node);
+	if (!doom.first_node)
 		return (-1);
-	print_node(n);
+	print_node(doom.first_node);
 	if (!init_sdl(&doom))
 	{
 		ft_putstr("ERROR");
 		return (-1);
 	}
-	doom.bsp = n;
+	doom.bsp = doom.first_node;
+	if (!(doom.rendered_area = (uint8_t *)malloc(doom.screen.width)))
+		return (-1);
 	game_loop(&doom);
 	sdl_quit(&doom);
 	return (0);
