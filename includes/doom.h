@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/04/24 17:13:39 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/04/24 17:50:41 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,14 +85,14 @@ typedef struct		s_gui
 	t_component		**components;
 	int				component_count;
 	void			(*render)(struct s_gui *self, t_doom *doom);
-	void			(*on_enter)(struct s_gui *self);
-	void			(*on_leave)(struct s_gui *self);
+	void			(*on_enter)(struct s_gui *self, t_doom *doom);
+	void			(*on_leave)(struct s_gui *self, t_doom *doom);
 	void			(*on_event)(struct s_gui *self, SDL_Event *event, t_doom *doom);
 }					t_gui;
 
 typedef struct		s_editor
 {
-
+	uint8_t			*point;
 }					t_editor;
 
 typedef struct		s_doom
@@ -126,10 +126,10 @@ void				apply_surface(t_img *img, SDL_Surface *s,
 
 void				g_ingame_render(t_gui *self, t_doom *doom);
 void				g_mainmenu_render(t_gui *self, t_doom *doom);
-void				g_mainmenu_on_enter(t_gui *self);
-void				g_mainmenu_on_leave(t_gui *self);
-void				g_editor_on_enter(t_gui *self);
-void				g_editor_on_leave(t_gui *self);
+void				g_mainmenu_on_enter(t_gui *self, t_doom *doom);
+void				g_mainmenu_on_leave(t_gui *self, t_doom *doom);
+void				g_editor_on_enter(t_gui *self, t_doom *doom);
+void				g_editor_on_leave(t_gui *self, t_doom *doom);
 void				g_editor_render(t_gui *self, t_doom *doom);
 void				g_editor_on_event(t_gui *self, SDL_Event *event, t_doom *doom);
 void				register_guis(t_doom *doom);

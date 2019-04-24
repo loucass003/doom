@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_mainmenu.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:56:05 by llelievr          #+#    #+#             */
-/*   Updated: 2019/04/24 15:59:13 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/04/24 17:51:08 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void		action_performed(t_component *cmp, t_doom *doom)
 	}
 }
 
-void	g_mainmenu_on_enter(t_gui *self)
+void	g_mainmenu_on_enter(t_gui *self, t_doom *doom)
 {
 	if (!alloc_components(self, 2))
 		return ;
@@ -37,7 +37,7 @@ void	g_mainmenu_on_enter(t_gui *self)
 	self->components[1]->perform_action = action_performed;
 }
 
-void	g_mainmenu_on_leave(t_gui *self)
+void	g_mainmenu_on_leave(t_gui *self, t_doom *doom)
 {
 	free_components(self);
 }
