@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 21:05:41 by llelievr          #+#    #+#             */
-/*   Updated: 2019/04/18 21:56:30 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/04/24 11:57:05 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,5 +22,9 @@
 # define S_SIZE (S_WIDTH * S_HEIGHT)
 
 # define FONT_HELVETICA "assets/fonts/helvetica.ttf"
+
+# define GUI_COUNT (2)
+# define GUI_INGAME (0)
+# define GUI_MAIN_MENU (1)
 
 #endif

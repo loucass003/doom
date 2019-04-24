@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:28:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/04/24 01:58:12 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/04/24 10:47:52 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ void			apply_surface(t_img *img, SDL_Surface *s,
 		dst.y = 0;
 	if (dst.x < 0)
 		dst.x = 0;
+	src.x = ft_max(0, ft_min(img->width - 1, src.x));
+	src.y = ft_max(0, ft_min(img->height - 1, src.y));
 	i = dst.y - 1;
 	while (++i < s_p.y)
 	{

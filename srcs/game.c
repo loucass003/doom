@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:01:13 by llelievr          #+#    #+#             */
-/*   Updated: 2019/04/22 22:32:11 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/04/24 11:55:40 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ static void		update_fps(t_doom *doom)
 void			game_loop(t_doom *doom)
 {
 	doom->player.pos = (t_vec2){ 250, 140 };
+	register_guis(doom);
+	set_gui(doom, GUI_MAIN_MENU);
 	while (doom->running)
 	{
 		clear_image(&doom->screen);
