@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/04/23 16:23:29 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/04/24 01:55:28 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct		s_textures
 typedef struct		s_player
 {
 	t_vec2			pos;
+	t_mat2			matrix;
 	float			rotation;
 }					t_player;
 

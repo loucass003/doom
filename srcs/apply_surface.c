@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:28:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/04/16 22:30:33 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/04/24 01:58:12 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void			apply_surface_blended(t_img *img, SDL_Surface *s, SDL_Rect src,
 		j = -1;
 		while (++j < dst.w)
 		{
-			index = (((dst.y + i) * (int)S_WIDTH) + (dst.x + j));
+			index = (((dst.y + i) * img->width) + (dst.x + j));
 			if (index >= img->size
 				|| (uint32_t)(j * s_w) + src.x >= (uint32_t)s->w
 				|| (uint32_t)(i * s_h) + src.y >= (uint32_t)s->h)
@@ -66,10 +66,9 @@ void			apply_surface(t_img *img, SDL_Surface *s,
 		j = dst.x - 1;
 		while (++j < s_p.x)
 		{
-			if (img->pixels[((i * (int)S_WIDTH) + j)] == 0)
-				img->pixels[((i * (int)S_WIDTH) + j)] = get_surface_pixel(s,
-				(int)((j - d2.x) * s_v.x) + src.x,
-				(int)((i - d2.y) * s_v.y) + src.y);
+			img->pixels[((i * img->width) + j)] = get_surface_pixel(s,
+			(int)((j - d2.x) * s_v.x) + src.x,
+			(int)((i - d2.y) * s_v.y) + src.y);
 		}
 	}
 }

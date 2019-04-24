@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:14:55 by llelievr          #+#    #+#             */
-/*   Updated: 2019/04/22 23:04:08 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/04/24 01:55:11 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	hook_events(t_doom *doom)
 	if (s[SDL_SCANCODE_J] || s[SDL_SCANCODE_L])
 		doom->player.rotation += 0.003 * (s[SDL_SCANCODE_J] ? 1 : -1) * ms;
 	doom->player.pos = ft_vec2_add(doom->player.pos, dir);
+	doom->player.matrix = ft_mat2_rotation(doom->player.rotation);
 	while (SDL_PollEvent(&event))
 		events_window(doom, &event);
 	SDL_PumpEvents();
