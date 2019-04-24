@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:14:55 by llelievr          #+#    #+#             */
-/*   Updated: 2019/04/24 14:19:08 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/04/24 16:04:49 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,11 @@ static void	events_window(t_doom *doom, SDL_Event *event)
 	if (event->type == SDL_MOUSEMOTION)
 	{
 		for (int i = 0; i < doom->guis[doom->current_gui].component_count; i++)
+		{
 			doom->guis[doom->current_gui].components[i]
 				->on_mouse_move(doom->guis[doom->current_gui].components[i],
 				(t_vec2){ event->motion.x, event->motion.y }, doom);
+		}
 	}
 }
 

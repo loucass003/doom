@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/04/24 14:44:32 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/04/24 16:05:53 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,8 @@ typedef struct		s_player
 
 typedef enum		e_component_type
 {
-	C_BUTTON
+	C_BUTTON,
+	C_TEXTFIELD
 }					t_component_type;
 
 typedef struct		s_component
@@ -88,6 +89,11 @@ typedef struct		s_gui
 	void			(*on_leave)(struct s_gui *self);
 }					t_gui;
 
+typedef struct		s_editor
+{
+
+}					t_editor;
+
 typedef struct		s_doom
 {
 	SDL_Window		*win;
@@ -103,6 +109,7 @@ typedef struct		s_doom
 	t_textures		textures;
 	t_gui			guis[GUI_COUNT];
 	int				current_gui;
+	t_editor		editor;
 }					t_doom;
 
 t_bool				init_sdl(t_doom *doom);
@@ -119,6 +126,10 @@ void				apply_surface(t_img *img, SDL_Surface *s,
 void				g_ingame_render(t_gui *self, t_doom *doom);
 void				g_mainmenu_render(t_gui *self, t_doom *doom);
 void				g_mainmenu_on_enter(t_gui *self);
+void				g_mainmenu_on_leave(t_gui *self);
+void				g_editor_on_enter(t_gui *self);
+void				g_editor_on_leave(t_gui *self);
+void				g_editor_render(t_gui *self, t_doom *doom);
 void				register_guis(t_doom *doom);
 void				set_gui(t_doom *doom, int id);
 void				render_components(t_doom *doom, t_gui *gui);
