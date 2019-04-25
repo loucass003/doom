@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 15:50:09 by llelievr          #+#    #+#             */
-/*   Updated: 2019/04/25 17:12:11 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/04/25 17:19:08 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,15 @@ void	g_editor_on_event(t_gui *self, SDL_Event *event, t_doom *doom)
 		editor_mousebuttonup(doom, event);
 }
 
+// void	check_poly(t_doom *doom)
+// {
+// 	const SDL_Color	color = {255, 255, 255, 0};
+// 	SDL_Surface		*text;
+
+// 	text = TTF_RenderText_Blended(e->fonts.helvetica, "you have to close the polygon", color);
+// 	apply_surface_blended(&doom->screen, text, (SDL_Rect){0, 0, text->w, text->h}, (SDL_Rect){WIDTH - 350, 5, text->w + 5, text->h + 5});	
+// }
+
 void	g_editor_render(t_gui *self, t_doom *doom)
 {
 	int x;
@@ -123,5 +132,6 @@ void	g_editor_render(t_gui *self, t_doom *doom)
 				doom->screen.pixels[(y * 20 + 10) * doom->screen.width + (x * 20) + 10] = doom->editor.point[(y * (doom->screen.width / 20) ) + x] == 1 ? 0xFF0000 : 0xFFFFFF;
 		}
 	}
+	// check_poly(doom);
 	print_poly(doom, doom->editor.list);
 }
