@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   events.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:14:55 by llelievr          #+#    #+#             */
-/*   Updated: 2019/04/24 17:13:36 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/04/25 17:32:50 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static void	events_window(t_doom *doom, SDL_Event *event)
 void	hook_events(t_doom *doom)
 {
 
-	const double	ms = doom->stats.delta * 300.;
+	const double	ms = doom->stats.delta * 3.;
 	const Uint8		*s = SDL_GetKeyboardState(NULL);
 	SDL_Event		event;
 
@@ -59,7 +59,7 @@ void	hook_events(t_doom *doom)
 		dir.y += sinf(doom->player.rotation) * (s[SDL_SCANCODE_D] ? 1 : -1) * ms;
 	}
 	if (s[SDL_SCANCODE_J] || s[SDL_SCANCODE_L])
-		doom->player.rotation += 0.003 * (s[SDL_SCANCODE_J] ? 1 : -1) * ms;
+		doom->player.rotation += 0.3 * (s[SDL_SCANCODE_J] ? 1 : -1) * ms;
 	doom->player.pos = ft_vec2_add(doom->player.pos, dir);
 	doom->player.matrix = ft_mat2_rotation(doom->player.rotation);
 	while (SDL_PollEvent(&event))

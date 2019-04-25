@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_editor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 15:50:09 by llelievr          #+#    #+#             */
-/*   Updated: 2019/04/25 17:19:08 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/04/25 19:55:51 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,13 @@ void	editor_mousebuttonup(t_doom *doom, SDL_Event *event)
 
 static void		action_performed(t_component *cmp, t_doom *doom)
 {
-	
+	if (cmp == doom->guis[doom->current_gui].components[0])
+	{
+		t_node *node = create_node(doom->editor.list);
+		build_node(node);
+		doom->bsp = node;
+		set_gui(doom, GUI_INGAME);
+	}
 }
 
 void	g_editor_on_enter(t_gui *self, t_doom *doom)
@@ -93,6 +99,10 @@ void	g_editor_on_enter(t_gui *self, t_doom *doom)
 	if (!(doom->editor.point = (uint8_t *)malloc(sizeof(uint8_t) * (((doom->screen.width - 200) * doom->screen.height) / 20))))
 		return ; //TODO: ERROR
 	ft_bzero(doom->editor.point, sizeof(uint8_t) * (((doom->screen.width - 200) * doom->screen.height) / 20));
+	if (!alloc_components(self, 1))
+		return; 
+	self->components[0] = create_button((SDL_Rect) { 5, 20, 200, 30 });
+	self->components[0]->perform_action = action_performed;
 }
 
 void	g_editor_on_leave(t_gui *self, t_doom *doom)
@@ -134,4 +144,5 @@ void	g_editor_render(t_gui *self, t_doom *doom)
 	}
 	// check_poly(doom);
 	print_poly(doom, doom->editor.list);
+	render_components(doom, self);
 }

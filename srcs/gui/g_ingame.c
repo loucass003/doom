@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2019/04/24 13:56:41 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/04/25 19:42:43 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,16 +45,16 @@ void	draw_wall(t_doom *doom, t_line *line)
 	if (ta.y <= 0 || tb.y <= 0)
 	{
 		t_vec2 i1;
-		intersect(&(t_line){ta_o, tb_o}, &(t_line){{-0.1, 0.1}, (t_vec2){-20, 5}}, &i1);
+		intersect(&(t_line){ta_o, tb_o, 0}, &(t_line){{-0.1, 0.1}, (t_vec2){-20, 5}, 0}, &i1);
 		t_vec2 i2;
-		intersect(&(t_line){ta_o, tb_o}, &(t_line){{0.1, 0.1}, (t_vec2){20, 5}}, &i2);
+		intersect(&(t_line){ta_o, tb_o, 0}, &(t_line){{0.1, 0.1}, (t_vec2){20, 5}, 0}, &i2);
 		if (ta.y < 0.1)
 			ta = i1.y > 0 ? i1 : i2;
 		if (tb.y < 0.1)
 			tb = i1.y > 0 ? i1 : i2;
 	}
-	float heigthA = H_FOV / ta.y * 100;
-	float heigthB = H_FOV / tb.y * 100;
+	float heigthA = H_FOV / ta.y;
+	float heigthB = H_FOV / tb.y;
 	int x1 = S_WIDTH_2 - ta.x * (V_FOV / ta.y);
 	int x2 = S_WIDTH_2 - tb.x * (V_FOV / tb.y);
 	int x1_o = S_WIDTH_2 - ta_o.x * (V_FOV / ta_o.y);
@@ -83,13 +83,48 @@ void	draw_wall(t_doom *doom, t_line *line)
 	draw_line(&doom->screen, (t_pixel){x1, S_HEIGHT_2 - (heigthA) / 2, 0xFF0000}, (t_pixel){x1, S_HEIGHT_2 + (heigthA) / 2});*/
 }
 
+void	draw_floor_seg(t_doom *doom, t_line *line, t_node *node)
+{
+	t_vec2 a = ft_vec2_sub(line->a, doom->player.pos);
+	t_vec2 b = ft_vec2_sub(line->b, doom->player.pos);
+	t_vec2 ta_o = ft_mat2_mulv(doom->player.matrix, a);
+	t_vec2 tb_o = ft_mat2_mulv(doom->player.matrix, b);
+	t_vec2 ta = ta_o;
+	t_vec2 tb = tb_o;
+
+	if (ta.y <= 0 && tb.y <= 0)
+		return ;
+	if (ta.y <= 0 || tb.y <= 0)
+	{
+		t_vec2 i1;
+		intersect(&(t_line){ta_o, tb_o, 0}, &(t_line){{-0.1, 0.1}, (t_vec2){-20, 5}, 0}, &i1);
+		t_vec2 i2;
+		intersect(&(t_line){ta_o, tb_o, 0}, &(t_line){{0.1, 0.1}, (t_vec2){20, 5}, 0}, &i2);
+		if (ta.y < 0.1)
+			ta = i1.y > 0 ? i1 : i2;
+		if (tb.y < 0.1)
+			tb = i1.y > 0 ? i1 : i2;
+	}
+	float heigthA = H_FOV / ta.y;
+	float heigthB = H_FOV / tb.y;
+	int x1 = S_WIDTH_2 - ta.x * (V_FOV / ta.y);
+	int x2 = S_WIDTH_2 - tb.x * (V_FOV / tb.y);
+	int color = (ft_abs((int)node / 15 + 50));
+//	printf("-- SEG\n");
+	draw_line(&doom->screen, (t_pixel){x1, S_HEIGHT_2 + (heigthA) / 2 + 1, color}, (t_pixel){x2, S_HEIGHT_2 + (heigthB) / 2 + 1, 0});
+}
+
 void visitNode(t_doom *doom, t_node *node)
 {
 	t_line_list *lst = node->segments;
-	
+	//if (node->type == N_LEAF)
+//	printf("VISIT %p\n", node);
 	while (lst)
 	{
-		draw_wall(doom, &lst->line);
+		if (lst->line.type == L_WALL)
+			draw_wall(doom, &lst->line);
+		else
+			draw_floor_seg(doom, &lst->line, node);
 		lst = lst->next;
 	}
 }
@@ -117,8 +152,25 @@ void traverseDrawOrder(t_doom *doom, t_node *node)
 	}
 }
 
+void static	action_performed(t_component *cmp, t_doom *doom)
+{
+	if (cmp == doom->guis[doom->current_gui].components[0])
+	{
+		set_gui(doom, GUI_EDITOR);
+	}
+}
+
+void	g_ingame_on_enter(t_gui *self, t_doom *doom)
+{
+	if (!alloc_components(self, 1))
+		return; 
+	self->components[0] = create_button((SDL_Rect) { 5, 20, 200, 30 });
+	self->components[0]->perform_action = action_performed;
+}
+
 void	g_ingame_render(t_gui *self, t_doom *doom)
 {
 	ft_bzero(doom->rendered_area, doom->screen.width);
 	traverseDrawOrder(doom, doom->bsp);
+	render_components(doom, self);
 }
