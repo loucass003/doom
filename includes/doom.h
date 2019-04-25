@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/04/24 17:50:41 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/04/25 15:22:44 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,10 @@ typedef struct		s_gui
 typedef struct		s_editor
 {
 	uint8_t			*point;
+	int				click;
+	t_poly			polygon;
+	t_line			line;
+	t_line_list		*list;
 }					t_editor;
 
 typedef struct		s_doom
