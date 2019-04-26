@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   line.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:36:44 by llelievr          #+#    #+#             */
-/*   Updated: 2019/04/25 15:12:56 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/04/25 17:54:06 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,17 @@
 # define LINE_H
 # include "doom.h"
 
+typedef enum		e_line_type
+{
+	L_WALL,
+	L_FLOOR
+}					t_line_type;
+
 typedef struct		s_line
 {
 	t_vec2			a;
 	t_vec2			b;
+	t_line_type		type;
 }					t_line;
 
 

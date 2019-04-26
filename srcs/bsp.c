@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:44:41 by llelievr          #+#    #+#             */
-/*   Updated: 2019/04/18 16:34:15 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/04/25 18:11:43 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,21 @@ t_bool	append_list(t_line_list **list, t_line line)
 	return (TRUE);
 }
 
+t_line	*get_partition(t_line_list *segments)
+{
+	while (segments)
+	{
+		if (segments->line.type == L_WALL)
+			return (&segments->line);
+		segments = segments->next;
+	}
+	return (NULL);
+}
+
 t_node	*create_node(t_line_list *segments)
 {
 	t_node *node;
+	t_line *partition;
 
 	if (!(node = (t_node *)malloc(sizeof(t_node))))
 		return (NULL);
@@ -44,8 +56,11 @@ t_node	*create_node(t_line_list *segments)
 	node->segments = segments;
 	node->parent = NULL;
 	node->type = N_NODE;
-	if (segments)
-		node->partition = segments->line;
+	partition = get_partition(segments);
+	if (partition)
+	{
+		node->partition = *partition;
+	}
 	else
 	{
 		node->type = N_LEAF;
@@ -84,8 +99,8 @@ void	build_node(t_node *node)
 				lst = lst->next;
 				continue;
 			}
-			t_line a = { lst->line.a, it };
-			t_line b = { it, lst->line.b };
+			t_line a = { lst->line.a, it, lst->line.type };
+			t_line b = { it, lst->line.b, lst->line.type };
 			t_side side = get_side(&node->partition, a);
 			if (side == S_FRONT)
 				append_list(&front, a);

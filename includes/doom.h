@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   doom.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2019/04/26 11:50:16 by lloncham         ###   ########.fr       */
+=======
+/*   Updated: 2019/04/25 17:30:16 by llelievr         ###   ########.fr       */
+>>>>>>> Link editor to bsp
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +134,7 @@ void				apply_surface(t_img *img, SDL_Surface *s,
 						SDL_Rect src, SDL_Rect dst);
 
 void				g_ingame_render(t_gui *self, t_doom *doom);
+void				g_ingame_on_enter(t_gui *self, t_doom *doom);
 void				g_mainmenu_render(t_gui *self, t_doom *doom);
 void				g_mainmenu_on_enter(t_gui *self, t_doom *doom);
 void				g_mainmenu_on_leave(t_gui *self, t_doom *doom);

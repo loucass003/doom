@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 15:50:09 by llelievr          #+#    #+#             */
-/*   Updated: 2019/04/26 11:43:06 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/04/26 19:08:40 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,13 @@ void	editor_mousebuttonup(t_doom *doom, SDL_Event *event)
 
 static void		action_performed(t_component *cmp, t_doom *doom)
 {
-	
+	if (cmp == doom->guis[doom->current_gui].components[0])
+	{
+		t_node *node = create_node(doom->editor.list);
+		build_node(node);
+		doom->bsp = node;
+		set_gui(doom, GUI_INGAME);
+	}
 }
 
 void	g_editor_on_enter(t_gui *self, t_doom *doom)
@@ -119,6 +125,10 @@ void	g_editor_on_enter(t_gui *self, t_doom *doom)
 		return ; //TODO: ERROR
 	ft_bzero(doom->editor.point, sizeof(uint8_t) * (((doom->screen.width - 200) * doom->screen.height) / 20));
 	doom->editor.alert = 0;
+	if (!alloc_components(self, 1))
+		return; 
+	self->components[0] = create_button((SDL_Rect) { 5, 20, 200, 30 });
+	self->components[0]->perform_action = action_performed;
 }
 
 void	g_editor_on_leave(t_gui *self, t_doom *doom)
@@ -164,4 +174,5 @@ void	g_editor_render(t_gui *self, t_doom *doom)
 	    apply_surface_blended(&doom->screen, text, (SDL_Rect){0, 0, text->w, text->h}, (SDL_Rect){S_WIDTH - 350, 5, text->w + 5, text->h + 5});
 	}
 	print_poly(doom, doom->editor.list);
+	render_components(doom, self);
 }
