@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/04/26 19:14:50 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/04/26 19:16:35 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ typedef struct		s_editor
 {
 	uint8_t			*point;
 	int				click;
-	int				alert[2];
+	int				alert[3];
 	int				first[2];
 	t_poly			polygon;
 	t_line			line;
@@ -145,6 +145,17 @@ void				render_components(t_doom *doom, t_gui *gui);
 t_bool				in_bounds(SDL_Rect bounds, t_vec2 pos);
 t_bool				alloc_components(t_gui *gui, int count);
 t_component	 		*create_button(SDL_Rect bounds);
+
+//////////EDITOR//////////////
+void	editor_mouse_motion(t_doom *doom, SDL_Event *event);
+void	editor_mousebuttonup(t_doom *doom, SDL_Event *event);
+void    print_poly(t_doom *doom, t_line_list *list);
+void	check_poly_close(t_doom *doom, t_line_list *list);
+t_bool	check_multi_line(t_doom *doom, t_line_list *list, int x1, int y1, int x2, int y2);
+t_bool	check_multi_point(t_doom *doom, t_line_list *list, int x, int y);
+
+
+
 
 
 #endif

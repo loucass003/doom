@@ -13,3 +13,5 @@ SRC+=line.c
 SRC+=main.c
 SRC+=render.c
 SRC+=sdl.c
+SRC+=editor_events.c
+SRC+=editor_tools_poly.c
