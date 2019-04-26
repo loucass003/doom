@@ -6,13 +6,13 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 15:50:09 by llelievr          #+#    #+#             */
-/*   Updated: 2019/04/26 19:11:53 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/04/26 19:14:57 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom.h"
 
-// ///////////////////////////////////////TOOLS PRINT+DRAW///////////////////////////////////////////////////////////////////////////
+// ///////////////////////////////////////SUPPRIMER///////////////////////////////////////////////////////////////////////////
 
 void       print_lst(t_line_list *lst)
 {
@@ -26,6 +26,7 @@ void       print_lst(t_line_list *lst)
     }
 	printf("FIN LISTE\n");
 }
+// ///////////////////////////////////////TOOLS PRINT+DRAW///////////////////////////////////////////////////////////////////////////
 
 void    print_poly(t_doom *doom, t_line_list *list)
 {
@@ -36,6 +37,40 @@ void    print_poly(t_doom *doom, t_line_list *list)
         draw_line(&doom->screen, (t_pixel){tmp->line.a.x * 20 + 10, tmp->line.a.y * 20 + 10, 0xFFFFFF}, (t_pixel){tmp->line.b.x * 20 + 10, tmp->line.b.y * 20 + 10});
         tmp = tmp->next;
     }
+}
+
+void	check_poly_close(t_doom *doom, t_line_list *list)
+{
+	t_line_list *cmp = list;
+	int i = 0;
+
+	while (cmp)
+	{
+		if ((cmp->line.b.x == doom->editor.first[0] && cmp->line.b.y == doom->editor.first[1]) || (cmp->line.b.x == doom->editor.first[0] && cmp->line.b.y == doom->editor.first[1]))
+			i++;
+		cmp = cmp->next;
+	}
+	if (i > 0)
+		doom->editor.alert[0] = 1;
+}
+
+t_bool	check_multi_point(t_doom *doom, t_line_list *list, int x, int y)
+{
+	t_line_list *cmp = list;
+	int i = 0;
+
+	while (cmp)
+	{
+		if ((x == cmp->line.b.x && y == cmp->line.b.y) || (x == cmp->line.a.x && y == cmp->line.a.y))
+			i++;
+		if (i > 1)
+		{
+			doom->editor.alert[1] = 1;
+			return FALSE;
+		}
+		cmp = cmp->next;
+	}
+	return TRUE;
 }
 
 // ///////////////////////////////////////A METTRE DANS UN AUTRE FICHIER .C (editor_event.c)///////////////////////////////////////////////////////////////////////////
@@ -60,39 +95,21 @@ void	editor_mouse_motion(t_doom *doom, SDL_Event *event)
 	}
 }
 
-void	check_poly(t_doom *doom, t_line_list *list)
-{
-	t_line_list *tmp = list;
-	t_line_list *cmp = list;
-	int i = 0;
-
-	while (tmp)
-	{
-		cmp = tmp->next;
-		while (cmp)
-		{
-			printf("%f = %f, %f = %f, %f = %f, %f = %f\n", cmp->line.a.x, tmp->line.a.x, cmp->line.a.y, tmp->line.a.y, cmp->line.b.x, tmp->line.b.x, cmp->line.b.y, tmp->line.b.y);
-			if ((cmp->line.b.x == tmp->line.a.x && cmp->line.b.y == tmp->line.a.y ) || (cmp->line.b.x == tmp->line.b.x && cmp->line.b.y == tmp->line.b.y))
-				i++;
-			cmp = cmp->next;
-			printf("FERMETURE : %d\n", i);
-		}
-		printf("FIN\n");
-		tmp = tmp->next;
-	}
-	if (i > 0)
-		doom->editor.alert = 1;
-}
-
 void	editor_mousebuttonup(t_doom *doom, SDL_Event *event)
 {
 	if (doom->editor.click == 0)
 	{
 		doom->editor.line.a.x = (int)event->button.x / 20;
 		doom->editor.line.a.y = (int)event->button.y / 20;
+		if (doom->editor.first[0] == 0 && doom->editor.first[1] == 0)
+		{
+			doom->editor.first[0] = doom->editor.line.a.x;
+			doom->editor.first[1] = doom->editor.line.a.y;
+		}
 	}
-	else
+	else if (check_multi_point(doom, doom->editor.list, (int)event->button.x / 20, (int)event->button.y / 20) == TRUE)
 	{
+		doom->editor.alert[1] = 0;
 		if (doom->editor.click > 1)
 		{
 			doom->editor.line.a.x = doom->editor.line.b.x;
@@ -102,7 +119,7 @@ void	editor_mousebuttonup(t_doom *doom, SDL_Event *event)
 		doom->editor.line.b.y = (int)event->button.y / 20;
 		append_list(&doom->editor.list, doom->editor.line);
 		print_lst(doom->editor.list);
-		check_poly(doom, doom->editor.list);
+		check_poly_close(doom, doom->editor.list);
 	}
 	doom->editor.click++;
 }
@@ -129,7 +146,8 @@ void	g_editor_on_enter(t_gui *self, t_doom *doom)
 		return; 
 	self->components[0] = create_button((SDL_Rect) { 5, 20, 200, 30 });
 	self->components[0]->perform_action = action_performed;
-	doom->editor.alert = 0;
+	doom->editor.alert[0] = 0;
+	// doom->editor.alert[1] = 0;
 }
 
 void	g_editor_on_leave(t_gui *self, t_doom *doom)
@@ -164,15 +182,20 @@ void	g_editor_render(t_gui *self, t_doom *doom)
 				doom->screen.pixels[(y * 20 + 10) * doom->screen.width + (x * 20) + 10] = doom->editor.point[(y * (doom->screen.width / 20) ) + x] == 1 ? 0xFF0000 : 0xFFFFFF;
 		}
 	}
-	if (doom->editor.alert == 0)
+	if (doom->editor.alert[0] == 0)
 	{
 		text = TTF_RenderText_Blended(doom->fonts.helvetica, "you have to close the polygon", color);
 	    apply_surface_blended(&doom->screen, text, (SDL_Rect){0, 0, text->w, text->h}, (SDL_Rect){S_WIDTH - 350, 5, text->w + 5, text->h + 5});
 	}
-	else 
+	else if (doom->editor.alert[0] == 1)
 	{
-		text = TTF_RenderText_Blended(doom->fonts.helvetica, "great ! All your poly are good!", color);
+		text = TTF_RenderText_Blended(doom->fonts.helvetica, "Great!, your polygon is good", color);
 	    apply_surface_blended(&doom->screen, text, (SDL_Rect){0, 0, text->w, text->h}, (SDL_Rect){S_WIDTH - 350, 5, text->w + 5, text->h + 5});
+	}
+	if (doom->editor.alert[1] == 1)
+	{
+		text = TTF_RenderText_Blended(doom->fonts.helvetica, "Non non non ! Pas bien!", color);
+	    apply_surface_blended(&doom->screen, text, (SDL_Rect){0, 0, text->w, text->h}, (SDL_Rect){S_WIDTH - 350, 30, text->w + 5, text->h + 5});
 	}
 	print_poly(doom, doom->editor.list);
 	render_components(doom, self);
