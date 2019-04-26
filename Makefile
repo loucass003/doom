@@ -6,7 +6,7 @@
 #    By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/07 14:49:27 by llelievr          #+#    #+#              #
-#    Updated: 2019/04/25 19:43:10 by llelievr         ###   ########.fr        #
+#    Updated: 2019/04/26 11:28:17 by llelievr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,14 +29,25 @@ FT_TASK =
 SRCDIR	=./srcs/
 INCDIR	=./includes/
 OBJDIR	=./objs/
+DEPSDIR = ./deps/
 
 UNAME :=$(shell uname)
 
 INCLUDE += $(shell pkg-config --cflags sdl2 SDL2_image SDL2_ttf)
 LIBS += $(shell pkg-config --libs sdl2 SDL2_image SDL2_ttf)
 
-all: $(FT_LIB) $(NAME)
+PRECOMPILE = mkdir -p $(dir $@)
+POSTCOMPILE = sleep 0
 
+ifndef NODEPS
+
+PRECOMPILE += ;mkdir -p $(dir $(DEPSDIR)$*)
+CFLAGS += -MT $@ -MMD -MP -MF $(DEPSDIR)$*.Td
+POSTCOMPILE += ;mv -f $(DEPSDIR)$*.Td $(DEPSDIR)$*.d && touch $@
+
+endif
+
+all: $(FT_LIB) $(NAME)
 
 dev: CFLAGS +=-g
 dev: FT_TASK = dev 
@@ -45,8 +56,9 @@ dev: re
 $(OBJS): Makefile src.mk
 
 $(OBJDIR)%.o: $(SRCDIR)%.c
-	mkdir -p $(dir $@)
+	@$(PRECOMPILE)
 	$(CC) $(CFLAGS) $(INCLUDE) $(FT_INC) -I $(INCDIR) -o $@ -c $<
+	@$(POSTCOMPILE)
 
 $(FT_LIB):
 	make -j4 -C $(FT)
@@ -67,5 +79,7 @@ re: fclean $(NAME)
 
 get_files:
 	@find srcs -type f | sed 's/srcs\///g' | sed 's/^/SRC+=/' > src.mk
+
+include $(wildcard $(DEPSDIR)/**/*.d)
 
 .PHONY: clean fclean re all get_files
