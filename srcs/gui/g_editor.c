@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 15:50:09 by llelievr          #+#    #+#             */
-/*   Updated: 2019/04/26 19:08:40 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/04/26 19:11:53 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,7 @@ void	g_editor_on_enter(t_gui *self, t_doom *doom)
 		return; 
 	self->components[0] = create_button((SDL_Rect) { 5, 20, 200, 30 });
 	self->components[0]->perform_action = action_performed;
+	doom->editor.alert = 0;
 }
 
 void	g_editor_on_leave(t_gui *self, t_doom *doom)
