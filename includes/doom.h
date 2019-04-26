@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   doom.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/04/25 17:30:16 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/04/26 11:59:30 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ typedef struct		s_editor
 	t_poly			polygon;
 	t_line			line;
 	t_line_list		*list;
+	int				alert;
 }					t_editor;
 
 typedef struct		s_doom
@@ -140,6 +141,7 @@ void				g_editor_on_event(t_gui *self, SDL_Event *event, t_doom *doom);
 void				register_guis(t_doom *doom);
 void				set_gui(t_doom *doom, int id);
 void				render_components(t_doom *doom, t_gui *gui);
+t_bool				in_bounds(SDL_Rect bounds, t_vec2 pos);
 t_bool				alloc_components(t_gui *gui, int count);
 t_component	 		*create_button(SDL_Rect bounds);
 
