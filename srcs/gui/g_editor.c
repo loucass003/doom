@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 15:50:09 by llelievr          #+#    #+#             */
-/*   Updated: 2019/04/26 19:14:57 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/04/26 19:15:32 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ void	editor_mousebuttonup(t_doom *doom, SDL_Event *event)
 		doom->editor.line.b.x = (int)event->button.x / 20;
 		doom->editor.line.b.y = (int)event->button.y / 20;
 		append_list(&doom->editor.list, doom->editor.line);
-		print_lst(doom->editor.list);
+		// print_lst(doom->editor.list);
 		check_poly_close(doom, doom->editor.list);
 	}
 	doom->editor.click++;
@@ -189,7 +189,7 @@ void	g_editor_render(t_gui *self, t_doom *doom)
 	}
 	else if (doom->editor.alert[0] == 1)
 	{
-		text = TTF_RenderText_Blended(doom->fonts.helvetica, "Great!, your polygon is good", color);
+		text = TTF_RenderText_Blended(doom->fonts.helvetica, "Great! your polygon is good", color);
 	    apply_surface_blended(&doom->screen, text, (SDL_Rect){0, 0, text->w, text->h}, (SDL_Rect){S_WIDTH - 350, 5, text->w + 5, text->h + 5});
 	}
 	if (doom->editor.alert[1] == 1)
