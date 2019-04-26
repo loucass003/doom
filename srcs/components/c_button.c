@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   c_button.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:59:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/04/24 15:06:35 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/04/26 11:51:17 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,7 @@ void		c_button_render(t_doom *doom, t_component *self)
 
 void		c_button_on_click(t_component *self, t_vec2 pos, t_doom *doom)
 {
-	if (pos.x >= self->bounds.x && pos.y >= self->bounds.y 
-		&& pos.y < self->bounds.y + self->bounds.h 
-		&& pos.x < self->bounds.x + self->bounds.w
-		&& self->perform_action != NULL)
+	if (in_bounds(self->bounds, pos) && self->perform_action != NULL)
 		self->perform_action(self, doom);
 }
 
@@ -38,10 +35,8 @@ void		c_button_on_mouse_move(t_component *self, t_vec2 pos, t_doom *doom)
 	t_button	*btn;
 
 	btn = (t_component*)self;
-	if (pos.x >= self->bounds.x && pos.y >= self->bounds.y 
-		&& pos.y < self->bounds.y + self->bounds.h 
-		&& pos.x < self->bounds.x + self->bounds.w)
-			btn->color = btn->color_hover;
+	if (in_bounds(self->bounds, pos))
+		btn->color = btn->color_hover;
 	else
 		btn->color = btn->color_default;
 }
