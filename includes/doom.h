@@ -150,10 +150,11 @@ t_component	 		*create_button(SDL_Rect bounds);
 void	editor_mouse_motion(t_doom *doom, SDL_Event *event);
 void	editor_mousebuttonup(t_doom *doom, SDL_Event *event);
 void    print_poly(t_doom *doom, t_poly *poly);
-
 void	check_poly_close(t_doom *doom, t_poly *poly);
 
-t_bool	check_multi_line(t_doom *doom, t_line_list *list, int x1, int y1, int x2, int y2);
+// t_bool	check_multi_line(t_doom *doom, t_line_list *list, int x1, int y1, int x2, int y2);
+t_bool	check_multi_line(t_doom *doom, t_poly *poly, int x1, int y1, int x2, int y2);
+
 t_bool	check_multi_point(t_doom *doom, t_poly *poly, int x, int y);
 
 

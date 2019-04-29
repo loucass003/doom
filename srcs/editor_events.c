@@ -100,28 +100,26 @@ void	editor_mouse_motion(t_doom *doom, SDL_Event *event)
 
 void	editor_mousebuttonup(t_doom *doom, SDL_Event *event)
 {
-	if (doom->editor.click == 0)
+	if (doom->editor.click == 0 && (check_multi_point(doom, doom->editor.polygon, (int)event->button.x / 20, (int)event->button.y / 20) == TRUE))
 	{
-
 		doom->editor.line.a.x = (int)event->button.x / 20;
 		doom->editor.line.a.y = (int)event->button.y / 20;
-			
 		doom->editor.first[0] = doom->editor.line.a.x;
 		doom->editor.first[1] = doom->editor.line.a.y;
+		doom->editor.click++;
 	}
 	else if (check_multi_point(doom, doom->editor.polygon, (int)event->button.x / 20, (int)event->button.y / 20) == TRUE)
 	{
 		doom->editor.alert[0] = 0;
 		doom->editor.alert[1] = 0;
 		doom->editor.alert[2] = 0;
-
 		if (doom->editor.click > 1)
 		{
 			doom->editor.line.a.x = doom->editor.line.b.x;
 			doom->editor.line.a.y = doom->editor.line.b.y;
 		}
-		// if (check_multi_line(doom, doom->editor.list, doom->editor.line.a.x, doom->editor.line.a.y, (int)event->button.x / 20, (int)event->button.y / 20) == FALSE)
-		// 	return;
+		if (check_multi_line(doom, doom->editor.polygon, doom->editor.line.a.x, doom->editor.line.a.y, (int)event->button.x / 20, (int)event->button.y / 20) == FALSE)
+			return;
 		doom->editor.line.b.x = (int)event->button.x / 20;
 		doom->editor.line.b.y = (int)event->button.y / 20;
 		if (doom->editor.line.b.x == doom->editor.line.a.x && doom->editor.line.a.y == doom->editor.line.b.y)
@@ -135,7 +133,6 @@ void	editor_mousebuttonup(t_doom *doom, SDL_Event *event)
 			append_list2(&doom->editor.polygon, doom->editor.line);
 		print_lst(doom->editor.polygon);
 		check_poly_close(doom, doom->editor.polygon);
+		doom->editor.click++;
 	}
-	printf("CLICK : %d\n", doom->editor.click);
-	doom->editor.click++;
 }

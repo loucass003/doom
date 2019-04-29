@@ -17,7 +17,7 @@ void    print_poly(t_doom *doom, t_poly *poly)
     t_poly *tmp1 = poly;
 	t_line_list *tmp;
 
-	while(tmp1)
+	while (tmp1)
 	{
 		tmp = tmp1->list;
     	while (tmp != NULL)
@@ -47,7 +47,6 @@ void	check_poly_close(t_doom *doom, t_poly *poly)
 		}
 		tmp = tmp->next;
 	}
-	printf("i = %d\n", i);
 	if (i > 0)
 	{
 		doom->editor.alert[0] = 1;
@@ -55,20 +54,26 @@ void	check_poly_close(t_doom *doom, t_poly *poly)
 	}
 }
 
-// t_bool	check_multi_line(t_doom *doom, t_line_list *list, int x1, int y1, int x2, int y2)
-// {
-// 	t_line_list *cmp = list;
-// 	while (cmp)
-// 	{
-// 		if ((x1 == cmp->line.a.x && y1 == cmp->line.a.y && x2 == cmp->line.b.x && y2 == cmp->line.b.y) || (x1 == cmp->line.b.x && y1 == cmp->line.b.y && x2 == cmp->line.a.x && y2 == cmp->line.a.y))
-// 		{
-// 			doom->editor.alert[2] = 1;
-// 			return FALSE;
-// 		}
-// 		cmp = cmp->next;
-// 	}
-// 	return TRUE;
-// }
+t_bool	check_multi_line(t_doom *doom, t_poly *poly, int x1, int y1, int x2, int y2)
+{
+	t_poly	*tmp = poly;
+	t_line_list *cmp;
+	while (tmp)
+	{
+		cmp = tmp->list;
+		while (cmp)
+		{
+			if ((x1 == cmp->line.a.x && y1 == cmp->line.a.y && x2 == cmp->line.b.x && y2 == cmp->line.b.y) || (x1 == cmp->line.b.x && y1 == cmp->line.b.y && x2 == cmp->line.a.x && y2 == cmp->line.a.y))
+			{
+				doom->editor.alert[2] = 1;
+				return FALSE;
+			}
+			cmp = cmp->next;
+		}
+		tmp = tmp->next;
+	}
+	return TRUE;
+}
 
 t_bool	check_multi_point(t_doom *doom, t_poly *poly, int x, int y)
 {
