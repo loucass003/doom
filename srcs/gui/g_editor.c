@@ -14,18 +14,18 @@
 
 // ///////////////////////////////////////SUPPRIMER///////////////////////////////////////////////////////////////////////////
 
-void       print_lst(t_line_list *lst)
-{
-    t_line_list *tmp = lst;
+// void       print_lst(t_line_list *lst)
+// {
+//     t_line_list *tmp = lst;
 
-    while (tmp != NULL)
-    {
-        printf("x = %f - y = %f  ||  ", tmp->line.a.x, tmp->line.a.y);
-        printf("x = %f - y = %f\n", tmp->line.b.x, tmp->line.b.y);
-        tmp = tmp->next;
-    }
-	printf("FIN LISTE\n");
-}
+//     while (tmp != NULL)
+//     {
+//         printf("x = %f - y = %f  ||  ", tmp->line.a.x, tmp->line.a.y);
+//         printf("x = %f - y = %f\n", tmp->line.b.x, tmp->line.b.y);
+//         tmp = tmp->next;
+//     }
+// 	printf("FIN LISTE\n");
+// }
 // ///////////////////////////////////////A METTRE DANS UN AUTRE FICHIER .C (editor_event.c)///////////////////////////////////////////////////////////////////////////
 
 void	write_alert_message(t_doom *doom)
@@ -73,7 +73,7 @@ void	g_editor_on_enter(t_gui *self, t_doom *doom)
 	if (!(doom->editor.point = (uint8_t *)malloc(sizeof(uint8_t) * (((doom->screen.width - 200) * doom->screen.height) / 20))))
 		return ; //TODO: ERROR
 	ft_bzero(doom->editor.point, sizeof(uint8_t) * (((doom->screen.width - 200) * doom->screen.height) / 20));
-	doom->editor.alert = 0;
+	doom->editor.alert[0] = 0;
 	if (!alloc_components(self, 1))
 		return;
 	self->components[0] = create_button((SDL_Rect) { 5, 20, 200, 30 });
@@ -109,6 +109,6 @@ void	g_editor_render(t_gui *self, t_doom *doom)
 		}
 	}
 	write_alert_message(doom);
-	print_poly(doom, doom->editor.list);
+	print_poly(doom, doom->editor.polygon);
 	render_components(doom, self);
 }

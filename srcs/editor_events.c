@@ -12,6 +12,72 @@
 
 #include "doom.h"
 
+void       print_lst(t_poly *poly)
+{
+    t_poly *tmp = poly;
+	t_line_list *cmp;
+
+    while (tmp != NULL)
+    {
+		cmp = tmp->list;
+		while (cmp != NULL)
+		{
+        	printf("x = %f - y = %f  ||  ", cmp->line.a.x, cmp->line.a.y);
+       		printf("x = %f - y = %f\n", cmp->line.b.x, cmp->line.b.y);
+			cmp = cmp->next;
+		}
+		printf("FIN LISTE\n");
+        tmp = tmp->next;
+    }
+	printf("FIN LISTE FINALE\n");
+}
+
+t_bool	new_poly(t_poly **poly, t_line line)
+{
+	t_poly	*n;
+	t_poly	*elem;
+	t_line_list *new;
+
+	if (!(elem = (t_poly *)malloc(sizeof(t_poly))))
+		return (FALSE);
+	if (!(new = (t_line_list*)malloc(sizeof(t_line_list))))
+		return (FALSE);
+	new->line = line;
+	new->next = NULL;
+	elem->list = new;
+	elem->next = NULL;
+	if (!*poly)
+		*poly = elem;
+	else
+	{
+		n = *poly;
+		while (n && n->next)
+			n = n->next;
+		n->next = elem;
+	}
+	return (TRUE);
+}
+
+t_bool	append_list2(t_poly **poly, t_line line)
+{
+	t_poly	*n;
+	t_line_list	*elem;
+	t_line_list *cmp;
+
+	if (!(elem = (t_line_list *)malloc(sizeof(t_line_list))))
+		return (FALSE);
+	elem->line = line;
+	elem->next = NULL;
+	n = *poly;
+	while (n && n->next)
+		n = n->next;
+	cmp = n->list;
+	while (cmp && cmp->next)
+		cmp = cmp->next;
+	cmp->next = elem;
+	return (TRUE);
+}
+
 void	editor_mouse_motion(t_doom *doom, SDL_Event *event)
 {
 	int x;
@@ -36,27 +102,26 @@ void	editor_mousebuttonup(t_doom *doom, SDL_Event *event)
 {
 	if (doom->editor.click == 0)
 	{
+
 		doom->editor.line.a.x = (int)event->button.x / 20;
 		doom->editor.line.a.y = (int)event->button.y / 20;
-		if (doom->editor.first[0] == 0 && doom->editor.first[1] == 0)
-		{
-			doom->editor.first[0] = doom->editor.line.a.x;
-			doom->editor.first[1] = doom->editor.line.a.y;
-		}
+			
+		doom->editor.first[0] = doom->editor.line.a.x;
+		doom->editor.first[1] = doom->editor.line.a.y;
 	}
-	else if (check_multi_point(doom, doom->editor.list, (int)event->button.x / 20, (int)event->button.y / 20) == TRUE)
+	else if (check_multi_point(doom, doom->editor.polygon, (int)event->button.x / 20, (int)event->button.y / 20) == TRUE)
 	{
+		doom->editor.alert[0] = 0;
 		doom->editor.alert[1] = 0;
 		doom->editor.alert[2] = 0;
-		doom->editor.alert[0] = 0;
 
 		if (doom->editor.click > 1)
 		{
 			doom->editor.line.a.x = doom->editor.line.b.x;
 			doom->editor.line.a.y = doom->editor.line.b.y;
 		}
-		if (check_multi_line(doom, doom->editor.list, doom->editor.line.a.x, doom->editor.line.a.y, (int)event->button.x / 20, (int)event->button.y / 20) == FALSE)
-			return;
+		// if (check_multi_line(doom, doom->editor.list, doom->editor.line.a.x, doom->editor.line.a.y, (int)event->button.x / 20, (int)event->button.y / 20) == FALSE)
+		// 	return;
 		doom->editor.line.b.x = (int)event->button.x / 20;
 		doom->editor.line.b.y = (int)event->button.y / 20;
 		if (doom->editor.line.b.x == doom->editor.line.a.x && doom->editor.line.a.y == doom->editor.line.b.y)
@@ -64,8 +129,13 @@ void	editor_mousebuttonup(t_doom *doom, SDL_Event *event)
 			doom->editor.alert[1] = 1;
 			return;
 		}
-		append_list(&doom->editor.list, doom->editor.line);
-		check_poly_close(doom, doom->editor.list);
+		if (doom->editor.click == 1)
+			new_poly(&doom->editor.polygon, doom->editor.line);
+		else if (doom->editor.click > 1)
+			append_list2(&doom->editor.polygon, doom->editor.line);
+		print_lst(doom->editor.polygon);
+		check_poly_close(doom, doom->editor.polygon);
 	}
+	printf("CLICK : %d\n", doom->editor.click);
 	doom->editor.click++;
 }
