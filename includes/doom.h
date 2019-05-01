@@ -1,12 +1,12 @@
-s/* ************************************************************************** */
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   doom.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/04/26 11:59:30 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/05/01 16:47:24 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ s/* ************************************************************************** *
 # include "libft.h"
 # include "constants.h"
 # include "image.h"
+# include "bsp.h"
 
 typedef struct s_doom t_doom;
 
@@ -90,12 +91,12 @@ typedef struct		s_gui
 
 typedef struct		s_editor
 {
-	uint8_t			*point;
+/*	uint8_t			*point;
 	int				click;
 	t_poly			polygon;
 	t_line			line;
 	t_line_list		*list;
-	int				alert;
+	int				alert;*/
 }					t_editor;
 
 typedef struct		s_doom
@@ -108,7 +109,6 @@ typedef struct		s_doom
 	t_fonts			fonts;
 	t_node			*bsp;
 	t_player		player;
-	t_node			*first_node;
 	uint8_t			*rendered_area;
 	t_textures		textures;
 	t_gui			guis[GUI_COUNT];
@@ -120,6 +120,7 @@ t_bool				init_sdl(t_doom *doom);
 t_bool				sdl_quit(t_doom *doom);
 void				hook_events(t_doom *doom);
 void				render(t_doom *doom);
+void				game_loop(t_doom *doom);
 
 Uint32				get_surface_pixel(SDL_Surface *surface, int x, int y);
 void				apply_surface_blended(t_img *img, SDL_Surface *s,

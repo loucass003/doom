@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   c_button.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:59:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/04/26 11:51:17 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/05/01 16:25:42 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void		c_button_on_mouse_move(t_component *self, t_vec2 pos, t_doom *doom)
 {
 	t_button	*btn;
 
-	btn = (t_component*)self;
+	btn = (t_button *)self;
 	if (in_bounds(self->bounds, pos))
 		btn->color = btn->color_hover;
 	else
