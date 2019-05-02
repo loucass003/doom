@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/02 00:40:32 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/05/02 14:33:10 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	init_bsp(t_doom *doom)
 	arraylist_append(&vertices_ceil, create_polygon(vertices, P_FLOOR));
 	for (int i = 0; i < count; i++)
 	{
-		arraylist_append(&polygons, create_wall_polygon(lines[i], 0, 1));
+		arraylist_append(&polygons, create_wall_polygon((t_line){ (t_vec2){lines[i].a.x / 100.,  -(lines[i].a.y / 100.)}, (t_vec2){lines[i].b.x / 100., -(lines[i].b.y / 100.)}}, 0, 1));
 	}
 	t_node *n = create_node(polygons);
 	build_node(n);
