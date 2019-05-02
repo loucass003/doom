@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/01 19:38:17 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/05/02 00:35:35 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,16 @@
 #define H_FOV (0.73f * S_HEIGHT)  // Affects the horizontal field of vision
 #define V_FOV (0.4f * S_HEIGHT)    // Affects the vertical field of vision
 
-void render_polygon(t_polygon *poly)
-{
-}
-
 void visitNode(t_doom *doom, t_node *node)
 {
 	int i = -1;
 	while (++i < node->polygons->len)
-		printf("draw %s\n", ((t_polygon *)node->polygons->values[i])->type == P_WALL ? "WALL" : "FLOOR");
+	{
+		t_polygon *poly = (t_polygon *)node->polygons->values[i];
+		if (poly->type == P_WALL)
+			render_polygon(doom, poly);
+	//	printf("draw %s\n", ((t_polygon *)node->polygons->values[i])->type == P_WALL ? "WALL" : "FLOOR");
+	}
 	/*t_line_list *lst = node->segments;
 	//if (node->type == N_LEAF)
 //	printf("VISIT %p\n", node);
@@ -43,9 +44,11 @@ void traverseDrawOrder(t_doom *doom, t_node *node)
 	
 	if (node) 
 	{
+		t_vec2 p = (t_vec2){doom->player.pos.x, doom->player.pos.z};
 		if (node->type == N_LEAF)
 			visitNode(doom, node);
-		else if ((side = get_side_thin(node->partition, doom->player.pos)) != S_BACK) 
+
+		else if ((side = get_side_thin(node->partition, p)) != S_BACK) 
 		{
 			traverseDrawOrder(doom, node->front);
 			visitNode(doom, node);
@@ -77,5 +80,5 @@ void	g_ingame_render(t_gui *self, t_doom *doom)
 {
 	ft_bzero(doom->rendered_area, doom->screen.width);
 	traverseDrawOrder(doom, doom->bsp);
-	exit(0);
+//	exit(0);
 }

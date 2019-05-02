@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 21:24:49 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/01 16:16:09 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/05/01 23:42:19 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,13 @@ void	fill_color(t_img *img, uint32_t color)
 	i = 0;
 	while (i < img->size)
 	{
-		((uint64_t *)img->pixels)[i / 2] = c;
-		i += 2;
+		if (img->size - 2 >= 2)
+		{
+			((uint64_t *)img->pixels)[i / 2] = c;
+			i += 2;
+		}
+		else
+			img->pixels[i++] = color;
 	}
 }
 

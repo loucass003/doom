@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/01 16:47:24 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/05/02 00:34:02 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,9 @@ typedef struct		s_textures
 
 typedef struct		s_player
 {
-	t_vec2			pos;
-	t_mat2			matrix;
+	t_vec3			pos;
+	t_mat4			matrix;
+	t_mat4			projection;
 	float			rotation;
 }					t_player;
 
@@ -144,5 +145,9 @@ t_bool				in_bounds(SDL_Rect bounds, t_vec2 pos);
 t_bool				alloc_components(t_gui *gui, int count);
 t_component	 		*create_button(SDL_Rect bounds);
 
+t_mat4				projection_matrix(t_doom *doom);
+void				update_maxtrix(t_doom *doom);
+void				draw_line(t_img *img, t_pixel p0, t_pixel p1);
+void				render_polygon(t_doom *doom, t_polygon *poly);
 
 #endif

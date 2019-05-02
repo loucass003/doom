@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:14:55 by llelievr          #+#    #+#             */
-/*   Updated: 2019/04/25 17:32:50 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/05/02 01:01:58 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,21 +47,21 @@ void	hook_events(t_doom *doom)
 
 	if (s[SDL_SCANCODE_ESCAPE])
 		doom->running = FALSE;
-	t_vec2 dir = {0, 0};
+	t_vec3 dir = {0, 0, 0};
 	if (s[SDL_SCANCODE_W] || s[SDL_SCANCODE_S])
 	{
 		dir.x += sinf(doom->player.rotation) * (s[SDL_SCANCODE_W] ? 1 : -1) * ms;
-		dir.y += cosf(doom->player.rotation) * (s[SDL_SCANCODE_W] ? 1 : -1) * ms;
+		dir.z += cosf(doom->player.rotation) * (s[SDL_SCANCODE_W] ? 1 : -1) * ms;
 	}
 	if (s[SDL_SCANCODE_A] || s[SDL_SCANCODE_D])
 	{
 		dir.x += -cosf(doom->player.rotation) * (s[SDL_SCANCODE_D] ? 1 : -1) * ms;
-		dir.y += sinf(doom->player.rotation) * (s[SDL_SCANCODE_D] ? 1 : -1) * ms;
+		dir.z += sinf(doom->player.rotation) * (s[SDL_SCANCODE_D] ? 1 : -1) * ms;
 	}
 	if (s[SDL_SCANCODE_J] || s[SDL_SCANCODE_L])
 		doom->player.rotation += 0.3 * (s[SDL_SCANCODE_J] ? 1 : -1) * ms;
-	doom->player.pos = ft_vec2_add(doom->player.pos, dir);
-	doom->player.matrix = ft_mat2_rotation(doom->player.rotation);
+	doom->player.pos = ft_vec3_add(doom->player.pos, dir);
+	update_maxtrix(doom);
 	while (SDL_PollEvent(&event))
 		events_window(doom, &event);
 	SDL_PumpEvents();

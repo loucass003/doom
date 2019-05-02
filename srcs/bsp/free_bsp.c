@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 16:42:14 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/01 16:42:36 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/05/02 00:36:25 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	free_polygon(void *e)
 	t_polygon	*poly = (t_polygon *)e;
 	if (poly->vertices)
 		arraylist_clear(&poly->vertices, free);
+	if (poly->proj_vertices)
+		free(poly->proj_vertices);
 	free(poly);
 }
 

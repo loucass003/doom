@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 16:31:56 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/01 16:34:21 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/05/01 22:37:48 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,6 @@ t_polygon	*create_polygon(t_arraylist *vertices, t_polygon_type type)
 	}
 	poly->type = type;
 	poly->vertices = vertices;
+	poly->proj_vertices = NULL;
 	return (poly);
 }

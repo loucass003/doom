@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 16:26:42 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/01 16:43:36 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/05/01 22:43:51 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct	s_polygon
 {
 	t_polygon_type	type;
 	t_arraylist		*vertices;
+	t_vec2			*proj_vertices;
 }				t_polygon;
 
 typedef enum	s_node_type
