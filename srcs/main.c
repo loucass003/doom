@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/02 14:33:10 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/05/03 18:01:11 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,7 @@ t_line	lines[] = {
 	{ .a = {800, 300},  .b = { 800, 350 }},
 	{ .a = {800, 350},  .b = { 800, 550 }},
 	{ .a = {800, 550},  .b = {0, 550 }   },
-	{ .a = {0, 550},    .b = {0, -25}    },
-	{ .a = { 200, 260}, .b = { 200, 160} },
-	{ .a = { 200, 160}, .b = { 100, 160} },
-	{ .a = { 100, 160}, .b = { 100, 260} },
-	{ .a = { 100, 260}, .b = { 200, 260} },
+	{ .a = {0, 550},    .b = {0, -25}    }
 };
 
 void	init_bsp(t_doom *doom)
@@ -35,16 +31,16 @@ void	init_bsp(t_doom *doom)
 	for (int i = 0; i < count; i++)
 	{
 		arraylist_appendm(&vertices, &(t_vec3){
-			lines[i].a.x / 100., 0, lines[i].a.y / 100.}, sizeof(t_vec3));
+			lines[i].a.x / 100., 0, -lines[i].a.y / 100.}, sizeof(t_vec3));
 	}
 	arraylist_append(&polygons, create_polygon(vertices, P_FLOOR));
 	t_arraylist *vertices_ceil = create_arraylist(count);
 	for (int i = 0; i < count; i++)
 	{
 		arraylist_appendm(&vertices_ceil, &(t_vec3){
-			lines[i].a.x / 100., 1, lines[i].a.y / 100.}, sizeof(t_vec3));
+			lines[i].a.x / 100., 1, -lines[i].a.y / 100.}, sizeof(t_vec3));
 	}
-	arraylist_append(&vertices_ceil, create_polygon(vertices, P_FLOOR));
+	arraylist_append(&polygons, create_polygon(vertices_ceil, P_FLOOR));
 	for (int i = 0; i < count; i++)
 	{
 		arraylist_append(&polygons, create_wall_polygon((t_line){ (t_vec2){lines[i].a.x / 100.,  -(lines[i].a.y / 100.)}, (t_vec2){lines[i].b.x / 100., -(lines[i].b.y / 100.)}}, 0, 1));

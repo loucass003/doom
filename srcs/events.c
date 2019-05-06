@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:14:55 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/02 01:01:58 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/05/03 17:31:27 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ void	hook_events(t_doom *doom)
 		dir.x += -cosf(doom->player.rotation) * (s[SDL_SCANCODE_D] ? 1 : -1) * ms;
 		dir.z += sinf(doom->player.rotation) * (s[SDL_SCANCODE_D] ? 1 : -1) * ms;
 	}
+	if (s[SDL_SCANCODE_SPACE] || s[SDL_SCANCODE_LSHIFT])
+		dir.y += (s[SDL_SCANCODE_SPACE] ? 1 : -1) * ms;
 	if (s[SDL_SCANCODE_J] || s[SDL_SCANCODE_L])
 		doom->player.rotation += 0.3 * (s[SDL_SCANCODE_J] ? 1 : -1) * ms;
 	doom->player.pos = ft_vec3_add(doom->player.pos, dir);

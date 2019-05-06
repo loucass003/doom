@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/02 00:34:02 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/05/06 12:13:15 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,5 +149,6 @@ t_mat4				projection_matrix(t_doom *doom);
 void				update_maxtrix(t_doom *doom);
 void				draw_line(t_img *img, t_pixel p0, t_pixel p1);
 void				render_polygon(t_doom *doom, t_polygon *poly);
+t_vec3				get_plane_normal(t_vec3 p0, t_vec3 p1, t_vec3 p2);
 
 #endif

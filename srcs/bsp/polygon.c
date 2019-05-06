@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 16:30:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/01 16:45:26 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/05/06 12:15:30 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,11 @@
 
 t_vec2		get_polygon_normal(t_polygon *poly)
 {
-	t_vec3	*t1 = poly->vertices->values[2];
-	t_vec3	*t2 = poly->vertices->values[1];
-	t_vec3	a = ft_vec3_sub(*t1, *t2);
-
-	t1 = poly->vertices->values[0];
-	t2 = poly->vertices->values[1];
-	t_vec3 b = ft_vec3_sub(*t1, *t2);
-	t_vec3 c = ft_vec3_norm(ft_vec3_cross(a, b));
+	const t_vec3 *p0 = poly->vertices->values[0];
+	const t_vec3 *p1 = poly->vertices->values[1];
+	const t_vec3 *p2 = poly->vertices->values[2];
+	const t_vec3 c = get_plane_normal(*p0, *p1, *p2);
+	
 	return ((t_vec2){ c.x, c.z });
 }
 

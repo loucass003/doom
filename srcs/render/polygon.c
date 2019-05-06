@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 22:39:14 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/02 16:32:56 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/05/06 15:08:51 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,12 @@
 t_vec2	project_vertice(t_doom *doom, t_vec3 *vertice)
 {
 	t_vec3 v = ft_mat4_mulv(ft_mat4_rotation((t_vec3){0, doom->player.rotation, 0}), ft_vec3_sub(*vertice, doom->player.pos));
-	v = ft_mat4_mulv(projection_matrix(doom), v);
+	//t_vec3 v = ft_mat4_mulv(doom->player.matrix, *vertice);
+	if (v.z <= 0)
+		v.z = -v.z;
 	t_vec2 p = (t_vec2) {
-		(doom->player.pos.z / v.z) * v.x + doom->player.pos.x * S_WIDTH,
-		(doom->player.pos.z / v.z) * v.y + doom->player.pos.y * S_HEIGHT
+		(v.x / v.z) * S_WIDTH,
+		S_HEIGHT_2 + (v.y / v.z) * S_HEIGHT
 	};
 	return (p);
 }
@@ -41,8 +43,8 @@ void	render_polygon(t_doom *doom, t_polygon *poly)
 	while (++i < poly->vertices->len)
 	{
 		int next = (i + 1) % poly->vertices->len;
-		t_pixel p = (t_pixel){poly->proj_vertices[i].x, poly->proj_vertices[i].y, 0xFF0000};
-		t_pixel p2 = (t_pixel){poly->proj_vertices[next].x, poly->proj_vertices[next].y, 0xFF0000};
+		t_pixel p = (t_pixel){poly->proj_vertices[i].x, poly->proj_vertices[i].y + (poly->type == P_FLOOR),  poly->type == P_FLOOR ? 0x00FF00 : 0xFF0000};
+		t_pixel p2 = (t_pixel){poly->proj_vertices[next].x, poly->proj_vertices[next].y + (poly->type == P_FLOOR), 0xFF0000};
 		draw_line(&doom->screen, p, p2);
 	}
 }
