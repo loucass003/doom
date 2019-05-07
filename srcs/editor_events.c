@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/26 17:31:07 by lloncham          #+#    #+#             */
-/*   Updated: 2019/04/26 19:04:42 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/05/06 16:28:58 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,10 @@ void       print_lst(t_poly *poly)
        		printf("x = %f - y = %f\n", cmp->line.b.x, cmp->line.b.y);
 			cmp = cmp->next;
 		}
-		printf("FIN LISTE\n");
+		printf("\n");
         tmp = tmp->next;
     }
-	printf("FIN LISTE FINALE\n");
+	printf("\n\n");
 }
 
 t_bool	new_poly(t_poly **poly, t_line line)
@@ -110,9 +110,7 @@ void	editor_mousebuttonup(t_doom *doom, SDL_Event *event)
 	}
 	else if (check_multi_point(doom, doom->editor.polygon, (int)event->button.x / 20, (int)event->button.y / 20) == TRUE)
 	{
-		doom->editor.alert[0] = 0;
-		doom->editor.alert[1] = 0;
-		doom->editor.alert[2] = 0;
+		set_alert_message(doom);
 		if (doom->editor.click > 1)
 		{
 			doom->editor.line.a.x = doom->editor.line.b.x;
@@ -120,13 +118,12 @@ void	editor_mousebuttonup(t_doom *doom, SDL_Event *event)
 		}
 		if (check_multi_line(doom, doom->editor.polygon, doom->editor.line.a.x, doom->editor.line.a.y, (int)event->button.x / 20, (int)event->button.y / 20) == FALSE)
 			return;
+		// if (check_secant_line(doom, doom->editor.polygon, doom->editor.line.a.x, doom->editor.line.a.y, (int)event->button.x / 20, (int)event->button.y / 20) == FALSE)
+		// 	return;
 		doom->editor.line.b.x = (int)event->button.x / 20;
 		doom->editor.line.b.y = (int)event->button.y / 20;
-		if (doom->editor.line.b.x == doom->editor.line.a.x && doom->editor.line.a.y == doom->editor.line.b.y)
-		{
-			doom->editor.alert[1] = 1;
+		if (check_same_point(doom) == FALSE)
 			return;
-		}
 		if (doom->editor.click == 1)
 			new_poly(&doom->editor.polygon, doom->editor.line);
 		else if (doom->editor.click > 1)

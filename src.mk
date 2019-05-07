@@ -15,3 +15,4 @@ SRC+=render.c
 SRC+=sdl.c
 SRC+=editor_events.c
 SRC+=editor_tools_poly.c
+SRC+=editor_alert.c

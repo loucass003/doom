@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/04/26 19:16:35 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/05/07 16:07:05 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,8 @@ typedef struct		s_editor
 	int				click;
 	int				alert[3];
 	int				first[2];
+	int				set_start;
+	int				set_start_pos[2];
 	t_poly			*polygon;
 	t_line			line;
 	t_line_list		*list;
@@ -150,15 +152,14 @@ t_component	 		*create_button(SDL_Rect bounds);
 void	editor_mouse_motion(t_doom *doom, SDL_Event *event);
 void	editor_mousebuttonup(t_doom *doom, SDL_Event *event);
 void    print_poly(t_doom *doom, t_poly *poly);
+
 void	check_poly_close(t_doom *doom, t_poly *poly);
-
-// t_bool	check_multi_line(t_doom *doom, t_line_list *list, int x1, int y1, int x2, int y2);
 t_bool	check_multi_line(t_doom *doom, t_poly *poly, int x1, int y1, int x2, int y2);
-
+t_bool	check_same_point(t_doom *doom);
 t_bool	check_multi_point(t_doom *doom, t_poly *poly, int x, int y);
 
-
-
-
+void	set_alert_message(t_doom *doom);
+void	write_alert_message(t_doom *doom);
+t_bool	check_secant_line(t_doom *doom, t_poly *poly, int x1, int x2, int y1, int y2);
 
 #endif
