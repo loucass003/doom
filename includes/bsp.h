@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 16:26:42 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/01 22:43:51 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/05/08 15:30:08 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,13 @@
 # define BSP_H
 
 # include "doom.h"
+
+typedef struct		s_2dvertices
+{
+	int				len;
+	int				capacity;
+	t_vec2			vertices[];
+}					t_2dvertices;
 
 typedef enum	s_side
 {
@@ -40,7 +47,8 @@ typedef struct	s_polygon
 {
 	t_polygon_type	type;
 	t_arraylist		*vertices;
-	t_vec2			*proj_vertices;
+	t_2dvertices	*proj_vertices;
+	t_2dvertices	*proj_vertices_buf;
 }				t_polygon;
 
 typedef enum	s_node_type

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/06 12:13:15 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/05/08 16:29:19 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@
 # include "bsp.h"
 
 typedef struct s_doom t_doom;
+
+
 
 typedef struct		s_stats
 {
@@ -150,5 +152,14 @@ void				update_maxtrix(t_doom *doom);
 void				draw_line(t_img *img, t_pixel p0, t_pixel p1);
 void				render_polygon(t_doom *doom, t_polygon *poly);
 t_vec3				get_plane_normal(t_vec3 p0, t_vec3 p1, t_vec3 p2);
+
+t_2dvertices		*create_2dvertices_array(int capacity);
+t_2dvertices		*append_2dvertices_array(t_2dvertices **arr, t_vec2 v);
+t_2dvertices		*splice_2dvertices_array(t_2dvertices *arr,
+						int index, int n);
+t_2dvertices		*copy_2dvertices_array(t_2dvertices *src,
+						t_2dvertices **dst);
+
+void				clip_to_screen(t_polygon *poly, SDL_Rect area);
 
 #endif

@@ -1,4 +1,5 @@
 SRC+=apply_surface.c
+SRC+=arrays/2dvertices.c
 SRC+=bsp/builder.c
 SRC+=bsp/create_polygon.c
 SRC+=bsp/free_bsp.c
@@ -17,6 +18,7 @@ SRC+=image.c
 SRC+=main.c
 SRC+=math/plane.c
 SRC+=render/camera.c
+SRC+=render/cliping.c
 SRC+=render/line.c
 SRC+=render/polygon.c
 SRC+=render.c

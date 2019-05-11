@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 16:31:56 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/01 22:37:48 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/05/11 16:39:45 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ t_polygon	*create_wall_polygon(t_line	line, float floor, float ceil)
 	arraylist_appendm(&poly->vertices,
 		&(t_vec3){ line.b.x, floor, line.b.y }, sizeof(t_vec3));
 	arraylist_appendm(&poly->vertices,
-		&(t_vec3){ line.b.x, ceil, line.b.y }, sizeof(t_vec3));
-	arraylist_appendm(&poly->vertices,
 		&(t_vec3){ line.a.x, ceil, line.a.y }, sizeof(t_vec3));
+	arraylist_appendm(&poly->vertices,
+		&(t_vec3){ line.b.x, ceil, line.b.y }, sizeof(t_vec3));
 	return (poly);
 }
 
@@ -42,5 +42,6 @@ t_polygon	*create_polygon(t_arraylist *vertices, t_polygon_type type)
 	poly->type = type;
 	poly->vertices = vertices;
 	poly->proj_vertices = NULL;
+	poly->proj_vertices_buf = NULL;
 	return (poly);
 }

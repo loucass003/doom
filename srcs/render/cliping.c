@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/07 17:03:32 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/07 18:41:57 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/05/08 15:49:52 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,9 @@ static int	intersect_y(t_line a, t_line b)
 	return (n / d);
 }
 
-void		clip(t_polygon *poly, SDL_Rect area)
+void		clip_to_screen(t_polygon *poly, SDL_Rect area)
 {
 	int		i;
+
+
 }
