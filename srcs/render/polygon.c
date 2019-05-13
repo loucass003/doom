@@ -6,12 +6,12 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 22:39:14 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/13 00:52:01 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/05/13 19:33:38 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom.h"
-#define NEAR (0.1)
+#define NEAR (1e-6)
 
 t_bool	prepare_polygon(t_polygon *poly)
 {
@@ -55,7 +55,7 @@ void	fill_top_tri(t_doom *doom, int c, t_vec2 v1, t_vec2 v2, t_vec2 v3)
 
 	curr = (t_vec2){v3.x, v3.x};
 	s = v3.y + 1;
-	while (--s > v1.y)
+	while (--s >= v1.y)
 	{
 		draw_line(&doom->screen, (t_pixel){curr.x, s, c}, (t_pixel){curr.y, s});
 		curr = ft_vec2_sub(curr, (t_vec2){ invslope1, invslope2 });
@@ -100,44 +100,66 @@ void	render_polygon(t_doom *doom, t_polygon *poly)
 	if (!prepare_polygon(poly))
 		return ; // TODO: ERROR
 	int i = 0;
-	printf("%d\n", poly->indices->len);
+	//printf("%d\n", poly->indices->len);
 	while (i < poly->indices->len)
 	{
 		//int next = (i + 1) % poly->indices->len;
-		printf("%d\n", poly->indices->values[i]);
+		//printf("%d\n", poly->indices->values[i]);
 		t_vec3 a = ft_mat4_mulv(doom->player.matrix, poly->vertices->vertices[poly->indices->values[i]]);
 		t_vec3 b = ft_mat4_mulv(doom->player.matrix,poly->vertices->vertices[poly->indices->values[i + 1]]);
 		t_vec3 c = ft_mat4_mulv(doom->player.matrix, poly->vertices->vertices[poly->indices->values[i + 2]]);
 
-	/*	if (a.z <= 0 || b.z <= 0 || c.z <= 0)
+		if (a.z < NEAR || b.z < NEAR || c.z < NEAR)
 		{
-			i+= 3;
+			i += 3;
 			continue;
-		}*/
+		}
+
+		if (a.z < NEAR) {
+			t_vec3 dir = ft_vec3_sub(a, b);
+			float t = (NEAR - b.z) / dir.z;
+			a = ft_vec3_add(ft_vec3_mul(dir, (t_vec3) { t, t, t }), b);
+		}
+
+		if (b.z < NEAR) {
+			t_vec3 dir = ft_vec3_sub(b, c);
+			float t = (NEAR - c.z) / dir.z;
+			b = ft_vec3_add(ft_vec3_mul(dir, (t_vec3) { t, t, t }), c);
+		}
+
+		if (c.z < NEAR) {
+			t_vec3 dir = ft_vec3_sub(c, a);
+			float t = (NEAR - a.z) / dir.z;
+			c = ft_vec3_add(ft_vec3_mul(dir, (t_vec3) { t, t, t }), a);
+		}
 
 		a = ft_mat4_mulv(doom->player.projection, a);
 		b = ft_mat4_mulv(doom->player.projection, b);
 		c = ft_mat4_mulv(doom->player.projection, c);
 
-		t_pixel p = (t_pixel){
+		t_vec2 p = (t_vec2){
 			((a.x + 0.5) / a.z) * S_WIDTH,
-			S_HEIGHT_2 + (a.y / a.z) * S_HEIGHT + (poly->type == P_FLOOR), 
-			poly->type == P_FLOOR ? 0x00FF00 : 0xFF0000
+			S_HEIGHT_2 + (a.y / a.z) * S_HEIGHT + (poly->type == P_FLOOR),
+		//	poly->type == P_FLOOR ? 0x00FF00 : 0xFF0000
 		};
-		t_pixel p2 = (t_pixel){
+		t_vec2 p2 = (t_vec2){
 			((b.x + 0.5) / b.z) * S_WIDTH,
-			S_HEIGHT_2 + (b.y / b.z) * S_HEIGHT + (poly->type == P_FLOOR),
-			poly->type == P_FLOOR ? 0x00FF00 : 0xFF0000
+			S_HEIGHT_2 + (b.y / b.z) * S_HEIGHT + (poly->type == P_FLOOR)
+		//	poly->type == P_FLOOR ? 0x00FF00 : 0xFF0000
 		};
-		t_pixel p3 = (t_pixel){
+		t_vec2 p3 = (t_vec2){
 			((c.x + 0.5) / c.z) * S_WIDTH,
-			S_HEIGHT_2 + (c.y / c.z) * S_HEIGHT + (poly->type == P_FLOOR),
-			poly->type == P_FLOOR ? 0x00FF00 : 0xFF0000
+			S_HEIGHT_2 + (c.y / c.z) * S_HEIGHT + (poly->type == P_FLOOR)
+		//	poly->type == P_FLOOR ? 0x00FF00 : 0xFF0000
 		};
 
-		draw_line(&doom->screen, p, p2);
-		draw_line(&doom->screen, p2, p3);
-		draw_line(&doom->screen, p3, p);
+		if (poly->type == P_FLOOR)
+			fill_triangle(doom, 0xFFFFFF, p, p2, p3);
+		else
+			fill_triangle(doom, 0xFF00FF, p, p2, p3);
+		draw_line(&doom->screen, (t_pixel){p.x, p.y, 0xFF0000}, (t_pixel){p2.x, p2.y, 0xFF0000});
+		draw_line(&doom->screen, (t_pixel){p2.x, p2.y, 0xFF0000}, (t_pixel){p3.x, p3.y, 0xFF0000});
+		draw_line(&doom->screen, (t_pixel){p3.x, p3.y, 0xFF0000}, (t_pixel){p.x, p.y, 0xFF0000});
 		i += 3;
 	}
 }
