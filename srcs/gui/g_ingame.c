@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/06 18:15:26 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/05/11 22:10:40 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ void visitNode(t_doom *doom, t_node *node)
 	int i = -1;
 	while (++i < node->polygons->len)
 	{
-		t_polygon *poly = (t_polygon *)node->polygons->values[i];
+		t_polygon *poly = &node->polygons->polygons[i];
 		//if (poly->type == P_WALL)
-			render_polygon(doom, poly);
+		render_polygon(doom, poly);
 	//	printf("draw %s\n", ((t_polygon *)node->polygons->values[i])->type == P_WALL ? "WALL" : "FLOOR");
 	}
 	/*t_line_list *lst = node->segments;

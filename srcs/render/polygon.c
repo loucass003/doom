@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 22:39:14 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/11 16:39:00 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/05/13 00:52:01 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,40 +93,32 @@ void	fill_triangle(t_doom *doom, int color, t_vec2 v1, t_vec2 v2, t_vec2 v3)
 
 void	render_polygon(t_doom *doom, t_polygon *poly)
 {
-	fill_triangle(doom, 0xFF, (t_vec2){ 10, 100 }, (t_vec2){ 100, 50 }, (t_vec2){ 5, 200});
+	//fill_triangle(doom, 0xFF, (t_vec2){ 10, 100 }, (t_vec2){ 100, 50 }, (t_vec2){ 5, 200 });
 
 	t_vec2	last_b = (t_vec2){ NAN, NAN };
 
 	if (!prepare_polygon(poly))
 		return ; // TODO: ERROR
-	int i = -1;
-	while (++i < poly->vertices->len)
+	int i = 0;
+	printf("%d\n", poly->indices->len);
+	while (i < poly->indices->len)
 	{
-		int next = (i + 1) % poly->vertices->len;
-		// t_vec3 a = ft_mat4_mulv(rotation, ft_vec3_sub(*(t_vec3 *)(poly->vertices->values[i]), doom->player.pos));
-	    // t_vec3 b = ft_mat4_mulv(rotation, ft_vec3_sub(*(t_vec3 *)(poly->vertices->values[next]), doom->player.pos));
-		t_vec3 a = ft_mat4_mulv(doom->player.matrix, *(t_vec3 *)(poly->vertices->values[i]));
-		t_vec3 b = ft_mat4_mulv(doom->player.matrix, *(t_vec3 *)(poly->vertices->values[next]));
-		
-		if (a.z < NEAR && b.z < NEAR)
+		//int next = (i + 1) % poly->indices->len;
+		printf("%d\n", poly->indices->values[i]);
+		t_vec3 a = ft_mat4_mulv(doom->player.matrix, poly->vertices->vertices[poly->indices->values[i]]);
+		t_vec3 b = ft_mat4_mulv(doom->player.matrix,poly->vertices->vertices[poly->indices->values[i + 1]]);
+		t_vec3 c = ft_mat4_mulv(doom->player.matrix, poly->vertices->vertices[poly->indices->values[i + 2]]);
+
+	/*	if (a.z <= 0 || b.z <= 0 || c.z <= 0)
+		{
+			i+= 3;
 			continue;
-
-		if (a.z < NEAR) {
-			t_vec3 dir = ft_vec3_sub(a, b);
-			float t = (NEAR - b.z) / (dir.z);
-			a = ft_vec3_add(ft_vec3_mul(dir, (t_vec3) { t, t, t }), b);
-		}
-
-		if (b.z < NEAR) {
-			t_vec3 dir = ft_vec3_sub(a, b);
-			float t = (NEAR - a.z) / (dir.z);
-			b = ft_vec3_add(ft_vec3_mul(dir, (t_vec3) { t, t, t }), a);
-		}
+		}*/
 
 		a = ft_mat4_mulv(doom->player.projection, a);
 		b = ft_mat4_mulv(doom->player.projection, b);
+		c = ft_mat4_mulv(doom->player.projection, c);
 
-	
 		t_pixel p = (t_pixel){
 			((a.x + 0.5) / a.z) * S_WIDTH,
 			S_HEIGHT_2 + (a.y / a.z) * S_HEIGHT + (poly->type == P_FLOOR), 
@@ -135,28 +127,17 @@ void	render_polygon(t_doom *doom, t_polygon *poly)
 		t_pixel p2 = (t_pixel){
 			((b.x + 0.5) / b.z) * S_WIDTH,
 			S_HEIGHT_2 + (b.y / b.z) * S_HEIGHT + (poly->type == P_FLOOR),
-			0xFF0000
+			poly->type == P_FLOOR ? 0x00FF00 : 0xFF0000
 		};
-		t_vec2 p_b = (t_vec2){
-			((b.x + 0.5) / b.z) * S_WIDTH,
-			S_HEIGHT_2 + (b.y / b.z) * S_HEIGHT
+		t_pixel p3 = (t_pixel){
+			((c.x + 0.5) / c.z) * S_WIDTH,
+			S_HEIGHT_2 + (c.y / c.z) * S_HEIGHT + (poly->type == P_FLOOR),
+			poly->type == P_FLOOR ? 0x00FF00 : 0xFF0000
 		};
-		t_vec2 p_a = (t_vec2){
-			((a.x + 0.5) / a.z) * S_WIDTH,
-			S_HEIGHT_2 + (a.y / a.z) * S_HEIGHT
-		};
-	/*	append_2dvertices_array(&poly->proj_vertices, p_b);
-		append_2dvertices_array(&poly->proj_vertices, p_a);
-		printf("%f %f - %f %f\n", p_a.x, p_a.y, p_b.x, p_b.y);*/
+
 		draw_line(&doom->screen, p, p2);
-	}
-	i = -1;
-	while (++i < poly->proj_vertices->len)
-	{
-		int next = (i + 1) % poly->proj_vertices->len;
-		t_vec2 a = poly->proj_vertices->vertices[i];
-		t_vec2 b = poly->proj_vertices->vertices[next];
-	//	printf("%f %f - %f %f\n", a.x, a.y, b.x, b.y);
-	//	draw_line(&doom->screen, (t_pixel){ a.x, a.y, poly->type == P_FLOOR ? 0x00FF00 : 0xFF0000 }, (t_pixel){b.x, b.y, 0});
+		draw_line(&doom->screen, p2, p3);
+		draw_line(&doom->screen, p3, p);
+		i += 3;
 	}
 }

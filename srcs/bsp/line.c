@@ -6,13 +6,13 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 16:29:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/01 16:36:26 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/05/11 22:29:52 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom.h"
 
-t_bool		get_partition(t_arraylist *polygons, t_line *partition)
+t_bool		get_partition(t_polygons *polygons, t_line *partition)
 {
 	int			i;
 	t_polygon	*polygon;
@@ -20,7 +20,7 @@ t_bool		get_partition(t_arraylist *polygons, t_line *partition)
 	i = -1;
 	while (++i < polygons->len)
 	{
-		polygon = (t_polygon *)polygons->values[i];
+		polygon = &polygons->polygons[i];
 		if (polygon->type == P_WALL)
 		{
 			t_line line = get_poly_line(polygon);
@@ -64,15 +64,15 @@ t_side		get_poly_side(t_line partition, t_polygon *poly)
 {
 	t_bool	front = FALSE;
 	t_bool	back = FALSE;
-	t_vec3	*vec;
+	t_vec3	vec;
 	t_side	side;
 	int		i;
 
 	i = -1;
 	while (++i < poly->vertices->len)
 	{
-		vec = poly->vertices->values[i];
-		side = get_side_thick(partition, (t_vec2){vec->x, vec->z});
+		vec = poly->vertices->vertices[i];
+		side = get_side_thick(partition, (t_vec2){vec.x, vec.z});
 		if (side == S_FRONT)
 			front = TRUE;
 		else if (side == S_BACK)

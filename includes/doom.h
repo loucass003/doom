@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/08 16:29:19 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/05/12 21:52:29 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,6 @@
 
 typedef struct s_doom t_doom;
 
-
-
 typedef struct		s_stats
 {
 	int				fps;
@@ -37,14 +35,13 @@ typedef struct		s_stats
 
 typedef struct		s_fonts
 {
-	TTF_Font	*helvetica;
+	TTF_Font		*helvetica;
 }					t_fonts;
 
 typedef struct		s_textures
 {
 	SDL_Surface		*bricks;
 }					t_textures;
-
 
 typedef struct		s_player
 {
@@ -159,6 +156,29 @@ t_2dvertices		*splice_2dvertices_array(t_2dvertices *arr,
 						int index, int n);
 t_2dvertices		*copy_2dvertices_array(t_2dvertices *src,
 						t_2dvertices **dst);
+
+t_3dvertices		*create_3dvertices_array(int capacity);
+t_3dvertices		*append_3dvertices_array(t_3dvertices **arr, t_vec3 v);
+t_3dvertices		*splice_3dvertices_array(t_3dvertices *arr,
+						int index, int n);
+t_3dvertices		*copy_3dvertices_array(t_3dvertices *src,
+						t_3dvertices **dst);
+
+t_polygons			*create_polygons_array(int capacity);
+t_polygons			*append_polygons_array(t_polygons **arr, t_polygon v);
+t_polygons			*splice_polygons_array(t_polygons *arr,
+						int index, int n);
+t_polygons			*copy_polygons_array(t_polygons *src,
+						t_polygons **dst);
+
+t_ints				*create_ints_array(int capacity);
+t_ints				*append_ints_array(t_ints **arr, int i);
+t_ints				*splice_ints_array(t_ints *arr,
+						int index, int n);
+t_ints				*copy_ints_array(t_ints *src,
+						t_ints **dst);
+
+void				triangulate_bsp(t_node *n);
 
 void				clip_to_screen(t_polygon *poly, SDL_Rect area);
 

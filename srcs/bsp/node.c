@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 16:26:20 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/01 16:36:27 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/05/11 22:27:29 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	print_node(t_node *n)
 	print_node(n->back);
 }
 
-t_node		*create_node(t_arraylist *polygons)
+t_node		*create_node(t_polygons *polygons)
 {
 	t_node	*node;
 	
