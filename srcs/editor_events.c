@@ -6,31 +6,31 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/26 17:31:07 by lloncham          #+#    #+#             */
-/*   Updated: 2019/05/06 16:28:58 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/05/13 14:10:37 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom.h"
 
-void       print_lst(t_poly *poly)
-{
-    t_poly *tmp = poly;
-	t_line_list *cmp;
+// void       print_lst(t_poly *poly)
+// {
+//     t_poly *tmp = poly;
+// 	t_line_list *cmp;
 
-    while (tmp != NULL)
-    {
-		cmp = tmp->list;
-		while (cmp != NULL)
-		{
-        	printf("x = %f - y = %f  ||  ", cmp->line.a.x, cmp->line.a.y);
-       		printf("x = %f - y = %f\n", cmp->line.b.x, cmp->line.b.y);
-			cmp = cmp->next;
-		}
-		printf("\n");
-        tmp = tmp->next;
-    }
-	printf("\n\n");
-}
+//     while (tmp != NULL)
+//     {
+// 		cmp = tmp->list;
+// 		while (cmp != NULL)
+// 		{
+//         	printf("x = %f - y = %f  ||  ", cmp->line.a.x, cmp->line.a.y);
+//        		printf("x = %f - y = %f\n", cmp->line.b.x, cmp->line.b.y);
+// 			cmp = cmp->next;
+// 		}
+// 		printf("\n");
+//         tmp = tmp->next;
+//     }
+// 	printf("\n\n");
+// }
 
 t_bool	new_poly(t_poly **poly, t_line line)
 {
@@ -84,12 +84,11 @@ void	editor_mouse_motion(t_doom *doom, SDL_Event *event)
 	int y;
 	unsigned int index;
 
-	x = event->motion.x;
-    y = event->motion.y;
+	x = event->motion.x / 20;
+    y = event->motion.y / 20;
 	if (x < (doom->screen.width - 180))
 	{
-		x /= 20;
-		y /= 20;
+	// printf("MOTION %d, %d\n", x, y);
 		if (doom->editor.point[(y *  doom->screen.width / 20 ) + x] == 0)
 		{
 			ft_bzero(doom->editor.point, sizeof(uint8_t) * (((doom->screen.width - 200) * doom->screen.height) / 20));
@@ -118,8 +117,8 @@ void	editor_mousebuttonup(t_doom *doom, SDL_Event *event)
 		}
 		if (check_multi_line(doom, doom->editor.polygon, doom->editor.line.a.x, doom->editor.line.a.y, (int)event->button.x / 20, (int)event->button.y / 20) == FALSE)
 			return;
-		// if (check_secant_line(doom, doom->editor.polygon, doom->editor.line.a.x, doom->editor.line.a.y, (int)event->button.x / 20, (int)event->button.y / 20) == FALSE)
-		// 	return;
+		if (check_secant_line(doom, doom->editor.polygon, doom->editor.line.a.x, (int)event->button.x / 20, doom->editor.line.a.y, (int)event->button.y / 20) == FALSE)
+			return;
 		doom->editor.line.b.x = (int)event->button.x / 20;
 		doom->editor.line.b.y = (int)event->button.y / 20;
 		if (check_same_point(doom) == FALSE)
@@ -128,7 +127,7 @@ void	editor_mousebuttonup(t_doom *doom, SDL_Event *event)
 			new_poly(&doom->editor.polygon, doom->editor.line);
 		else if (doom->editor.click > 1)
 			append_list2(&doom->editor.polygon, doom->editor.line);
-		print_lst(doom->editor.polygon);
+		// print_lst(doom->editor.polygon);
 		check_poly_close(doom, doom->editor.polygon);
 		doom->editor.click++;
 	}
