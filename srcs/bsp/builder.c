@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 16:36:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/14 14:10:06 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/05/14 21:09:45 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ void		build_node(t_node *node)
 
 	if (node->type == N_LEAF)
 	{
-		ft_memdel(&front);
+	/* 	ft_memdel(&front);
 		ft_memdel(&colinear);
-		ft_memdel(&back);
+		ft_memdel(&back); */
 		return ;
 	}
 	i = -1;
@@ -47,11 +47,11 @@ void		build_node(t_node *node)
 				append_polygons_array(&front, front_p);
 			if (clip_poly(&back_p, poly, node->partition, S_FRONT))
 				append_polygons_array(&back, back_p);
-			free(poly->vertices);
+		//	free(poly->vertices);
 		}
 	}
 	//free_polygons(node->polygons);
-	free(node->polygons);
+//	free(node->polygons);
 //	arraylist_clear(&node->polygons, free_polygon);
 	node->polygons = colinear;
 	node->front = create_node(front);

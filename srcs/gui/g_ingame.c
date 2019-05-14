@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/14 16:32:21 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/05/14 21:32:26 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ int g_count = 0;
 
 void visitNode(t_doom *doom, t_node *node)
 {
-	if (!node->polygons || node->polygons->len == 0)
-		return ;
+/*	if (!node->polygons || node->polygons->len == 0)
+		return ;*/
 	g_count++;
 	int i = -1;
 	while (++i < node->polygons->len)
@@ -50,18 +50,19 @@ void traverseDrawOrder(t_doom *doom, t_node *node)
 	if (node) 
 	{
 		t_vec2 p = (t_vec2){doom->player.pos.x, doom->player.pos.z};
+	//	printf("%f %f\n", p.x, p.y);
 		if (node->type == N_LEAF)
 			visitNode(doom, node);
 		else if (get_side_thin(node->partition, p) != S_BACK) 
 		{
-			printf("front\n");
+	//		printf("front\n");
 			traverseDrawOrder(doom, node->front);
 			visitNode(doom, node);
 			traverseDrawOrder(doom, node->back);
 		}
 		else 
 		{
-			printf("back\n");
+		//	printf("back\n");
 			traverseDrawOrder(doom, node->back);
 			visitNode(doom, node);
 			traverseDrawOrder(doom, node->front);
@@ -86,7 +87,8 @@ void	g_ingame_render(t_gui *self, t_doom *doom)
 {
 	ft_bzero(doom->rendered_area, doom->screen.width);
 	g_count = 0;
+	printf("--- START TRASVERSE ---\n");
 	traverseDrawOrder(doom, doom->bsp);
-	printf("%d\n", g_count);
-//	exit(0);
+	printf("--- END TRASVERSE (%d) ---\n", g_count);
+	//exit(0);
 }

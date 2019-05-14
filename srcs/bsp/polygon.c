@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 16:30:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/14 16:14:28 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/05/14 20:23:58 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ t_bool	clip_poly(t_polygon *out, t_polygon *poly, t_line partition, t_side side)
 		int next = (i + 1) % poly->vertices->len;
 		t_vec3 v1 = poly->vertices->vertices[i];
 		t_vec3 v2 = poly->vertices->vertices[next];
+		printf("SIDE CLIP\n");
 		t_side side1 = get_side_thin(partition, (t_vec2){v1.x, v1.z});
 		t_side side2 = get_side_thin(partition, (t_vec2){v2.x, v2.z});
 		if (side1 != side)
