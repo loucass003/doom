@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/26 17:33:38 by lloncham          #+#    #+#             */
-/*   Updated: 2019/05/13 16:56:07 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/05/14 15:30:36 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,115 +151,76 @@ t_bool	check_multi_point(t_doom *doom, t_poly *poly, int x, int y)
 	return TRUE;
 }
 
-// t_bool    intersect2(t_line *line, t_line *seg, t_vec2 *intersect)
-// {
-//     if (line->a.x == seg->a.x && line->a.y == seg->a.y && line->b.x == seg->b.x && line->b.y == seg->b.y)
-//         return (FALSE);
-//     t_vec2 i1 = (t_vec2) {
-//         line->b.y - line->a.y,
-//         line->a.x - line->b.x
-//     };
-//     float c1 = i1.x * (line->a.x) + i1.y * (line->a.y);
-
-//     t_vec2 i2 = (t_vec2) {
-//         seg->b.y - seg->a.y,
-//         seg->a.x - seg->b.x
-//     };
-//     float c2 = i2.x * (seg->a.x) + i2.y * (seg->a.y);
-//     float d = i1.x * i2.y - i2.x * i1.y;
-//     if (d == 0)
-//         return (FALSE);
-//     intersect->x = (i2.y * c1 - i1.y * c2) / d;
-//     intersect->y = (i1.x * c2 - i2.x * c1) / d;
-// 	printf("INTERSECT : 1:%f - 2:%f\n", intersect->x, intersect->y);
-// 	// printf("LINE FINAL : x1:%f - x2:%f - y1:%f - y2:%f\n", line->a.x, line->b.x, line->a.y, line->b.y);
-// 	// printf("X MIN :%f - MAX:%f\n", fmin(line->a.x, line->b.x), fmax(line->a.x, line->b.x));
-// 	// printf("Y MIN :%f - MAX:%f\n", fmin(line->a.y, line->b.y), fmax(line->a.y, line->b.y));
-//     if (intersect->x < fmax(line->a.x, line->b.x) && intersect->x > fmin(line->a.x, line->b.x) && intersect->x < fmax(seg->a.x, seg->b.x) && intersect->x > fmin(seg->a.x, seg->b.x) && 
-// 	intersect->y < fmax(line->a.y, line->b.y) && intersect->y > fmin(line->a.y, line->b.y) && intersect->y < fmax(seg->a.y, seg->b.y) && intersect->y > fmin(seg->a.y, seg->b.y))
-//         return (TRUE);
-// 		// printf("INTER : x:%f - y:%f\n", intersect->x, intersect->y);
-//     return (FALSE);
-// }
-
 t_bool	intersect0(t_line *line, t_line *cmp)
 {
 	float a1, a2, b1, b2;
 	float x, y; 
 
+	// printf("A1 : %f - A2 : %f - B1 : %f - B2 : %f\n", a1, a2, b1, b2);
+	if (line->b.x == line->a.x) //veritcale
+	{
+		a2 = (cmp->b.y - cmp->a.y) / (cmp->b.x - cmp->a.x);
+		b2 = cmp->a.y - (a2 * cmp->a.x);
+		x = line->b.x;
+		y = a2 * x + b2;
+		if (y < fmax(line->a.y, line->b.y) && y > fmin(line->a.y, line->b.y) && x < fmax(cmp->a.x, cmp->b.x) && x > fmin(cmp->a.x, cmp->b.x))
+			return FALSE;
+	}
+	if (cmp->b.x == cmp->a.x) //veritcale
+	{
+		a1 = (line->b.y - line->a.y) / (line->b.x - line->a.x);
+		b1 = line->a.y - (a1 * line->a.x);
+		x = cmp->b.x;
+		y = a1 * x + b1;
+		if (y < fmax(cmp->a.y, cmp->b.y) && y > fmin(cmp->a.y, cmp->b.y) && x < fmax(line->a.x, line->b.x) && x > fmin(line->a.x, line->b.x))
+			return FALSE;
+	}
 	a1 = (line->b.y - line->a.y) / (line->b.x - line->a.x);
 	a2 = (cmp->b.y - cmp->a.y) / (cmp->b.x - cmp->a.x);
 	b1 = line->a.y - (a1 * line->a.x);
 	b2 = cmp->a.y - (a2 * cmp->a.x);
-
-	printf("A1 : %f - A2 : %f - B1 : %f - B2 : %f\n", a1, a2, b1, b2);
 	if (a1 - a2 == 0)
 		return TRUE; //ne croisent pas
-	if (a2 == 0) // droite horizontale + verticale a faire !!!
+	if (a2 == 0 && line->b.x == line->a.x) // hor et verti
 	{
-		float x = cmp->a.x;
-		if ((line->a.x < x && line->b.x > x) || (line->a.x > x && line->b.x < x))
+		x = line->b.x;
+		y = cmp->b.y;
+		if (x < fmax(cmp->a.x, cmp->b.x) && x > fmin(cmp->a.x, cmp->b.x) && y < fmax(line->a.y, line->b.y) && y > fmin(line->a.y, line->b.y))
 			return FALSE;
 	}
-	if (a1 == 0)
+	if (a1 == 0 && cmp->b.x == cmp->a.x) // hor et verti
 	{
-		float x = line->a.x;
-		if ((cmp->a.x < x && cmp->b.x > x) || (cmp->a.x > x && cmp->b.x < x))
+		x = cmp->b.x;
+		y = line->b.y;
+		if (x < fmax(line->a.x, line->b.x) && x > fmin(line->a.x, line->b.x) && y < fmax(cmp->a.y, cmp->b.y) && y > fmin(cmp->a.y, cmp->b.y))
 			return FALSE;
 	}
+	if (a2 == 0) // horiz
+	{
+		float y = cmp->a.y;
+		x = (y - b1) / a1;
+		if (x < fmax(cmp->a.x, cmp->b.x) && x > fmin(cmp->a.x, cmp->b.x) && y < fmax(line->a.y, line->b.y) && y > fmin(line->a.y, line->b.y))
+			return FALSE;
+	}
+	if (a1 == 0) // horiz
+	{
+		float y = line->a.y;
+		x = (y - b2) / a2;
+
+		if (x < fmax(line->a.x, line->b.x) && x > fmin(line->a.x, line->b.x) && y < fmax(cmp->a.y, cmp->b.y) && y > fmin(cmp->a.y, cmp->b.y))
+			return FALSE;
+	}
+	// autre
 	x = (b2 - b1) / (a1 - a2);
 	y = a1 * x + b1;
-// 	printf("INTERSECT 1 %f\n", x);
 	if (x < fmax(line->a.x, line->b.x) && x > fmin(line->a.x, line->b.x) && x < fmax(cmp->a.x, cmp->b.x) && x > fmin(cmp->a.x, cmp->b.x) &&
 		y < fmax(line->a.y, line->b.y) && y > fmin(line->a.y, line->b.y) && y < fmax(cmp->a.y, cmp->b.y) && y > fmin(cmp->a.y, cmp->b.y))
 			return (FALSE);
+	// printf("X %f Y %f", x, y);
+	// if (line->b.x == x && line->b.y == y && ((cmp->b.x != x && cmp->b.y != y) || (cmp->a.x != x && cmp->a.y != y)))
+	// 	return FALSE;
 	else
 		return TRUE;
-// 	// if (line->b.y == line->a.y)
-// 	// {
-// 	// 	if (cmp->a.y == cmp->b.y)
-// 	// 	{
-// 	// 		if (x < fmax(line->a.x, line->b.x) && x > fmin(line->a.x, line->b.x) && x < fmax(cmp->a.x, cmp->b.x) && x > fmin(cmp->a.x, cmp->b.x) &&
-// 	// 				y <= fmax(line->a.y, line->b.y) && y >= fmin(line->a.y, line->b.y) && y <= fmax(cmp->a.y, cmp->b.y) && y >= fmin(cmp->a.y, cmp->b.y))
-// 	// 			return (FALSE);
-// 	// 	}
-// 	// 	else if (cmp->a.x == cmp->b.x)
-// 	// 	{
-// 	// 		if (x < fmax(line->a.x, line->b.x) && x > fmin(line->a.x, line->b.x) && x <= fmax(cmp->a.x, cmp->b.x) && x >= fmin(cmp->a.x, cmp->b.x) &&
-// 	// 				y <= fmax(line->a.y, line->b.y) && y >= fmin(line->a.y, line->b.y) && y < fmax(cmp->a.y, cmp->b.y) && y > fmin(cmp->a.y, cmp->b.y))
-// 	// 			return (FALSE);
-// 	// 	}
-// 	// 	else
-// 	// 	{
-// 	// 		if (x < fmax(line->a.x, line->b.x) && x > fmin(line->a.x, line->b.x) && x < fmax(cmp->a.x, cmp->b.x) && x > fmin(cmp->a.x, cmp->b.x) &&
-// 	// 				y <= fmax(line->a.y, line->b.y) && y >= fmin(line->a.y, line->b.y) && y < fmax(cmp->a.y, cmp->b.y) && y > fmin(cmp->a.y, cmp->b.y))
-// 	// 			return (FALSE);
-// 	// 	}	
-// 	// }
-// 	// else if (line->b.x == line->a.x)
-// 	// {
-// 	// 	if (cmp->a.y == cmp->b.y)
-// 	// 	{
-// 	// 		if (x <= fmax(line->a.x, line->b.x) && x >= fmin(line->a.x, line->b.x) && x < fmax(cmp->a.x, cmp->b.x) && x > fmin(cmp->a.x, cmp->b.x) &&
-// 	// 				y < fmax(line->a.y, line->b.y) && y > fmin(line->a.y, line->b.y) && y <= fmax(cmp->a.y, cmp->b.y) && y >= fmin(cmp->a.y, cmp->b.y))
-// 	// 			return (FALSE);
-// 	// 	}
-// 	// 	else if (cmp->a.x == cmp->b.x)
-// 	// 	{
-// 	// 		if (x <= fmax(line->a.x, line->b.x) && x >= fmin(line->a.x, line->b.x) && x <= fmax(cmp->a.x, cmp->b.x) && x >= fmin(cmp->a.x, cmp->b.x) &&
-// 	// 				y < fmax(line->a.y, line->b.y) && y > fmin(line->a.y, line->b.y) && y < fmax(cmp->a.y, cmp->b.y) && y > fmin(cmp->a.y, cmp->b.y))
-// 	// 			return (FALSE);
-// 	// 	}
-// 	// 	else
-// 	// 	{
-// 	// 		if (x <= fmax(line->a.x, line->b.x) && x >= fmin(line->a.x, line->b.x) && x < fmax(cmp->a.x, cmp->b.x) && x > fmin(cmp->a.x, cmp->b.x) &&
-// 	// 				y < fmax(line->a.y, line->b.y) && y > fmin(line->a.y, line->b.y) && y < fmax(cmp->a.y, cmp->b.y) && y > fmin(cmp->a.y, cmp->b.y))
-// 	// 			return (FALSE);
-// 	// 	}	
-// 	// }
-// 	// else if (x < fmax(line->a.x, line->b.x) && x > fmin(line->a.x, line->b.x) && x < fmax(cmp->a.x, cmp->b.x) && x > fmin(cmp->a.x, cmp->b.x) &&
-// 	// 				y < fmax(line->a.y, line->b.y) && y > fmin(line->a.y, line->b.y) && y < fmax(cmp->a.y, cmp->b.y) && y > fmin(cmp->a.y, cmp->b.y))
-// 	// 				return (FALSE);
 }
 
 t_bool	check_secant_line(t_doom *doom, t_poly *poly, float x1, float x2, float y1, float y2)
