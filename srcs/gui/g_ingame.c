@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/14 21:32:26 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/05/14 23:08:57 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,6 @@ void	g_ingame_render(t_gui *self, t_doom *doom)
 {
 	ft_bzero(doom->rendered_area, doom->screen.width);
 	g_count = 0;
-	printf("--- START TRASVERSE ---\n");
 	traverseDrawOrder(doom, doom->bsp);
-	printf("--- END TRASVERSE (%d) ---\n", g_count);
 	//exit(0);
 }

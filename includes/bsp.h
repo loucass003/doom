@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 16:26:42 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/12 20:11:42 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/05/14 22:49:00 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,8 @@ t_side		get_side_thick(t_line partition, t_vec2 v);
 t_side		get_poly_side(t_line partition, t_polygon *poly);
 float		get_intersection(t_line a, t_line b);
 
-t_vec2		get_polygon_normal(t_polygon *poly);
+t_vec3		get_polygon_normal(t_polygon *poly);
+
 t_line		get_poly_line(t_polygon *poly);
 t_bool		clip_poly(t_polygon *out, t_polygon *poly, t_line partition, t_side side);
 

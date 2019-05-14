@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 16:29:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/14 20:40:04 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/05/14 23:08:44 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ t_bool		get_partition(t_polygons *polygons, t_line *partition)
 			partition->a = line.a;
 			partition->b = line.b;
 			partition->normal = line.normal;
-			printf("CREATE PARITION (%f %f - %f %f) - NORM(%f, %f)\n", partition->a.x, partition->a.y, partition->b.x, partition->b.y, partition->normal.x, partition->normal.y);
 			return (TRUE);
 		}
 	}
@@ -39,7 +38,6 @@ t_side		get_side_thin(t_line partition, t_vec2 v)
 	const t_vec2	n = partition.normal;
 	const float		side = (v.x - partition.a.x) * n.x
 		+ (v.y - partition.a.y) * n.y;
-	printf("%f %f - %f %f %f\n", n.x, n.y, partition.a.x, partition.a.y, side);
 	if (side < 0)
 		return (S_BACK);
 	else if (side > 0)
@@ -51,7 +49,6 @@ t_side		get_side_thin(t_line partition, t_vec2 v)
 t_side		get_side_thick(t_line partition, t_vec2 v)
 {
 	const t_vec2	n = partition.normal;
-	printf("SIDE THICK NORMAL (%f, %f) PARTITION (%f, %f)\n", n.x, n.y, partition.a.x, partition.a.y);
 	const t_side	front = get_side_thin(partition, (t_vec2){ v.x - n.x / 2.,
 		v.y - n.y / 2.});
 	
@@ -74,7 +71,6 @@ t_side		get_poly_side(t_line partition, t_polygon *poly)
 	while (++i < poly->vertices->len)
 	{
 		vec = poly->vertices->vertices[i];
-		printf("POLY SIDE (%f %f)\n", vec.x, vec.z);
 		side = get_side_thick(partition, (t_vec2){vec.x, vec.z});
 		if (side == S_FRONT)
 			front = TRUE;

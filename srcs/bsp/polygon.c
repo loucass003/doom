@@ -6,20 +6,20 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 16:30:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/14 20:23:58 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/05/14 23:08:49 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom.h"
 
-t_vec2		get_polygon_normal(t_polygon *poly)
+t_vec3		get_polygon_normal(t_polygon *poly)
 {
 	const t_vec3 p0 = poly->vertices->vertices[0];
 	const t_vec3 p1 = poly->vertices->vertices[1];
 	const t_vec3 p2 = poly->vertices->vertices[2];
 	const t_vec3 c = get_plane_normal(p0, p1, p2);
 	
-	return ((t_vec2){ c.x, c.z });
+	return ((t_vec3){ c.x, c.y, c.z });
 }
 
 double distanceSq(double var0, double var2, double var4, double var6) {
@@ -51,7 +51,8 @@ t_line		get_poly_line(t_polygon *poly)
 			}
 		}
 	}
-	line.normal = get_polygon_normal(poly);
+	t_vec3 n = get_polygon_normal(poly);
+	line.normal = (t_vec2){n.x, n.z};
 	return (line);
 }
 
@@ -66,7 +67,6 @@ t_bool	clip_poly(t_polygon *out, t_polygon *poly, t_line partition, t_side side)
 		int next = (i + 1) % poly->vertices->len;
 		t_vec3 v1 = poly->vertices->vertices[i];
 		t_vec3 v2 = poly->vertices->vertices[next];
-		printf("SIDE CLIP\n");
 		t_side side1 = get_side_thin(partition, (t_vec2){v1.x, v1.z});
 		t_side side2 = get_side_thin(partition, (t_vec2){v2.x, v2.z});
 		if (side1 != side)

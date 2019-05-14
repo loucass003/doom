@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/12 21:52:29 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/05/14 22:18:47 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,6 +179,7 @@ t_ints				*copy_ints_array(t_ints *src,
 						t_ints **dst);
 
 void				triangulate_bsp(t_node *n);
+t_bool				inside_triangle(t_vec3 a, t_vec3 b, t_vec3 c, t_vec3 p);
 
 void				clip_to_screen(t_polygon *poly, SDL_Rect area);
 

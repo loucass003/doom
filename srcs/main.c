@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/14 20:42:12 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/05/15 00:53:38 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	init_bsp(t_doom *doom)
 	for (int i = 0; i < count; i++)
 	{
 		append_3dvertices_array(&vertices, (t_vec3){
-			lines[i].a.x, 0, lines[i].a.y});
+			lines[i].a.x / 100, 0, lines[i].a.y / 100});
 	}
 	//append_polygons_array(&polygons, create_polygon(vertices, P_FLOOR));
 	
@@ -53,13 +53,13 @@ void	init_bsp(t_doom *doom)
 	for (int i = 0; i < count; i++)
 	{
 		append_3dvertices_array(&vertices_ceil, (t_vec3){
-			lines[i].a.x, 300, lines[i].a.y});
+			lines[i].a.x / 100, 1, lines[i].a.y / 100});
 	}
-	//append_polygons_array(&polygons, create_polygon(vertices_ceil, P_FLOOR));
+	append_polygons_array(&polygons, create_polygon(vertices_ceil, P_FLOOR));
 	
 	for (int i = 0; i < count; i++)
 	{
-		append_polygons_array(&polygons, create_wall_polygon((t_line){ (t_vec2){lines[i].a.x, (lines[i].a.y)}, (t_vec2){lines[i].b.x, (lines[i].b.y)}}, 0, 300));
+		append_polygons_array(&polygons, create_wall_polygon((t_line){ (t_vec2){lines[i].a.x / 100, (lines[i].a.y / 100)}, (t_vec2){lines[i].b.x / 100, (lines[i].b.y / 100)}}, 0, 1));
 	}
 
 	/*int count = sizeof(list) / sizeof(t_vec3);

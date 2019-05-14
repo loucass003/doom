@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/12 15:51:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/13 18:47:21 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/05/15 00:05:28 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static float	area(t_3dvertices *vertices)
 	return (A * 0.5);
 }
 
-static t_bool	inside_triangle(t_vec3 a, t_vec3 b, t_vec3 c, t_vec3 p)
+t_bool	inside_triangle(t_vec3 a, t_vec3 b, t_vec3 c, t_vec3 p)
 {
 	/*float	i = (c.x - b.x) * (p.y - b.y) - (c.y - b.y) * (p.x - b.x);
 	float	j = (b.x - a.x) * (p.y - a.y) - (b.y - a.y) * (p.x - a.x);
@@ -83,6 +83,9 @@ static t_bool	snip(t_3dvertices *vertices, int u, int v, int w, int n, int *V)
 	float f = fabs(ft_vec3_dot(ft_vec3_sub(B, A), ft_vec3_sub(C, A)));
 	if (f < 0.999)
 		return FALSE;
+	/*float t = ((B.x - A.x) * (C.y - A.y)) - ((B.y - A.y) * (C.x - A.x));
+	if (EPSILON > t)
+		return (FALSE);*/
 	for (p = 0; p < n; p++) {
 		if ((p == u) || (p == v) || (p == w))
 			continue;
