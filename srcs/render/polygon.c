@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 22:39:14 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/13 19:33:38 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/05/14 13:57:43 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,13 +153,13 @@ void	render_polygon(t_doom *doom, t_polygon *poly)
 		//	poly->type == P_FLOOR ? 0x00FF00 : 0xFF0000
 		};
 
-		if (poly->type == P_FLOOR)
+	/*	if (poly->type == P_FLOOR)
 			fill_triangle(doom, 0xFFFFFF, p, p2, p3);
 		else
-			fill_triangle(doom, 0xFF00FF, p, p2, p3);
-		draw_line(&doom->screen, (t_pixel){p.x, p.y, 0xFF0000}, (t_pixel){p2.x, p2.y, 0xFF0000});
-		draw_line(&doom->screen, (t_pixel){p2.x, p2.y, 0xFF0000}, (t_pixel){p3.x, p3.y, 0xFF0000});
-		draw_line(&doom->screen, (t_pixel){p3.x, p3.y, 0xFF0000}, (t_pixel){p.x, p.y, 0xFF0000});
+			fill_triangle(doom, 0xFFFFFF / (i + 1), p, p2, p3);*/
+		draw_line(&doom->screen, (t_pixel){p.x, p.y, 0x00FF00}, (t_pixel){p2.x, p2.y, 0xFF0000});
+		draw_line(&doom->screen, (t_pixel){p2.x, p2.y,0x00FF00}, (t_pixel){p3.x, p3.y, 0xFF0000});
+		draw_line(&doom->screen, (t_pixel){p3.x, p3.y, 0x00FF00}, (t_pixel){p.x, p.y, 0xFF0000});
 		i += 3;
 	}
 }

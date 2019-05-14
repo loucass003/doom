@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:01:13 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/02 01:04:11 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/05/14 16:23:11 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,8 @@ static void		update_fps(t_doom *doom)
 
 void			game_loop(t_doom *doom)
 {
-	doom->player.pos = (t_vec3){ 0, 0, 0 };
+	doom->player.pos = (t_vec3){ 4, 0, 3 };
+	doom->player.rotation = (75) * (M_PI / 180);
 	doom->player.projection = projection_matrix(doom);
 	update_maxtrix(doom);
 	register_guis(doom);

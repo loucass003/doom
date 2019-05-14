@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 16:30:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/11 22:32:31 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/05/14 16:14:28 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ double distanceSq(double var0, double var2, double var4, double var6) {
 	var2 -= var6;
 	return var0 * var0 + var2 * var2;
 }
+
 
 t_line		get_poly_line(t_polygon *poly)
 {

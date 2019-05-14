@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 16:31:56 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/13 17:29:21 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/05/14 13:24:06 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@ t_polygon	create_wall_polygon(t_line	line, float floor, float ceil)
 
 	poly = create_polygon(create_3dvertices_array(4), P_WALL);
 	append_3dvertices_array(&poly.vertices,
-		(t_vec3){ line.a.x, ceil, line.a.y });
-	append_3dvertices_array(&poly.vertices,
-		(t_vec3){ line.b.x, ceil, line.b.y });
+		(t_vec3){ line.a.x, floor, line.a.y });
 	append_3dvertices_array(&poly.vertices,
 		(t_vec3){ line.b.x, floor, line.b.y });
 	append_3dvertices_array(&poly.vertices,
-		(t_vec3){ line.a.x, floor, line.a.y });
+		(t_vec3){ line.b.x, ceil, line.b.y });
+	append_3dvertices_array(&poly.vertices,
+		(t_vec3){ line.a.x, ceil, line.a.y });
 	return (poly);
 }
 

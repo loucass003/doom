@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 16:29:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/11 22:29:52 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/05/14 15:36:22 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ t_bool		get_partition(t_polygons *polygons, t_line *partition)
 			partition->a = line.a;
 			partition->b = line.b;
 			partition->normal = line.normal;
+			printf("CREATE PARITION (%f %f - %f %f)\n", partition->a.x, partition->a.y, partition->b.x, partition->b.y);
 			return (TRUE);
 		}
 	}
@@ -38,6 +39,7 @@ t_side		get_side_thin(t_line partition, t_vec2 v)
 	const t_vec2	n = partition.normal;
 	const float		side = (v.x - partition.a.x) * n.x
 		+ (v.y - partition.a.y) * n.y;
+	printf("%f %f - %f %f %f\n", n.x, n.y, partition.a.x, partition.a.y, side);
 	if (side < 0)
 		return (S_BACK);
 	else if (side > 0)
