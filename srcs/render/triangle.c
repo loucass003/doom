@@ -1,40 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_bsp.c                                         :+:      :+:    :+:   */
+/*   triangle.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/01 16:42:14 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/16 21:37:16 by llelievr         ###   ########.fr       */
+/*   Created: 2019/05/17 01:17:41 by llelievr          #+#    #+#             */
+/*   Updated: 2019/05/17 01:25:13 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom.h"
 
-void	free_polygons(t_polygons *polygons)
+void	draw_triangle(t_doom *doom, t_triangle3d triangle)
 {
-	t_polygon	*poly;
-
-	int i = -1;
-	while (++i < polygons->len)
-	{
-		poly = &polygons->polygons[i];
-		if (poly->vertices)
-			ft_memdel(&poly->vertices);
-	}
-}
-
-void	free_node(t_node *n)
-{
-	if (n->front)
-		free_node(n->front);
-	if (n->back)
-		free_node(n->back);
-	if (n->polygons)
-	{
-		free_polygons(n->polygons);
-		ft_memdel(&n->polygons);
-	}
-	ft_memdel(&n);
+	draw_line(&doom->screen, (t_pixel){triangle.a.x, triangle.a.y, 0xFFFFFF}, (t_pixel){triangle.b.x, triangle.b.y});
+	draw_line(&doom->screen, (t_pixel){triangle.b.x, triangle.b.y, 0xFFFFFF}, (t_pixel){triangle.c.x, triangle.c.y});
+	draw_line(&doom->screen, (t_pixel){triangle.c.x, triangle.c.y, 0xFFFFFF}, (t_pixel){triangle.a.x, triangle.a.y});
 }

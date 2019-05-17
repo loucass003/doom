@@ -6,32 +6,13 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/12 15:51:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/15 00:05:28 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/05/16 21:25:16 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom.h"
 
 #define EPSILON (1e-6)
-
-static void		swap_vertices_axis(t_polygon *poly)
-{
-	int		i;
-	float	tmp;
-	t_vec3 	*v;
-
-	if (poly->type == P_FLOOR)
-	{
-		i = -1;
-		while (++i < poly->vertices->len)
-		{
-			v = &poly->vertices->vertices[i];
-			tmp = v->y;
-			v->y = v->z;
-			v->z = tmp;
-		}
-	}
-}
 
 static float	area(t_3dvertices *vertices)
 {
@@ -102,7 +83,6 @@ t_bool	triangulate_polygon(t_polygon *polygon)
 	if (n < 3 || !(polygon->indices = create_ints_array(polygon->vertices->len * 3)))
 		return FALSE;
 	int V[n];
-	//swap_vertices_axis(polygon);
 	if (area(polygon->vertices) > 0) {
 		for (int v = 0; v < n; v++)
 			V[v] = v;
@@ -116,10 +96,7 @@ t_bool	triangulate_polygon(t_polygon *polygon)
 	int count = 2 * nv;
 	for (int v = nv - 1; nv > 2; ) {
 		if ((count--) <= 0)
-		{
-			//swap_vertices_axis(polygon);
 			return TRUE;
-		}
 
 		int u = v;
 		if (nv <= u)
@@ -145,19 +122,5 @@ t_bool	triangulate_polygon(t_polygon *polygon)
 			count = 2 * nv;
 		}
 	}
-	//swap_vertices_axis(polygon);
 	return (TRUE);
-}
-
-void	triangulate_bsp(t_node *n)
-{
-	int	i;
-
-	if (!n)
-		return ;
-	i = -1;
-	while (++i < n->polygons->len)
-		triangulate_polygon(&n->polygons->polygons[i]);
-	triangulate_bsp(n->front);
-	triangulate_bsp(n->back);
 }

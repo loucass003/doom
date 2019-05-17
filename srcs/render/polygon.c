@@ -6,31 +6,14 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 22:39:14 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/15 00:53:11 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/05/17 02:38:26 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom.h"
-#define NEAR (1e-1)
+//#define NEAR (1e-1)
 
-t_bool	prepare_polygon(t_polygon *poly)
-{
-	if (!poly->proj_vertices 
-		&& !(poly->proj_vertices = create_2dvertices_array(
-				poly->vertices->len * 2)))
-		return (FALSE); //TODO: ERROR
-	if (!poly->proj_vertices_buf 
-		&& !(poly->proj_vertices_buf = create_2dvertices_array(
-				poly->proj_vertices->capacity)))
-		return (FALSE);
-	if (poly->proj_vertices)
-		poly->proj_vertices->len = 0;
-	if (poly->proj_vertices_buf)
-		poly->proj_vertices_buf->len = 0;
-	return (TRUE);
-}
-
-int	max3(int a, int b, int c)
+/*int	max3(int a, int b, int c)
 {
 	return (fmax(fmax(a, b), c));
 }
@@ -84,64 +67,31 @@ void	fill_triangle(t_doom *doom, int color, t_pixel v1, t_pixel v2, t_pixel v3)
 			}
 		}
 	}
+}*/
+
+void	assemble_triangles(t_doom *doom, t_polygon *poly)
+{
+	const size_t	len = floorf(poly->indices->len / 3.);
+	size_t			i;
+
+	i = -1;
+	while (++i < len)
+	{
+		if (ft_vec3_dot(poly->normals[i], ft_vec3_sub(doom->player.pos, poly->vertices->vertices[poly->indices->values[i * 3]])) <= 0)
+			continue;
+		process_triangle(doom, poly, (t_triangle3d){
+			poly->pp_vertices[poly->indices->values[i * 3]],
+			poly->pp_vertices[poly->indices->values[i * 3 + 1]],
+			poly->pp_vertices[poly->indices->values[i * 3 + 2]]});
+	}
 }
 
 void	render_polygon(t_doom *doom, t_polygon *poly)
 {
-		//fill_triangle(doom, 0xFF, (t_vec2){ 10, 100 }, (t_vec2){ 100, 50 }, (t_vec2){ 5, 200 });
+	int	i;
 
-	t_vec2	last_b = (t_vec2){ NAN, NAN };
-
-	if (poly->vertices->len < 3)
-		return;
-	if (!prepare_polygon(poly))
-		return ; // TODO: ERROR
-	float f = ft_vec3_dot(get_polygon_normal(poly), ft_vec3_sub(doom->player.pos, poly->vertices->vertices[0]));
-	if (f <= 0)
-		return;
-	int i = 0;
-	//printf("%d\n", poly->indices->len);
-	while (i < poly->indices->len)
-	{
-		//int next = (i + 1) % poly->indices->len;
-		//printf("%d\n", poly->indices->values[i]);
-		t_vec3 a = ft_mat4_mulv(doom->player.matrix, poly->vertices->vertices[poly->indices->values[i]]);
-		t_vec3 b = ft_mat4_mulv(doom->player.matrix, poly->vertices->vertices[poly->indices->values[i + 1]]);
-		t_vec3 c = ft_mat4_mulv(doom->player.matrix, poly->vertices->vertices[poly->indices->values[i + 2]]);
-
-		if (a.z < NEAR || b.z < NEAR || c.z < NEAR)
-		{
-			i += 3;
-			continue;
-		}
-
-		a = ft_mat4_mulv(doom->player.projection, a);
-		b = ft_mat4_mulv(doom->player.projection, b);
-		c = ft_mat4_mulv(doom->player.projection, c);
-
-		t_pixel p = (t_pixel){
-			((a.x + 0.5) / a.z) * S_WIDTH,
-			S_HEIGHT_2 + (a.y / a.z) * S_HEIGHT + (poly->type == P_FLOOR),
-		//	poly->type == P_FLOOR ? 0x00FF00 : 0xFF0000
-		};
-		t_pixel p2 = (t_pixel){
-			((b.x + 0.5) / b.z) * S_WIDTH,
-			S_HEIGHT_2 + (b.y / b.z) * S_HEIGHT + (poly->type == P_FLOOR)
-		//	poly->type == P_FLOOR ? 0x00FF00 : 0xFF0000
-		};
-		t_pixel p3 = (t_pixel){
-			((c.x + 0.5) / c.z) * S_WIDTH,
-			S_HEIGHT_2 + (c.y / c.z) * S_HEIGHT + (poly->type == P_FLOOR)
-		//	poly->type == P_FLOOR ? 0x00FF00 : 0xFF0000
-		};
-
-		if (poly->type == P_FLOOR)
-			fill_triangle(doom, 0xFF00FF, p, p2, p3);
-		else
-			fill_triangle(doom, 0xFFFFFF / (poly->vertices->vertices[0].x + poly->vertices->vertices[1].x + 1), p, p2, p3);
-	/*	draw_line(&doom->screen, (t_pixel){p.x, p.y, 0x00FF00}, (t_pixel){p2.x, p2.y, 0xFF0000});
-		draw_line(&doom->screen, (t_pixel){p2.x, p2.y,0x00FF00}, (t_pixel){p3.x, p3.y, 0xFF0000});
-		draw_line(&doom->screen, (t_pixel){p3.x, p3.y, 0x00FF00}, (t_pixel){p.x, p.y, 0xFF0000});*/
-		i += 3;
-	}
+	i = -1;
+	while (++i < poly->vertices->len)
+		poly->pp_vertices[i] = ft_mat4_mulv(doom->player.matrix, poly->vertices->vertices[i]);
+	assemble_triangles(doom, poly);
 }

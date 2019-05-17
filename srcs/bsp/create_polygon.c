@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 16:31:56 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/14 13:24:06 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/05/16 21:37:04 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ t_polygon	create_wall_polygon(t_line	line, float floor, float ceil)
 t_polygon	create_polygon(t_3dvertices *vertices, t_polygon_type type)
 {
 	t_polygon	poly;
+
+	ft_bzero(&poly, sizeof(t_polygon));
 	poly.type = type;
 	poly.vertices = vertices;
-	poly.proj_vertices = NULL;
-	poly.proj_vertices_buf = NULL;
 	return (poly);
 }

@@ -1,40 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_bsp.c                                         :+:      :+:    :+:   */
+/*   triangle.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/01 16:42:14 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/16 21:37:16 by llelievr         ###   ########.fr       */
+/*   Created: 2019/05/17 01:06:40 by llelievr          #+#    #+#             */
+/*   Updated: 2019/05/17 02:43:04 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom.h"
 
-void	free_polygons(t_polygons *polygons)
+static t_vec3	transform(t_vec3 v)
 {
-	t_polygon	*poly;
+	const float	z_inv = -1. / v.z;
 
-	int i = -1;
-	while (++i < polygons->len)
-	{
-		poly = &polygons->polygons[i];
-		if (poly->vertices)
-			ft_memdel(&poly->vertices);
-	}
+	v.x = (v.x * z_inv + 1.) * S_WIDTH_2;
+	v.y = (v.y * z_inv + 1.) * S_HEIGHT_2;
+	return v;
 }
 
-void	free_node(t_node *n)
+void	process_triangle(t_doom *doom, t_polygon *poly, t_triangle3d triangle)
 {
-	if (n->front)
-		free_node(n->front);
-	if (n->back)
-		free_node(n->back);
-	if (n->polygons)
-	{
-		free_polygons(n->polygons);
-		ft_memdel(&n->polygons);
-	}
-	ft_memdel(&n);
+	triangle.a = transform(triangle.a);
+	triangle.b = transform(triangle.b);
+	triangle.c = transform(triangle.c);
+
+	draw_triangle(doom, triangle);
 }

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/14 22:18:47 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/05/17 01:25:50 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,13 @@ typedef struct		s_stats
 	double			avg_ms;
 	double			delta;
 }					t_stats;
+
+typedef struct		s_triangle3d
+{
+	t_vec3			a;
+	t_vec3			b;
+	t_vec3			c;
+}					t_triangle3d;
 
 typedef struct		s_fonts
 {
@@ -182,5 +189,7 @@ void				triangulate_bsp(t_node *n);
 t_bool				inside_triangle(t_vec3 a, t_vec3 b, t_vec3 c, t_vec3 p);
 
 void				clip_to_screen(t_polygon *poly, SDL_Rect area);
+void				draw_triangle(t_doom *doom, t_triangle3d triangle);
+void				process_triangle(t_doom *doom, t_polygon *poly, t_triangle3d triangle);
 
 #endif

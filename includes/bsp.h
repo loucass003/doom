@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 16:26:42 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/14 22:49:00 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/05/17 01:04:09 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ typedef struct		s_polygon
 	t_polygon_type	type;
 	t_3dvertices	*vertices;
 	t_ints			*indices;
-	t_2dvertices	*proj_vertices;
-	t_2dvertices	*proj_vertices_buf;
+	t_vec3			*pp_vertices;
+	t_vec3			*normals;
 }					t_polygon;
 
 typedef struct		s_polygons
@@ -72,7 +72,6 @@ typedef struct		s_line
 	t_vec2	b;
 	t_vec2	normal;
 }					t_line;
-
 
 typedef enum		s_node_type
 {
@@ -110,5 +109,8 @@ void		print_node(t_node *n);
 t_node		*create_node(t_polygons *polygons);
 
 void		build_node(t_node *node);
+t_bool		post_process_bsp(t_node *n);
+
+t_bool		triangulate_polygon(t_polygon *polygon);
 
 #endif
