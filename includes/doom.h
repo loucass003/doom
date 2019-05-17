@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/13 13:11:47 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/05/17 15:32:32 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,5 +165,9 @@ t_bool	check_multi_point(t_doom *doom, t_poly *poly, int x, int y);
 void	set_alert_message(t_doom *doom);
 void	write_alert_message(t_doom *doom);
 t_bool	check_secant_line(t_doom *doom, t_poly *poly, float x1, float x2, float y1, float y2);
+
+void	write_text_button(t_doom *doom);
+void	show_new_components(t_doom *doom);
+void    save_line_to_erase(t_doom *doom, SDL_Event *event);
 
 #endif

@@ -16,3 +16,6 @@ SRC+=sdl.c
 SRC+=editor_events.c
 SRC+=editor_tools_poly.c
 SRC+=editor_alert.c
+SRC+=editor_button.c
+SRC+=editor_new_component.c
+SRC+=editor_erase_line.c
