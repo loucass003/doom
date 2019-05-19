@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 22:39:14 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/17 02:38:26 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/05/19 18:41:32 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	assemble_triangles(t_doom *doom, t_polygon *poly)
 	{
 		if (ft_vec3_dot(poly->normals[i], ft_vec3_sub(doom->player.pos, poly->vertices->vertices[poly->indices->values[i * 3]])) <= 0)
 			continue;
-		process_triangle(doom, poly, (t_triangle3d){
+		process_triangle(doom, poly, (t_triangle4d){
 			poly->pp_vertices[poly->indices->values[i * 3]],
 			poly->pp_vertices[poly->indices->values[i * 3 + 1]],
 			poly->pp_vertices[poly->indices->values[i * 3 + 2]]});
@@ -92,6 +92,6 @@ void	render_polygon(t_doom *doom, t_polygon *poly)
 
 	i = -1;
 	while (++i < poly->vertices->len)
-		poly->pp_vertices[i] = ft_mat4_mulv(doom->player.matrix, poly->vertices->vertices[i]);
+		poly->pp_vertices[i] = mat4_mulv4(doom->player.matrix, vec3_to_4(poly->vertices->vertices[i]));
 	assemble_triangles(doom, poly);
 }

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/16 21:24:43 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/17 02:39:44 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/05/19 18:46:26 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static t_bool	compute_normals(t_polygon *poly)
 
 	if (!poly->normals && !(poly->normals = (t_vec3 *)malloc(size)))
 		return (FALSE);
-	if (!poly->pp_vertices && !(poly->pp_vertices = (t_vec3 *)malloc(poly->vertices->len * sizeof(t_vec2))))
+	if (!poly->pp_vertices && !(poly->pp_vertices = (t_vec4 *)malloc(poly->vertices->len * sizeof(t_vec4))))
 		return (FALSE);
 	i = -1;
 	while (++i < normals_count)

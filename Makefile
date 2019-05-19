@@ -6,14 +6,14 @@
 #    By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/07 14:49:27 by llelievr          #+#    #+#              #
-#    Updated: 2019/05/17 02:11:18 by llelievr         ###   ########.fr        #
+#    Updated: 2019/05/19 18:58:49 by llelievr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME=doom
-CFLAGS=-Wall -Wextra -g3
+CFLAGS=-Wall -Wextra -flto -O3
 LIBS=-lm -lft
-CC=clang
+CC=gcc
 
 -include src.mk
 

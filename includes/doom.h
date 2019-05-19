@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/17 01:25:50 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/05/19 23:02:00 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@
 
 typedef struct s_doom t_doom;
 
+
+
 typedef struct		s_stats
 {
 	int				fps;
@@ -33,12 +35,12 @@ typedef struct		s_stats
 	double			delta;
 }					t_stats;
 
-typedef struct		s_triangle3d
+typedef struct		s_triangle4d
 {
-	t_vec3			a;
-	t_vec3			b;
-	t_vec3			c;
-}					t_triangle3d;
+	t_vec4			a;
+	t_vec4			b;
+	t_vec4			c;
+}					t_triangle4d;
 
 typedef struct		s_fonts
 {
@@ -123,6 +125,15 @@ typedef struct		s_doom
 	t_editor		editor;
 }					t_doom;
 
+t_vec4				vec3_to_4(t_vec3 v);
+t_vec3				vec4_to_3(t_vec4 v);
+t_vec4				mat4_mulv4(t_mat4 m, t_vec4 p);
+t_vec4				ft_vec4_mul_s(t_vec4 a, float v);
+t_vec4				ft_vec4_div_s(t_vec4 a, float v);
+t_vec4				ft_vec4_sub(t_vec4 a, t_vec4 b);
+t_vec4				ft_vec4_add(t_vec4 a, t_vec4 b);
+t_vec4				ft_vec4_interpolate(t_vec4 a, t_vec4 b, float alpha);
+
 t_bool				init_sdl(t_doom *doom);
 t_bool				sdl_quit(t_doom *doom);
 void				hook_events(t_doom *doom);
@@ -171,6 +182,13 @@ t_3dvertices		*splice_3dvertices_array(t_3dvertices *arr,
 t_3dvertices		*copy_3dvertices_array(t_3dvertices *src,
 						t_3dvertices **dst);
 
+t_4dvertices		*create_4dvertices_array(int capacity);
+t_4dvertices		*append_4dvertices_array(t_4dvertices **arr, t_vec4 v);
+t_4dvertices		*splice_4dvertices_array(t_4dvertices *arr,
+						int index, int n);
+t_4dvertices		*copy_4dvertices_array(t_4dvertices *src,
+						t_4dvertices **dst);
+
 t_polygons			*create_polygons_array(int capacity);
 t_polygons			*append_polygons_array(t_polygons **arr, t_polygon v);
 t_polygons			*splice_polygons_array(t_polygons *arr,
@@ -189,7 +207,7 @@ void				triangulate_bsp(t_node *n);
 t_bool				inside_triangle(t_vec3 a, t_vec3 b, t_vec3 c, t_vec3 p);
 
 void				clip_to_screen(t_polygon *poly, SDL_Rect area);
-void				draw_triangle(t_doom *doom, t_triangle3d triangle);
-void				process_triangle(t_doom *doom, t_polygon *poly, t_triangle3d triangle);
+void				draw_triangle(t_doom *doom, t_triangle4d triangle);
+void				process_triangle(t_doom *doom, t_polygon *poly, t_triangle4d triangle);
 
 #endif

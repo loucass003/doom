@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 16:26:42 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/17 01:04:09 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/05/19 18:39:02 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,27 @@
 
 # include "doom.h"
 
+typedef struct		s_vec4
+{
+	float			x;
+	float			y;
+	float			z;
+	float			w;
+}					t_vec4;
+
 typedef struct		s_ints
 {
 	int				len;
 	int				capacity;
 	int				values[];
 }					t_ints;
+
+typedef struct		s_4dvertices
+{
+	int				len;
+	int				capacity;
+	t_vec4			vertices[];
+}					t_4dvertices;
 
 typedef struct		s_3dvertices
 {
@@ -47,7 +62,7 @@ typedef struct		s_polygon
 	t_polygon_type	type;
 	t_3dvertices	*vertices;
 	t_ints			*indices;
-	t_vec3			*pp_vertices;
+	t_vec4			*pp_vertices;
 	t_vec3			*normals;
 }					t_polygon;
 

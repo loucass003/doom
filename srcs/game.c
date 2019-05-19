@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:01:13 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/14 21:49:07 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/05/19 14:42:10 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static void		update_fps(t_doom *doom)
 	t2 = t1;
 	t1 = SDL_GetTicks();
 	doom->stats.delta = (t1 - t2) / 1000.;
-	if (t3 + 100 < t1)
+	if (t3 + 1000 < t1)
 	{
 		t3 = t1;
 		doom->stats.fps = 1 / doom->stats.delta;

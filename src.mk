@@ -5,6 +5,7 @@ SRC+=arrays/2dvertices.c
 SRC+=arrays/3dvertices.c
 SRC+=sdl.c
 SRC+=image.c
+SRC+=math/vec4.c
 SRC+=math/plane.c
 SRC+=math/triangle.c
 SRC+=game.c
