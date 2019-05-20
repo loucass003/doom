@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 13:18:39 by lloncham          #+#    #+#             */
-/*   Updated: 2019/05/17 16:37:01 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/05/20 16:21:28 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,37 +28,67 @@ void	save_line_to_erase(t_doom *doom, SDL_Event *event)
 	doom->editor.sup++;
 }
 
+void	erase_one_line(t_poly *tmp1, int *line)
+{
+	t_line_list *prev;
+	t_line_list *tmp;
+
+	tmp = tmp1->list;
+	if (tmp->line.a.x == line[0] && tmp->line.a.y == line[1]
+	&& tmp->line.b.x == line[2] && tmp->line.b.y == line[3] && tmp)
+	{
+		tmp1->list = tmp->next;
+		free(tmp);
+		tmp = NULL;
+		return ;
+	}
+	prev = tmp;
+	while (tmp)
+	{
+		if (tmp->line.a.x == line[0] && tmp->line.a.y == line[1]
+		&& tmp->line.b.x == line[2] && tmp->line.b.y == line[3])
+		{
+			prev->next = tmp->next;
+			free(tmp);
+			tmp = NULL;
+			return ;
+		}
+		prev = tmp;
+		tmp = tmp->next;
+	}
+}
+
 void	erase_line(t_doom *doom, t_poly *poly, int *line)
 {
 	t_poly		*tmp1;
-	t_line_list *tmp;
-	t_line_list *prev;
+	t_poly		*prev1;
 
 	tmp1 = poly;
+	prev1 = tmp1;
 	doom->editor.sup = 0;
 	while (tmp1)
 	{
-		tmp = tmp1->list;
-		prev = tmp;
-		if (tmp->line.a.x == line[0] && tmp->line.a.y == line[1]
-		&& tmp->line.b.x == line[2] && tmp->line.b.y == line[3] && tmp)
+		erase_one_line(tmp1, line);
+		if (tmp1->list == NULL)
 		{
-			prev = tmp->next;
-			free(tmp);
-			return ;
-		}
-		while (tmp)
-		{
-			if (tmp->line.a.x == line[0] && tmp->line.a.y == line[1]
-			&& tmp->line.b.x == line[2] && tmp->line.b.y == line[3])
+			if (tmp1 == poly)
 			{
-				prev->next = tmp->next;
-				free(tmp);
+				// printf("%p\n", tmp1->next);
+				poly = tmp1->next;
+				free(tmp1);
+				// tmp1 = NULL;
 				return ;
 			}
-			prev = tmp;
-			tmp = tmp->next;
+			else
+			{
+				prev1->next = tmp1->next;
+				free(tmp1);
+				// tmp1 = NULL;
+				return ;
+			}
 		}
+		prev1 = tmp1;
 		tmp1 = tmp1->next;
+		print_lst(poly);
 	}
 }

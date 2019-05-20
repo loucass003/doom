@@ -3,15 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+         #
+#    By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/07 14:49:27 by llelievr          #+#    #+#              #
-#    Updated: 2019/04/26 11:28:17 by llelievr         ###   ########.fr        #
+#    Updated: 2019/05/20 15:43:26 by lloncham         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME=doom
 CFLAGS=-Wall -Wextra -ffast-math -O3 -flto
+CFLAGS += -g -fsanitize=address
 LIBS=-lm -lft
 CC=clang
 

@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/26 17:33:38 by lloncham          #+#    #+#             */
-/*   Updated: 2019/05/17 16:50:02 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/05/20 16:00:21 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,14 @@ void	print_lst(t_poly *poly)
 {
 	t_poly		*tmp;
 	t_line_list *cmp;
+	int x;
 
+	x = 1;
 	tmp = poly;
 	while (tmp != NULL)
 	{
+		printf("poly %d\n", x);
+		x++;
 		cmp = tmp->list;
 		while (cmp != NULL)
 		{

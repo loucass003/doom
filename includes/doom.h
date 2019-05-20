@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/20 14:27:55 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/05/20 16:17:56 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,23 +197,22 @@ void				put_menu(t_component *self, t_doom *doom, t_menu *menu);
 void				menu_deroulant(t_component *self, int i, t_files *f, t_doom *doom);
 
 //////////EDITOR//////////////
-void	editor_mouse_motion(t_doom *doom, SDL_Event *event);
-void	editor_mousebuttonup(t_doom *doom, SDL_Event *event);
-void    print_poly(t_doom *doom, t_poly *poly);
+void				editor_mouse_motion(t_doom *doom, SDL_Event *event);
+void				editor_mousebuttonup(t_doom *doom, SDL_Event *event);
+void    			print_poly(t_doom *doom, t_poly *poly);
+void    			erase_line(t_doom *doom, t_poly *poly, int *line);
+void				check_poly_close(t_doom *doom, t_poly *poly);
+void				set_alert_message(t_doom *doom);
+void				write_alert_message(t_doom *doom);
+void				write_text_button(t_doom *doom);
+void				show_new_components(t_doom *doom);
+void    			save_line_to_erase(t_doom *doom, SDL_Event *event);
+t_bool				check_same_point(t_doom *doom);
+t_bool				check_multi_point(t_doom *doom, t_poly *poly, int x, int y);
+t_bool				check_multi_line(t_doom *doom, t_poly *poly, int x1, int y1, int x2, int y2);
+t_bool				check_secant_line(t_doom *doom, t_poly *poly, float x1, float x2, float y1, float y2);
 
-void    erase_line(t_doom *doom, t_poly *poly, int *line);
+void	print_lst(t_poly *poly);
 
-void	check_poly_close(t_doom *doom, t_poly *poly);
-t_bool	check_multi_line(t_doom *doom, t_poly *poly, int x1, int y1, int x2, int y2);
-t_bool	check_same_point(t_doom *doom);
-t_bool	check_multi_point(t_doom *doom, t_poly *poly, int x, int y);
-
-void	set_alert_message(t_doom *doom);
-void	write_alert_message(t_doom *doom);
-t_bool	check_secant_line(t_doom *doom, t_poly *poly, float x1, float x2, float y1, float y2);
-
-void	write_text_button(t_doom *doom);
-void	show_new_components(t_doom *doom);
-void    save_line_to_erase(t_doom *doom, SDL_Event *event);
 
 #endif
