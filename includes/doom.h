@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/17 15:32:32 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/05/20 14:27:55 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <SDL_ttf.h>
 # include <math.h>
 # include <stdlib.h>
+# include <dirent.h>
 
 # include "libft.h"
 # include "constants.h"
@@ -55,8 +56,15 @@ typedef struct		s_player
 typedef enum		e_component_type
 {
 	C_BUTTON,
+	C_MENU,
 	C_TEXTFIELD
 }					t_component_type;
+
+typedef struct      s_files
+{
+    struct s_files   	*next;
+    char                s[];
+}                   t_files;
 
 typedef struct		s_component
 {
@@ -79,6 +87,34 @@ typedef struct		s_button
 	int				color_default;
 	int				color_hover;
 }					t_button;
+
+typedef struct		s_menu
+{
+	t_component		super;
+	t_bool			open;
+	t_files			*name_file;
+	char			*select_file;
+	int				select_pos;
+	int				posx;
+	int				posy;
+	int				files_count;
+	SDL_Surface		*texture;
+	int				color;
+	int click;
+}					t_menu;
+
+typedef struct		s_icone
+{
+	t_component		super;
+	t_bool			open;
+	t_files			*name_file;
+	char			*select_file;
+	int				select_pos;
+	int				posx;
+	int				posy;
+	int				files_count;
+	SDL_Surface		*texture;
+}					t_icone;
 
 typedef struct		s_gui
 {
@@ -121,6 +157,7 @@ typedef struct		s_doom
 	t_gui			guis[GUI_COUNT];
 	int				current_gui;
 	t_editor		editor;
+	int				menu;
 }					t_doom;
 
 t_bool				init_sdl(t_doom *doom);
@@ -149,6 +186,15 @@ void				render_components(t_doom *doom, t_gui *gui);
 t_bool				in_bounds(SDL_Rect bounds, t_vec2 pos);
 t_bool				alloc_components(t_gui *gui, int count);
 t_component	 		*create_button(SDL_Rect bounds);
+
+void    			find_files(t_files **list, int *files_count, char *s, char *s2);
+t_component			*create_menu(SDL_Rect bounds, char *s, char *s2);
+t_component	 		*create_icone(SDL_Rect bounds);
+t_files				*copy_name(struct dirent *file, t_files *start, char *s2);
+DIR					*open_dir(char *s);
+void				close_dir(DIR *rep);
+void				put_menu(t_component *self, t_doom *doom, t_menu *menu);
+void				menu_deroulant(t_component *self, int i, t_files *f, t_doom *doom);
 
 //////////EDITOR//////////////
 void	editor_mouse_motion(t_doom *doom, SDL_Event *event);

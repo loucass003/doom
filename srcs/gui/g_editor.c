@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 15:50:09 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/17 16:37:27 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/05/20 14:25:56 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void			g_editor_on_enter(t_gui *self, t_doom *doom)
 	doom->editor.sup = 0;
 	doom->editor.set_start_pos[0] = 0;
 	doom->editor.set_start_pos[1] = 0;
-	if (!alloc_components(self, 3))
+	if (!alloc_components(self, 5))
 		return ;
 	self->components[0] = create_button((SDL_Rect){5, 20, 200, 30 });
 	self->components[0]->perform_action = action_performed;
@@ -50,6 +50,12 @@ void			g_editor_on_enter(t_gui *self, t_doom *doom)
 	self->components[2] = create_button((SDL_Rect)
 		{S_WIDTH - 170, 100, 150, 40});
 	self->components[2]->perform_action = action_performed;
+		self->components[3] = create_menu((SDL_Rect)
+	{MT_X, MT_Y, MT_W, MT_H }, "textures", "textures/");
+	self->components[3]->perform_action = action_performed;
+	self->components[4] = create_menu((SDL_Rect)
+	{W_WIDTH - 300, 30, 75, 75 }, "icones", "icones/");
+	self->components[4]->perform_action = action_performed;
 }
 
 void			g_editor_on_leave(t_gui *self, t_doom *doom)
