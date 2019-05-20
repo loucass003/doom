@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 21:05:41 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/19 16:21:52 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/05/20 23:32:34 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,10 @@
 # define S_SIZE (S_WIDTH * S_HEIGHT)
 
 # define FONT_HELVETICA "assets/fonts/helvetica.ttf"
+
+# define FOV (60 * (M_PI / 180))
+# define NEAR (0.1)
+# define FAR (100)
 
 # define GUI_COUNT (3)
 # define GUI_INGAME (0)

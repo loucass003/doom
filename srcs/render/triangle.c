@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 01:17:41 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/20 17:36:36 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/05/21 01:29:49 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int		ft_max(int a, int b)
 	return (a > b ? a : b);
 }
 
-void	draw_flat_triangle(t_doom *doom, t_triangle4d tri, t_vertex d0, t_vertex d1, t_vertex edge1)
+void	draw_flat_triangle(t_doom *doom, t_triangle3d tri, t_vertex d0, t_vertex d1, t_vertex edge1)
 {
 	const int	y_start = fmax(ceilf(tri.a.pos.y - 0.5), 0);
 	const int	y_end = fmin(ceilf(tri.c.pos.y - 0.5), doom->screen.height - 1);
@@ -58,7 +58,7 @@ void	draw_flat_triangle(t_doom *doom, t_triangle4d tri, t_vertex d0, t_vertex d1
 	}
 }
 
-void	draw_flat_top_triangle(t_doom *doom, t_triangle4d tri)
+void	draw_flat_top_triangle(t_doom *doom, t_triangle3d tri)
 {
 	const float		delta_y = tri.c.pos.y - tri.a.pos.y;
 	const t_vertex	d0 = vertex_div_s(vertex_sub(tri.c, tri.a), delta_y);
@@ -67,7 +67,7 @@ void	draw_flat_top_triangle(t_doom *doom, t_triangle4d tri)
 	draw_flat_triangle(doom, tri, d0, d1, tri.b);
 }
 
-void	draw_flat_bottom_triangle(t_doom *doom, t_triangle4d tri)
+void	draw_flat_bottom_triangle(t_doom *doom, t_triangle3d tri)
 {
 	const float		delta_y = tri.c.pos.y - tri.a.pos.y;
 	const t_vertex	d0 = vertex_div_s(vertex_sub(tri.b, tri.a), delta_y);
@@ -77,7 +77,7 @@ void	draw_flat_bottom_triangle(t_doom *doom, t_triangle4d tri)
 }
 
 
-void	draw_triangle(t_doom *doom, t_triangle4d triangle)
+void	draw_triangle(t_doom *doom, t_triangle3d triangle)
 {
 	t_vertex	inter;
 
@@ -104,13 +104,13 @@ void	draw_triangle(t_doom *doom, t_triangle4d triangle)
 		inter = vertex_interpolate(triangle.a, triangle.c, (triangle.b.pos.y - triangle.a.pos.y) / (triangle.c.pos.y - triangle.a.pos.y));
 		if (triangle.b.pos.x < inter.pos.x)
 		{
-			draw_flat_bottom_triangle(doom, (t_triangle4d){triangle.a, triangle.b, inter});
-			draw_flat_top_triangle(doom, (t_triangle4d){triangle.b, inter, triangle.c});
+			draw_flat_bottom_triangle(doom, (t_triangle3d){triangle.a, triangle.b, inter});
+			draw_flat_top_triangle(doom, (t_triangle3d){triangle.b, inter, triangle.c});
 		}
 		else
 		{
-			draw_flat_bottom_triangle(doom, (t_triangle4d){triangle.a, inter, triangle.b});
-			draw_flat_top_triangle(doom, (t_triangle4d){inter, triangle.b, triangle.c});
+			draw_flat_bottom_triangle(doom, (t_triangle3d){triangle.a, inter, triangle.b});
+			draw_flat_top_triangle(doom, (t_triangle3d){inter, triangle.b, triangle.c});
 		}
 	}
 	draw_line(&doom->screen, (t_pixel){triangle.a.pos.x, triangle.a.pos.y, 0xFFFFFF}, (t_pixel){triangle.b.pos.x, triangle.b.pos.y});
