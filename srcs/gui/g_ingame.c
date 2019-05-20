@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/14 23:08:57 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/05/20 14:13:45 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,19 +50,16 @@ void traverseDrawOrder(t_doom *doom, t_node *node)
 	if (node) 
 	{
 		t_vec2 p = (t_vec2){doom->player.pos.x, doom->player.pos.z};
-	//	printf("%f %f\n", p.x, p.y);
 		if (node->type == N_LEAF)
 			visitNode(doom, node);
 		else if (get_side_thin(node->partition, p) != S_BACK) 
 		{
-	//		printf("front\n");
 			traverseDrawOrder(doom, node->front);
 			visitNode(doom, node);
 			traverseDrawOrder(doom, node->back);
 		}
 		else 
 		{
-		//	printf("back\n");
 			traverseDrawOrder(doom, node->back);
 			visitNode(doom, node);
 			traverseDrawOrder(doom, node->front);

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/19 23:02:00 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/05/20 15:29:15 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,6 @@
 
 typedef struct s_doom t_doom;
 
-
-
 typedef struct		s_stats
 {
 	int				fps;
@@ -35,11 +33,17 @@ typedef struct		s_stats
 	double			delta;
 }					t_stats;
 
+typedef struct		s_vertex
+{
+	t_vec4			pos;
+	t_vec2			tex;
+}					t_vertex;
+
 typedef struct		s_triangle4d
 {
-	t_vec4			a;
-	t_vec4			b;
-	t_vec4			c;
+	t_vertex		a;
+	t_vertex		b;
+	t_vertex		c;
 }					t_triangle4d;
 
 typedef struct		s_fonts
@@ -124,6 +128,12 @@ typedef struct		s_doom
 	int				current_gui;
 	t_editor		editor;
 }					t_doom;
+
+t_vertex			vertex_add(t_vertex a, t_vertex b);
+t_vertex			vertex_sub(t_vertex a, t_vertex b);
+t_vertex			vertex_div_s(t_vertex a, float v);
+t_vertex			vertex_mul_s(t_vertex a, float v);
+t_vertex			vertex_interpolate(t_vertex a, t_vertex b, float v);
 
 t_vec4				vec3_to_4(t_vec3 v);
 t_vec3				vec4_to_3(t_vec4 v);
