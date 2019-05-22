@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 01:17:41 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/22 23:07:36 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/05/23 00:18:48 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,16 @@ static void	swap(t_vertex *a, t_vertex *b)
 int		ft_max(int a, int b)
 {
 	return (a > b ? a : b);
+}
+
+int		min3(int a, int b, int c)
+{
+	return ft_min(ft_min(a, b), c);
+}
+
+int		max3(int a, int b, int c)
+{
+	return ft_max(ft_max(a, b), c);
 }
 
 void	draw_flat_triangle(t_doom *doom, t_triangle3d tri, t_vertex d0, t_vertex d1, t_vertex edge1)
