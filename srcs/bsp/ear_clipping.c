@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/12 15:51:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/17 21:28:27 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/05/22 23:53:05 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,16 @@ t_bool	triangulate_polygon(t_polygon *polygon)
 	if (n < 3 || !(polygon->indices = create_ints_array(polygon->vertices->len * 3)))
 		return FALSE;
 	int V[n];
-	if (area(polygon->vertices) > 0) {
+/*	if (area(polygon->vertices) > 0) {
+		for (int v = 0; v < n; v++)
+			V[v] = v;
+	}
+	else {
+		for (int v = 0; v < n; v++)
+			V[v] = (n - 1) - v;
+	}*/
+	t_bool p = ft_vec3_dot(get_polygon_normal(polygon), get_polygon_normal(polygon)) > 0; //DAFUCK CA MARCHE xD
+	if (p) {
 		for (int v = 0; v < n; v++)
 			V[v] = v;
 	}

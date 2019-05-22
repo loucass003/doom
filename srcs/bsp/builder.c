@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 16:36:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/14 21:49:58 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/05/22 23:16:56 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,9 @@ void		build_node(t_node *node)
 	free(node->polygons);
 	node->polygons = colinear;
 	node->front = create_node(front);
+	node->front->parent = node;
 	node->back = create_node(back);
+	node->back->parent = node;
 	build_node(node->front);
 	build_node(node->back);
 }

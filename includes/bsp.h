@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 16:26:42 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/19 18:39:02 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/05/22 23:16:07 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,8 @@ typedef struct		s_2dvertices
 typedef enum		s_polygon_type
 {
 	P_WALL,
-	P_FLOOR
+	P_FLOOR,
+	P_CEILING
 }					t_polygon_type;
 
 typedef struct		s_polygon
@@ -100,6 +101,7 @@ typedef struct		s_node
 	t_line			partition;
 	struct s_node	*front;
 	struct s_node	*back;
+	struct s_node	*parent;
 	t_polygons		*polygons;
 }					t_node;
 

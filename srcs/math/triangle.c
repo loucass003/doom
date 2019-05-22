@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 01:06:40 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/21 01:45:15 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/05/22 23:08:18 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	clip_triangle(t_doom *doom, t_polygon *poly, t_triangle4d t)
 		return;
 	if (t.a.z < 0 && t.b.z < 0 && t.c.z < 0)
 		return;
-	/*if (t.a.z < 0)
+/*	if (t.a.z < 0)
 	{
 		if (t.b.z < 0)
 			clip_2(doom, poly, t);
@@ -90,7 +90,7 @@ void	post_process_triangle(t_doom *doom, t_polygon *poly, t_triangle4d triangle)
 
 	draw_triangle(doom, (t_triangle3d){
 		{ .pos = vec4_to_3(triangle.a), .tex = {0, 0} },
-		{ .pos = vec4_to_3(triangle.b), .tex = {0, 1}},
+		{ .pos = vec4_to_3(triangle.b), .tex = {0, 1} },
 		{ .pos = vec4_to_3(triangle.c), .tex = {1, 1} }
 	});
 }

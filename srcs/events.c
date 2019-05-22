@@ -6,11 +6,25 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:14:55 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/03 17:31:27 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/05/22 23:49:15 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom.h"
+
+static t_node	*get_player_node(t_doom *doom)
+{
+	t_node *n = doom->bsp;
+	t_vec2 p = (t_vec2){doom->player.pos.x, doom->player.pos.z};
+	while (n->type != N_LEAF)
+	{
+		if (get_side_thin(n->partition, p) == S_FRONT)
+			n = n->front;
+		else
+			n = n->back;
+	}
+	return (n);
+}
 
 static void	events_window(t_doom *doom, SDL_Event *event)
 {
@@ -34,6 +48,46 @@ static void	events_window(t_doom *doom, SDL_Event *event)
 			doom->guis[doom->current_gui].components[i]
 				->on_mouse_move(doom->guis[doom->current_gui].components[i],
 				(t_vec2){ event->motion.x, event->motion.y }, doom);
+		}
+	}
+	if (event->type == SDL_KEYDOWN && event->key.keysym.scancode == SDL_SCANCODE_PAGEUP)
+	{
+		t_node *n = get_player_node(doom);
+		int i = -1;
+		while (++i < n->polygons->len)
+		{
+			t_polygon poly = n->polygons->polygons[i];
+			if (poly.type == P_FLOOR)
+				continue;
+			int j = -1;
+			while (++j < poly.vertices->len)
+			{
+				poly.vertices->vertices[j].y += 0.05;
+			}
+			t_node *wall = n->parent;
+		/*	while (wall)
+			{
+				int k = -1;
+				while (++k < wall->polygons->len)
+				{
+					t_polygon poly2 = wall->polygons->polygons[k];
+					if (poly2.type != P_WALL)
+						continue;
+					int l = -1;
+					int len = floor(poly2.indices->len / 3.);
+					printf("%d\n", len);
+					while (++l < len)
+					{
+						if (l % 2 == 0)
+							poly2.vertices->vertices[poly2.indices->values[l * 3]].y += 0.05;
+						else
+						{
+							poly2.vertices->vertices[poly2.indices->values[l * 3 + 1]].y += 0.05;
+						}
+					}
+				}
+				wall = wall->parent;
+			}*/
 		}
 	}
 }
