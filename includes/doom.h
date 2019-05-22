@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/20 23:13:49 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/05/22 16:23:04 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -226,5 +226,6 @@ t_bool				inside_triangle(t_vec3 a, t_vec3 b, t_vec3 c, t_vec3 p);
 void				clip_to_screen(t_polygon *poly, SDL_Rect area);
 void				draw_triangle(t_doom *doom, t_triangle3d triangle);
 void				process_triangle(t_doom *doom, t_polygon *poly, t_triangle4d triangle);
+void				post_process_triangle(t_doom *doom, t_polygon *poly, t_triangle4d triangle);
 
 #endif
