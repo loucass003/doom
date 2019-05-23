@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 01:17:41 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/23 14:51:33 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/05/23 22:57:41 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ int		max3(int a, int b, int c)
 
 void	draw_flat_triangle(t_doom *doom, t_triangle3d tri, t_vertex d0, t_vertex d1, t_vertex edge1)
 {
-	const int	y_start = fmax(ceilf(tri.a.pos.y - 0.5), 0);
-	const int	y_end = fmin(ceilf(tri.c.pos.y - 0.5), doom->screen.height - 1);
+	const int	y_start = ft_max(ceilf(tri.a.pos.y - 0.5), 0);
+	const int	y_end = ft_min(ceilf(tri.c.pos.y - 0.5), doom->screen.height - 1);
 	t_vertex	edge0;
 	int			y;
 
@@ -47,8 +47,8 @@ void	draw_flat_triangle(t_doom *doom, t_triangle3d tri, t_vertex d0, t_vertex d1
 	y = y_start - 1;
 	while (++y < y_end)
 	{
-		const int		x_start = fmax(ceilf(edge0.pos.x - 0.5), 0);
-		const int		x_end = fmin(ceilf(edge1.pos.x - 0.5), doom->screen.width - 1);
+		const int		x_start = ft_max(ceilf(edge0.pos.x - 0.5), 0);
+		const int		x_end = ft_min(ceilf(edge1.pos.x - 0.5), doom->screen.width - 1);
 		t_vec2			iline = edge0.tex;
 		const float		dx = edge1.pos.x - edge0.pos.x;
 		const t_vec2	diLine = ft_vec2_div_s(ft_vec2_sub(edge1.tex, iline), dx);
@@ -57,14 +57,14 @@ void	draw_flat_triangle(t_doom *doom, t_triangle3d tri, t_vertex d0, t_vertex d1
 		iline = ft_vec2_add(iline, ft_vec2_mul_s(diLine, (float)x_start + 0.5 - edge0.pos.x)); 
 		while (++x < x_end)
 		{
-			/*if (doom->screen.pixels[y * (int)S_WIDTH + x] != 0)
+			if (doom->screen.pixels[y * (int)S_WIDTH + x] != 0)
 			{
 				iline = ft_vec2_add(iline, diLine);
 				continue;
-			}*/
+			}
 			doom->screen.pixels[y * (int)S_WIDTH + x] = get_surface_pixel(doom->textures.bricks, 
-				fmax(0, fmin(iline.x * doom->textures.bricks->w, doom->textures.bricks->w - 1)), 
-				fmax(0, fmin(iline.y * doom->textures.bricks->h, doom->textures.bricks->h - 1))
+				ft_max(0, ft_min(iline.x * doom->textures.bricks->w, doom->textures.bricks->w - 1)), 
+				ft_max(0, ft_min(iline.y * doom->textures.bricks->h, doom->textures.bricks->h - 1))
 			);
 			iline = ft_vec2_add(iline, diLine);
 		}
