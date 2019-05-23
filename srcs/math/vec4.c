@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/19 17:50:27 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/21 00:33:59 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/05/23 14:48:56 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,11 @@
 t_vec4	vec3_to_4(t_vec3 v)
 {
 	return ((t_vec4){v.x, v.y, v.z, 1});
+}
+
+t_vec3	vec4_to_3w(t_vec4 v)
+{
+	return ((t_vec3){v.x / v.w, v.y / v.w, v.z / v.w});
 }
 
 t_vec3	vec4_to_3(t_vec4 v)
@@ -30,13 +35,13 @@ t_vec4	mat4_mulv4(t_mat4 m, t_vec4 p)
 	r.y = p.x * m.a[1][0] + p.y * m.a[1][1] + p.z * m.a[1][2] + p.w * m.a[1][3];
 	r.z = p.x * m.a[2][0] + p.y * m.a[2][1] + p.z * m.a[2][2] + p.w * m.a[2][3];
 	r.w = p.x * m.a[3][0] + p.y * m.a[3][1] + p.z * m.a[3][2] + p.w * m.a[3][3];
-	if (r.w != 0 && r.w != 1)
+	/*if (r.w != 0 && r.w != 1)
 	{
 		r.x /= r.w;
 		r.y /= r.w;
 		r.z /= r.w;
 	//	r.w /= r.w; //TODO: meh ?
-	}
+	}*/
 	return (r);
 }
 

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:14:55 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/22 23:49:15 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/05/23 14:32:05 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static void	events_window(t_doom *doom, SDL_Event *event)
 				poly.vertices->vertices[j].y += 0.05;
 			}
 			t_node *wall = n->parent;
-		/*	while (wall)
+			while (wall)
 			{
 				int k = -1;
 				while (++k < wall->polygons->len)
@@ -87,7 +87,7 @@ static void	events_window(t_doom *doom, SDL_Event *event)
 					}
 				}
 				wall = wall->parent;
-			}*/
+			}
 		}
 	}
 }

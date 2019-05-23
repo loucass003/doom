@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 01:06:40 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/22 23:08:18 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/05/23 14:46:41 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static t_vec4	transform(t_vec4 v)
 {
-	const float	z_inv = 1. / v.z;
+	const float	z_inv = -1. / v.z;
 	v.x = (v.x * z_inv + 1.) * S_WIDTH_2;
 	v.y = (v.y * z_inv + 1.) * S_HEIGHT_2;
 	return v;
@@ -22,18 +22,18 @@ static t_vec4	transform(t_vec4 v)
 
 static void 	clip_2(t_doom *doom, t_polygon *poly, t_triangle4d t)
 {
-	const float	alpha_a = (-t.a.z) / (t.c.z - t.a.z);
-	const float	alpha_b = (-t.b.z) / (t.c.z - t.b.z);
+	const float	alpha_a = (NEAR - t.a.z) / (t.c.z - t.a.z);
+	const float	alpha_b = (NEAR - t.b.z) / (t.c.z - t.b.z);
 	const t_vec4 v_a = ft_vec4_interpolate(t.a, t.c, alpha_a);
 	const t_vec4 v_b = ft_vec4_interpolate(t.b, t.c, alpha_b);
-
+	
 	post_process_triangle(doom, poly, (t_triangle4d){ v_a, v_b, t.c });
 }
 
 static void 	clip_1(t_doom *doom, t_polygon *poly, t_triangle4d t)
 {
-	const float	alpha_a = (-t.a.z) / (t.b.z - t.a.z);
-	const float	alpha_b = (-t.a.z) / (t.c.z - t.a.z);
+	const float	alpha_a = (NEAR - t.a.z) / (t.b.z - t.a.z);
+	const float	alpha_b = (NEAR - t.a.z) / (t.c.z - t.a.z);
 	const t_vec4 v_a = ft_vec4_interpolate(t.a, t.b, alpha_a);
 	const t_vec4 v_b = ft_vec4_interpolate(t.a, t.c, alpha_b);
 
@@ -53,27 +53,27 @@ void	clip_triangle(t_doom *doom, t_polygon *poly, t_triangle4d t)
 		return;
 	if (t.a.z < t.a.w && t.b.z < t.b.w && t.c.z < t.c.w)
 		return;
-	if (t.a.z < 0 && t.b.z < 0 && t.c.z < 0)
+	if (t.a.z < NEAR && t.b.z < NEAR && t.c.z < NEAR)
 		return;
-/*	if (t.a.z < 0)
+	if (t.a.z < NEAR)
 	{
-		if (t.b.z < 0)
+		if (t.b.z < NEAR)
 			clip_2(doom, poly, t);
-		else if (t.c.z < 0)
+		else if (t.c.z < NEAR)
 			clip_2(doom, poly, (t_triangle4d){t.a, t.c, t.b});
 		else
 			clip_1(doom, poly, t);
 	}
-	else if (t.b.z < 0)
+	else if (t.b.z < NEAR)
 	{
-		if (t.c.z < 0)
+		if (t.c.z < NEAR)
 			clip_2(doom, poly, (t_triangle4d){t.b, t.c, t.a});
 		else
 			clip_1(doom, poly, (t_triangle4d){t.b, t.a, t.c});
 	}
-	else if (t.c.z < 0)
+	else if (t.c.z < NEAR)
 		clip_1(doom, poly, (t_triangle4d){t.c, t.a, t.b});
-	else*/
+	else
 		post_process_triangle(doom, poly, t);
 }
 
@@ -84,9 +84,9 @@ void	process_triangle(t_doom *doom, t_polygon *poly, t_triangle4d triangle)
 
 void	post_process_triangle(t_doom *doom, t_polygon *poly, t_triangle4d triangle)
 {
-	triangle.a = transform(triangle.a);
-	triangle.b = transform(triangle.b);
-	triangle.c = transform(triangle.c);
+	triangle.a = transform(ft_vec4_div_s(triangle.a, triangle.a.w));
+	triangle.b = transform(ft_vec4_div_s(triangle.b, triangle.b.w));
+	triangle.c = transform(ft_vec4_div_s(triangle.c, triangle.c.w));
 
 	draw_triangle(doom, (t_triangle3d){
 		{ .pos = vec4_to_3(triangle.a), .tex = {0, 0} },

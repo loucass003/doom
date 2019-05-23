@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 01:17:41 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/23 00:18:48 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/05/23 14:51:33 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,11 @@ void	draw_flat_triangle(t_doom *doom, t_triangle3d tri, t_vertex d0, t_vertex d1
 		iline = ft_vec2_add(iline, ft_vec2_mul_s(diLine, (float)x_start + 0.5 - edge0.pos.x)); 
 		while (++x < x_end)
 		{
+			/*if (doom->screen.pixels[y * (int)S_WIDTH + x] != 0)
+			{
+				iline = ft_vec2_add(iline, diLine);
+				continue;
+			}*/
 			doom->screen.pixels[y * (int)S_WIDTH + x] = get_surface_pixel(doom->textures.bricks, 
 				fmax(0, fmin(iline.x * doom->textures.bricks->w, doom->textures.bricks->w - 1)), 
 				fmax(0, fmin(iline.y * doom->textures.bricks->h, doom->textures.bricks->h - 1))
