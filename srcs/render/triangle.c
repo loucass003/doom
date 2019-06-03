@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 01:17:41 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/23 22:57:41 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/06/02 18:58:15 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int		max3(int a, int b, int c)
 	return ft_max(ft_max(a, b), c);
 }
 
-void	draw_flat_triangle(t_doom *doom, t_triangle3d tri, t_vertex d0, t_vertex d1, t_vertex edge1)
+void	draw_flat_triangle(t_doom *doom, t_triangle tri, t_vertex d0, t_vertex d1, t_vertex edge1)
 {
 	const int	y_start = ft_max(ceilf(tri.a.pos.y - 0.5), 0);
 	const int	y_end = ft_min(ceilf(tri.c.pos.y - 0.5), doom->screen.height - 1);
@@ -52,6 +52,7 @@ void	draw_flat_triangle(t_doom *doom, t_triangle3d tri, t_vertex d0, t_vertex d1
 		t_vec2			iline = edge0.tex;
 		const float		dx = edge1.pos.x - edge0.pos.x;
 		const t_vec2	diLine = ft_vec2_div_s(ft_vec2_sub(edge1.tex, iline), dx);
+		//const float		z = (edge1.pos.z - edge0.pos.z) / dx;
 		int 			x = x_start - 1;
 
 		iline = ft_vec2_add(iline, ft_vec2_mul_s(diLine, (float)x_start + 0.5 - edge0.pos.x)); 
@@ -63,9 +64,10 @@ void	draw_flat_triangle(t_doom *doom, t_triangle3d tri, t_vertex d0, t_vertex d1
 				continue;
 			}
 			doom->screen.pixels[y * (int)S_WIDTH + x] = get_surface_pixel(doom->textures.bricks, 
-				ft_max(0, ft_min(iline.x * doom->textures.bricks->w, doom->textures.bricks->w - 1)), 
-				ft_max(0, ft_min(iline.y * doom->textures.bricks->h, doom->textures.bricks->h - 1))
+				ft_max(0, ft_min((iline.x /*/ edge0.pos.z*/ * doom->textures.bricks->w), doom->textures.bricks->w - 1)), 
+				ft_max(0, ft_min((iline.y /*/ edge0.pos.z*/ * doom->textures.bricks->h), doom->textures.bricks->h - 1))
 			);
+		//	edge0.pos.z += z;
 			iline = ft_vec2_add(iline, diLine);
 		}
 		edge0 = vertex_add(edge0, d0);
@@ -73,7 +75,7 @@ void	draw_flat_triangle(t_doom *doom, t_triangle3d tri, t_vertex d0, t_vertex d1
 	}
 }
 
-void	draw_flat_top_triangle(t_doom *doom, t_triangle3d tri)
+void	draw_flat_top_triangle(t_doom *doom, t_triangle tri)
 {
 	const float		delta_y = tri.c.pos.y - tri.a.pos.y;
 	const t_vertex	d0 = vertex_div_s(vertex_sub(tri.c, tri.a), delta_y);
@@ -82,7 +84,7 @@ void	draw_flat_top_triangle(t_doom *doom, t_triangle3d tri)
 	draw_flat_triangle(doom, tri, d0, d1, tri.b);
 }
 
-void	draw_flat_bottom_triangle(t_doom *doom, t_triangle3d tri)
+void	draw_flat_bottom_triangle(t_doom *doom, t_triangle tri)
 {
 	const float		delta_y = tri.c.pos.y - tri.a.pos.y;
 	const t_vertex	d0 = vertex_div_s(vertex_sub(tri.b, tri.a), delta_y);
@@ -92,7 +94,7 @@ void	draw_flat_bottom_triangle(t_doom *doom, t_triangle3d tri)
 }
 
 
-void	draw_triangle(t_doom *doom, t_triangle3d triangle)
+void	draw_triangle(t_doom *doom, t_triangle triangle)
 {
 	t_vertex	inter;
 
@@ -119,16 +121,16 @@ void	draw_triangle(t_doom *doom, t_triangle3d triangle)
 		inter = vertex_interpolate(triangle.a, triangle.c, (triangle.b.pos.y - triangle.a.pos.y) / (triangle.c.pos.y - triangle.a.pos.y));
 		if (triangle.b.pos.x < inter.pos.x)
 		{
-			draw_flat_bottom_triangle(doom, (t_triangle3d){triangle.a, triangle.b, inter});
-			draw_flat_top_triangle(doom, (t_triangle3d){triangle.b, inter, triangle.c});
+			draw_flat_bottom_triangle(doom, (t_triangle){triangle.a, triangle.b, inter});
+			draw_flat_top_triangle(doom, (t_triangle){triangle.b, inter, triangle.c});
 		}
 		else
 		{
-			draw_flat_bottom_triangle(doom, (t_triangle3d){triangle.a, inter, triangle.b});
-			draw_flat_top_triangle(doom, (t_triangle3d){inter, triangle.b, triangle.c});
+			draw_flat_bottom_triangle(doom, (t_triangle){triangle.a, inter, triangle.b});
+			draw_flat_top_triangle(doom, (t_triangle){inter, triangle.b, triangle.c});
 		}
 	}
-	draw_line(&doom->screen, (t_pixel){triangle.a.pos.x, triangle.a.pos.y, 0xFFFFFF}, (t_pixel){triangle.b.pos.x, triangle.b.pos.y});
+/*	draw_line(&doom->screen, (t_pixel){triangle.a.pos.x, triangle.a.pos.y, 0xFFFFFF}, (t_pixel){triangle.b.pos.x, triangle.b.pos.y});
 	draw_line(&doom->screen, (t_pixel){triangle.b.pos.x, triangle.b.pos.y, 0xFFFFFF}, (t_pixel){triangle.c.pos.x, triangle.c.pos.y});
-	draw_line(&doom->screen, (t_pixel){triangle.c.pos.x, triangle.c.pos.y, 0xFFFFFF}, (t_pixel){triangle.a.pos.x, triangle.a.pos.y});
+	draw_line(&doom->screen, (t_pixel){triangle.c.pos.x, triangle.c.pos.y, 0xFFFFFF}, (t_pixel){triangle.a.pos.x, triangle.a.pos.y});*/
 }

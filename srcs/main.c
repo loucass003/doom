@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/23 00:19:36 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/05/24 15:47:25 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,13 @@ void	init_bsp(t_doom *doom)
 	for (int i = 0; i < count; i++)
 	{
 		append_3dvertices_array(&vertices_ceil, (t_vec3){
-			lines[i].a.x / 100, 1, lines[i].a.y / 100});
+			lines[i].a.x / 100, 3, lines[i].a.y / 100});
 	}
 	append_polygons_array(&polygons, create_polygon(vertices_ceil, P_CEILING));
 	
 	for (int i = 0; i < count; i++)
 	{
-		append_polygons_array(&polygons, create_wall_polygon((t_line){ (t_vec2){lines[i].a.x / 100, (lines[i].a.y / 100)}, (t_vec2){lines[i].b.x / 100, (lines[i].b.y / 100)}}, 0, 1));
+		append_polygons_array(&polygons, create_wall_polygon((t_line){ (t_vec2){lines[i].a.x / 100, (lines[i].a.y / 100)}, (t_vec2){lines[i].b.x / 100, (lines[i].b.y / 100)}}, 0, 3));
 	}
 
 	/*int count = sizeof(list) / sizeof(t_vec3);

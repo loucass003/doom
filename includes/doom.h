@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/22 16:23:04 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/05/24 19:20:09 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,23 +35,16 @@ typedef struct		s_stats
 
 typedef struct		s_vertex
 {
-	t_vec3			pos;
+	t_vec4			pos;
 	t_vec2			tex;
 }					t_vertex;
 
-typedef struct		s_triangle4d
-{
-	t_vec4			a;
-	t_vec4			b;
-	t_vec4			c;
-}					t_triangle4d;
-
-typedef struct		s_triangle3d
+typedef struct		s_triangle
 {
 	t_vertex		a;
 	t_vertex		b;
 	t_vertex		c;
-}					t_triangle3d;
+}					t_triangle;
 
 typedef struct		s_fonts
 {
@@ -144,6 +137,7 @@ t_vertex			vertex_interpolate(t_vertex a, t_vertex b, float v);
 
 t_vec4				vec3_to_4(t_vec3 v);
 t_vec3				vec4_to_3(t_vec4 v);
+t_vec3				vec4_to_3w(t_vec4 v);
 t_vec4				mat4_mulv4(t_mat4 m, t_vec4 p);
 t_vec4				ft_vec4_mul_s(t_vec4 a, float v);
 t_vec4				ft_vec4_div_s(t_vec4 a, float v);
@@ -224,8 +218,8 @@ void				triangulate_bsp(t_node *n);
 t_bool				inside_triangle(t_vec3 a, t_vec3 b, t_vec3 c, t_vec3 p);
 
 void				clip_to_screen(t_polygon *poly, SDL_Rect area);
-void				draw_triangle(t_doom *doom, t_triangle3d triangle);
-void				process_triangle(t_doom *doom, t_polygon *poly, t_triangle4d triangle);
-void				post_process_triangle(t_doom *doom, t_polygon *poly, t_triangle4d triangle);
+void				draw_triangle(t_doom *doom, t_triangle triangle);
+void				process_triangle(t_doom *doom, t_polygon *poly, t_triangle triangle);
+void				post_process_triangle(t_doom *doom, t_polygon *poly, t_triangle triangle);
 
 #endif
