@@ -11,7 +11,7 @@
 # **************************************************************************** #
 
 NAME=doom-nukem
-CFLAGS=-Wall -Wextra -flto -O3
+CFLAGS=-Wall -Wextra -g
 LIBS=-lm -lft
 CC=gcc
 

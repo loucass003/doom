@@ -6,18 +6,22 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 01:06:40 by llelievr          #+#    #+#             */
-/*   Updated: 2019/06/02 18:16:47 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/06/04 23:55:15 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom.h"
 
-static t_vec4	transform(t_vec4 v)
+static t_vertex	transform(t_vertex v)
 {
-	const float	z_inv = -1. / v.z;
-	v.x = (v.x * z_inv + 1.) * S_WIDTH_2;
-	v.y = (v.y * z_inv + 1.) * S_HEIGHT_2;
-	v.z = -z_inv;
+	const float	z_inv = -1. / v.pos.z;
+	const float w_inv = 1 / v.pos.w;
+
+	v.pos.x = (v.pos.x * z_inv + 1.) * S_WIDTH_2;
+	v.pos.y = (v.pos.y * z_inv + 1.) * S_HEIGHT_2;
+	v.tex = ft_vec2_div_s(v.tex, v.pos.w);
+	v.pos.z *= w_inv; 
+	v.pos.w = w_inv;
 	return v;
 }
 
@@ -44,7 +48,7 @@ static void 	clip_1(t_doom *doom, t_polygon *poly, t_triangle t)
 
 void	clip_triangle(t_doom *doom, t_polygon *poly, t_triangle t)
 {
- /*	if (t.a.pos.x < t.a.pos.w && t.b.pos.x < t.b.pos.w && t.c.pos.x < t.c.pos.w)
+ 	/*if (t.a.pos.x < t.a.pos.w && t.b.pos.x < t.b.pos.w && t.c.pos.x < t.c.pos.w)
 		return;
 	if (t.a.pos.x > -t.a.pos.w && t.b.pos.x > -t.b.pos.w && t.c.pos.x > -t.c.pos.w)
 		return;
@@ -85,9 +89,9 @@ void	process_triangle(t_doom *doom, t_polygon *poly, t_triangle triangle)
 
 void	post_process_triangle(t_doom *doom, t_polygon *poly, t_triangle triangle)
 {
-	triangle.a.pos = transform(ft_vec4_div_s(triangle.a.pos, triangle.a.pos.w));
-	triangle.b.pos = transform(ft_vec4_div_s(triangle.b.pos, triangle.b.pos.w));
-	triangle.c.pos = transform(ft_vec4_div_s(triangle.c.pos, triangle.c.pos.w));
-
+	triangle.a = transform(triangle.a);
+	triangle.b = transform(triangle.b);
+	triangle.c = transform(triangle.c);
+	
 	draw_triangle(doom, triangle);
 }

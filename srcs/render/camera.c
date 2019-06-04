@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 23:57:39 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/24 19:52:22 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/06/04 23:25:23 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,17 @@
 
 void	update_maxtrix(t_doom *doom)
 {
-	// doom->player.matrix = ft_mat4_mul(
-	// 	doom->player.projection, 
-	// 	ft_mat4_mul(
-	// 		ft_mat4_rotation((t_vec3){0, -doom->player.rotation, 0}),
-	// 		ft_mat4_translation(ft_vec3_inv(doom->player.pos))
-	// 	)
-	// );
 	doom->player.matrix = ft_mat4_mul(
+		doom->player.projection, 
+		ft_mat4_mul(
+			ft_mat4_rotation((t_vec3){0, -doom->player.rotation, 0}),
+			ft_mat4_translation(ft_vec3_inv(doom->player.pos))
+		)
+	);
+	/*doom->player.matrix = ft_mat4_mul(
 		ft_mat4_rotation((t_vec3){0, -doom->player.rotation, 0}),
 		ft_mat4_translation(ft_vec3_inv(doom->player.pos))
-	);
+	);*/
 }
 
 t_mat4	projection_matrix(t_doom *doom)
