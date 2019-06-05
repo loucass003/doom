@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 16:26:42 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/22 23:16:07 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/06/05 22:55:57 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ typedef struct		s_polygon
 {
 	t_polygon_type	type;
 	t_3dvertices	*vertices;
+	t_vec2			*uvs;
 	t_ints			*indices;
 	t_vec4			*pp_vertices;
 	t_vec3			*normals;

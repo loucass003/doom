@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 22:39:14 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/24 19:08:12 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/06/05 22:47:11 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ void	assemble_triangles(t_doom *doom, t_polygon *poly)
 		if (d <= 0 && poly->type != P_FLOOR)
 			continue;
 		process_triangle(doom, poly, (t_triangle){
-			{poly->pp_vertices[poly->indices->values[i * 3]], {0, 0}},
-			{poly->pp_vertices[poly->indices->values[i * 3 + 1]], {1, 0}},
-			{poly->pp_vertices[poly->indices->values[i * 3 + 2]], {1, 1}}
+			{poly->pp_vertices[poly->indices->values[i * 3]], poly->uvs[poly->indices->values[i * 3]]},
+			{poly->pp_vertices[poly->indices->values[i * 3 + 1]], poly->uvs[poly->indices->values[i * 3 + 1]]},
+			{poly->pp_vertices[poly->indices->values[i * 3 + 2]], poly->uvs[poly->indices->values[i * 3 + 2]]}
 		});
 	}
 }

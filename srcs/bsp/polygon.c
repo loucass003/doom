@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 16:30:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/14 23:08:49 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/06/05 22:22:35 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,14 @@ t_vec3		get_polygon_normal(t_polygon *poly)
 	return ((t_vec3){ c.x, c.y, c.z });
 }
 
-double distanceSq(double var0, double var2, double var4, double var6) {
-	var0 -= var4;
-	var2 -= var6;
-	return var0 * var0 + var2 * var2;
+static double distanceSq(double x0, double y0, double x1, double y1) {
+	x0 -= x1;
+	y0 -= y1;
+	return x0 * x0 + y0 * y0;
 }
-
 
 t_line		get_poly_line(t_polygon *poly)
 {
-	if (poly->type != P_WALL)
-		exit(-1);
 	float	d = -1;
 	int		i = -1;
 	t_line	line = (t_line){(t_vec2){-1, -1}, (t_vec2){-1, -1}};
