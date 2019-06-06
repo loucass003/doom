@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 16:26:20 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/22 23:16:30 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/06/06 11:42:50 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ void	print_node(t_node *n)
 		printf("N%p --> N%p\n", n, n->back);
 	if (n->type == N_NODE)
 	{
-		printf("N%p(%s - %.3f, %.3f - %.3f, %.3f)\n", n,
+		printf("N%p( %d %s - %.3f, %.3f - %.3f, %.3f)\n", n,
+			n->depth,
 			"NODE",
 			n->partition.a.x,
 			n->partition.a.y,
@@ -31,7 +32,7 @@ void	print_node(t_node *n)
 	}
 	else
 	{
-		printf("N%p[LEAF]\n", n);
+		printf("N%p[ %d LEAF]\n", n, n->depth);
 	}
 	print_node(n->front);
 	print_node(n->back);

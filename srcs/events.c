@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:14:55 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/23 14:32:05 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/06/06 13:31:48 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,5 +120,6 @@ void	hook_events(t_doom *doom)
 	update_maxtrix(doom);
 	while (SDL_PollEvent(&event))
 		events_window(doom, &event);
+	doom->player.curr_node = get_player_node(doom);
 	SDL_PumpEvents();
 }

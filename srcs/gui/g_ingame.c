@@ -6,14 +6,11 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/22 23:04:37 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/06/06 14:01:47 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom.h"
-
-#define H_FOV (0.73f * S_HEIGHT)  // Affects the horizontal field of vision
-#define V_FOV (0.4f * S_HEIGHT)    // Affects the vertical field of vision
 
 int g_count = 0;
 
@@ -67,6 +64,34 @@ void traverseDrawOrder(t_doom *doom, t_node *node)
 	}
 }
 
+int x = 30;
+
+void trasverseInOrder(t_doom *doom, t_node *node)
+{
+	if (node->front)
+		trasverseInOrder(doom, node->front);
+	node->display_pos = (t_vec2) { x, 30 * (node->depth + 1) };
+	x += 30;
+	if (node->back)
+		trasverseInOrder(doom, node->back);
+}
+
+void draw_graph(t_doom *doom, t_node *node)
+{
+	if (node->front)
+		draw_graph(doom, node->front);
+	if (node->back)
+		draw_graph(doom, node->back);
+	t_pixel p1 = (t_pixel) {node->display_pos.x, node->display_pos.y, 0xFFFFFF};
+	if (node->parent)
+	{
+		t_pixel p0 = (t_pixel) {node->parent->display_pos.x, node->parent->display_pos.y, 0xFFFFFF};
+		draw_line(&doom->screen, p0, p1);
+	}
+	p1 = (t_pixel) {node->display_pos.x, node->display_pos.y, doom->player.curr_node == node ? 0xFF00FF : 0xFF};
+	draw_circle(&doom->screen, p1, 15);
+}
+
 void static	action_performed(t_component *cmp, t_doom *doom)
 {
 	if (cmp == doom->guis[doom->current_gui].components[0])
@@ -77,7 +102,7 @@ void static	action_performed(t_component *cmp, t_doom *doom)
 
 void	g_ingame_on_enter(t_gui *self, t_doom *doom)
 {
-
+	trasverseInOrder(doom, doom->bsp);
 }
 
 void	g_ingame_render(t_gui *self, t_doom *doom)
@@ -85,5 +110,6 @@ void	g_ingame_render(t_gui *self, t_doom *doom)
 	ft_bzero(doom->rendered_area, doom->screen.width);
 	g_count = 0;
 	traverseDrawOrder(doom, doom->bsp);
+	draw_graph(doom, doom->bsp);
 	//exit(0);
 }

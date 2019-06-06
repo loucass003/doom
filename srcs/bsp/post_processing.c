@@ -6,11 +6,14 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/16 21:24:43 by llelievr          #+#    #+#             */
-/*   Updated: 2019/06/05 23:57:01 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/06/06 12:15:19 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom.h"
+
+#define GRID_WIDTH (30)
+#define GRID_HEIGHT (30)
 
 static t_bool	compute_normals(t_polygon *poly)
 {
@@ -54,13 +57,14 @@ static t_bool	compute_normals(t_polygon *poly)
 	return (TRUE);
 }
 
-t_bool			post_process_bsp(t_node *n)
+t_bool			post_process_bsp(t_node *n, int x, int depth)
 {
 	int	i;
 	t_polygon	*poly;
 
 	if (!n)
 		return (TRUE);
+	n->depth = depth;
 	i = -1;
 	while (++i < n->polygons->len)
 	{
@@ -68,7 +72,7 @@ t_bool			post_process_bsp(t_node *n)
 		if (!triangulate_polygon(poly) || !compute_normals(poly))
 			return (FALSE);
 	}
-	post_process_bsp(n->front);
-	post_process_bsp(n->back);
+	post_process_bsp(n->front, x + GRID_WIDTH, depth + 1);
+	post_process_bsp(n->back, x + GRID_WIDTH, depth + 1);
 	return (TRUE);
 }

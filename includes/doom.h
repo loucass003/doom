@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/24 19:20:09 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/06/06 13:32:01 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ typedef struct		s_player
 	t_mat4			matrix;
 	t_mat4			projection;
 	float			rotation;
+	t_node			*curr_node;
 }					t_player;
 
 typedef enum		e_component_type
@@ -176,6 +177,7 @@ t_component	 		*create_button(SDL_Rect bounds);
 t_mat4				projection_matrix(t_doom *doom);
 void				update_maxtrix(t_doom *doom);
 void				draw_line(t_img *img, t_pixel p0, t_pixel p1);
+void				draw_circle(t_img *img, t_pixel center, int r);
 void				render_polygon(t_doom *doom, t_polygon *poly);
 t_vec3				get_plane_normal(t_vec3 p0, t_vec3 p1, t_vec3 p2);
 

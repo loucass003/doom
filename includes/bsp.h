@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 16:26:42 by llelievr          #+#    #+#             */
-/*   Updated: 2019/06/05 22:55:57 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/06/06 11:45:12 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,8 @@ typedef struct		s_node
 {
 	t_node_type		type;
 	t_line			partition;
+	t_vec2			display_pos;
+	int				depth;
 	struct s_node	*front;
 	struct s_node	*back;
 	struct s_node	*parent;
@@ -127,7 +129,7 @@ void		print_node(t_node *n);
 t_node		*create_node(t_polygons *polygons);
 
 void		build_node(t_node *node);
-t_bool		post_process_bsp(t_node *n);
+t_bool		post_process_bsp(t_node *n, int x, int depth);
 
 t_bool		triangulate_polygon(t_polygon *polygon);
 

@@ -27,6 +27,7 @@ SRC+=math/triangle.c
 SRC+=math/vec4.c
 SRC+=math/vectex.c
 SRC+=render/camera.c
+SRC+=render/circle.c
 SRC+=render/cliping.c
 SRC+=render/line.c
 SRC+=render/polygon.c
