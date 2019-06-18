@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/06/06 13:32:01 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/06/18 12:03:01 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,5 +223,7 @@ void				clip_to_screen(t_polygon *poly, SDL_Rect area);
 void				draw_triangle(t_doom *doom, t_triangle triangle);
 void				process_triangle(t_doom *doom, t_polygon *poly, t_triangle triangle);
 void				post_process_triangle(t_doom *doom, t_polygon *poly, t_triangle triangle);
+
+t_bool				gltf_test();
 
 #endif
