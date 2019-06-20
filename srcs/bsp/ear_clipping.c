@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/12 15:51:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/06/06 00:00:15 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/06/20 15:55:31 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,16 +83,7 @@ t_bool	triangulate_polygon(t_polygon *polygon)
 	if (n < 3 || !(polygon->indices = create_ints_array(polygon->vertices->len * 3)))
 		return FALSE;
 	int V[n];
-	if (area(polygon->vertices) > 0) {
-		for (int v = 0; v < n; v++)
-			V[v] = v;
-	}
-	else {
-		for (int v = 0; v < n; v++)
-			V[v] = (n - 1) - v;
-	}
-	/*t_bool p = ft_vec3_dot(get_polygon_normal(polygon), get_polygon_normal(polygon)) > 0; //DAFUCK CA MARCHE xD
-	if (p) {
+	/*if (area(polygon->vertices) > 0) {
 		for (int v = 0; v < n; v++)
 			V[v] = v;
 	}
@@ -100,6 +91,15 @@ t_bool	triangulate_polygon(t_polygon *polygon)
 		for (int v = 0; v < n; v++)
 			V[v] = (n - 1) - v;
 	}*/
+	t_bool p = ft_vec3_dot(get_polygon_normal(polygon), get_polygon_normal(polygon)) > 0; //DAFUCK CA MARCHE xD
+	if (p) {
+		for (int v = 0; v < n; v++)
+			V[v] = v;
+	}
+	else {
+		for (int v = 0; v < n; v++)
+			V[v] = (n - 1) - v;
+	}
 	int nv = n;
 	int count = 2 * nv;
 	for (int v = nv - 1; nv > 2; ) {

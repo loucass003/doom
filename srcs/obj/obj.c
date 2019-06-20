@@ -1,27 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   gltf_version.c                                     :+:      :+:    :+:   */
+/*   obj.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/06/20 14:09:17 by llelievr          #+#    #+#             */
-/*   Updated: 2019/06/20 14:23:54 by llelievr         ###   ########.fr       */
+/*   Created: 2019/06/20 15:28:48 by llelievr          #+#    #+#             */
+/*   Updated: 2019/06/20 16:34:12 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "gltf.h"
+#include <fcntl.h>
+#include "obj.h"
 
-t_bool		gltf_check_version(t_json_object *root)
+t_bool		load_obj(t_obj *obj, char *file)
 {
-	t_json_object	*asset;
-	t_json_string	*version;
-	const char		*version_str = "2.0";
+	t_reader	reader;
 
-	if (!(asset = json_get_object(root, "asset")))
+	ft_bzero(&reader, sizeof(t_reader));
+	if ((reader.fd = open(file, O_RDONLY)) == -1)
 		return (FALSE);
-	if (!(version = json_get_string(asset, "version")))
-		return (FALSE);
-	return (version->value_len == (int)ft_strlen(version_str)
-		&& ft_strncmp(version->value, version_str, version->value_len) == 0);
+	
+}
+
+t_bool		obj_test()
+{
+	return (FALSE);
 }
