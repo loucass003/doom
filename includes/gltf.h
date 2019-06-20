@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/18 11:49:41 by llelievr          #+#    #+#             */
-/*   Updated: 2019/06/19 18:47:31 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/06/20 15:01:21 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,27 @@ typedef enum	e_alpha_mode
 	alpha_mask = 1,
 	alpha_blend = 2
 }				t_alpha_mode;
+
+typedef enum	e_gltf_path
+{
+	path_translation = 0,
+	path_rotation = 1,
+	path_scale = 2,
+	path_weights = 3
+}				t_gltf_path;
+
+typedef enum	e_camera_type
+{
+	camera_perspective = 0,
+	camera_orthographic = 0
+}				t_camera_type;
+
+typedef enum	e_interpolation_type
+{
+	interpolation_linear = 0,
+	interpolation_step = 1,
+	interpolation_cubicspline = 2
+}				t_interpolation_type;
 
 typedef enum	e_gltf_type
 {
@@ -212,8 +233,97 @@ typedef struct	s_material
 	t_normal_texture_info			normal_texture;
 }				t_material;
 
+typedef struct	s_cam_ortho
+{
+	double		z_mag;
+	double		y_mag;
+	double		z_far;
+	double		z_near;
+}				t_cam_ortho;
+
+typedef struct	s_cam_perspec
+{
+	t_bool		aspect_ratio_set;
+	double		aspect_ratio;
+	double		y_fov;
+	t_bool		z_far_set;
+	double		z_far;
+	double		z_near;
+}				t_cam_perspec;
+
+typedef struct	s_camera
+{
+	t_camera_type	type;
+	char			*name;
+	size_t			name_len;
+	t_cam_ortho		orthographic;
+	t_cam_perspec	perspective;
+}				t_camera;
+
+typedef struct	s_skin
+{
+	t_bool		inverse_bind_matrices_set;
+	size_t		inverse_bind_matrices;
+	t_bool		skeleton_set;
+	size_t		skeleton;
+	int			*joints;
+	size_t		joints_count;
+	char		*name;
+	size_t		name_len;
+}				t_skin;
+
+typedef struct	s_animation_target
+{
+	t_bool		node_set;
+	size_t		node;
+	t_gltf_path	path;
+}				t_animation_target;
+
+typedef struct	s_channel
+{
+	size_t				sampler;
+	t_animation_target	target;
+}				t_channel;
+
+typedef struct	s_sampler
+{
+	size_t					input;
+	t_interpolation_type	*interpolation;
+	size_t					output;
+}				t_sampler;
+
+typedef struct	s_animation
+{
+	char		*name;
+	size_t		name_len;
+}				t_animation;
+
+typedef struct	s_gltf_texture
+{
+	t_bool		sampler_set;
+	size_t		sampler;
+	t_bool		source_set;
+	size_t		source;
+	char		*name;
+	size_t		name_len;
+}				t_gltf_texture;
+
+typedef struct	s_gltf_image
+{
+	char		*uri;
+	size_t		uri_len;
+	char		*mime_type;
+	size_t		mime_type_len;
+	t_bool		buffer_view_set;
+	size_t		buffer_view;
+	char		*name;
+	size_t		name_len;
+}				t_gltf_image;
+
 typedef struct	s_gltf
 {
+	t_bool			scene_set;
+	size_t			scene;
 	t_scene			*scenes;
 	size_t			scenes_count;
 	t_gltf_node		*nodes;
@@ -228,6 +338,20 @@ typedef struct	s_gltf
 	size_t			accessors_count;
 	t_material		*materials;
 	size_t			materials_count;
+	t_camera		*cameras;
+	size_t			cameras_count;
+	t_skin			*skins;
+	size_t			skins_count;
+	t_animation		*animations;
+	size_t			animations_count;
+	t_gltf_texture	*textures;
+	size_t			textures_count;
+	t_gltf_image	*images;
+	size_t			images_count;
 }				t_gltf;
+
+
+t_bool			gltf_check_version(t_json_object *root);
+t_bool			gltf_load_scenes(t_gltf *gltf, t_json_object *root);
 
 #endif

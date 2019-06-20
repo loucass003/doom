@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/06/19 13:40:17 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/06/20 14:32:53 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	init_bsp(t_doom *doom)
 int		main(void)
 {
 	gltf_test();
-	t_doom doom = (t_doom) {
+	/*t_doom doom = (t_doom) {
 		.running = TRUE
 	};
 	init_bsp(&doom);
@@ -89,6 +89,6 @@ int		main(void)
 		return (-1);
 	game_loop(&doom);
 	sdl_quit(&doom);
-	free_node(doom.bsp);
+	free_node(doom.bsp);*/
 	return (0);
 }
