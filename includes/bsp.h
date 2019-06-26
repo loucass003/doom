@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 16:26:42 by llelievr          #+#    #+#             */
-/*   Updated: 2019/06/06 11:45:12 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/06/25 18:34:24 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,12 @@ typedef struct		s_vec4
 	float			z;
 	float			w;
 }					t_vec4;
+
+typedef	union		u_vec4_u
+{
+	float			a[4];
+	t_vec4			v;
+}					t_vec4_u;
 
 typedef struct		s_ints
 {

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 16:30:11 by llelievr          #+#    #+#             */
-/*   Updated: 2019/06/24 14:22:17 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/06/26 12:58:12 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,11 @@ char			io_peek(t_reader *r)
 	return (r->buffer[r->pos]);
 }
 
+void			io_next(t_reader *r)
+{
+	r->pos++;
+}
+
 t_bool			io_expect(t_reader *r, const char *str)
 {
 	while (*str)
@@ -40,10 +45,4 @@ t_bool			io_expect(t_reader *r, const char *str)
 		str++;
 	}
 	return (TRUE);
-}
-
-void	skip_ws(t_reader *r)
-{
-	while (io_peek(r) == ' ' || io_peek(r) == '\t')
-		r->pos++;
 }

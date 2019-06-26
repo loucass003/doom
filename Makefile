@@ -6,14 +6,14 @@
 #    By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/07 14:49:27 by llelievr          #+#    #+#              #
-#    Updated: 2019/06/20 15:51:16 by llelievr         ###   ########.fr        #
+#    Updated: 2019/06/26 13:31:00 by llelievr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME=doom-nukem
-CFLAGS=-Wall -Wextra -flto -O2
+CFLAGS=-Wall -Wextra -g
 LIBS=-lm -lft
-CC=gcc
+CC=clang
 
 -include src.mk
 
@@ -30,8 +30,6 @@ SRCDIR	=./srcs/
 INCDIR	=./includes/
 OBJDIR	=./objs/
 DEPSDIR = ./deps/
-
-UNAME :=$(shell uname)
 
 INCLUDE += $(shell pkg-config --cflags sdl2 SDL2_image SDL2_ttf)
 LIBS += $(shell pkg-config --libs sdl2 SDL2_image SDL2_ttf)
