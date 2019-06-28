@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/06/24 14:23:12 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/06/28 01:45:39 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,11 +79,12 @@ void	init_bsp(t_doom *doom)
 
 int		main(void)
 {
-	obj_test();
-	/*t_doom doom = (t_doom) {
+	
+	t_doom doom = (t_doom) {
 		.running = TRUE
 	};
-	init_bsp(&doom);
+	obj_test(&doom);
+	/*init_bsp(&doom);
 	init_sdl(&doom);
 	if (!(doom.rendered_area = (uint8_t *)ft_memalloc(doom.screen.width)))
 		return (-1);

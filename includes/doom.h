@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/06/20 15:26:31 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/06/28 02:07:35 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,7 @@ typedef struct		s_doom
 	t_gui			guis[GUI_COUNT];
 	int				current_gui;
 	t_editor		editor;
+	char			*obj_working_dir;
 }					t_doom;
 
 t_vertex			vertex_add(t_vertex a, t_vertex b);
@@ -224,6 +225,8 @@ void				draw_triangle(t_doom *doom, t_triangle triangle);
 void				process_triangle(t_doom *doom, t_polygon *poly, t_triangle triangle);
 void				post_process_triangle(t_doom *doom, t_polygon *poly, t_triangle triangle);
 
-t_bool				obj_test();
+t_bool				obj_test(t_doom *doom);
+
+char				*path_join(char *dir, char *file);
 
 #endif

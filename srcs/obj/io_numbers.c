@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 12:57:00 by llelievr          #+#    #+#             */
-/*   Updated: 2019/06/26 14:18:32 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/06/28 03:48:06 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,9 @@ t_bool		io_readfloat(t_reader *r, float *out)
 		return (FALSE);
 	*out = part;
 	c = io_peek(r);
-	if (ft_isprint(c) && c != '.')
+	if (ft_isspace(c))
+		return (TRUE);
+	if (!ft_isdigit(c) && c != '.')
 		return (FALSE);
 	io_next(r);
 	part = 0;
