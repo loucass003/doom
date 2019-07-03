@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_mainmenu.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:56:05 by llelievr          #+#    #+#             */
-/*   Updated: 2019/04/24 17:51:08 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/06/25 13:55:10 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ void	g_mainmenu_on_enter(t_gui *self, t_doom *doom)
 	if (!alloc_components(self, 2))
 		return ;
 //	printf("init %d\n", self->component_count);
-	self->components[0] = create_button((SDL_Rect){ 5, 5, 200, 20 });
+	self->components[0] = create_button((SDL_Rect){ 5, 5, 200, 20 }, NULL);
 	self->components[0]->perform_action = action_performed;
-	self->components[1] = create_button((SDL_Rect){ 5, 30, 200, 20 });
+	self->components[1] = create_button((SDL_Rect){ 5, 30, 200, 20 }, NULL);
 	((t_button *)self->components[1])->color_default = 0xFF;
 	((t_button *)self->components[1])->color_hover = 0xFF0000;
 	self->components[1]->perform_action = action_performed;

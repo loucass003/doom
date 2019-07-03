@@ -1,20 +1,3 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -23,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:36:44 by llelievr          #+#    #+#             */
-/*   Updated: 2019/04/26 18:43:57 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/06/26 14:11:43 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,18 +27,12 @@ typedef struct		s_line
 	t_line_type		type;
 }					t_line;
 
-
 typedef struct		s_line_list
 {
 	t_line				line;
+	SDL_Surface			*texture;
 	struct s_line_list	*next;
 }					t_line_list;
-
-typedef struct		s_poly
-{
-	t_line_list		*list;
-	struct s_poly	*next;
-}					t_poly;
 
 typedef enum		e_side
 {

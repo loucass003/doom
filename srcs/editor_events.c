@@ -6,66 +6,14 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/26 17:31:07 by lloncham          #+#    #+#             */
-/*   Updated: 2019/05/20 16:17:55 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/07/03 14:45:19 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom.h"
 
-t_bool	new_poly(t_poly **poly, t_line line)
+void	visual_point(t_doom *doom, int x, int y) //allume les points en rouge
 {
-	t_poly			*n;
-	t_poly			*elem;
-	t_line_list		*new;
-
-	if (!(elem = (t_poly *)malloc(sizeof(t_poly))))
-		return (FALSE);
-	if (!(new = (t_line_list*)malloc(sizeof(t_line_list))))
-		return (FALSE);
-	new->line = line;
-	new->next = NULL;
-	elem->list = new;
-	elem->next = NULL;
-	if (!*poly)
-		*poly = elem;
-	else
-	{
-		n = *poly;
-		while (n && n->next)
-			n = n->next;
-		n->next = elem;
-	}
-	return (TRUE);
-}
-
-t_bool	append_list2(t_poly **poly, t_line line)
-{
-	t_poly			*n;
-	t_line_list		*elem;
-	t_line_list		*cmp;
-
-	if (!(elem = (t_line_list *)malloc(sizeof(t_line_list))))
-		return (FALSE);
-	elem->line = line;
-	elem->next = NULL;
-	n = *poly;
-	while (n && n->next)
-		n = n->next;
-	cmp = n->list;
-	while (cmp && cmp->next)
-		cmp = cmp->next;
-	cmp->next = elem;
-	return (TRUE);
-}
-
-void	editor_mouse_motion(t_doom *doom, SDL_Event *event)
-{
-	int				x;
-	int				y;
-	unsigned int	index;
-
-	x = event->motion.x / 20;
-	y = event->motion.y / 20;
 	if (x < (doom->screen.width - 180))
 	{
 		if (doom->editor.point[(y * doom->screen.width / 20) + x] == 0)
@@ -77,43 +25,134 @@ void	editor_mouse_motion(t_doom *doom, SDL_Event *event)
 	}
 }
 
-void	editor_mousebuttonup(t_doom *doom, SDL_Event *event)
+void	editor_mouse_motion(t_doom *doom, SDL_Event *event)
 {
-	if (doom->editor.click == 0 && (check_multi_point(doom, doom->editor.polygon
-	, (int)event->button.x / 20, (int)event->button.y / 20) == TRUE))
+	t_save	*lst;
+	
+	doom->editor.last_mouse.x = event->motion.x;
+	doom->editor.last_mouse.y = event->motion.y;
+	doom->editor.set_sup[0] = event->motion.x / 20;
+	doom->editor.set_sup[1] = event->motion.y / 20;
+	visual_point(doom, doom->editor.last_mouse.x / 20, doom->editor.last_mouse.y / 20);
+	if (doom->editor.sup == 1 && doom->editor.polygon) // PROBLEME ICI
 	{
-		doom->editor.line.a.x = (int)event->button.x / 20;
-		doom->editor.line.a.y = (int)event->button.y / 20;
-		doom->editor.first[0] = doom->editor.line.a.x;
-		doom->editor.first[1] = doom->editor.line.a.y;
+		lst = doom->editor.polygon;
+		while (lst->floor != doom->editor.floor && lst)
+			lst = lst->next; 
+		if (lst->line)
+			mouseonline(doom, lst->line, doom->editor.set_sup);
+	}
+	if (doom->editor.sup == 1 && doom->editor.lines)
+	{
+		lst = doom->editor.lines;
+		while (lst->floor != doom->editor.floor && lst)
+			lst = lst->next;
+		if (lst->line)
+			mouseonline(doom, lst->line, doom->editor.set_sup);
+	}
+}
+
+void	editor_mouse_draw(t_doom *doom, int x, int y) //on save les donnees apres avoir verifié que les points peuvent etre la
+{
+	if (doom->editor.click == 0)
+	{
+		if (doom->editor.lignes == 1 || doom->editor.secteur == 1 || doom->editor.porte == 1)
+			if (in_the_poly(doom, doom->editor.polygon, (t_vec2){x / 20, y / 20}) == FALSE)
+				return;
+		doom->editor.line.a.x = x / 20;
+		doom->editor.line.a.y = y / 20;
 		doom->editor.click++;
 	}
-	else if (check_multi_point(doom, doom->editor.polygon
-	, (int)event->button.x / 20, (int)event->button.y / 20) == TRUE)
+	else if (doom->editor.click >= 1)
 	{
-		set_alert_message(doom);
 		if (doom->editor.click > 1)
 		{
 			doom->editor.line.a.x = doom->editor.line.b.x;
-			doom->editor.line.a.y = doom->editor.line.b.y;
+			doom->editor.line.a.y = doom->editor.line.b.y; 
+			if (check_secant_line(doom, doom->editor.polygon, (t_line){{doom->editor.line.a.x, doom->editor.line.a.y}, {x / 20, y / 20}}) == FALSE)
+				return ;
 		}
-		if (check_multi_line(doom, doom->editor.polygon, doom->editor.line.a.x
-		, doom->editor.line.a.y, (int)event->button.x / 20
-		, (int)event->button.y / 20) == FALSE)
+		if (doom->editor.lignes == 1 || doom->editor.secteur == 1 || doom->editor.porte == 1)
+			if (in_the_poly(doom, doom->editor.polygon, (t_vec2){x / 20, y / 20}) == FALSE)
+				return;
+    doom->editor.line.b.x = x / 20;
+		doom->editor.line.b.y = y / 20;
+		if (doom->editor.poly == 1 && check_same_point(doom) == FALSE)
 			return ;
-		if (check_secant_line(doom, doom->editor.polygon, doom->editor.line.a.x
-		, (int)event->button.x / 20, doom->editor.line.a.y
-		, (int)event->button.y / 20) == FALSE)
-			return ;
-		doom->editor.line.b.x = (int)event->button.x / 20;
-		doom->editor.line.b.y = (int)event->button.y / 20;
-		if (check_same_point(doom) == FALSE)
-			return ;
-		if (doom->editor.click == 1)
-			new_poly(&doom->editor.polygon, doom->editor.line);
-		else if (doom->editor.click > 1)
-			append_list2(&doom->editor.polygon, doom->editor.line);
-		check_poly_close(doom, doom->editor.polygon);
+		save_in_lst(doom);
+		if (doom->editor.polygon)
+			check_poly_close(doom, doom->editor.polygon);
 		doom->editor.click++;
+		if (doom->editor.poly != 1)
+			doom->editor.click = 0;
 	}
 }
+
+void	editor_mousebuttonup(t_doom *doom, int x, int y)
+{
+	if (doom->open == 0)
+	{
+		if (doom->editor.curseur == 1)//modification de points
+		{
+			if (doom->editor.save_modif[2] == 0)
+			{
+				doom->editor.save_modif[0] = x / 20;
+				doom->editor.save_modif[1] = y / 20;
+				doom->editor.save_modif[2] = 1;
+			}
+			else if (doom->editor.save_modif[2] == 1)
+				modify_all(doom, x, y);
+		}
+		else if (doom->editor.set_start != 0) //determiner point de depart
+		{
+			if (in_the_poly(doom, doom->editor.polygon, (t_vec2){x / 20, y / 20}) == FALSE)
+				return;
+			doom->editor.set_start_pos[0] = x / 20;
+			doom->editor.set_start_pos[1] = y / 20;
+			doom->editor.set_start_pos[2] = doom->editor.floor;
+		}
+		else if (doom->editor.sup >= 1)//suppression de point
+				save_line_to_erase(doom, x / 20, y / 20);
+		if (doom->editor.icone == 1)
+		{
+			if (in_the_poly(doom, doom->editor.polygon, (t_vec2){x / 20, y / 20}) == FALSE)
+					return;
+			save_object(doom, x, y, doom->editor.objet);
+		}
+		else if (doom->editor.poly || doom->editor.lignes || doom->editor.secteur == 1 || doom->editor.porte == 1)
+			editor_mouse_draw(doom, x, y);
+	}
+}
+
+// void	editor_mousebuttonup(t_doom *doom, int x, int y)
+// {
+// 	if (doom->open == 0)
+// 	{
+// 		if (doom->editor.curseur == 1)//modification de points
+// 		{
+// 			if (doom->editor.save_modif[2] == 0)
+// 			{
+// 				doom->editor.save_modif[0] = x / 20;
+// 				doom->editor.save_modif[1] = y / 20;
+// 				doom->editor.save_modif[2] = 1;
+// 			}
+// 			else if (doom->editor.save_modif[2] == 1)
+// 			{
+// 				modify_point(doom, x, y);
+// 				modify_object(doom, x, y);
+// 			}
+// 		}
+// 		else if (doom->editor.set_start % 2 != 0) //determiner point de depart
+// 		{
+// 			doom->editor.set_start_pos[0] = x / 20;
+// 			doom->editor.set_start_pos[1] = y / 20;
+// 		}
+// 		else if (doom->editor.sup >= 1) //suppression de point
+// 			save_line_to_erase(doom, x, y);
+// 		else if (doom->editor.icone == 1)
+// 			save_object(doom, x, y, doom->editor.objet);
+// 		else //save point dans liste afin de pouvoir les dessiner
+// 			editor_mouse_draw(doom, x, y);
+// 	} 
+// 	print_lst(doom);
+// }

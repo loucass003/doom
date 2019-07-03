@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:01:13 by llelievr          #+#    #+#             */
-/*   Updated: 2019/04/25 17:32:14 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/06/26 11:52:52 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,12 @@ static void			render_debug(t_doom *doom)
 	text = TTF_RenderText_Blended(doom->fonts.helvetica,
 		ft_int_to_str(doom->stats.fps).str, color);
 	apply_surface_blended(&doom->screen, text, (SDL_Rect){0, 0, text->w, text->h},
-		(SDL_Rect){5, 5, text->w + 5, text->h + 5});
+		(SDL_Rect){0, 600, 40, 40});
 	SDL_FreeSurface(text);
 	text = TTF_RenderText_Blended(doom->fonts.helvetica,
 		ft_int_to_str((int)doom->stats.avg_ms).str, color);
 	apply_surface_blended(&doom->screen, text, (SDL_Rect){0, 0, text->w, text->h},
-		(SDL_Rect){5, text->h + 10, text->w + 5, text->h + 5});
+		(SDL_Rect){0, 560, 40, 40});
 	SDL_FreeSurface(text);
 }
 
@@ -52,6 +52,7 @@ void			game_loop(t_doom *doom)
 	doom->player.pos = (t_vec2){ 0, 0 };
 	register_guis(doom);
 	set_gui(doom, GUI_MAIN_MENU);
+	load_all(doom);
 	while (doom->running)
 	{
 		clear_image(&doom->screen);
@@ -65,4 +66,5 @@ void			game_loop(t_doom *doom)
 		SDL_RenderPresent(doom->renderer);
 		update_fps(doom);
 	}
+	// FREE TEXTURES FROM LOAD_ALL
 }

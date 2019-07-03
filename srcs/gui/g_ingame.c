@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_ingame.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2019/04/25 19:42:43 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/06/25 13:55:21 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,7 +164,7 @@ void	g_ingame_on_enter(t_gui *self, t_doom *doom)
 {
 	if (!alloc_components(self, 1))
 		return; 
-	self->components[0] = create_button((SDL_Rect) { 5, 20, 200, 30 });
+	self->components[0] = create_button((SDL_Rect) { 5, 20, 200, 30 }, NULL);
 	self->components[0]->perform_action = action_performed;
 }
 
