@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/04 02:12:21 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/04 05:44:22 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/04 13:01:12 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static float	determinant(float a[4][4], int n)
 	while (++f < n)
 	{
 		cofactor(a, temp, (int[3]){0, f, n});
-		d += sign * a[0][f] * determinant(temp, n - 1); 
+		d += (float)sign * a[0][f] * determinant(temp, n - 1); 
 		sign = -sign;
 	}
 	return (d); 
@@ -77,7 +77,7 @@ static void		adjoint(float a[4][4], float adj[4][4])
 		{
 			cofactor(a, temp, (int[3]){i, j, 4});
 			sign = ((i + j) % 2 == 0) ? 1 : -1;
-			adj[j][i] = sign * determinant(temp, 4 - 1);
+			adj[j][i] = (float)sign * determinant(temp, 4 - 1);
 		}
 	}
 } 

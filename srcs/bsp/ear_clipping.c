@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/12 15:51:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/03 14:32:43 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/04 13:22:45 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,13 +77,61 @@ static t_bool	snip(t_3dvertices *vertices, int u, int v, int w, int n, int *V)
 	return TRUE;
 }
 
+void disp(t_mat4 a) 
+{ 
+	for (int i=0; i<4; i++) 
+	{ 
+		for (int j=0; j<4; j++) 
+			printf("%f ", a.a[i][j]); 
+		printf("\n"); 
+	} 
+} 
+
+
 t_bool	triangulate_polygon(t_polygon *polygon)
 {
 	t_vec3 no = get_polygon_normal(polygon);
 	for (int i = 0; i < polygon->vertices->len; i++)
 		printf("point %f %f %f\n", polygon->vertices->vertices[i].x, polygon->vertices->vertices[i].y, polygon->vertices->vertices[i].z);
-	printf("normal %f %f %f\n\n", no.x, no.y, no.z);
+	printf("normal %f %f %f\n", no.x, no.y, no.z);
 
+	const t_vec3 up = (t_vec3){0, 0, 1};
+	t_vec3 U = ft_vec3_cross(no, up);
+	if (ft_vec3_len(U) == 0)
+		U = (t_vec3){0, 1, 0};
+	printf("u %f %f %f len %f\n", U.x, U.y, U.z, ft_vec3_len(U));
+	t_vec3 W = ft_vec3_cross(U, no);
+	printf("w %f %f %f\n", W.x, W.y, W.z);
+
+	t_mat4 p = (t_mat4)((t_mat4_data){
+		U.x, W.x, no.x, 0,
+		U.y, W.y, no.y, 0,
+		U.z, W.z, no.z, 0,
+		0,   0,   0,    1
+	});
+
+	disp(p);
+	printf("\n");
+	t_mat4 inv;
+	if (!mat4_inverse(p, &inv))
+		printf("ERROR\n");
+	printf("\n");
+	disp(inv);
+	
+	t_vec3 p_u = ft_mat4_mulv(inv, U);
+	printf("P-1u %f %f %f\n", p_u.x, p_u.y, p_u.z);
+	t_vec3 p_w = ft_mat4_mulv(inv, W);
+	printf("P-1w %f %f %f\n", p_w.x, p_w.y, p_w.z);
+	t_vec3 p_n = ft_mat4_mulv(inv, no);
+	printf("P-1n %f %f %f\n", p_n.x, p_n.y, p_n.z);
+
+	for (int i = 0; i < polygon->vertices->len; i++)
+	{
+		t_vec3 point = ft_mat4_mulv(inv, polygon->vertices->vertices[i]);
+		printf("new point %f %f %f\n", point.x, point.y, point.z);
+	}
+
+	printf("\n");
 	int n = polygon->vertices->len;
 	if (n < 3 || !(polygon->indices = create_ints_array(polygon->vertices->len * 3)))
 		return FALSE;
@@ -96,8 +144,8 @@ t_bool	triangulate_polygon(t_polygon *polygon)
 		for (int v = 0; v < n; v++)
 			V[v] = (n - 1) - v;
 	}*/
-	t_bool p = ft_vec3_dot(get_polygon_normal(polygon), get_polygon_normal(polygon)) > 0; //DAFUCK CA MARCHE xD
-	if (p) {
+	t_bool b = ft_vec3_dot(get_polygon_normal(polygon), get_polygon_normal(polygon)) > 0; //DAFUCK CA MARCHE xD
+	if (b) {
 		for (int v = 0; v < n; v++)
 			V[v] = v;
 	}
