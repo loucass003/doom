@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 01:06:40 by llelievr          #+#    #+#             */
-/*   Updated: 2019/06/05 21:58:30 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/01 16:12:29 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void 	clip_2(t_doom *doom, t_polygon *poly, t_triangle t)
 	const float	alpha_b = (NEAR - t.b.pos.z) / (t.c.pos.z - t.b.pos.z);
 	const t_vertex v_a = vertex_interpolate(t.a, t.c, alpha_a);
 	const t_vertex v_b = vertex_interpolate(t.b, t.c, alpha_b);
-	
+
 	post_process_triangle(doom, poly, (t_triangle){ v_a, v_b, t.c });
 }
 
@@ -79,7 +79,9 @@ void	clip_triangle(t_doom *doom, t_polygon *poly, t_triangle t)
 	else if (t.c.pos.z < NEAR)
 		clip_1(doom, poly, (t_triangle){t.c, t.a, t.b});
 	else
+	{
 		post_process_triangle(doom, poly, t);
+	}
 }
 
 void	process_triangle(t_doom *doom, t_polygon *poly, t_triangle triangle)
@@ -87,11 +89,14 @@ void	process_triangle(t_doom *doom, t_polygon *poly, t_triangle triangle)
 	clip_triangle(doom, poly, triangle);
 }
 
-void	post_process_triangle(t_doom *doom, t_polygon *poly, t_triangle triangle)
+void	post_process_triangle(t_doom *doom, t_polygon *poly, t_triangle t)
 {
-	triangle.a = transform(triangle.a);
-	triangle.b = transform(triangle.b);
-	triangle.c = transform(triangle.c);
-	
-	draw_triangle(doom, triangle);
+	t.a.pos = mat4_mulv4(doom->player.projection, t.a.pos);
+	t.b.pos = mat4_mulv4(doom->player.projection, t.b.pos);
+	t.c.pos = mat4_mulv4(doom->player.projection, t.c.pos);
+
+	t.a = transform(t.a);
+	t.b = transform(t.b);
+	t.c = transform(t.c);
+	draw_triangle(doom, t);
 }

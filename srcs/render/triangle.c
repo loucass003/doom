@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 01:17:41 by llelievr          #+#    #+#             */
-/*   Updated: 2019/06/05 00:09:48 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/01 16:18:42 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -384,7 +384,7 @@ void	draw_triangle(t_doom *doom, t_triangle triangle)
 	TexturedTriangle(doom, triangle.a.pos.x, triangle.a.pos.y, triangle.a.tex.x, triangle.a.tex.y, triangle.a.pos.w,
 	triangle.b.pos.x, triangle.b.pos.y, triangle.b.tex.x, triangle.b.tex.y, triangle.b.pos.w,
 	triangle.c.pos.x, triangle.c.pos.y, triangle.c.tex.x, triangle.c.tex.y, triangle.c.pos.w);
-	draw_line(&doom->screen, (t_pixel){triangle.a.pos.x, triangle.a.pos.y, 0xFFFFFF}, (t_pixel){triangle.b.pos.x, triangle.b.pos.y});
+/*	draw_line(&doom->screen, (t_pixel){triangle.a.pos.x, triangle.a.pos.y, 0xFFFFFF}, (t_pixel){triangle.b.pos.x, triangle.b.pos.y});
 	draw_line(&doom->screen, (t_pixel){triangle.b.pos.x, triangle.b.pos.y, 0xFFFFFF}, (t_pixel){triangle.c.pos.x, triangle.c.pos.y});
-	draw_line(&doom->screen, (t_pixel){triangle.c.pos.x, triangle.c.pos.y, 0xFFFFFF}, (t_pixel){triangle.a.pos.x, triangle.a.pos.y});
+	draw_line(&doom->screen, (t_pixel){triangle.c.pos.x, triangle.c.pos.y, 0xFFFFFF}, (t_pixel){triangle.a.pos.x, triangle.a.pos.y});*/
 }

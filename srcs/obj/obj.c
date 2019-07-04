@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 15:28:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/06/28 03:47:57 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/06/28 19:09:09 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ t_bool		init_obj(t_doom *doom, t_obj *obj)
 	ft_bzero(obj, sizeof(t_obj));
 	obj->groups_count++;
 	obj->can_add_materials = TRUE;
-	obj->working_dir = doom->obj_working_dir;
+	obj->current_mtl = -1;
+	obj->working_dir = ft_strdup(doom->obj_working_dir);
 	ft_strcpy(obj->groups[0], "root");
 	if(!(obj->vertices = create_4dvertices_array(800)))
 		return (free_obj(obj, FALSE));
@@ -83,7 +84,6 @@ t_bool		load_obj(t_doom *doom, t_obj *obj, char *file)
 	t_obj_prefix	prefixes[PREFIXES_COUNT + 1];
 	t_obj_prefix	*formatter;
 	char			*path;
-	size_t			i;
 
 	init_prefixes(prefixes);
 	ft_bzero(&reader, sizeof(t_reader));
@@ -93,7 +93,6 @@ t_bool		load_obj(t_doom *doom, t_obj *obj, char *file)
 	free(path);
 	if (!init_obj(doom, obj))
 		return (FALSE);
-	i = 0;
 	while (!!(formatter = get_formatter(prefixes, PREFIXES_COUNT, &reader)))
 	{
 		if (formatter->formatter && !formatter->formatter(obj, &reader))
@@ -121,7 +120,7 @@ t_bool		obj_test(t_doom *doom)
 	t_obj obj;
 	
 	set_obj_working_dir(doom, "assets/obj");
-	t_bool lol = load_obj(doom, &obj, "robot.obj");
+	t_bool lol = load_obj(doom, &obj, "cow-normals.obj");
 	printf("ERROR %d\n", !lol);
 	return (FALSE);
 }

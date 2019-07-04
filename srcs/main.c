@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/06/28 01:45:39 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/04 05:48:20 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	init_bsp(t_doom *doom)
 		append_polygons_array(&polygons, create_wall_polygon((t_line){ (t_vec2){lines[i].a.x / 100, (lines[i].a.y / 100)}, (t_vec2){lines[i].b.x / 100, (lines[i].b.y / 100)}}, 0, 3));
 	}
 
-	/*int count = sizeof(list) / sizeof(t_vec3);
+	/* int count = sizeof(list) / sizeof(t_vec3);
 	t_polygons *polygons = create_polygons_array(count);
 	for (int i = 0; i < count; i++)
 	{
@@ -77,19 +77,42 @@ void	init_bsp(t_doom *doom)
 	doom->bsp = n;
 }
 
+void display(t_mat4 a) 
+{ 
+	for (int i=0; i<4; i++) 
+	{ 
+		for (int j=0; j<4; j++) 
+			printf("%f ", a.a[i][j]); 
+		printf("\n"); 
+	} 
+} 
+
 int		main(void)
 {
+	t_mat4	a;
 	
+	a = ((t_mat4)((t_mat4_data){
+		5, -2, 2, 7, 
+		1, 0, 0, 3, 
+		-3, 1, 5, 0, 
+		3, -1, -9, 4
+	}));
+	display(a);
+	t_mat4 inverse;
+	mat4_inverse(a, &inverse);
+	display(inverse);
+
 	t_doom doom = (t_doom) {
 		.running = TRUE
 	};
-	obj_test(&doom);
-	/*init_bsp(&doom);
+	
+	init_bsp(&doom);
 	init_sdl(&doom);
+	//obj_test(&doom);
 	if (!(doom.rendered_area = (uint8_t *)ft_memalloc(doom.screen.width)))
 		return (-1);
 	game_loop(&doom);
 	sdl_quit(&doom);
-	free_node(doom.bsp);*/
+	free_node(doom.bsp);
 	return (0);
 }

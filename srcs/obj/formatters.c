@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 14:34:00 by llelievr          #+#    #+#             */
-/*   Updated: 2019/06/28 03:48:03 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/06/28 15:14:48 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ t_bool			group_formatter(t_obj *obj, t_reader *reader)
 	}
 	if (c == '\n' && len == GROUPS_NAME_LEN)
 	{
-		ft_putendl("Max name length exeed");
+		ft_putendl("Max group length exeed");
 		return (FALSE);
 	}
 	if ((obj->current_group = get_group(obj, name, len)) != -1)

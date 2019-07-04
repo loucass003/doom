@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/12 15:51:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/06/20 15:55:31 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/03 14:32:43 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,11 @@ static t_bool	snip(t_3dvertices *vertices, int u, int v, int w, int n, int *V)
 
 t_bool	triangulate_polygon(t_polygon *polygon)
 {
+	t_vec3 no = get_polygon_normal(polygon);
+	for (int i = 0; i < polygon->vertices->len; i++)
+		printf("point %f %f %f\n", polygon->vertices->vertices[i].x, polygon->vertices->vertices[i].y, polygon->vertices->vertices[i].z);
+	printf("normal %f %f %f\n\n", no.x, no.y, no.z);
+
 	int n = polygon->vertices->len;
 	if (n < 3 || !(polygon->indices = create_ints_array(polygon->vertices->len * 3)))
 		return FALSE;

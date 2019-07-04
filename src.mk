@@ -10,6 +10,7 @@ SRC+=math/vec4.c
 SRC+=math/plane.c
 SRC+=math/vectex.c
 SRC+=math/triangle.c
+SRC+=math/mat4_inverse.c
 SRC+=game.c
 SRC+=main.c
 SRC+=gui/gui.c

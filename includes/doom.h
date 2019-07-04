@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/06/28 02:07:35 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/04 05:23:43 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,6 +146,8 @@ t_vec4				ft_vec4_div_s(t_vec4 a, float v);
 t_vec4				ft_vec4_sub(t_vec4 a, t_vec4 b);
 t_vec4				ft_vec4_add(t_vec4 a, t_vec4 b);
 t_vec4				ft_vec4_interpolate(t_vec4 a, t_vec4 b, float alpha);
+
+t_bool 				mat4_inverse(t_mat4 a, t_mat4 *inverse);
 
 t_bool				init_sdl(t_doom *doom);
 t_bool				sdl_quit(t_doom *doom);

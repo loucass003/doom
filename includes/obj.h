@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 15:26:39 by llelievr          #+#    #+#             */
-/*   Updated: 2019/06/28 03:27:35 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/06/28 19:03:40 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # define GROUPS_MAX 255
 # define GROUPS_NAME_LEN 255
 # define MATERIAL_FILE_LEN 255
+# define MATERIAL_TEXTURE_LEN 255
 # define MATERIAL_NAME_LEN 255
 # include "doom.h" 
 
@@ -68,7 +69,7 @@ typedef struct	s_obj
 	t_3dvertices	*normals;
 	t_bool			can_add_materials;
 	t_mtllist		*materials;
-	t_mtl			*current_mtl;
+	int				current_mtl;
 	int				current_group;
 	size_t			groups_count;
 	char			groups[GROUPS_MAX][GROUPS_NAME_LEN];
@@ -104,5 +105,6 @@ t_bool			mtllib_formatter(t_obj *obj, t_reader *reader);
 t_bool			usemtl_formatter(t_obj *obj, t_reader *reader);
 t_bool			mtl_newmtl_formatter(t_obj *obj, t_reader *reader);
 t_bool			mtl_map_kd_formatter(t_obj *obj, t_reader *reader);
+int				get_material(t_obj *obj, char *name, size_t len);
 
 #endif
