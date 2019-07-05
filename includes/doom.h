@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/03 14:28:23 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/07/05 10:23:26 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -266,6 +266,7 @@ void	erase_all(t_doom *doom);
 
 void	modify_all(t_doom *doom, int x, int y);
 void	all_visual(t_doom *doom, int x, int y);
+void	visual_line(t_doom *doom, t_line line);
 
 // int		ft_listlen(t_save *poly);
 t_bool     in_the_poly(t_doom *doom, t_save *lst, t_vec2 point);
@@ -277,7 +278,8 @@ void	show_new_components(t_doom *doom);
 t_bool	found_intersect(t_line *line, t_line *cmp, t_line_list *pol);
 t_bool	check_secant_line(t_doom *doom, t_save *list, t_line line);
 
-void	print_poly(t_doom *doom, t_save *liste, int color);
+void	print_all(t_doom *doom);
+
 
 void    print_lst(t_doom *doom, t_save *list);
 

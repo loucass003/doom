@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 15:50:09 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/03 16:31:30 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/07/05 14:31:08 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,14 +142,13 @@ void			g_editor_render(t_gui *self, t_doom *doom)
 	}
 	if (doom->editor.curseur == 1)
 		all_visual(doom, doom->editor.last_mouse.x / 20, doom->editor.last_mouse.y / 20);
+	if (doom->editor.click != 0 && (doom->editor.poly == 1 || doom->editor.porte == 1 || doom->editor.secteur == 1 || doom->editor.lignes == 1))
+		visual_line(doom, (t_line){doom->editor.line.a.x, doom->editor.line.a.y, (int)doom->editor.last_mouse.x / 20, (int)doom->editor.last_mouse.y / 20});
 	write_alert_message(doom);
-	print_poly(doom, doom->editor.polygon, 0x00FFFF);
-	print_poly(doom, doom->editor.lines, 0xFF0000); 
-	print_poly(doom, doom->editor.sector, 0xFF00FF);
-	print_poly(doom, doom->editor.door, 0x800080);
+	print_all(doom);
 	if (doom->editor.sup == 1)
 	{
-		if (doom->editor.polygon || doom->editor.lines)
+		if (doom->editor.polygon || doom->editor.lines || doom->editor.door || doom->editor.sector)
 			draw_line(&doom->screen, (t_pixel){doom->linetodel.a.x * 20 
 			+ 10, doom->linetodel.a.y * 20 + 10, 16729670}, (t_pixel){doom->linetodel.b.x 
 			* 20 + 10, doom->linetodel.b.y * 20 + 10});

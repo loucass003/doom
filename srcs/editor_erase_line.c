@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 13:18:39 by lloncham          #+#    #+#             */
-/*   Updated: 2019/06/26 17:15:27 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/07/05 14:38:19 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,31 +42,30 @@ void	erase_all_line(t_doom *doom, t_save *poly)
 	set_alert_message(doom);
 }
 
-void	erase_all(t_doom *doom)
+void	erase_all_lst(t_doom *doom, t_save **liste)
 {
 	t_save		*lst;
 	t_save		*prev;
+	
+	lst = *liste;
+	while (lst)
+	{
+		erase_all_line(doom, lst);
+		prev = lst;
+		lst = lst->next;
+		free(prev);
+	}
+	*liste = NULL;
+}
 
-	lst = doom->editor.polygon;
-	while (lst)
-	{
-		erase_all_line(doom, lst);
-		prev = lst;
-		lst = lst->next;
-		free(prev);
-	}
-	doom->editor.polygon = NULL;
-	lst = doom->editor.lines;
-	while (lst)
-	{
-		erase_all_line(doom, lst);
-		prev = lst;
-		lst = lst->next;
-		free(prev);
-	}
-	doom->editor.lines = NULL;
-	doom->editor.click = 0;
+void	erase_all(t_doom *doom)
+{
+	erase_all_lst(doom, &doom->editor.polygon);
+	erase_all_lst(doom, &doom->editor.door);
+	erase_all_lst(doom, &doom->editor.sector);
+	erase_all_lst(doom, &doom->editor.lines);
 	erase_obj(doom);
+	doom->editor.click = 0;
 }
 
 void		mouseonline(t_doom *doom, t_line_list *tmp, int *line)
@@ -209,6 +208,10 @@ void	save_line_to_erase(t_doom *doom, int x, int y)
 	    erase_line(doom, &doom->editor.polygon, doom->editor.set_sup);
     if (doom->editor.lines)
 	    erase_line(doom, &doom->editor.lines, doom->editor.set_sup);
+	if (doom->editor.door)
+	    erase_line(doom, &doom->editor.door, doom->editor.set_sup);
+	if (doom->editor.sector)
+	    erase_line(doom, &doom->editor.sector, doom->editor.set_sup);
     if (doom->editor.obj)
 		erase_one_obj(doom, x, y);
 

@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/26 17:31:07 by lloncham          #+#    #+#             */
-/*   Updated: 2019/07/03 14:45:19 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/07/05 14:31:38 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,15 +37,31 @@ void	editor_mouse_motion(t_doom *doom, SDL_Event *event)
 	if (doom->editor.sup == 1 && doom->editor.polygon) // PROBLEME ICI
 	{
 		lst = doom->editor.polygon;
-		while (lst->floor != doom->editor.floor && lst)
-			lst = lst->next; 
+		while (lst->floor != doom->editor.floor && lst->next != NULL)
+			lst = lst->next;
 		if (lst->line)
 			mouseonline(doom, lst->line, doom->editor.set_sup);
 	}
 	if (doom->editor.sup == 1 && doom->editor.lines)
 	{
 		lst = doom->editor.lines;
-		while (lst->floor != doom->editor.floor && lst)
+		while (lst->floor != doom->editor.floor && lst->next != NULL)
+			lst = lst->next;
+		if (lst->line)
+			mouseonline(doom, lst->line, doom->editor.set_sup);
+	}
+	if (doom->editor.sup == 1 && doom->editor.door)
+	{
+		lst = doom->editor.door;
+		while (lst->floor != doom->editor.floor && lst->next != NULL)
+			lst = lst->next;
+		if (lst->line)
+			mouseonline(doom, lst->line, doom->editor.set_sup);
+	}
+	if (doom->editor.sup == 1 && doom->editor.sector)
+	{
+		lst = doom->editor.sector;
+		while (lst->floor != doom->editor.floor && lst->next != NULL)
 			lst = lst->next;
 		if (lst->line)
 			mouseonline(doom, lst->line, doom->editor.set_sup);
@@ -75,7 +91,7 @@ void	editor_mouse_draw(t_doom *doom, int x, int y) //on save les donnees apres a
 		if (doom->editor.lignes == 1 || doom->editor.secteur == 1 || doom->editor.porte == 1)
 			if (in_the_poly(doom, doom->editor.polygon, (t_vec2){x / 20, y / 20}) == FALSE)
 				return;
-    doom->editor.line.b.x = x / 20;
+    	doom->editor.line.b.x = x / 20;
 		doom->editor.line.b.y = y / 20;
 		if (doom->editor.poly == 1 && check_same_point(doom) == FALSE)
 			return ;
@@ -112,47 +128,14 @@ void	editor_mousebuttonup(t_doom *doom, int x, int y)
 			doom->editor.set_start_pos[2] = doom->editor.floor;
 		}
 		else if (doom->editor.sup >= 1)//suppression de point
-				save_line_to_erase(doom, x / 20, y / 20);
+			save_line_to_erase(doom, x / 20, y / 20);
 		if (doom->editor.icone == 1)
 		{
 			if (in_the_poly(doom, doom->editor.polygon, (t_vec2){x / 20, y / 20}) == FALSE)
-					return;
+				return;
 			save_object(doom, x, y, doom->editor.objet);
 		}
-		else if (doom->editor.poly || doom->editor.lignes || doom->editor.secteur == 1 || doom->editor.porte == 1)
+		else if (doom->editor.poly == 1 || doom->editor.lignes == 1 || doom->editor.secteur == 1 || doom->editor.porte == 1)
 			editor_mouse_draw(doom, x, y);
 	}
 }
-
-// void	editor_mousebuttonup(t_doom *doom, int x, int y)
-// {
-// 	if (doom->open == 0)
-// 	{
-// 		if (doom->editor.curseur == 1)//modification de points
-// 		{
-// 			if (doom->editor.save_modif[2] == 0)
-// 			{
-// 				doom->editor.save_modif[0] = x / 20;
-// 				doom->editor.save_modif[1] = y / 20;
-// 				doom->editor.save_modif[2] = 1;
-// 			}
-// 			else if (doom->editor.save_modif[2] == 1)
-// 			{
-// 				modify_point(doom, x, y);
-// 				modify_object(doom, x, y);
-// 			}
-// 		}
-// 		else if (doom->editor.set_start % 2 != 0) //determiner point de depart
-// 		{
-// 			doom->editor.set_start_pos[0] = x / 20;
-// 			doom->editor.set_start_pos[1] = y / 20;
-// 		}
-// 		else if (doom->editor.sup >= 1) //suppression de point
-// 			save_line_to_erase(doom, x, y);
-// 		else if (doom->editor.icone == 1)
-// 			save_object(doom, x, y, doom->editor.objet);
-// 		else //save point dans liste afin de pouvoir les dessiner
-// 			editor_mouse_draw(doom, x, y);
-// 	} 
-// 	print_lst(doom);
-// }
