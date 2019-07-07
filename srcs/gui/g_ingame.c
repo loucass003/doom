@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/01 16:20:18 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/06 09:14:08 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,6 @@ void	g_ingame_render(t_gui *self, t_doom *doom)
 	ft_bzero(doom->rendered_area, doom->screen.width);
 	g_count = 0;
 	traverseDrawOrder(doom, doom->bsp);
-	//draw_graph(doom, doom->bsp);
+	draw_graph(doom, doom->bsp);
 	//exit(0);
 }

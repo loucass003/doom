@@ -35,6 +35,7 @@ SRC+=render/cliping.c
 SRC+=render/triangle.c
 SRC+=render/circle.c
 SRC+=bsp/ear_clipping.c
+SRC+=bsp/uv_mapping.c
 SRC+=bsp/polygon.c
 SRC+=bsp/node.c
 SRC+=bsp/builder.c

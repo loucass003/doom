@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/08 13:54:28 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/11 21:47:30 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/05 15:35:27 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ t_3dvertices	*splice_3dvertices_array(t_3dvertices *arr, int index, int n)
 {
 	if (index < 0)
 		index = index + arr->len - 1;
-	if (n <= 0 || index >= arr->len || index + n >= arr->len)
+	if (n <= 0 || index > arr->len || index + n > arr->len)
 		return (NULL);
 	ft_memcpy(arr->vertices + index, arr->vertices + index + n,
 		(arr->len - (index + n)) * sizeof(t_vec3));

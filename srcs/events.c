@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:14:55 by llelievr          #+#    #+#             */
-/*   Updated: 2019/06/28 22:43:59 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/06 21:48:49 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,10 @@
 
 static t_node	*get_player_node(t_doom *doom)
 {
-	t_node *n = doom->bsp;
-	t_vec2 p = (t_vec2){doom->player.pos.x, doom->player.pos.z};
+	const t_vec2	p = (t_vec2){doom->player.pos.x, doom->player.pos.z};
+	t_node			*n;
+
+	n = doom->bsp;
 	while (n->type != N_LEAF)
 	{
 		if (get_side_thin(n->partition, p) == S_FRONT)
@@ -24,6 +26,89 @@ static t_node	*get_player_node(t_doom *doom)
 			n = n->back;
 	}
 	return (n);
+}
+
+void	up_down_polygon(t_polygon *poly, t_bool up)
+{
+	if (poly->type == P_CEILING)
+	{
+		int j = -1;
+		while (++j < poly->vertices->len)
+			poly->vertices->vertices[j].y += 0.05 * (up ? 1 : -1);
+	}
+
+	if (poly->type == P_WALL)
+	{
+		int l = -1;
+		int len = floor(poly->indices->len / 3.);
+		while (++l < len)
+		{
+			if (l % 2 == 0)
+				poly->vertices->vertices[poly->indices->values[l * 3 + 1]].y += 0.05 * (up ? 1 : -1);
+			else
+			{
+				poly->vertices->vertices[poly->indices->values[l * 3]].y += 0.05 * (up ? 1 : -1);
+			}
+		}
+	}
+}
+
+void	rotate_polygon(t_polygon *poly, t_player *player, int axis)
+{
+	if (poly->type == P_CEILING)
+	{
+		int j = -1;
+		while (++j < poly->vertices->len)
+		{
+			poly->vertices->vertices[j].y += 0.05;
+		}
+	}
+}
+
+void	modify_room(t_doom *doom, t_node *node, SDL_Event *event)
+{
+	int				i;
+	t_polygon		poly;
+
+	
+	if (node->type != N_LEAF)
+		printf("PARTITION %f %f - %f %f\n", node->partition.a.x, node->partition.a.y, node->partition.b.x, node->partition.b.y);
+	else
+		printf("LEAF\n");
+	i = -1;
+	while (++i < node->polygons->len)
+	{
+		poly = node->polygons->polygons[i];
+		if (event->key.keysym.scancode == SDL_SCANCODE_PAGEUP 
+			|| event->key.keysym.scancode == SDL_SCANCODE_PAGEDOWN)
+			up_down_polygon(&poly, event->key.keysym.scancode == SDL_SCANCODE_PAGEUP);
+		if (event->key.keysym.scancode == SDL_SCANCODE_T
+		|| event->key.keysym.scancode == SDL_SCANCODE_G
+		|| event->key.keysym.scancode == SDL_SCANCODE_F
+		|| event->key.keysym.scancode == SDL_SCANCODE_H)
+			rotate_polygon(&poly, &doom->player, event->key.keysym.scancode == SDL_SCANCODE_T + event->key.keysym.scancode == SDL_SCANCODE_G * 2 + event->key.keysym.scancode == SDL_SCANCODE_F * 3 + event->key.keysym.scancode == SDL_SCANCODE_H * 4);
+	}
+}
+
+void	room_map(t_doom *doom, SDL_Event *event, void (*part)(t_doom *doom, t_node *node, SDL_Event *event))
+{
+	const t_node	*n = get_player_node(doom);
+	const t_node	*e;
+
+	if (!n)
+		return ;
+	part(doom, n, event);
+	e = n->parent;
+	while (e 
+		&& (!e->parent 
+		|| (e->parent->front == e 
+			|| (e->parent->back == e && e->parent->back->type != N_LEAF))))
+	{
+		part(doom, e, event);
+		if (e->parent && e->parent->back == e)
+			break;
+		e = e->parent;
+	}
 }
 
 static void	events_window(t_doom *doom, SDL_Event *event)
@@ -50,46 +135,13 @@ static void	events_window(t_doom *doom, SDL_Event *event)
 				(t_vec2){ event->motion.x, event->motion.y }, doom);
 		}
 	}
-	if (event->type == SDL_KEYDOWN && event->key.keysym.scancode == SDL_SCANCODE_PAGEUP)
-	{
-		t_node *n = get_player_node(doom);
-		int i = -1;
-		while (++i < n->polygons->len)
-		{
-			t_polygon poly = n->polygons->polygons[i];
-			if (poly.type == P_FLOOR)
-				continue;
-			int j = -1;
-			while (++j < poly.vertices->len)
-			{
-				poly.vertices->vertices[j].y += 0.05;
-			}
-			t_node *wall = n->parent;
-			while (wall && (!wall->parent || wall->parent->front == wall))
-			{
-				int k = -1;
-				while (++k < wall->polygons->len)
-				{
-					t_polygon poly2 = wall->polygons->polygons[k];
-					if (poly2.type != P_WALL)
-						continue;
-					int l = -1;
-					int len = floor(poly2.indices->len / 3.);
-					printf("%d\n", len);
-					while (++l < len)
-					{
-						if (l % 2 == 0)
-							poly2.vertices->vertices[poly2.indices->values[l * 3]].y += 0.05;
-						else
-						{
-							poly2.vertices->vertices[poly2.indices->values[l * 3 + 1]].y += 0.05;
-						}
-					}
-				}
-				wall = wall->parent;
-			}
-		}
-	}
+	if (event->type == SDL_KEYDOWN && (event->key.keysym.scancode == SDL_SCANCODE_PAGEUP 
+		|| event->key.keysym.scancode == SDL_SCANCODE_PAGEDOWN
+		|| event->key.keysym.scancode == SDL_SCANCODE_T
+		|| event->key.keysym.scancode == SDL_SCANCODE_G
+		|| event->key.keysym.scancode == SDL_SCANCODE_F
+		|| event->key.keysym.scancode == SDL_SCANCODE_H))
+		room_map(doom, event, modify_room);
 }
 
 void	hook_events(t_doom *doom)
@@ -104,18 +156,20 @@ void	hook_events(t_doom *doom)
 	t_vec3 dir = {0, 0, 0};
 	if (s[SDL_SCANCODE_W] || s[SDL_SCANCODE_S])
 	{
-		dir.x += sinf(doom->player.rotation) * (s[SDL_SCANCODE_W] ? 1 : -1) * ms;
-		dir.z += cosf(doom->player.rotation) * (s[SDL_SCANCODE_W] ? 1 : -1) * ms;
+		dir.x += sinf(doom->player.rotation.y) * (s[SDL_SCANCODE_W] ? 1 : -1) * ms;
+		dir.z += cosf(doom->player.rotation.y) * (s[SDL_SCANCODE_W] ? 1 : -1) * ms;
 	}
 	if (s[SDL_SCANCODE_A] || s[SDL_SCANCODE_D])
 	{
-		dir.x += -cosf(doom->player.rotation) * (s[SDL_SCANCODE_D] ? 1 : -1) * ms;
-		dir.z += sinf(doom->player.rotation) * (s[SDL_SCANCODE_D] ? 1 : -1) * ms;
+		dir.x += -cosf(doom->player.rotation.y) * (s[SDL_SCANCODE_D] ? 1 : -1) * ms;
+		dir.z += sinf(doom->player.rotation.y) * (s[SDL_SCANCODE_D] ? 1 : -1) * ms;
 	}
 	if (s[SDL_SCANCODE_SPACE] || s[SDL_SCANCODE_LSHIFT])
 		dir.y += (s[SDL_SCANCODE_SPACE] ? 1 : -1) * ms;
 	if (s[SDL_SCANCODE_J] || s[SDL_SCANCODE_L])
-		doom->player.rotation += 0.3 * (s[SDL_SCANCODE_J] ? 1 : -1) * ms;
+		doom->player.rotation.y += 0.3 * (s[SDL_SCANCODE_J] ? 1 : -1) * ms;
+	if (s[SDL_SCANCODE_I] || s[SDL_SCANCODE_K])
+		doom->player.rotation.x += 0.3 * (s[SDL_SCANCODE_I] ? 1 : -1) * ms;
 	doom->player.pos = ft_vec3_add(doom->player.pos, dir);
 	update_maxtrix(doom);
 	while (SDL_PollEvent(&event))

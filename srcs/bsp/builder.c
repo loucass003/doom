@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 16:36:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/22 23:16:56 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/05 15:09:44 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,9 @@ void		build_node(t_node *node)
 	{
 		t_polygon	*poly = &node->polygons->polygons[i];
 		t_side		side = get_poly_side(node->partition, poly);
+		printf("NEW POLY side %d\n", side);
+		for (int j = 0; j < poly->vertices->len; j++)
+			printf ("point %f %f %f\n", poly->vertices->vertices[j].x, poly->vertices->vertices[j].y, poly->vertices->vertices[j].z);
 		if (side == S_COLINEAR)
 			append_polygons_array(&colinear, *poly);
 		else if (side == S_FRONT)

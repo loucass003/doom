@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 16:30:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/06/05 22:22:35 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/05 16:17:44 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ t_line		get_poly_line(t_polygon *poly)
 t_bool	clip_poly(t_polygon *out, t_polygon *poly, t_line partition, t_side side)
 {
 	t_3dvertices	*vertices = create_3dvertices_array(poly->vertices->len);
-	int			i;
+	int				i;
 
 	i = -1;
 	while (++i < poly->vertices->len)
@@ -67,7 +67,10 @@ t_bool	clip_poly(t_polygon *out, t_polygon *poly, t_line partition, t_side side)
 		t_side side1 = get_side_thin(partition, (t_vec2){v1.x, v1.z});
 		t_side side2 = get_side_thin(partition, (t_vec2){v2.x, v2.z});
 		if (side1 != side)
+		{
+			//printf("V1 %f %f %f\n", v1.x, v1.y, v1.z);
 			append_3dvertices_array(&vertices, v1);
+		}
 		if ((side1 == S_FRONT && side2 == S_BACK) 
 			|| (side2 == S_FRONT && side1 == S_BACK))
 		{
@@ -78,21 +81,29 @@ t_bool	clip_poly(t_polygon *out, t_polygon *poly, t_line partition, t_side side)
 				v2 = tmp;
 			}
 			float f = get_intersection((t_line){ .a = {v1.x, v1.z}, .b = {v2.x, v2.z} }, partition);
-			append_3dvertices_array(&vertices, (t_vec3){
+			t_vec3 t = (t_vec3){
 				v1.x + f * (v2.x - v1.x),
 				v1.y + f * (v2.y - v1.y),
 				v1.z + f * (v2.z - v1.z)
-			});
+			};
+		//	printf ("T %f %f %f\n", t.x, t.y, t.z);
+			append_3dvertices_array(&vertices, t);
 		}
 	}
 	i = -1;
-	while (++i < poly->vertices->len)
+	while (++i < vertices->len)
 	{
-		int next = (i + 1) % poly->vertices->len;
-		t_vec3 v1 = poly->vertices->vertices[i];
-		t_vec3 v2 = poly->vertices->vertices[next];
+		int next = (i + 1) % vertices->len;
+		t_vec3 v1 = vertices->vertices[i];
+		t_vec3 v2 = vertices->vertices[next];
 		if (v1.x == v2.x && v1.y == v2.y && v1.z == v2.z)
+		{
+		//	printf("rv %f %f %f\n", v1.x, v1.y, v1.z);
 			splice_3dvertices_array(vertices, i, 1);
+		/*	if (i < vertices->len && i > 0)
+				printf("rve %f %f %f\n", vertices->vertices[i].x, vertices->vertices[i].y, vertices->vertices[i].z);*/
+		
+		}
 	}
 	if (vertices->len < 3)
 	{

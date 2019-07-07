@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 01:17:41 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/01 16:18:42 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/06 19:49:34 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,7 +228,7 @@ void TexturedTriangle(t_doom *doom,	int x1, int y1, float u1, float v1, float w1
 	{
 		int y_start = fmax(0, fmin(y1, S_HEIGHT - 1));
 		int y_end = fmax(0, fmin(y2, S_HEIGHT - 1));
-		for (int i = y_start; i <= y_end; i++)
+		for (int i = y_start; i < y_end; i++)
 		{
 			int ax = x1 + (float)(i - y1) * dax_step;
 			int bx = x1 + (float)(i - y1) * dbx_step;
@@ -293,7 +293,7 @@ void TexturedTriangle(t_doom *doom,	int x1, int y1, float u1, float v1, float w1
 	{
 		int y_start = fmax(0, fmin(y2, S_HEIGHT - 1));
 		int y_end = fmax(0, fmin(y3, S_HEIGHT - 1));
-		for (int i = y_start; i <= y_end; i++)
+		for (int i = y_start; i < y_end; i++)
 		{
 			int ax = x2 + (float)(i - y2) * dax_step;
 			int bx = x1 + (float)(i - y1) * dbx_step;

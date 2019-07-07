@@ -6,91 +6,15 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/12 15:51:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/04 13:22:45 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/06 20:46:08 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom.h"
 
 #define EPSILON (1e-6)
-
-static float	area(t_3dvertices *vertices)
-{
-/*	float	a;
-	int		p;
-	int		q;
-
-	a = 0;
-	p = vertices->len - 1;
-	q = 0;
-	while (q < vertices->len)
-	{
-		a += vertices->vertices[p].x * vertices->vertices[q].y
-			- vertices->vertices[q].x * vertices->vertices[p].y;
-		p = q++;
-	}
-	return (a * 0.5);*/
-	int n = vertices->len;
-	float A = 0.0;
-	for (int p = n - 1, q = 0; q < n; p = q++) {
-		t_vec3 pval = vertices->vertices[p];
-		t_vec3 qval = vertices->vertices[q];
-		A += pval.x * qval.y - qval.x * pval.y;
-	}
-	return (A * 0.5);
-}
-
-t_bool	inside_triangle(t_vec3 a, t_vec3 b, t_vec3 c, t_vec3 p)
-{
-	/*float	i = (c.x - b.x) * (p.y - b.y) - (c.y - b.y) * (p.x - b.x);
-	float	j = (b.x - a.x) * (p.y - a.y) - (b.y - a.y) * (p.x - a.x);
-	float	k = (a.x - c.x) * (p.y - c.y) - (a.y - c.y) * (p.x - c.x);
-
-	return (i >= 0 && j >= 0 && k >= 0);*/
-
-	float i = fabs(ft_vec3_dot(ft_vec3_sub(c, b), ft_vec3_sub(p, b)));
-	float j = fabs(ft_vec3_dot(ft_vec3_sub(b, a), ft_vec3_sub(p, a)));
-	float k = fabs(ft_vec3_dot(ft_vec3_sub(a, c), ft_vec3_sub(p, c)));
-
-	return (i < 0.999 && j < 0.999 && k < 0.999);
-}
-
-static t_bool	snip(t_3dvertices *vertices, int u, int v, int w, int n, int *V)
-{
-	int p;
-	t_vec3 A = vertices->vertices[V[u]];
-	t_vec3 B = vertices->vertices[V[v]];
-	t_vec3 C = vertices->vertices[V[w]];
-	float f = fabs(ft_vec3_dot(ft_vec3_sub(B, A), ft_vec3_sub(C, A)));
-	if (f < 0.999)
-		return FALSE;
-	/*float t = ((B.x - A.x) * (C.y - A.y)) - ((B.y - A.y) * (C.x - A.x));
-	if (EPSILON > t)
-		return (FALSE);*/
-	for (p = 0; p < n; p++) {
-		if ((p == u) || (p == v) || (p == w))
-			continue;
-		t_vec3 P = vertices->vertices[V[p]];
-		if (inside_triangle(A, B, C, P))
-			return FALSE;
-	}
-	return TRUE;
-}
-
-void disp(t_mat4 a) 
-{ 
-	for (int i=0; i<4; i++) 
-	{ 
-		for (int j=0; j<4; j++) 
-			printf("%f ", a.a[i][j]); 
-		printf("\n"); 
-	} 
-} 
-
-
-t_bool	triangulate_polygon(t_polygon *polygon)
-{
-	t_vec3 no = get_polygon_normal(polygon);
+/*
+t_vec3 no = get_polygon_normal(polygon);
 	for (int i = 0; i < polygon->vertices->len; i++)
 		printf("point %f %f %f\n", polygon->vertices->vertices[i].x, polygon->vertices->vertices[i].y, polygon->vertices->vertices[i].z);
 	printf("normal %f %f %f\n", no.x, no.y, no.z);
@@ -131,57 +55,147 @@ t_bool	triangulate_polygon(t_polygon *polygon)
 		printf("new point %f %f %f\n", point.x, point.y, point.z);
 	}
 
-	printf("\n");
-	int n = polygon->vertices->len;
-	if (n < 3 || !(polygon->indices = create_ints_array(polygon->vertices->len * 3)))
-		return FALSE;
-	int V[n];
-	/*if (area(polygon->vertices) > 0) {
-		for (int v = 0; v < n; v++)
-			V[v] = v;
-	}
-	else {
-		for (int v = 0; v < n; v++)
-			V[v] = (n - 1) - v;
-	}*/
-	t_bool b = ft_vec3_dot(get_polygon_normal(polygon), get_polygon_normal(polygon)) > 0; //DAFUCK CA MARCHE xD
-	if (b) {
-		for (int v = 0; v < n; v++)
-			V[v] = v;
-	}
-	else {
-		for (int v = 0; v < n; v++)
-			V[v] = (n - 1) - v;
-	}
-	int nv = n;
-	int count = 2 * nv;
-	for (int v = nv - 1; nv > 2; ) {
-		if ((count--) <= 0)
-			return TRUE;
+	printf("\n"); */
 
-		int u = v;
+static float	area(t_3dvertices *vertices)
+{
+	int n = vertices->len;
+	float A = 0.0f;
+	for (int p = n - 1, q = 0; q < n; p = q++) {
+		t_vec3 pval = vertices->vertices[p];
+		t_vec3 qval = vertices->vertices[q];
+		A += pval.x * qval.y - qval.x * pval.y;
+	}
+	return (A * 0.5f);
+}
+
+t_bool	inside_triangle(t_vec3 a, t_vec3 b, t_vec3 c, t_vec3 p)
+{
+	float ax, ay, bx, by, cx, cy, apx, apy, bpx, bpy, cpx, cpy;
+	float cCROSSap, bCROSScp, aCROSSbp;
+ 
+	ax = c.x - b.x; ay = c.y - b.y;
+	bx = a.x - c.x; by = a.y - c.y;
+	cx = b.x - a.x; cy = b.y - a.y;
+	apx = p.x - a.x; apy = p.y - a.y;
+	bpx = p.x - b.x; bpy = p.y - b.y;
+	cpx = p.x - c.x; cpy = p.y - c.y;
+
+	aCROSSbp = ax * bpy - ay * bpx;
+	cCROSSap = cx * apy - cy * apx;
+	bCROSScp = bx * cpy - by * cpx;
+ 
+	return ((aCROSSbp >= 0.0f) && (bCROSScp >= 0.0f) && (cCROSSap >= 0.0f));
+}
+
+static t_bool	snip(t_3dvertices *vertices, int u, int j, int w, int n, int *v)
+{
+	int		p;
+	t_vec3	a, b, c;
+
+	a = vertices->vertices[v[u]];
+	b = vertices->vertices[v[j]];
+	c = vertices->vertices[v[w]];
+	float t = ((b.x - a.x) * (c.y - a.y)) - ((b.y - a.y) * (c.x - a.x));
+	if (EPSILON > t)
+		return (FALSE);
+	for (p = 0; p < n; p++) 
+	{
+		if (p == u || p == j || p == w)
+			continue;
+		if (inside_triangle(a, b, c, vertices->vertices[v[p]]))
+			return (FALSE);
+	}
+	return (TRUE);
+}
+
+static t_bool	ear_clip_polygon(t_polygon *polygon)
+{
+	int		*v;
+
+	if (polygon->vertices->len < 3 
+		|| !(v = (int *)malloc(polygon->vertices->len * sizeof(int)))
+		|| (!polygon->indices && !(polygon->indices = create_ints_array(polygon->vertices->len * 3))))
+		return (FALSE);
+	if (area(polygon->vertices) > 0) {
+		for (int i = 0; i < polygon->vertices->len; i++)
+			v[i] = i;
+	}
+	else {
+		for (int i = 0; i < polygon->vertices->len; i++)
+			v[i] = (polygon->vertices->len - 1) - i;
+	}
+	int nv = polygon->vertices->len;
+	int count = 2 * nv;
+	for (int j = nv - 1; nv > 2; )
+	{
+		if ((count--) <= 0)
+		{
+			free(v);
+			return (TRUE);
+		}
+		int u = j;
 		if (nv <= u)
 			u = 0;
-		v = u + 1;
-		if (nv <= v)
-			v = 0;
-		int w = v + 1;
+		j = u + 1;
+		if (nv <= j)
+			j = 0;
+		int w = j + 1;
 		if (nv <= w)
 			w = 0;
-
-		if (snip(polygon->vertices, u, v, w, nv, V)) {
-			int a, b, c, s, t;
-			a = V[u];
-			b = V[v];
-			c = V[w];
-			append_ints_array(&polygon->indices, a);
-			append_ints_array(&polygon->indices, b);
-			append_ints_array(&polygon->indices, c);
-			for (s = v, t = v + 1; t < nv; s++, t++)
-				V[s] = V[t];
+		if (snip(polygon->vertices, u, j, w, nv, v))
+		{
+			int s, t;
+			append_ints_array(&polygon->indices, v[u]);
+			append_ints_array(&polygon->indices, v[j]);
+			append_ints_array(&polygon->indices, v[w]);
+			for (s = j, t = j + 1; t < nv; s++, t++)
+				v[s] = v[t];
 			nv--;
 			count = 2 * nv;
-		}
+		}	
 	}
+	free(v);
+	return (TRUE);
+}
+
+t_bool	compute_change_of_basis(t_polygon *poly, t_mat4 *p, t_mat4 *p_inv)
+{
+	const t_vec3	n = get_polygon_normal(poly);
+	const t_vec3	up = (t_vec3){0, 0, 1};
+	t_vec3			u;
+	t_vec3			w;
+
+	u = ft_vec3_cross(n, up);
+	if (ft_vec3_len(u) == 0)
+		u = (t_vec3){0, 1, 0};
+	w = ft_vec3_cross(u, n);
+	*p = (t_mat4)((t_mat4_data){
+		u.x, w.x, n.x, 0,
+		u.y, w.y, n.y, 0,
+		u.z, w.z, n.z, 0,
+		0, 0, 0, 1
+	});
+	return (mat4_inverse(*p, p_inv));
+}
+
+t_bool	triangulate_polygon(t_polygon *polygon)
+{
+	t_mat4	p;
+	t_mat4	p_inv;
+	int		i;
+
+	if (!compute_change_of_basis(polygon, &p, &p_inv))
+		return (FALSE);
+	i = -1;
+	while (++i < polygon->vertices->len)
+		polygon->vertices->vertices[i] = ft_mat4_mulv(p_inv,
+			polygon->vertices->vertices[i]);
+	ear_clip_polygon(polygon);
+	uv_mapping(polygon);
+	i = -1;
+	while (++i < polygon->vertices->len)
+		polygon->vertices->vertices[i] = ft_mat4_mulv(p,
+			polygon->vertices->vertices[i]);
 	return (TRUE);
 }

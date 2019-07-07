@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 16:26:42 by llelievr          #+#    #+#             */
-/*   Updated: 2019/06/25 18:34:24 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/05 20:41:52 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,10 +83,10 @@ typedef struct		s_polygons
 
 typedef enum		s_side
 {
-	S_FRONT,
-	S_BACK,
-	S_COLINEAR,
-	S_SPANNING
+	S_FRONT = 1,
+	S_BACK = -1,
+	S_COLINEAR = 0,
+	S_SPANNING = 2
 }					t_side;
 
 typedef struct		s_line
@@ -138,5 +138,6 @@ void		build_node(t_node *node);
 t_bool		post_process_bsp(t_node *n, int x, int depth);
 
 t_bool		triangulate_polygon(t_polygon *polygon);
+void		uv_mapping(t_polygon *polygon);
 
 #endif

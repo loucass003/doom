@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/04 05:23:43 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/06 11:17:06 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,13 @@
 # include <SDL_ttf.h>
 # include <math.h>
 # include <stdlib.h>
+# include <limits.h>
 
 # include "libft.h"
 # include "constants.h"
 # include "image.h"
 # include "bsp.h"
+
 
 typedef struct s_doom t_doom;
 
@@ -61,7 +63,7 @@ typedef struct		s_player
 	t_vec3			pos;
 	t_mat4			matrix;
 	t_mat4			projection;
-	float			rotation;
+	t_vec2			rotation;
 	t_node			*curr_node;
 }					t_player;
 

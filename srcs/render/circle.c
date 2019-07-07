@@ -6,13 +6,13 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 13:06:49 by llelievr          #+#    #+#             */
-/*   Updated: 2019/06/06 13:25:17 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/04 19:18:33 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom.h"
 
-static inline	put_pixel(t_img *img, t_pixel p)
+static inline void	put_pixel(t_img *img, t_pixel p)
 {
 	img->pixels[p.y * img->width + p.x] = p.color;
 }
