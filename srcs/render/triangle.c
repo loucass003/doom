@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 01:17:41 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/06 19:49:34 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/08 17:44:52 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -266,8 +266,8 @@ void TexturedTriangle(t_doom *doom,	int x1, int y1, float u1, float v1, float w1
 				if (doom->screen.pixels[i * (int)S_WIDTH + j] == 0)
 				{
 					doom->screen.pixels[i * (int)S_WIDTH + j] = get_surface_pixel(doom->textures.bricks, 
-						ft_max(0, ft_min(((tex_u / tex_w) * doom->textures.bricks->w), doom->textures.bricks->w - 1)), 
-						ft_max(0, ft_min(((tex_v / tex_w) * doom->textures.bricks->h), doom->textures.bricks->h - 1))
+						((tex_u / tex_w) * doom->textures.bricks->w), 
+						((tex_v / tex_w) * doom->textures.bricks->h)
 					);
 				}
 				t += tstep;
@@ -332,8 +332,8 @@ void TexturedTriangle(t_doom *doom,	int x1, int y1, float u1, float v1, float w1
 				if (doom->screen.pixels[i * (int)S_WIDTH + j] == 0)
 				{
 					doom->screen.pixels[i * (int)S_WIDTH + j] = get_surface_pixel(doom->textures.bricks, 
-						ft_max(0, ft_min(((tex_u / tex_w) * doom->textures.bricks->w), doom->textures.bricks->w - 1)), 
-						ft_max(0, ft_min(((tex_v / tex_w) * doom->textures.bricks->h), doom->textures.bricks->h - 1))
+						((tex_u / tex_w) * doom->textures.bricks->w), 
+						((tex_v / tex_w) * doom->textures.bricks->h)
 					);
 				}
 				t += tstep;

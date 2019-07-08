@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:01:13 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/05 17:51:13 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/08 17:45:10 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,14 @@ static void		update_fps(t_doom *doom)
 
 void			game_loop(t_doom *doom)
 {
-	doom->player.pos = (t_vec3){ 0, 0, 0 };
+	doom->player.pos = (t_vec3){ 0, 1, 3 };
 	doom->player.rotation.y = (90) * (M_PI / 180);
 	doom->player.rotation.x = 0;
 	doom->player.projection = projection_matrix(doom);
 	update_maxtrix(doom);
 	register_guis(doom);
-	set_gui(doom, GUI_MAIN_MENU);
+	set_gui(doom, GUI_INGAME);
+	int  i = 0;
 	while (doom->running)
 	{
 		clear_image(&doom->screen);
@@ -68,5 +69,7 @@ void			game_loop(t_doom *doom)
 		apply_image(&doom->screen, NULL);
 		SDL_RenderPresent(doom->renderer);
 		update_fps(doom);
+		/* if (++i > 50)
+			exit(0);*/
 	}
 }

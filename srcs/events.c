@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:14:55 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/06 21:48:49 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/08 18:16:02 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,13 +55,31 @@ void	up_down_polygon(t_polygon *poly, t_bool up)
 
 void	rotate_polygon(t_polygon *poly, t_player *player, int axis)
 {
-	if (poly->type == P_CEILING)
+	printf("axis %d\n", ft_abs(axis) - 1);
+	const t_vec2		rot = player->rotation;
+	const t_vec2		dir[2] = { { cosf(rot.y), sinf(rot.y) }, 
+		{ cosf(rot.y + M_PI_2), sinf(rot.y + M_PI_2) }};
+	t_line				part = (t_line){ .a = {player->pos.x, player->pos.z}, 
+		.b = {player->pos.x + dir[ft_abs(axis) - 1].x,
+		player->pos.z + dir[ft_abs(axis) - 1].y}
+	};
+	t_side				side;
+
+	part.normal = line_normal(part);
+	if (poly->type != P_WALL)
 	{
 		int j = -1;
 		while (++j < poly->vertices->len)
 		{
-			poly->vertices->vertices[j].y += 0.05;
+			t_vec3 *vert = &poly->vertices->vertices[j];
+			side = get_side_thin(part, (t_vec2){vert->x, vert->z});
+			printf("%d // %f %f - %f %f\n", side, part.a.x, part.a.y, part.b.x, part.b.y);
+			vert->y += line_get_distance(part, (t_vec2){vert->x, vert->z}) * (axis > 0 ? 1 : -1) * 0.05 * side;
 		}
+		j = -1;
+		int len = floor(poly->indices->len / 3.);
+		while (++j < len)
+			poly->normals[j] = get_polygon_normal(poly);
 	}
 }
 
@@ -70,11 +88,6 @@ void	modify_room(t_doom *doom, t_node *node, SDL_Event *event)
 	int				i;
 	t_polygon		poly;
 
-	
-	if (node->type != N_LEAF)
-		printf("PARTITION %f %f - %f %f\n", node->partition.a.x, node->partition.a.y, node->partition.b.x, node->partition.b.y);
-	else
-		printf("LEAF\n");
 	i = -1;
 	while (++i < node->polygons->len)
 	{
@@ -82,22 +95,21 @@ void	modify_room(t_doom *doom, t_node *node, SDL_Event *event)
 		if (event->key.keysym.scancode == SDL_SCANCODE_PAGEUP 
 			|| event->key.keysym.scancode == SDL_SCANCODE_PAGEDOWN)
 			up_down_polygon(&poly, event->key.keysym.scancode == SDL_SCANCODE_PAGEUP);
-		if (event->key.keysym.scancode == SDL_SCANCODE_T
-		|| event->key.keysym.scancode == SDL_SCANCODE_G
-		|| event->key.keysym.scancode == SDL_SCANCODE_F
-		|| event->key.keysym.scancode == SDL_SCANCODE_H)
-			rotate_polygon(&poly, &doom->player, event->key.keysym.scancode == SDL_SCANCODE_T + event->key.keysym.scancode == SDL_SCANCODE_G * 2 + event->key.keysym.scancode == SDL_SCANCODE_F * 3 + event->key.keysym.scancode == SDL_SCANCODE_H * 4);
+		if (event->key.keysym.scancode == SDL_SCANCODE_T || event->key.keysym.scancode == SDL_SCANCODE_G)
+			rotate_polygon(&poly, &doom->player, (event->key.keysym.scancode == SDL_SCANCODE_T ? 1 : -1));
+		if (event->key.keysym.scancode == SDL_SCANCODE_F || event->key.keysym.scancode == SDL_SCANCODE_H)
+			rotate_polygon(&poly, &doom->player, (event->key.keysym.scancode == SDL_SCANCODE_F ? 2 : -2));
 	}
 }
 
 void	room_map(t_doom *doom, SDL_Event *event, void (*part)(t_doom *doom, t_node *node, SDL_Event *event))
 {
 	const t_node	*n = get_player_node(doom);
-	const t_node	*e;
+	t_node			*e;
 
 	if (!n)
 		return ;
-	part(doom, n, event);
+	part(doom, (t_node *)n, event);
 	e = n->parent;
 	while (e 
 		&& (!e->parent 
@@ -128,19 +140,18 @@ static void	events_window(t_doom *doom, SDL_Event *event)
 	}
 	if (event->type == SDL_MOUSEMOTION)
 	{
+		doom->mouse = (t_vec2){ event->motion.x, event->motion.y };
 		for (int i = 0; i < doom->guis[doom->current_gui].component_count; i++)
 		{
 			doom->guis[doom->current_gui].components[i]
 				->on_mouse_move(doom->guis[doom->current_gui].components[i],
-				(t_vec2){ event->motion.x, event->motion.y }, doom);
+				doom->mouse, doom);
 		}
 	}
-	if (event->type == SDL_KEYDOWN && (event->key.keysym.scancode == SDL_SCANCODE_PAGEUP 
-		|| event->key.keysym.scancode == SDL_SCANCODE_PAGEDOWN
-		|| event->key.keysym.scancode == SDL_SCANCODE_T
-		|| event->key.keysym.scancode == SDL_SCANCODE_G
-		|| event->key.keysym.scancode == SDL_SCANCODE_F
-		|| event->key.keysym.scancode == SDL_SCANCODE_H))
+	if (event->type == SDL_KEYDOWN && (key == SDL_SCANCODE_PAGEUP 
+		|| key == SDL_SCANCODE_PAGEDOWN || key == SDL_SCANCODE_T 
+		|| key == SDL_SCANCODE_G || key == SDL_SCANCODE_F 
+		|| key == SDL_SCANCODE_H))
 		room_map(doom, event, modify_room);
 }
 

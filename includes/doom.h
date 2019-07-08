@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/06 11:17:06 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/08 16:23:50 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,7 @@ typedef struct		s_doom
 	t_fonts			fonts;
 	t_node			*bsp;
 	t_player		player;
+	t_vec2			mouse;
 	uint8_t			*rendered_area;
 	t_textures		textures;
 	t_gui			guis[GUI_COUNT];
@@ -232,5 +233,8 @@ void				post_process_triangle(t_doom *doom, t_polygon *poly, t_triangle triangle
 t_bool				obj_test(t_doom *doom);
 
 char				*path_join(char *dir, char *file);
+
+float				line_get_distance(t_line l, t_vec2 p);
+t_vec2				line_normal(t_line l);
 
 #endif
