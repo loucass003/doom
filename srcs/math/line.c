@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/08 14:40:55 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/08 16:23:40 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/11 19:31:25 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ float		line_get_distance(t_line l, t_vec2 p)
 {
 	const	t_vec2		len = ft_vec2_sub(l.b, l.a);
 	
-	return (ft_absf(len.y * p.x - len.x * p.y + l.b.x * l.a.y - l.b.y * l.a.x) 
+	return (fabs(len.y * p.x - len.x * p.y + l.b.x * l.a.y - l.b.y * l.a.x) 
 		/ sqrtf(len.y * len.y + len.x * len.x));
 }
 

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 01:06:40 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/11 10:37:34 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/11 17:52:37 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ static t_vertex	transform(t_vertex v)
 	v.pos.x = (v.pos.x * z_inv + 1.) * S_WIDTH_2;
 	v.pos.y = (v.pos.y * z_inv + 1.) * S_HEIGHT_2 * ASPECT_INV;
 	v.tex = ft_vec2_div_s(v.tex, v.pos.w);
-	v.pos.z *= -1 * 1000;
 	v.pos.w = w_inv;
 	return v;
 }
@@ -54,6 +53,8 @@ void	process_triangle(t_doom *doom, t_mtl *mtl, t_triangle t)
 	if (t.a.pos.x < t.a.pos.w && t.b.pos.x < t.b.pos.w && t.c.pos.x < t.c.pos.w)
 		return;
 	if (t.a.pos.x > -t.a.pos.w && t.b.pos.x > -t.b.pos.w && t.c.pos.x > -t.c.pos.w)
+		return;
+	if (mtl->material_color_set && t.a.pos.z > 10 && t.b.pos.z > 10 && t.c.pos.z > 10)
 		return;
 	if (t.a.pos.z < NEAR_CLIP && t.b.pos.z < NEAR_CLIP && t.c.pos.z < NEAR_CLIP)
 		return;

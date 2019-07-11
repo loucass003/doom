@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/10 15:44:57 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/11 09:04:02 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/11 19:35:57 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ static void		update_obj(t_doom *doom, t_obj *obj)
 	int		i;
 	const	t_mat4 m = ft_mat4_mul(
 		ft_mat4_mul(
-			ft_mat4_rotation(obj->rotation),
-			ft_mat4_translation(obj->position)
+			ft_mat4_translation(obj->position),
+			ft_mat4_rotation(obj->rotation)
 		),
 		ft_mat4_scale(obj->scale)
 	); 
@@ -41,6 +41,15 @@ static void		update_obj(t_doom *doom, t_obj *obj)
 	i = -1;
 	while (++i < obj->normals->len)
 		obj->pp_normals[i] = ft_mat4_mulv(m, obj->normals->vertices[i]);
+	i = -1;
+	while (++i < obj->faces->len)
+	{
+		t_face *face = &obj->faces->values[i];
+		face->face_normal = get_plane_normal(
+			vec4_to_3(obj->pp_vertices[face->vertices_index[0] - 1]), 
+			vec4_to_3(obj->pp_vertices[face->vertices_index[1] - 1]), 
+			vec4_to_3(obj->pp_vertices[face->vertices_index[2] - 1]));
+	}
 	obj->dirty = FALSE;
 }
 
@@ -60,11 +69,7 @@ void	render_obj(t_doom *doom, t_obj *obj)
 			face->mtl->material_color_set = TRUE;
 			face->mtl->material_color = 0x555555;
 		}
-		t_vec3 n = get_plane_normal(
-			vec4_to_3(obj->pp_vertices[face->vertices_index[0] - 1]), 
-			vec4_to_3(obj->pp_vertices[face->vertices_index[1] - 1]), 
-			vec4_to_3(obj->pp_vertices[face->vertices_index[2] - 1]));
-	 	float d = ft_vec3_dot(n, ft_vec3_sub(doom->player.pos, vec4_to_3(obj->pp_vertices[face->vertices_index[0] - 1])));
+	 	float d = ft_vec3_dot(face->face_normal, ft_vec3_sub(doom->player.pos, vec4_to_3(obj->pp_vertices[face->vertices_index[0] - 1])));
 		if (d <= 0)
 			continue;
 		process_triangle(doom, face->mtl, (t_triangle){

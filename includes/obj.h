@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 15:26:39 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/11 08:06:00 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/11 19:35:40 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef struct	s_face
 	int32_t			vertex_index[3];
 	t_bool			normals_set;
 	int32_t			normals_index[3];
+	t_vec3			face_normal;
 	t_mtl			*mtl;
 }				t_face;
 

@@ -6,34 +6,11 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 22:39:14 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/10 19:01:22 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/11 19:47:32 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom.h"
-
-void	assemble_triangles(t_doom *doom, t_polygon *poly)
-{
-	const t_mtl		mtl = (t_mtl){
-		.texture_map_set = TRUE,
-		.texture_map = doom->textures.bricks
-	};
-	const size_t	len = floorf((poly->indices->len) / 3.);
-	size_t			i;
-
-	i = -1;
-	while (++i < len)
-	{
-		float d = ft_vec3_dot(poly->normals[i], ft_vec3_sub(doom->player.pos, poly->vertices->vertices[poly->indices->values[i * 3]]));
-		if (d <= 0 && poly->type != P_FLOOR)
-			continue;
-		process_triangle(doom, (t_mtl *)&mtl, (t_triangle){
-			{poly->pp_vertices[poly->indices->values[i * 3]], poly->uvs[poly->indices->values[i * 3]]},
-			{poly->pp_vertices[poly->indices->values[i * 3 + 1]], poly->uvs[poly->indices->values[i * 3 + 1]]},
-			{poly->pp_vertices[poly->indices->values[i * 3 + 2]], poly->uvs[poly->indices->values[i * 3 + 2]]}
-		});
-	}
-}
 
 t_vec4	mat43_mulv4(t_mat4 m, t_vec4 p)
 {
@@ -49,10 +26,23 @@ t_vec4	mat43_mulv4(t_mat4 m, t_vec4 p)
 
 void	render_polygon(t_doom *doom, t_polygon *poly)
 {
-	int	i;
+	const t_mtl		mtl = (t_mtl){
+		.texture_map_set = TRUE,
+		.texture_map = doom->textures.bricks
+	};
+	const size_t	len = floorf((poly->indices->len) / 3.);
+	size_t			i;
 
 	i = -1;
-	while (++i < poly->vertices->len)
-		poly->pp_vertices[i] = mat43_mulv4(doom->player.matrix, vec3_to_4(poly->vertices->vertices[i]));
-	assemble_triangles(doom, poly);
+	while (++i < len)
+	{
+		float d = ft_vec3_dot(poly->normals[i], ft_vec3_sub(doom->player.pos, poly->vertices->vertices[poly->indices->values[i * 3]]));
+		if (d <= 0 && poly->type != P_FLOOR)
+			continue;
+		process_triangle(doom, (t_mtl *)&mtl, (t_triangle){
+			{mat43_mulv4(doom->player.matrix, vec3_to_4(poly->vertices->vertices[poly->indices->values[i * 3]])), poly->uvs[poly->indices->values[i * 3]]},
+			{mat43_mulv4(doom->player.matrix, vec3_to_4(poly->vertices->vertices[poly->indices->values[i * 3 + 1]])), poly->uvs[poly->indices->values[i * 3 + 1]]},
+			{mat43_mulv4(doom->player.matrix, vec3_to_4(poly->vertices->vertices[poly->indices->values[i * 3 + 2]])), poly->uvs[poly->indices->values[i * 3 + 2]]}
+		});
+	}
 }

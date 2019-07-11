@@ -1,21 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   plane.c                                            :+:      :+:    :+:   */
+/*   colisions.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/06 12:04:16 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/11 18:52:42 by llelievr         ###   ########.fr       */
+/*   Created: 2019/07/11 16:48:44 by llelievr          #+#    #+#             */
+/*   Updated: 2019/07/11 17:02:17 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "doom.h"
+#ifndef COLISIONS_H
+# define COLISIONS_H
+# include "doom.h"
 
-t_vec3	get_plane_normal(t_vec3 p0, t_vec3 p1, t_vec3 p2)
+typedef struct		s_obb_box
 {
-	const t_vec3 a = ft_vec3_sub(p1, p0);
-	const t_vec3 b = ft_vec3_sub(p2, p0);
-	
-	return (ft_vec3_norm(ft_vec3_cross(a, b)));
-}
+
+}					t_obb_box;
+
+typedef struct		s_aabb_box
+{
+	t_vec3			min;
+	t_vec3			max;
+}					t_aabb_box;
+
+#endif
