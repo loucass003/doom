@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/25 19:30:54 by llelievr          #+#    #+#             */
-/*   Updated: 2019/06/28 19:04:48 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/10 15:34:10 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,13 @@ t_bool		face_formatter(t_obj *obj, t_reader *reader)
 		io_next(reader);
 		if (!read_face_part(reader, i, &face))
 			return (FALSE);
-		i++;
+		if (++i > 3)
+			break;
+	}
+	if (i != 3)
+	{
+		ft_putstr("f: Faces need to be triangle\n");
+		return (FALSE);
 	}
 	if (obj->current_mtl != -1)
 		face.mtl = &obj->materials->values[obj->current_mtl];

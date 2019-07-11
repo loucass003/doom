@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 01:17:41 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/08 17:44:52 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/11 06:58:08 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,9 +163,9 @@ void	draw_flat_bottom_triangle(t_doom *doom, t_triangle tri)
 	}
 }
  */
-void TexturedTriangle(t_doom *doom,	int x1, int y1, float u1, float v1, float w1,
-							int x2, int y2, float u2, float v2, float w2,
-							int x3, int y3, float u3, float v3, float w3)
+void TexturedTriangle(t_doom *doom,	int x1, int y1, float u1, float v1, float w1, float z1,
+							int x2, int y2, float u2, float v2, float w2, float z2,
+							int x3, int y3, float u3, float v3, float w3, float z3, t_mtl *mtl)
 {
 	if (y2 < y1)
 	{
@@ -174,6 +174,7 @@ void TexturedTriangle(t_doom *doom,	int x1, int y1, float u1, float v1, float w1
 		swapf(&u1, &u2);
 		swapf(&v1, &v2);
 		swapf(&w1, &w2);
+		swapf(&z1, &z2);
 	}
 
 	if (y3 < y1)
@@ -183,6 +184,7 @@ void TexturedTriangle(t_doom *doom,	int x1, int y1, float u1, float v1, float w1
 		swapf(&u1, &u3);
 		swapf(&v1, &v3);
 		swapf(&w1, &w3);
+		swapf(&z1, &z3);
 	}
 
 	if (y3 < y2)
@@ -192,26 +194,29 @@ void TexturedTriangle(t_doom *doom,	int x1, int y1, float u1, float v1, float w1
 		swapf(&u2, &u3);
 		swapf(&v2, &v3);
 		swapf(&w2, &w3);
+		swapf(&z2, &z3);
 	}
 
 	int dy1 = y2 - y1;
 	int dx1 = x2 - x1;
+	float dz1 = z2 - z1;
 	float dv1 = v2 - v1;
 	float du1 = u2 - u1;
 	float dw1 = w2 - w1;
 
 	int dy2 = y3 - y1;
 	int dx2 = x3 - x1;
+	float dz2 = z3 - z1;
 	float dv2 = v3 - v1;
 	float du2 = u3 - u1;
 	float dw2 = w3 - w1;
 
-	float tex_u, tex_v, tex_w;
+	float tex_u, tex_v, tex_w, tex_z;
 
 	float dax_step = 0, dbx_step = 0,
 		du1_step = 0, dv1_step = 0,
 		du2_step = 0, dv2_step = 0,
-		dw1_step=0, dw2_step=0;
+		dw1_step=0, dw2_step=0, dz1_step = 0, dz2_step = 0;
 
 	if (dy1) dax_step = dx1 / (float)abs(dy1);
 	if (dy2) dbx_step = dx2 / (float)abs(dy2);
@@ -219,10 +224,12 @@ void TexturedTriangle(t_doom *doom,	int x1, int y1, float u1, float v1, float w1
 	if (dy1) du1_step = du1 / (float)abs(dy1);
 	if (dy1) dv1_step = dv1 / (float)abs(dy1);
 	if (dy1) dw1_step = dw1 / (float)abs(dy1);
+	if (dy1) dz1_step = dz1 / (float)abs(dy1);
 
 	if (dy2) du2_step = du2 / (float)abs(dy2);
 	if (dy2) dv2_step = dv2 / (float)abs(dy2);
 	if (dy2) dw2_step = dw2 / (float)abs(dy2);
+	if (dy2) dz2_step = dz2 / (float)abs(dy2);
 
 	if (dy1)
 	{
@@ -236,10 +243,12 @@ void TexturedTriangle(t_doom *doom,	int x1, int y1, float u1, float v1, float w1
 			float tex_su = u1 + (float)(i - y1) * du1_step;
 			float tex_sv = v1 + (float)(i - y1) * dv1_step;
 			float tex_sw = w1 + (float)(i - y1) * dw1_step;
+			float tex_sz = z1 + (float)(i - y1) * dz1_step;
 
 			float tex_eu = u1 + (float)(i - y1) * du2_step;
 			float tex_ev = v1 + (float)(i - y1) * dv2_step;
 			float tex_ew = w1 + (float)(i - y1) * dw2_step;
+			float tex_ez = z1 + (float)(i - y1) * dz2_step;
 
 			if (ax > bx)
 			{
@@ -247,11 +256,13 @@ void TexturedTriangle(t_doom *doom,	int x1, int y1, float u1, float v1, float w1
 				swapf(&tex_su, &tex_eu);
 				swapf(&tex_sv, &tex_ev);
 				swapf(&tex_sw, &tex_ew);
+				swapf(&tex_sz, &tex_ez);
 			}
 
 			tex_u = tex_su;
 			tex_v = tex_sv;
 			tex_w = tex_sw;
+			tex_z = tex_sz;
 
 			float tstep = 1.0f / ((float)(bx - ax));
 
@@ -260,15 +271,24 @@ void TexturedTriangle(t_doom *doom,	int x1, int y1, float u1, float v1, float w1
 			float t = tstep * (x_start - ax);
 			for (int j = x_start; j < x_end; j++)
 			{
-				tex_u = (1.0f - t) * tex_su + t * tex_eu;
-				tex_v = (1.0f - t) * tex_sv + t * tex_ev;
-				tex_w = (1.0f - t) * tex_sw + t * tex_ew;
-				if (doom->screen.pixels[i * (int)S_WIDTH + j] == 0)
+				
+				tex_z = (1.0f - t) * tex_sz + t * tex_ez;
+				
+				if (doom->rendered_area[i * (int)S_WIDTH + j] < tex_z)
 				{
-					doom->screen.pixels[i * (int)S_WIDTH + j] = get_surface_pixel(doom->textures.bricks, 
-						((tex_u / tex_w) * doom->textures.bricks->w), 
-						((tex_v / tex_w) * doom->textures.bricks->h)
-					);
+					doom->rendered_area[i * (int)S_WIDTH + j] = tex_z;
+					if (mtl->texture_map_set)
+					{
+						tex_u = (1.0f - t) * tex_su + t * tex_eu;
+						tex_v = (1.0f - t) * tex_sv + t * tex_ev;
+						tex_w = (1.0f - t) * tex_sw + t * tex_ew;
+						doom->screen.pixels[i * (int)S_WIDTH + j] = get_surface_pixel(mtl->texture_map, 
+							((tex_u / tex_w) * (mtl->texture_map->w)), 
+							((1 - (tex_v / tex_w)) * (mtl->texture_map->h))
+						);
+					}
+					else if (mtl->material_color_set)
+						doom->screen.pixels[i * (int)S_WIDTH + j] = mtl->material_color;
 				}
 				t += tstep;
 			}
@@ -280,6 +300,7 @@ void TexturedTriangle(t_doom *doom,	int x1, int y1, float u1, float v1, float w1
 	dv1 = v3 - v2;
 	du1 = u3 - u2;
 	dw1 = w3 - w2;
+	dz1 = z3 - z2;
 
 	if (dy1) dax_step = dx1 / (float)abs(dy1);
 	if (dy2) dbx_step = dx2 / (float)abs(dy2);
@@ -288,6 +309,7 @@ void TexturedTriangle(t_doom *doom,	int x1, int y1, float u1, float v1, float w1
 	if (dy1) du1_step = du1 / (float)abs(dy1);
 	if (dy1) dv1_step = dv1 / (float)abs(dy1);
 	if (dy1) dw1_step = dw1 / (float)abs(dy1);
+	if (dy1) dz1_step = dz1 / (float)abs(dy1);
 
 	if (dy1)
 	{
@@ -301,10 +323,12 @@ void TexturedTriangle(t_doom *doom,	int x1, int y1, float u1, float v1, float w1
 			float tex_su = u2 + (float)(i - y2) * du1_step;
 			float tex_sv = v2 + (float)(i - y2) * dv1_step;
 			float tex_sw = w2 + (float)(i - y2) * dw1_step;
+			float tex_sz = z2 + (float)(i - y2) * dz1_step;
 
 			float tex_eu = u1 + (float)(i - y1) * du2_step;
 			float tex_ev = v1 + (float)(i - y1) * dv2_step;
 			float tex_ew = w1 + (float)(i - y1) * dw2_step;
+			float tex_ez = z1 + (float)(i - y1) * dz2_step;
 
 			if (ax > bx)
 			{
@@ -312,11 +336,13 @@ void TexturedTriangle(t_doom *doom,	int x1, int y1, float u1, float v1, float w1
 				swapf(&tex_su, &tex_eu);
 				swapf(&tex_sv, &tex_ev);
 				swapf(&tex_sw, &tex_ew);
+				swapf(&tex_sz, &tex_ez);
 			}
 
 			tex_u = tex_su;
 			tex_v = tex_sv;
 			tex_w = tex_sw;
+			tex_z = tex_sz;
 
 			float tstep = 1.0f / ((float)(bx - ax));
 
@@ -325,16 +351,23 @@ void TexturedTriangle(t_doom *doom,	int x1, int y1, float u1, float v1, float w1
 			float t = tstep * (x_start - ax);
 			for (int j = x_start; j < x_end; j++)
 			{
-				tex_u = (1.0f - t) * tex_su + t * tex_eu;
-				tex_v = (1.0f - t) * tex_sv + t * tex_ev;
-				tex_w = (1.0f - t) * tex_sw + t * tex_ew;
-
-				if (doom->screen.pixels[i * (int)S_WIDTH + j] == 0)
+				tex_z = (1.0f - t) * tex_sz + t * tex_ez;
+				
+				if (doom->rendered_area[i * (int)S_WIDTH + j] < tex_z)
 				{
-					doom->screen.pixels[i * (int)S_WIDTH + j] = get_surface_pixel(doom->textures.bricks, 
-						((tex_u / tex_w) * doom->textures.bricks->w), 
-						((tex_v / tex_w) * doom->textures.bricks->h)
-					);
+					doom->rendered_area[i * (int)S_WIDTH + j] = tex_z;
+					if (mtl->texture_map_set)
+					{
+						tex_u = (1.0f - t) * tex_su + t * tex_eu;
+						tex_v = (1.0f - t) * tex_sv + t * tex_ev;
+						tex_w = (1.0f - t) * tex_sw + t * tex_ew;
+						doom->screen.pixels[i * (int)S_WIDTH + j] = get_surface_pixel(mtl->texture_map, 
+							((tex_u / tex_w) * (mtl->texture_map->w)), 
+							((1 - (tex_v / tex_w)) * (mtl->texture_map->h))
+						);
+					}
+					else if (mtl->material_color_set)
+						doom->screen.pixels[i * (int)S_WIDTH + j] = mtl->material_color;
 				}
 				t += tstep;
 			}
@@ -342,7 +375,7 @@ void TexturedTriangle(t_doom *doom,	int x1, int y1, float u1, float v1, float w1
 	}
 }
 
-void	draw_triangle(t_doom *doom, t_triangle triangle)
+void	draw_triangle(t_doom *doom, t_triangle triangle, t_mtl *mtl)
 {
 	/*t_vertex	inter;
 
@@ -381,10 +414,10 @@ void	draw_triangle(t_doom *doom, t_triangle triangle)
 	 /*TexturedTriangle(t_doom *doom,	int x1, int y1, float u1, float v1, float w1,
 							int x2, int y2, float u2, float v2, float w2,
 							int x3, int y3, float u3, float v3, float w3)*/
-	TexturedTriangle(doom, triangle.a.pos.x, triangle.a.pos.y, triangle.a.tex.x, triangle.a.tex.y, triangle.a.pos.w,
-	triangle.b.pos.x, triangle.b.pos.y, triangle.b.tex.x, triangle.b.tex.y, triangle.b.pos.w,
-	triangle.c.pos.x, triangle.c.pos.y, triangle.c.tex.x, triangle.c.tex.y, triangle.c.pos.w);
-/*	draw_line(&doom->screen, (t_pixel){triangle.a.pos.x, triangle.a.pos.y, 0xFFFFFF}, (t_pixel){triangle.b.pos.x, triangle.b.pos.y});
+	TexturedTriangle(doom, triangle.a.pos.x, triangle.a.pos.y, triangle.a.tex.x, triangle.a.tex.y, triangle.a.pos.w, triangle.a.pos.z,
+	triangle.b.pos.x, triangle.b.pos.y, triangle.b.tex.x, triangle.b.tex.y, triangle.b.pos.w, triangle.b.pos.z,
+	triangle.c.pos.x, triangle.c.pos.y, triangle.c.tex.x, triangle.c.tex.y, triangle.c.pos.w, triangle.c.pos.z, mtl);
+	/* draw_line(&doom->screen, (t_pixel){triangle.a.pos.x, triangle.a.pos.y, 0xFFFFFF}, (t_pixel){triangle.b.pos.x, triangle.b.pos.y});
 	draw_line(&doom->screen, (t_pixel){triangle.b.pos.x, triangle.b.pos.y, 0xFFFFFF}, (t_pixel){triangle.c.pos.x, triangle.c.pos.y});
-	draw_line(&doom->screen, (t_pixel){triangle.c.pos.x, triangle.c.pos.y, 0xFFFFFF}, (t_pixel){triangle.a.pos.x, triangle.a.pos.y});*/
+	draw_line(&doom->screen, (t_pixel){triangle.c.pos.x, triangle.c.pos.y, 0xFFFFFF}, (t_pixel){triangle.a.pos.x, triangle.a.pos.y}); */
 }

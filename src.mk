@@ -28,6 +28,7 @@ SRC+=obj/io_skip.c
 SRC+=obj/mtllist.c
 SRC+=obj/obj.c
 SRC+=obj/reader.c
+SRC+=obj/render_obj.c
 SRC+=obj/mtl_formaters.c
 SRC+=render/camera.c
 SRC+=render/polygon.c

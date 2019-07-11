@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 14:34:00 by llelievr          #+#    #+#             */
-/*   Updated: 2019/06/28 15:14:48 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/11 03:59:33 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ t_bool			normal_formatter(t_obj *obj, t_reader *reader)
 		io_next(reader);
 		if(!io_readfloat(reader, &normal.a[i]))
 			return (FALSE);
-		if (++i >= 3)
+		if (++i > 3)
 			return (FALSE);
 	}
 	if (i != 3)
@@ -86,7 +86,7 @@ t_bool			vertex_formatter(t_obj *obj, t_reader *reader)
 		io_next(reader);
 		if(!io_readfloat(reader, &vertex.a[i]))
 			return (FALSE);
-		if (++i >= 2)
+		if (++i > 2)
 			return (FALSE);
 	}
 	if (i != 2)

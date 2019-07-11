@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 17:07:44 by llelievr          #+#    #+#             */
-/*   Updated: 2019/06/28 19:02:15 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/11 05:45:34 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ static t_bool	mtl_process_formaters(t_obj *obj, t_reader *reader)
 
 	prefixes[0] = (t_obj_prefix){ "newmtl", mtl_newmtl_formatter };
 	prefixes[1] = (t_obj_prefix){ "map_Kd", mtl_map_kd_formatter };
+	prefixes[2] = (t_obj_prefix){ "Kd", mtl_kd_formatter };
 	prefixes[MTL_PREFIXES_COUNT] = (t_obj_prefix){ NULL, NULL };
 	while (!!(formatter = get_formatter(prefixes, MTL_PREFIXES_COUNT, reader)))
 	{

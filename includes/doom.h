@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/08 16:23:50 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/11 08:06:20 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # include "constants.h"
 # include "image.h"
 # include "bsp.h"
-
+# include "obj.h"
 
 typedef struct s_doom t_doom;
 
@@ -126,12 +126,13 @@ typedef struct		s_doom
 	t_node			*bsp;
 	t_player		player;
 	t_vec2			mouse;
-	uint8_t			*rendered_area;
+	float			*rendered_area;
 	t_textures		textures;
 	t_gui			guis[GUI_COUNT];
 	int				current_gui;
 	t_editor		editor;
 	char			*obj_working_dir;
+	t_obj			*obj;
 }					t_doom;
 
 t_vertex			vertex_add(t_vertex a, t_vertex b);
@@ -224,11 +225,10 @@ t_ints				*copy_ints_array(t_ints *src,
 
 void				triangulate_bsp(t_node *n);
 t_bool				inside_triangle(t_vec3 a, t_vec3 b, t_vec3 c, t_vec3 p);
-
-void				clip_to_screen(t_polygon *poly, SDL_Rect area);
-void				draw_triangle(t_doom *doom, t_triangle triangle);
-void				process_triangle(t_doom *doom, t_polygon *poly, t_triangle triangle);
-void				post_process_triangle(t_doom *doom, t_polygon *poly, t_triangle triangle);
+ 
+void				draw_triangle(t_doom *doom, t_triangle triangle, t_mtl *mtl);
+void				process_triangle(t_doom *doom, t_mtl *mtl, t_triangle triangle);
+void				post_process_triangle(t_doom *doom, t_mtl *mtl, t_triangle triangle);
 
 t_bool				obj_test(t_doom *doom);
 
@@ -236,5 +236,7 @@ char				*path_join(char *dir, char *file);
 
 float				line_get_distance(t_line l, t_vec2 p);
 t_vec2				line_normal(t_line l);
+
+void				render_obj(t_doom *doom, t_obj *obj);
 
 #endif

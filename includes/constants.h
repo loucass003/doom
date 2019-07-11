@@ -6,17 +6,17 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 21:05:41 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/06 09:01:13 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/11 11:03:26 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CONSTANTS_H
 # define CONSTANTS_H
 
-# define W_HEIGHT 600.0
-# define W_WIDTH 1000.0
-# define S_HEIGHT (600.0)
-# define S_WIDTH (1000.0)
+# define W_HEIGHT 900.0
+# define W_WIDTH 1600.0
+# define S_HEIGHT (619.0)
+# define S_WIDTH (1100.0)
 # define S_HEIGHT_2 (S_HEIGHT / 2.)
 # define S_WIDTH_2 (S_WIDTH / 2.)
 # define S_SIZE (S_WIDTH * S_HEIGHT)

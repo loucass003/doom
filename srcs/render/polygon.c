@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 22:39:14 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/04 19:42:11 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/10 19:01:22 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,10 @@
 
 void	assemble_triangles(t_doom *doom, t_polygon *poly)
 {
+	const t_mtl		mtl = (t_mtl){
+		.texture_map_set = TRUE,
+		.texture_map = doom->textures.bricks
+	};
 	const size_t	len = floorf((poly->indices->len) / 3.);
 	size_t			i;
 
@@ -23,7 +27,7 @@ void	assemble_triangles(t_doom *doom, t_polygon *poly)
 		float d = ft_vec3_dot(poly->normals[i], ft_vec3_sub(doom->player.pos, poly->vertices->vertices[poly->indices->values[i * 3]]));
 		if (d <= 0 && poly->type != P_FLOOR)
 			continue;
-		process_triangle(doom, poly, (t_triangle){
+		process_triangle(doom, (t_mtl *)&mtl, (t_triangle){
 			{poly->pp_vertices[poly->indices->values[i * 3]], poly->uvs[poly->indices->values[i * 3]]},
 			{poly->pp_vertices[poly->indices->values[i * 3 + 1]], poly->uvs[poly->indices->values[i * 3 + 1]]},
 			{poly->pp_vertices[poly->indices->values[i * 3 + 2]], poly->uvs[poly->indices->values[i * 3 + 2]]}

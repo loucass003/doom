@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:14:55 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/08 18:16:02 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/11 08:52:56 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,32 @@ void	rotate_polygon(t_polygon *poly, t_player *player, int axis)
 		while (++j < len)
 			poly->normals[j] = get_polygon_normal(poly);
 	}
+	else if (poly->type == P_WALL)
+	{
+		int len = floor(poly->indices->len / 3.);
+		int j = -1;
+		while (++j < len)
+		{
+			if (j % 2 == 0)
+			{
+				t_vec3 *vert = &poly->vertices->vertices[poly->indices->values[j * 3 + 1]];
+				side = get_side_thin(part, (t_vec2){vert->x, vert->z});
+				vert->y += line_get_distance(part, (t_vec2){vert->x, vert->z}) * (axis > 0 ? 1 : -1) * 0.05 * side;
+			}
+			else
+			{
+				t_vec3 *vert = &poly->vertices->vertices[poly->indices->values[j * 3]];
+				side = get_side_thin(part, (t_vec2){vert->x, vert->z});
+				vert->y += line_get_distance(part, (t_vec2){vert->x, vert->z}) * (axis > 0 ? 1 : -1) * 0.05 * side;
+				vert = &poly->vertices->vertices[poly->indices->values[j * 3 + 1]];
+				side = get_side_thin(part, (t_vec2){vert->x, vert->z});
+				vert->y += line_get_distance(part, (t_vec2){vert->x, vert->z}) * (axis > 0 ? 1 : -1) * 0.05 * side;
+				vert = &poly->vertices->vertices[poly->indices->values[j * 3 + 2]];
+				side = get_side_thin(part, (t_vec2){vert->x, vert->z});
+				vert->y += line_get_distance(part, (t_vec2){vert->x, vert->z}) * (axis > 0 ? 1 : -1) * 0.05 * side;
+			}
+		}
+	}
 }
 
 void	modify_room(t_doom *doom, t_node *node, SDL_Event *event)
@@ -107,7 +133,7 @@ void	room_map(t_doom *doom, SDL_Event *event, void (*part)(t_doom *doom, t_node 
 	const t_node	*n = get_player_node(doom);
 	t_node			*e;
 
-	if (!n)
+	if (!n || n->parent->back == n)
 		return ;
 	part(doom, (t_node *)n, event);
 	e = n->parent;

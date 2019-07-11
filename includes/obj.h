@@ -6,27 +6,33 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 15:26:39 by llelievr          #+#    #+#             */
-/*   Updated: 2019/06/28 19:03:40 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/11 08:06:00 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+# include "doom.h" 
 
 #ifndef OBJ_H
 # define OBJ_H
 
-# define OBJ_BUFFER 200
+# define OBJ_BUFFER 4096
 # define PREFIXES_COUNT 7
-# define MTL_PREFIXES_COUNT 2
+# define MTL_PREFIXES_COUNT 3
 # define GROUPS_MAX 255
 # define GROUPS_NAME_LEN 255
 # define MATERIAL_FILE_LEN 255
 # define MATERIAL_TEXTURE_LEN 255
 # define MATERIAL_NAME_LEN 255
-# include "doom.h" 
+
+typedef struct s_doom t_doom;
 
 typedef struct	s_mtl
 {
 	char		name[MATERIAL_NAME_LEN];
-	SDL_Surface	*texture_map;	
+	t_bool		texture_map_set;
+	SDL_Surface	*texture_map;
+	t_bool		material_color_set;
+	int			material_color;
 }				t_mtl;
 
 typedef struct	s_face
@@ -64,6 +70,8 @@ typedef struct	s_reader
 typedef struct	s_obj
 {
 	t_4dvertices	*vertices;
+	t_vec4			*pp_vertices;
+	t_vec3			*pp_normals;
 	t_faces			*faces;
 	t_2dvertices	*vertex;
 	t_3dvertices	*normals;
@@ -74,6 +82,10 @@ typedef struct	s_obj
 	size_t			groups_count;
 	char			groups[GROUPS_MAX][GROUPS_NAME_LEN];
 	char			*working_dir;
+	t_vec3			position;
+	t_vec3			rotation;
+	t_vec3			scale;
+	t_bool			dirty;
 }				t_obj;
 
 typedef struct	s_obj_prefix
@@ -105,6 +117,7 @@ t_bool			mtllib_formatter(t_obj *obj, t_reader *reader);
 t_bool			usemtl_formatter(t_obj *obj, t_reader *reader);
 t_bool			mtl_newmtl_formatter(t_obj *obj, t_reader *reader);
 t_bool			mtl_map_kd_formatter(t_obj *obj, t_reader *reader);
+t_bool			mtl_kd_formatter(t_obj *o, t_reader *reader);
 int				get_material(t_obj *obj, char *name, size_t len);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 20:10:35 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/06 08:36:09 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/11 10:14:33 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@ static t_bool	load_fonts(t_doom *doom)
 
 static t_bool	load_textures(t_doom *doom)
 {
-	/* if (!(doom->textures.bricks = SDL_ConvertSurfaceFormat(IMG_Load("assets/textures/block00007.png"), SDL_PIXELFORMAT_ARGB8888, 0)))
-		return (FALSE);*/
-	if (!(doom->textures.bricks = SDL_ConvertSurfaceFormat(IMG_Load("assets/textures/1.png"), SDL_PIXELFORMAT_ARGB8888, 0)))
+	if (!(doom->textures.bricks = SDL_ConvertSurfaceFormat(IMG_Load("assets/textures/block00007.png"), SDL_PIXELFORMAT_ARGB8888, 0)))
 		return (FALSE);
+	/*  if (!(doom->textures.bricks = SDL_ConvertSurfaceFormat(IMG_Load("assets/textures/1.png"), SDL_PIXELFORMAT_ARGB8888, 0)))
+		return (FALSE);  */
 	return (TRUE);
 }
 

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/06 09:55:11 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/11 07:09:31 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,15 @@ t_line	lines[] = {
 	{ .a = { 800, 450},  .b = { 0, 450 }},
 	{ .a = { 0, 450},  .b = { 0, 150 }},
 };
+t_line	lines2[] = {
+	{ .a = { 0, 150 },  .b = { 500, 75 } },
+	{ .a = { 500, 75 }, .b = { 500, 300 } },
+	{ .a = { 500, 300 }, .b = { 800, 300 }},
+	{ .a = { 800, 300},  .b = { 800, 450 }},
+	{ .a = { 800, 450},  .b = { 0, 450 }},
+	{ .a = { 0, 450},  .b = { 0, 150 }},
+};
+
 
 /*t_vec3 list[] = {
 	{0, 0, 0},
@@ -39,6 +48,7 @@ t_line	lines[] = {
 void	init_bsp(t_doom *doom)
 {
 	int count = sizeof(lines) / sizeof(t_line);
+	int count2 = sizeof(lines2) / sizeof(t_line);
 	t_polygons *polygons = create_polygons_array(count + 2);
 	
 	t_3dvertices *vertices = create_3dvertices_array(count);
@@ -85,8 +95,8 @@ int		main(void)
 	
 	init_bsp(&doom);
 	init_sdl(&doom);
-	//obj_test(&doom);
-	if (!(doom.rendered_area = (uint8_t *)ft_memalloc(doom.screen.width)))
+	obj_test(&doom);
+	if (!(doom.rendered_area = (float *)malloc(doom.screen.width * doom.screen.height * sizeof(float))))
 		return (-1);
 	game_loop(&doom);
 	sdl_quit(&doom);

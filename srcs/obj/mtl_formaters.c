@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/28 03:24:11 by llelievr          #+#    #+#             */
-/*   Updated: 2019/06/30 20:53:39 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/11 05:50:00 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ static t_bool	load_texture(char *path, t_mtl *mtl)
 		return (FALSE);
 	}
 	free(path);
+	mtl->texture_map =  SDL_ConvertSurfaceFormat(mtl->texture_map, SDL_PIXELFORMAT_ARGB8888, 0);
+	mtl->texture_map_set = TRUE;
 	return (TRUE);
 } 
 
@@ -83,4 +85,29 @@ t_bool			mtl_map_kd_formatter(t_obj *o, t_reader *reader)
 	}
 	return ((p = path_join(o->working_dir, name)) && 
 		load_texture(p, &o->materials->values[o->current_mtl]));
+}
+
+t_bool			mtl_kd_formatter(t_obj *o, t_reader *reader)
+{
+	char		c;
+	t_vec3_u	color;
+	t_mtl		*current;
+	int			i;
+	
+	i = 0;
+	while ((c = io_peek(reader)) == ' ')
+	{
+		io_next(reader);
+		if(!io_readfloat(reader, &color.a[i]))
+			return (FALSE);
+		if (++i > 3)
+			return (FALSE);
+	}
+	if (i != 3)
+		return (FALSE);
+	current = &o->materials->values[o->current_mtl];
+	current->material_color_set = TRUE;
+	current->material_color = ft_color_i(ft_color(color.v.x * 255, 
+		color.v.y * 255, color.v.z * 255));
+	return (TRUE);
 }
