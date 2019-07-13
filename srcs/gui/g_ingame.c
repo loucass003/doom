@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/11 19:40:36 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/13 01:34:26 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,28 +114,10 @@ void	g_ingame_render(t_gui *self, t_doom *doom)
 	doom->obj->position = (t_vec3){2, 0, 2};
 	//doom->obj->rotation.y += 3 * doom->stats.delta;
 	doom->obj->scale = (t_vec3){0.002, 0.002, 0.002};
-//	doom->obj->dirty = TRUE;
+	//doom->obj->dirty = TRUE;
 	render_obj(doom, doom->obj);
 
-	// doom->obj->position = (t_vec3){3, 0, 2};
-	// doom->obj->dirty = TRUE;
-	// render_obj(doom, doom->obj);
-
-	// doom->obj->position = (t_vec3){4, 0, 2};
-	// doom->obj->dirty = TRUE;
-	// render_obj(doom, doom->obj);
-
-	// doom->obj->position = (t_vec3){2, 0, 3};
-	// doom->obj->dirty = TRUE;
-	// render_obj(doom, doom->obj);
-
-	// doom->obj->position = (t_vec3){3, 0, 3};
-	// doom->obj->dirty = TRUE;
-	// render_obj(doom, doom->obj);
-
-	// doom->obj->position = (t_vec3){4, 0, 3};
-	// doom->obj->dirty = TRUE;
-	// render_obj(doom, doom->obj);
+		
 	//printf("%d\n", g_count);
 	draw_graph(doom, doom->bsp);
 	//exit(0);

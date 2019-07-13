@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:01:13 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/08 17:45:10 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/13 02:13:49 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@ void			game_loop(t_doom *doom)
 	int  i = 0;
 	while (doom->running)
 	{
-		clear_image(&doom->screen);
-		//fill_color(&doom->screen, 0xFF0000);
+		//clear_image(&doom->screen);
+		fill_color(&doom->screen, 0xFF);
 		render(doom);
 		//DO RENDERING HERE !
 		hook_events(doom);

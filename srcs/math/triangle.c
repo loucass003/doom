@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 01:06:40 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/11 17:52:37 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/13 02:30:47 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	process_triangle(t_doom *doom, t_mtl *mtl, t_triangle t)
 		return;
 	if (t.a.pos.x > -t.a.pos.w && t.b.pos.x > -t.b.pos.w && t.c.pos.x > -t.c.pos.w)
 		return;
-	if (mtl->material_color_set && t.a.pos.z > 10 && t.b.pos.z > 10 && t.c.pos.z > 10)
+	if (t.a.pos.z > FAR_CULL && t.b.pos.z > FAR_CULL && t.c.pos.z > FAR_CULL)
 		return;
 	if (t.a.pos.z < NEAR_CLIP && t.b.pos.z < NEAR_CLIP && t.c.pos.z < NEAR_CLIP)
 		return;
