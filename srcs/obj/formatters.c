@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 14:34:00 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/11 03:59:33 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/16 04:48:18 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ t_bool			vertice_formatter(t_obj *obj, t_reader *reader)
 	if (i < 3)
 		return (FALSE);
 	append_4dvertices_array(&obj->vertices, vertice.v);
-	printf("VERTICE %f %f %f %f\n", vertice.v.x, vertice.v.y, vertice.v.z, vertice.v.w);
+//	printf("VERTICE %f %f %f %f\n", vertice.v.x, vertice.v.y, vertice.v.z, vertice.v.w);
 	return (TRUE);
 }
 
@@ -70,7 +70,7 @@ t_bool			normal_formatter(t_obj *obj, t_reader *reader)
 	if (i != 3)
 		return (FALSE);
 	append_3dvertices_array(&obj->normals, normal.v);
-	printf("NORMAL %f %f %f\n", normal.v.x, normal.v.y, normal.v.z);
+//	printf("NORMAL %f %f %f\n", normal.v.x, normal.v.y, normal.v.z);
 	return (TRUE);
 }
 
@@ -92,7 +92,7 @@ t_bool			vertex_formatter(t_obj *obj, t_reader *reader)
 	if (i != 2)
 		return (FALSE);
 	append_2dvertices_array(&obj->vertex, vertex.v);
-	printf("VERTEX %f %f\n", vertex.v.x, vertex.v.y);
+//	printf("VERTEX %f %f\n", vertex.v.x, vertex.v.y);
 	return (TRUE);
 }
 

@@ -6,14 +6,25 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 16:26:42 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/10 15:59:04 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/16 17:38:45 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+
 
 #ifndef BSP_H
 # define BSP_H
 
 # include "doom.h"
+
+typedef struct		s_obb_box
+{
+	t_vec3			pos;
+	t_vec3			x_axis;
+	t_vec3			y_axis;
+	t_vec3			z_axis;
+	t_vec3			half_size;
+}					t_obb_box;
 
 typedef struct		s_vec4
 {
@@ -72,6 +83,7 @@ typedef struct		s_polygon
 	t_ints			*indices;
 	t_vec4			*pp_vertices;
 	t_vec3			*normals;
+	t_obb_box		obb;
 }					t_polygon;
 
 typedef struct		s_polygons
@@ -139,5 +151,9 @@ t_bool		post_process_bsp(t_node *n, int x, int depth);
 
 t_bool		triangulate_polygon(t_polygon *polygon);
 void		uv_mapping(t_polygon *polygon);
+
+t_node		*get_player_node(t_node *bsp, t_vec3 pos);
+t_bool		inside_room(t_node *bsp, t_vec3 pos);
+
 
 #endif

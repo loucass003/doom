@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/11 07:09:31 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/16 16:40:11 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,11 +85,13 @@ void	init_bsp(t_doom *doom)
 	printf("graph TD\n");
 	print_node(n);
 	doom->bsp = n;
+
+	
 }
 
 int		main(void)
 {
-	t_doom doom = (t_doom) {
+ 	t_doom doom = (t_doom) {
 		.running = TRUE
 	};
 	

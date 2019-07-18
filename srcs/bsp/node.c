@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 16:26:20 by llelievr          #+#    #+#             */
-/*   Updated: 2019/06/06 11:42:50 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/13 08:05:45 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,15 @@ void	print_node(t_node *n)
 	}
 	print_node(n->front);
 	print_node(n->back);
+}
+
+t_bool		inside_room(t_node *bsp, t_vec3 pos)
+{
+	const t_node	*player_node = get_player_node(bsp, pos);
+
+	return (bsp
+		&& player_node->parent 
+		&& (player_node == player_node->parent->front));
 }
 
 t_node		*create_node(t_polygons *polygons)

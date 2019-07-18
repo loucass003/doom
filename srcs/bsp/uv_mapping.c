@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 18:02:59 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/11 06:28:46 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/17 03:31:17 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,18 +27,12 @@ static t_vec4		compute_bounds(t_polygon *polygon)
 	t_vec2	min;
 	t_vec2	max;
 	t_vec3	vert;
-	t_vec2	dir;
-	t_vec2	sub;
 	int		i;
 
 
 	max = (t_vec2){ INT_MIN, INT_MIN };
 	min = (t_vec2){ INT_MAX, INT_MAX };
-	sub = ft_vec2_sub(
-		(t_vec2){polygon->vertices->vertices[1].x, polygon->vertices->vertices[1].y},
-		(t_vec2){polygon->vertices->vertices[0].x, polygon->vertices->vertices[0].y}
-	);
-	dir = (t_vec2){sign(sub.x), sign(sub.y)};
+
 	i = -1;
 	while (++i < polygon->vertices->len)
 	{
@@ -68,18 +62,18 @@ void				uv_mapping(t_polygon *polygon)
 	);
 	dir = (t_vec2){sign(sub.x), sign(sub.y)};
 	i = -1;
-	printf("PLOP %f %f\n", dir.x, dir.y);
+//	printf("PLOP %f %f\n", dir.x, dir.y);
 	while (++i < polygon->vertices->len)
 	{
 		v = polygon->vertices->vertices[i];
-		printf("T %f %f\n", v.x, v.y);
+		//printf("T %f %f\n", v.x, v.y);
 		t_vec2 u = (t_vec2) {
 			.y = (dir.y == 1)
 				? ft_absf(v.x - bounds.x) / bounds.z
 				: 1 - ft_absf(v.x - bounds.x) / bounds.z,
 			.x = ft_absf(v.y - bounds.y) / bounds.w
 		};
-		printf("U %f %f\n", u.x, u.y);
+	//	printf("U %f %f\n", u.x, u.y);
 		polygon->uvs[i] = u;
 	}
 	return ;

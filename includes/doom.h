@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/11 13:46:27 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/17 15:14:23 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,12 @@
 # include "obj.h"
 
 typedef struct s_doom t_doom;
+
+typedef struct		s_bounds3
+{
+	t_vec3			pos;
+	t_vec3			size;
+}					t_bounds3;
 
 typedef struct		s_stats
 {
@@ -65,6 +71,7 @@ typedef struct		s_player
 	t_mat4			projection;
 	t_vec2			rotation;
 	t_node			*curr_node;
+	t_obb_box		obb;
 }					t_player;
 
 typedef enum		e_component_type
@@ -133,6 +140,7 @@ typedef struct		s_doom
 	t_editor		editor;
 	char			*obj_working_dir;
 	t_obj			*obj;
+	t_bool			collision;
 }					t_doom;
 
 t_vertex			vertex_add(t_vertex a, t_vertex b);
@@ -238,5 +246,9 @@ float				line_get_distance(t_line l, t_vec2 p);
 t_vec2				line_normal(t_line l);
 
 void				render_obj(t_doom *doom, t_obj *obj);
+void				compute_polygon_obb(t_polygon *poly);
+t_bool				get_obb_collision(t_obb_box a, t_obb_box b);
+t_bounds3			get_polygon_bounds(t_polygon *polygon);
+void				draw_obb(t_doom *doom, t_obb_box obb);
 
 #endif

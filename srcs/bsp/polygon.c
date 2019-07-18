@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 16:30:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/05 16:17:44 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/16 17:41:14 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,4 +113,27 @@ t_bool	clip_poly(t_polygon *out, t_polygon *poly, t_line partition, t_side side)
 	}
 	*out = create_polygon(vertices, poly->type);
 	return (TRUE);
+}
+
+t_bounds3	get_polygon_bounds(t_polygon *polygon)
+{
+	t_vec3	min;
+	t_vec3	max;
+	t_vec3	vert;
+	int		i;
+
+	max = (t_vec3){ INT_MIN, INT_MIN, INT_MIN };
+	min = (t_vec3){ INT_MAX, INT_MAX, INT_MAX };
+	i = -1;
+	while (++i < polygon->vertices->len)
+	{
+		vert = polygon->vertices->vertices[i];
+		min.x = fmin(min.x, vert.x);
+		min.y = fmin(min.y, vert.y);
+		min.z = fmin(min.z, vert.z);
+		max.x = fmax(max.x, vert.x);
+		max.y = fmax(max.y, vert.y);
+		max.z = fmax(max.z, vert.z);
+	}
+	return ((t_bounds3){ .pos = min, .size = ft_vec3_sub(max, min) });
 }
