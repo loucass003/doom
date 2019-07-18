@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/13 08:06:13 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/18 04:00:28 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/18 22:23:40 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@
 void		compute_polygon_obb(t_polygon *poly)
 {
 	const	t_vec3		n = get_polygon_normal(poly);
-	t_bounds3	bounds = get_polygon_bounds(poly);
-	t_vec3			w;
-	t_vec3			u;
+	t_bounds3			bounds = get_polygon_bounds(poly);
+	t_vec3				w;
+	t_vec3				u;
 
 	assert(poly->vertices->len >= 3);
 	w = ft_vec3_norm(ft_vec3_sub(poly->vertices->vertices[0],
@@ -36,6 +36,50 @@ void		compute_polygon_obb(t_polygon *poly)
 		.y_axis = {0, 1, 0},
 		.z_axis = {0, 0, 1},
 	};
+}
+
+void		covariance_matrix(t_mat4 *covariance, t_obb_box *box, t_3dvertices *vertices)
+{
+	t_mat4	e;
+	int		i;
+	float	inv;
+	t_vec3	p;
+
+	(*covariance) = ft_mat4_identity();
+	ft_bzero(&e, sizeof(t_mat4));
+	i = -1;
+	while (++i < vertices->len)
+	{
+		p = ft_vec3_sub(vertices->vertices[i], box->pos);
+		e.a[0][0] += p.x * p.x;
+		e.a[1][1] += p.y * p.y;
+		e.a[2][2] += p.z * p.z;
+		e.a[1][0] += p.x * p.y;
+		e.a[2][0] += p.x * p.z;
+		e.a[2][1] += p.y * p.z;
+	}
+	inv = 1. / vertices->len;
+	covariance->a[0][0] = e.a[0][0] * inv; 
+	covariance->a[1][1] = e.a[1][1] * inv; 
+	covariance->a[2][2] = e.a[2][2] * inv; 
+	covariance->a[1][0] = covariance->a[0][1] = e.a[1][0] * inv; 
+	covariance->a[2][0] = covariance->a[0][2] = e.a[2][0] * inv; 
+	covariance->a[2][1] = covariance->a[1][2] = e.a[2][1] * inv; 
+}
+
+void		compute_obb(t_polygon *poly)
+{
+	t_obb_box			*obb;
+	t_vec3				p;
+	int					i;
+
+
+	obb = &poly->obb;
+	i = -1;
+	while (++i < poly->vertices->len)
+		obb->pos = ft_vec3_add(obb->pos, poly->vertices->vertices[i]);
+	obb->pos = ft_vec3_mul_s(obb->pos, 1. / poly->vertices->len);
+
 }
 
 t_bool		get_separating_plane(t_vec3 pos, t_vec3 plane, t_obb_box a, t_obb_box b)

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/12 15:51:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/16 16:45:42 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/18 16:41:31 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,7 +159,7 @@ static t_bool	ear_clip_polygon(t_polygon *polygon)
 	return (TRUE);
 }
 
-t_bool	compute_change_of_basis(t_polygon *poly, t_mat4 *p, t_mat4 *p_inv)
+t_bool	compute_change_of_basis(t_polygon *poly, t_mat4 *p_inv)
 {
 	const t_vec3	n = get_polygon_normal(poly);
 	const t_vec3	up = (t_vec3){0, 0, 1};
@@ -170,22 +170,21 @@ t_bool	compute_change_of_basis(t_polygon *poly, t_mat4 *p, t_mat4 *p_inv)
 	if (ft_vec3_len(u) == 0)
 		u = (t_vec3){0, 1, 0};
 	w = ft_vec3_cross(u, n);
-	*p = (t_mat4)((t_mat4_data){
+	poly->matrix = (t_mat4)((t_mat4_data){
 		u.x, w.x, n.x, 0,
 		u.y, w.y, n.y, 0,
 		u.z, w.z, n.z, 0,
 		0, 0, 0, 1
 	});
-	return (mat4_inverse(*p, p_inv));
+	return (mat4_inverse(poly->matrix, p_inv));
 }
 
 t_bool	triangulate_polygon(t_polygon *polygon)
 {
-	t_mat4	p;
 	t_mat4	p_inv;
 	int		i;
 
-	if (!compute_change_of_basis(polygon, &p, &p_inv))
+	if (!compute_change_of_basis(polygon, &p_inv))
 		return (FALSE);
 	i = -1;
 	while (++i < polygon->vertices->len)
@@ -195,7 +194,7 @@ t_bool	triangulate_polygon(t_polygon *polygon)
 	uv_mapping(polygon);
 	i = -1;
 	while (++i < polygon->vertices->len)
-		polygon->vertices->vertices[i] = ft_mat4_mulv(p,
+		polygon->vertices->vertices[i] = ft_mat4_mulv(polygon->matrix,
 			polygon->vertices->vertices[i]);
 	return (TRUE);
 }
