@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:01:13 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/13 07:11:51 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/20 21:32:37 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void			game_loop(t_doom *doom)
 	doom->player.projection = projection_matrix(doom);
 	update_maxtrix(doom);
 	register_guis(doom);
-	set_gui(doom, GUI_INGAME);
+	set_gui(doom, GUI_MAIN_MENU);
 	int  i = 0;
 	while (doom->running)
 	{

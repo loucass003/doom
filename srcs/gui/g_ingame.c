@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/18 16:51:18 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/20 23:26:49 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ void visitNode(t_doom *doom, t_node *node)
 		t_polygon *poly = &node->polygons->polygons[i];
 		//if (poly->type == P_WALL)
 		render_polygon(doom, poly);
-		if (node->parent && node->parent->front == node)
-		draw_obb(doom, poly->obb);
+		// if (node->parent && node->parent->front == node)
+		// draw_obb(doom, poly->obb);
 	//	printf("draw %s\n", ((t_polygon *)node->polygons->values[i])->type == P_WALL ? "WALL" : "FLOOR");
 	}
 	/*t_line_list *lst = node->segments;
@@ -114,9 +114,9 @@ void	g_ingame_render(t_gui *self, t_doom *doom)
 	g_count = 0;
 	traverseDrawOrder(doom, doom->bsp);
 	doom->obj->position = (t_vec3){2, 0, 2};
-//	doom->obj->rotation.y += 3 * doom->stats.delta;
+	doom->obj->rotation.y += 3 * doom->stats.delta;
 	doom->obj->scale = (t_vec3){0.002, 0.002, 0.002};
-//	doom->obj->dirty = TRUE;
+	doom->obj->dirty = TRUE;
 	render_obj(doom, doom->obj);
 
 		

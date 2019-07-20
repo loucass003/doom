@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/13 08:06:13 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/20 01:44:22 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/20 18:15:31 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,9 @@ void		compute_polygon_obb(t_polygon *poly)
 	poly->obb = (t_obb_box){
 		.pos = ft_vec3_add(bounds.pos, ft_vec3_div_s(bounds.size, 2)),
 		.half_size = ft_vec3_div_s(bounds.size, 2),
-		.x_axis = {1, 0, 0},
-		.y_axis = {0, 1, 0},
-		.z_axis = {0, 0, 1},
+		.x_axis = ft_mat4_mulv(poly->matrix, (t_vec3){1, 0, 0}),
+		.y_axis = n,
+		.z_axis = ft_mat4_mulv(poly->matrix, (t_vec3){0, 0, 1}),
 	};
 }
 

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:14:55 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/20 17:05:47 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/21 00:19:55 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,17 +168,6 @@ static void	events_window(t_doom *doom, SDL_Event *event)
 		room_map(doom, event, modify_room);
 }
 
-# define BOUND (0.2)
-
-static t_bool	colide(t_node *bsp, float x, float y, float z)
-{
-	return (
-		!inside_room(bsp, (t_vec3){x + BOUND, y, z - BOUND})
-		|| !inside_room(bsp, (t_vec3){x + BOUND, y, z + BOUND})
-		|| !inside_room(bsp, (t_vec3){x - BOUND, y, z - BOUND})
-		|| !inside_room(bsp, (t_vec3){x - BOUND, y, z + BOUND}));
-}
-
 t_bool			check_collide(t_doom *doom, t_node *node, void *param)
 {
 	int				i;
@@ -194,26 +183,26 @@ t_bool			check_collide(t_doom *doom, t_node *node, void *param)
 		for (int j = 0; j < floor(poly.indices->len / 3.); j++)
 		{
 			float d = ft_vec3_dot(poly.normals[j], ft_vec3_sub(doom->player.pos, poly.vertices->vertices[poly.indices->values[j * 3]]));
-			printf("%p %f\n", node, d);
+			//printf("%p %f\n", node, d);
 		//	draw_obb(doom, poly.obb);
-			if (d < 0)
+			float dist = poly.type == P_WALL ? 0.25 : poly.type == P_CEILING ? 0.2 : 0.6;
+			if (d < dist)
 			{
-			/* 	t_vec3 t = ft_vec3_norm(ft_vec3_cross(poly.normals[j], poly.vertices->vertices[poly.indices->values[j * 3]]));
-				if (ft_vec3_dot(poly.normals[j], ft_vec3_sub(doom->player.pos, t)) > 0)
+				t_vec3 p = ft_vec3_sub(poly.vertices->vertices[poly.indices->values[j * 3 + 1]], poly.vertices->vertices[poly.indices->values[j * 3]]);
+				t_vec3 t = ft_vec3_norm(ft_vec3_cross(poly.normals[j], p));
+				if (ft_vec3_dot(t, ft_vec3_sub(doom->player.pos, poly.vertices->vertices[poly.indices->values[j * 3]])) > 0.25)
 					continue;
-				t = ft_vec3_norm(ft_vec3_cross(poly.normals[j], poly.vertices->vertices[poly.indices->values[j * 3 + 1]]));
-				if (ft_vec3_dot(poly.normals[j], ft_vec3_sub(doom->player.pos, t)) > 0)
+				p = ft_vec3_sub(poly.vertices->vertices[poly.indices->values[j * 3 + 1]], poly.vertices->vertices[poly.indices->values[j * 3 + 2]]);
+				t = ft_vec3_norm(ft_vec3_cross(poly.normals[j], p));
+				if (ft_vec3_dot(t, ft_vec3_sub(doom->player.pos, poly.vertices->vertices[poly.indices->values[j * 3]])) > 0.25)
 					continue;
-				t = ft_vec3_norm(ft_vec3_cross(poly.normals[j], poly.vertices->vertices[poly.indices->values[j * 3 + 2]]));
-				if (ft_vec3_dot(poly.normals[j], ft_vec3_sub(doom->player.pos, t)) > 0)
-					continue; */
-				printf("-- off %p %f\n", node, d);
-				if (node->type == N_NODE)
-					printf("COLLIDE WITH %f %f - %f %f\n", node->partition.a.x, node->partition.a.y, node->partition.b.x, node->partition.b.y);
+				p = ft_vec3_sub(poly.vertices->vertices[poly.indices->values[j * 3]], poly.vertices->vertices[poly.indices->values[j * 3 + 2]]);
+				t = ft_vec3_norm(ft_vec3_cross(poly.normals[j], p));
+				if (ft_vec3_dot(t, ft_vec3_sub(doom->player.pos, poly.vertices->vertices[poly.indices->values[j * 3]])) > 0.25)
+					continue;
 				normal = get_polygon_normal(node->polygons->polygons + i);
 				dir = (t_vec3 *)param;
 				doom->player.pos = ft_vec3_add(doom->player.pos, ft_vec3_mul_s(normal, ft_vec3_dot(*dir, ft_vec3_inv(normal))));
-			//	return (TRUE);
 				update_maxtrix(doom);
 			}
 		}
@@ -223,7 +212,6 @@ t_bool			check_collide(t_doom *doom, t_node *node, void *param)
 
 void	hook_events(t_doom *doom)
 {
-
 	const double	ms = doom->stats.delta * 3.;
 	const Uint8		*s = SDL_GetKeyboardState(NULL);
 	SDL_Event		event;
@@ -240,35 +228,20 @@ void	hook_events(t_doom *doom)
 	{
 		dir.x += -cosf(doom->player.rotation.y) * (s[SDL_SCANCODE_D] ? 1 : -1) * ms;
 		dir.z += sinf(doom->player.rotation.y) * (s[SDL_SCANCODE_D] ? 1 : -1) * ms;
-	}
+	} 
 	if (s[SDL_SCANCODE_SPACE] || s[SDL_SCANCODE_LSHIFT])
 		dir.y += (s[SDL_SCANCODE_SPACE] ? 1 : -1) * ms;
 	if (s[SDL_SCANCODE_J] || s[SDL_SCANCODE_L])
 		doom->player.rotation.y += 0.3 * (s[SDL_SCANCODE_J] ? 1 : -1) * ms;
 	if (s[SDL_SCANCODE_I] || s[SDL_SCANCODE_K])
 		doom->player.rotation.x += 0.3 * (s[SDL_SCANCODE_I] ? 1 : -1) * ms;
-
-	/* if (!colide(doom->bsp, doom->player.pos.x + dir.x, doom->player.pos.y, doom->player.pos.z))*/
 	doom->player.pos.x += dir.x;
-	/*/if (!colide(doom->bsp, doom->player.pos.x, doom->player.pos.y, doom->player.pos.z + dir.z))*/
 	doom->player.pos.z += dir.z;
 	doom->player.pos.y += dir.y;
 	update_maxtrix(doom);
-	t_vec3 normal;
 	room_map(doom, &dir, check_collide);
-	/* if (doom->collision)
-	{
-		printf("normal %f %f %f\n", normal.x, normal.y, normal.z);
-		t_vec3 add = ft_vec3_mul_s(normal, ft_vec3_dot(dir, ft_vec3_inv(normal)));
-		printf("ADD %f %f %f\n", add.x, add.y, add.z);
-		doom->player.pos = ft_vec3_add(doom->player.pos, ft_vec3_mul_s(normal, ft_vec3_dot(dir, ft_vec3_inv(normal))));
-	}
-	else printf("NO\n"); */
-	doom->player.curr_node = get_player_node(doom->bsp, doom->player.pos);
-	
-	
+	doom->player.curr_node = get_player_node(doom->bsp, doom->player.pos);	
 	while (SDL_PollEvent(&event))
 		events_window(doom, &event);
-	
 	SDL_PumpEvents();
 }
