@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/13 08:06:13 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/18 22:23:40 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/20 01:44:22 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,20 @@ void		compute_polygon_obb(t_polygon *poly)
 	t_bounds3			bounds = get_polygon_bounds(poly);
 	t_vec3				w;
 	t_vec3				u;
+	t_vec3				i;
 
 	assert(poly->vertices->len >= 3);
-	w = ft_vec3_norm(ft_vec3_sub(poly->vertices->vertices[0],
+/* 	w = ft_vec3_norm(ft_vec3_sub(poly->vertices->vertices[0],
 		poly->vertices->vertices[1]));
-	u = ft_vec3_cross(w, n);
+	u = ft_vec3_cross(w, n); */
+/* 	w = ft_vec3_norm(ft_vec3_sub(poly->vertices->vertices[1], poly->vertices->vertices[0]));
+	u = ft_vec3_norm(ft_vec3_sub(poly->vertices->vertices[0], poly->vertices->vertices[2]));
+	i = ft_vec3_cross(w, u);
 	printf ("POLY %d\n", poly->type);
 	printf ("u %f %f %f\n", u.x, u.y, u.z);
 	printf ("w %f %f %f\n", w.x, w.y, w.z);
-	printf ("n %f %f %f\n", n.x, n.y, n.z);
+	printf ("i %f %f %f\n", i.x, i.y, i.z);
+	printf ("n %f %f %f\n", n.x, n.y, n.z); */
 
 	poly->obb = (t_obb_box){
 		.pos = ft_vec3_add(bounds.pos, ft_vec3_div_s(bounds.size, 2)),
@@ -67,6 +72,27 @@ void		covariance_matrix(t_mat4 *covariance, t_obb_box *box, t_3dvertices *vertic
 	covariance->a[2][1] = covariance->a[1][2] = e.a[2][1] * inv; 
 }
 
+/* void		jacobi(t_mat4 *a, t_mat4 *v)
+{
+	int		p, q;
+
+	(*v) = ft_mat4_identity();
+	for (int n = 0; n < 50; ++n)
+	{
+		p = 0;
+		q = 1;
+		for (int i = 0; i < 3; i++)
+		{
+			for (int j = 0; j < 3; j++)
+			{
+				if (i == j)
+					continue;
+				if (absf(a->a[]))
+			}
+		}
+	}
+} */
+
 void		compute_obb(t_polygon *poly)
 {
 	t_obb_box			*obb;
@@ -79,6 +105,9 @@ void		compute_obb(t_polygon *poly)
 	while (++i < poly->vertices->len)
 		obb->pos = ft_vec3_add(obb->pos, poly->vertices->vertices[i]);
 	obb->pos = ft_vec3_mul_s(obb->pos, 1. / poly->vertices->len);
+	t_mat4 m;
+	t_mat4 v;
+	covariance_matrix(&m, &obb, poly->vertices);
 
 }
 

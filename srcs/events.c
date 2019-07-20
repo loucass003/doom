@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:14:55 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/17 15:46:17 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/20 17:05:47 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,16 +191,31 @@ t_bool			check_collide(t_doom *doom, t_node *node, void *param)
 	while (++i < node->polygons->len)
 	{
 		poly = node->polygons->polygons[i];
-	//	draw_obb(doom, poly.obb);
-		if (get_obb_collision(poly.obb, doom->player.obb))
+		for (int j = 0; j < floor(poly.indices->len / 3.); j++)
 		{
-			if (node->type == N_NODE)
-				printf("COLLIDE WITH %f %f - %f %f\n", node->partition.a.x, node->partition.a.y, node->partition.b.x, node->partition.b.y);
-			normal = get_polygon_normal(node->polygons->polygons + i);
-			dir = (t_vec3 *)param;
-			doom->player.pos = ft_vec3_add(doom->player.pos, ft_vec3_mul_s(normal, ft_vec3_dot(*dir, ft_vec3_inv(normal))));
-		//	return (TRUE);
-			update_maxtrix(doom);
+			float d = ft_vec3_dot(poly.normals[j], ft_vec3_sub(doom->player.pos, poly.vertices->vertices[poly.indices->values[j * 3]]));
+			printf("%p %f\n", node, d);
+		//	draw_obb(doom, poly.obb);
+			if (d < 0)
+			{
+			/* 	t_vec3 t = ft_vec3_norm(ft_vec3_cross(poly.normals[j], poly.vertices->vertices[poly.indices->values[j * 3]]));
+				if (ft_vec3_dot(poly.normals[j], ft_vec3_sub(doom->player.pos, t)) > 0)
+					continue;
+				t = ft_vec3_norm(ft_vec3_cross(poly.normals[j], poly.vertices->vertices[poly.indices->values[j * 3 + 1]]));
+				if (ft_vec3_dot(poly.normals[j], ft_vec3_sub(doom->player.pos, t)) > 0)
+					continue;
+				t = ft_vec3_norm(ft_vec3_cross(poly.normals[j], poly.vertices->vertices[poly.indices->values[j * 3 + 2]]));
+				if (ft_vec3_dot(poly.normals[j], ft_vec3_sub(doom->player.pos, t)) > 0)
+					continue; */
+				printf("-- off %p %f\n", node, d);
+				if (node->type == N_NODE)
+					printf("COLLIDE WITH %f %f - %f %f\n", node->partition.a.x, node->partition.a.y, node->partition.b.x, node->partition.b.y);
+				normal = get_polygon_normal(node->polygons->polygons + i);
+				dir = (t_vec3 *)param;
+				doom->player.pos = ft_vec3_add(doom->player.pos, ft_vec3_mul_s(normal, ft_vec3_dot(*dir, ft_vec3_inv(normal))));
+			//	return (TRUE);
+				update_maxtrix(doom);
+			}
 		}
 	}
 	return (TRUE);
