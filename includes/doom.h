@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/17 15:14:23 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/21 02:06:30 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -246,9 +246,7 @@ float				line_get_distance(t_line l, t_vec2 p);
 t_vec2				line_normal(t_line l);
 
 void				render_obj(t_doom *doom, t_obj *obj);
-void				compute_polygon_obb(t_polygon *poly);
 t_bool				get_obb_collision(t_obb_box a, t_obb_box b);
 t_bounds3			get_polygon_bounds(t_polygon *polygon);
-void				draw_obb(t_doom *doom, t_obb_box obb);
 
 #endif

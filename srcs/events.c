@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:14:55 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/21 00:19:55 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/21 03:22:07 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,6 @@ t_bool	modify_room(t_doom *doom, t_node *node, void *param)
 			rotate_polygon(&poly, &doom->player, (event->key.keysym.scancode == SDL_SCANCODE_T ? 1 : -1));
 		if (event->key.keysym.scancode == SDL_SCANCODE_F || event->key.keysym.scancode == SDL_SCANCODE_H)
 			rotate_polygon(&poly, &doom->player, (event->key.keysym.scancode == SDL_SCANCODE_F ? 2 : -2));
-		compute_polygon_obb(&poly);
 	}
 	return (TRUE);
 }
@@ -172,43 +171,43 @@ t_bool			check_collide(t_doom *doom, t_node *node, void *param)
 {
 	int				i;
 	t_polygon		poly;
-	t_vec3			normal;
-	t_vec3			*dir;
 
-	
 	i = -1;
 	while (++i < node->polygons->len)
 	{
 		poly = node->polygons->polygons[i];
 		for (int j = 0; j < floor(poly.indices->len / 3.); j++)
 		{
-			float d = ft_vec3_dot(poly.normals[j], ft_vec3_sub(doom->player.pos, poly.vertices->vertices[poly.indices->values[j * 3]]));
-			//printf("%p %f\n", node, d);
-		//	draw_obb(doom, poly.obb);
+			t_vec3 p = ft_vec3_sub(doom->player.pos, poly.vertices->vertices[poly.indices->values[j * 3]]);
 			float dist = poly.type == P_WALL ? 0.25 : poly.type == P_CEILING ? 0.2 : 0.6;
-			if (d < dist)
+			if (ft_vec3_dot(poly.normals[j], p) < dist)
 			{
-				t_vec3 p = ft_vec3_sub(poly.vertices->vertices[poly.indices->values[j * 3 + 1]], poly.vertices->vertices[poly.indices->values[j * 3]]);
-				t_vec3 t = ft_vec3_norm(ft_vec3_cross(poly.normals[j], p));
-				if (ft_vec3_dot(t, ft_vec3_sub(doom->player.pos, poly.vertices->vertices[poly.indices->values[j * 3]])) > 0.25)
+				if (ft_vec3_dot(poly.colisions_normals[j * 3], p) > 0.25 
+					|| ft_vec3_dot(poly.colisions_normals[j * 3 + 1], p) > 0.25 
+					|| ft_vec3_dot(poly.colisions_normals[j * 3 + 2], p) > 0.25)
 					continue;
-				p = ft_vec3_sub(poly.vertices->vertices[poly.indices->values[j * 3 + 1]], poly.vertices->vertices[poly.indices->values[j * 3 + 2]]);
-				t = ft_vec3_norm(ft_vec3_cross(poly.normals[j], p));
-				if (ft_vec3_dot(t, ft_vec3_sub(doom->player.pos, poly.vertices->vertices[poly.indices->values[j * 3]])) > 0.25)
-					continue;
-				p = ft_vec3_sub(poly.vertices->vertices[poly.indices->values[j * 3]], poly.vertices->vertices[poly.indices->values[j * 3 + 2]]);
-				t = ft_vec3_norm(ft_vec3_cross(poly.normals[j], p));
-				if (ft_vec3_dot(t, ft_vec3_sub(doom->player.pos, poly.vertices->vertices[poly.indices->values[j * 3]])) > 0.25)
-					continue;
-				normal = get_polygon_normal(node->polygons->polygons + i);
-				dir = (t_vec3 *)param;
-				doom->player.pos = ft_vec3_add(doom->player.pos, ft_vec3_mul_s(normal, ft_vec3_dot(*dir, ft_vec3_inv(normal))));
+				
+				doom->player.pos = ft_vec3_add(doom->player.pos, ft_vec3_mul_s(poly.normals[j], ft_vec3_dot(*((t_vec3 *)param), ft_vec3_inv(poly.normals[j]))));
+				printf("%f %f %f\n", poly.normals[j].x, poly.normals[j].y, poly.normals[j].z);
 				update_maxtrix(doom);
 			}
+			else
+				printf("NOPE\n");
 		}
 	}
 	return (TRUE);
 }
+
+t_bool			iter_bsp(t_doom *doom, t_node *n, void *param)
+{
+	if (!n)
+		return (TRUE);
+	check_collide(doom, n, param);
+	iter_bsp(doom, n->front, param);
+	iter_bsp(doom, n->back, param);
+	return (TRUE);
+}
+
 
 void	hook_events(t_doom *doom)
 {
@@ -239,7 +238,7 @@ void	hook_events(t_doom *doom)
 	doom->player.pos.z += dir.z;
 	doom->player.pos.y += dir.y;
 	update_maxtrix(doom);
-	room_map(doom, &dir, check_collide);
+	iter_bsp(doom, doom->bsp, &dir);
 	doom->player.curr_node = get_player_node(doom->bsp, doom->player.pos);	
 	while (SDL_PollEvent(&event))
 		events_window(doom, &event);

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 22:39:14 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/11 19:47:32 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/21 03:21:54 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	render_polygon(t_doom *doom, t_polygon *poly)
 	while (++i < len)
 	{
 		float d = ft_vec3_dot(poly->normals[i], ft_vec3_sub(doom->player.pos, poly->vertices->vertices[poly->indices->values[i * 3]]));
-		if (d <= 0 && poly->type != P_FLOOR)
+		if (d <= 0)
 			continue;
 		process_triangle(doom, (t_mtl *)&mtl, (t_triangle){
 			{mat43_mulv4(doom->player.matrix, vec3_to_4(poly->vertices->vertices[poly->indices->values[i * 3]])), poly->uvs[poly->indices->values[i * 3]]},
