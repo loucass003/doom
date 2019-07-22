@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/10 15:44:57 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/11 19:35:57 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/21 21:20:14 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,9 @@ void	render_obj(t_doom *doom, t_obj *obj)
 		if (d <= 0)
 			continue;
 		process_triangle(doom, face->mtl, (t_triangle){
-			{mat43_mulv4(doom->player.matrix, obj->pp_vertices[face->vertices_index[0] - 1]), obj->vertex->vertices[face->vertex_index[0] - 1]},
-			{mat43_mulv4(doom->player.matrix, obj->pp_vertices[face->vertices_index[1] - 1]), obj->vertex->vertices[face->vertex_index[1] - 1]},
-			{mat43_mulv4(doom->player.matrix, obj->pp_vertices[face->vertices_index[2] - 1]), obj->vertex->vertices[face->vertex_index[2] - 1]}
+			{ .pos = mat43_mulv4(doom->player.matrix, obj->pp_vertices[face->vertices_index[0] - 1]), .tex = obj->vertex->vertices[face->vertex_index[0] - 1], .normal = obj->normals->vertices[face->vertex_index[0] - 1]},
+			{ .pos = mat43_mulv4(doom->player.matrix, obj->pp_vertices[face->vertices_index[1] - 1]), .tex = obj->vertex->vertices[face->vertex_index[1] - 1], .normal = obj->normals->vertices[face->vertex_index[1] - 1]},
+			{ .pos = mat43_mulv4(doom->player.matrix, obj->pp_vertices[face->vertices_index[2] - 1]), .tex = obj->vertex->vertices[face->vertex_index[2] - 1], .normal = obj->normals->vertices[face->vertex_index[2] - 1]}
 		});
 	}
 }

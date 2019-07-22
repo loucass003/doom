@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 18:02:59 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/17 03:31:17 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/21 20:51:11 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void				uv_mapping(t_polygon *polygon)
 			.y = (dir.y == 1)
 				? ft_absf(v.x - bounds.x) / bounds.z
 				: 1 - ft_absf(v.x - bounds.x) / bounds.z,
-			.x = ft_absf(v.y - bounds.y) / bounds.w
+			.x = ft_absf(v.y - bounds.y) / bounds.w,
 		};
 	//	printf("U %f %f\n", u.x, u.y);
 		polygon->uvs[i] = u;

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 22:39:14 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/21 03:21:54 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/21 20:59:00 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ void	render_polygon(t_doom *doom, t_polygon *poly)
 		if (d <= 0)
 			continue;
 		process_triangle(doom, (t_mtl *)&mtl, (t_triangle){
-			{mat43_mulv4(doom->player.matrix, vec3_to_4(poly->vertices->vertices[poly->indices->values[i * 3]])), poly->uvs[poly->indices->values[i * 3]]},
-			{mat43_mulv4(doom->player.matrix, vec3_to_4(poly->vertices->vertices[poly->indices->values[i * 3 + 1]])), poly->uvs[poly->indices->values[i * 3 + 1]]},
-			{mat43_mulv4(doom->player.matrix, vec3_to_4(poly->vertices->vertices[poly->indices->values[i * 3 + 2]])), poly->uvs[poly->indices->values[i * 3 + 2]]}
+			{.pos = mat43_mulv4(doom->player.matrix, vec3_to_4(poly->vertices->vertices[poly->indices->values[i * 3]])), .tex = poly->uvs[poly->indices->values[i * 3]], .normal = poly->normals[i]},
+			{.pos = mat43_mulv4(doom->player.matrix, vec3_to_4(poly->vertices->vertices[poly->indices->values[i * 3 + 1]])), .tex = poly->uvs[poly->indices->values[i * 3 + 1]], .normal = poly->normals[i]},
+			{.pos = mat43_mulv4(doom->player.matrix, vec3_to_4(poly->vertices->vertices[poly->indices->values[i * 3 + 2]])), .tex = poly->uvs[poly->indices->values[i * 3 + 2]], .normal = poly->normals[i]}
 		});
 	}
 }

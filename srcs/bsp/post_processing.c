@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/16 21:24:43 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/21 02:42:06 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/21 16:33:35 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,9 @@ static t_bool	compute_normals(t_polygon *poly)
 		return (FALSE);
 	if (!poly->colisions_normals && !(poly->colisions_normals = (t_vec3 *)malloc(size * 3)))
 		return (FALSE);
+	if (!poly->colision_dist && !(poly->colision_dist = (float *)malloc(normals_count * sizeof(float))))
+		return (FALSE);
+	ft_memset(poly->colision_dist, 255, normals_count * sizeof(float));
 	i = -1;
 	while (++i < normals_count)
 	{

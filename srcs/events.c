@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:14:55 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/21 03:22:07 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/21 16:57:38 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,29 +170,29 @@ static void	events_window(t_doom *doom, SDL_Event *event)
 t_bool			check_collide(t_doom *doom, t_node *node, void *param)
 {
 	int				i;
-	t_polygon		poly;
+	t_polygon		*poly;
 
 	i = -1;
 	while (++i < node->polygons->len)
 	{
-		poly = node->polygons->polygons[i];
-		for (int j = 0; j < floor(poly.indices->len / 3.); j++)
+		poly = &node->polygons->polygons[i];
+		for (int j = 0; j < floor(poly->indices->len / 3.); j++)
 		{
-			t_vec3 p = ft_vec3_sub(doom->player.pos, poly.vertices->vertices[poly.indices->values[j * 3]]);
-			float dist = poly.type == P_WALL ? 0.25 : poly.type == P_CEILING ? 0.2 : 0.6;
-			if (ft_vec3_dot(poly.normals[j], p) < dist)
+			t_vec3 p = ft_vec3_sub(doom->player.pos, poly->vertices->vertices[poly->indices->values[j * 3]]);
+			float dist = poly->type == P_WALL ? 0.25 : poly->type == P_CEILING ? 0.2 : 0.6;
+			float d = ft_vec3_dot(poly->normals[j], p);
+			if (d < dist && poly->colision_dist[j] > 0)
 			{
-				if (ft_vec3_dot(poly.colisions_normals[j * 3], p) > 0.25 
-					|| ft_vec3_dot(poly.colisions_normals[j * 3 + 1], p) > 0.25 
-					|| ft_vec3_dot(poly.colisions_normals[j * 3 + 2], p) > 0.25)
+				if (ft_vec3_dot(poly->colisions_normals[j * 3], p) > 0.25 
+					|| ft_vec3_dot(poly->colisions_normals[j * 3 + 1], p) > 0.25 
+					|| ft_vec3_dot(poly->colisions_normals[j * 3 + 2], p) > 0.25)
 					continue;
 				
-				doom->player.pos = ft_vec3_add(doom->player.pos, ft_vec3_mul_s(poly.normals[j], ft_vec3_dot(*((t_vec3 *)param), ft_vec3_inv(poly.normals[j]))));
-				printf("%f %f %f\n", poly.normals[j].x, poly.normals[j].y, poly.normals[j].z);
+				doom->player.pos = ft_vec3_add(doom->player.pos, ft_vec3_mul_s(poly->normals[j], ft_vec3_dot(*((t_vec3 *)param), ft_vec3_inv(poly->normals[j]))));
+				printf("%f %f %f\n", poly->normals[j].x, poly->normals[j].y, poly->normals[j].z);
 				update_maxtrix(doom);
 			}
-			else
-				printf("NOPE\n");
+			poly->colision_dist[j] = d;
 		}
 	}
 	return (TRUE);
@@ -234,11 +234,13 @@ void	hook_events(t_doom *doom)
 		doom->player.rotation.y += 0.3 * (s[SDL_SCANCODE_J] ? 1 : -1) * ms;
 	if (s[SDL_SCANCODE_I] || s[SDL_SCANCODE_K])
 		doom->player.rotation.x += 0.3 * (s[SDL_SCANCODE_I] ? 1 : -1) * ms;
+	t_vec3 old_pos = doom->player.pos;
 	doom->player.pos.x += dir.x;
 	doom->player.pos.z += dir.z;
 	doom->player.pos.y += dir.y;
 	update_maxtrix(doom);
-	iter_bsp(doom, doom->bsp, &dir);
+	if (doom->player.pos.x != old_pos.x || doom->player.pos.y != old_pos.y || doom->player.pos.z != old_pos.z)
+		iter_bsp(doom, doom->bsp, &dir);
 	doom->player.curr_node = get_player_node(doom->bsp, doom->player.pos);	
 	while (SDL_PollEvent(&event))
 		events_window(doom, &event);

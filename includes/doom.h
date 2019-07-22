@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/21 02:06:30 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/21 20:49:11 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,12 @@
 
 typedef struct s_doom t_doom;
 
+typedef struct		s_light
+{
+	t_vec3			polision;
+	t_color			color;
+}					t_light;
+
 typedef struct		s_bounds3
 {
 	t_vec3			pos;
@@ -44,6 +50,7 @@ typedef struct		s_stats
 typedef struct		s_vertex
 {
 	t_vec4			pos;
+	t_vec3			normal;
 	t_vec2			tex;
 }					t_vertex;
 
