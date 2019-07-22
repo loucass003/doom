@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:14:55 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/21 16:57:38 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/22 13:10:39 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,7 +189,7 @@ t_bool			check_collide(t_doom *doom, t_node *node, void *param)
 					continue;
 				
 				doom->player.pos = ft_vec3_add(doom->player.pos, ft_vec3_mul_s(poly->normals[j], ft_vec3_dot(*((t_vec3 *)param), ft_vec3_inv(poly->normals[j]))));
-				printf("%f %f %f\n", poly->normals[j].x, poly->normals[j].y, poly->normals[j].z);
+		//		printf("%f %f %f\n", poly->normals[j].x, poly->normals[j].y, poly->normals[j].z);
 				update_maxtrix(doom);
 			}
 			poly->colision_dist[j] = d;
