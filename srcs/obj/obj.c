@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 15:28:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/18 16:46:07 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/22 13:49:55 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ t_bool		set_obj_working_dir(t_doom *doom, char *folder)
 t_bool		obj_test(t_doom *doom)
 {
 	set_obj_working_dir(doom, "assets/obj");
-	t_bool lol = load_obj(doom, &doom->obj, "House2.obj");
+	t_bool lol = load_obj(doom, &doom->obj_test, "House2.obj");
 	printf("ERROR %d\n", !lol);
 	return (FALSE);
 }

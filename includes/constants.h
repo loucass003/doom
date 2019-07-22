@@ -6,17 +6,35 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 21:05:41 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/17 17:01:23 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/22 13:43:48 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CONSTANTS_H
 # define CONSTANTS_H
 
-# define W_HEIGHT 900.0
-# define W_WIDTH 1600.0
-# define S_HEIGHT (619.0)
-# define S_WIDTH (1100.0)
+// # define W_HEIGHT 900.0
+// # define W_WIDTH 1600.0
+// # define S_HEIGHT (619.0)
+// # define S_WIDTH (1100.0)
+# define W_HEIGHT 640
+# define W_WIDTH 1280.0
+# define S_HEIGHT 640
+# define S_WIDTH 1280.0
+
+// MENU TEXTURES
+# define MT_Y 150
+# define MT_X (S_WIDTH - 170)
+# define MT_W 40
+# define MT_H 40
+
+// ICONE TEXTURES
+
+// # define IT_Y 30
+// # define IT_X (W_WIDTH - 60)
+// # define IT_W 50
+// # define IT_H 50
+
 # define S_HEIGHT_2 (S_HEIGHT / 2.)
 # define S_WIDTH_2 (S_WIDTH / 2.)
 # define S_SIZE (S_WIDTH * S_HEIGHT)

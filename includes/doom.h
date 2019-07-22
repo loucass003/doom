@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/21 20:49:11 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/22 17:45:31 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <math.h>
 # include <stdlib.h>
 # include <limits.h>
+# include <dirent.h>
 
 # include "libft.h"
 # include "constants.h"
@@ -27,6 +28,52 @@
 # include "obj.h"
 
 typedef struct s_doom t_doom;
+
+typedef struct		s_object
+{
+	t_vec2			pos;
+	SDL_Surface		*img;
+}					t_object;
+
+typedef struct		s_objects
+{
+	int				len;
+	int				capacity;
+	t_object		values[];
+}					t_objects;
+
+typedef enum		e_wall_type
+{
+	W_DOOR,
+	W_NORMAL = 0,
+	W_TRANSPARENT
+}					t_wall_type;
+
+typedef struct		s_wall
+{
+	t_wall_type		type;
+	t_line			line;
+	SDL_Surface		*img;
+}					t_wall;
+
+typedef struct		s_walls
+{
+	int				capacity;
+	int				len;
+	t_wall			values[];
+}					t_walls;
+
+typedef struct		s_room
+{
+	t_walls			*walls;
+}					t_room;
+
+typedef struct		s_rooms
+{
+	int				capacity;
+	int				len;
+	t_room			values[];
+}					t_rooms;
 
 typedef struct		s_light
 {
@@ -84,8 +131,15 @@ typedef struct		s_player
 typedef enum		e_component_type
 {
 	C_BUTTON,
+	C_MENU,
 	C_TEXTFIELD
 }					t_component_type;
+
+typedef struct		s_files
+{
+    struct s_files		*next;
+    char				s[];
+}					t_files;
 
 typedef struct		s_component
 {
@@ -107,7 +161,38 @@ typedef struct		s_button
 	int				color;
 	int				color_default;
 	int				color_hover;
+	char			*image;
 }					t_button;
+
+typedef struct		s_menu
+{
+	t_component		super;
+	t_bool			open;
+	t_files			*name_file;
+	// char			*select_file;
+	SDL_Surface		*select_file;
+	int				select_pos;
+	int				posx;
+	int				posy;
+	int				files_count;
+	SDL_Surface		*texture;
+	int				color;
+	int				click;
+	char			*name;
+}					t_menu;
+
+typedef struct		s_icone
+{
+	t_component		super;
+	t_bool			open;
+	t_files			*name_file;
+	char			*select_file;
+	int				select_pos;
+	int				posx;
+	int				posy;
+	int				files_count;
+	SDL_Surface		*texture;
+}					t_icone;
 
 typedef struct		s_gui
 {
@@ -121,13 +206,41 @@ typedef struct		s_gui
 
 typedef struct		s_editor
 {
-/*	uint8_t			*point;
+	uint8_t			*point;
 	int				click;
-	t_poly			polygon;
+	int				sup;
+	int				set_start;
+	int				poly;
+	int				lignes;
+	int				curseur;
+	int				icone;
+	int				porte;
+	int				secteur;
+	int				alert[4];
+	int				set_sup[4];
+	int				set_start_pos[2];
+	int				save_modif[3];
+	t_walls			*polygon;
+	t_walls			*lines;
+	t_objects		*objects;
+	// t_save			*door;
+	// t_save			*sector;
+	// t_save			*polygon;
+	// t_save			*lines;
+	//t_obj			*obj;
 	t_line			line;
-	t_line_list		*list;
-	int				alert;*/
+	t_vec2			last_mouse;
+	SDL_Surface		*objet;
+	SDL_Surface		*texture;
 }					t_editor;
+
+typedef struct		s_texture
+{
+	SDL_Surface			*text;
+	char				*name;
+	int					count;
+	struct s_texture	*next;
+}						t_texture;
 
 typedef struct		s_doom
 {
@@ -146,8 +259,14 @@ typedef struct		s_doom
 	int				current_gui;
 	t_editor		editor;
 	char			*obj_working_dir;
-	t_obj			*obj;
+	t_obj			*obj_test;
 	t_bool			collision;
+	int				menu;
+	t_line			linetodel;
+	t_texture       *wall;
+    t_texture       *obj;
+    t_texture       *icons;
+	int				open;
 }					t_doom;
 
 t_vertex			vertex_add(t_vertex a, t_vertex b);
@@ -194,7 +313,59 @@ void				set_gui(t_doom *doom, int id);
 void				render_components(t_doom *doom, t_gui *gui);
 t_bool				in_bounds(SDL_Rect bounds, t_vec2 pos);
 t_bool				alloc_components(t_gui *gui, int count);
-t_component	 		*create_button(SDL_Rect bounds);
+t_component	 		*create_button(SDL_Rect bounds, char *s);
+
+void    			find_files(t_files **list, int *files_count, char *s, char *s2);
+t_component			*create_menu(SDL_Rect bounds, char *s, t_doom *doom);
+t_component	 		*create_icone(SDL_Rect bounds);
+t_files				*copy_name(struct dirent *file, t_files *start, char *s2);
+DIR					*open_dir(char *s);
+void				close_dir(DIR *rep);
+void				put_menu(t_component *self, t_doom *doom, t_menu *menu);
+void				menu_deroulant(t_component *self, int i, t_texture *f, t_doom *doom);
+
+//////////EDITOR//////////////
+// void	save_in_lst(t_doom *doom);
+
+// void	editor_mouse_motion(t_doom *doom, SDL_Event *event);
+// void	editor_mousebuttonup(t_doom *doom, int x, int y);
+// void	mouseonline(t_doom *doom, t_line_list *tmp, int *line);
+
+// void	check_poly_close(t_doom *doom, t_line_list *poly);
+
+t_bool	check_same_point(t_doom *doom);
+// t_bool	check_multi_point(t_doom *doom, t_poly *poly, int x, int y);
+// t_bool	check_secant_line(t_doom *doom, t_poly *poly, float x1, float x2, float y1, float y2);
+// t_bool	check_multi_line(t_doom *doom, t_poly *poly, int x1, int y1, int x2, int y2);
+// t_bool	check_multi_line(t_doom *doom, t_save *list, t_line line);
+
+// void	check_poly_close(t_doom *doom, t_save *liste);
+void	display_comp(t_doom *doom, t_gui *self);
+
+void	set_alert_message(t_doom *doom);
+void	write_alert_message(t_doom *doom);
+
+void    save_line_to_erase(t_doom *doom, int x, int y);
+void	erase_all(t_doom *doom);
+
+void	modify_all(t_doom *doom, int x, int y);
+void	all_visual(t_doom *doom, int x, int y);
+void	visual_line(t_doom *doom, t_line line);
+
+// int		ft_listlen(t_save *poly);
+t_bool     in_the_poly(t_doom *doom, t_walls *walls, t_vec2 point);
+
+
+void    save_object(t_doom *doom, int x, int y, SDL_Surface *obj);
+void	show_new_components(t_doom *doom);
+
+// t_bool	found_intersect(t_line *line, t_line *cmp, t_line_list *pol);
+// t_bool	check_secant_line(t_doom *doom, t_save *list, t_line line);
+
+void	print_all(t_doom *doom);
+
+
+// void    print_lst(t_doom *doom, t_save *list);
 
 t_mat4				projection_matrix(t_doom *doom);
 void				update_maxtrix(t_doom *doom);
@@ -237,6 +408,26 @@ t_ints				*splice_ints_array(t_ints *arr,
 						int index, int n);
 t_ints				*copy_ints_array(t_ints *src,
 						t_ints **dst);
+t_walls				*create_walls_array(int capacity);
+t_walls				*append_walls_array(t_walls **arr, t_wall i);
+t_walls				*splice_walls_array(t_walls *arr,
+						int index, int n);
+t_walls				*copy_walls_array(t_walls *src,
+						t_walls **dst);
+
+t_rooms				*create_rooms_array(int capacity);
+t_rooms				*append_rooms_array(t_rooms **arr, t_room i);
+t_rooms				*splice_rooms_array(t_rooms *arr,
+						int index, int n);
+t_rooms				*copy_rooms_array(t_rooms *src,
+						t_rooms **dst);
+
+t_objects				*create_objects_array(int capacity);
+t_objects				*append_objects_array(t_objects **arr, t_object i);
+t_objects				*splice_objects_array(t_objects *arr,
+						int index, int n);
+t_objects				*copy_objects_array(t_objects *src,
+						t_objects **dst);
 
 void				triangulate_bsp(t_node *n);
 t_bool				inside_triangle(t_vec3 a, t_vec3 b, t_vec3 c, t_vec3 p);
@@ -255,5 +446,6 @@ t_vec2				line_normal(t_line l);
 void				render_obj(t_doom *doom, t_obj *obj);
 t_bool				get_obb_collision(t_obb_box a, t_obb_box b);
 t_bounds3			get_polygon_bounds(t_polygon *polygon);
+void				load_all(t_doom *doom);
 
 #endif

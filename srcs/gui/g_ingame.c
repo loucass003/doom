@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/22 13:28:45 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/22 18:15:05 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,11 +113,11 @@ void	g_ingame_render(t_gui *self, t_doom *doom)
 		doom->rendered_area[i] = 0;
 	g_count = 0;
 	traverseDrawOrder(doom, doom->bsp);
-	doom->obj->position = (t_vec3){2, 0, 2};
-	doom->obj->rotation.y += 3 * doom->stats.delta;
-	doom->obj->scale = (t_vec3){0.002, 0.002, 0.002};
+	doom->obj_test->position = (t_vec3){2, 0, 2};
+	doom->obj_test->rotation.y += 3 * doom->stats.delta;
+	doom->obj_test->scale = (t_vec3){0.002, 0.002, 0.002};
 //	doom->obj->dirty = TRUE;
-	render_obj(doom, doom->obj);
+	render_obj(doom, doom->obj_test);
 
 		
 	//printf("%d\n", g_count);

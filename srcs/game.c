@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:01:13 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/21 16:58:00 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/22 16:19:36 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,12 @@ static void			render_debug(t_doom *doom)
 	text = TTF_RenderText_Blended(doom->fonts.helvetica,
 		ft_int_to_str(doom->stats.fps).str, color);
 	apply_surface_blended(&doom->screen, text, (SDL_Rect){0, 0, text->w, text->h},
-		(SDL_Rect){5, 5, text->w + 5, text->h + 5});
+		(SDL_Rect){0, S_HEIGHT - 80, 40, 40});
 	SDL_FreeSurface(text);
 	text = TTF_RenderText_Blended(doom->fonts.helvetica,
 		ft_int_to_str((int)doom->stats.avg_ms).str, color);
 	apply_surface_blended(&doom->screen, text, (SDL_Rect){0, 0, text->w, text->h},
-		(SDL_Rect){5, text->h + 10, text->w + 5, text->h + 5});
+		(SDL_Rect){0, S_HEIGHT - 40, 40, 40});
 	SDL_FreeSurface(text);
 }
 
@@ -55,12 +55,13 @@ void			game_loop(t_doom *doom)
 	doom->player.projection = projection_matrix(doom);
 	update_maxtrix(doom);
 	register_guis(doom);
-	set_gui(doom, GUI_INGAME);
+	set_gui(doom, GUI_MAIN_MENU);
 	int  i = 0;
+	load_all(doom);
 	while (doom->running)
 	{
-		//clear_image(&doom->screen);
-		fill_color(&doom->screen, 0xFF);
+		clear_image(&doom->screen);
+		//fill_color(&doom->screen, 0xFF);
 		render(doom);
 		//DO RENDERING HERE !
 		hook_events(doom);
@@ -72,4 +73,5 @@ void			game_loop(t_doom *doom)
 	/* 	 if (++i > 100)
 			exit(0); */
 	}
+	// FREE TEXTURES FROM LOAD_ALL
 }
