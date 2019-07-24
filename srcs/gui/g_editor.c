@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_editor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 15:50:09 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/22 17:49:09 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/24 12:38:19 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,9 @@ void			g_editor_render(t_gui *self, t_doom *doom)
 	}
 	if (doom->editor.curseur == 1)
 		all_visual(doom, doom->editor.last_mouse.x / 20, doom->editor.last_mouse.y / 20);
-	if (doom->editor.click != 0 && (doom->editor.poly == 1 || doom->editor.porte == 1 || doom->editor.secteur == 1 || doom->editor.lignes == 1))
+	if (doom->editor.click > 1 && (doom->editor.poly == 1 || doom->editor.porte == 1 || doom->editor.secteur == 1 || doom->editor.lignes == 1))
+		visual_line(doom, (t_line){doom->editor.line.b.x, doom->editor.line.b.y, (int)doom->editor.last_mouse.x / 20, (int)doom->editor.last_mouse.y / 20});
+	if (doom->editor.click == 1 && (doom->editor.poly == 1 || doom->editor.porte == 1 || doom->editor.secteur == 1 || doom->editor.lignes == 1))
 		visual_line(doom, (t_line){doom->editor.line.a.x, doom->editor.line.a.y, (int)doom->editor.last_mouse.x / 20, (int)doom->editor.last_mouse.y / 20});
 	write_alert_message(doom);
 	print_all(doom);
