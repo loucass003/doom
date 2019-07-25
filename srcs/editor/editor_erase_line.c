@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   editor_erase_line.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 13:18:39 by lloncham          #+#    #+#             */
-/*   Updated: 2019/07/22 16:58:59 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/25 12:12:40 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,7 +178,7 @@
 //     }
 // }
 
-void	erase_one_obj(t_doom *doom, int x, int y)
+void	erase_one_obj(t_doom *doom, int x, int y) // pourquoi ne coupe pas le dernier??
 {
 	int		index;
 
@@ -195,6 +195,9 @@ void	save_line_to_erase(t_doom *doom, int x, int y)
 {
 	int index;
 
+	printf("x %d y %d\n", x, y);
+    if (doom->editor.objet)
+		erase_one_obj(doom, x, y);
     if (doom->editor.polygon)
 	{
 		if ((index = walls_indexof(doom->editor.polygon, doom->editor.set_sup)) == -1)
@@ -211,8 +214,6 @@ void	save_line_to_erase(t_doom *doom, int x, int y)
 	//     erase_line(doom, &doom->editor.door, doom->editor.set_sup);
 	// if (doom->editor.sector)
 	//     erase_line(doom, &doom->editor.sector, doom->editor.set_sup);
-    if (doom->editor.objects)
-		erase_one_obj(doom, x, y);
 
 	
 }

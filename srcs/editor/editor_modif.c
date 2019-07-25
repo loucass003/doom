@@ -6,7 +6,7 @@
 /*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/03 17:13:41 by lloncham          #+#    #+#             */
-/*   Updated: 2019/07/25 10:57:00 by Lisa             ###   ########.fr       */
+/*   Updated: 2019/07/25 10:58:59 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,15 +67,15 @@ void	modify_all(t_doom *doom, int x, int y)
 		modify_point(doom, doom->editor.polygon, x, y);
 	if (doom->editor.objects)
 		modify_object(doom, x, y);
-	// if (doom->editor.lines /*|| doom->editor.door || doom->editor.sector*/)
-	// {
-	// 	if (in_the_poly(doom, doom->editor.polygon, (t_vec2){x / 20, y / 20}) == FALSE)
-	// 		return;
-	// 	if (doom->editor.lines)
-	// 		modify_point(doom, doom->editor.lines, x, y);
+	if (doom->editor.lines /*|| doom->editor.door || doom->editor.sector*/)
+	{
+		if (in_the_poly(doom, doom->editor.polygon, (t_vec2){x / 20, y / 20}) == FALSE)
+			return;
+		if (doom->editor.lines)
+			modify_point(doom, doom->editor.lines, x, y);
 		// if (doom->editor.door)
 		// 	modify_point(doom, doom->editor.door, x, y);
 		// if (doom->editor.sector)
 		// 	modify_point(doom, doom->editor.sector, x, y);
-	// }
+	}
 }
