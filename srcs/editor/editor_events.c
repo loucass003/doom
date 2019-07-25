@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   editor_events.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/26 17:31:07 by lloncham          #+#    #+#             */
-/*   Updated: 2019/07/22 17:39:59 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/24 12:43:42 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,6 @@ void	editor_mousebuttonup(t_doom *doom, int x, int y)
 				return;
 			doom->editor.set_start_pos[0] = x / 20;
 			doom->editor.set_start_pos[1] = y / 20;
-			//doom->editor.set_start_pos[2] = doom->editor.floor;
 		}
 		else if (doom->editor.sup >= 1)//suppression de point
 			save_line_to_erase(doom, x / 20, y / 20);
