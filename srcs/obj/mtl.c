@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 17:07:44 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/11 05:45:34 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/26 02:17:19 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static t_bool	mtl_process_formaters(t_obj *obj, t_reader *reader)
 t_bool			mtllib_formatter(t_obj *obj, t_reader *reader)
 {
 	t_reader	mtl_reader;
-	char		file[MATERIAL_FILE_LEN];
+	char		file[MATERIAL_FILE_LEN + 1];
 	size_t		len;
 	char		c;
 	char		*path;

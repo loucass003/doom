@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/22 17:45:31 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/26 03:46:19 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,7 @@ typedef struct		s_player
 	t_vec2			rotation;
 	t_node			*curr_node;
 	t_obb_box		obb;
+	t_bool			coliding;
 }					t_player;
 
 typedef enum		e_component_type
@@ -280,10 +281,13 @@ t_vec3				vec4_to_3(t_vec4 v);
 t_vec3				vec4_to_3w(t_vec4 v);
 t_vec4				mat4_mulv4(t_mat4 m, t_vec4 p);
 t_vec4				ft_vec4_mul_s(t_vec4 a, float v);
+t_vec4				ft_vec4_mul(t_vec4 a, t_vec4 b);
+t_vec4				ft_vec4_sub_s(t_vec4 a, float v);
 t_vec4				ft_vec4_div_s(t_vec4 a, float v);
 t_vec4				ft_vec4_sub(t_vec4 a, t_vec4 b);
 t_vec4				ft_vec4_add(t_vec4 a, t_vec4 b);
 t_vec4				ft_vec4_interpolate(t_vec4 a, t_vec4 b, float alpha);
+
 
 t_bool 				mat4_inverse(t_mat4 a, t_mat4 *inverse);
 
@@ -432,7 +436,7 @@ t_objects				*copy_objects_array(t_objects *src,
 void				triangulate_bsp(t_node *n);
 t_bool				inside_triangle(t_vec3 a, t_vec3 b, t_vec3 c, t_vec3 p);
  
-void				draw_triangle(t_doom *doom, t_triangle triangle, t_mtl *mtl);
+void				draw_triangle(t_doom *doom, t_triangle projected, t_mtl *mtl);
 void				process_triangle(t_doom *doom, t_mtl *mtl, t_triangle triangle);
 void				post_process_triangle(t_doom *doom, t_mtl *mtl, t_triangle triangle);
 

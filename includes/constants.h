@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 21:05:41 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/22 13:43:48 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/26 03:21:13 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@
 // # define W_WIDTH 1600.0
 // # define S_HEIGHT (619.0)
 // # define S_WIDTH (1100.0)
-# define W_HEIGHT 640
+# define W_HEIGHT 640.
 # define W_WIDTH 1280.0
-# define S_HEIGHT 640
+# define S_HEIGHT 640.
 # define S_WIDTH 1280.0
 
 // MENU TEXTURES

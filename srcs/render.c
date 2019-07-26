@@ -6,12 +6,11 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 16:49:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/04/24 14:02:54 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/26 03:11:15 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom.h"
-#include <assert.h>
 
 void	render(t_doom *doom)
 {

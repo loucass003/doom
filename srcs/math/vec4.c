@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/19 17:50:27 by llelievr          #+#    #+#             */
-/*   Updated: 2019/06/05 22:32:51 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/26 00:45:15 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,24 @@ t_vec4		ft_vec4_div_s(t_vec4 a, float v)
 	return (a);
 }
 
+t_vec4		ft_vec4_div(t_vec4 a, t_vec4 b)
+{
+	a.x /= b.x;
+	a.y /= b.y;
+	a.z /= b.z;
+	a.w /= b.w;
+	return (a);
+}
+
+t_vec4		ft_vec4_mul(t_vec4 a, t_vec4 b)
+{
+	a.x *= b.x;
+	a.y *= b.y;
+	a.z *= b.z;
+	a.w *= b.w;
+	return (a);
+}
+
 t_vec4		ft_vec4_sub(t_vec4 a, t_vec4 b)
 {
 	a.x -= b.x;
@@ -64,6 +82,16 @@ t_vec4		ft_vec4_sub(t_vec4 a, t_vec4 b)
 	a.w -= b.w;
 	return (a);
 }
+
+t_vec4		ft_vec4_sub_s(t_vec4 a, float v)
+{
+	a.x -= v;
+	a.y -= v;
+	a.z -= v;
+	a.w -= v;
+	return (a);
+}
+
 
 t_vec4		ft_vec4_add(t_vec4 a, t_vec4 b)
 {

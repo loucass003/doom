@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 01:06:40 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/17 17:01:14 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/26 05:12:22 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static void 	clip_1(t_doom *doom, t_mtl *mtl, t_triangle t)
 	const float	alpha_b = (NEAR_CLIP - t.a.pos.z) / (t.c.pos.z - t.a.pos.z);
 	const t_vertex v_a = vertex_interpolate(t.a, t.b, alpha_a);
 	const t_vertex v_b = vertex_interpolate(t.a, t.c, alpha_b);
-
+	
 	post_process_triangle(doom, mtl, (t_triangle){ v_a, t.b, t.c });
 	post_process_triangle(doom, mtl, (t_triangle){ v_b, v_a, t.c });
 }
@@ -87,5 +87,6 @@ void	post_process_triangle(t_doom *doom, t_mtl *mtl, t_triangle t)
 	t.a = transform(t.a);
 	t.b = transform(t.b);
 	t.c = transform(t.c);
+	
 	draw_triangle(doom, t, mtl);
 }
