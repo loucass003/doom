@@ -6,67 +6,11 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 13:18:39 by lloncham          #+#    #+#             */
-/*   Updated: 2019/07/31 16:16:47 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/07/31 16:18:33 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom.h"
-
-void	erase_obj(t_doom *doom)
-{
-	// t_obj *obj;
-	// t_obj *prev;
-
-	// obj = doom->editor.obj;
-	// while (obj)
-	// {
-	// 	prev = obj;
-	// 	obj = obj->next;
-	// 	free(prev);
-	// }
-	// doom->editor.obj = NULL;
-
-	// printf("len obj %d\n", doom->editor.objects->len);
-	// int i = -1;
-	// while (++i < doom->editor.objects->len)
-	// {
-	// 	ft_putnbr(i);
-	// 	ft_putendl("LEN");
-	// 	ft_putnbr(doom->editor.objects->len);
-	// 	splice_objects_array(doom->editor.objects, i, 1);
-	// }
-}
-
-// void	erase_all_line(t_doom *doom, t_save *poly)
-// {
-// 	t_line_list *prev;
-// 	t_line_list *list;
-
-// 	list = poly->line;
-// 	while (list)
-// 	{
-// 		prev = list;
-// 		list = list->next;
-// 		free(prev);
-// 	}
-// 	set_alert_message(doom);
-// }
-
-// void	erase_all_lst(t_doom *doom, t_save **liste)
-// {
-// 	t_save		*lst;
-// 	t_save		*prev;
-	
-// 	lst = *liste;
-// 	while (lst)
-// 	{
-// 		erase_all_line(doom, lst);
-// 		prev = lst;
-// 		lst = lst->next;
-// 		free(prev);
-// 	}
-// 	*liste = NULL;
-// }
 
 void	erase_all(t_doom *doom)
 {
