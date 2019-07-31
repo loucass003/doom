@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_editor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 15:50:09 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/24 12:41:19 by Lisa             ###   ########.fr       */
+/*   Updated: 2019/07/31 14:37:36 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ static void		action_performed(t_component *cmp, t_doom *doom)
 		doom->editor.poly = (doom->editor.poly == 0) ? 1 : 0;
 	else if (cmp == doom->guis[doom->current_gui].components[6]) //modif
 		doom->editor.curseur = (doom->editor.curseur == 0) ? 1 : 0;
-	// else if (cmp == doom->guis[doom->current_gui].components[7]) //erase
-	// 	erase_all(doom);
+	else if (cmp == doom->guis[doom->current_gui].components[7]) //erase
+		erase_all(doom);
 	else if (cmp == doom->guis[doom->current_gui].components[8]) //lignes
 	{
 		if (doom->editor.lignes == 0)
@@ -72,11 +72,11 @@ void			g_editor_button(t_gui *self, t_doom *doom)
 	self->components[7] = create_button((SDL_Rect)
 	{286, 6, 40, 40}, "icons/croix.png");
 	self->components[8] = create_button((SDL_Rect)
-	{446, 6, 40, 40}, "icons/icons8-stylo-64.png");
+	{323, 6, 40, 40}, "icons/icons8-stylo-64.png");
 	self->components[9] = create_button((SDL_Rect)
-	{490, 6, 40, 40}, "icons/icons8-modifier-la-ligne-80.png");
+	{363, 6, 40, 40}, "icons/icons8-modifier-la-ligne-80.png");
 	self->components[10] = create_button((SDL_Rect)
-	{536, 6, 40, 40}, "icons/icons8-porte-64.png");
+	{403, 6, 40, 40}, "icons/icons8-porte-64.png");
 	int i = 0;
 	while (i <= 10)
 		self->components[i++]->perform_action = action_performed;
@@ -139,7 +139,7 @@ void			g_editor_render(t_gui *self, t_doom *doom)
 	print_all(doom);
 	if (doom->editor.sup == 1)
 	{
-		if (doom->editor.polygon || doom->editor.lines /*|| doom->editor.door || doom->editor.sector*/)
+		if (doom->editor.polygon || doom->editor.lines)
 			draw_line(&doom->screen, (t_pixel){doom->linetodel.a.x * 20 
 			+ 10, doom->linetodel.a.y * 20 + 10, 16729670}, (t_pixel){doom->linetodel.b.x 
 			* 20 + 10, doom->linetodel.b.y * 20 + 10});

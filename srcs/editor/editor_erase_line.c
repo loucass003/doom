@@ -3,29 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   editor_erase_line.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 13:18:39 by lloncham          #+#    #+#             */
-/*   Updated: 2019/07/25 12:12:40 by Lisa             ###   ########.fr       */
+/*   Updated: 2019/07/31 16:16:47 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom.h"
 
-// void	erase_obj(t_doom *doom)
-// {
-// 	t_obj *obj;
-// 	t_obj *prev;
+void	erase_obj(t_doom *doom)
+{
+	// t_obj *obj;
+	// t_obj *prev;
 
-// 	obj = doom->editor.obj;
-// 	while (obj)
-// 	{
-// 		prev = obj;
-// 		obj = obj->next;
-// 		free(prev);
-// 	}
-// 	doom->editor.obj = NULL;
-// }
+	// obj = doom->editor.obj;
+	// while (obj)
+	// {
+	// 	prev = obj;
+	// 	obj = obj->next;
+	// 	free(prev);
+	// }
+	// doom->editor.obj = NULL;
+
+	// printf("len obj %d\n", doom->editor.objects->len);
+	// int i = -1;
+	// while (++i < doom->editor.objects->len)
+	// {
+	// 	ft_putnbr(i);
+	// 	ft_putendl("LEN");
+	// 	ft_putnbr(doom->editor.objects->len);
+	// 	splice_objects_array(doom->editor.objects, i, 1);
+	// }
+}
 
 // void	erase_all_line(t_doom *doom, t_save *poly)
 // {
@@ -58,15 +68,28 @@
 // 	*liste = NULL;
 // }
 
-// void	erase_all(t_doom *doom)
-// {
-// 	erase_all_lst(doom, &doom->editor.polygon);
-// 	erase_all_lst(doom, &doom->editor.door);
-// 	erase_all_lst(doom, &doom->editor.sector);
-// 	erase_all_lst(doom, &doom->editor.lines);
-// 	erase_obj(doom);
-// 	doom->editor.click = 0;
-// }
+void	erase_all(t_doom *doom)
+{
+	int i = 0;
+	while (doom->editor.lines->len > i)
+	{
+		splice_walls_array(doom->editor.lines, i++ , 1);
+		doom->editor.lines->len = 0; 
+	}
+	i = 0;
+	while (doom->editor.polygon->len > i)
+	{
+		splice_walls_array(doom->editor.polygon, i++ , 1);
+		doom->editor.polygon->len = 0; //Pourquoi devoir faire ça alors que splice_polygons_array le fait déjà?
+	}
+	i = 0;
+	while (doom->editor.objects->len > i)
+	{
+		splice_objects_array(doom->editor.objects, i++ , 1);
+		doom->editor.objects->len = 0;
+	}
+	doom->editor.click = 0;
+}
 
 // void		mouseonline(t_doom *doom, t_line_list *tmp, int *line)
 // {
@@ -197,23 +220,21 @@ void	save_line_to_erase(t_doom *doom, int x, int y)
 
 	printf("x %d y %d\n", x, y);
     if (doom->editor.objet)
-		erase_one_obj(doom, x, y);
+			erase_one_obj(doom, x, y);
     if (doom->editor.polygon)
-	{
-		if ((index = walls_indexof(doom->editor.polygon, doom->editor.set_sup)) == -1)
-			return; //TODO: ERROR
-	    splice_walls_array(doom->editor.polygon, index, 1);
-	}
+		{
+			if ((index = walls_indexof(doom->editor.polygon, doom->editor.set_sup)) == -1)
+				return; //TODO: ERROR
+		   splice_walls_array(doom->editor.polygon, index, 1);
+		}
     if (doom->editor.lines)
-	{
-		if ((index = walls_indexof(doom->editor.lines, doom->editor.set_sup)) == -1)
-			return ;
-		splice_walls_array(doom->editor.lines, index, 1);
-	}
+		{
+			if ((index = walls_indexof(doom->editor.lines, doom->editor.set_sup)) == -1)
+				return ;
+			splice_walls_array(doom->editor.lines, index, 1);
+		}
 	// if (doom->editor.door)
 	//     erase_line(doom, &doom->editor.door, doom->editor.set_sup);
 	// if (doom->editor.sector)
 	//     erase_line(doom, &doom->editor.sector, doom->editor.set_sup);
-
-	
 }

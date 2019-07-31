@@ -3,15 +3,15 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+         #
+#    By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/07 14:49:27 by llelievr          #+#    #+#              #
-#    Updated: 2019/07/26 05:24:29 by llelievr         ###   ########.fr        #
+#    Updated: 2019/07/31 15:56:10 by lloncham         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME=doom-nukem
-CFLAGS=-Wall -Wextra -flto -O3
+CFLAGS=-Wall -Wextra -flto -O3 -g -fsanitize=address
 LIBS=-lm -lft
 CC=clang
 

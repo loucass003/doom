@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   doom.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/26 03:46:19 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/31 14:53:55 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,24 +42,24 @@ typedef struct		s_objects
 	t_object		values[];
 }					t_objects;
 
-typedef enum		e_wall_type
-{
-	W_DOOR,
-	W_NORMAL = 0,
-	W_TRANSPARENT
-}					t_wall_type;
+// typedef enum		e_wall_type
+// {
+// 	W_DOOR,
+// 	W_NORMAL = 0,
+// 	W_TRANSPARENT
+// }					t_wall_type;
 
 typedef struct		s_wall
 {
-	t_wall_type		type;
+	// t_wall_type		type;
 	t_line			line;
 	SDL_Surface		*img;
 }					t_wall;
 
 typedef struct		s_walls
 {
-	int				capacity;
 	int				len;
+	int				capacity;
 	t_wall			values[];
 }					t_walls;
 

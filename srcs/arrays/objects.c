@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   objects.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/22 14:02:50 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/22 15:11:36 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/07/31 14:28:58 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ t_objects	*splice_objects_array(t_objects *arr, int index, int n)
 {
 	if (index < 0)
 		index = index + arr->len - 1;
-	if (n <= 0 || index >= arr->len || index + n >= arr->len)
-		return (NULL);
+	// if (n <= 0 || index >= arr->len || index + n >= arr->len) // SINON ON NE PEUT PAS SUPP LE DERNIER
+	// 	return (NULL);
 	ft_memcpy(arr->values + index, arr->values + index + n,
 		(arr->len - (index + n)) * sizeof(t_object));
 	arr->len -= n;
