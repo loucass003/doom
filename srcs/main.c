@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/22 18:14:50 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/13 19:39:28 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	init_bsp(t_doom *doom)
 	for (int i = 0; i < count; i++)
 	{
 		append_3dvertices_array(&vertices, (t_vec3){
-			lines[count - 1 - i].a.x / 100, 0, lines[count - 1 - i].a.y / 100});
+			lines[i].a.x / 100, 0, lines[i].a.y / 100});
 	}
 	append_polygons_array(&polygons, create_polygon(vertices, P_FLOOR));
 	

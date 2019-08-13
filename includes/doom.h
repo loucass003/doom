@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   doom.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/31 14:53:55 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/08/13 14:04:46 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -367,6 +367,8 @@ void	show_new_components(t_doom *doom);
 // t_bool	check_secant_line(t_doom *doom, t_save *list, t_line line);
 
 void	print_all(t_doom *doom);
+
+void	 set_map(t_doom *doom);
 
 
 // void    print_lst(t_doom *doom, t_save *list);

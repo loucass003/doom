@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_editor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 15:50:09 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/31 14:37:36 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/08/13 14:30:49 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,9 @@ void			set_var(t_doom *doom)
 static void		action_performed(t_component *cmp, t_doom *doom)
 {
 	set_var(doom);
-	if (cmp == doom->guis[doom->current_gui].components[1]) //start
+	if (cmp == doom->guis[doom->current_gui].components[0])
+		set_map(doom);
+	else if (cmp == doom->guis[doom->current_gui].components[1]) //start
 		doom->editor.set_start = (doom->editor.set_start == 0) ? 1 : 0;
 	else if (cmp == doom->guis[doom->current_gui].components[2]) //sup ligne
 		doom->editor.sup = (doom->editor.sup == 0) ? 1 : 0;

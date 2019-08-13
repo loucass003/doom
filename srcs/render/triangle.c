@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 01:17:41 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/26 06:26:05 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/13 19:42:39 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,17 @@ int		ft_max(int a, int b)
 	return (a > b ? a : b);
 }
 
+typedef union ut_color {
+	uint32_t color;
+	struct argbTag
+	{
+		uint8_t r;
+		uint8_t g;
+		uint8_t b;
+        uint8_t a;
+	} argb;
+} ur_color;
+
 void scanline2(t_doom *doom, t_mtl *mtl, t_pixel p, float t, t_vertex start, t_vertex end)
 {
 	t_vertex	vert;
@@ -53,45 +64,40 @@ void scanline2(t_doom *doom, t_mtl *mtl, t_pixel p, float t, t_vertex start, t_v
 			vert.tex.y = (1.0f - t) * start.tex.y + t * end.tex.y;
 			vert.pos.z = (1.0f - t) * start.pos.z + t * end.pos.z;
 			vert.normal = ft_vec3_add(start.normal, ft_vec3_mul_s(ft_vec3_sub(end.normal, start.normal), t));
-			if (vert.pos.z >= (FAR_CULL - 5))
+			// if (vert.pos.z >= (FAR_CULL - 5))
+			// {
+			// 	float w = 1. / vert.pos.w;
+			// 	ur_color c;
+			// 	c.color = get_surface_pixel(mtl->texture_map,
+			// 		fmax(0, fmin(mtl->texture_map->w - 1, (vert.tex.x * w) * (mtl->texture_map->w - 1))),
+			// 		fmax(0, fmin(mtl->texture_map->h - 1, (1. - (vert.tex.y * w)) * (mtl->texture_map->h - 1)))
+			// 	);
+			// 	float factor = 1 - (FAR_CULL - vert.pos.z) / (FAR_CULL - (FAR_CULL - 5));
+			// 	c.color = ft_color_i(ft_color_gradient((t_color){ c.argb.r, c.argb.g, c.argb.b, 255}, (t_color){ 0, 0, 255, 255}, fmax(0, fmin(1, factor))));
+			// 	doom->screen.pixels[p.y * (int)S_WIDTH + p.x] = c.color;
+			// }
+			//else
 			{
 				float w = 1. / vert.pos.w;
-				t_color c = ft_i_color(get_surface_pixel(mtl->texture_map,
-					fmax(0, fmin(mtl->texture_map->w - 1, (vert.tex.x * w) * (mtl->texture_map->w - 1))),
-					fmax(0, fmin(mtl->texture_map->h - 1, (1. - (vert.tex.y * w)) * (mtl->texture_map->h - 1)))
-				));
-				float factor = 1 - (FAR_CULL - vert.pos.z) / (FAR_CULL - (FAR_CULL - 5));
-				c = ft_color_gradient(c, (t_color){ 0, 0, 255, 255}, fmax(0, fmin(1, factor)));
-				doom->screen.pixels[p.y * (int)S_WIDTH + p.x] = (uint32_t)ft_color_i(c);
-			}
-			else
-			{
-				float w = 1. / vert.pos.w;
-			 	/* doom->screen.pixels[p.y * (int)S_WIDTH + p.x] = get_surface_pixel(mtl->texture_map,
-					ft_max(0, ft_min(mtl->texture_map->w - 1, (vert.tex.x * w) * (mtl->texture_map->w - 1))),
-					ft_max(0, ft_min(mtl->texture_map->h - 1, (1. - (vert.tex.y * w)) * (mtl->texture_map->h - 1)))
-				); */
+			 	//  doom->screen.pixels[p.y * (int)S_WIDTH + p.x] = get_surface_pixel(mtl->texture_map,
+				// 	ft_max(0, ft_min(mtl->texture_map->w - 1, (vert.tex.x * w) * (mtl->texture_map->w - 1))),
+				// 	ft_max(0, ft_min(mtl->texture_map->h - 1, (1. - (vert.tex.y * w)) * (mtl->texture_map->h - 1)))
+				// );
 				
-				t_color c = ft_i_color(get_surface_pixel(mtl->texture_map,
+				ur_color c;
+				// c.color = 0xFFFF00FF;
+				c.color = get_surface_pixel(mtl->texture_map,
 					ft_max(0, ft_min(mtl->texture_map->w - 1, (vert.tex.x * w) * (mtl->texture_map->w - 1))),
 					ft_max(0, ft_min(mtl->texture_map->h - 1, (1. - (vert.tex.y * w)) * (mtl->texture_map->h - 1)))
-				));
-				//	float it = ft_vec3_dot(n1, (t_vec3){0, 0, -1});
-	//			t_vec3 pos = (t_vec3){3, 0, 3};
-				//	t_vec3 dir = ft_vec
+				);
 				t_vec3 d = ft_vec3_mul_s((t_vec3){1, 1, 1}, fmaxf(0, ft_vec3_dot(ft_vec3_inv(vert.normal), (t_vec3){1, 0, 1})));
-//			
-				
-				t_vec3 ambiant = (t_vec3){0.1, 0.1, 0.1};
-				t_vec3 v = ft_vec3_add(ambiant,d);
-//				
+				t_vec3 ambiant = (t_vec3){0.5, 0.5, 0.5};
+				t_vec3 v = ft_vec3_add(ambiant, d);
 				float f = 1. / 255.;
-				c.r = fminf(1, (c.r * f) * v.x) * 255;
-				c.g = fminf(1, (c.g * f) * v.y) * 255;
-				c.b = fminf(1, (c.b * f) * v.z) * 255;
-			//	printf("%f\n", it);
-				//c = ft_color_gradient(c, (t_color){ 0, 0, 0 }, fmax(0, fmin(0.5, it)));
-				doom->screen.pixels[p.y * (int)S_WIDTH + p.x] = (uint32_t)ft_color_i(c);
+				c.argb.r = fminf(1, (c.argb.r * f) * v.x) * 255;
+				c.argb.g = fminf(1, (c.argb.g * f) * v.y) * 255;
+				c.argb.b = fminf(1, (c.argb.b * f) * v.z) * 255;
+				doom->screen.pixels[p.y * (int)S_WIDTH + p.x] = c.color;
 			}
 		}
 		else if (mtl->material_color_set)
@@ -206,7 +212,8 @@ void	draw_triangle(t_doom *doom, t_triangle triangle, t_mtl *mtl)
 {
 	
 	TexturedTriangle2(doom, triangle.a, triangle.b, triangle.c, mtl);
- 	/* draw_line(&doom->screen, (t_pixel){triangle.a.pos.x, triangle.a.pos.y, 0xFFFFFF}, (t_pixel){triangle.b.pos.x, triangle.b.pos.y});
-	draw_line(&doom->screen, (t_pixel){triangle.b.pos.x, triangle.b.pos.y, 0xFFFFFF}, (t_pixel){triangle.c.pos.x, triangle.c.pos.y});
-	draw_line(&doom->screen, (t_pixel){triangle.c.pos.x, triangle.c.pos.y, 0xFFFFFF}, (t_pixel){triangle.a.pos.x, triangle.a.pos.y}); */
+	uint32_t c = mtl->material_color_set ? mtl->material_color : 0xFFFFFF;
+ 	// draw_line(&doom->screen, (t_pixel){triangle.a.pos.x, triangle.a.pos.y, c}, (t_pixel){triangle.b.pos.x, triangle.b.pos.y});
+	// draw_line(&doom->screen, (t_pixel){triangle.b.pos.x, triangle.b.pos.y, c}, (t_pixel){triangle.c.pos.x, triangle.c.pos.y});
+	// draw_line(&doom->screen, (t_pixel){triangle.c.pos.x, triangle.c.pos.y, c}, (t_pixel){triangle.a.pos.x, triangle.a.pos.y});
 }

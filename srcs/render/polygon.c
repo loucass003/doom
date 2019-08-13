@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 22:39:14 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/26 05:43:32 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/13 15:38:19 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,18 @@ t_vec4	mat43_mulv4(t_mat4 m, t_vec4 p)
 
 void	render_polygon(t_doom *doom, t_polygon *poly)
 {
-	const t_mtl		mtl = (t_mtl){
+	t_mtl		mtl = (t_mtl){
 		.texture_map_set = TRUE,
 		.texture_map = doom->textures.bricks
 	};
 	const size_t	len = floorf((poly->indices->len) / 3.);
 	size_t			i;
+
+	if (poly->type != P_WALL)
+	{
+		mtl.material_color_set = TRUE;
+		mtl.material_color = poly->type == P_FLOOR ? 0xFF : 0xFF00FF;
+	}
 
 	i = -1;
 	while (++i < len)

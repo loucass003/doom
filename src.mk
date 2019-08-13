@@ -32,6 +32,7 @@ SRC+=editor/editor_modif.c
 SRC+=editor/editor_new_component.c
 SRC+=editor/editor_print.c
 SRC+=editor/editor_put_in_lst.c
+SRC+=editor/editor_setmap.c
 SRC+=editor/editor_tools_poly.c
 SRC+=editor/editor_visual.c
 SRC+=editor/load.c

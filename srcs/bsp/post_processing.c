@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/16 21:24:43 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/21 16:33:35 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/13 15:47:23 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,9 @@ static t_bool	compute_normals(t_polygon *poly)
 	i = -1;
 	while (++i < normals_count)
 	{
-		poly->normals[i] = get_polygon_normal(poly);
+		poly->normals[i] = poly->type == P_FLOOR 
+			? ft_vec3_inv(get_polygon_normal(poly))
+			: get_polygon_normal(poly);
 		v = ft_vec3_sub(poly->vertices->vertices[poly->indices->values[i * 3 + 1]],
 			poly->vertices->vertices[poly->indices->values[i * 3]]);
 		poly->colisions_normals[i * 3] = ft_vec3_norm(ft_vec3_cross(poly->normals[i], v));

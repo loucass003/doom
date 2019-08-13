@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:14:55 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/25 23:12:32 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/13 15:50:44 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	rotate_polygon(t_polygon *poly, t_player *player, int axis)
 		j = -1;
 		int len = floor(poly->indices->len / 3.);
 		while (++j < len)
-			poly->normals[j] = get_polygon_normal(poly);
+			poly->normals[j] = poly->type == P_FLOOR ? ft_vec3_inv(get_polygon_normal(poly)) : get_polygon_normal(poly);
 	}
 	else if (poly->type == P_WALL)
 	{
@@ -194,7 +194,7 @@ t_bool			check_collide(t_doom *doom, t_node *node, void *param)
 				t_vec3 dir = ft_vec3_mul_s(poly->normals[j], ft_vec3_dot(*((t_vec3 *)param), ft_vec3_inv(poly->normals[j])));
 				doom->player.pos = ft_vec3_add(doom->player.pos, dir);
 
-				//check_collide(doom, node, &dir);
+				check_collide(doom, node, &dir);
 		//		printf("%f %f %f\n", poly->normals[j].x, poly->normals[j].y, poly->normals[j].z);
 			//	update_maxtrix(doom);
 				
