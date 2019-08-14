@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/16 21:24:43 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/13 15:47:23 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/14 13:53:31 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,7 @@ static t_bool	compute_normals(t_polygon *poly)
 	i = -1;
 	while (++i < normals_count)
 	{
-		poly->normals[i] = poly->type == P_FLOOR 
-			? ft_vec3_inv(get_polygon_normal(poly))
-			: get_polygon_normal(poly);
+		poly->normals[i] = get_polygon_normal(poly);
 		v = ft_vec3_sub(poly->vertices->vertices[poly->indices->values[i * 3 + 1]],
 			poly->vertices->vertices[poly->indices->values[i * 3]]);
 		poly->colisions_normals[i * 3] = ft_vec3_norm(ft_vec3_cross(poly->normals[i], v));
@@ -50,24 +48,18 @@ static t_bool	compute_normals(t_polygon *poly)
 	return (TRUE);
 }
 
-t_bool			post_process_bsp(t_node *n, int x, int depth)
+t_bool			post_process_polygons(t_doom *doom)
 {
-	int	i;
+	int			i;
 	t_polygon	*poly;
 
-	if (!n)
-		return (TRUE);
-	n->depth = depth;
 	i = -1;
-	while (++i < n->polygons->len)
+	while (++i < doom->polygons->len) 
 	{
-		poly = &n->polygons->polygons[i];
+		poly = &doom->polygons->polygons[i];
 		if (!poly->uvs && !(poly->uvs = (t_vec2 *)malloc(poly->vertices->len * sizeof(t_vec2))))
 			return (FALSE);
 		if (!triangulate_polygon(poly) || !compute_normals(poly))
 			return (FALSE);
 	}
-	post_process_bsp(n->front, x + GRID_WIDTH, depth + 1);
-	post_process_bsp(n->back, x + GRID_WIDTH, depth + 1);
-	return (TRUE);
 }

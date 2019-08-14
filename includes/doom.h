@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/13 14:04:46 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/14 17:53:04 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,142 @@
 # include "libft.h"
 # include "constants.h"
 # include "image.h"
-# include "bsp.h"
+
+typedef struct		s_obb_box
+{
+	t_vec3			pos;
+	t_vec3			x_axis;
+	t_vec3			y_axis;
+	t_vec3			z_axis;
+	t_vec3			half_size;
+}					t_obb_box;
+
+typedef struct		s_vec4
+{
+	float			x;
+	float			y;
+	float			z;
+	float			w;
+}					t_vec4;
+
+typedef	union		u_vec4_u
+{
+	float			a[4];
+	t_vec4			v;
+}					t_vec4_u;
+
+typedef struct		s_ints
+{
+	int				len;
+	int				capacity;
+	int				values[];
+}					t_ints;
+
+typedef struct		s_4dvertices
+{
+	int				len;
+	int				capacity;
+	t_vec4			vertices[];
+}					t_4dvertices;
+
+typedef struct		s_3dvertices
+{
+	int				len;
+	int				capacity;
+	t_vec3			vertices[];
+}					t_3dvertices;
+
+typedef struct		s_2dvertices
+{
+	int				len;
+	int				capacity;
+	t_vec2			vertices[];
+}					t_2dvertices;
+
+typedef enum		s_polygon_type
+{
+	P_WALL,
+	P_FLOOR,
+	P_CEILING
+}					t_polygon_type;
+
+typedef struct		s_polygon
+{
+	t_polygon_type	type;
+	t_3dvertices	*vertices;
+	t_vec2			*uvs;
+	t_ints			*indices;
+	t_vec4			*pp_vertices;
+	t_vec3			*normals;
+	t_vec3			*colisions_normals;
+	float			*colision_dist;
+	t_mat4			matrix;
+	t_obb_box		obb;
+}					t_polygon;
+
+typedef struct		s_polygons
+{
+	int				len;
+	int				capacity;
+	t_polygon		polygons[];
+}					t_polygons;
+
+typedef enum		s_side
+{
+	S_FRONT = 1,
+	S_BACK = -1,
+	S_COLINEAR = 0,
+	S_SPANNING = 2
+}					t_side;
+
+typedef struct		s_line
+{
+	t_vec2	a;
+	t_vec2	b;
+	t_vec2	normal;
+}					t_line;
+
 # include "obj.h"
 
 typedef struct s_doom t_doom;
+
+typedef struct		s_ray
+{
+	t_vec3			origin;
+	t_vec3			direction;
+}					t_ray;
+
+typedef struct		s_collision
+{
+	t_bool			collide;
+	float			dist;
+}					t_collision;
+
+typedef enum		e_collidable_type
+{
+	COLLIDE_AABB,
+	COLLIDE_TRIANGLE
+}					t_collidable_type;
+
+typedef struct 		s_collidable
+{
+	t_collidable_type	type;
+}					t_collidable;
+
+typedef	struct		s_collide_aabb
+{
+	t_collidable	super;
+	t_vec3			pos;
+	t_vec3			size;
+}					t_collide_aabb;
+
+typedef struct		s_collide_triangle
+{
+	t_collidable	super;
+	t_vec3			points[3];
+	t_vec3			normal;
+	t_vec3			edge_normals[3];
+}					t_collide_triangle;
 
 typedef struct		s_object
 {
@@ -124,7 +256,6 @@ typedef struct		s_player
 	t_mat4			matrix;
 	t_mat4			projection;
 	t_vec2			rotation;
-	t_node			*curr_node;
 	t_obb_box		obb;
 	t_bool			coliding;
 }					t_player;
@@ -251,7 +382,7 @@ typedef struct		s_doom
 	t_bool			running;
 	t_stats			stats;
 	t_fonts			fonts;
-	t_node			*bsp;
+	t_polygons		*polygons;
 	t_player		player;
 	t_vec2			mouse;
 	float			*rendered_area;
@@ -435,7 +566,6 @@ t_objects				*splice_objects_array(t_objects *arr,
 t_objects				*copy_objects_array(t_objects *src,
 						t_objects **dst);
 
-void				triangulate_bsp(t_node *n);
 t_bool				inside_triangle(t_vec3 a, t_vec3 b, t_vec3 c, t_vec3 p);
  
 void				draw_triangle(t_doom *doom, t_triangle projected, t_mtl *mtl);
@@ -453,5 +583,19 @@ void				render_obj(t_doom *doom, t_obj *obj);
 t_bool				get_obb_collision(t_obb_box a, t_obb_box b);
 t_bounds3			get_polygon_bounds(t_polygon *polygon);
 void				load_all(t_doom *doom);
+t_bool				post_process_polygons(t_doom *doom);
+
+t_vec3				get_polygon_normal(t_polygon *poly);
+
+t_polygon			create_wall_polygon(t_line	line, float floor, float ceil);
+t_polygon			create_polygon(t_3dvertices *vertices, t_polygon_type type);
+
+t_bool				triangulate_polygon(t_polygon *polygon);
+void				uv_mapping(t_polygon *polygon);
+
+t_ray				create_shoot_ray(t_player player, t_vec3 direction);
+t_collision			ray_hit_collidable(t_ray *ray, t_collidable *collidable);
+t_collision			ray_hit_aabb(t_ray *ray, t_collide_aabb *collidable);
+t_collision			ray_hit_triangle(t_ray *ray, t_collide_triangle *collidable);
 
 #endif

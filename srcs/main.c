@@ -6,19 +6,25 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/13 19:39:28 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/14 14:01:42 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom.h"
 
 t_line	lines[] = {
-	{ .a = { 0, 150 },  .b = { 500, 75 } },
-	{ .a = { 500, 75 }, .b = { 500, 300 } },
-	{ .a = { 500, 300 }, .b = { 800, 300 }},
-	{ .a = { 800, 300},  .b = { 800, 450 }},
-	{ .a = { 800, 450},  .b = { 0, 450 }},
-	{ .a = { 0, 450},  .b = { 0, 150 }},
+	{ .a = { 0, 0 },  .b = { 500, 0 } },
+	{ .a = { 500, 0 },  .b = { 500, 200 } },
+	{ .a = { 500, 200 },  .b = { 250, 200 } },
+	{ .a = { 250, 200 },  .b = { 250, 500 } },
+	{ .a = { 250, 500 },  .b = { 500, 500 } },
+	{ .a = { 500, 500 }, .b = { 500, 700 } },
+	{ .a = { 500, 700 }, .b = { 250, 700 }},
+	{ .a = { 250, 700},  .b = { 250, 900 }},
+	{ .a = { 250, 900},  .b = { 500, 900 }},
+	{ .a = { 500, 900},  .b = { 500, 1100 }},
+	{ .a = { 500, 1100},  .b = { 0, 1100 }},
+	{ .a = { 0, 1100},  .b = { 0, 0 }}
 };
 t_line	lines2[] = {
 	{ .a = { 0, 150 },  .b = { 500, 75 } },
@@ -55,7 +61,7 @@ void	init_bsp(t_doom *doom)
 	for (int i = 0; i < count; i++)
 	{
 		append_3dvertices_array(&vertices, (t_vec3){
-			lines[i].a.x / 100, 0, lines[i].a.y / 100});
+			lines[count - 1 - i].a.x / 100, 0, lines[count - 1 - i].a.y / 100});
 	}
 	append_polygons_array(&polygons, create_polygon(vertices, P_FLOOR));
 	
@@ -79,12 +85,14 @@ void	init_bsp(t_doom *doom)
 		int next = (i + 1) % count;
 		append_polygons_array(&polygons, create_wall_polygon((t_line){ {list[i].x / 100, list[i].z / 100}, {list[next].x / 100, list[next].z / 100}, 0}, 0, 1));
 	}*/
-	t_node *n = create_node(polygons);
-	build_node(n);
-	post_process_bsp(n, 30, 0);
-	printf("graph TD\n");
-	print_node(n);
-	doom->bsp = n;
+	doom->polygons = polygons;
+	post_process_polygons(doom);
+	// t_node *n = create_node(polygons);
+	// build_node(n);
+	// post_process_bsp(n, 30, 0);
+	// printf("graph TD\n");
+	// print_node(n);
+	// doom->bsp = n;
 
 	
 }
@@ -102,6 +110,6 @@ int		main(void)
 		return (-1);
 	game_loop(&doom);
 	sdl_quit(&doom);
-	free_node(doom.bsp);
+	//free_node(doom.bsp);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/13 13:54:34 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/13 15:45:34 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/14 14:02:08 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void set_map(t_doom *doom)
 	for (int i = 0; i < doom->editor.polygon->len; i++)
 	{
 		append_3dvertices_array(&vertices, (t_vec3){
-			doom->editor.polygon->values[i].line.a.x, 0, doom->editor.polygon->values[i].line.a.y});
+			doom->editor.polygon->values[doom->editor.polygon->len - 1 - i].line.a.x, 0, doom->editor.polygon->values[doom->editor.polygon->len - 1 - i].line.a.y});
 	}
 	append_polygons_array(&polygons, create_polygon(vertices, P_FLOOR));
 	
@@ -38,11 +38,7 @@ void set_map(t_doom *doom)
 	{
 		append_polygons_array(&polygons, create_wall_polygon((t_line){ (t_vec2){doom->editor.polygon->values[i].line.a.x, (doom->editor.polygon->values[i].line.a.y)}, (t_vec2){doom->editor.polygon->values[i].line.b.x, doom->editor.polygon->values[i].line.b.y}}, 0, 1.5));
 	}
-	t_node *n = create_node(polygons);
-	build_node(n);
-	post_process_bsp(n, 30, 0);
-	printf("graph TD\n");
-	print_node(n);
-	doom->bsp = n;
+	doom->polygons = polygons;
+	post_process_polygons(doom);
 	set_gui(doom, GUI_INGAME);
 }
