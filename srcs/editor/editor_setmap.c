@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/13 13:54:34 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/14 14:02:08 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/15 17:48:51 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 
 void set_map(t_doom *doom)
 {
-	printf("LOL\n");
-
 	t_polygons *polygons = create_polygons_array(doom->editor.polygon->len + 2);
 	
 	t_3dvertices *vertices = create_3dvertices_array(doom->editor.polygon->len);

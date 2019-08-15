@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/14 17:53:04 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/15 18:35:36 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,10 +91,8 @@ typedef struct		s_polygon
 	t_ints			*indices;
 	t_vec4			*pp_vertices;
 	t_vec3			*normals;
-	t_vec3			*colisions_normals;
-	float			*colision_dist;
 	t_mat4			matrix;
-	t_obb_box		obb;
+	t_collidable	*collidables;
 }					t_polygon;
 
 typedef struct		s_polygons

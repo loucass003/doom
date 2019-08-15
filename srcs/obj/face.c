@@ -6,13 +6,13 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/25 19:30:54 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/10 15:34:10 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/15 17:58:45 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "obj.h"
 
-t_faces	*create_faces_array(int capacity)
+t_faces			*create_faces_array(int capacity)
 {
 	const size_t	size = sizeof(t_faces) + (capacity * sizeof(t_face));
 	t_faces			*arr;
@@ -26,7 +26,7 @@ t_faces	*create_faces_array(int capacity)
 	return (arr);
 }
 
-t_faces	*append_faces_array(t_faces **arr, t_face i)
+t_faces			*append_faces_array(t_faces **arr, t_face i)
 {
 	t_faces			*new;
 	size_t			old_size;
