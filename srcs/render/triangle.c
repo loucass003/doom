@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 01:17:41 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/15 17:58:03 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/16 14:32:11 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void scanline2(t_doom *doom, t_mtl *mtl, t_pixel p, float t, t_vertex start, t_v
 	if (vert.pos.w <= doom->rendered_area[p.y * (int)S_WIDTH + p.x])
 	{
 		doom->rendered_area[p.y * (int)S_WIDTH + p.x] = vert.pos.w;
-		if (mtl->texture_map_set)
+		if (mtl->texture_map_set && FALSE)
 		{
 			vert.tex.x = (1.0f - t) * start.tex.x + t * end.tex.x;
 			vert.tex.y = (1.0f - t) * start.tex.y + t * end.tex.y;
@@ -102,17 +102,17 @@ void scanline2(t_doom *doom, t_mtl *mtl, t_pixel p, float t, t_vertex start, t_v
 		}
 		else if (mtl->material_color_set)
 		{
-			t_color c = ft_i_color(mtl->material_color);
-			t_vec3 d = ft_vec3_mul_s((t_vec3){1, 1, 1}, fmax(0, ft_vec3_dot(ft_vec3_inv(vert.normal), (t_vec3){0, 0, 1})));
-//			
+// 			t_color c = ft_i_color(mtl->material_color);
+// 			t_vec3 d = ft_vec3_mul_s((t_vec3){1, 1, 1}, fmax(0, ft_vec3_dot(ft_vec3_inv(vert.normal), (t_vec3){0, 0, 1})));
+// //			
 				
-			t_vec3 ambiant = (t_vec3){0.1, 0.1, 0.1};
-			t_vec3 v = ft_vec3_add(ambiant,d);
-//			
-			c.r = fmin(1, (c.r / 255.) * v.x) * 255;
-			c.g = fmin(1, (c.g / 255.) * v.y) * 255;
-			c.b = fmin(1, (c.b / 255.) * v.z) * 255;
-			doom->screen.pixels[p.y * (int)S_WIDTH + p.x] = (uint32_t)ft_color_i(c);
+// 			t_vec3 ambiant = (t_vec3){0.1, 0.1, 0.1};
+// 			t_vec3 v = ft_vec3_add(ambiant,d);
+// //			
+// 			c.r = fmin(1, (c.r / 255.) * v.x) * 255;
+// 			c.g = fmin(1, (c.g / 255.) * v.y) * 255;
+// 			c.b = fmin(1, (c.b / 255.) * v.z) * 255;
+			doom->screen.pixels[p.y * (int)S_WIDTH + p.x] = (uint32_t)mtl->material_color;
 		}
 	}
 }
@@ -212,8 +212,8 @@ void	draw_triangle(t_doom *doom, t_triangle triangle, t_mtl *mtl)
 {
 	
 	TexturedTriangle2(doom, triangle.a, triangle.b, triangle.c, mtl);
-	// uint32_t c = mtl->material_color_set ? mtl->material_color : 0xFFFFFF;
- 	// draw_line(&doom->screen, (t_pixel){triangle.a.pos.x, triangle.a.pos.y, c}, (t_pixel){triangle.b.pos.x, triangle.b.pos.y});
-	// draw_line(&doom->screen, (t_pixel){triangle.b.pos.x, triangle.b.pos.y, c}, (t_pixel){triangle.c.pos.x, triangle.c.pos.y});
-	// draw_line(&doom->screen, (t_pixel){triangle.c.pos.x, triangle.c.pos.y, c}, (t_pixel){triangle.a.pos.x, triangle.a.pos.y});
+	uint32_t c = mtl->material_color_set ? mtl->material_color : 0xFFFFFF;
+ 	draw_line(&doom->screen, (t_pixel){triangle.a.pos.x, triangle.a.pos.y, c}, (t_pixel){triangle.b.pos.x, triangle.b.pos.y});
+	draw_line(&doom->screen, (t_pixel){triangle.b.pos.x, triangle.b.pos.y, c}, (t_pixel){triangle.c.pos.x, triangle.c.pos.y});
+	draw_line(&doom->screen, (t_pixel){triangle.c.pos.x, triangle.c.pos.y, c}, (t_pixel){triangle.a.pos.x, triangle.a.pos.y});
 }

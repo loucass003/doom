@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/16 21:24:43 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/15 20:07:47 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/16 13:32:06 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,19 @@ t_collidable	compute_triangle_collidable(t_polygon *poly, int triangle_index)
 	t_collide_triangle		*tri;
 	t_vec3					v;
 
-	tri = (t_collide_triangle *)poly->collidables[triangle_index];
+	tri = (t_collide_triangle *)&poly->collidables[triangle_index];
+	tri->super.type = COLLIDE_TRIANGLE;
 	tri->normal = poly->normals[triangle_index];
 	tri->points[0] = poly->vertices->vertices[poly->indices->values[triangle_index * 3]];
 	tri->points[1] = poly->vertices->vertices[poly->indices->values[triangle_index * 3 + 1]];
 	tri->points[2] = poly->vertices->vertices[poly->indices->values[triangle_index * 3 + 2]];
-	ft_memcpy(tri->points, poly->vertices->vertices + triangle_index * 3, sizeof(t_vec3) * 3);
 	v = ft_vec3_sub(tri->points[1], tri->points[0]);
 	tri->edge_normals[0] = ft_vec3_norm(ft_vec3_cross(tri->normal, v));
 	v = ft_vec3_sub(tri->points[1], tri->points[2]);
 	tri->edge_normals[1] = ft_vec3_norm(ft_vec3_cross(tri->normal, v));
 	v = ft_vec3_sub(tri->points[0], tri->points[2]);
 	tri->edge_normals[2] = ft_vec3_norm(ft_vec3_cross(tri->normal, v));
+	return (*(t_collidable *)tri);
 }
 
 static t_bool	compute_normals(t_polygon *poly)

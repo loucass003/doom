@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/15 18:35:36 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/16 16:49:46 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,45 @@ typedef enum		s_polygon_type
 	P_CEILING
 }					t_polygon_type;
 
+typedef struct		s_ray
+{
+	t_vec3			origin;
+	t_vec3			direction;
+}					t_ray;
+
+typedef struct		s_collision
+{
+	t_bool			collide;
+	float			dist;
+}					t_collision;
+
+typedef enum		e_collidable_type
+{
+	COLLIDE_AABB,
+	COLLIDE_TRIANGLE
+}					t_collidable_type;
+
+typedef struct 		s_collidable
+{
+	t_collidable_type	type;
+}					t_collidable;
+
+typedef	struct		s_collide_aabb
+{
+	t_collidable	super;
+	t_vec3			pos;
+	t_vec3			size;
+}					t_collide_aabb;
+
+typedef struct		s_collide_triangle
+{
+	t_collidable	super;
+	t_vec3			points[3];
+	t_vec3			normal;
+	t_vec3			edge_normals[3];
+}					t_collide_triangle;
+
+
 typedef struct		s_polygon
 {
 	t_polygon_type	type;
@@ -121,43 +160,6 @@ typedef struct		s_line
 
 typedef struct s_doom t_doom;
 
-typedef struct		s_ray
-{
-	t_vec3			origin;
-	t_vec3			direction;
-}					t_ray;
-
-typedef struct		s_collision
-{
-	t_bool			collide;
-	float			dist;
-}					t_collision;
-
-typedef enum		e_collidable_type
-{
-	COLLIDE_AABB,
-	COLLIDE_TRIANGLE
-}					t_collidable_type;
-
-typedef struct 		s_collidable
-{
-	t_collidable_type	type;
-}					t_collidable;
-
-typedef	struct		s_collide_aabb
-{
-	t_collidable	super;
-	t_vec3			pos;
-	t_vec3			size;
-}					t_collide_aabb;
-
-typedef struct		s_collide_triangle
-{
-	t_collidable	super;
-	t_vec3			points[3];
-	t_vec3			normal;
-	t_vec3			edge_normals[3];
-}					t_collide_triangle;
 
 typedef struct		s_object
 {
@@ -251,11 +253,16 @@ typedef struct		s_textures
 typedef struct		s_player
 {
 	t_vec3			pos;
+	t_ray			ray;
+	t_bool			fixed_ray;
 	t_mat4			matrix;
 	t_mat4			projection;
 	t_vec2			rotation;
 	t_obb_box		obb;
 	t_bool			coliding;
+	t_polygon		*pointed_poly;
+	int				pointed_triangle;
+	
 }					t_player;
 
 typedef enum		e_component_type
