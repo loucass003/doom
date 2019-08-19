@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   2dvertices.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/08 13:54:28 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/09 15:03:07 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/19 15:03:00 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ t_2dvertices	*splice_2dvertices_array(t_2dvertices *arr, int index, int n)
 {
 	if (index < 0)
 		index = index + arr->len - 1;
-	if (n <= 0 || index >= arr->len || index + n >= arr->len)
+	if (n <= 0 || index >= arr->len || index + n > arr->len)
 		return (NULL);
 	ft_memcpy(arr->vertices + index, arr->vertices + index + n,
 		(arr->len - (index + n)) * sizeof(t_vec2));

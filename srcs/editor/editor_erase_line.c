@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 13:18:39 by lloncham          #+#    #+#             */
-/*   Updated: 2019/07/31 16:18:33 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/08/19 15:04:48 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,9 @@
 
 void	erase_all(t_doom *doom)
 {
-	int i = 0;
-	while (doom->editor.lines->len > i)
-	{
-		splice_walls_array(doom->editor.lines, i++ , 1);
-		doom->editor.lines->len = 0; 
-	}
-	i = 0;
-	while (doom->editor.polygon->len > i)
-	{
-		splice_walls_array(doom->editor.polygon, i++ , 1);
-		doom->editor.polygon->len = 0; //Pourquoi devoir faire ça alors que splice_polygons_array le fait déjà?
-	}
-	i = 0;
-	while (doom->editor.objects->len > i)
-	{
-		splice_objects_array(doom->editor.objects, i++ , 1);
-		doom->editor.objects->len = 0;
-	}
+	splice_walls_array(doom->editor.lines, 0, doom->editor.lines->len);
+	splice_walls_array(doom->editor.polygon, 0, doom->editor.polygon->len);
+	splice_objects_array(doom->editor.objects, 0, doom->editor.objects->len);
 	doom->editor.click = 0;
 }
 
@@ -162,7 +147,6 @@ void	save_line_to_erase(t_doom *doom, int x, int y)
 {
 	int index;
 
-	printf("x %d y %d\n", x, y);
     if (doom->editor.objet)
 			erase_one_obj(doom, x, y);
     if (doom->editor.polygon)

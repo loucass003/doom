@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ints.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/12 19:55:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/12 20:05:21 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/19 15:02:45 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ t_ints	*splice_ints_array(t_ints *arr, int index, int n)
 {
 	if (index < 0)
 		index = index + arr->len - 1;
-	if (n <= 0 || index >= arr->len || index + n >= arr->len)
+	if (n <= 0 || index >= arr->len || index + n > arr->len)
 		return (NULL);
 	ft_memcpy(arr->values + index, arr->values + index + n,
 		(arr->len - (index + n)) * sizeof(int));

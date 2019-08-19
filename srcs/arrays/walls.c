@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/22 14:02:50 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/31 14:31:24 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/08/19 15:02:12 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ t_walls	*splice_walls_array(t_walls *arr, int index, int n)
 {
 	if (index < 0)
 		index = index + arr->len - 1;
-	// if (n <= 0 || index >= arr->len || index + n >= arr->len) //same as obj
-	// 	return (NULL);
+	if (n <= 0 || index >= arr->len || index + n > arr->len) //same as obj
+		return (NULL);
 	ft_memcpy(arr->values + index, arr->values + index + n,
 		(arr->len - (index + n)) * sizeof(t_wall));
 	arr->len -= n;
