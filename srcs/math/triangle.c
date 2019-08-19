@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 01:06:40 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/26 05:12:22 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/19 18:00:32 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ static t_vertex	transform(t_vertex v)
 	const float	z_inv = -1. / v.pos.z;
 	const float w_inv = 1 / v.pos.w;
 
-	v.pos.x = (v.pos.x * z_inv + 1.) * S_WIDTH_2;
-	v.pos.y = (v.pos.y * z_inv + 1.) * S_HEIGHT_2 * ASPECT_INV;
+	v.pos.x = (v.pos.x * z_inv + 1) * S_WIDTH_2;
+	v.pos.y = (v.pos.y * z_inv + 0.5) * S_HEIGHT_2 * ASPECT_INV;
 	v.tex = ft_vec2_div_s(v.tex, v.pos.w);
 	v.pos.w = w_inv;
 	return v;
@@ -89,4 +89,12 @@ void	post_process_triangle(t_doom *doom, t_mtl *mtl, t_triangle t)
 	t.c = transform(t.c);
 	
 	draw_triangle(doom, t, mtl);
+}
+
+t_vec3	get_triangle_normal(t_vec3 p0, t_vec3 p1, t_vec3 p2)
+{
+	const t_vec3 a = ft_vec3_sub(p1, p0);
+	const t_vec3 b = ft_vec3_sub(p2, p0);
+	
+	return (ft_vec3_norm(ft_vec3_cross(a, b)));
 }

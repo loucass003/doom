@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:14:55 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/16 16:56:57 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/19 18:56:59 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,27 +82,37 @@ void	hook_events(t_doom *doom)
 	
 	if (!doom->player.fixed_ray)
 		doom->player.ray = create_shoot_ray(doom->player, (t_vec3){ 0, 0, 1 });
+	// doom->player.ray = (t_ray) {
+	// 	.origin = {0.1, 0, 0.1},
+	// 	.direction = { 0, 0, 1 }
+	// };
 	t_ray ray = doom->player.ray;
 	float dist = INT_MAX;
 	for (int i = 0; i < doom->polygons->len; i++)
 	{
 		t_polygon *poly = &doom->polygons->polygons[i];
 		if (poly->type != P_WALL)
-			continue;
+			continue ;
 		int triangles = floorf(poly->indices->len / 3.);
 		for (int j = 0; j < triangles; j++)
 		{
-			t_collidable *col = &poly->collidables[j];
-			t_collision colision = ray_hit_collidable(&ray, col);
-			printf("DIST! %f\n", colision.dist);
-			if (colision.collide && colision.dist != -1 && colision.dist <= dist)
+			t_collision colision = ray_hit_collidable(&ray, poly->collidables + j);
+		//	printf("%d DIST! %f\n", j, colision.dist);
+			if (colision.collide && colision.dist != -1 && colision.dist < dist)
 			{
 				dist = colision.dist;
 				doom->player.pointed_poly = poly;
 				doom->player.pointed_triangle = j;
-				printf("COLLIDE! %f\n", dist);
+			//	printf("%d COLLIDE! %f\n", j, dist);
 			}
 		}
+	//	printf("------------\n");
+	}
+	//printf("--------------------------------------------------------------------\n");
+	if (dist == INT_MAX)
+	{
+		doom->player.pointed_triangle = -1;
+		doom->player.pointed_poly = NULL;
 	}
 	update_maxtrix(doom);
 	//doom->player.curr_node = get_player_node(doom->bsp, doom->player.pos);	

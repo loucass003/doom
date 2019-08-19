@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/14 16:37:29 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/16 16:45:25 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/19 17:27:06 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_ray			create_shoot_ray(t_player player, t_vec3 direction)
 {
-	t_vec3 d = ft_mat4_mulv(ft_mat4_rotation((t_vec3){player.rotation.x, player.rotation.y, 0}), direction);
+	t_vec3 d = vec3_rotate(direction, (t_vec3){-player.rotation.x, player.rotation.y, 0});
 	// if (d.x == 0. && d.y == 0. && d.z == 0.)	
 	// 	d = direction;
 	//printf("DIR %f %f %f\n", d.x, d.y, d.x);

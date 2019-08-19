@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 13:06:49 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/04 19:18:33 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/19 13:59:37 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 static inline void	put_pixel(t_img *img, t_pixel p)
 {
+	if (p.y * img->width + p.x < 0 || p.y * img->width + p.x > img->width * img->height)
+		return ;
 	img->pixels[p.y * img->width + p.x] = p.color;
 }
 

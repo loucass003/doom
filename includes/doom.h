@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/16 16:49:46 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/19 18:00:45 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -514,7 +514,7 @@ void				update_maxtrix(t_doom *doom);
 void				draw_line(t_img *img, t_pixel p0, t_pixel p1);
 void				draw_circle(t_img *img, t_pixel center, int r);
 void				render_polygon(t_doom *doom, t_polygon *poly);
-t_vec3				get_plane_normal(t_vec3 p0, t_vec3 p1, t_vec3 p2);
+t_vec3				get_triangle_normal(t_vec3 p0, t_vec3 p1, t_vec3 p2);
 
 t_2dvertices		*create_2dvertices_array(int capacity);
 t_2dvertices		*append_2dvertices_array(t_2dvertices **arr, t_vec2 v);
@@ -602,5 +602,6 @@ t_ray				create_shoot_ray(t_player player, t_vec3 direction);
 t_collision			ray_hit_collidable(t_ray *ray, t_collidable *collidable);
 t_collision			ray_hit_aabb(t_ray *ray, t_collide_aabb *collidable);
 t_collision			ray_hit_triangle(t_ray *ray, t_collide_triangle *collidable);
+t_vec3				vec3_rotate(t_vec3 v, t_vec3 rot);
 
 #endif

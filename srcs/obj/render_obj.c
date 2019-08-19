@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/10 15:44:57 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/26 06:04:51 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/19 18:01:47 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static void		update_obj(t_doom *doom, t_obj *obj)
 	while (++i < obj->faces->len)
 	{
 		t_face *face = &obj->faces->values[i];
-		face->face_normal = get_plane_normal(
+		face->face_normal = get_triangle_normal(
 			vec4_to_3(obj->pp_vertices[face->vertices_index[0] - 1]), 
 			vec4_to_3(obj->pp_vertices[face->vertices_index[1] - 1]), 
 			vec4_to_3(obj->pp_vertices[face->vertices_index[2] - 1]));

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 01:17:41 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/16 14:32:11 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/19 17:56:58 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void scanline2(t_doom *doom, t_mtl *mtl, t_pixel p, float t, t_vertex start, t_v
 	if (vert.pos.w <= doom->rendered_area[p.y * (int)S_WIDTH + p.x])
 	{
 		doom->rendered_area[p.y * (int)S_WIDTH + p.x] = vert.pos.w;
-		if (mtl->texture_map_set && FALSE)
+		if (mtl->texture_map_set)
 		{
 			vert.tex.x = (1.0f - t) * start.tex.x + t * end.tex.x;
 			vert.tex.y = (1.0f - t) * start.tex.y + t * end.tex.y;

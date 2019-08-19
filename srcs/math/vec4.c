@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/19 17:50:27 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/26 00:45:15 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/19 17:25:03 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,4 +105,48 @@ t_vec4		ft_vec4_add(t_vec4 a, t_vec4 b)
 t_vec4	ft_vec4_interpolate(t_vec4 a, t_vec4 b, float alpha)
 {
 	return (ft_vec4_add(a, ft_vec4_mul_s(ft_vec4_sub(b, a), alpha)));
+}
+
+static t_vec3	vec3_rotate_x(t_vec3 v, float angle)
+{
+	const float cos_a = cos(angle);
+	const float sin_a = sin(angle);
+
+	return ((t_vec3){
+		v.x,
+		v.y * cos_a - v.z * sin_a,
+		v.y * sin_a + v.z * cos_a
+	});
+}
+
+static t_vec3	vec3_rotate_y(t_vec3 v, float angle)
+{
+	const float cos_a = cos(angle);
+	const float sin_a = sin(angle);
+
+	return ((t_vec3){
+		v.x * cos_a + v.z * sin_a,
+		v.y,
+		-v.x * sin_a + v.z * cos_a
+	});
+}
+
+static t_vec3	vec3_rotate_z(t_vec3 v, float angle)
+{
+	const float cos_a = cos(angle);
+	const float sin_a = sin(angle);
+
+	return ((t_vec3){
+		v.x * cos_a - v.y * sin_a,
+		v.x * sin_a + v.y * cos_a,
+		v.z
+	});
+}
+
+t_vec3			vec3_rotate(t_vec3 v, t_vec3 rot)
+{
+	v = vec3_rotate_x(v, rot.x);
+	v = vec3_rotate_y(v, rot.y);
+	v = vec3_rotate_z(v, rot.z);
+	return (v);
 }

@@ -42,7 +42,6 @@ SRC+=image.c
 SRC+=main.c
 SRC+=math/line.c
 SRC+=math/mat4_inverse.c
-SRC+=math/plane.c
 SRC+=math/polygon.c
 SRC+=math/triangle.c
 SRC+=math/vec4.c

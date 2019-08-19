@@ -6,11 +6,13 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/02 00:28:50 by llelievr          #+#    #+#             */
-/*   Updated: 2019/05/02 00:30:38 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/19 15:10:31 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom.h"
+
+
 
 void	draw_line(t_img *img, t_pixel p0, t_pixel p1)
 {

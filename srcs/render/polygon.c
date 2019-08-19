@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 22:39:14 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/16 13:39:36 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/19 17:48:47 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,18 +33,12 @@ void	render_polygon(t_doom *doom, t_polygon *poly)
 	const size_t	len = floorf((poly->indices->len) / 3.);
 	size_t			i;
 
-	if (poly->type != P_WALL)
-	{
-		mtl.material_color_set = TRUE;
-		mtl.material_color = poly->type == P_FLOOR ? 0xFF : 0xFF00FF;
-		
-	}
-	if (poly == doom->player.pointed_poly)
-	{
-		mtl.material_color_set = TRUE;
-		mtl.material_color = 0xFFFF;
-		// printf("LOL\n");
-	}
+	// if (poly->type != P_WALL)
+	// {
+	// 	mtl.material_color_set = TRUE;
+	// 	mtl.material_color = poly->type == P_FLOOR ? 0xFF : 0xFF00FF;
+	// }
+	
 
 	i = -1;
 	while (++i < len)
@@ -52,6 +46,12 @@ void	render_polygon(t_doom *doom, t_polygon *poly)
 		float d = ft_vec3_dot(poly->normals[i], ft_vec3_sub(doom->player.pos, poly->vertices->vertices[poly->indices->values[i * 3]]));
 		if (d <= 0)
 			continue;
+		if (poly == doom->player.pointed_poly)
+		{
+			mtl.material_color_set = TRUE;
+			mtl.material_color = doom->player.pointed_triangle == i ? 0xFF25 : 0x00250FF;
+			// printf("LOL\n");
+		}
 		process_triangle(doom, (t_mtl *)&mtl, (t_triangle){
 			{.pos = mat43_mulv4(doom->player.matrix, vec3_to_4(poly->vertices->vertices[poly->indices->values[i * 3]])), .tex = poly->uvs[poly->indices->values[i * 3]], .normal = poly->normals[i]},
 			{.pos = mat43_mulv4(doom->player.matrix, vec3_to_4(poly->vertices->vertices[poly->indices->values[i * 3 + 1]])), .tex = poly->uvs[poly->indices->values[i * 3 + 1]], .normal = poly->normals[i]},
