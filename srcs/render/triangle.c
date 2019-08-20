@@ -212,8 +212,8 @@ void	draw_triangle(t_doom *doom, t_triangle triangle, t_mtl *mtl)
 {
 	
 	TexturedTriangle2(doom, triangle.a, triangle.b, triangle.c, mtl);
-	// uint32_t c = mtl->material_color_set ? mtl->material_color : 0xFFFFFF;
- 	// draw_line(&doom->screen, (t_pixel){triangle.a.pos.x, triangle.a.pos.y, c}, (t_pixel){triangle.b.pos.x, triangle.b.pos.y});
-	// draw_line(&doom->screen, (t_pixel){triangle.b.pos.x, triangle.b.pos.y, c}, (t_pixel){triangle.c.pos.x, triangle.c.pos.y});
-	// draw_line(&doom->screen, (t_pixel){triangle.c.pos.x, triangle.c.pos.y, c}, (t_pixel){triangle.a.pos.x, triangle.a.pos.y});
+	uint32_t c = mtl->material_color_set ? mtl->material_color : 0xFFFFFF;
+ 	draw_line(&doom->screen, (t_pixel){triangle.a.pos.x, triangle.a.pos.y, c}, (t_pixel){triangle.b.pos.x, triangle.b.pos.y});
+	draw_line(&doom->screen, (t_pixel){triangle.b.pos.x, triangle.b.pos.y, c}, (t_pixel){triangle.c.pos.x, triangle.c.pos.y});
+	draw_line(&doom->screen, (t_pixel){triangle.c.pos.x, triangle.c.pos.y, c}, (t_pixel){triangle.a.pos.x, triangle.a.pos.y});
 }

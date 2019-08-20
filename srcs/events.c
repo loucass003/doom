@@ -72,34 +72,44 @@ void	hook_events(t_doom *doom)
 	if (s[SDL_SCANCODE_I] || s[SDL_SCANCODE_K])
 		doom->player.rotation.x += 0.3 * (s[SDL_SCANCODE_I] ? 1 : -1) * ms;
 	t_vec3 old_pos = doom->player.pos;
+	
 	doom->player.pos.x += dir.x;
 	doom->player.pos.z += dir.z;
 	doom->player.pos.y += dir.y;
 	
-	if (!doom->player.fixed_ray)
-			doom->player.ray = create_shoot_ray(doom->player, (t_vec3){ 0, 0, 1 });
-	t_ray ray = doom->player.ray;
-	float dist = INT_MAX;
-	for (int i = 0; i < doom->polygons->len; i++)
+	
+
+	if (dir.x != 0 || dir.y != 0 || dir.z != 0)
 	{
-		t_polygon *poly = &doom->polygons->polygons[i];
-		int triangles = floorf(poly->indices->len / 3.);
-		for (int j = 0; j < triangles; j++)
+		doom->player.ray = (t_ray){.origin = old_pos, .direction = ft_vec3_norm(dir)};
+		t_ray ray = doom->player.ray;
+		float dist = INT_MAX;
+		for (int i = 0; i < doom->polygons->len; i++)
 		{
-			
-			t_collision colision = ray_hit_collidable(&ray, poly->collidables + j);
-			if (colision.collide && colision.dist != -1 && colision.dist < dist)
+			t_polygon *poly = &doom->polygons->polygons[i];
+			int triangles = floorf(poly->indices->len / 3.);
+			for (int j = 0; j < triangles; j++)
 			{
-				dist = colision.dist;
-				doom->player.pointed_poly = poly;
-				doom->player.pointed_triangle = j;
+				t_collision colision = ray_hit_collidable(&ray, poly->collidables + j);
+				if (colision.collide && colision.dist != -1 && colision.dist < dist)
+				{
+					dist = colision.dist;
+					if (dist < 0.25)
+					{
+						doom->player.pos = ft_vec3_add(doom->player.pos, ft_vec3_mul_s(poly->normals[j], 0.25 - dist));
+						update_maxtrix(doom);
+					}
+					doom->player.pointed_poly = poly;
+					doom->player.pointed_triangle = j;
+				}
 			}
 		}
-	}
-	if (dist == INT_MAX)
-	{
-		doom->player.pointed_triangle = -1;
-		doom->player.pointed_poly = NULL;
+		if (dist == INT_MAX)
+		{
+			doom->player.pointed_triangle = -1;
+			doom->player.pointed_poly = NULL;
+		}
+		update_maxtrix(doom);
 	}
 	update_maxtrix(doom);
 	while (SDL_PollEvent(&event))
