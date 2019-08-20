@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/14 16:37:29 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/19 17:27:06 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/20 14:25:29 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ t_ray			create_shoot_ray(t_player player, t_vec3 direction)
 t_collision		ray_hit_collidable(t_ray *ray, t_collidable *collidable)
 {
 	if (collidable->type == COLLIDE_AABB)
-		return ray_hit_aabb(ray, (t_collide_aabb *)collidable);
+		return ray_hit_aabb(ray, &collidable->data.aabb);
 	else if (collidable->type == COLLIDE_TRIANGLE)
-		return ray_hit_triangle(ray, (t_collide_triangle *)collidable);
+		return ray_hit_triangle(ray, &collidable->data.triangle);
 	return ((t_collision){ .collide = FALSE });
 }

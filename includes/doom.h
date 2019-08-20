@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/19 18:00:45 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/20 14:31:44 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,30 +97,32 @@ typedef struct		s_collision
 
 typedef enum		e_collidable_type
 {
-	COLLIDE_AABB,
-	COLLIDE_TRIANGLE
+	COLLIDE_TRIANGLE = 1,
+	COLLIDE_AABB = 0
 }					t_collidable_type;
-
-typedef struct 		s_collidable
-{
-	t_collidable_type	type;
-}					t_collidable;
 
 typedef	struct		s_collide_aabb
 {
-	t_collidable	super;
 	t_vec3			pos;
 	t_vec3			size;
 }					t_collide_aabb;
 
 typedef struct		s_collide_triangle
 {
-	t_collidable	super;
 	t_vec3			points[3];
-	t_vec3			normal;
-	t_vec3			edge_normals[3];
 }					t_collide_triangle;
 
+typedef union 		u_collidable_data
+{
+	t_collide_aabb		aabb;
+	t_collide_triangle	triangle;
+}					t_collidable_data;
+
+typedef struct		s_collidable
+{
+	t_collidable_type	type;
+	t_collidable_data	data;
+}					t_collidable;
 
 typedef struct		s_polygon
 {

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:14:55 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/19 18:56:59 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/20 13:47:31 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,47 +75,33 @@ void	hook_events(t_doom *doom)
 	doom->player.pos.x += dir.x;
 	doom->player.pos.z += dir.z;
 	doom->player.pos.y += dir.y;
-	// if (doom->player.pos.x != old_pos.x || doom->player.pos.y != old_pos.y || doom->player.pos.z != old_pos.z)
-	// {
-	// 	iter_bsp(doom, doom->bsp, &dir);
-	// }
 	
 	if (!doom->player.fixed_ray)
-		doom->player.ray = create_shoot_ray(doom->player, (t_vec3){ 0, 0, 1 });
-	// doom->player.ray = (t_ray) {
-	// 	.origin = {0.1, 0, 0.1},
-	// 	.direction = { 0, 0, 1 }
-	// };
+			doom->player.ray = create_shoot_ray(doom->player, (t_vec3){ 0, 0, 1 });
 	t_ray ray = doom->player.ray;
 	float dist = INT_MAX;
 	for (int i = 0; i < doom->polygons->len; i++)
 	{
 		t_polygon *poly = &doom->polygons->polygons[i];
-		if (poly->type != P_WALL)
-			continue ;
 		int triangles = floorf(poly->indices->len / 3.);
 		for (int j = 0; j < triangles; j++)
 		{
+			
 			t_collision colision = ray_hit_collidable(&ray, poly->collidables + j);
-		//	printf("%d DIST! %f\n", j, colision.dist);
 			if (colision.collide && colision.dist != -1 && colision.dist < dist)
 			{
 				dist = colision.dist;
 				doom->player.pointed_poly = poly;
 				doom->player.pointed_triangle = j;
-			//	printf("%d COLLIDE! %f\n", j, dist);
 			}
 		}
-	//	printf("------------\n");
 	}
-	//printf("--------------------------------------------------------------------\n");
 	if (dist == INT_MAX)
 	{
 		doom->player.pointed_triangle = -1;
 		doom->player.pointed_poly = NULL;
 	}
 	update_maxtrix(doom);
-	//doom->player.curr_node = get_player_node(doom->bsp, doom->player.pos);	
 	while (SDL_PollEvent(&event))
 		events_window(doom, &event);
 	SDL_PumpEvents();

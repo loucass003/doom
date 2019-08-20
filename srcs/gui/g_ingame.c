@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/19 15:33:13 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/20 14:54:56 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,12 @@ void static	action_performed(t_component *cmp, t_doom *doom)
 
 void	g_ingame_on_enter(t_gui *self, t_doom *doom)
 {
+	
 }
 
 void	g_ingame_render(t_gui *self, t_doom *doom)
 {
-	for (int i = 0; i < doom->screen.width * doom->screen.height; i++)
+	for (int i = 0; i < (int)doom->screen.width * doom->screen.height; i++)
 		doom->rendered_area[i] = 0;
 	for (int i = 0; i < doom->polygons->len; i++)
 		render_polygon(doom, doom->polygons->polygons + i);
@@ -50,5 +51,5 @@ void	g_ingame_render(t_gui *self, t_doom *doom)
 	doom->obj_test->scale = (t_vec3){0.002, 0.002, 0.002};
 	//doom->obj_test->dirty = TRUE;
 	//render_obj(doom, doom->obj_test);
-
+	
 }

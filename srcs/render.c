@@ -16,6 +16,6 @@ void	render(t_doom *doom)
 {
 /*	ft_bzero(doom->rendered_area, doom->screen.width);
 	traverseDrawOrder(doom, doom->bsp);*/
-	const t_gui		gui = doom->guis[doom->current_gui];
-	gui.render(&doom->guis[doom->current_gui], doom);
+	const t_gui		*gui = &doom->guis[doom->current_gui];
+	gui->render((t_gui *)gui, doom);
 }

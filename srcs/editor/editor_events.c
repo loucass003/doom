@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   editor_events.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/26 17:31:07 by lloncham          #+#    #+#             */
-/*   Updated: 2019/08/19 15:04:36 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/08/20 14:53:28 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	visual_point(t_doom *doom, int x, int y) //allume les points en rouge
 {
-	if (x < (doom->screen.width - 180))
+	if (x < (int)(doom->screen.width - 180))
 	{
 		if (doom->editor.point[(y * doom->screen.width / 20) + x] == 0)
 		{
@@ -85,7 +85,7 @@ void	editor_mouse_draw(t_doom *doom, int x, int y) //on save les donnees apres a
 		{
 			doom->editor.line.a.x = doom->editor.line.b.x;
 			doom->editor.line.a.y = doom->editor.line.b.y; 
-			if (check_secant_line(doom, doom->editor.polygon, (t_line){{doom->editor.line.a.x, doom->editor.line.a.y}, {x / 20, y / 20}}) == FALSE)
+			if (check_secant_line(doom, doom->editor.polygon, (t_line){{.x = doom->editor.line.a.x, .y = doom->editor.line.a.y}, {.x = x / 20, .y = y / 20}}) == FALSE)
 				return ;
 		}
 		if (doom->editor.lignes == 1 || doom->editor.secteur == 1 || doom->editor.porte == 1)

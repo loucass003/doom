@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/14 17:23:29 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/19 19:03:30 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/20 14:04:58 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,20 +16,14 @@
 
 t_collision		ray_hit_triangle(t_ray *ray, t_collide_triangle *collidable)
 {
-	t_vec3 n = get_triangle_normal(
-			collidable->points[0],
-			collidable->points[1],
-			collidable->points[2]
-		);
-	printf("n %f %f %f\n", n.x, n.y, n.z);
 	t_vec3 v0v1 = ft_vec3_sub(collidable->points[1], collidable->points[0]);
 	t_vec3 v0v2 = ft_vec3_sub(collidable->points[2], collidable->points[0]);
 
 	t_vec3 pvec = ft_vec3_cross(ray->direction, v0v2);
 	float det = ft_vec3_dot(v0v1, pvec);
 
-	// if (fabs(det) < EPSILON)
-	// 	return ((t_collision) { .collide = FALSE, .dist = -1.0 });
+	if (fabs(det) < EPSILON)
+		return ((t_collision) { .collide = FALSE, .dist = -1.0 });
 
 	float invDet = 1 / det;
 
@@ -45,6 +39,8 @@ t_collision		ray_hit_triangle(t_ray *ray, t_collide_triangle *collidable)
 		return ((t_collision) { .collide = FALSE, .dist = -1.0 });
 
 	float t = ft_vec3_dot(v0v2, qvec) * invDet;
+	if (t < EPSILON)
+		return ((t_collision) { .collide = FALSE, .dist = -1.0 });
 
 	return ((t_collision) {
 		.collide = TRUE,

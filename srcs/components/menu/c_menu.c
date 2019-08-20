@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   c_menu.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 14:21:03 by louali            #+#    #+#             */
-/*   Updated: 2019/06/26 14:52:04 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/08/20 14:54:06 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ static void	c_on_click(t_component *self, t_vec2 pos, t_doom *doom)
 	SDL_Surface		*texture;
 
 	menu = (t_menu *)self;
+	texture = NULL;
 	if (in_bounds(self->bounds, pos) && self->perform_action != NULL)
 		self->perform_action(self, doom);
 	close_menu(self, pos, menu, texture, doom);
