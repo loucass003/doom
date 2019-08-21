@@ -103,8 +103,8 @@ typedef enum		e_collidable_type
 
 typedef	struct		s_collide_aabb
 {
-	t_vec3			pos;
-	t_vec3			size;
+	t_vec3			min;
+	t_vec3			max;
 }					t_collide_aabb;
 
 typedef struct		s_collide_triangle

@@ -26,7 +26,7 @@ t_collision		ray_hit_triangle(t_ray *ray, t_collide_triangle *collidable)
 		return ((t_collision) { .collide = FALSE, .dist = -1.0 });
 
 	float invDet = 1 / det;
-
+	
 	t_vec3 tvec = ft_vec3_sub(ray->origin, collidable->points[0]);
 
 	float u = ft_vec3_dot(tvec, pvec) * invDet;
@@ -38,12 +38,18 @@ t_collision		ray_hit_triangle(t_ray *ray, t_collide_triangle *collidable)
 	if (v < 0 || u + v > 1)
 		return ((t_collision) { .collide = FALSE, .dist = -1.0 });
 
+	
 	float t = ft_vec3_dot(v0v2, qvec) * invDet;
 	if (t < EPSILON)
 		return ((t_collision) { .collide = FALSE, .dist = -1.0 });
-
+	float d = ft_vec3_dot(get_triangle_normal(
+		collidable->points[2],
+		collidable->points[1],
+		collidable->points[0]
+	), ft_vec3_sub(ray->origin, collidable->points[0]));
+	
 	return ((t_collision) {
 		.collide = TRUE,
-		.dist = t
+		.dist = fabs(d)
 	});
 }
