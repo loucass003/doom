@@ -103,8 +103,8 @@ typedef enum		e_collidable_type
 
 typedef	struct		s_collide_aabb
 {
-	t_vec3			min;
-	t_vec3			max;
+	t_vec3			center;
+	t_vec3			halfsize;
 }					t_collide_aabb;
 
 typedef struct		s_collide_triangle
@@ -260,7 +260,7 @@ typedef struct		s_player
 	t_mat4			matrix;
 	t_mat4			projection;
 	t_vec2			rotation;
-	t_obb_box		obb;
+	t_collide_aabb	aabb;
 	t_bool			coliding;
 	t_polygon		*pointed_poly;
 	int				pointed_triangle;
@@ -605,5 +605,6 @@ t_collision			ray_hit_collidable(t_ray *ray, t_collidable *collidable);
 t_collision			ray_hit_aabb(t_ray *ray, t_collide_aabb *collidable);
 t_collision			ray_hit_triangle(t_ray *ray, t_collide_triangle *collidable);
 t_vec3				vec3_rotate(t_vec3 v, t_vec3 rot);
+t_collision			triangle_hit_aabb(t_collide_triangle *triangle,  t_collide_aabb *aabb);
 
 #endif

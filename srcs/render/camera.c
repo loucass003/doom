@@ -14,12 +14,9 @@
 
 void	update_maxtrix(t_doom *doom)
 {
-	doom->player.obb = (t_obb_box){
-		.pos = doom->player.pos,
-		.half_size = {0.1, 0.1, 0.1},
-		.x_axis = {1, 0, 0},
-		.y_axis = {0, 1, 0},
-		.z_axis = {0, 0, 1}
+	doom->player.aabb = (t_collide_aabb){
+		.center = doom->player.pos,
+		.halfsize = {0.25, 0.25, 0.25},
 	};
 	/* doom->player.matrix = ft_mat4_mul(
 		doom->player.projection, 
