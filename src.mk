@@ -7,6 +7,7 @@ SRC+=arrays/objects.c
 SRC+=arrays/polygons.c
 SRC+=arrays/rooms.c
 SRC+=arrays/walls.c
+SRC+=audio.c
 SRC+=colisions/aabb.c
 SRC+=colisions/obb.c
 SRC+=colisions/triangle.c

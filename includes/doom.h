@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   doom.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/20 14:31:44 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/26 11:45:21 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 # include <stdlib.h>
 # include <limits.h>
 # include <dirent.h>
+#include <al.h>
+#include <alc.h>
 
 # include "libft.h"
 # include "constants.h"
@@ -466,22 +468,8 @@ void				close_dir(DIR *rep);
 void				put_menu(t_component *self, t_doom *doom, t_menu *menu);
 void				menu_deroulant(t_component *self, int i, t_texture *f, t_doom *doom);
 
-//////////EDITOR//////////////
-// void	save_in_lst(t_doom *doom);
-
-// void	editor_mouse_motion(t_doom *doom, SDL_Event *event);
-// void	editor_mousebuttonup(t_doom *doom, int x, int y);
-// void	mouseonline(t_doom *doom, t_line_list *tmp, int *line);
-
-// void	check_poly_close(t_doom *doom, t_line_list *poly);
-
 t_bool	check_same_point(t_doom *doom);
-// t_bool	check_multi_point(t_doom *doom, t_poly *poly, int x, int y);
-// t_bool	check_secant_line(t_doom *doom, t_poly *poly, float x1, float x2, float y1, float y2);
-// t_bool	check_multi_line(t_doom *doom, t_poly *poly, int x1, int y1, int x2, int y2);
-// t_bool	check_multi_line(t_doom *doom, t_save *list, t_line line);
 
-// void	check_poly_close(t_doom *doom, t_save *liste);
 void	display_comp(t_doom *doom, t_gui *self);
 
 void	set_alert_message(t_doom *doom);
@@ -494,22 +482,17 @@ void	modify_all(t_doom *doom, int x, int y);
 void	all_visual(t_doom *doom, int x, int y);
 void	visual_line(t_doom *doom, t_line line);
 
-// int		ft_listlen(t_save *poly);
 t_bool     in_the_poly(t_doom *doom, t_walls *walls, t_vec2 point);
 
 
 void    save_object(t_doom *doom, int x, int y, SDL_Surface *obj);
 void	show_new_components(t_doom *doom);
 
-// t_bool	found_intersect(t_line *line, t_line *cmp, t_line_list *pol);
-// t_bool	check_secant_line(t_doom *doom, t_save *list, t_line line);
 
 void	print_all(t_doom *doom);
 
 void	 set_map(t_doom *doom);
 
-
-// void    print_lst(t_doom *doom, t_save *list);
 
 t_mat4				projection_matrix(t_doom *doom);
 void				update_maxtrix(t_doom *doom);
@@ -606,5 +589,10 @@ t_collision			ray_hit_aabb(t_ray *ray, t_collide_aabb *collidable);
 t_collision			ray_hit_triangle(t_ray *ray, t_collide_triangle *collidable);
 t_vec3				vec3_rotate(t_vec3 v, t_vec3 rot);
 t_collision			triangle_hit_aabb(t_collide_triangle *triangle,  t_collide_aabb *aabb);
+
+
+t_bool			init_openal(t_doom *doom);
+void			load_wav();
+void            quit_openal();
 
 #endif
