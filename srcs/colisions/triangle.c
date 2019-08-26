@@ -53,3 +53,4 @@ t_collision		ray_hit_triangle(t_ray *ray, t_collide_triangle *collidable)
 		.dist = fabs(d)
 	});
 }
+

@@ -61,15 +61,29 @@ void test_collision(t_doom *doom, t_vec3 old_pos, t_vec3 dir, int *l)
 		int triangles = floorf(poly->indices->len / 3.);
 		for (int j = 0; j < triangles; j++)
 		{
-			t_collision colision = triangle_hit_aabb(&poly->collidables[j].data.triangle, &doom->player.aabb);
-			if (colision.collide)
+			t_vec3 p = ft_vec3_sub(doom->player.pos, poly->vertices->vertices[poly->indices->values[j * 3]]);
+			float dist = poly->type == P_WALL ? 0.25 : poly->type == P_CEILING ? 0.2 : 0.6;
+			float d = ft_vec3_dot(poly->normals[j], p);
+			//printf("collide %f %f\n", d, dist);
+			if (d > 0 && d < dist)
 			{
+				printf("enter\n");
+				t_collide_triangle tri = poly->collidables[j].data.triangle;
+				t_vec3 n0 = ft_vec3_norm(ft_vec3_cross(poly->normals[j], ft_vec3_sub(tri.points[1], tri.points[0])));
+				t_vec3 n1 = ft_vec3_norm(ft_vec3_cross(poly->normals[j], ft_vec3_sub(tri.points[1], tri.points[2])));
+				t_vec3 n2 = ft_vec3_norm(ft_vec3_cross(poly->normals[j], ft_vec3_sub(tri.points[0], tri.points[2])));
+				if (ft_vec3_dot(n0, p) > 0
+					|| ft_vec3_dot(n1, p) > 0 
+					|| ft_vec3_dot(n2, p) > 0)
+					continue;
+				t_vec3 norm_dir = ft_vec3_norm(dir);
 				t_vec3 newdir = ft_vec3_mul_s(poly->normals[j], ft_vec3_dot(dir, ft_vec3_inv(poly->normals[j])));
 				doom->player.pos = ft_vec3_add(doom->player.pos, newdir);
 				update_maxtrix(doom);
 				(*l)++;
-				test_collision(doom, old_pos, dir, l);
-				break;
+				test_collision(doom, old_pos, newdir, l);
+				//doom->player.pos = ft_vec3_add(doom->player.pos, dir);
+				printf("collide\n");
 			}
 		}
 	}
