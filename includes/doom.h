@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/26 11:45:21 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/08/26 15:18:15 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <dirent.h>
 #include <al.h>
 #include <alc.h>
+#include <sndfile.h>
 
 # include "libft.h"
 # include "constants.h"

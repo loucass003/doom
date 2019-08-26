@@ -6,7 +6,7 @@
 #    By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/07 14:49:27 by llelievr          #+#    #+#              #
-#    Updated: 2019/08/26 11:45:53 by lloncham         ###   ########.fr        #
+#    Updated: 2019/08/26 13:54:29 by lloncham         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,8 +31,8 @@ INCDIR	=./includes/
 OBJDIR	=./objs/
 DEPSDIR = ./deps/
 
-INCLUDE += $(shell pkg-config --cflags sdl2 SDL2_image SDL2_ttf openal)
-LIBS += $(shell pkg-config --libs sdl2 SDL2_image SDL2_ttf openal)
+INCLUDE += $(shell pkg-config --cflags sdl2 SDL2_image SDL2_ttf openal sndfile)
+LIBS += $(shell pkg-config --libs sdl2 SDL2_image SDL2_ttf openal sndfile)
 
 PRECOMPILE = mkdir -p $(dir $@)
 POSTCOMPILE = sleep 0

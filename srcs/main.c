@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/14 14:01:42 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/26 13:27:42 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ int		main(void)
 		return (-1);
 	game_loop(&doom);
 	sdl_quit(&doom);
+	quit_openal();
 	//free_node(doom.bsp);
 	return (0);
 }
