@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   doom.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/26 15:18:15 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/08/27 19:27:32 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ typedef struct		s_collision
 {
 	t_bool			collide;
 	float			dist;
+	t_vec3			normal;
 }					t_collision;
 
 typedef enum		e_collidable_type
@@ -235,6 +236,7 @@ typedef struct		s_vertex
 {
 	t_vec4			pos;
 	t_vec3			normal;
+	float			light_color;
 	t_vec2			tex;
 }					t_vertex;
 
@@ -428,6 +430,7 @@ t_vec4				ft_vec4_div_s(t_vec4 a, float v);
 t_vec4				ft_vec4_sub(t_vec4 a, t_vec4 b);
 t_vec4				ft_vec4_add(t_vec4 a, t_vec4 b);
 t_vec4				ft_vec4_interpolate(t_vec4 a, t_vec4 b, float alpha);
+t_vec3				vec3_clamp_s(t_vec3 v, float min, float max);
 
 
 t_bool 				mat4_inverse(t_mat4 a, t_mat4 *inverse);

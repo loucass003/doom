@@ -45,6 +45,7 @@ SRC+=math/line.c
 SRC+=math/mat4_inverse.c
 SRC+=math/polygon.c
 SRC+=math/triangle.c
+SRC+=math/vec3.c
 SRC+=math/vec4.c
 SRC+=math/vectex.c
 SRC+=obj/face.c

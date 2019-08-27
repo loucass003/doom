@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 22:39:14 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/19 17:48:47 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/27 19:28:24 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,18 @@ t_vec4	mat43_mulv4(t_mat4 m, t_vec4 p)
 	//r.w = p.x * m.a[3][0] + p.y * m.a[3][1] + p.z * m.a[3][2] + p.w * m.a[3][3];
 	return (r);
 }
+
+typedef union ut_color {
+	uint32_t color;
+	struct argbTag
+	{
+		uint8_t r;
+		uint8_t g;
+		uint8_t b;
+        uint8_t a;
+	} argb;
+	t_color	color_t;
+} ur_color;
 
 void	render_polygon(t_doom *doom, t_polygon *poly)
 {
@@ -52,10 +64,21 @@ void	render_polygon(t_doom *doom, t_polygon *poly)
 			mtl.material_color = doom->player.pointed_triangle == i ? 0xFF25 : 0x00250FF;
 			// printf("LOL\n");
 		}
+		float it = fmax(0, ft_vec3_dot(ft_vec3_inv(poly->normals[i]), (t_vec3){0, 0, 1}));
+		
+	
+		ur_color c;
+		it = fmax(0, fmin(1, 0.2 + it));
+		// c.argb.r = 255 * it;
+		// c.argb.g = 255 * it;
+		// c.argb.b = 255 * it;
+		// c.argb.a = 255;
+		// printf("%d %d %d\n", c.argb.r, c.argb.g, c.argb.b);
+		float light_color = it;
 		process_triangle(doom, (t_mtl *)&mtl, (t_triangle){
-			{.pos = mat43_mulv4(doom->player.matrix, vec3_to_4(poly->vertices->vertices[poly->indices->values[i * 3]])), .tex = poly->uvs[poly->indices->values[i * 3]], .normal = poly->normals[i]},
-			{.pos = mat43_mulv4(doom->player.matrix, vec3_to_4(poly->vertices->vertices[poly->indices->values[i * 3 + 1]])), .tex = poly->uvs[poly->indices->values[i * 3 + 1]], .normal = poly->normals[i]},
-			{.pos = mat43_mulv4(doom->player.matrix, vec3_to_4(poly->vertices->vertices[poly->indices->values[i * 3 + 2]])), .tex = poly->uvs[poly->indices->values[i * 3 + 2]], .normal = poly->normals[i]}
+			{.pos = mat43_mulv4(doom->player.matrix, vec3_to_4(poly->vertices->vertices[poly->indices->values[i * 3]])), .tex = poly->uvs[poly->indices->values[i * 3]], .normal = poly->normals[i], .light_color = light_color},
+			{.pos = mat43_mulv4(doom->player.matrix, vec3_to_4(poly->vertices->vertices[poly->indices->values[i * 3 + 1]])), .tex = poly->uvs[poly->indices->values[i * 3 + 1]], .normal = poly->normals[i + 1], .light_color = light_color},
+			{.pos = mat43_mulv4(doom->player.matrix, vec3_to_4(poly->vertices->vertices[poly->indices->values[i * 3 + 2]])), .tex = poly->uvs[poly->indices->values[i * 3 + 2]], .normal = poly->normals[i + 2], .light_color = light_color}
 		});
 	}
 }

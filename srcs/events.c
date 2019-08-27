@@ -46,29 +46,23 @@ static void	events_window(t_doom *doom, SDL_Event *event)
 	// 	room_map(doom, event, modify_room);
 }
 
-void test_collision(t_doom *doom, t_vec3 old_pos, t_vec3 dir, int *l)
+t_bool test_collision(t_doom *doom, t_collision *hit, t_vec3 pos, t_vec3 dir, t_bool deep)
 {
-	if (*l > 100)
-		return ;
-	if (dir.x == 0 && dir.y == 0 && dir.z == 0)
-		return; 
-	//update_maxtrix(doom);
-//	doom->player.ray = (t_ray){.origin = old_pos, .direction = ft_vec3_norm(*dir)};
-//	t_ray ray = doom->player.ray;
+	// if (dir.x == 0 && dir.y == 0 && dir.z == 0)
+	// 	return FALSE; 
+	*hit = (t_collision) { .collide = FALSE, .dist = -1 };
 	for (int i = 0; i < doom->polygons->len; i++)
 	{
 		t_polygon *poly = &doom->polygons->polygons[i];
 		int triangles = floorf(poly->indices->len / 3.);
 		for (int j = 0; j < triangles; j++)
 		{
-			t_vec3 p = ft_vec3_sub(doom->player.pos, poly->vertices->vertices[poly->indices->values[j * 3]]);
+			t_collide_triangle tri = poly->collidables[j].data.triangle;
+			t_vec3 p = ft_vec3_sub(pos, tri.points[0]);
 			float dist = poly->type == P_WALL ? 0.25 : poly->type == P_CEILING ? 0.2 : 0.6;
 			float d = ft_vec3_dot(poly->normals[j], p);
-			//printf("collide %f %f\n", d, dist);
 			if (d > 0 && d < dist)
 			{
-				printf("enter\n");
-				t_collide_triangle tri = poly->collidables[j].data.triangle;
 				t_vec3 n0 = ft_vec3_norm(ft_vec3_cross(poly->normals[j], ft_vec3_sub(tri.points[1], tri.points[0])));
 				t_vec3 n1 = ft_vec3_norm(ft_vec3_cross(poly->normals[j], ft_vec3_sub(tri.points[1], tri.points[2])));
 				t_vec3 n2 = ft_vec3_norm(ft_vec3_cross(poly->normals[j], ft_vec3_sub(tri.points[0], tri.points[2])));
@@ -76,17 +70,18 @@ void test_collision(t_doom *doom, t_vec3 old_pos, t_vec3 dir, int *l)
 					|| ft_vec3_dot(n1, p) > 0 
 					|| ft_vec3_dot(n2, p) > 0)
 					continue;
-				t_vec3 norm_dir = ft_vec3_norm(dir);
 				t_vec3 newdir = ft_vec3_mul_s(poly->normals[j], ft_vec3_dot(dir, ft_vec3_inv(poly->normals[j])));
-				doom->player.pos = ft_vec3_add(doom->player.pos, newdir);
-				update_maxtrix(doom);
-				(*l)++;
-				test_collision(doom, old_pos, newdir, l);
-				//doom->player.pos = ft_vec3_add(doom->player.pos, dir);
-				printf("collide\n");
+				//t_collision h;
+				if (deep && test_collision(doom, hit, pos, newdir, FALSE))
+					return (FALSE);
+				hit->collide = TRUE;
+				hit->dist = d;
+				hit->normal = poly->normals[j];
+				return (FALSE); //TODO: MEH
 			}
 		}
 	}
+	return TRUE;
 }
 
 void	hook_events(t_doom *doom)
@@ -116,18 +111,29 @@ void	hook_events(t_doom *doom)
 		doom->player.rotation.x += 0.3 * (s[SDL_SCANCODE_I] ? 1 : -1) * ms;
 	if (dir.x != 0 || dir.y != 0 || dir.z != 0)
 	{
-		doom->player.pos.x += dir.x;
-		doom->player.pos.z += dir.z;
-		doom->player.pos.y += dir.y;
 		update_maxtrix(doom);
-		int l = 0;
-		test_collision(doom, doom->player.pos, dir, &l);
-		if (l >= 100)
+		//int l = 0;
+		t_collision hit;
+		if (test_collision(doom, &hit, ft_vec3_add(doom->player.pos, dir), dir, TRUE))
 		{
-			doom->player.pos.x -= dir.x;
-			doom->player.pos.z -= dir.z;
-			doom->player.pos.y -= dir.y;
+			doom->player.pos = ft_vec3_add(doom->player.pos, dir);
 		}
+		else
+		{
+			if (hit.collide)
+				doom->player.pos = ft_vec3_add(doom->player.pos, dir);
+			printf("HUM ?\n");
+			t_vec3 newdir = ft_vec3_mul_s(hit.normal, ft_vec3_dot(dir, ft_vec3_inv(hit.normal)));
+			doom->player.pos = ft_vec3_add(doom->player.pos, newdir);
+		}
+		
+
+		// if (l >= 100)
+		// {
+		// 	doom->player.pos.x -= dir.x;
+		// 	doom->player.pos.z -= dir.z;
+		// 	doom->player.pos.y -= dir.y;
+		// }
 	}
 	update_maxtrix(doom);
 	while (SDL_PollEvent(&event))

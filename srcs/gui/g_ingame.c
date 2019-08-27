@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/20 14:54:56 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/27 19:32:57 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	g_ingame_render(t_gui *self, t_doom *doom)
 	doom->obj_test->position = (t_vec3){2, 0, 2};
 	doom->obj_test->rotation.y += 3 * doom->stats.delta;
 	doom->obj_test->scale = (t_vec3){0.002, 0.002, 0.002};
-	// doom->obj_test->dirty = TRUE;
+	 doom->obj_test->dirty = TRUE;
 	render_obj(doom, doom->obj_test);
 	
 }

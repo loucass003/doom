@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/10 15:44:57 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/19 18:01:47 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/27 19:48:19 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,7 @@ static void		update_obj(t_doom *doom, t_obj *obj)
 	i = -1;
 	while (++i < obj->vertices->len)
 		obj->pp_vertices[i] = mat4_mulv4(m, obj->vertices->vertices[i]);
-	i = -1;
-	while (++i < obj->normals->len)
-		obj->pp_normals[i] = obj->normals->vertices[i] /* ft_mat4_mulv(m, obj->normals->vertices[i])*/;
+	
 	i = -1;
 	while (++i < obj->faces->len)
 	{
@@ -49,7 +47,11 @@ static void		update_obj(t_doom *doom, t_obj *obj)
 			vec4_to_3(obj->pp_vertices[face->vertices_index[0] - 1]), 
 			vec4_to_3(obj->pp_vertices[face->vertices_index[1] - 1]), 
 			vec4_to_3(obj->pp_vertices[face->vertices_index[2] - 1]));
+		obj->pp_normals[face->normals_index[0] - 1] = face->face_normal; //TODO: WTF 
+		obj->pp_normals[face->normals_index[1] - 1] = face->face_normal;
+		obj->pp_normals[face->normals_index[2] - 1] = face->face_normal;
 	}
+	
 	obj->dirty = FALSE;
 }
 
@@ -72,10 +74,13 @@ void	render_obj(t_doom *doom, t_obj *obj)
 	 	float d = ft_vec3_dot(face->face_normal, ft_vec3_sub(doom->player.pos, vec4_to_3(obj->pp_vertices[face->vertices_index[0] - 1])));
 		if (d <= 0)
 			continue;
+		float it0 = fmax(0, fmin(1, 0.2 + fmax(0, ft_vec3_dot(ft_vec3_inv(obj->pp_normals[face->normals_index[0] - 1]), (t_vec3){0, 0, 1}))));
+		float it1 = fmax(0, fmin(1, 0.2 + fmax(0, ft_vec3_dot(ft_vec3_inv(obj->pp_normals[face->normals_index[1] - 1]), (t_vec3){0, 0, 1}))));
+		float it2 = fmax(0, fmin(1, 0.2 + fmax(0, ft_vec3_dot(ft_vec3_inv(obj->pp_normals[face->normals_index[2] - 1]), (t_vec3){0, 0, 1}))));
 		process_triangle(doom, face->mtl, (t_triangle){
-			{ .pos = mat43_mulv4(doom->player.matrix, obj->pp_vertices[face->vertices_index[0] - 1]), .tex = obj->vertex->vertices[face->vertex_index[0] - 1], .normal = obj->pp_normals[face->normals_index[0] - 1]},
-			{ .pos = mat43_mulv4(doom->player.matrix, obj->pp_vertices[face->vertices_index[1] - 1]), .tex = obj->vertex->vertices[face->vertex_index[1] - 1], .normal = obj->pp_normals[face->normals_index[1] - 1]},
-			{ .pos = mat43_mulv4(doom->player.matrix, obj->pp_vertices[face->vertices_index[2] - 1]), .tex = obj->vertex->vertices[face->vertex_index[2] - 1], .normal = obj->pp_normals[face->normals_index[2] - 1]}
+			{ .pos = mat43_mulv4(doom->player.matrix, obj->pp_vertices[face->vertices_index[0] - 1]), .tex = obj->vertex->vertices[face->vertex_index[0] - 1], .normal = obj->pp_normals[face->normals_index[0] - 1], .light_color = it0 },
+			{ .pos = mat43_mulv4(doom->player.matrix, obj->pp_vertices[face->vertices_index[1] - 1]), .tex = obj->vertex->vertices[face->vertex_index[1] - 1], .normal = obj->pp_normals[face->normals_index[1] - 1], .light_color = it1 },
+			{ .pos = mat43_mulv4(doom->player.matrix, obj->pp_vertices[face->vertices_index[2] - 1]), .tex = obj->vertex->vertices[face->vertex_index[2] - 1], .normal = obj->pp_normals[face->normals_index[2] - 1], .light_color = it2 }
 		});
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 01:17:41 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/19 17:56:58 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/27 19:56:52 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef union ut_color {
 		uint8_t b;
         uint8_t a;
 	} argb;
+	t_color	color_t;
 } ur_color;
 
 void scanline2(t_doom *doom, t_mtl *mtl, t_pixel p, float t, t_vertex start, t_vertex end)
@@ -58,62 +59,46 @@ void scanline2(t_doom *doom, t_mtl *mtl, t_pixel p, float t, t_vertex start, t_v
 	if (vert.pos.w <= doom->rendered_area[p.y * (int)S_WIDTH + p.x])
 	{
 		doom->rendered_area[p.y * (int)S_WIDTH + p.x] = vert.pos.w;
+		float lt_color = (1.0f - t) * start.light_color + t * end.light_color;
+		//	vert.normal = ft_vec3_add(start.normal, ft_vec3_mul_s(ft_vec3_sub(end.normal, start.normal), t));
+
+		//printf("%d %d %d\n", lc.argb.r, lc.argb.g, lc.argb.b);
+		// if (vert.pos.z >= (FAR_CULL - 5))
+		// {
+		// 	float w = 1. / vert.pos.w;
+		// 	ur_color c;
+		// 	c.color = get_surface_pixel(mtl->texture_map,
+		// 		fmax(0, fmin(mtl->texture_map->w - 1, (vert.tex.x * w) * (mtl->texture_map->w - 1))),
+		// 		fmax(0, fmin(mtl->texture_map->h - 1, (1. - (vert.tex.y * w)) * (mtl->texture_map->h - 1)))
+		// 	);
+		// 	float factor = 1 - (FAR_CULL - vert.pos.z) / (FAR_CULL - (FAR_CULL - 5));
+		// 	c.color = ft_color_i(ft_color_gradient((t_color){ c.argb.r, c.argb.g, c.argb.b, 255}, (t_color){ 0, 0, 255, 255}, fmax(0, fmin(1, factor))));
+		// 	doom->screen.pixels[p.y * (int)S_WIDTH + p.x] = c.color;
+		// }
+		// else
+		ur_color c;
 		if (mtl->texture_map_set)
 		{
+			float w = 1. / vert.pos.w;
 			vert.tex.x = (1.0f - t) * start.tex.x + t * end.tex.x;
 			vert.tex.y = (1.0f - t) * start.tex.y + t * end.tex.y;
 			vert.pos.z = (1.0f - t) * start.pos.z + t * end.pos.z;
-			vert.normal = ft_vec3_add(start.normal, ft_vec3_mul_s(ft_vec3_sub(end.normal, start.normal), t));
-			// if (vert.pos.z >= (FAR_CULL - 5))
-			// {
-			// 	float w = 1. / vert.pos.w;
-			// 	ur_color c;
-			// 	c.color = get_surface_pixel(mtl->texture_map,
-			// 		fmax(0, fmin(mtl->texture_map->w - 1, (vert.tex.x * w) * (mtl->texture_map->w - 1))),
-			// 		fmax(0, fmin(mtl->texture_map->h - 1, (1. - (vert.tex.y * w)) * (mtl->texture_map->h - 1)))
-			// 	);
-			// 	float factor = 1 - (FAR_CULL - vert.pos.z) / (FAR_CULL - (FAR_CULL - 5));
-			// 	c.color = ft_color_i(ft_color_gradient((t_color){ c.argb.r, c.argb.g, c.argb.b, 255}, (t_color){ 0, 0, 255, 255}, fmax(0, fmin(1, factor))));
-			// 	doom->screen.pixels[p.y * (int)S_WIDTH + p.x] = c.color;
-			// }
-			// else
-			{
-				float w = 1. / vert.pos.w;
-			 	 doom->screen.pixels[p.y * (int)S_WIDTH + p.x] = get_surface_pixel(mtl->texture_map,
-					ft_max(0, ft_min(mtl->texture_map->w - 1, (vert.tex.x * w) * (mtl->texture_map->w - 1))),
-					ft_max(0, ft_min(mtl->texture_map->h - 1, (1. - (vert.tex.y * w)) * (mtl->texture_map->h - 1)))
-				);
-				
-				ur_color c;
-				// c.color = 0xFFFF00FF;
-				// c.color = get_surface_pixel(mtl->texture_map,
-				// 	ft_max(0, ft_min(mtl->texture_map->w - 1, (vert.tex.x * w) * (mtl->texture_map->w - 1))),
-				// 	ft_max(0, ft_min(mtl->texture_map->h - 1, (1. - (vert.tex.y * w)) * (mtl->texture_map->h - 1)))
-				// );
-				// t_vec3 d = ft_vec3_mul_s((t_vec3){1, 1, 1}, fmax(0, ft_vec3_dot(ft_vec3_inv(vert.normal), (t_vec3){0, 0, 1})));
-				// t_vec3 ambiant = (t_vec3){0.5, 0.5, 0.5};
-				// t_vec3 v = ft_vec3_add(ambiant, d);
-				// //float f = 1. / 255.;
-				// c.argb.r = fmin(1, (c.argb.r / 255.) * v.x) * 255;
-				// c.argb.g = fmin(1, (c.argb.g / 255.) * v.y) * 255;
-				// c.argb.b = fmin(1, (c.argb.b / 255.) * v.z) * 255;
-				// doom->screen.pixels[p.y * (int)S_WIDTH + p.x] = c.color;
-			}
+			c.color = get_surface_pixel(mtl->texture_map,
+				ft_max(0, ft_min(mtl->texture_map->w - 1, (vert.tex.x * w) * (mtl->texture_map->w - 1))),
+				ft_max(0, ft_min(mtl->texture_map->h - 1, (1. - (vert.tex.y * w)) * (mtl->texture_map->h - 1)))
+			);
 		}
 		else if (mtl->material_color_set)
+			c.color = mtl->material_color;
+
+		if (lt_color != 1)
 		{
-// 			t_color c = ft_i_color(mtl->material_color);
-// 			t_vec3 d = ft_vec3_mul_s((t_vec3){1, 1, 1}, fmax(0, ft_vec3_dot(ft_vec3_inv(vert.normal), (t_vec3){0, 0, 1})));
-// //			
-				
-// 			t_vec3 ambiant = (t_vec3){0.1, 0.1, 0.1};
-// 			t_vec3 v = ft_vec3_add(ambiant,d);
-// //			
-// 			c.r = fmin(1, (c.r / 255.) * v.x) * 255;
-// 			c.g = fmin(1, (c.g / 255.) * v.y) * 255;
-// 			c.b = fmin(1, (c.b / 255.) * v.z) * 255;
-			doom->screen.pixels[p.y * (int)S_WIDTH + p.x] = (uint32_t)mtl->material_color;
+			c.argb.r *= lt_color;
+			c.argb.g *= lt_color;
+			c.argb.b *= lt_color;
 		}
+		doom->screen.pixels[p.y * (int)S_WIDTH + p.x] = c.color;
+		
 	}
 }
 
@@ -149,13 +134,16 @@ void TexturedTriangle2(t_doom *doom, t_vertex v1, t_vertex v2, t_vertex v3, t_mt
 		int y_end = ft_max(0, ft_min(v2.pos.y, S_HEIGHT - 1));
 		
 		int t = 0;
-		//pthread_t threads[y_end];
 		for (int i = y_start; i < y_end; i++)
 		{
 			t_vertex start = vertex_add(v1, vertex_mul_s(d1_step, (i - (int)v1.pos.y)));
+			start.light_color = v1.light_color;
 			t_vertex end = vertex_add(v1, vertex_mul_s(d2_step, (i - (int)v1.pos.y)));
+			end.light_color = v2.light_color;
 			if (start.pos.x > end.pos.x)
+			{
 				swap(&start, &end);
+			}
 			float tstep = 1.0f / (end.pos.x - start.pos.x);
 			int x_start = ft_max(0, ft_min(start.pos.x, S_WIDTH - 1));
 			int x_end = ft_max(0, ft_min(end.pos.x, S_WIDTH - 1));
@@ -165,21 +153,7 @@ void TexturedTriangle2(t_doom *doom, t_vertex v1, t_vertex v2, t_vertex v3, t_mt
 				scanline2(doom, mtl, (t_pixel){ j, i, 0 }, t, start, end);
 				t += tstep;
 			}
-			/* t_data data = (t_data){
-				.i = i,
-				.mtl = mtl,
-				.start = start,
-				.end = end,
-				.doom = doom
-			}; */
-			//	d_line(&data);
 		}
-		/* t = 0;
-		for (int i = y_start; i < y_end; i++)
-		{
-			if (pthread_join(threads[t++], NULL) != 0)
-				continue;
-		} */
 	}
 
 	d1 = vertex_sub(v3, v2);
