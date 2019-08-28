@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 01:17:41 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/27 19:56:52 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/28 13:45:47 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,11 +92,7 @@ void scanline2(t_doom *doom, t_mtl *mtl, t_pixel p, float t, t_vertex start, t_v
 			c.color = mtl->material_color;
 
 		if (lt_color != 1)
-		{
-			c.argb.r *= lt_color;
-			c.argb.g *= lt_color;
-			c.argb.b *= lt_color;
-		}
+			c.argb.a = lt_color;
 		doom->screen.pixels[p.y * (int)S_WIDTH + p.x] = c.color;
 		
 	}
@@ -137,9 +133,7 @@ void TexturedTriangle2(t_doom *doom, t_vertex v1, t_vertex v2, t_vertex v3, t_mt
 		for (int i = y_start; i < y_end; i++)
 		{
 			t_vertex start = vertex_add(v1, vertex_mul_s(d1_step, (i - (int)v1.pos.y)));
-			start.light_color = v1.light_color;
 			t_vertex end = vertex_add(v1, vertex_mul_s(d2_step, (i - (int)v1.pos.y)));
-			end.light_color = v2.light_color;
 			if (start.pos.x > end.pos.x)
 			{
 				swap(&start, &end);
@@ -186,7 +180,7 @@ void	draw_triangle(t_doom *doom, t_triangle triangle, t_mtl *mtl)
 {
 	
 	TexturedTriangle2(doom, triangle.a, triangle.b, triangle.c, mtl);
-	uint32_t c = mtl->material_color_set ? mtl->material_color : 0xFFFFFF;
+	uint32_t c = mtl->material_color_set ? mtl->material_color : 0xFFFFFFFF;
  	// draw_line(&doom->screen, (t_pixel){triangle.a.pos.x, triangle.a.pos.y, c}, (t_pixel){triangle.b.pos.x, triangle.b.pos.y});
 	// draw_line(&doom->screen, (t_pixel){triangle.b.pos.x, triangle.b.pos.y, c}, (t_pixel){triangle.c.pos.x, triangle.c.pos.y});
 	// draw_line(&doom->screen, (t_pixel){triangle.c.pos.x, triangle.c.pos.y, c}, (t_pixel){triangle.a.pos.x, triangle.a.pos.y});

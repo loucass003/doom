@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 22:39:14 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/27 19:28:24 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/28 13:45:36 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,6 @@ void	render_polygon(t_doom *doom, t_polygon *poly)
 	const size_t	len = floorf((poly->indices->len) / 3.);
 	size_t			i;
 
-	// if (poly->type != P_WALL)
-	// {
-	// 	mtl.material_color_set = TRUE;
-	// 	mtl.material_color = poly->type == P_FLOOR ? 0xFF : 0xFF00FF;
-	// }
-	
-
 	i = -1;
 	while (++i < len)
 	{
@@ -61,19 +54,13 @@ void	render_polygon(t_doom *doom, t_polygon *poly)
 		if (poly == doom->player.pointed_poly)
 		{
 			mtl.material_color_set = TRUE;
-			mtl.material_color = doom->player.pointed_triangle == i ? 0xFF25 : 0x00250FF;
-			// printf("LOL\n");
+			mtl.material_color = doom->player.pointed_triangle == i ? 0xFF00FF25 : 0xFF0250FF;
 		}
-		float it = fmax(0, ft_vec3_dot(ft_vec3_inv(poly->normals[i]), (t_vec3){0, 0, 1}));
+		float it = fmax(0, ft_vec3_dot(ft_vec3_inv(poly->normals[i]), (t_vec3){1, 0, 1}));
 		
 	
 		ur_color c;
-		it = fmax(0, fmin(1, 0.2 + it));
-		// c.argb.r = 255 * it;
-		// c.argb.g = 255 * it;
-		// c.argb.b = 255 * it;
-		// c.argb.a = 255;
-		// printf("%d %d %d\n", c.argb.r, c.argb.g, c.argb.b);
+		it = fmax(0, fmin(1, 0.2 + it)) * 255;
 		float light_color = it;
 		process_triangle(doom, (t_mtl *)&mtl, (t_triangle){
 			{.pos = mat43_mulv4(doom->player.matrix, vec3_to_4(poly->vertices->vertices[poly->indices->values[i * 3]])), .tex = poly->uvs[poly->indices->values[i * 3]], .normal = poly->normals[i], .light_color = light_color},

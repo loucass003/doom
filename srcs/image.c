@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 21:24:49 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/11 07:09:25 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/28 13:26:46 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ t_bool	create_image(SDL_Renderer *renderer, uint32_t w, uint32_t h, t_img *img)
 	if (img->ignore_texture == FALSE && !(img->texture = SDL_CreateTexture(renderer,
 		SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, w, h)))
 		return (FALSE);
+	if (img->ignore_texture == FALSE && img->texture)
+		SDL_SetTextureBlendMode(img->texture,SDL_BLENDMODE_BLEND);
 	if (!(img->pixels = (uint32_t *)malloc(img->size * sizeof(uint32_t))))
 		return (FALSE);
 	return (TRUE);

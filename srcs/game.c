@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:01:13 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/26 14:13:42 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/08/28 13:27:43 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ void			game_loop(t_doom *doom)
 	load_all(doom);
 	while (doom->running)
 	{
+		SDL_RenderClear(doom->renderer);
 		clear_image(&doom->screen);
 		//fill_color(&doom->screen, 0xFF);
 		render(doom);
