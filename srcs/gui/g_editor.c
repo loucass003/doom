@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 15:50:09 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/13 14:30:49 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/28 14:02:10 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ void			g_editor_render(t_gui *self, t_doom *doom)
 			{
 					doom->screen.pixels[(y * 20 + 10) * doom->screen.width
 					+ (x * 20) + 10] = doom->editor.point[(y * (doom->screen.width
-					/ 20)) + x] == 1 ? 0xFF0000 : 0xFFFFFF;
+					/ 20)) + x] == 1 ? 0xFFFF0000 : 0xFFFFFFFF;
 			}
 		}
 	}

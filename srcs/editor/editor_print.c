@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/03 17:14:43 by lloncham          #+#    #+#             */
-/*   Updated: 2019/07/22 15:36:00 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/28 14:02:10 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ void	print_poly(t_doom *doom, t_walls *walls, int color)
 
 void	print_all(t_doom *doom)
 {
-	print_poly(doom, doom->editor.polygon, 0x00FFFF);
-	print_poly(doom, doom->editor.lines, 0xFF0000); 
+	print_poly(doom, doom->editor.polygon, 0xFF00FFFF);
+	print_poly(doom, doom->editor.lines, 0xFFFF0000); 
 	// print_poly(doom, doom->editor.sector, 0xFF00FF);
 	// print_poly(doom, doom->editor.door, 0x800080);
 }

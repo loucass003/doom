@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 14:21:03 by louali            #+#    #+#             */
-/*   Updated: 2019/08/20 14:54:06 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/28 14:02:10 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ t_component	*create_menu(SDL_Rect bounds, char *s, t_doom *doom)
 		.on_mouse_move = c_on_mouse_move};
 	btn->open = FALSE;
 	doom->open = 0;
-	btn->color = 0xFFFFFF;
+	btn->color = 0xFFFFFFFF;
 	btn->name = s;
 	return ((t_component *)btn);
 }

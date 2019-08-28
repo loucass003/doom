@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   editor_visual.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/03 17:15:26 by lloncham          #+#    #+#             */
-/*   Updated: 2019/07/25 10:45:38 by Lisa             ###   ########.fr       */
+/*   Updated: 2019/08/28 14:02:10 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void		visual_line(t_doom *doom, t_line line)
 {
 	draw_line(&doom->screen, (t_pixel){line.a.x * 20 + 10
-		, line.a.y * 20 + 10, 0x808080}, (t_pixel)
+		, line.a.y * 20 + 10, 0xFF808080}, (t_pixel)
 		{line.b.x * 20 + 10, line.b.y * 20 + 10});
 }
 
@@ -60,13 +60,13 @@ void		visual_modif(t_doom *doom, t_walls *walls, int x, int y)
 			if (doom->editor.save_modif[0] == wall.line.b.x && doom->editor.save_modif[1] == wall.line.b.y)
 			{
 				draw_line(&doom->screen, (t_pixel){wall.line.a.x * 20 + 10
-				, wall.line.a.y * 20 + 10, 0x808080}, (t_pixel)
+				, wall.line.a.y * 20 + 10, 0xFF808080}, (t_pixel)
 				{x * 20 + 10, y * 20 + 10});
 			}				
 			if (doom->editor.save_modif[0] == wall.line.a.x && doom->editor.save_modif[1] == wall.line.a.y)
 			{	
 				draw_line(&doom->screen, (t_pixel){x * 20 + 10
-				, y * 20 + 10, 0x808080}, (t_pixel)
+				, y * 20 + 10, 0xFF808080}, (t_pixel)
 				{wall.line.b.x * 20 + 10, wall.line.b.y * 20 + 10});
 			}
 		}

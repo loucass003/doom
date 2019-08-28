@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 22:39:14 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/28 13:45:36 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/28 14:01:28 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ typedef union ut_color {
 	t_color	color_t;
 } ur_color;
 
+float t = 0;
+
 void	render_polygon(t_doom *doom, t_polygon *poly)
 {
 	t_mtl		mtl = (t_mtl){
@@ -56,7 +58,8 @@ void	render_polygon(t_doom *doom, t_polygon *poly)
 			mtl.material_color_set = TRUE;
 			mtl.material_color = doom->player.pointed_triangle == i ? 0xFF00FF25 : 0xFF0250FF;
 		}
-		float it = fmax(0, ft_vec3_dot(ft_vec3_inv(poly->normals[i]), (t_vec3){1, 0, 1}));
+		t += 0.01 * doom->stats.delta;
+		float it = fmax(0, ft_vec3_dot(ft_vec3_inv(poly->normals[i]), ft_vec3_sub((t_vec3){1, 0, 1}, (t_vec3){ 0, 0, cos(t) * 3 })));
 		
 	
 		ur_color c;
