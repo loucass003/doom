@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/29 02:54:05 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/29 22:32:46 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,14 @@ t_line	lines[] = {
 	{ .a = { 500, 1100},  .b = { 0, 1100 }},
 	{ .a = { 0, 1100},  .b = { 0, 0 }}
 };
-t_line	lines2[] = {
-	{ .a = { 0, 150 },  .b = { 500, 75 } },
-	{ .a = { 500, 75 }, .b = { 500, 300 } },
-	{ .a = { 500, 300 }, .b = { 800, 300 }},
-	{ .a = { 800, 300},  .b = { 800, 450 }},
-	{ .a = { 800, 450},  .b = { 0, 450 }},
-	{ .a = { 0, 450},  .b = { 0, 150 }},
-};
+// t_line	lines2[] = {
+// 	{ .a = { 0, 150 },  .b = { 500, 75 } },
+// 	{ .a = { 500, 75 }, .b = { 500, 300 } },
+// 	{ .a = { 500, 300 }, .b = { 800, 300 }},
+// 	{ .a = { 800, 300},  .b = { 800, 450 }},
+// 	{ .a = { 800, 450},  .b = { 0, 450 }},
+// 	{ .a = { 0, 450},  .b = { 0, 150 }},
+// };
 
 
 /*t_vec3 list[] = {
@@ -55,7 +55,7 @@ t_line	lines2[] = {
 void	init_bsp(t_doom *doom)
 {
 	int count = sizeof(lines) / sizeof(t_line);
-	int count2 = sizeof(lines2) / sizeof(t_line);
+	// int count2 = sizeof(lines2) / sizeof(t_line);
 	t_polygons *polygons = create_polygons_array(count + 2);
 	
 	t_3dvertices *vertices = create_3dvertices_array(count);
@@ -64,7 +64,7 @@ void	init_bsp(t_doom *doom)
 		append_3dvertices_array(&vertices, (t_vec3){
 			lines[count - 1 - i].a.x / 100, 0, lines[count - 1 - i].a.y / 100});
 	}
-	append_polygons_array(&polygons, create_polygon(vertices, P_FLOOR));
+	append_polygons_array(&polygons, create_polygon(vertices, P_FLOOR, doom->textures.bricks));
 	
 	t_3dvertices *vertices_ceil = create_3dvertices_array(count);
 	for (int i = 0; i < count; i++)
@@ -72,43 +72,33 @@ void	init_bsp(t_doom *doom)
 		append_3dvertices_array(&vertices_ceil, (t_vec3){
 			lines[i].a.x / 100, 1.5, lines[i].a.y / 100});
 	}
-	append_polygons_array(&polygons, create_polygon(vertices_ceil, P_CEILING));
+	append_polygons_array(&polygons, create_polygon(vertices_ceil, P_CEILING, doom->textures.bricks));
 	
 	for (int i = 0; i < count; i++)
 	{
-		append_polygons_array(&polygons, create_wall_polygon((t_line){ (t_vec2){lines[i].a.x / 100, (lines[i].a.y / 100)}, (t_vec2){lines[i].b.x / 100, (lines[i].b.y / 100)}}, 0, 1.5));
+		append_polygons_array(&polygons, create_wall_polygon(doom->textures.bricks, (t_line){ (t_vec2){lines[i].a.x / 100, (lines[i].a.y / 100)}, (t_vec2){lines[i].b.x / 100, (lines[i].b.y / 100)}}, 0, 1.5));
 	}
 
-	/* int count = sizeof(list) / sizeof(t_vec3);
-	t_polygons *polygons = create_polygons_array(count);
-	for (int i = 0; i < count; i++)
-	{
-		int next = (i + 1) % count;
-		append_polygons_array(&polygons, create_wall_polygon((t_line){ {list[i].x / 100, list[i].z / 100}, {list[next].x / 100, list[next].z / 100}, 0}, 0, 1));
-	}*/
 	doom->polygons = polygons;
 	post_process_polygons(doom);
-	// t_node *n = create_node(polygons);
-	// build_node(n);
-	// post_process_bsp(n, 30, 0);
-	// printf("graph TD\n");
-	// print_node(n);
-	// doom->bsp = n;
-
-	
 }
 
 int		main(void)
 {
  	t_doom doom = (t_doom) {
-		.running = TRUE
+		.running = TRUE,
+		.main_context = {
+			.type = CTX_NORMAL,
+			.camera = NULL
+		},
+		.current_gui = -1
 	};
-	
-	init_bsp(&doom);
-	init_sdl(&doom);
-	obj_test(&doom);
-	if (!(doom.rendered_area = (float *)malloc(doom.screen.width * doom.screen.height * sizeof(float))))
+	if (!(doom.main_context.buffer = (t_zbuff *)malloc((int)(S_WIDTH * S_HEIGHT) * sizeof(t_zbuff))))
 		return (-1);
+	init_sdl(&doom);
+	init_bsp(&doom);
+	obj_test(&doom);
+	
 	game_loop(&doom);
 	sdl_quit(&doom);
 	quit_openal();

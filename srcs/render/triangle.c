@@ -6,13 +6,14 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 01:17:41 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/29 03:04:45 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/30 00:30:24 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "maths/vertex.h"
 #include "maths/triangle.h"
 #include "doom.h"
+#include "render.h"
 #include <pthread.h>
 
 static inline void	swap(t_vertex *a, t_vertex *b)
@@ -39,53 +40,61 @@ typedef union ut_color {
 	t_color	color_t;
 } ur_color;
 
-void scanline2(t_doom *doom, t_mtl *mtl, t_pixel p, float t, t_vertex start, t_vertex end)
+void scanline2(t_render_context *ctx, t_mtl *mtl, t_pixel p, float t, t_vertex start, t_vertex end)
 {
 	t_vertex	vert;
+	t_zbuff		*buff;
 
 	vert.pos.w = (1.0f - t) * start.pos.w + t * end.pos.w;
-	if (vert.pos.w <= doom->rendered_area[p.y * (int)S_WIDTH + p.x])
+	buff = ctx->buffer + p.y * (int)S_WIDTH + p.x;
+	if (vert.pos.w <= buff->depth)
 	{
-		doom->rendered_area[p.y * (int)S_WIDTH + p.x] = vert.pos.w;
-		float lt_color = (1.0f - t) * start.light_color + t * end.light_color;
-		ur_color c;
-		if (mtl->texture_map_set)
+		buff->depth = vert.pos.w;
+		uint8_t lt_color = (1.0f - t) * start.light_color + t * end.light_color;
+		if (ctx->type == CTX_NORMAL)
 		{
-			float w = 1. / vert.pos.w;
-			vert.tex.x = (1.0f - t) * start.tex.x + t * end.tex.x;
-			vert.tex.y = (1.0f - t) * start.tex.y + t * end.tex.y;
-			c.color = get_surface_pixel(mtl->texture_map,
-				ft_max(0, ft_min(mtl->texture_map->w - 1, (vert.tex.x * w) * (mtl->texture_map->w - 1))),
-				ft_max(0, ft_min(mtl->texture_map->h - 1, (1. - (vert.tex.y * w)) * (mtl->texture_map->h - 1)))
-			);
+			
+			ur_color c;
+			if (mtl->texture_map_set)
+			{
+				float w = 1. / vert.pos.w;
+				vert.tex.x = (1.0f - t) * start.tex.x + t * end.tex.x;
+				vert.tex.y = (1.0f - t) * start.tex.y + t * end.tex.y;
+				c.color = get_surface_pixel(mtl->texture_map,
+					ft_max(0, ft_min(mtl->texture_map->w - 1, (vert.tex.x * w) * (mtl->texture_map->w - 1))),
+					ft_max(0, ft_min(mtl->texture_map->h - 1, (1. - (vert.tex.y * w)) * (mtl->texture_map->h - 1)))
+				);
+			}
+			else if (mtl->material_color_set)
+				c.color = mtl->material_color;
+			if (lt_color != 1)
+				c.argb.a = lt_color;
+			ctx->image->pixels[p.y * (int)S_WIDTH + p.x] = c.color;
 		}
-		else if (mtl->material_color_set)
-			c.color = mtl->material_color;
-		if (lt_color != 1)
-			c.argb.a = lt_color;
-		doom->screen.pixels[p.y * (int)S_WIDTH + p.x] = c.color;
+		else
+			buff->light_intensity = lt_color;
 	}
 }
 
-typedef struct s_data
-{
-	int			i;
-	t_vertex	start;
-	t_vertex	end;
-	t_doom		*doom;
-	t_mtl		*mtl;
-}				t_data;
+// typedef struct s_data
+// {
+// 	int			i;
+// 	t_vertex	start;
+// 	t_vertex	end;
+// 	t_doom		*doom;
+// 	t_mtl		*mtl;
+// }				t_data;
 
-void TexturedTriangle2(t_doom *doom, t_vertex v1, t_vertex v2, t_vertex v3, t_mtl *mtl)
+void TexturedTriangle2(t_render_context *ctx, t_render_data data)
 {
-	if (v2.pos.y < v1.pos.y)
-		swap(&v1, &v2);
-	if (v3.pos.y < v1.pos.y)
-		swap(&v1, &v3);
-	if (v3.pos.y < v2.pos.y)
-		swap(&v2, &v3);
-	t_vertex	d1 = vertex_sub(v2, v1);
-	t_vertex	d2 = vertex_sub(v3, v1);
+	if (data.triangle.b.pos.y < data.triangle.a.pos.y)
+		swap(&data.triangle.a, &data.triangle.b);
+	if (data.triangle.c.pos.y < data.triangle.a.pos.y)
+		swap(&data.triangle.a, &data.triangle.c);
+	if (data.triangle.c.pos.y < data.triangle.b.pos.y)
+		swap(&data.triangle.b, &data.triangle.c);
+	t_vertex	d1 = vertex_sub(data.triangle.b, data.triangle.a);
+	t_vertex	d2 = vertex_sub(data.triangle.c, data.triangle.a);
 	t_vertex	d1_step;
 	t_vertex	d2_step;
 
@@ -95,13 +104,13 @@ void TexturedTriangle2(t_doom *doom, t_vertex v1, t_vertex v2, t_vertex v3, t_mt
 		d2_step = vertex_div_s(d2, fabsf(d2.pos.y));
 	if (d1.pos.y)
 	{
-		int y_start = ft_max(0, ft_min(v1.pos.y, S_HEIGHT - 1));
-		int y_end = ft_max(0, ft_min(v2.pos.y, S_HEIGHT - 1));
+		int y_start = ft_max(0, ft_min(data.triangle.a.pos.y, S_HEIGHT - 1));
+		int y_end = ft_max(0, ft_min(data.triangle.b.pos.y, S_HEIGHT - 1));
 		
 		for (int i = y_start; i < y_end; i++)
 		{
-			t_vertex start = vertex_add(v1, vertex_mul_s(d1_step, (i - (int)v1.pos.y)));
-			t_vertex end = vertex_add(v1, vertex_mul_s(d2_step, (i - (int)v1.pos.y)));
+			t_vertex start = vertex_add(data.triangle.a, vertex_mul_s(d1_step, (i - (int)data.triangle.a.pos.y)));
+			t_vertex end = vertex_add(data.triangle.a, vertex_mul_s(d2_step, (i - (int)data.triangle.a.pos.y)));
 			if (start.pos.x > end.pos.x)
 				swap(&start, &end);
 			float tstep = 1.0f / (end.pos.x - start.pos.x);
@@ -110,23 +119,23 @@ void TexturedTriangle2(t_doom *doom, t_vertex v1, t_vertex v2, t_vertex v3, t_mt
 			float t = tstep * (x_start - start.pos.x);
 			for (int j = x_start; j < x_end; j++)
 			{
-				scanline2(doom, mtl, (t_pixel){ j, i, 0 }, t, start, end);
+				scanline2(ctx, data.mtl, (t_pixel){ j, i, 0 }, t, start, end);
 				t += tstep;
 			}
 		}
 	}
 
-	d1 = vertex_sub(v3, v2);
+	d1 = vertex_sub(data.triangle.c, data.triangle.b);
 	if (d1.pos.y)
 		d1_step = vertex_div_s(d1, fabsf(d1.pos.y));
 	if (d1.pos.y)
 	{
-		int y_start = ft_max(0, ft_min(v2.pos.y, S_HEIGHT - 1));
-		int y_end = ft_max(0, ft_min(v3.pos.y, S_HEIGHT - 1));
+		int y_start = ft_max(0, ft_min(data.triangle.b.pos.y, S_HEIGHT - 1));
+		int y_end = ft_max(0, ft_min(data.triangle.c.pos.y, S_HEIGHT - 1));
 		for (int i = y_start; i < y_end; i++)
 		{
-			t_vertex start = vertex_add(v2, vertex_mul_s(d1_step, (i - (int)v2.pos.y)));
-			t_vertex end = vertex_add(v1, vertex_mul_s(d2_step, (i - (int)v1.pos.y)));
+			t_vertex start = vertex_add(data.triangle.b, vertex_mul_s(d1_step, (i - (int)data.triangle.b.pos.y)));
+			t_vertex end = vertex_add(data.triangle.a, vertex_mul_s(d2_step, (i - (int)data.triangle.a.pos.y)));
 			if (start.pos.x > end.pos.x)
 				swap(&start, &end);
 			float tstep = 1.0f / (end.pos.x - start.pos.x);
@@ -135,19 +144,20 @@ void TexturedTriangle2(t_doom *doom, t_vertex v1, t_vertex v2, t_vertex v3, t_mt
 			float t = tstep * (x_start - start.pos.x);
 			for (int j = x_start; j < x_end; j++)
 			{
-				scanline2(doom, mtl, (t_pixel){ j, i, 0 }, t, start, end);
+				scanline2(ctx, data.mtl, (t_pixel){ j, i, 0 }, t, start, end);
 				t += tstep;
 			}
 		}
 	}
 }
 
-void	draw_triangle(t_doom *doom, t_triangle triangle, t_mtl *mtl)
+void	draw_triangle(t_render_context *ctx, t_render_data data)
 {
 	
-	TexturedTriangle2(doom, triangle.a, triangle.b, triangle.c, mtl);
-	uint32_t c = mtl->material_color_set ? mtl->material_color : 0xFFFFFFFF;
- 	// draw_line(&doom->screen, (t_pixel){triangle.a.pos.x, triangle.a.pos.y, c}, (t_pixel){triangle.b.pos.x, triangle.b.pos.y});
-	// draw_line(&doom->screen, (t_pixel){triangle.b.pos.x, triangle.b.pos.y, c}, (t_pixel){triangle.c.pos.x, triangle.c.pos.y});
-	// draw_line(&doom->screen, (t_pixel){triangle.c.pos.x, triangle.c.pos.y, c}, (t_pixel){triangle.a.pos.x, triangle.a.pos.y});
+	TexturedTriangle2(ctx, data);
+	uint32_t c = data.mtl->material_color_set ? data.mtl->material_color : 0xFFFFFFFF;
+	t_triangle triangle = data.triangle;
+ 	draw_line(ctx->image, (t_pixel){triangle.a.pos.x, triangle.a.pos.y, c}, (t_pixel){triangle.b.pos.x, triangle.b.pos.y});
+	draw_line(ctx->image, (t_pixel){triangle.b.pos.x, triangle.b.pos.y, c}, (t_pixel){triangle.c.pos.x, triangle.c.pos.y});
+	draw_line(ctx->image, (t_pixel){triangle.c.pos.x, triangle.c.pos.y, c}, (t_pixel){triangle.a.pos.x, triangle.a.pos.y});
 }

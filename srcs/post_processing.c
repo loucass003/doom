@@ -6,13 +6,14 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/16 21:24:43 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/29 03:02:37 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/30 00:18:23 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "polygon.h"
 #include "maths/triangle.h"
+#include <stdlib.h>
 #include "doom.h"
 
 void			compute_triangle_collidable(t_polygon *poly, int triangle_index, t_collidable *c)
@@ -29,18 +30,18 @@ void			compute_triangle_collidable(t_polygon *poly, int triangle_index, t_collid
 
 static t_bool	compute_normals(t_polygon *poly)
 {
-	const int		normals_count = floorf(poly->indices->len / 3.);
-	const size_t	size = sizeof(t_vec3) * normals_count;
+	const int		normals_count = poly->indices->len / 3;
 	int				i;
 
-	if (!poly->normals && !(poly->normals = (t_vec3 *)malloc(size)))
+	if (!poly->normals && !(poly->normals = (t_vec3 *)malloc(sizeof(t_vec3) * normals_count)))
 		return (FALSE);
 	if (!poly->pp_vertices && !(poly->pp_vertices = (t_vec4 *)malloc(poly->vertices->len * sizeof(t_vec4))))
 		return (FALSE);
-	if (!poly->collidables && !(poly->collidables = (t_collidable *)malloc(normals_count * sizeof(t_collidable))))
+	if (!poly->collidables && !(poly->collidables = (t_collidable *)malloc((normals_count ) * sizeof(t_collidable))))
 		return (FALSE);
 	
  	i = -1;
+	printf("%d\n", normals_count);
 	while (++i < normals_count)
 	{
 		poly->normals[i] = get_triangle_normal(
@@ -49,7 +50,6 @@ static t_bool	compute_normals(t_polygon *poly)
 			poly->vertices->vertices[poly->indices->values[i * 3 + 0]]
 		);
 		poly->collidables[i].type = COLLIDE_TRIANGLE;
-	//	printf("n %f %f %f\n", poly->normals[i].x, poly->normals[i].y, poly->normals[i].z);
 		compute_triangle_collidable(poly, i, &poly->collidables[i]);
 	}
 	return (TRUE);

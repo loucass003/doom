@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/13 13:54:34 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/15 17:48:51 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/29 19:18:50 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void set_map(t_doom *doom)
 		append_3dvertices_array(&vertices, (t_vec3){
 			doom->editor.polygon->values[doom->editor.polygon->len - 1 - i].line.a.x, 0, doom->editor.polygon->values[doom->editor.polygon->len - 1 - i].line.a.y});
 	}
-	append_polygons_array(&polygons, create_polygon(vertices, P_FLOOR));
+	append_polygons_array(&polygons, create_polygon(vertices, P_FLOOR, doom->textures.bricks));
 	
 	t_3dvertices *vertices_ceil = create_3dvertices_array(doom->editor.polygon->len);
 	for (int i = 0; i < doom->editor.polygon->len; i++)
@@ -30,11 +30,11 @@ void set_map(t_doom *doom)
 		append_3dvertices_array(&vertices_ceil, (t_vec3){
 			doom->editor.polygon->values[i].line.a.x, 1.5, doom->editor.polygon->values[i].line.a.y});
 	}
-	append_polygons_array(&polygons, create_polygon(vertices_ceil, P_CEILING));
+	append_polygons_array(&polygons, create_polygon(vertices_ceil, P_CEILING, doom->textures.bricks));
 	
 	for (int i = 0; i < doom->editor.polygon->len; i++)
 	{
-		append_polygons_array(&polygons, create_wall_polygon((t_line){ (t_vec2){doom->editor.polygon->values[i].line.a.x, (doom->editor.polygon->values[i].line.a.y)}, (t_vec2){doom->editor.polygon->values[i].line.b.x, doom->editor.polygon->values[i].line.b.y}}, 0, 1.5));
+		append_polygons_array(&polygons, create_wall_polygon(doom->editor.polygon->values[i].img, (t_line){ (t_vec2){doom->editor.polygon->values[i].line.a.x, (doom->editor.polygon->values[i].line.a.y)}, (t_vec2){doom->editor.polygon->values[i].line.b.x, doom->editor.polygon->values[i].line.b.y}}, 0, 1.5));
 	}
 	doom->polygons = polygons;
 	post_process_polygons(doom);

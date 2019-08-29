@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 01:15:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/29 02:12:06 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/29 16:24:05 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,5 +72,6 @@ t_collision			ray_hit_aabb(t_ray *ray, t_collide_aabb *collidable);
 t_collision			ray_hit_triangle(t_ray *ray, t_collide_triangle *collidable);
 t_vec3				vec3_rotate(t_vec3 v, t_vec3 rot);
 t_collision			triangle_hit_aabb(t_collide_triangle *triangle,  t_collide_aabb *aabb);
+t_bool				get_obb_collision(t_obb_box a, t_obb_box b);
 
 #endif

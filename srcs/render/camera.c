@@ -6,25 +6,21 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 23:57:39 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/29 02:51:33 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/29 19:59:06 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom.h"
 
-void	update_maxtrix(t_doom *doom)
+void	camera_update_maxtrix(t_camera *camera)
 {
-	doom->player.aabb = (t_collide_aabb){
-		.center = doom->player.pos,
-		.halfsize = {0.25, 0.25, 0.25},
-	};
-	doom->player.matrix = ft_mat4_mul(
-		ft_mat4_rotation((t_vec3){doom->player.rotation.x, -doom->player.rotation.y, 0}),
-		ft_mat4_translation(ft_vec3_inv(doom->player.pos))
+	camera->matrix = ft_mat4_mul(
+		ft_mat4_rotation((t_vec3){camera->rotation.x, -camera->rotation.y, camera->rotation.z}),
+		ft_mat4_translation(ft_vec3_inv(camera->pos))
 	);
 }
 
-t_mat4	projection_matrix(t_doom *doom)
+t_mat4	projection_matrix()
 {
 	const float	a = (FAR + NEAR) / (FAR - NEAR);
 	const float	b = -(2 * FAR * NEAR) / (FAR - NEAR);

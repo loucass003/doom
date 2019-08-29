@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:56:05 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/29 03:06:18 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/29 20:10:49 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	g_mainmenu_on_enter(t_gui *self, t_doom *doom)
 
 void	g_mainmenu_on_leave(t_gui *self, t_doom *doom)
 {
+	printf("HAHA\n");
 	free_components(self);
 }
 

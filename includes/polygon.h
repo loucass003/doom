@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 01:04:42 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/29 02:54:54 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/29 22:35:07 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define POLYGON_H
 
 # include <libft.h>
+# include <SDL.h>
 # include "maths/vec4.h"
 # include "arrays.h"
 # include "maths/line.h"
@@ -33,9 +34,10 @@ typedef struct		s_polygon
 	t_vec2			*uvs;
 	t_ints			*indices;
 	t_vec4			*pp_vertices;
-	t_vec3			*normals;
-	t_mat4			matrix;
 	t_collidable	*collidables;
+	SDL_Surface		*texture;
+	t_mat4			matrix;
+	t_vec3			*normals;
 }					t_polygon;
 
 typedef struct		s_polygons
@@ -54,8 +56,8 @@ t_polygons			*copy_polygons_array(t_polygons *src,
 
 t_vec3				get_polygon_normal(t_polygon *poly);
 
-t_polygon			create_wall_polygon(t_line	line, float floor, float ceil);
-t_polygon			create_polygon(t_3dvertices *vertices, t_polygon_type type);
+t_polygon			create_wall_polygon(SDL_Surface *texture, t_line line, float floor, float ceil);
+t_polygon			create_polygon(t_3dvertices *vertices, t_polygon_type type, SDL_Surface *texture);
 
 t_bool				triangulate_polygon(t_polygon *polygon);
 void				uv_mapping(t_polygon *polygon);

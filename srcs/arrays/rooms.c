@@ -6,11 +6,12 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/22 14:29:19 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/29 02:16:05 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/29 19:51:51 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
+#include <stdlib.h>
 #include "editor.h"
 
 t_rooms	*create_rooms_array(int capacity)

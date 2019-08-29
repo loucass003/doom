@@ -1,5 +1,5 @@
-#ifndef VERTICES_H
-# define VERTICES_H
+#ifndef ARRAYS_H
+# define ARRAYS_H
 
 # include <libft.h>
 # include <maths/vec4.h>

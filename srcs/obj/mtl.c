@@ -6,11 +6,12 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 17:07:44 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/29 02:45:45 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/29 19:48:33 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fcntl.h>
+#include <unistd.h>
 #include "obj.h"
 
 int				get_material(t_obj *obj, char *name, size_t len)

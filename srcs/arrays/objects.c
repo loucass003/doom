@@ -6,11 +6,12 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/22 14:02:50 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/29 02:06:34 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/29 19:51:46 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
+#include <stdlib.h>
 #include "editor.h"
 
 t_objects	*create_objects_array(int capacity)

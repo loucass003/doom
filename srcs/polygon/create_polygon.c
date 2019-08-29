@@ -6,19 +6,20 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 16:31:56 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/29 02:53:39 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/29 21:59:55 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <SDL.h>
 #include "polygon.h"
 #include "arrays.h"
 #include "maths/line.h"
 
-t_polygon	create_wall_polygon(t_line	line, float floor, float ceil)
+t_polygon	create_wall_polygon(SDL_Surface *texture, t_line line, float floor, float ceil)
 {
 	t_polygon	poly;
 
-	poly = create_polygon(create_3dvertices_array(4), P_WALL);
+	poly = create_polygon(create_3dvertices_array(4), P_WALL, texture);
 	append_3dvertices_array(&poly.vertices,
 		(t_vec3){ line.a.x, floor, line.a.y });
 	append_3dvertices_array(&poly.vertices,
@@ -30,12 +31,13 @@ t_polygon	create_wall_polygon(t_line	line, float floor, float ceil)
 	return (poly);
 }
 
-t_polygon	create_polygon(t_3dvertices *vertices, t_polygon_type type)
+t_polygon	create_polygon(t_3dvertices *vertices, t_polygon_type type, SDL_Surface *texture)
 {
 	t_polygon	poly;
 
 	ft_bzero(&poly, sizeof(t_polygon));
 	poly.type = type;
 	poly.vertices = vertices;
+	poly.texture = texture;
 	return (poly);
 }

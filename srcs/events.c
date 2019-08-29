@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:14:55 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/29 02:59:59 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/29 20:52:08 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,25 @@
 #include <libft.h>
 #include "collision.h"
 #include "polygon.h"
+#include "player.h"
 #include "doom.h"
 
 static void	events_window(t_doom *doom, SDL_Event *event)
 {
 	const SDL_Scancode	key = event->key.keysym.scancode;
 
-	if (doom->guis[doom->current_gui].on_event != NULL)
+	if (doom->current_gui >= 0 && doom->guis[doom->current_gui].on_event != NULL)
 		doom->guis[doom->current_gui].on_event(&doom->guis[doom->current_gui], event, doom);
 	if (event->type == SDL_QUIT)
 		doom->running = FALSE;
-	if (event->type == SDL_MOUSEBUTTONUP)
+	if (event->type == SDL_MOUSEBUTTONUP && doom->current_gui >= 0)
 	{
 		for (int i = 0; i < doom->guis[doom->current_gui].component_count; i++)
 			doom->guis[doom->current_gui].components[i]
 				->on_click(doom->guis[doom->current_gui].components[i],
 				(t_vec2){ event->button.x, event->button.y }, doom);
 	}
-	if (event->type == SDL_MOUSEMOTION)
+	if (event->type == SDL_MOUSEMOTION && doom->current_gui >= 0)
 	{
 		doom->mouse = (t_vec2){ event->motion.x, event->motion.y };
 		for (int i = 0; i < doom->guis[doom->current_gui].component_count; i++)
@@ -115,7 +116,7 @@ void	hook_events(t_doom *doom)
 		doom->player.rotation.x += 0.3 * (s[SDL_SCANCODE_I] ? 1 : -1) * ms;
 	if (dir.x != 0 || dir.y != 0 || dir.z != 0)
 	{
-		update_maxtrix(doom);
+		update_player_camera(&doom->player);
 		//int l = 0;
 		t_collision hit;
 		if (test_collision(doom, &hit, ft_vec3_add(doom->player.pos, dir), dir, TRUE))
@@ -139,7 +140,7 @@ void	hook_events(t_doom *doom)
 		// 	doom->player.pos.y -= dir.y;
 		// }
 	}
-	update_maxtrix(doom);
+	update_player_camera(&doom->player);
 	while (SDL_PollEvent(&event))
 		events_window(doom, &event);
 	SDL_PumpEvents();

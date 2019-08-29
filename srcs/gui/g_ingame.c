@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/29 02:55:25 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/30 00:27:31 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,10 @@ void	g_ingame_on_enter(t_gui *self, t_doom *doom)
 
 void	g_ingame_render(t_gui *self, t_doom *doom)
 {
-	for (int i = 0; i < (int)doom->screen.width * doom->screen.height; i++)
-		doom->rendered_area[i] = 0;
+	for (int i = 0; i < S_WIDTH * S_HEIGHT; i++)
+		doom->main_context.buffer[i] = (t_zbuff){ 0, 0 };
 	for (int i = 0; i < doom->polygons->len; i++)
-		render_polygon(doom, doom->polygons->polygons + i);
-
+		render_polygon(&doom->main_context, doom->polygons->polygons + i);
 	for (int i = 0; i < doom->polygons->len; i++)
 	{
 		if (doom->polygons->polygons[i].type != P_WALL)
@@ -48,10 +47,10 @@ void	g_ingame_render(t_gui *self, t_doom *doom)
 	draw_circle(&doom->screen, (t_pixel){ S_WIDTH_2, S_HEIGHT_2, 0xFF00FFFF }, 4);
 	draw_circle(&doom->screen, (t_pixel){ doom->player.pos.x * 10 , doom->player.pos.z * 10, 0xFF00FFFF }, 4);
 	draw_line(&doom->screen, (t_pixel){ doom->player.ray.origin.x * 10 , doom->player.ray.origin.z * 10, 0xFF00FFFF }, (t_pixel){ doom->player.ray.origin.x * 10 + doom->player.ray.direction.x * 40, doom->player.ray.origin.z * 10 + doom->player.ray.direction.z * 40, 0xFF });
-	doom->obj_test->position = (t_vec3){2, 0, 2};
+	doom->obj_test->position = (t_vec3){1, 0, 2};
 	doom->obj_test->rotation.y += 1 * doom->stats.delta;
-	doom->obj_test->scale = (t_vec3){0.005, 0.005, 0.005};
- 	doom->obj_test->dirty = TRUE;
-	render_obj(doom, doom->obj_test);
+	doom->obj_test->scale = (t_vec3){0.003, 0.003, 0.003};
+ 	//doom->obj_test->dirty = TRUE;
+	render_obj(&doom->main_context, doom->obj_test);
 	
 }

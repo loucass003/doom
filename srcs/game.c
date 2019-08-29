@@ -6,11 +6,13 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:01:13 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/29 02:54:06 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/29 20:49:13 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom.h"
+#include "camera.h"
+#include "player.h"
 
 static void			render_debug(t_doom *doom)
 {
@@ -49,15 +51,18 @@ static void		update_fps(t_doom *doom)
 
 void			game_loop(t_doom *doom)
 {
-	init_openal(&doom);
+	//init_openal(doom);
 	load_wav();
 
+	register_guis(doom);
+
+	doom->player.camera.projection = projection_matrix();
 	doom->player.pos = (t_vec3){ 1, 1, 3 };
 	doom->player.rotation.y = (0) * (M_PI / 180);
 	doom->player.rotation.x = 0;
-	doom->player.projection = projection_matrix(doom);
-	update_maxtrix(doom);
-	register_guis(doom);
+	doom->player.rotation.z = 0;
+	doom->main_context.camera = &doom->player.camera;
+	update_player_camera(&doom->player);
 	set_gui(doom, GUI_MAIN_MENU);
 	int  i = 0;
 	load_all(doom);

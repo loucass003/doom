@@ -6,10 +6,11 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/14 17:23:29 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/29 02:21:09 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/29 19:08:58 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <math.h>
 #include "libft.h"
 #include "collision.h"
 #include "maths/triangle.h"
@@ -39,8 +40,6 @@ t_collision		ray_hit_triangle(t_ray *ray, t_collide_triangle *collidable)
 	float v = ft_vec3_dot(ray->direction, qvec) * invDet;
 	if (v < 0 || u + v > 1)
 		return ((t_collision) { .collide = FALSE, .dist = -1.0 });
-
-	
 	float t = ft_vec3_dot(v0v2, qvec) * invDet;
 	if (t < EPSILON)
 		return ((t_collision) { .collide = FALSE, .dist = -1.0 });

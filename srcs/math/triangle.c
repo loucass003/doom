@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 01:06:40 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/29 01:30:17 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/29 22:06:21 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,32 +27,32 @@ static t_vertex	transform(t_vertex v)
 	return v;
 }
 
-static void 	clip_2(t_doom *doom, t_mtl *mtl, t_triangle t)
+static void 	clip_2(t_render_context *ctx, t_mtl *mtl, t_triangle t)
 {
 	const float	alpha_a = (NEAR_CLIP - t.a.pos.z) / (t.c.pos.z - t.a.pos.z);
 	const float	alpha_b = (NEAR_CLIP - t.b.pos.z) / (t.c.pos.z - t.b.pos.z);
 	const t_vertex v_a = vertex_interpolate(t.a, t.c, alpha_a);
 	const t_vertex v_b = vertex_interpolate(t.b, t.c, alpha_b);
 
-	post_process_triangle(doom, mtl, (t_triangle){ v_a, v_b, t.c });
+	post_process_triangle(ctx, mtl, (t_triangle){ v_a, v_b, t.c });
 }
 
-static void 	clip_1(t_doom *doom, t_mtl *mtl, t_triangle t)
+static void 	clip_1(t_render_context *ctx, t_mtl *mtl, t_triangle t)
 {
 	const float	alpha_a = (NEAR_CLIP - t.a.pos.z) / (t.b.pos.z - t.a.pos.z);
 	const float	alpha_b = (NEAR_CLIP - t.a.pos.z) / (t.c.pos.z - t.a.pos.z);
 	const t_vertex v_a = vertex_interpolate(t.a, t.b, alpha_a);
 	const t_vertex v_b = vertex_interpolate(t.a, t.c, alpha_b);
 	
-	post_process_triangle(doom, mtl, (t_triangle){ v_a, t.b, t.c });
-	post_process_triangle(doom, mtl, (t_triangle){ v_b, v_a, t.c });
+	post_process_triangle(ctx, mtl, (t_triangle){ v_a, t.b, t.c });
+	post_process_triangle(ctx, mtl, (t_triangle){ v_b, v_a, t.c });
 }
 
-void	process_triangle(t_doom *doom, t_mtl *mtl, t_triangle t)
+void	process_triangle(t_render_context *ctx, t_mtl *mtl, t_triangle t)
 {
-	t.a.pos = mat4_mulv4(doom->player.projection, t.a.pos);
-	t.b.pos = mat4_mulv4(doom->player.projection, t.b.pos);
-	t.c.pos = mat4_mulv4(doom->player.projection, t.c.pos);
+	t.a.pos = mat4_mulv4(ctx->camera->projection, t.a.pos);
+	t.b.pos = mat4_mulv4(ctx->camera->projection, t.b.pos);
+	t.c.pos = mat4_mulv4(ctx->camera->projection, t.c.pos);
 	if (t.a.pos.x < t.a.pos.w && t.b.pos.x < t.b.pos.w && t.c.pos.x < t.c.pos.w)
 		return;
 	if (t.a.pos.x > -t.a.pos.w && t.b.pos.x > -t.b.pos.w && t.c.pos.x > -t.c.pos.w)
@@ -64,34 +64,39 @@ void	process_triangle(t_doom *doom, t_mtl *mtl, t_triangle t)
 	if (t.a.pos.z < NEAR_CLIP)
 	{
 		if (t.b.pos.z < NEAR_CLIP)
-			clip_2(doom, mtl, t);
+			clip_2(ctx, mtl, t);
 		else if (t.c.pos.z < NEAR_CLIP)
-			clip_2(doom, mtl, (t_triangle){t.a, t.c, t.b});
+			clip_2(ctx, mtl, (t_triangle){t.a, t.c, t.b});
 		else
-			clip_1(doom, mtl, t);
+			clip_1(ctx, mtl, t);
 	}
 	else if (t.b.pos.z < NEAR_CLIP)
 	{
 		if (t.c.pos.z < NEAR_CLIP)
-			clip_2(doom, mtl, (t_triangle){t.b, t.c, t.a});
+			clip_2(ctx, mtl, (t_triangle){t.b, t.c, t.a});
 		else
-			clip_1(doom, mtl, (t_triangle){t.b, t.a, t.c});
+			clip_1(ctx, mtl, (t_triangle){t.b, t.a, t.c});
 	}
 	else if (t.c.pos.z < NEAR_CLIP)
-		clip_1(doom, mtl, (t_triangle){t.c, t.a, t.b});
+		clip_1(ctx, mtl, (t_triangle){t.c, t.a, t.b});
 	else
 	{
-		post_process_triangle(doom, mtl, t);
+		post_process_triangle(ctx, mtl, t);
 	}
 }
 
-void	post_process_triangle(t_doom *doom, t_mtl *mtl, t_triangle t)
+void	post_process_triangle(t_render_context *ctx, t_mtl *mtl, t_triangle t)
 {
 	t.a = transform(t.a);
 	t.b = transform(t.b);
 	t.c = transform(t.c);
+
+	t_render_data data = (t_render_data) {
+		.mtl = mtl,
+		.triangle = t
+	};
 	
-	draw_triangle(doom, t, mtl);
+	draw_triangle(ctx, data);
 }
 
 t_vec3	get_triangle_normal(t_vec3 p0, t_vec3 p1, t_vec3 p2)

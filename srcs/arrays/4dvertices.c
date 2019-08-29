@@ -6,11 +6,12 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/08 13:54:28 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/29 02:06:13 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/29 19:50:12 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
+#include <stdlib.h>
 #include "arrays.h"
 
 t_4dvertices	*create_4dvertices_array(int capacity)

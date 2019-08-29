@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 21:21:40 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/29 02:17:39 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/29 16:24:25 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,13 @@ void				clear_image(t_img *img);
 void				update_image(t_img *img);
 void				apply_image(t_img *img, SDL_Rect *dst);
 void				fill_color(t_img *img, uint32_t color);
+void				draw_line(t_img *img, t_pixel p0, t_pixel p1);
+void				draw_circle(t_img *img, t_pixel center, int r);
+Uint32				get_surface_pixel(SDL_Surface *surface, int x, int y);
+void				apply_surface_blended(t_img *img, SDL_Surface *s,
+						SDL_Rect src, SDL_Rect dst);
+void				apply_surface(t_img *img, SDL_Surface *s,
+						SDL_Rect src, SDL_Rect dst);
 
 #endif
 

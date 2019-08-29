@@ -1,36 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   light_mapping.c                                    :+:      :+:    :+:   */
+/*   player.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/08/28 14:22:33 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/29 17:48:09 by llelievr         ###   ########.fr       */
+/*   Created: 2019/08/29 17:43:35 by llelievr          #+#    #+#             */
+/*   Updated: 2019/08/29 20:47:46 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "doom.h"
+#include "player.h"
 
-void		init_lightning(t_doom *doom)
+void				update_player_camera(t_player *player)
 {
-	int		x;
-	int		y;
-	int		i;
+	t_camera		*camera;
 
-	i = -1;
-	while (++i < 1)
-	{
-		y = -1;
-		while (++y < S_HEIGHT)
-		{
-			x = -1;
-			while (++x < S_WIDTH)
-			{
-				// t_ray ray = (t_ray){
-				// 	.origin = 
-				// }
-			}
-		}
-	}
+	camera = &player->camera;
+	camera->pos = player->pos;
+	camera->rotation = player->rotation;
+	camera_update_maxtrix(&player->camera);
 }

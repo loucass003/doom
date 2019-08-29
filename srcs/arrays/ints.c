@@ -6,11 +6,12 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/12 19:55:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/29 02:06:21 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/29 19:51:44 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
+#include <stdlib.h>
 #include "arrays.h"
 
 t_ints	*create_ints_array(int capacity)

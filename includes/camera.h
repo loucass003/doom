@@ -1,36 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   light_mapping.c                                    :+:      :+:    :+:   */
+/*   camera.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/08/28 14:22:33 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/29 17:48:09 by llelievr         ###   ########.fr       */
+/*   Created: 2019/08/29 17:40:59 by llelievr          #+#    #+#             */
+/*   Updated: 2019/08/29 17:41:20 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "doom.h"
+#ifndef CAMERA_H
+# define CAMERA_H
 
-void		init_lightning(t_doom *doom)
+#include "libft.h"
+
+typedef struct		s_camera
 {
-	int		x;
-	int		y;
-	int		i;
+	t_vec3			pos;
+	t_vec3			rotation;
+	t_mat4			matrix;
+	t_mat4			projection;
+}					t_camera;
 
-	i = -1;
-	while (++i < 1)
-	{
-		y = -1;
-		while (++y < S_HEIGHT)
-		{
-			x = -1;
-			while (++x < S_WIDTH)
-			{
-				// t_ray ray = (t_ray){
-				// 	.origin = 
-				// }
-			}
-		}
-	}
-}
+void				camera_update_maxtrix(t_camera *camera);
+t_mat4				projection_matrix();
+
+#endif
