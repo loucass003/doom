@@ -6,11 +6,11 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:28:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/26 03:10:51 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/29 02:16:51 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "doom.h"
+#include "image.h"
 
 Uint32			get_surface_pixel(SDL_Surface *surface, int x, int y)
 {

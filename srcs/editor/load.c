@@ -6,21 +6,27 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 13:20:27 by louali            #+#    #+#             */
-/*   Updated: 2019/08/15 17:59:58 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/29 02:39:12 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <SDL_image.h>
+#include "editor.h"
 #include "doom.h"
 
 t_texture	*try1(char *name, int count)
 {
 	t_texture	*tmp;
 
-	tmp = malloc(sizeof(t_texture));
+	if (!(tmp = malloc(sizeof(t_texture))))
+		return NULL;
 	tmp->name = name;
-	tmp->text = IMG_Load(tmp->name);
-	tmp->text = SDL_ConvertSurfaceFormat(tmp->text,
-		SDL_PIXELFORMAT_ARGB8888, 0);
+	if (!(tmp->text = IMG_Load(tmp->name)) 
+		|| !(tmp->text = SDL_ConvertSurfaceFormat(tmp->text, SDL_PIXELFORMAT_ARGB8888, 0)))
+	{
+		free(tmp);
+		return NULL;
+	}
 	tmp->count = count;
 	tmp->next = NULL;
 	return (tmp);

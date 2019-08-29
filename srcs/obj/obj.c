@@ -6,12 +6,14 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 15:28:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/26 06:28:44 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/29 02:43:43 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fcntl.h>
+#include <libft.h>
 #include "obj.h"
+#include <doom.h>
 
 t_obj_prefix	*get_formatter(t_obj_prefix *prefixes, size_t prefixes_count, t_reader *reader)
 {
@@ -42,6 +44,7 @@ t_obj_prefix	*get_formatter(t_obj_prefix *prefixes, size_t prefixes_count, t_rea
 
 t_bool		free_obj(t_obj *obj, t_bool ret)
 {
+	(void)obj;
 	return (ret);
 }
 
@@ -115,7 +118,7 @@ t_bool		load_obj(t_doom *doom, t_obj **obj, char *file)
 t_bool		set_obj_working_dir(t_doom *doom, char *folder)
 {
 	if (doom->obj_working_dir)
-		ft_memdel(&doom->obj_working_dir);
+		ft_memdel((void **)&doom->obj_working_dir);
 	if (!(doom->obj_working_dir = (char *)ft_strnew(ft_strlen(folder))))
 		return (FALSE);
 	ft_strcpy(doom->obj_working_dir, folder);

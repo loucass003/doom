@@ -6,10 +6,14 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:14:55 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/20 13:47:31 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/29 02:59:59 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <SDL.h>
+#include <libft.h>
+#include "collision.h"
+#include "polygon.h"
 #include "doom.h"
 
 static void	events_window(t_doom *doom, SDL_Event *event)

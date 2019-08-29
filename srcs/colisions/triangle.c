@@ -6,11 +6,13 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/14 17:23:29 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/20 14:04:58 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/29 02:21:09 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "doom.h"
+#include "libft.h"
+#include "collision.h"
+#include "maths/triangle.h"
 
 #define EPSILON 1e-6
 

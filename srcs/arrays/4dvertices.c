@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   4dvertices.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/08 13:54:28 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/19 15:02:50 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/08/29 02:06:13 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "doom.h"
+#include <libft.h>
+#include "arrays.h"
 
 t_4dvertices	*create_4dvertices_array(int capacity)
 {

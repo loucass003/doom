@@ -6,11 +6,12 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 18:02:59 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/21 20:51:11 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/29 02:52:58 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "doom.h"
+#include <limits.h>
+#include "polygon.h"
 
 static float		sign(float a)
 {
@@ -20,7 +21,6 @@ static float		sign(float a)
 		return (-1);
 	return (0);
 }
-
 
 static t_vec4		compute_bounds(t_polygon *polygon)
 {
@@ -44,7 +44,6 @@ static t_vec4		compute_bounds(t_polygon *polygon)
 	}
 	return ((t_vec4){ .x = min.x, .y = min.y, .z = ft_absf(max.x - min.x), .w = ft_absf(max.y - min.y) });
 }
-
 
 void				uv_mapping(t_polygon *polygon)
 {

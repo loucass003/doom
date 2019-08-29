@@ -6,10 +6,11 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 16:30:11 by llelievr          #+#    #+#             */
-/*   Updated: 2019/06/26 12:58:12 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/29 02:45:20 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <unistd.h>
 #include "obj.h"
 
 static ssize_t	io_fill(t_reader *r)

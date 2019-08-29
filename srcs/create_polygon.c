@@ -6,11 +6,13 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 16:31:56 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/14 13:51:38 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/29 02:53:39 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "doom.h"
+#include "polygon.h"
+#include "arrays.h"
+#include "maths/line.h"
 
 t_polygon	create_wall_polygon(t_line	line, float floor, float ceil)
 {

@@ -6,11 +6,15 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/10 15:44:57 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/28 13:45:21 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/29 02:41:38 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
+#include "maths/vec4.h"
+#include "maths/triangle.h"
 #include "obj.h"
+
 
 static t_vec4	mat43_mulv4(t_mat4 m, t_vec4 p)
 {
@@ -24,7 +28,7 @@ static t_vec4	mat43_mulv4(t_mat4 m, t_vec4 p)
 	return (r);
 }
 
-static void		update_obj(t_doom *doom, t_obj *obj)
+static void		update_obj(t_obj *obj)
 {
 	int		i;
 
@@ -43,7 +47,6 @@ static void		update_obj(t_doom *doom, t_obj *obj)
 	i = -1;
 	while (++i < obj->normals->len)
 		obj->pp_normals[i] = ft_mat4_mulv(rot, obj->normals->vertices[i]);
-	
 	i = -1;
 	while (++i < obj->faces->len)
 	{
@@ -52,11 +55,7 @@ static void		update_obj(t_doom *doom, t_obj *obj)
 			vec4_to_3(obj->pp_vertices[face->vertices_index[0] - 1]), 
 			vec4_to_3(obj->pp_vertices[face->vertices_index[1] - 1]), 
 			vec4_to_3(obj->pp_vertices[face->vertices_index[2] - 1]));
-		// obj->pp_normals[face->normals_index[0] - 1] = face->face_normal; //TODO: WTF 
-		// obj->pp_normals[face->normals_index[1] - 1] = face->face_normal;
-		// obj->pp_normals[face->normals_index[2] - 1] = face->face_normal;
 	}
-	
 	obj->dirty = FALSE;
 }
 
@@ -66,7 +65,7 @@ void	render_obj(t_doom *doom, t_obj *obj)
 	t_face	*face;
 
 	if (obj->dirty)
-		update_obj(doom, obj);
+		update_obj(obj);
 	i = -1;
 	while (++i < obj->faces->len)
 	{

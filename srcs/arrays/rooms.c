@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   rooms.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/22 14:29:19 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/19 15:02:41 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/08/29 02:16:05 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "doom.h"
+#include <libft.h>
+#include "editor.h"
 
 t_rooms	*create_rooms_array(int capacity)
 {

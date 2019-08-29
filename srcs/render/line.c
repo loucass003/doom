@@ -6,13 +6,12 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/02 00:28:50 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/19 15:10:31 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/29 02:52:44 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "doom.h"
-
-
+#include "libft.h"
+#include "image.h"
 
 void	draw_line(t_img *img, t_pixel p0, t_pixel p1)
 {
@@ -26,7 +25,8 @@ void	draw_line(t_img *img, t_pixel p0, t_pixel p1)
 	e[0] = (d.x > d.y ? d.x : -d.y) / 2;
 	while (p0.x != p1.x || p0.y != p1.y)
 	{
-		if (p0.x >= 0 && p0.x < img->width && p0.y >= 0 && p0.y < img->height)
+		if (p0.x >= 0 && p0.x < (int)img->width 
+			&& p0.y >= 0 && p0.y < (int)img->height)
 			img->pixels[index = p0.y * img->width + p0.x] = p0.color;
 		e[1] = e[0];
 		if (e[1] > -d.x)

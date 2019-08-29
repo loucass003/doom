@@ -6,10 +6,12 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 14:21:03 by louali            #+#    #+#             */
-/*   Updated: 2019/08/28 14:02:10 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/29 02:22:31 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
+#include "gui.h"
 #include "doom.h"
 
 static void	c_render(t_doom *doom, t_component *self)

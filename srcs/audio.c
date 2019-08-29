@@ -3,13 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   audio.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/22 13:41:15 by lloncham          #+#    #+#             */
-/*   Updated: 2019/08/26 15:47:13 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/08/29 02:42:13 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <al.h>
+#include <alc.h>
+#include <sndfile.h>
 #include "doom.h"
 
 t_bool			init_openal(t_doom *doom)

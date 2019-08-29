@@ -6,11 +6,12 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 13:06:49 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/19 13:59:37 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/29 02:51:49 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "doom.h"
+#include "libft.h"
+#include "image.h"
 
 static inline void	put_pixel(t_img *img, t_pixel p)
 {

@@ -6,10 +6,12 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 15:50:09 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/28 14:02:10 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/29 02:24:51 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
+#include "gui.h"
 #include "doom.h"
 
 void			set_var(t_doom *doom)

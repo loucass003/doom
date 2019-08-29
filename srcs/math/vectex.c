@@ -6,11 +6,12 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 14:47:41 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/28 13:37:14 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/29 01:30:41 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "doom.h"
+#include <libft.h>
+#include "maths/vertex.h"
 
 t_vertex		vertex_mul_s(t_vertex a, float v)
 {

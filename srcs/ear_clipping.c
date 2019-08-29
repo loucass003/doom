@@ -6,11 +6,14 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/12 15:51:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/18 16:41:31 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/29 02:58:28 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "doom.h"
+#include "libft.h"
+#include <maths.h>
+#include <stdlib.h>
+#include "polygon.h"
 
 #define EPSILON (1e-6)
 /*

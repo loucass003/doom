@@ -6,11 +6,12 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/14 16:37:29 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/20 14:25:29 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/29 03:02:12 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "doom.h"
+#include "player.h"
+#include "collision.h"
 
 t_ray			create_shoot_ray(t_player player, t_vec3 direction)
 {

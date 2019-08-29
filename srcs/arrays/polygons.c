@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   polygons.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/11 21:38:16 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/19 15:02:37 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/08/29 02:12:39 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "doom.h"
+#include <libft.h>
+#include <stdlib.h>
+#include "polygon.h"
 
 t_polygons	*create_polygons_array(int capacity)
 {

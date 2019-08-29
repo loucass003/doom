@@ -6,14 +6,15 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 21:21:40 by llelievr          #+#    #+#             */
-/*   Updated: 2019/04/17 15:38:45 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/29 02:17:39 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef IMAGE_H
 # define IMAGE_H
 
-# include "doom.h"
+#include <SDL.h>
+#include <libft.h>
 
 typedef struct		s_img
 {

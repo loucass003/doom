@@ -6,11 +6,13 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/14 17:20:03 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/20 14:18:09 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/29 02:19:16 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "doom.h"
+#include "libft.h"
+#include "collision.h"
+#include <math.h>
 
 void	find_max(float x0, float x1, float x2, t_vec2 *range)
 {

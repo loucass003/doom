@@ -6,14 +6,17 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 15:26:39 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/14 14:00:21 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/29 02:48:21 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "doom.h" 
-
 #ifndef OBJ_H
 # define OBJ_H
+
+# include <libft.h>
+# include <SDL.h>
+# include "arrays.h"
+# include "file_utils.h"
 
 # define OBJ_BUFFER 4096
 # define PREFIXES_COUNT 7
@@ -23,8 +26,6 @@
 # define MATERIAL_FILE_LEN 255
 # define MATERIAL_TEXTURE_LEN 255
 # define MATERIAL_NAME_LEN 255
-
-typedef struct s_doom t_doom;
 
 typedef struct	s_mtl
 {
@@ -120,5 +121,6 @@ t_bool			mtl_newmtl_formatter(t_obj *obj, t_reader *reader);
 t_bool			mtl_map_kd_formatter(t_obj *obj, t_reader *reader);
 t_bool			mtl_kd_formatter(t_obj *o, t_reader *reader);
 int				get_material(t_obj *obj, char *name, size_t len);
+t_bool			free_obj(t_obj *obj, t_bool result);
 
 #endif

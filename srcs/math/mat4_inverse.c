@@ -6,11 +6,11 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/04 02:12:21 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/04 13:01:12 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/29 02:56:09 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "doom.h"
+#include "libft.h"
 
 static void		cofactor(float A[4][4], float temp[4][4], int v[3]) 
 {

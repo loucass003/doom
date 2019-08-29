@@ -6,11 +6,15 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 21:24:49 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/28 13:26:46 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/29 03:01:43 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "doom.h"
+#include "libft.h"
+#include <stdlib.h>
+#include <SDL_image.h>
+#include <SDL.h>
+#include "image.h"
 
 t_bool	create_image(SDL_Renderer *renderer, uint32_t w, uint32_t h, t_img *img)
 {

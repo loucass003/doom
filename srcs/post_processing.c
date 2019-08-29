@@ -6,10 +6,13 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/16 21:24:43 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/20 15:04:47 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/29 03:02:37 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+
+#include "polygon.h"
+#include "maths/triangle.h"
 #include "doom.h"
 
 void			compute_triangle_collidable(t_polygon *poly, int triangle_index, t_collidable *c)

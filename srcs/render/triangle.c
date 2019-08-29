@@ -6,30 +6,18 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 01:17:41 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/28 18:38:18 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/29 03:04:45 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "maths/vertex.h"
+#include "maths/triangle.h"
 #include "doom.h"
 #include <pthread.h>
 
 static inline void	swap(t_vertex *a, t_vertex *b)
 {
 	t_vertex t = *a;
-	*a = *b;
-	*b = t;
-}
-
-static void	swapi(int *a, int *b)
-{
-	int t = *a;
-	*a = *b;
-	*b = t;
-}
-
-static void	swapf(float *a, float *b)
-{
-	float t = *a;
 	*a = *b;
 	*b = t;
 }
@@ -110,7 +98,6 @@ void TexturedTriangle2(t_doom *doom, t_vertex v1, t_vertex v2, t_vertex v3, t_mt
 		int y_start = ft_max(0, ft_min(v1.pos.y, S_HEIGHT - 1));
 		int y_end = ft_max(0, ft_min(v2.pos.y, S_HEIGHT - 1));
 		
-		int t = 0;
 		for (int i = y_start; i < y_end; i++)
 		{
 			t_vertex start = vertex_add(v1, vertex_mul_s(d1_step, (i - (int)v1.pos.y)));

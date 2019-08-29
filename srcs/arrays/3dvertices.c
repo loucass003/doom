@@ -6,11 +6,12 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/08 13:54:28 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/05 15:35:27 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/29 02:06:03 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "doom.h"
+#include <libft.h>
+#include "arrays.h"
 
 t_3dvertices	*create_3dvertices_array(int capacity)
 {

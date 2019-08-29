@@ -6,10 +6,13 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 22:39:14 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/28 14:01:28 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/29 03:04:51 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
+#include "maths/vec4.h"
+#include "maths/triangle.h"
 #include "doom.h"
 
 t_vec4	mat43_mulv4(t_mat4 m, t_vec4 p)
@@ -62,7 +65,6 @@ void	render_polygon(t_doom *doom, t_polygon *poly)
 		float it = fmax(0, ft_vec3_dot(ft_vec3_inv(poly->normals[i]), ft_vec3_sub((t_vec3){1, 0, 1}, (t_vec3){ 0, 0, cos(t) * 3 })));
 		
 	
-		ur_color c;
 		it = fmax(0, fmin(1, 0.2 + it)) * 255;
 		float light_color = it;
 		process_triangle(doom, (t_mtl *)&mtl, (t_triangle){

@@ -6,10 +6,11 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 13:51:56 by lloncham          #+#    #+#             */
-/*   Updated: 2019/07/22 17:02:59 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/29 03:08:02 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "editor.h"
 #include "doom.h"
 
 void    save_object(t_doom *doom, int x, int y, SDL_Surface *obj)

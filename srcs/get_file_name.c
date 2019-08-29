@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   get_file_name.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 16:46:07 by louali            #+#    #+#             */
-/*   Updated: 2019/06/20 15:26:46 by louali           ###   ########.fr       */
+/*   Updated: 2019/08/29 03:00:54 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "doom.h"
+#include "editor.h"
 
 t_files		*copy_name(struct dirent *file, t_files *start, char *s2)
 {

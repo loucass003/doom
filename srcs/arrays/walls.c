@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   walls.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/22 14:02:50 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/19 15:02:12 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/08/29 02:18:11 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "doom.h"
+#include <libft.h>
+#include "editor.h"
 
 t_walls	*create_walls_array(int capacity)
 {

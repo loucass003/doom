@@ -6,10 +6,12 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/28 03:24:11 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/11 05:50:00 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/29 01:32:20 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <SDL.h>
+#include <SDL_image.h>
 #include "obj.h"
 
 t_bool			mtl_newmtl_formatter(t_obj *obj, t_reader *reader)

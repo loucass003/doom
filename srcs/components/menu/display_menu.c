@@ -3,13 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   display_menu.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 16:44:24 by louali            #+#    #+#             */
-/*   Updated: 2019/06/26 14:18:15 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/08/29 02:22:42 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
+#include "gui.h"
 #include "doom.h"
 
 void		put_menu(t_component *self, t_doom *doom, t_menu *menu)

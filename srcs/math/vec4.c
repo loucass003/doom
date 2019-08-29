@@ -6,11 +6,13 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/19 17:50:27 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/19 17:25:03 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/29 03:05:34 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "doom.h"
+#include <libft.h>
+#include <math.h>
+#include "maths/vec4.h"
 
 t_vec4	vec3_to_4(t_vec3 v)
 {
@@ -109,8 +111,8 @@ t_vec4	ft_vec4_interpolate(t_vec4 a, t_vec4 b, float alpha)
 
 static t_vec3	vec3_rotate_x(t_vec3 v, float angle)
 {
-	const float cos_a = cos(angle);
-	const float sin_a = sin(angle);
+	const float cos_a = cosf(angle);
+	const float sin_a = sinf(angle);
 
 	return ((t_vec3){
 		v.x,
@@ -121,8 +123,8 @@ static t_vec3	vec3_rotate_x(t_vec3 v, float angle)
 
 static t_vec3	vec3_rotate_y(t_vec3 v, float angle)
 {
-	const float cos_a = cos(angle);
-	const float sin_a = sin(angle);
+	const float cos_a = cosf(angle);
+	const float sin_a = sinf(angle);
 
 	return ((t_vec3){
 		v.x * cos_a + v.z * sin_a,

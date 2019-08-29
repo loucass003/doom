@@ -6,10 +6,13 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 01:06:40 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/19 18:00:32 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/29 01:30:17 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <libft.h>
+#include "maths/vertex.h"
+#include "maths/triangle.h"
 #include "doom.h"
 
 static t_vertex	transform(t_vertex v)

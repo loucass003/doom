@@ -6,10 +6,11 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/25 19:30:54 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/15 17:58:45 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/29 01:52:07 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <libft.h>
 #include "obj.h"
 
 t_faces			*create_faces_array(int capacity)

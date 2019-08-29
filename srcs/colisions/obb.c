@@ -6,21 +6,23 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/13 08:06:13 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/20 14:53:37 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/29 02:20:29 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "doom.h"
+#include "libft.h"
+#include "maths.h"
+#include "collision.h"
 
 t_bool		get_separating_plane(t_vec3 pos, t_vec3 plane, t_obb_box a, t_obb_box b)
 {
-	return (fabs(ft_vec3_dot(pos, plane)) 
-		> (fabs(ft_vec3_dot(ft_vec3_mul_s(a.x_axis, a.half_size.x), plane)))
-		+ (fabs(ft_vec3_dot(ft_vec3_mul_s(a.y_axis, a.half_size.y), plane)))
-		+ (fabs(ft_vec3_dot(ft_vec3_mul_s(a.z_axis, a.half_size.z), plane)))
-		+ (fabs(ft_vec3_dot(ft_vec3_mul_s(b.x_axis, b.half_size.x), plane)))
-		+ (fabs(ft_vec3_dot(ft_vec3_mul_s(b.y_axis, b.half_size.y), plane)))
-		+ (fabs(ft_vec3_dot(ft_vec3_mul_s(b.z_axis, b.half_size.z), plane)))
+	return (ft_abs(ft_vec3_dot(pos, plane)) 
+		> (ft_abs(ft_vec3_dot(ft_vec3_mul_s(a.x_axis, a.half_size.x), plane)))
+		+ (ft_abs(ft_vec3_dot(ft_vec3_mul_s(a.y_axis, a.half_size.y), plane)))
+		+ (ft_abs(ft_vec3_dot(ft_vec3_mul_s(a.z_axis, a.half_size.z), plane)))
+		+ (ft_abs(ft_vec3_dot(ft_vec3_mul_s(b.x_axis, b.half_size.x), plane)))
+		+ (ft_abs(ft_vec3_dot(ft_vec3_mul_s(b.y_axis, b.half_size.y), plane)))
+		+ (ft_abs(ft_vec3_dot(ft_vec3_mul_s(b.z_axis, b.half_size.z), plane)))
 	);
 }
 

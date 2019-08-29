@@ -6,11 +6,13 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/28 18:34:54 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/29 02:55:25 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+
 #include "doom.h"
+#include "gui.h"
 
 void static	action_performed(t_component *cmp, t_doom *doom)
 {

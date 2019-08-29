@@ -6,10 +6,12 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 20:10:35 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/28 13:26:11 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/29 03:02:20 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <SDL.h>
+#include <SDL_image.h>
 #include "doom.h"
 
 static t_bool	load_fonts(t_doom *doom)
