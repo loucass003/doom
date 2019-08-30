@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:16:19 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/29 20:40:51 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/30 08:22:01 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 # define RENDER_H
 
 # include "obj.h"
+# include "image.h"
+# include "camera.h"
+# include "polygon.h"
 # include "maths/triangle.h"
 
 typedef struct		s_triangle
@@ -47,6 +50,8 @@ typedef struct		s_render_context
 	t_camera		*camera;
 	t_zbuff			*buffer;
 	t_img			*image;
+	t_polygon		*pointed_polygon;
+	// struct s_light	*lights;
 }					t_render_context;
 
 

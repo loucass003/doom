@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 16:31:56 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/29 21:59:55 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/30 04:56:21 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,7 @@ t_polygon	create_polygon(t_3dvertices *vertices, t_polygon_type type, SDL_Surfac
 	poly.type = type;
 	poly.vertices = vertices;
 	poly.texture = texture;
+	poly.lightmap = (uint8_t *)malloc(poly.texture->w * poly.texture->h * sizeof(uint8_t));
+	ft_memset(poly.lightmap, 20, poly.texture->w * poly.texture->h * sizeof(uint8_t));
 	return (poly);
 }

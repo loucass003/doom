@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:14:55 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/29 20:52:08 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/30 08:23:17 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "collision.h"
 #include "polygon.h"
 #include "player.h"
+#include <limits.h>
 #include "doom.h"
 
 static void	events_window(t_doom *doom, SDL_Event *event)
@@ -116,6 +117,7 @@ void	hook_events(t_doom *doom)
 		doom->player.rotation.x += 0.3 * (s[SDL_SCANCODE_I] ? 1 : -1) * ms;
 	if (dir.x != 0 || dir.y != 0 || dir.z != 0)
 	{
+		
 		update_player_camera(&doom->player);
 		//int l = 0;
 		t_collision hit;

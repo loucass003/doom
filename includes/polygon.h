@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 01:04:42 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/29 22:35:07 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/30 08:26:35 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ typedef struct		s_polygon
 	t_vec4			*pp_vertices;
 	t_collidable	*collidables;
 	SDL_Surface		*texture;
+	uint8_t			*lightmap;
+	t_bool			pointed;
 	t_mat4			matrix;
 	t_vec3			*normals;
 }					t_polygon;

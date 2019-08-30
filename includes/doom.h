@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/30 00:56:47 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/30 06:52:49 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,11 @@
 # include "obj.h"
 # include "collision.h"
 # include "polygon.h"
+# include "light.h"
 # include "editor.h"
 # include "gui.h"
 # include "player.h"
 # include "render.h"
-
-typedef struct		s_light
-{
-	t_vec3			polision;
-	t_color			color;
-}					t_light;
 
 typedef struct		s_stats
 {
@@ -49,6 +44,7 @@ typedef struct		s_fonts
 typedef struct		s_textures
 {
 	SDL_Surface		*bricks;
+	SDL_Surface		*test;
 }					t_textures;
 
 typedef struct		s_doom
@@ -59,6 +55,7 @@ typedef struct		s_doom
 	t_bool				running;
 	t_stats				stats;
 	t_fonts				fonts;
+	t_light				*lights;
 	t_polygons			*polygons;
 	t_render_context	main_context;
 	t_player			player;

@@ -6,12 +6,13 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/30 00:27:31 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/30 08:18:00 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "doom.h"
+#include <limits.h>
 #include "gui.h"
 
 void static	action_performed(t_component *cmp, t_doom *doom)
@@ -44,6 +45,8 @@ void	g_ingame_render(t_gui *self, t_doom *doom)
 		int color = doom->player.pointed_poly == doom->polygons->polygons + i ? 0xFFFF00FF : 0xFFFFFF00;
 		draw_line(&doom->screen, (t_pixel){ a.x, a.y, color }, (t_pixel){ b.x, b.y, 0xFFFFFFFF });
 	}
+	draw_circle(&doom->screen, (t_pixel){ doom->lights[0].position.x * 10 , doom->lights[0].position.z * 10, 0xFFffFF00 }, 4);
+	
 	draw_circle(&doom->screen, (t_pixel){ S_WIDTH_2, S_HEIGHT_2, 0xFF00FFFF }, 4);
 	draw_circle(&doom->screen, (t_pixel){ doom->player.pos.x * 10 , doom->player.pos.z * 10, 0xFF00FFFF }, 4);
 	draw_line(&doom->screen, (t_pixel){ doom->player.ray.origin.x * 10 , doom->player.ray.origin.z * 10, 0xFF00FFFF }, (t_pixel){ doom->player.ray.origin.x * 10 + doom->player.ray.direction.x * 40, doom->player.ray.origin.z * 10 + doom->player.ray.direction.z * 40, 0xFF });

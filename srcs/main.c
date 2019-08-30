@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/29 22:32:46 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/30 06:53:53 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ void	init_bsp(t_doom *doom)
 
 	doom->polygons = polygons;
 	post_process_polygons(doom);
+	init_lightning(doom);
 }
 
 int		main(void)
@@ -93,6 +94,8 @@ int		main(void)
 		},
 		.current_gui = -1
 	};
+
+	//doom.main_context.doom = &doom;
 	if (!(doom.main_context.buffer = (t_zbuff *)malloc((int)(S_WIDTH * S_HEIGHT) * sizeof(t_zbuff))))
 		return (-1);
 	init_sdl(&doom);

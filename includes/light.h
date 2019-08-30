@@ -1,23 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   triangle.h                                         :+:      :+:    :+:   */
+/*   light.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/08/29 01:28:03 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/30 06:49:21 by llelievr         ###   ########.fr       */
+/*   Created: 2019/08/30 04:25:19 by llelievr          #+#    #+#             */
+/*   Updated: 2019/08/30 06:48:34 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TRIANGLE_H
-# define TRIANGLE_H
+#ifndef LIGHT_H
+# define LIGHT_H
 
-# include <libft.h>
-# include "maths/vertex.h"
+#include "render.h"
+#include <libft.h>
 
-
-t_bool				inside_triangle(t_vec3 a, t_vec3 b, t_vec3 c, t_vec3 p);
-t_vec3				get_triangle_normal(t_vec3 p0, t_vec3 p1, t_vec3 p2);
+typedef struct		s_light
+{
+	t_vec3				position;
+	t_vec3				rotation;
+	t_render_context	context;
+}					t_light;
 
 #endif
