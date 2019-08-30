@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 22:39:14 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/30 08:26:57 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/30 15:06:52 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ void	render_polygon(t_render_context *ctx, t_polygon *poly)
 		float d = ft_vec3_dot(poly->normals[i], ft_vec3_sub(ctx->camera->pos, poly->vertices->vertices[poly->indices->values[i * 3]]));
 		if (d <= 0)
 			continue;
-
 		float it = fmax(0, ft_vec3_dot(ft_vec3_inv(poly->normals[i]), ft_vec3_sub((t_vec3){1, 0, 1}, (t_vec3){ 0, 0, 3 })));
 		it = fmax(0, fmin(1, 0.2 + it)) * 255;
 		uint8_t light_color = it;

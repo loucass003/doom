@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/14 17:23:29 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/30 06:27:56 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/30 16:53:12 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,40 +19,40 @@
 
 t_collision		ray_hit_triangle(t_ray *ray, t_collide_triangle *collidable)
 {
-	/* t_vec3 v0v1 = ft_vec3_sub(collidable->points[1], collidable->points[0]);
-	t_vec3 v0v2 = ft_vec3_sub(collidable->points[2], collidable->points[0]);
+	// /* t_vec3 v0v1 = ft_vec3_sub(collidable->points[1], collidable->points[0]);
+	// t_vec3 v0v2 = ft_vec3_sub(collidable->points[2], collidable->points[0]);
 
-	t_vec3 pvec = ft_vec3_cross(ray->direction, v0v2);
-	float det = ft_vec3_dot(v0v1, pvec);
+	// t_vec3 pvec = ft_vec3_cross(ray->direction, v0v2);
+	// float det = ft_vec3_dot(v0v1, pvec);
 
-	if (fabs(det) < EPSILON)
-		return ((t_collision) { .collide = FALSE, .dist = -1.0 });
+	// if (fabs(det) < EPSILON)
+	// 	return ((t_collision) { .collide = FALSE, .dist = -1.0 });
 
-	float invDet = 1 / det;
+	// float invDet = 1 / det;
 	
-	t_vec3 tvec = ft_vec3_sub(ray->origin, collidable->points[0]);
+	// t_vec3 tvec = ft_vec3_sub(ray->origin, collidable->points[0]);
 
-	float u = ft_vec3_dot(tvec, pvec) * invDet;
-	if (u < 0 || u > 1)
-		return ((t_collision) { .collide = FALSE, .dist = -1.0 });
+	// float u = ft_vec3_dot(tvec, pvec) * invDet;
+	// if (u < 0 || u > 1)
+	// 	return ((t_collision) { .collide = FALSE, .dist = -1.0 });
 
-	t_vec3 qvec = ft_vec3_cross(tvec, v0v1);
-	float v = ft_vec3_dot(ray->direction, qvec) * invDet;
-	if (v < 0 || u + v > 1)
-		return ((t_collision) { .collide = FALSE, .dist = -1.0 });
-	float t = ft_vec3_dot(v0v2, qvec) * invDet;
-	if (t < EPSILON)
-		return ((t_collision) { .collide = FALSE, .dist = -1.0 });
-	float d = ft_vec3_dot(get_triangle_normal(
-		collidable->points[2],
-		collidable->points[1],
-		collidable->points[0]
-	), ft_vec3_sub(ray->origin, collidable->points[0]));
+	// t_vec3 qvec = ft_vec3_cross(tvec, v0v1);
+	// float v = ft_vec3_dot(ray->direction, qvec) * invDet;
+	// if (v < 0 || u + v > 1)
+	// 	return ((t_collision) { .collide = FALSE, .dist = -1.0 });
+	// float t = ft_vec3_dot(v0v2, qvec) * invDet;
+	// if (t < EPSILON)
+	// 	return ((t_collision) { .collide = FALSE, .dist = -1.0 });
+	// float d = ft_vec3_dot(get_triangle_normal(
+	// 	collidable->points[2],
+	// 	collidable->points[1],
+	// 	collidable->points[0]
+	// ), ft_vec3_sub(ray->origin, collidable->points[0]));
 	
-	return ((t_collision) {
-		.collide = TRUE,
-		.dist = fabs(d)
-	}); */
+	// return ((t_collision) {
+	// 	.collide = TRUE,
+	// 	.dist = fabs(d)
+	// }); */
 	t_vec3 v0v1 = ft_vec3_sub(collidable->points[1], collidable->points[0]);
 	t_vec3 v0v2 = ft_vec3_sub(collidable->points[2], collidable->points[0]);
 
@@ -69,19 +69,24 @@ t_collision		ray_hit_triangle(t_ray *ray, t_collide_triangle *collidable)
 	float u = ft_vec3_dot(tvec, pvec) * invDet;
 	if (u < 0 || u > 1)
 		return ((t_collision) { .collide = FALSE, .dist = -1.0 });
-
+	
 	t_vec3 qvec = ft_vec3_cross(tvec, v0v1);
 	float v = ft_vec3_dot(ray->direction, qvec) * invDet;
 	if (v < 0 || u + v > 1)
 		return ((t_collision) { .collide = FALSE, .dist = -1.0 });
-
+	
 	float t = ft_vec3_dot(v0v2, qvec) * invDet;
 	if (t < EPSILON)
 		return ((t_collision) { .collide = FALSE, .dist = -1.0 });
-
+	
 	return ((t_collision) {
 		.collide = TRUE,
-		.dist = t
+		.dist = fabs(t),
+		.uv = { u, v },
+		.who = (t_collidable){ 
+			.type = COLLIDE_TRIANGLE, 
+			.data = { .triangle = *collidable }
+		}
 	});
 }
 

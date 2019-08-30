@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 01:15:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/29 16:24:05 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/30 16:13:20 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,13 @@
 
 # include <libft.h>
 
+typedef struct s_polygon	t_polygon;
+
 typedef struct		s_ray
 {
 	t_vec3			origin;
 	t_vec3			direction;
 }					t_ray;
-
-typedef struct		s_collision
-{
-	t_bool			collide;
-	float			dist;
-	t_vec3			normal;
-}					t_collision;
 
 typedef enum		e_collidable_type
 {
@@ -43,6 +38,8 @@ typedef	struct		s_collide_aabb
 typedef struct		s_collide_triangle
 {
 	t_vec3			points[3];
+	t_polygon		*polygon;
+	int				triangle;
 }					t_collide_triangle;
 
 typedef union 		u_collidable_data
@@ -56,6 +53,15 @@ typedef struct		s_collidable
 	t_collidable_type	type;
 	t_collidable_data	data;
 }					t_collidable;
+
+typedef struct		s_collision
+{
+	t_bool			collide;
+	float			dist;
+	t_vec3			normal;
+	t_vec2			uv;
+	t_collidable	who;
+}					t_collision;
 
 typedef struct		s_obb_box
 {

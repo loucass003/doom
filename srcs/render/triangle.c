@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 01:17:41 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/30 08:21:16 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/30 14:55:13 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,10 @@ void scanline2(t_render_context *ctx, t_mtl *mtl, t_pixel p, float t, t_vertex s
 	t_zbuff		*buff;
 
 	vert.pos.w = (1.0f - t) * start.pos.w + t * end.pos.w;
-	vert.pos.z = (1.0f - t) * start.pos.z + t * end.pos.z;
 	buff = ctx->buffer + p.y * (int)S_WIDTH + p.x;
-	if (vert.pos.z <= buff->depth)
+	if (vert.pos.w <= buff->depth)
 	{
-		buff->depth = vert.pos.z;
+		buff->depth = vert.pos.w;
 		uint8_t lt_color = (1.0f - t) * start.light_color + t * end.light_color;
 		if (ctx->type == CTX_NORMAL)
 		{
@@ -60,11 +59,11 @@ void scanline2(t_render_context *ctx, t_mtl *mtl, t_pixel p, float t, t_vertex s
 				float w = 1. / vert.pos.w;
 				vert.tex.x = (1.0f - t) * start.tex.x + t * end.tex.x;
 				vert.tex.y = (1.0f - t) * start.tex.y + t * end.tex.y;
-				c.color = get_surface_pixel(mtl->texture_map,
-					ft_max(0, ft_min(mtl->texture_map->w - 1, (vert.tex.x * w) * (mtl->texture_map->w - 1))),
-					ft_max(0, ft_min(mtl->texture_map->h - 1, (1. - (vert.tex.y * w)) * (mtl->texture_map->h - 1)))
-				);
-				
+				int x = ft_max(0, ft_min(mtl->texture_map->w - 1, (vert.tex.x * w) * (mtl->texture_map->w - 1)));
+				int y = ft_max(0, ft_min(mtl->texture_map->h - 1, (1. - (vert.tex.y * w)) * (mtl->texture_map->h - 1)));
+				c.color = get_surface_pixel(mtl->texture_map, x, y);
+				if (mtl->lightmap)
+					c.argb.a = mtl->lightmap[y * mtl->texture_map->w + x];
 			}
 			else if (mtl->material_color_set)
 				c.color = mtl->material_color;
