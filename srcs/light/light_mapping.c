@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 14:22:33 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/31 03:13:03 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/31 17:44:06 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ void		create_lights(t_doom *doom)
 	context.camera = cam;
 	cam->projection = projection_matrix(); */
 	doom->lights[0] = (t_light) {
-		.position = { 4, 1, 6 },
-		.rotation = ((t_vec3){ 0, -M_PI_4, 0 })
+		.position = { 2, 0.5, 6 },
+		.rotation = ((t_vec3){ 0, 0, 0 })
 		// .context = context
 	};
 
@@ -43,7 +43,7 @@ void		create_lights(t_doom *doom)
 
 t_ray			create_ray(t_light *light, t_vec3 direction)
 {
-	t_vec3 d = vec3_rotate(direction, (t_vec3){-light->rotation.x, -light->rotation.y, -light->rotation.z});
+	t_vec3 d = vec3_rotate(direction, (t_vec3){-light->rotation.x, light->rotation.y, -light->rotation.z});
 	// if (d.x == 0. && d.y == 0. && d.z == 0.)	
 	// 	d = direction;
 	//printf("DIR %f %f %f\n", d.x, d.y, d.x);
@@ -64,7 +64,7 @@ t_collision		hit_scene(t_doom *doom, t_ray *ray) {
 		.collide = FALSE,
 		.dist = -1.0
 	};
-	float dist = INT_MAX;
+	float dist = INT_MIN;
 	while (++i < doom->polygons->len)
 	{
 		t_polygon *poly = &doom->polygons->polygons[i];
@@ -74,7 +74,7 @@ t_collision		hit_scene(t_doom *doom, t_ray *ray) {
 		{
 			hit = ray_hit_collidable(ray, poly->collidables + j);
 			//printf("HEY! %f\n", hit.dist);
-			if (hit.collide && hit.dist > 0 && hit.dist < dist)
+			if (hit.collide && hit.dist < 0 && hit.dist > dist)
 			{
 				dist = hit.dist;
 				min = hit;
@@ -98,11 +98,12 @@ void		init_lightning(t_doom *doom)
 		{
 			for (int x = 0; x < S_WIDTH; x++)
 			{
+				int x_inv = x;
 				int y_inv = y;
 				t_ray ray = create_ray(light, ft_vec3_norm((t_vec3){ 
-					(x - S_WIDTH_2) / S_WIDTH,
-					(y_inv - S_HEIGHT_2) / S_HEIGHT,
-					1
+					(x_inv - S_WIDTH_2) / S_WIDTH,
+					(y_inv - S_HEIGHT_2) / S_HEIGHT * (S_HEIGHT / S_WIDTH),
+					-1
 				}));
 				t_collision hit = hit_scene(doom, &ray);
 				if (hit.collide && hit.who.type == COLLIDE_TRIANGLE)
@@ -113,12 +114,15 @@ void		init_lightning(t_doom *doom)
 					};
 					t_collide_triangle tri = (t_collide_triangle)hit.who.data.triangle;
 					t_vec2 uv = hit.uv;
-					int x = (tri.polygon->texture->w * 2 - 1) * (tri.polygon->type == P_WALL ? uv.x : 1. - uv.x);
-					int y = (tri.polygon->texture->h * 2 - 1) * (tri.polygon->type == P_WALL ? uv.y : 1. - uv.y);
-					int index = y * (tri.polygon->texture->w * 2) + x;
+					float w = (1. - uv.x - uv.y);
+					int x0 = (float)(tri.polygon->texture->w * 2 - 1) * (uv.x);
+					int y0 = (float)(tri.polygon->texture->h * 2 - 1) * (uv.y);
+					int index = y0 * (tri.polygon->texture->w * 2) + x0;
 					tri.polygon->lightmap[index] = 255;
+					doom->rt.pixels[y * (int)doom->rt.width + x] = ft_color_i((t_color){ (1. - uv.x - uv.y) * 255,  uv.y * 255, uv.x * 255, 255 });
 				}
-				
+				else
+					doom->rt.pixels[y * (int)doom->rt.width + x] = 0xFF252525;				
 			}
 		}
 	}

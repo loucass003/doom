@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/31 03:14:50 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/31 16:44:21 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,5 @@ void	g_ingame_render(t_gui *self, t_doom *doom)
  	//doom->obj_test->dirty = TRUE;
 	render_obj(&doom->main_context, doom->obj_test);
 	
+	apply_image_to_image(&doom->screen, &doom->rt, (SDL_Rect){ 0, 0, doom->screen.width, doom->screen.height }, (SDL_Rect){ doom->screen.width - doom->rt.width / 5, doom->screen.height - doom->rt.height / 5, doom->rt.width / 5, doom->rt.height / 5 });
 }

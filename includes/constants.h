@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 21:05:41 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/26 03:21:13 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/31 15:58:54 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@
 # define FOV (80. * (M_PI / 180.))
 # define NEAR (1)
 # define NEAR_CLIP (0.1)
-# define FAR_CULL (20)
+# define FAR_CULL (50)
 # define FAR (100)
 
 # define GUI_COUNT (3)

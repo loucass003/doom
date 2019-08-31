@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:28:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/29 02:16:51 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/31 16:17:07 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,34 @@ void			apply_surface(t_img *img, SDL_Surface *s,
 			img->pixels[((i * img->width) + j)] = get_surface_pixel(s,
 			(int)((j - d2.x) * s_v.x) + src.x,
 			(int)((i - d2.y) * s_v.y) + src.y);
+		}
+	}
+}
+
+void			apply_image_to_image(t_img *img, t_img *s,
+		SDL_Rect src, SDL_Rect dst)
+{
+	int				i;
+	int				j;
+	const SDL_Rect	d2 = dst;
+	const t_vec2	s_v = (t_vec2){src.w / (float)dst.w, src.h / (float)dst.h};
+	t_pixel			s_p;
+
+	s_p = (t_pixel){ft_min(img->width - 1, dst.x + dst.w),
+					ft_min(img->height - 1, dst.y + dst.h), 0};
+	if (dst.y < 0)
+		dst.y = 0;
+	if (dst.x < 0)
+		dst.x = 0;
+	src.x = ft_max(0, ft_min(img->width - 1, src.x));
+	src.y = ft_max(0, ft_min(img->height - 1, src.y));
+	i = dst.y - 1;
+	while (++i < s_p.y)
+	{
+		j = dst.x - 1;
+		while (++j < s_p.x)
+		{
+			img->pixels[((i * img->width) + j)] = s->pixels[(((int)((i - d2.y) * s_v.y) + src.y) * s->width) + ((int)((j - d2.x) * s_v.x) + src.x)];
 		}
 	}
 }

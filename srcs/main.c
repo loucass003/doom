@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/30 06:53:53 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/31 17:07:58 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,11 @@ void	init_bsp(t_doom *doom)
 	{
 		append_polygons_array(&polygons, create_wall_polygon(doom->textures.bricks, (t_line){ (t_vec2){lines[i].a.x / 100, (lines[i].a.y / 100)}, (t_vec2){lines[i].b.x / 100, (lines[i].b.y / 100)}}, 0, 1.5));
 	}
+
+	// t_polygons *polygons = create_polygons_array(10);
+	
+	// append_polygons_array(&polygons, create_wall_polygon(doom->textures.bricks, (t_line){  (t_vec2){0, 20}, (t_vec2){0, 0}}, 0, 20));
+	// append_polygons_array(&polygons, create_wall_polygon(doom->textures.bricks, (t_line){  (t_vec2){5, 15}, (t_vec2){5, 5}}, 5, 15));
 
 	doom->polygons = polygons;
 	post_process_polygons(doom);

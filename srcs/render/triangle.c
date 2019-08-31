@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 01:17:41 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/31 03:00:20 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/31 17:05:23 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void scanline2(t_render_context *ctx, t_mtl *mtl, t_pixel p, float t, t_vertex s
 				int x2 = ft_max(0, ft_min(mtl->texture_map->w * 2 - 1, (vert.tex.x * w) * (mtl->texture_map->w * 2 - 1)));
 				int y2 = ft_max(0, ft_min(mtl->texture_map->h * 2 - 1, (1. - (vert.tex.y * w)) * (mtl->texture_map->h * 2 - 1)));
 				if (mtl->lightmap)
-					c.argb.a = mtl->lightmap[y * (mtl->texture_map->w * 2) + x];
+					c.argb.a = mtl->lightmap[y2 * (mtl->texture_map->w * 2) + x2];
 			}
 			else if (mtl->material_color_set)
 				c.color = mtl->material_color;
