@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/31 17:07:58 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/31 17:48:44 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,35 +54,35 @@ t_line	lines[] = {
 
 void	init_bsp(t_doom *doom)
 {
-	int count = sizeof(lines) / sizeof(t_line);
-	// int count2 = sizeof(lines2) / sizeof(t_line);
-	t_polygons *polygons = create_polygons_array(count + 2);
+	// int count = sizeof(lines) / sizeof(t_line);
+	// // int count2 = sizeof(lines2) / sizeof(t_line);
+	// t_polygons *polygons = create_polygons_array(count + 2);
 	
-	t_3dvertices *vertices = create_3dvertices_array(count);
-	for (int i = 0; i < count; i++)
-	{
-		append_3dvertices_array(&vertices, (t_vec3){
-			lines[count - 1 - i].a.x / 100, 0, lines[count - 1 - i].a.y / 100});
-	}
-	append_polygons_array(&polygons, create_polygon(vertices, P_FLOOR, doom->textures.bricks));
+	// t_3dvertices *vertices = create_3dvertices_array(count);
+	// for (int i = 0; i < count; i++)
+	// {
+	// 	append_3dvertices_array(&vertices, (t_vec3){
+	// 		lines[count - 1 - i].a.x / 100, 0, lines[count - 1 - i].a.y / 100});
+	// }
+	// append_polygons_array(&polygons, create_polygon(vertices, P_FLOOR, doom->textures.bricks));
 	
-	t_3dvertices *vertices_ceil = create_3dvertices_array(count);
-	for (int i = 0; i < count; i++)
-	{
-		append_3dvertices_array(&vertices_ceil, (t_vec3){
-			lines[i].a.x / 100, 1.5, lines[i].a.y / 100});
-	}
-	append_polygons_array(&polygons, create_polygon(vertices_ceil, P_CEILING, doom->textures.bricks));
+	// t_3dvertices *vertices_ceil = create_3dvertices_array(count);
+	// for (int i = 0; i < count; i++)
+	// {
+	// 	append_3dvertices_array(&vertices_ceil, (t_vec3){
+	// 		lines[i].a.x / 100, 1.5, lines[i].a.y / 100});
+	// }
+	// append_polygons_array(&polygons, create_polygon(vertices_ceil, P_CEILING, doom->textures.bricks));
 	
-	for (int i = 0; i < count; i++)
-	{
-		append_polygons_array(&polygons, create_wall_polygon(doom->textures.bricks, (t_line){ (t_vec2){lines[i].a.x / 100, (lines[i].a.y / 100)}, (t_vec2){lines[i].b.x / 100, (lines[i].b.y / 100)}}, 0, 1.5));
-	}
+	// for (int i = 0; i < count; i++)
+	// {
+	// 	append_polygons_array(&polygons, create_wall_polygon(doom->textures.bricks, (t_line){ (t_vec2){lines[i].a.x / 100, (lines[i].a.y / 100)}, (t_vec2){lines[i].b.x / 100, (lines[i].b.y / 100)}}, 0, 1.5));
+	// }
 
-	// t_polygons *polygons = create_polygons_array(10);
+	t_polygons *polygons = create_polygons_array(10);
 	
-	// append_polygons_array(&polygons, create_wall_polygon(doom->textures.bricks, (t_line){  (t_vec2){0, 20}, (t_vec2){0, 0}}, 0, 20));
-	// append_polygons_array(&polygons, create_wall_polygon(doom->textures.bricks, (t_line){  (t_vec2){5, 15}, (t_vec2){5, 5}}, 5, 15));
+	append_polygons_array(&polygons, create_wall_polygon(doom->textures.bricks, (t_line){  (t_vec2){0, 20}, (t_vec2){0, 0}}, 0, 20));
+	append_polygons_array(&polygons, create_wall_polygon(doom->textures.bricks, (t_line){  (t_vec2){5, 15}, (t_vec2){5, 5}}, 5, 15));
 
 	doom->polygons = polygons;
 	post_process_polygons(doom);
