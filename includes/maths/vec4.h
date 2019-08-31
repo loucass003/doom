@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 01:15:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/29 01:27:43 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/31 01:56:49 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,8 @@ t_vec4				ft_vec4_sub(t_vec4 a, t_vec4 b);
 t_vec4				ft_vec4_add(t_vec4 a, t_vec4 b);
 t_vec4				ft_vec4_interpolate(t_vec4 a, t_vec4 b, float alpha);
 t_vec3				vec3_clamp_s(t_vec3 v, float min, float max);
+
+t_vec2				vec2_sub_s(t_vec2 v, float s);
+t_vec2				vec2_add_s(t_vec2 v, float s);
 
 #endif

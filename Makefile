@@ -6,12 +6,12 @@
 #    By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/07 14:49:27 by llelievr          #+#    #+#              #
-#    Updated: 2019/08/30 07:18:53 by llelievr         ###   ########.fr        #
+#    Updated: 2019/08/31 02:21:48 by llelievr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME=doom-nukem
-CFLAGS=-Wall -Wextra -g
+CFLAGS=-Wall -Wextra -flto -O3
 LIBS=-lm -lft
 CC=clang
 

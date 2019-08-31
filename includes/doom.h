@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/30 06:52:49 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/31 01:29:18 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,12 @@ typedef struct		s_textures
 	SDL_Surface		*test;
 }					t_textures;
 
+typedef struct		s_ray_collide
+{
+	t_ray			ray;
+	t_collision		collision;
+}					t_ray_collide;
+
 typedef struct		s_doom
 {
 	SDL_Window			*win;
@@ -73,6 +79,7 @@ typedef struct		s_doom
 	t_texture			*obj;
 	t_texture			*icons;
 	int					open;
+	t_ray_collide		*rays;
 }					t_doom;
 
 

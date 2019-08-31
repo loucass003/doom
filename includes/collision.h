@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 01:15:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/30 16:13:20 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/31 01:47:37 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ typedef	struct		s_collide_aabb
 typedef struct		s_collide_triangle
 {
 	t_vec3			points[3];
+	t_vec2			uv[3];
+	t_vec3			normal;
 	t_polygon		*polygon;
 	int				triangle;
 }					t_collide_triangle;

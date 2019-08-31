@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:01:13 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/30 01:07:11 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/31 03:12:58 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,8 @@ void			game_loop(t_doom *doom)
 	register_guis(doom);
 
 	doom->player.camera.projection = projection_matrix();
-	doom->player.pos = (t_vec3){ 1, 1, 3 };
-	doom->player.rotation.y = (0) * (M_PI / 180);
+	doom->player.pos = (t_vec3){ 4, 1, 6 };
+	doom->player.rotation.y = -M_PI_4;
 	doom->player.rotation.x = 0;
 	doom->player.rotation.z = 0;
 	doom->main_context.camera = &doom->player.camera;
