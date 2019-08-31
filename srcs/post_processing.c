@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/16 21:24:43 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/31 16:05:18 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/01 00:29:34 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ void			compute_triangle_collidable(t_polygon *poly, int triangle_index, t_collid
 		tri->points[0] = poly->vertices->vertices[poly->indices->values[triangle_index * 3]];
 		tri->points[1] = poly->vertices->vertices[poly->indices->values[triangle_index * 3 + 1]];
 		tri->points[2] = poly->vertices->vertices[poly->indices->values[triangle_index * 3 + 2]];
-		tri->uv[2] = poly->uvs[poly->indices->values[triangle_index * 3]];
+		tri->uv[0] = poly->uvs[poly->indices->values[triangle_index * 3]];
 		tri->uv[1] = poly->uvs[poly->indices->values[triangle_index * 3 + 1]];
-		tri->uv[0] = poly->uvs[poly->indices->values[triangle_index * 3 + 2]];
+		tri->uv[2] = poly->uvs[poly->indices->values[triangle_index * 3 + 2]];
 		tri->normal = poly->normals[triangle_index];
 		tri->triangle = triangle_index;
 		tri->polygon = poly;

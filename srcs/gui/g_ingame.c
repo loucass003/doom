@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/31 16:44:21 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/01 00:12:18 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	g_ingame_render(t_gui *self, t_doom *doom)
 	draw_circle(&doom->screen, (t_pixel){ S_WIDTH_2, S_HEIGHT_2, 0xFF00FFFF }, 4);
 	draw_circle(&doom->screen, (t_pixel){ doom->player.pos.x * 10 , doom->player.pos.z * 10, 0xFF00FFFF }, 4);
 	draw_line(&doom->screen, (t_pixel){ doom->player.ray.origin.x * 10 , doom->player.ray.origin.z * 10, 0xFF00FFFF }, (t_pixel){ doom->player.ray.origin.x * 10 + doom->player.ray.direction.x * 40, doom->player.ray.origin.z * 10 + doom->player.ray.direction.z * 40, 0xFF });
-	/* 
+	
 	for (int i = 0; i < S_WIDTH * S_HEIGHT; i++)
 	{
 		t_ray_collide ray = doom->rays[i];
@@ -58,7 +58,7 @@ void	g_ingame_render(t_gui *self, t_doom *doom)
 			continue;
 		draw_line(&doom->screen, (t_pixel){ ray.ray.origin.x * 10 , ray.ray.origin.z * 10, 0xFF00FFFF }, (t_pixel){ ray.ray.origin.x * 10 + ray.ray.direction.x * (ray.collision.dist * 10), ray.ray.origin.z * 10 + ray.ray.direction.z * (ray.collision.dist * 10), 0xFF });
 	}
-	 */
+	
 	doom->obj_test->position = (t_vec3){1, 0, 2};
 	doom->obj_test->rotation.y += 1 * doom->stats.delta;
 	doom->obj_test->scale = (t_vec3){0.003, 0.003, 0.003};

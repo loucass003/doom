@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 18:02:59 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/31 18:09:18 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/01 00:11:25 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,12 @@ void				uv_mapping(t_polygon *polygon)
 		v = polygon->vertices->vertices[i];
 		//printf("T %f %f\n", v.x, v.y);
 		t_vec2 u = (t_vec2) {
-			.y =/* (dir.y == 1)
+			.y = (dir.y == 1)
 				? ft_absf(v.x - bounds.x) / bounds.z
-				: */ ft_absf(v.x - bounds.x) / bounds.z,
-			.x = ft_absf(v.y - bounds.y) / bounds.w,
+				: 1 - ft_absf(v.x - bounds.x) / bounds.z,
+			.x = (dir.y == 1)
+				? ft_absf(v.y - bounds.y) / bounds.w
+				: 1 - ft_absf(v.y - bounds.y) / bounds.w
 		};
 	//	printf("U %f %f\n", u.x, u.y);
 		polygon->uvs[i] = u;
