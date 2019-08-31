@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 14:22:33 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/31 17:49:50 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/08/31 18:05:27 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ void		init_lightning(t_doom *doom)
 					t_collide_triangle tri = (t_collide_triangle)hit.who.data.triangle;
 					t_vec2 uv = hit.uv;
 					float w = (1. - uv.x - uv.y);
-					int x0 = (float)(tri.polygon->texture->w * 2 - 1) * (1 - uv.x);
+					int x0 = (float)(tri.polygon->texture->w * 2 - 1) * (uv.x);
 					int y0 = (float)(tri.polygon->texture->h * 2 - 1) * (uv.y);
 					int index = y0 * (tri.polygon->texture->w * 2) + x0;
 					tri.polygon->lightmap[index] = 255;
