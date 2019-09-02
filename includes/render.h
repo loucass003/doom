@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:16:19 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/30 08:22:01 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/02 17:14:51 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ typedef struct		s_render_context
 	t_zbuff			*buffer;
 	t_img			*image;
 	t_polygon		*pointed_polygon;
+	struct s_doom	*doom;
 	// struct s_light	*lights;
 }					t_render_context;
 

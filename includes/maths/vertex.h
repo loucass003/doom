@@ -8,7 +8,7 @@ typedef struct		s_vertex
 {
 	t_vec4			pos;
 	t_vec3			normal;
-	uint8_t			light_color;
+	float			light_color;
 	t_vec2			tex;
 }					t_vertex;
 

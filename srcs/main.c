@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/31 18:03:26 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/02 17:15:31 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ int		main(void)
 		.current_gui = -1
 	};
 
-	//doom.main_context.doom = &doom;
+	doom.main_context.doom = &doom;
 	if (!(doom.main_context.buffer = (t_zbuff *)malloc((int)(S_WIDTH * S_HEIGHT) * sizeof(t_zbuff))))
 		return (-1);
 	init_sdl(&doom);

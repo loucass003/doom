@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/31 16:09:17 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/02 18:29:59 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ typedef struct		s_doom
 	t_bool				running;
 	t_stats				stats;
 	t_fonts				fonts;
-	t_light				*lights;
+	t_lights			*lights;
 	t_polygons			*polygons;
 	t_render_context	main_context;
 	t_player			player;

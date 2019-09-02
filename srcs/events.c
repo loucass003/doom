@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:14:55 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/31 15:57:43 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/02 15:52:48 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ void	hook_events(t_doom *doom)
 		// if (test_collision(doom, &hit, ft_vec3_add(doom->player.pos, dir), dir, TRUE))
 		// {
 			doom->player.pos = ft_vec3_add(doom->player.pos, dir);
-			printf("%f %f %f - %f %f %f\n", doom->player.pos.x, doom->player.pos.y, doom->player.pos.z, doom->player.rotation.x, doom->player.pos.y, doom->player.rotation.z);
+			// printf("%f %f %f - %f %f %f\n", doom->player.pos.x, doom->player.pos.y, doom->player.pos.z, doom->player.rotation.x, doom->player.pos.y, doom->player.rotation.z);
 		// }
 		/* else
 		{

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 01:17:41 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/31 17:05:23 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/02 19:34:28 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void scanline2(t_render_context *ctx, t_mtl *mtl, t_pixel p, float t, t_vertex s
 	if (vert.pos.w <= buff->depth)
 	{
 		buff->depth = vert.pos.w;
-		uint8_t lt_color = (1.0f - t) * start.light_color + t * end.light_color;
+		float lt_color = (1.0f - t) * start.light_color + t * end.light_color;
 		if (ctx->type == CTX_NORMAL)
 		{
 			ur_color c;
@@ -59,13 +59,13 @@ void scanline2(t_render_context *ctx, t_mtl *mtl, t_pixel p, float t, t_vertex s
 				float w = 1. / vert.pos.w;
 				vert.tex.x = (1.0f - t) * start.tex.x + t * end.tex.x;
 				vert.tex.y = (1.0f - t) * start.tex.y + t * end.tex.y;
-				int x = ft_max(0, ft_min(mtl->texture_map->w - 1, (vert.tex.x * w) * (mtl->texture_map->w - 1)));
-				int y = ft_max(0, ft_min(mtl->texture_map->h - 1, (1. - (vert.tex.y * w)) * (mtl->texture_map->h - 1)));
+				int x = ft_max(0, ft_min(mtl->texture_map->w - 1, (vert.tex.x * w) * (mtl->texture_map->w)));
+				int y = ft_max(0, ft_min(mtl->texture_map->h - 1, (1. - (vert.tex.y * w)) * (mtl->texture_map->h)));
 				c.color = get_surface_pixel(mtl->texture_map, x, y);
-				int x2 = ft_max(0, ft_min(mtl->texture_map->w * 2 - 1, (vert.tex.x * w) * (mtl->texture_map->w * 2 - 1)));
-				int y2 = ft_max(0, ft_min(mtl->texture_map->h * 2 - 1, (1. - (vert.tex.y * w)) * (mtl->texture_map->h * 2 - 1)));
 				if (mtl->lightmap)
-					c.argb.a = mtl->lightmap[y2 * (mtl->texture_map->w * 2) + x2];
+					c.argb.a = mtl->lightmap[y * (mtl->texture_map->w) + x];
+				else
+					c.argb.a = lt_color;
 			}
 			else if (mtl->material_color_set)
 				c.color = mtl->material_color;
@@ -166,8 +166,8 @@ void	draw_triangle(t_render_context *ctx, t_render_data data)
 	{
 		uint32_t c = data.mtl->material_color_set ? data.mtl->material_color : 0xFFFFFFFF;
 		t_triangle triangle = data.triangle;
-		draw_line(ctx->image, (t_pixel){triangle.a.pos.x, triangle.a.pos.y, c}, (t_pixel){triangle.b.pos.x, triangle.b.pos.y});
-		draw_line(ctx->image, (t_pixel){triangle.b.pos.x, triangle.b.pos.y, c}, (t_pixel){triangle.c.pos.x, triangle.c.pos.y});
-		draw_line(ctx->image, (t_pixel){triangle.c.pos.x, triangle.c.pos.y, c}, (t_pixel){triangle.a.pos.x, triangle.a.pos.y});
+		// draw_line(ctx->image, (t_pixel){triangle.a.pos.x, triangle.a.pos.y, c}, (t_pixel){triangle.b.pos.x, triangle.b.pos.y});
+		// draw_line(ctx->image, (t_pixel){triangle.b.pos.x, triangle.b.pos.y, c}, (t_pixel){triangle.c.pos.x, triangle.c.pos.y});
+		// draw_line(ctx->image, (t_pixel){triangle.c.pos.x, triangle.c.pos.y, c}, (t_pixel){triangle.a.pos.x, triangle.a.pos.y});
 	}
 }
