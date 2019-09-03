@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 15:26:39 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/30 05:08:16 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/03 17:00:23 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <SDL.h>
 # include "arrays.h"
 # include "file_utils.h"
+# include "collision.h"
 
 # define OBJ_BUFFER 4096
 # define PREFIXES_COUNT 7
@@ -34,6 +35,7 @@ typedef struct	s_mtl
 	SDL_Surface	*texture_map;
 	uint8_t		*lightmap;
 	t_bool		material_color_set;
+	t_bool		transparent;
 	int			material_color;
 }				t_mtl;
 
@@ -46,6 +48,7 @@ typedef struct	s_face
 	int32_t			normals_index[3];
 	t_vec3			face_normal;
 	t_mtl			*mtl;
+	t_collidable	collidable;
 }				t_face;
 
 typedef struct	s_faces
@@ -89,7 +92,15 @@ typedef struct	s_obj
 	t_vec3			rotation;
 	t_vec3			scale;
 	t_bool			dirty;
+	t_bool			fixed;
 }				t_obj;
+
+typedef struct	s_objs
+{
+	int				len;
+	int				capacity;
+	t_obj			objs[];
+}				t_objs;
 
 typedef struct	s_obj_prefix
 {
@@ -123,5 +134,13 @@ t_bool			mtl_map_kd_formatter(t_obj *obj, t_reader *reader);
 t_bool			mtl_kd_formatter(t_obj *o, t_reader *reader);
 int				get_material(t_obj *obj, char *name, size_t len);
 t_bool			free_obj(t_obj *obj, t_bool result);
+t_objs			*create_objs_array(int capacity);
+t_objs			*append_objs_array(t_objs **arr, t_obj v);
+t_objs			*splice_objs_array(t_objs *arr,
+						int index, int n);
+t_objs			*copy_objs_array(t_objs *src,
+						t_objs **dst);
+t_bool			post_process_obj(t_obj *obj);
+void			transfom_obj(t_obj *obj);
 
 #endif

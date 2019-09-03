@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 01:15:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/31 01:47:37 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/03 17:31:20 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,18 @@
 
 # include <libft.h>
 
-typedef struct s_polygon	t_polygon;
 
 typedef struct		s_ray
 {
 	t_vec3			origin;
 	t_vec3			direction;
 }					t_ray;
+
+typedef enum		e_parent_collider_type
+{
+	PARENT_COLLIDER_OBJ,
+	PARENT_COLLIDER_POLYGON
+}					t_parent_collider_type;
 
 typedef enum		e_collidable_type
 {
@@ -37,11 +42,13 @@ typedef	struct		s_collide_aabb
 
 typedef struct		s_collide_triangle
 {
-	t_vec3			points[3];
-	t_vec2			uv[3];
-	t_vec3			normal;
-	t_polygon		*polygon;
-	int				triangle;
+	t_parent_collider_type	parent_type;
+	t_vec3					points[3];
+	t_vec2					uv[3];
+	t_vec3					normal;
+	struct s_polygon		*polygon;
+	struct s_obj			*obj;
+	int						triangle;
 }					t_collide_triangle;
 
 typedef union 		u_collidable_data

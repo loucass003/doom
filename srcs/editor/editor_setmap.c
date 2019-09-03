@@ -6,11 +6,12 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/13 13:54:34 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/29 19:18:50 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/03 16:55:31 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom.h"
+#include "light.h"
 
 void set_map(t_doom *doom)
 {
@@ -37,6 +38,6 @@ void set_map(t_doom *doom)
 		append_polygons_array(&polygons, create_wall_polygon(doom->editor.polygon->values[i].img, (t_line){ (t_vec2){doom->editor.polygon->values[i].line.a.x, (doom->editor.polygon->values[i].line.a.y)}, (t_vec2){doom->editor.polygon->values[i].line.b.x, doom->editor.polygon->values[i].line.b.y}}, 0, 1.5));
 	}
 	doom->polygons = polygons;
-	post_process_polygons(doom);
+	post_process_map(doom);
 	set_gui(doom, GUI_INGAME);
 }

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 01:04:42 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/30 08:26:35 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/03 16:32:07 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ typedef struct		s_polygon
 	t_collidable	*collidables;
 	SDL_Surface		*texture;
 	uint8_t			*lightmap;
-	t_bool			pointed;
+	t_bool			transparent;
 	t_mat4			matrix;
 	t_vec3			*normals;
 }					t_polygon;
@@ -63,5 +63,6 @@ t_polygon			create_polygon(t_3dvertices *vertices, t_polygon_type type, SDL_Surf
 
 t_bool				triangulate_polygon(t_polygon *polygon);
 void				uv_mapping(t_polygon *polygon);
+t_bool				post_process_polygon(t_polygon *poly);
 
 #endif

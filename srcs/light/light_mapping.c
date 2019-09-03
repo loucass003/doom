@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 14:22:33 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/02 19:34:36 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/03 17:30:29 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,14 @@ void		create_lights(t_doom *doom)
 {
 	if (!(doom->lights = create_lights_array(2)))
 		return ;
-	append_lights_array(&doom->lights, (t_light) {
-		.position = { 2, 1.2, 8 },
-		.rotation = ((t_vec3){ M_PI - -M_PI_4, 0, 0 })
-	});
+	// append_lights_array(&doom->lights, (t_light) {
+	// 	.position = { 2, 1.499, 8 },
+	// 	.rotation = ((t_vec3){ M_PI - -M_PI_4,  M_PI, 0 })
+	// });
 	append_lights_array(&doom->lights,(t_light) {
-		.position = { 2.4, 1.2, 1 },
+		.position = { 1.5, 1.499, 1 },
 		.rotation = ((t_vec3){ -M_PI_4, 0, 0 })
 	});
-
-//	doom->rays = malloc(S_WIDTH * S_HEIGHT * sizeof(t_ray_collide));
 }
 
 t_ray			create_ray(t_light *light, t_vec3 direction)
@@ -57,11 +55,30 @@ t_collision		hit_scene(t_doom *doom, t_ray *ray) {
 	while (++i < doom->polygons->len)
 	{
 		t_polygon *poly = &doom->polygons->polygons[i];
+		if (poly->transparent)
+			continue;
 		int triangles = floorf(poly->indices->len / 3.);
 		j = -1;
 		while (++j < triangles)
 		{
 			hit = ray_hit_collidable(ray, poly->collidables + j);
+			if (hit.collide && hit.dist >= 0 && hit.dist <= dist)
+			{
+				dist = hit.dist;
+				min = hit;
+			}
+		}
+	}
+	i = -1;
+	while (++i < doom->objects->len)
+	{
+		t_obj *obj = &doom->objects->objs[i];
+		if (!obj->fixed)
+			continue;
+		j = -1;
+		while (++j < obj->faces->len)
+		{
+			hit = ray_hit_collidable(ray, &obj->faces->values[i].collidable);
 			if (hit.collide && hit.dist >= 0 && hit.dist <= dist)
 			{
 				dist = hit.dist;
@@ -104,8 +121,6 @@ void		blur_poly_shading(t_polygon *poly)
 	int		add;
 	int		valid;
 
-
-
 	y = -1;
 	while (++y < poly->texture->h)
 	{
@@ -125,7 +140,7 @@ void		blur_poly_shading(t_polygon *poly)
 			}
 			if (valid == 0)
 				continue;
-			poly->lightmap[y * (poly->texture->w) + x] = fmax(50, fmin(255, (float)add / (float)valid));
+			poly->lightmap[y * (poly->texture->w) + x] = fmax(AMBIANT_LIGHT, fmin(255, (float)add / (float)valid));
 		}
 	}
 }
@@ -137,9 +152,10 @@ void		init_lightning(t_doom *doom)
 	t_light	*light;
 
 	create_lights(doom);
-	float width = 600;
-	float height = 600;
+	float width = 200;
+	float height = 200;
 	i = -1;
+	
 	while (++i < doom->lights->len)
 	{
 		light = &doom->lights->lights[i];
@@ -147,7 +163,7 @@ void		init_lightning(t_doom *doom)
 		{
 			for (int x = 0; x < width; x++)
 			{
-				if((x - 300)*(x - 300) +  (y - 300) * (y - 300) > 300*300)
+				if((x - 100)*(x - 100) +  (y - 100) * (y - 100) > 100*100)
 				 	continue ;
 				float x_inv = width - x;
 				float y_inv = y;
@@ -160,24 +176,32 @@ void		init_lightning(t_doom *doom)
 				if (hit.collide && hit.who.type == COLLIDE_TRIANGLE)
 				{
 					t_collide_triangle tri = (t_collide_triangle)hit.who.data.triangle;
+					if (tri.parent_type == PARENT_COLLIDER_OBJ)
+					{
+						printf("GET OUT !\n");
+						continue;
+					}
 					t_vec2 uv = hit.uv;
 					float w = (1. - uv.x - uv.y);
 					int x0 = (float)(tri.polygon->texture->w) * (uv.x);
 					int y0 = (float)(tri.polygon->texture->h) * (1 - uv.y);
 					int index = y0 * (tri.polygon->texture->w) + x0;
 					float diffuseFactor = fmax(0.3, -ft_vec3_dot(tri.normal, ray.direction));
-					tri.polygon->lightmap[index] = fmin(255, diffuseFactor * 255);
-					// doom->rt.pixels[y * (int)doom->rt.width + x] = ft_color_i((t_color){ (1. - uv.x - uv.y) * 255,  uv.y * 255, uv.x * 255, 255 });
+					if (!tri.polygon->lightmap)
+					{
+						if(!(tri.polygon->lightmap = (uint8_t *)malloc(tri.polygon->texture->w * tri.polygon->texture->h * sizeof(uint8_t))))
+							return ;
+						ft_memset(tri.polygon->lightmap, AMBIANT_LIGHT, tri.polygon->texture->w * tri.polygon->texture->h * sizeof(uint8_t));
+					}
+					tri.polygon->lightmap[index] = fmax(AMBIANT_LIGHT, fmin(255, diffuseFactor * 255));
 				}
-				else
-					;
-					// doom->rt.pixels[y * (int)doom->rt.width + x] = 0xFF252525;
 			}
 		}
 	}
 	for (int i = 0; i < doom->polygons->len; i++)
 	{
-		blur_poly_shading(doom->polygons->polygons + i);
+		// if (doom->polygons->polygons[i].lightmap)
+		// 	blur_poly_shading(doom->polygons->polygons + i);
 	}
 }
 

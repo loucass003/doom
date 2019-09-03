@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/02 18:29:59 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/03 16:28:34 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,18 +47,18 @@ typedef struct		s_textures
 	SDL_Surface		*test;
 }					t_textures;
 
-typedef struct		s_ray_collide
-{
-	t_ray			ray;
-	t_collision		collision;
-}					t_ray_collide;
+// typedef struct		s_ray_collide
+// {
+// 	t_ray			ray;
+// 	t_collision		collision;
+// }					t_ray_collide;
 
 typedef struct		s_doom
 {
 	SDL_Window			*win;
 	SDL_Renderer		*renderer;
 	t_img				screen;
-	t_img				rt;
+	t_img				screen_transparency;
 	t_bool				running;
 	t_stats				stats;
 	t_fonts				fonts;
@@ -72,7 +72,7 @@ typedef struct		s_doom
 	int					current_gui;
 	t_editor			editor;
 	char				*obj_working_dir;
-	t_obj				*obj_test;
+	t_objs				*objects;
 	t_bool				collision;
 	int					menu;
 	t_line				linetodel;
@@ -80,7 +80,7 @@ typedef struct		s_doom
 	t_texture			*obj;
 	t_texture			*icons;
 	int					open;
-	t_ray_collide		*rays;
+	// t_ray_collide		*rays;
 }					t_doom;
 
 
@@ -99,7 +99,7 @@ t_bool				obj_test(t_doom *doom);
 
 
 void				load_all(t_doom *doom);
-t_bool				post_process_polygons(t_doom *doom);
+t_bool				post_process_map(t_doom *doom);
 
 t_bool				init_openal(t_doom *doom);
 void				load_wav();

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/02 17:15:31 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/03 16:59:40 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,14 +79,13 @@ void	init_bsp(t_doom *doom)
 		append_polygons_array(&polygons, create_wall_polygon(doom->textures.bricks, (t_line){ (t_vec2){lines[i].a.x / 100, (lines[i].a.y / 100)}, (t_vec2){lines[i].b.x / 100, (lines[i].b.y / 100)}}, 0, 1.5));
 	}
 
-	// t_polygons *polygons = create_polygons_array(10);
-	
-	// append_polygons_array(&polygons, create_wall_polygon(doom->textures.bricks, (t_line){  (t_vec2){0, 20}, (t_vec2){0, 0}}, 0, 20));
-	// append_polygons_array(&polygons, create_wall_polygon(doom->textures.bricks, (t_line){  (t_vec2){5, 15}, (t_vec2){5, 5}}, 5, 15));
+	t_polygon poly = create_wall_polygon(doom->textures.test, (t_line){  (t_vec2){2.5, 8}, (t_vec2){0, 8}}, 0, 1.5);
+	poly.transparent = TRUE;
+	append_polygons_array(&polygons, poly);
 
 	doom->polygons = polygons;
-	post_process_polygons(doom);
-	init_lightning(doom);
+	post_process_map(doom);
+
 }
 
 int		main(void)
@@ -101,11 +100,13 @@ int		main(void)
 	};
 
 	doom.main_context.doom = &doom;
-	if (!(doom.main_context.buffer = (t_zbuff *)malloc((int)(S_WIDTH * S_HEIGHT) * sizeof(t_zbuff))))
+	if (!(doom.main_context.buffer = (float *)malloc((int)(S_WIDTH * S_HEIGHT) * sizeof(float))))
+		return (-1);
+	if (!(doom.objects = create_objs_array(4)))
 		return (-1);
 	init_sdl(&doom);
-	init_bsp(&doom);
 	obj_test(&doom);
+	init_bsp(&doom);
 	
 	game_loop(&doom);
 	sdl_quit(&doom);

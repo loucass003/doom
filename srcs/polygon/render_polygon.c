@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 22:39:14 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/02 16:04:14 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/03 16:29:15 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,22 +44,17 @@ void	render_polygon(t_render_context *ctx, t_polygon *poly)
 	t_mtl		mtl = (t_mtl){
 		.texture_map_set = TRUE,
 		.texture_map = poly->texture,
-		.lightmap = poly->lightmap
+		.lightmap = poly->lightmap,
+		.transparent = poly->transparent
 	};
 	const size_t	len = poly->indices->len / 3;
 	size_t			i;
-
-	if (poly->pointed)
-	{
-		mtl.material_color_set = TRUE;
-		mtl.material_color = 0xFFFF0000;
-	}
 
 	i = -1;
 	while (++i < len)
 	{
 		float d = ft_vec3_dot(poly->normals[i], ft_vec3_sub(ctx->camera->pos, poly->vertices->vertices[poly->indices->values[i * 3]]));
-		if (d <= 0)
+		if (!mtl.transparent && d <= 0)
 			continue;
 		// float it = fmax(0, ft_vec3_dot(ft_vec3_inv(poly->normals[i]), ft_vec3_sub((t_vec3){1, 0, 1}, (t_vec3){ 0, 0, 3 })));
 		// it = fmax(0, fmin(1, 0.2 + it)) * 255;

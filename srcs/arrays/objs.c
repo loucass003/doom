@@ -1,73 +1,73 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   polygons.c                                         :+:      :+:    :+:   */
+/*   objs.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/11 21:38:16 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/03 16:48:46 by llelievr         ###   ########.fr       */
+/*   Created: 2019/09/03 13:59:46 by llelievr          #+#    #+#             */
+/*   Updated: 2019/09/03 14:00:40 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 #include <stdlib.h>
-#include "polygon.h"
+#include "obj.h"
 
-t_polygons	*create_polygons_array(int capacity)
+t_objs	*create_objs_array(int capacity)
 {
-	const size_t	size = sizeof(t_polygons) + (capacity * sizeof(t_polygon));
-	t_polygons	*arr;
+	const size_t	size = sizeof(t_objs) + (capacity * sizeof(t_obj));
+	t_objs	*arr;
 
 	if (capacity <= 0)
 		return (NULL);
-	if (!(arr = (t_polygons*)malloc(size)))
+	if (!(arr = (t_objs*)malloc(size)))
 		return (NULL);
 	ft_bzero(arr, size);
 	arr->capacity = capacity;
 	return (arr);
 }
 
-t_polygons	*append_polygons_array(t_polygons **arr, t_polygon p)
+t_objs	*append_objs_array(t_objs **arr, t_obj p)
 {
-	t_polygons	*new;
+	t_objs	*new;
 	size_t			old_size;
 
 	if ((*arr)->len == (*arr)->capacity)
 	{
-		old_size = sizeof(t_polygons) + ((*arr)->capacity * sizeof(t_polygon));
+		old_size = sizeof(t_objs) + ((*arr)->capacity * sizeof(t_obj));
 		(*arr)->capacity *= 2;
-		if (!(new = create_polygons_array((*arr)->capacity)))
+		if (!(new = create_objs_array((*arr)->capacity)))
 			return (NULL);
 		ft_memcpy(new, *arr, old_size);
 		free(*arr);
 		*arr = new;
 	}
-	(*arr)->polygons[(*arr)->len++] = p;
+	(*arr)->objs[(*arr)->len++] = p;
 	return (*arr);
 }
 
-t_polygons	*splice_polygons_array(t_polygons *arr, int index, int n)
+t_objs	*splice_objs_array(t_objs *arr, int index, int n)
 {
 	if (index < 0)
 		index = index + arr->len - 1;
 	if (n <= 0 || index >= arr->len || index + n > arr->len)
 		return (NULL);
-	ft_memcpy(arr->polygons + index, arr->polygons + index + n,
-		(arr->len - (index + n)) * sizeof(t_polygon));
+	ft_memcpy(arr->objs + index, arr->objs + index + n,
+		(arr->len - (index + n)) * sizeof(t_obj));
 	arr->len -= n;
 	return (arr);
 }
 
-t_polygons	*copy_polygons_array(t_polygons *src, t_polygons **dst)
+t_objs	*copy_objs_array(t_objs *src, t_objs **dst)
 {
 	if ((*dst)->capacity < src->capacity)
 	{
 		free(*dst);
-		if (!(*dst = create_polygons_array(src->capacity)))
+		if (!(*dst = create_objs_array(src->capacity)))
 			return (NULL);
 	}
 	ft_memcpy(*dst, src,
-		sizeof(t_polygons) + (src->capacity * sizeof(t_polygon)));
+		sizeof(t_objs) + (src->capacity * sizeof(t_obj)));
 	return (*dst);
 }
