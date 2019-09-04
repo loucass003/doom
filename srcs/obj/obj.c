@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 15:28:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/03 17:24:31 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/04 13:56:27 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,8 +131,7 @@ t_bool		obj_test(t_doom *doom)
 	t_obj	*obj;
 	t_bool lol = load_obj(doom, &obj, "House2.obj");
 	obj->fixed = TRUE;
-	obj->position = (t_vec3){1, 0, 2};
-	// obj->rotation.y += 1 * doom->stats.delta;
+	obj->position = (t_vec3){1, 0, 4};
 	obj->scale = (t_vec3){0.003, 0.003, 0.003};
 	append_objs_array(&doom->objects, *obj);
 	printf("ERROR %d\n", !lol);

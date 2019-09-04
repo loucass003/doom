@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/03 16:26:43 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/03 17:56:38 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/04 13:49:40 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,10 @@ t_collidable	compute_face_collidable(t_obj *obj, t_face *face)
 	tri.points[0] = vec4_to_3(obj->pp_vertices[face->vertices_index[0] - 1]);
 	tri.points[1] = vec4_to_3(obj->pp_vertices[face->vertices_index[1] - 1]);
 	tri.points[2] = vec4_to_3(obj->pp_vertices[face->vertices_index[2] - 1]);
-	printf("p0 %f %f %f\n", tri.points[0].x, tri.points[0].y, tri.points[0].z);
-	printf("p1 %f %f %f\n", tri.points[1].x, tri.points[1].y, tri.points[1].z);
-	printf("p2 %f %f %f\n", tri.points[2].x, tri.points[2].y, tri.points[2].z);
 	tri.uv[0] = obj->vertex->vertices[face->vertex_index[0] - 1];
 	tri.uv[1] = obj->vertex->vertices[face->vertex_index[1] - 1];
 	tri.uv[2] = obj->vertex->vertices[face->vertex_index[2] - 1];
 	col.data.triangle = tri;
-	printf("-----\n");
 	return (col);
 }
 

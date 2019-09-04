@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 14:22:33 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/03 17:30:29 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/04 14:03:31 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,12 @@ t_collision		hit_scene(t_doom *doom, t_ray *ray) {
 	int		i;
 	int		j;
 
-	i = -1;
 	min = (t_collision) {
 		.collide = FALSE,
 		.dist = -1.0
 	};
 	float dist = INT_MAX;
+	i = -1;
 	while (++i < doom->polygons->len)
 	{
 		t_polygon *poly = &doom->polygons->polygons[i];
@@ -78,7 +78,7 @@ t_collision		hit_scene(t_doom *doom, t_ray *ray) {
 		j = -1;
 		while (++j < obj->faces->len)
 		{
-			hit = ray_hit_collidable(ray, &obj->faces->values[i].collidable);
+			hit = ray_hit_collidable(ray, &obj->faces->values[j].collidable);
 			if (hit.collide && hit.dist >= 0 && hit.dist <= dist)
 			{
 				dist = hit.dist;
@@ -114,8 +114,8 @@ void get_adjacent(t_polygon *poly, short *pixels, int coef, int x, int y)
 
 void		blur_poly_shading(t_polygon *poly)
 {
-	int		coef = 7;
-	short	pixels[7 * 7];
+	int		coef = 3;
+	short	pixels[3 * 3];
 	int		x;
 	int		y;
 	int		add;
@@ -152,10 +152,9 @@ void		init_lightning(t_doom *doom)
 	t_light	*light;
 
 	create_lights(doom);
-	float width = 200;
-	float height = 200;
+	float width = 600;
+	float height = 600;
 	i = -1;
-	
 	while (++i < doom->lights->len)
 	{
 		light = &doom->lights->lights[i];
@@ -163,7 +162,7 @@ void		init_lightning(t_doom *doom)
 		{
 			for (int x = 0; x < width; x++)
 			{
-				if((x - 100)*(x - 100) +  (y - 100) * (y - 100) > 100*100)
+				if((x - 300)*(x - 300) +  (y - 300) * (y - 300) > 300*300)
 				 	continue ;
 				float x_inv = width - x;
 				float y_inv = y;
@@ -177,16 +176,13 @@ void		init_lightning(t_doom *doom)
 				{
 					t_collide_triangle tri = (t_collide_triangle)hit.who.data.triangle;
 					if (tri.parent_type == PARENT_COLLIDER_OBJ)
-					{
-						printf("GET OUT !\n");
 						continue;
-					}
 					t_vec2 uv = hit.uv;
 					float w = (1. - uv.x - uv.y);
 					int x0 = (float)(tri.polygon->texture->w) * (uv.x);
 					int y0 = (float)(tri.polygon->texture->h) * (1 - uv.y);
 					int index = y0 * (tri.polygon->texture->w) + x0;
-					float diffuseFactor = fmax(0.3, -ft_vec3_dot(tri.normal, ray.direction));
+					float diffuseFactor = fmax(0.5, -ft_vec3_dot(tri.normal, ray.direction) * 1.2);
 					if (!tri.polygon->lightmap)
 					{
 						if(!(tri.polygon->lightmap = (uint8_t *)malloc(tri.polygon->texture->w * tri.polygon->texture->h * sizeof(uint8_t))))
@@ -200,8 +196,8 @@ void		init_lightning(t_doom *doom)
 	}
 	for (int i = 0; i < doom->polygons->len; i++)
 	{
-		// if (doom->polygons->polygons[i].lightmap)
-		// 	blur_poly_shading(doom->polygons->polygons + i);
+		if (doom->polygons->polygons[i].lightmap)
+			blur_poly_shading(doom->polygons->polygons + i);
 	}
 }
 
