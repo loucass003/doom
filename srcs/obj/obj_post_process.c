@@ -29,6 +29,8 @@ t_collidable	compute_face_collidable(t_obj *obj, t_face *face)
 	tri.uv[0] = obj->vertex->vertices[face->vertex_index[0] - 1];
 	tri.uv[1] = obj->vertex->vertices[face->vertex_index[1] - 1];
 	tri.uv[2] = obj->vertex->vertices[face->vertex_index[2] - 1];
+	tri.v0v1 = ft_vec3_sub(tri.points[1], tri.points[0]);
+	tri.v0v2 = ft_vec3_sub(tri.points[2], tri.points[0]);
 	col.data.triangle = tri;
 	return (col);
 }

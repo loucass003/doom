@@ -46,6 +46,8 @@ typedef struct		s_collide_triangle
 	t_vec3					points[3];
 	t_vec2					uv[3];
 	t_vec3					normal;
+	t_vec3					v0v1;
+	t_vec3					v0v2;
 	struct s_polygon		*polygon;
 	struct s_obj			*obj;
 	int						triangle;

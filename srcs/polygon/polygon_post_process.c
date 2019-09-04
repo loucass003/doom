@@ -27,6 +27,8 @@ void			compute_triangle_collidable(t_polygon *poly, int triangle_index, t_collid
 		tri->uv[0] = poly->uvs[poly->indices->values[triangle_index * 3]];
 		tri->uv[1] = poly->uvs[poly->indices->values[triangle_index * 3 + 1]];
 		tri->uv[2] = poly->uvs[poly->indices->values[triangle_index * 3 + 2]];
+		tri->v0v1 = ft_vec3_sub(tri->points[1], tri->points[0]);
+		tri->v0v2 = ft_vec3_sub(tri->points[2], tri->points[0]);
 		tri->normal = poly->normals[triangle_index];
 		tri->triangle = triangle_index;
 		tri->parent_type = PARENT_COLLIDER_POLYGON;

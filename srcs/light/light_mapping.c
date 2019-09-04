@@ -152,8 +152,8 @@ void		init_lightning(t_doom *doom)
 	t_light	*light;
 
 	create_lights(doom);
-	float width = 600;
-	float height = 600;
+	float width = 200;
+	float height = 200;
 	i = -1;
 	while (++i < doom->lights->len)
 	{
@@ -162,7 +162,7 @@ void		init_lightning(t_doom *doom)
 		{
 			for (int x = 0; x < width; x++)
 			{
-				if((x - 300)*(x - 300) +  (y - 300) * (y - 300) > 300*300)
+				if((x - 100)*(x - 100) +  (y - 100) * (y - 100) > 100*100)
 				 	continue ;
 				float x_inv = width - x;
 				float y_inv = y;
