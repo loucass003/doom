@@ -32,6 +32,14 @@ typedef struct		s_ints
 	int				values[];
 }					t_ints;
 
+typedef struct		s_ptrs
+{
+	int				len;
+	int				capacity;
+	void			*values[];
+}					t_ptrs;
+
+
 t_2dvertices		*create_2dvertices_array(int capacity);
 t_2dvertices		*append_2dvertices_array(t_2dvertices **arr, t_vec2 v);
 t_2dvertices		*splice_2dvertices_array(t_2dvertices *arr,
@@ -59,5 +67,13 @@ t_ints				*splice_ints_array(t_ints *arr,
 						int index, int n);
 t_ints				*copy_ints_array(t_ints *src,
 						t_ints **dst);
+
+
+t_ptrs				*create_ptrs_array(int capacity);
+t_ptrs				*append_ptrs_array(t_ptrs **arr, void *p);
+t_ptrs				*splice_ptrs_array(t_ptrs *arr,
+						int index, int n);
+t_ptrs				*copy_ptrs_array(t_ptrs *src,
+						t_ptrs **dst);
 
 #endif

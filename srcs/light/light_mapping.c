@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 14:22:33 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/04 14:03:31 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/04 16:47:53 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,7 +178,6 @@ void		init_lightning(t_doom *doom)
 					if (tri.parent_type == PARENT_COLLIDER_OBJ)
 						continue;
 					t_vec2 uv = hit.uv;
-					float w = (1. - uv.x - uv.y);
 					int x0 = (float)(tri.polygon->texture->w) * (uv.x);
 					int y0 = (float)(tri.polygon->texture->h) * (1 - uv.y);
 					int index = y0 * (tri.polygon->texture->w) + x0;

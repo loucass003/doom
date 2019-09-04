@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/25 19:30:54 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/29 01:52:07 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/04 18:22:01 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ t_bool		face_formatter(t_obj *obj, t_reader *reader)
 	}
 	if (obj->current_mtl != -1)
 		face.mtl = &obj->materials->values[obj->current_mtl];
+	face.group = obj->current_group;
 	append_faces_array(&obj->faces, face);
 	return (TRUE);
 }

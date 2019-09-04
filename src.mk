@@ -6,6 +6,7 @@ SRC+=arrays/lights.c
 SRC+=arrays/objects.c
 SRC+=arrays/objs.c
 SRC+=arrays/polygons.c
+SRC+=arrays/ptrs.c
 SRC+=arrays/rooms.c
 SRC+=arrays/walls.c
 SRC+=audio.c

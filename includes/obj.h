@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 15:26:39 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/03 17:00:23 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/04 18:19:10 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct	s_face
 	t_vec3			face_normal;
 	t_mtl			*mtl;
 	t_collidable	collidable;
+	int				group;
 }				t_face;
 
 typedef struct	s_faces
