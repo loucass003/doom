@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:01:13 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/03 14:54:57 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/05 13:37:50 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,8 @@ void			game_loop(t_doom *doom)
 		render_debug(doom);
 		update_image(&doom->screen);
 		apply_image(&doom->screen, NULL);
-		update_image(&doom->screen_transparency);
-		apply_image(&doom->screen_transparency, NULL);
+		// update_image(&doom->screen_transparency);
+		// apply_image(&doom->screen_transparency, NULL);
 		SDL_RenderPresent(doom->renderer);
 		update_fps(doom);
 	/* 	 if (++i > 100)

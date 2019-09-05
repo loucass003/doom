@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/05 00:24:56 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/05 13:34:13 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,10 @@ void	g_ingame_render(t_gui *self, t_doom *doom)
 		if (doom->polygons->polygons[i].transparent)
 			render_polygon(&doom->main_context, doom->polygons->polygons + i);
 	} */
+
+	for (int i = 0; i < doom->renderables->len; i++)
+	{
+		render_renderable(&doom->main_context, doom->renderables->values + i);
+	}
+		doom->main_context.image = &doom->screen_transparency;
 }

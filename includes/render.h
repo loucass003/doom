@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:16:19 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/05 00:43:10 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/05 13:20:20 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ typedef struct		s_renderable
 	t_2dvertices	*vertex;
 	t_3dvertices	*normals;
 	t_mtllist		*materials;
-	uint8_t			*lightmap;
 	t_vec3			position;
 	t_vec3			rotation;
 	t_vec3			scale;
@@ -118,6 +117,7 @@ t_bool				free_renderable(t_renderable **r, t_bool res);
 void				draw_triangle(t_render_context *ctx, t_render_data data);
 void				process_triangle(t_render_context *ctx, t_mtl *mtl, t_triangle triangle);
 void				post_process_triangle(t_render_context *ctx, t_mtl *mtl, t_triangle triangle);
+void				transform_renderable(t_renderable *r);
 // void				render_polygon(t_render_context *ctx, t_polygon *poly);
 // void				render_obj(t_render_context *ctx, t_obj *obj);
 

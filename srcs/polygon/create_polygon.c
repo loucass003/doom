@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 16:31:56 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/05 02:04:53 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/05 14:23:24 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ t_bool	add_polygon_vertice(t_renderable *r, t_vec4 v)
 		return (FALSE);
 	if (!append_2dvertices_array(&r->vertex, (t_vec2){ 0, 0 }))
 		return (FALSE);
+	if (!append_3dvertices_array(&r->normals, (t_vec3){ 0, 0, 0 }))
+		return (FALSE);
 	return (TRUE);
 }
 
@@ -30,14 +32,11 @@ t_bool	create_wall_polygon(t_renderable *r, t_mtl mtl, t_line line, t_vec2 bound
 {
 	if(!create_polygon(r, P_WALL, mtl))
 		return (FALSE);
-	add_polygon_vertice(r, (t_vec4){ line.a.x, bounds.x, line.a.y, 1 });
 	add_polygon_vertice(r, (t_vec4){ line.b.x, bounds.x, line.b.y, 1 });
-	add_polygon_vertice(r, (t_vec4){ line.b.x, bounds.y, line.b.y, 1 });
+	add_polygon_vertice(r, (t_vec4){ line.a.x, bounds.x, line.a.y, 1 });
 	add_polygon_vertice(r, (t_vec4){ line.a.x, bounds.y, line.a.y, 1 });
-	if (!(r->pp_vertices = (t_vec4 *)malloc(sizeof(t_vec4) * r->vertices->len)))
-		return (free_renderable(&r, FALSE));
-	if (!(r->pp_normals = (t_vec3 *)malloc(sizeof(t_vec3) * r->normals->len)))
-		return (free_renderable(&r, FALSE));
+	add_polygon_vertice(r, (t_vec4){ line.b.x, bounds.y, line.b.y, 1 });
+	
 	return (TRUE);
 }
 
@@ -62,5 +61,6 @@ t_bool	create_polygon(t_renderable *r, t_polygon_type type, t_mtl mtl)
 		return (free_renderable(&r, FALSE));
 	r->dirty = TRUE;
 	r->fixed = TRUE;
+	r->scale = (t_vec3){ 1, 1, 1 };
 	return (TRUE);
 }

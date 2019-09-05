@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/12 15:51:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/05 02:02:37 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/05 13:32:27 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,9 +111,19 @@ static t_bool	ear_clip_polygon(t_renderable *r)
 			int s, t;
 			t_face face;
 
-			face.vertices_index[0] = v[u];
-			face.vertices_index[1] = v[j];
-			face.vertices_index[2] = v[w];
+			face.vertices_index[0] = v[u] + 1;
+			face.vertices_index[1] = v[j] + 1;
+			face.vertices_index[2] = v[w] + 1;
+			face.vertex_set = TRUE;
+			face.vertex_index[0] = v[u] + 1 ;
+			face.vertex_index[1] = v[j] + 1 ;
+			face.vertex_index[2] = v[w] + 1 ;
+			face.normals_set = TRUE;
+			face.normals_index[0] = v[u] + 1;
+			face.normals_index[1] = v[j] + 1;
+			face.normals_index[2] = v[w] + 1;
+			if (r->materials && r->materials->len == 1)
+				face.mtl = &r->materials->values[0];
 			append_faces_array(&r->faces, face);
 			// append_ints_array(&polygon->indices, v[u]);
 			// append_ints_array(&polygon->indices, v[j]);
@@ -130,9 +140,10 @@ static t_bool	ear_clip_polygon(t_renderable *r)
 
 t_bool	compute_change_of_basis(t_renderable *r, t_mat4 *p_inv, t_mat4 *reverse)
 {
-	const t_vec3	n = get_triangle_normal(vec4_to_3(r->vertices->vertices[0]),
-			vec4_to_3(r->vertices->vertices[1]),
-			vec4_to_3(r->vertices->vertices[2]));
+	const t_vec3	n = get_triangle_normal(
+		vec4_to_3(r->vertices->vertices[0]),
+		vec4_to_3(r->vertices->vertices[1]),
+		vec4_to_3(r->vertices->vertices[2]));
 	const t_vec3	up = (t_vec3){0, 0, 1};
 	t_vec3			u;
 	t_vec3			w;

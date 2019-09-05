@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 15:26:39 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/05 00:19:49 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/05 13:01:15 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ t_objs			*splice_objs_array(t_objs *arr,
 						int index, int n);
 t_objs			*copy_objs_array(t_objs *src,
 						t_objs **dst);
-t_bool			post_process_obj(t_obj *obj);
+t_bool			post_process_obj(t_renderable *r);
 void			transfom_obj(t_obj *obj);
 
 #endif

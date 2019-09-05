@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/16 21:24:43 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/05 00:28:34 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/05 11:50:13 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,18 @@ t_bool			post_process_map(t_doom *doom)
 	while (++i < doom->objects->len)
 		post_process_obj(doom->objects->objs + i);
 	init_lightning(doom); */
+
+	int				i;
+	t_renderable	*r;
+
+	i = -1;
+	while (++i < doom->renderables->len)
+	{
+		r = &doom->renderables->values[i];
+		if (r->of.type == RENDERABLE_POLYGON)
+			post_process_polygon(r);
+		else if (r->of.type == RENDERABLE_OBJ)
+			post_process_obj(r);
+	}
 	return (TRUE);
 }
