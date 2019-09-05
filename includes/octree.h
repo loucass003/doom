@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/04 16:53:54 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/04 18:07:48 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/05 17:28:08 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ struct							s_octree_node
 	int				childs_count;
 	t_octree_node	*childs;
 	t_collidable	box;
-	t_ptrs			*elements;
+	t_ints			*faces_index;
 };
 
 

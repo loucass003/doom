@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 01:15:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/04 22:17:09 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/05 20:39:13 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ typedef enum		e_collidable_type
 
 typedef	struct		s_collide_aabb
 {
-	t_vec3			center;
-	t_vec3			halfsize;
+	t_vec3			min;
+	t_vec3			max;
 }					t_collide_aabb;
 
 typedef struct		s_collide_triangle

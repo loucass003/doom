@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 01:06:40 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/05 11:53:06 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/05 16:52:14 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,10 @@ void	process_triangle(t_render_context *ctx, t_mtl *mtl, t_triangle t)
 	t.a.pos = mat4_mulv4(ctx->camera->projection, t.a.pos);
 	t.b.pos = mat4_mulv4(ctx->camera->projection, t.b.pos);
 	t.c.pos = mat4_mulv4(ctx->camera->projection, t.c.pos);
+	if (t.a.pos.y < t.a.pos.w && t.b.pos.y < t.b.pos.w && t.c.pos.y < t.c.pos.w)
+		return;
+	if (t.a.pos.y > -t.a.pos.w && t.b.pos.y > -t.b.pos.w && t.c.pos.y > -t.c.pos.w)
+		return;
 	if (t.a.pos.x < t.a.pos.w && t.b.pos.x < t.b.pos.w && t.c.pos.x < t.c.pos.w)
 		return;
 	if (t.a.pos.x > -t.a.pos.w && t.b.pos.x > -t.b.pos.w && t.c.pos.x > -t.c.pos.w)
@@ -61,6 +65,7 @@ void	process_triangle(t_render_context *ctx, t_mtl *mtl, t_triangle t)
 		return;
 	if (t.a.pos.z < NEAR_CLIP && t.b.pos.z < NEAR_CLIP && t.c.pos.z < NEAR_CLIP)
 		return;
+	
 	if (t.a.pos.z < NEAR_CLIP)
 	{
 		if (t.b.pos.z < NEAR_CLIP)
