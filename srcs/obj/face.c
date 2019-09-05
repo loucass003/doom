@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/25 19:30:54 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/04 18:22:01 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/05 00:19:08 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ t_bool		read_face_part(t_reader *r, size_t i, t_face *face)
 	return (TRUE);
 }
 
-t_bool		face_formatter(t_obj *obj, t_reader *reader)
+t_bool		face_formatter(t_obj *obj, t_reader *reader, t_renderable *r)
 {
 	t_face	face;
 	char	c;
@@ -96,8 +96,8 @@ t_bool		face_formatter(t_obj *obj, t_reader *reader)
 		return (FALSE);
 	}
 	if (obj->current_mtl != -1)
-		face.mtl = &obj->materials->values[obj->current_mtl];
+		face.mtl = &r->materials->values[obj->current_mtl];
 	face.group = obj->current_group;
-	append_faces_array(&obj->faces, face);
+	append_faces_array(&r->faces, face);
 	return (TRUE);
 }

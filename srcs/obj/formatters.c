@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 14:34:00 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/16 04:48:18 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/04 23:36:10 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int		get_group(t_obj *obj, char *name, size_t len)
 	return (-1);
 }
 
-t_bool			vertice_formatter(t_obj *obj, t_reader *reader)
+t_bool			vertice_formatter(t_obj *obj, t_reader *reader, t_renderable *r)
 {
 	char		c;
 	t_vec4_u	vertice;
@@ -47,12 +47,12 @@ t_bool			vertice_formatter(t_obj *obj, t_reader *reader)
 	}
 	if (i < 3)
 		return (FALSE);
-	append_4dvertices_array(&obj->vertices, vertice.v);
+	append_4dvertices_array(&r->vertices, vertice.v);
 //	printf("VERTICE %f %f %f %f\n", vertice.v.x, vertice.v.y, vertice.v.z, vertice.v.w);
 	return (TRUE);
 }
 
-t_bool			normal_formatter(t_obj *obj, t_reader *reader)
+t_bool			normal_formatter(t_obj *obj, t_reader *reader, t_renderable *r)
 {
 	char		c;
 	t_vec3_u	normal;
@@ -69,12 +69,12 @@ t_bool			normal_formatter(t_obj *obj, t_reader *reader)
 	}
 	if (i != 3)
 		return (FALSE);
-	append_3dvertices_array(&obj->normals, normal.v);
+	append_3dvertices_array(&r->normals, normal.v);
 //	printf("NORMAL %f %f %f\n", normal.v.x, normal.v.y, normal.v.z);
 	return (TRUE);
 }
 
-t_bool			vertex_formatter(t_obj *obj, t_reader *reader)
+t_bool			vertex_formatter(t_obj *obj, t_reader *reader, t_renderable *r)
 {
 	char		c;
 	t_vec2_u	vertex;
@@ -91,7 +91,7 @@ t_bool			vertex_formatter(t_obj *obj, t_reader *reader)
 	}
 	if (i != 2)
 		return (FALSE);
-	append_2dvertices_array(&obj->vertex, vertex.v);
+	append_2dvertices_array(&r->vertex, vertex.v);
 //	printf("VERTEX %f %f\n", vertex.v.x, vertex.v.y);
 	return (TRUE);
 }

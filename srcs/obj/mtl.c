@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 17:07:44 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/29 19:48:33 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/04 23:40:32 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,17 @@
 #include <unistd.h>
 #include "obj.h"
 
-int				get_material(t_obj *obj, char *name, size_t len)
+int				get_material(t_renderable *r, char *name, size_t len)
 {
 	int		i;
 
 	if (!name)
 		return (-1);
 	i = 0;
-	while (i < obj->materials->len)
+	while (i < r->materials->len)
 	{
-		if (len == ft_strlen(obj->materials->values[i].name) 
-			&& ft_strncmp(obj->materials->values[i].name, name, len) == 0)
+		if (len == ft_strlen(r->materials->values[i].name) 
+			&& ft_strncmp(r->materials->values[i].name, name, len) == 0)
 			return (i);
 		i++;
 	}
@@ -32,7 +32,7 @@ int				get_material(t_obj *obj, char *name, size_t len)
 }
 
 
-static t_bool	mtl_process_formaters(t_obj *obj, t_reader *reader)
+static t_bool	mtl_process_formaters(t_obj *obj, t_reader *reader, t_renderable *r)
 {
 	t_obj_prefix	prefixes[MTL_PREFIXES_COUNT + 1];
 	t_obj_prefix	*formatter;
@@ -43,7 +43,7 @@ static t_bool	mtl_process_formaters(t_obj *obj, t_reader *reader)
 	prefixes[MTL_PREFIXES_COUNT] = (t_obj_prefix){ NULL, NULL };
 	while (!!(formatter = get_formatter(prefixes, MTL_PREFIXES_COUNT, reader)))
 	{
-		if (formatter->formatter && !formatter->formatter(obj, reader))
+		if (formatter->formatter && !formatter->formatter(obj, reader, r))
 			return (free_obj(obj, FALSE));
 		io_skip_until(reader, "\n");
 		io_skip_empty(reader);
@@ -53,7 +53,7 @@ static t_bool	mtl_process_formaters(t_obj *obj, t_reader *reader)
 	return (TRUE);
 }
 
-t_bool			mtllib_formatter(t_obj *obj, t_reader *reader)
+t_bool			mtllib_formatter(t_obj *obj, t_reader *reader, t_renderable *r)
 {
 	t_reader	mtl_reader;
 	char		file[MATERIAL_FILE_LEN + 1];
@@ -79,10 +79,10 @@ t_bool			mtllib_formatter(t_obj *obj, t_reader *reader)
 		|| (mtl_reader.fd = open(path, O_RDONLY)) == -1)
 		return (FALSE);
 	free(path);
-	return (mtl_process_formaters(obj, &mtl_reader));
+	return (mtl_process_formaters(obj, &mtl_reader, r));
 }
 
-t_bool			usemtl_formatter(t_obj *obj, t_reader *reader)
+t_bool			usemtl_formatter(t_obj *obj, t_reader *reader, t_renderable *r)
 {
 	char		name[MATERIAL_NAME_LEN];
 	size_t		len;
@@ -96,7 +96,7 @@ t_bool			usemtl_formatter(t_obj *obj, t_reader *reader)
 		io_next(reader);
 		name[len++] = c;
 	}
-	if ((obj->current_mtl = get_material(obj, name, len)) == -1)
+	if ((obj->current_mtl = get_material(r, name, len)) == -1)
 	{
 		ft_putstr("usemtl: Unknown material name : ");
 		write(1, name, len);

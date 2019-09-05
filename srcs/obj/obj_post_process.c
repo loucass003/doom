@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/03 16:26:43 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/04 13:49:40 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/05 00:24:18 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "maths/triangle.h"
 #include "obj.h"
 
-t_collidable	compute_face_collidable(t_obj *obj, t_face *face)
+/* t_collidable	compute_face_collidable(t_obj *obj, t_face *face)
 {
 	t_collidable	col;
 	t_collide_triangle	tri;
@@ -64,10 +64,10 @@ void		transfom_obj(t_obj *obj)
 			vec4_to_3(obj->pp_vertices[face->vertices_index[2] - 1]));
 	}
 }
-
+ */
 t_bool			post_process_obj(t_obj *obj)
 {
-	int			i;
+	/* int			i;
 	t_face		*face;
 
 	transfom_obj(obj);
@@ -76,6 +76,6 @@ t_bool			post_process_obj(t_obj *obj)
 	{
 		face = &obj->faces->values[i];
 		face->collidable = compute_face_collidable(obj, face);
-	}
+	} */
 	return (TRUE);
 }

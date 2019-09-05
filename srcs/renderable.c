@@ -1,25 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   polygon.c                                          :+:      :+:    :+:   */
+/*   renderable.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/01 16:30:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/05 01:27:23 by llelievr         ###   ########.fr       */
+/*   Created: 2019/09/05 00:02:57 by llelievr          #+#    #+#             */
+/*   Updated: 2019/09/05 00:04:51 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
 #include <libft.h>
-#include "polygon.h"
-#include "maths/triangle.h"
+#include "render.h"
 
-/* t_vec3		get_polygon_normal(t_polygon *poly)
+t_bool		free_renderable(t_renderable **r, t_bool res)
 {
-	const t_vec3 p0 = poly->vertices->vertices[0];
-	const t_vec3 p1 = poly->vertices->vertices[1];
-	const t_vec3 p2 = poly->vertices->vertices[2];
-	const t_vec3 c = get_triangle_normal(p0, p1, p2);
-	
-	return ((t_vec3){ c.x, c.y, c.z });
-} */
+	*r = NULL;
+	return (res);
+}

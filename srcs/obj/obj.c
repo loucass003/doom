@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 15:28:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/04 13:56:27 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/05 00:27:27 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ t_obj_prefix	*get_formatter(t_obj_prefix *prefixes, size_t prefixes_count, t_rea
 
 	io_skip_ws(reader);
 	len = 0;
-	while (len < 20 && (c = io_peek(reader)) != -1 && c != ' ' && c != '\n')
+	ft_bzero(name, sizeof(char) * 40);
+	while (len < 40 && (c = io_peek(reader)) != -1 && c != ' ' && c != '\n')
 	{
 		io_next(reader);
 		name[len++] = c;
@@ -48,27 +49,14 @@ t_bool		free_obj(t_obj *obj, t_bool ret)
 	return (ret);
 }
 
-t_bool		init_obj(t_doom *doom, t_obj **obj)
+t_bool		init_obj(t_doom *doom, t_obj *obj)
 {
-	if (!(*obj = (t_obj *)ft_memalloc(sizeof(t_obj))))
-		return (FALSE);
-	(*obj)->groups_count++;
-	(*obj)->can_add_materials = TRUE;
-	(*obj)->current_mtl = -1;
-	(*obj)->working_dir = ft_strdup(doom->obj_working_dir);
-	(*obj)->scale = (t_vec3){1, 1, 1};
-	(*obj)->dirty = TRUE;
-	ft_strcpy((*obj)->groups[0], "root");
-	if(!((*obj)->vertices = create_4dvertices_array(800)))
-		return (free_obj(*obj, FALSE));
-	if(!((*obj)->vertex = create_2dvertices_array(800)))
-		return (free_obj(*obj, FALSE));
-	if(!((*obj)->normals = create_3dvertices_array(800)))
-		return (free_obj(*obj, FALSE));
-	if(!((*obj)->faces = create_faces_array(800)))
-		return (free_obj(*obj, FALSE));
-	if(!((*obj)->materials = create_mtllist(3)))
-		return (free_obj(*obj, FALSE));
+	obj->current_group = 0;
+	obj->groups_count++;
+	obj->can_add_materials = TRUE;
+	obj->current_mtl = -1;
+	obj->working_dir = ft_strdup(doom->obj_working_dir);
+	ft_strcpy(obj->groups[0], "root");
 	return (TRUE);
 }
 
@@ -84,7 +72,7 @@ void		init_prefixes(t_obj_prefix *prefixes)
 	prefixes[PREFIXES_COUNT] = (t_obj_prefix){ NULL, NULL };
 }
 
-t_bool		load_obj(t_doom *doom, t_obj **obj, char *file)
+t_bool		load_obj(t_doom *doom, t_renderable *r, t_obj *obj, char *file)
 {
 	t_reader		reader;
 	t_obj_prefix	prefixes[PREFIXES_COUNT + 1];
@@ -101,16 +89,12 @@ t_bool		load_obj(t_doom *doom, t_obj **obj, char *file)
 		return (FALSE);
 	while (!!(formatter = get_formatter(prefixes, PREFIXES_COUNT, &reader)))
 	{
-		if (formatter->formatter && !formatter->formatter(*obj, &reader))
-			return (free_obj(*obj, FALSE));
+		if (formatter->formatter && !formatter->formatter(obj, &reader, r))
+			return (free_obj(obj, FALSE));
 		io_skip_until(&reader, "\n");
 		io_skip_empty(&reader);
 	}
 	if (!formatter && io_peek(&reader) != -1)
-		return (FALSE);
-	if (!((*obj)->pp_vertices = (t_vec4 *)malloc(sizeof(t_vec4) * (*obj)->vertices->len)))
-		return (FALSE);
-	if (!((*obj)->pp_normals = (t_vec3 *)malloc(sizeof(t_vec3) * (*obj)->normals->len)))
 		return (FALSE);
 	return (TRUE);
 }
@@ -125,15 +109,45 @@ t_bool		set_obj_working_dir(t_doom *doom, char *folder)
 	return (TRUE);
 }
 
+t_bool	create_obj(t_doom *doom, t_renderable *r, char *file)
+{
+	ft_bzero(r, sizeof(t_renderable));
+	r->of.type = RENDERABLE_OBJ;
+	if (!(r->of.data.obj = malloc(sizeof(t_obj))))
+		return (FALSE);
+	if(!(r->vertices = create_4dvertices_array(800)))
+		return (free_renderable(&r, FALSE));
+	if(!(r->vertex = create_2dvertices_array(800)))
+		return (free_renderable(&r, FALSE));
+	if(!(r->normals = create_3dvertices_array(800)))
+		return (free_renderable(&r, FALSE));
+	if(!(r->faces = create_faces_array(800)))
+		return (free_renderable(&r, FALSE));
+	if(!(r->materials = create_mtllist(3)))
+		return (free_renderable(&r, FALSE));
+	if (!load_obj(doom, r, r->of.data.obj, file))
+		return (free_renderable(&r, FALSE));
+	if (!(r->pp_vertices = (t_vec4 *)malloc(sizeof(t_vec4) * r->vertices->len)))
+		return (free_renderable(&r, FALSE));
+	if (!(r->pp_normals = (t_vec3 *)malloc(sizeof(t_vec3) * r->normals->len)))
+		return (free_renderable(&r, FALSE));
+	r->scale = (t_vec3){ 1, 1, 1 };
+	r->dirty = TRUE;
+	return (TRUE);
+}
+
 t_bool		obj_test(t_doom *doom)
 {
 	set_obj_working_dir(doom, "assets/obj");
-	t_obj	*obj;
-	t_bool lol = load_obj(doom, &obj, "House2.obj");
+	/* t_bool lol = load_obj(doom, &obj, "House2.obj");
 	obj->fixed = TRUE;
 	obj->position = (t_vec3){1, 0, 4};
-	obj->scale = (t_vec3){0.003, 0.003, 0.003};
-	append_objs_array(&doom->objects, *obj);
+	obj->scale = (t_vec3){0.003, 0.003, 0.003}; */
+	//append_objs_array(&doom->objects, (t_obj){ .renderable = NULL });
+	//t_bool lol = load_obj(doom, &doom->objects->objs[doom->objects->len - 1], "House2.obj");
+	t_renderable r;
+	t_bool lol = create_obj(doom, &r, "House2.obj");
+	append_renderables_array(&doom->renderables, r);
 	printf("ERROR %d\n", !lol);
 	return (FALSE);
 }

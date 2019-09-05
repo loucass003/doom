@@ -6,13 +6,14 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 22:39:14 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/03 16:29:15 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/05 01:58:25 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "maths/vec4.h"
 #include "maths/triangle.h"
+#include "polygon.h"
 #include "render.h"
 
 t_vec4	mat43_mulv4(t_mat4 m, t_vec4 p)
@@ -41,7 +42,7 @@ typedef union ut_color {
 
 void	render_polygon(t_render_context *ctx, t_polygon *poly)
 {
-	t_mtl		mtl = (t_mtl){
+	/* t_mtl		mtl = (t_mtl){
 		.texture_map_set = TRUE,
 		.texture_map = poly->texture,
 		.lightmap = poly->lightmap,
@@ -64,5 +65,5 @@ void	render_polygon(t_render_context *ctx, t_polygon *poly)
 			{.pos = mat43_mulv4(ctx->camera->matrix, vec3_to_4(poly->vertices->vertices[poly->indices->values[i * 3 + 1]])), .tex = poly->uvs[poly->indices->values[i * 3 + 1]], .normal =  poly->normals[i]},
 			{.pos = mat43_mulv4(ctx->camera->matrix, vec3_to_4(poly->vertices->vertices[poly->indices->values[i * 3 + 2]])), .tex = poly->uvs[poly->indices->values[i * 3 + 2]], .normal =  poly->normals[i]}
 		});
-	}
+	} */
 }

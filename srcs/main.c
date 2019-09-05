@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/04 17:35:59 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/05 01:59:53 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ t_line	lines[] = {
 
 void	init_bsp(t_doom *doom)
 {
-	int count = sizeof(lines) / sizeof(t_line);
+	/* int count = sizeof(lines) / sizeof(t_line);
 	// int count2 = sizeof(lines2) / sizeof(t_line);
 	t_polygons *polygons = create_polygons_array(count + 2);
 	
@@ -82,7 +82,7 @@ void	init_bsp(t_doom *doom)
 
 	t_polygon poly = create_wall_polygon(doom->textures.test, (t_line){  (t_vec2){2.5, 8}, (t_vec2){0, 8}}, 0, 1.5);
 	poly.transparent = TRUE;
-	append_polygons_array(&polygons, poly);
+	append_polygons_array(&polygons, poly); */
 
 	// t_ptrs	*ptrs = create_ptrs_array(1);
 
@@ -92,8 +92,8 @@ void	init_bsp(t_doom *doom)
 	// t_polygons *arr0 = (t_polygons *)ptrs->values[0];
 	// t_polygon *poly0 = (t_polygon *)ptrs->values[1];
 
-	doom->polygons = polygons;
-	post_process_map(doom);
+	/* doom->polygons = polygons;
+	post_process_map(doom); */
 
 }
 
@@ -111,7 +111,7 @@ int		main(void)
 	doom.main_context.doom = &doom;
 	if (!(doom.main_context.buffer = (float *)malloc((int)(S_WIDTH * S_HEIGHT) * sizeof(float))))
 		return (-1);
-	if (!(doom.objects = create_objs_array(4)))
+	if (!(doom.renderables = create_renderables_array(50)))
 		return (-1);
 	init_sdl(&doom);
 	obj_test(&doom);

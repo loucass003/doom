@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/10 15:44:57 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/03 17:46:57 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/05 00:27:48 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ float	get_light_intensity(t_render_context *ctx, t_vec3 normal, t_vec4 point)
 
 void	render_obj(t_render_context *ctx, t_obj *obj)
 {
-	int		i;
+	/* int		i;
 	t_face	*face;
 
 	if (obj->dirty)
@@ -121,5 +121,5 @@ void	render_obj(t_render_context *ctx, t_obj *obj)
 			{ .pos = v1, .tex = obj->vertex->vertices[face->vertex_index[1] - 1], .normal = obj->pp_normals[face->normals_index[1] - 1], .light_color = it1 },
 			{ .pos = v2, .tex = obj->vertex->vertices[face->vertex_index[2] - 1], .normal = obj->pp_normals[face->normals_index[2] - 1], .light_color = it2 }
 		});
-	}
+	} */
 }

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 01:28:03 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/30 06:49:21 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/05 02:03:12 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,14 @@
 # include <libft.h>
 # include "maths/vertex.h"
 
+typedef struct		s_triangle
+{
+	t_vertex		a;
+	t_vertex		b;
+	t_vertex		c;
+}					t_triangle;
 
-t_bool				inside_triangle(t_vec3 a, t_vec3 b, t_vec3 c, t_vec3 p);
+t_bool				inside_triangle(t_vec4 a, t_vec4 b, t_vec4 c, t_vec4 p);
 t_vec3				get_triangle_normal(t_vec3 p0, t_vec3 p1, t_vec3 p2);
 
 #endif

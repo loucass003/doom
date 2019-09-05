@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/16 21:24:43 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/03 17:15:38 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/05 00:28:34 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 t_bool			post_process_map(t_doom *doom)
 {
-	int		i;
+	/* int		i;
 
 	i = -1;
 	while (++i < doom->polygons->len)
@@ -23,6 +23,6 @@ t_bool			post_process_map(t_doom *doom)
 	i = -1;
 	while (++i < doom->objects->len)
 		post_process_obj(doom->objects->objs + i);
-	init_lightning(doom);
+	init_lightning(doom); */
 	return (TRUE);
 }

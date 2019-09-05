@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/03 16:28:34 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/05 00:21:46 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,8 @@ typedef struct		s_doom
 	t_stats				stats;
 	t_fonts				fonts;
 	t_lights			*lights;
-	t_polygons			*polygons;
+	t_renderables		*renderables;
+	// t_polygons			*polygons;
 	t_render_context	main_context;
 	t_player			player;
 	t_vec2				mouse;
@@ -72,7 +73,7 @@ typedef struct		s_doom
 	int					current_gui;
 	t_editor			editor;
 	char				*obj_working_dir;
-	t_objs				*objects;
+	// t_objs				*objects;
 	t_bool				collision;
 	int					menu;
 	t_line				linetodel;

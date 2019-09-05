@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/28 03:24:11 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/29 01:32:20 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/05 00:20:09 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <SDL_image.h>
 #include "obj.h"
 
-t_bool			mtl_newmtl_formatter(t_obj *obj, t_reader *reader)
+t_bool			mtl_newmtl_formatter(t_obj *obj, t_reader *reader, t_renderable *r)
 {
 	t_mtl		mtl;
 	char		name[MATERIAL_NAME_LEN];
@@ -33,13 +33,13 @@ t_bool			mtl_newmtl_formatter(t_obj *obj, t_reader *reader)
 		ft_putendl("newmtl: Max material name length exeed");
 		return (FALSE);
 	}
-	if ((obj->current_group = get_material(obj, name, len)) != -1)
+	if ((obj->current_mtl = get_material(r, name, len)) != -1)
 		return (TRUE);
 	ft_bzero(&mtl, sizeof(t_mtl));
 	ft_strncpy(mtl.name, name, len);
-	if (!append_mtllist(&obj->materials, mtl))
+	if (!append_mtllist(&r->materials, mtl))
 		return (FALSE);
-	obj->current_mtl = obj->materials->len - 1;
+	obj->current_mtl = r->materials->len - 1;
 	return (TRUE);
 }
 
@@ -60,7 +60,7 @@ static t_bool	load_texture(char *path, t_mtl *mtl)
 	return (TRUE);
 } 
 
-t_bool			mtl_map_kd_formatter(t_obj *o, t_reader *reader)
+t_bool			mtl_map_kd_formatter(t_obj *o, t_reader *reader, t_renderable *r)
 {
 	char		name[MATERIAL_TEXTURE_LEN + 1];
 	size_t		l;
@@ -86,10 +86,10 @@ t_bool			mtl_map_kd_formatter(t_obj *o, t_reader *reader)
 		return (FALSE);
 	}
 	return ((p = path_join(o->working_dir, name)) && 
-		load_texture(p, &o->materials->values[o->current_mtl]));
+		load_texture(p, &r->materials->values[o->current_mtl]));
 }
 
-t_bool			mtl_kd_formatter(t_obj *o, t_reader *reader)
+t_bool			mtl_kd_formatter(t_obj *o, t_reader *reader, t_renderable *r)
 {
 	char		c;
 	t_vec3_u	color;
@@ -107,7 +107,7 @@ t_bool			mtl_kd_formatter(t_obj *o, t_reader *reader)
 	}
 	if (i != 3)
 		return (FALSE);
-	current = &o->materials->values[o->current_mtl];
+	current = &r->materials->values[o->current_mtl];
 	current->material_color_set = TRUE;
 	current->material_color = ft_color_i(ft_color(color.v.x * 255, 
 		color.v.y * 255, color.v.z * 255));

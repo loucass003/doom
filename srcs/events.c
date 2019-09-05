@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:14:55 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/02 15:52:48 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/05 00:30:25 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static void	events_window(t_doom *doom, SDL_Event *event)
 	// 	room_map(doom, event, modify_room);
 }
 
-t_bool test_collision(t_doom *doom, t_collision *hit, t_vec3 pos, t_vec3 dir, t_bool deep)
+/* t_bool test_collision(t_doom *doom, t_collision *hit, t_vec3 pos, t_vec3 dir, t_bool deep)
 {
 	// if (dir.x == 0 && dir.y == 0 && dir.z == 0)
 	// 	return FALSE; 
@@ -89,7 +89,7 @@ t_bool test_collision(t_doom *doom, t_collision *hit, t_vec3 pos, t_vec3 dir, t_
 	}
 	return TRUE;
 }
-
+ */
 void	hook_events(t_doom *doom)
 {
 	const double	ms = doom->stats.delta * 3.;

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/12 15:51:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/30 00:10:13 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/05 02:02:37 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,25 @@
 #include <maths.h>
 #include <stdlib.h>
 #include "polygon.h"
+#include "render.h"
 #include "maths/mat4.h"
 #include "arrays.h"
 
 #define EPSILON (1e-6)
 
-static float	area(t_3dvertices *vertices)
+static float	area(t_4dvertices *vertices)
 {
 	int n = vertices->len;
 	float A = 0.0f;
 	for (int p = n - 1, q = 0; q < n; p = q++) {
-		t_vec3 pval = vertices->vertices[p];
-		t_vec3 qval = vertices->vertices[q];
+		t_vec4 pval = vertices->vertices[p];
+		t_vec4 qval = vertices->vertices[q];
 		A += pval.x * qval.y - qval.x * pval.y;
 	}
 	return (A * 0.5f);
 }
 
-t_bool	inside_triangle(t_vec3 a, t_vec3 b, t_vec3 c, t_vec3 p)
+t_bool	inside_triangle(t_vec4 a, t_vec4 b, t_vec4 c, t_vec4 p)
 {
 	float ax, ay, bx, by, cx, cy, apx, apy, bpx, bpy, cpx, cpy;
 	float cCROSSap, bCROSScp, aCROSSbp;
@@ -50,10 +51,10 @@ t_bool	inside_triangle(t_vec3 a, t_vec3 b, t_vec3 c, t_vec3 p)
 	return ((aCROSSbp >= 0.0f) && (bCROSScp >= 0.0f) && (cCROSSap >= 0.0f));
 }
 
-static t_bool	snip(t_3dvertices *vertices, int u, int j, int w, int n, int *v)
+static t_bool	snip(t_4dvertices *vertices, int u, int j, int w, int n, int *v)
 {
 	int		p;
-	t_vec3	a, b, c;
+	t_vec4	a, b, c;
 
 	a = vertices->vertices[v[u]];
 	b = vertices->vertices[v[j]];
@@ -71,23 +72,23 @@ static t_bool	snip(t_3dvertices *vertices, int u, int j, int w, int n, int *v)
 	return (TRUE);
 }
 
-static t_bool	ear_clip_polygon(t_polygon *polygon)
+static t_bool	ear_clip_polygon(t_renderable *r)
 {
 	int		*v;
 
-	if (polygon->vertices->len < 3
-		|| !(v = (int *)malloc(polygon->vertices->len * sizeof(int)))
-		|| (!polygon->indices && !(polygon->indices = create_ints_array(polygon->vertices->len * 3))))
+	if (r->vertices->len < 3
+		|| !(v = (int *)malloc(r->vertices->len * sizeof(int)))
+		|| (!r->faces && !(r->faces = create_faces_array(r->vertices->len))))
 		return (FALSE);
-	if (area(polygon->vertices) > 0) {
-		for (int i = 0; i < polygon->vertices->len; i++)
+	if (area(r->vertices) > 0) {
+		for (int i = 0; i < r->vertices->len; i++)
 			v[i] = i;
 	}
 	else {
-		for (int i = 0; i < polygon->vertices->len; i++)
-			v[i] = (polygon->vertices->len - 1) - i;
+		for (int i = 0; i < r->vertices->len; i++)
+			v[i] = (r->vertices->len - 1) - i;
 	}
-	int nv = polygon->vertices->len;
+	int nv = r->vertices->len;
 	int count = 2 * nv;
 	for (int j = nv - 1; nv > 2; )
 	{
@@ -105,12 +106,18 @@ static t_bool	ear_clip_polygon(t_polygon *polygon)
 		int w = j + 1;
 		if (nv <= w)
 			w = 0;
-		if (snip(polygon->vertices, u, j, w, nv, v))
+		if (snip(r->vertices, u, j, w, nv, v))
 		{
 			int s, t;
-			append_ints_array(&polygon->indices, v[u]);
-			append_ints_array(&polygon->indices, v[j]);
-			append_ints_array(&polygon->indices, v[w]);
+			t_face face;
+
+			face.vertices_index[0] = v[u];
+			face.vertices_index[1] = v[j];
+			face.vertices_index[2] = v[w];
+			append_faces_array(&r->faces, face);
+			// append_ints_array(&polygon->indices, v[u]);
+			// append_ints_array(&polygon->indices, v[j]);
+			// append_ints_array(&polygon->indices, v[w]);
 			for (s = j, t = j + 1; t < nv; s++, t++)
 				v[s] = v[t];
 			nv--;
@@ -121,9 +128,11 @@ static t_bool	ear_clip_polygon(t_polygon *polygon)
 	return (TRUE);
 }
 
-t_bool	compute_change_of_basis(t_polygon *poly, t_mat4 *p_inv)
+t_bool	compute_change_of_basis(t_renderable *r, t_mat4 *p_inv, t_mat4 *reverse)
 {
-	const t_vec3	n = get_polygon_normal(poly);
+	const t_vec3	n = get_triangle_normal(vec4_to_3(r->vertices->vertices[0]),
+			vec4_to_3(r->vertices->vertices[1]),
+			vec4_to_3(r->vertices->vertices[2]));
 	const t_vec3	up = (t_vec3){0, 0, 1};
 	t_vec3			u;
 	t_vec3			w;
@@ -132,31 +141,32 @@ t_bool	compute_change_of_basis(t_polygon *poly, t_mat4 *p_inv)
 	if (ft_vec3_len(u) == 0)
 		u = (t_vec3){0, 1, 0};
 	w = ft_vec3_cross(u, n);
-	poly->matrix = (t_mat4)((t_mat4_data){
+	reverse->d = (t_mat4_data){
 		u.x, w.x, n.x, 0,
 		u.y, w.y, n.y, 0,
 		u.z, w.z, n.z, 0,
 		0, 0, 0, 1
-	});
-	return (mat4_inverse(poly->matrix, p_inv));
+	};
+	return (mat4_inverse(*reverse, p_inv));
 }
 
-t_bool	triangulate_polygon(t_polygon *polygon)
+t_bool	triangulate_polygon(t_renderable *r)
 {
 	t_mat4	p_inv;
+	t_mat4	reverse;
 	int		i;
 
-	if (!compute_change_of_basis(polygon, &p_inv))
+	if (!compute_change_of_basis(r, &p_inv, &reverse))
 		return (FALSE);
 	i = -1;
-	while (++i < polygon->vertices->len)
-		polygon->vertices->vertices[i] = ft_mat4_mulv(p_inv,
-			polygon->vertices->vertices[i]);
-	ear_clip_polygon(polygon);
-	uv_mapping(polygon);
+	while (++i < r->vertices->len)
+		r->vertices->vertices[i] = mat4_mulv4(p_inv,
+			r->vertices->vertices[i]);
+	ear_clip_polygon(r);
+	uv_mapping(r);
 	i = -1;
-	while (++i < polygon->vertices->len)
-		polygon->vertices->vertices[i] = ft_mat4_mulv(polygon->matrix,
-			polygon->vertices->vertices[i]);
+	while (++i < r->vertices->len)
+		r->vertices->vertices[i] = mat4_mulv4(reverse,
+			r->vertices->vertices[i]);
 	return (TRUE);
 }

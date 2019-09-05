@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 14:22:33 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/04 16:47:53 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/05 00:28:19 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include "doom.h"
 #include "render.h"
 
-void		create_lights(t_doom *doom)
+/* void		create_lights(t_doom *doom)
 {
 	if (!(doom->lights = create_lights_array(2)))
 		return ;
@@ -144,11 +144,11 @@ void		blur_poly_shading(t_polygon *poly)
 		}
 	}
 }
-
+ */
 
 void		init_lightning(t_doom *doom)
 {
-	int		i;
+	/* int		i;
 	t_light	*light;
 
 	create_lights(doom);
@@ -197,6 +197,6 @@ void		init_lightning(t_doom *doom)
 	{
 		if (doom->polygons->polygons[i].lightmap)
 			blur_poly_shading(doom->polygons->polygons + i);
-	}
+	} */
 }
 
