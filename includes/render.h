@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:16:19 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/05 13:20:20 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/06 13:54:33 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,20 +80,21 @@ typedef struct		s_renderable_of
 
 typedef struct		s_renderable
 {
-	t_renderable_of	of;
-	t_4dvertices	*vertices;
-	t_vec4			*pp_vertices;
-	t_vec3			*pp_normals;
-	t_faces			*faces;
-	t_2dvertices	*vertex;
-	t_3dvertices	*normals;
-	t_mtllist		*materials;
-	t_vec3			position;
-	t_vec3			rotation;
-	t_vec3			scale;
-	t_bool			visible;
-	t_bool			dirty;
-	t_bool			fixed;
+	t_renderable_of			of;
+	t_4dvertices			*vertices;
+	t_vec4					*pp_vertices;
+	t_vec3					*pp_normals;
+	t_faces					*faces;
+	t_2dvertices			*vertex;
+	t_3dvertices			*normals;
+	t_mtllist				*materials;
+	struct s_octree_node	*octree;
+	t_vec3					position;
+	t_vec3					rotation;
+	t_vec3					scale;
+	t_bool					visible;
+	t_bool					dirty;
+	t_bool					fixed;
 }					t_renderable;
 
 typedef struct		s_renderables

@@ -6,13 +6,14 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/03 16:26:43 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/05 13:21:24 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/06 16:53:44 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "collision.h"
 #include "maths/triangle.h"
 #include "render.h"
+#include "octree.h"
 
 /* 
 void		transfom_obj(t_obj *obj)
@@ -79,5 +80,7 @@ t_bool			post_process_obj(t_renderable *r)
 		face = &r->faces->values[i];
 		face->collidable = compute_face_collidable(r, face);
 	}
+	r->octree = create_octree(r);
+	print_octree(r->octree);
 	return (TRUE);
 }

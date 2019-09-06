@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 21:05:41 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/03 13:34:20 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/06 11:25:41 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,6 @@
 # define GUI_MAIN_MENU (1)
 # define GUI_EDITOR (2)
 
-# define AMBIANT_LIGHT (40)
+# define AMBIANT_LIGHT (100)
 
 #endif

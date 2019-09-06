@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/14 17:20:03 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/29 02:19:16 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/06 14:01:15 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -245,7 +245,6 @@ int planeBoxOverlap(float normal[3], float vert[3], float maxbox[3])	// -NJMP-
 	p2 = a*v2[Y] - b*v2[Z];			       	   \
         if(p0<p2) {min=p0; max=p2;} else {min=p2; max=p0;} \
 	rad = fa * boxhalfsize[Y] + fb * boxhalfsize[Z];   \
-		printf("min = %f\n", min); \
 	if(min>rad || max<-rad) return 0;
 
 
@@ -255,7 +254,6 @@ int planeBoxOverlap(float normal[3], float vert[3], float maxbox[3])	// -NJMP-
 	p1 = a*v1[Y] - b*v1[Z];			       	   \
         if(p0<p1) {min=p0; max=p1;} else {min=p1; max=p0;} \
 	rad = fa * boxhalfsize[Y] + fb * boxhalfsize[Z];   \
-		printf("min = %f\n", min); \
 	if(min>rad || max<-rad) return 0;
 
 
@@ -267,7 +265,6 @@ int planeBoxOverlap(float normal[3], float vert[3], float maxbox[3])	// -NJMP-
 	p2 = -a*v2[X] + b*v2[Z];	       	       	   \
         if(p0<p2) {min=p0; max=p2;} else {min=p2; max=p0;} \
 	rad = fa * boxhalfsize[X] + fb * boxhalfsize[Z];   \
-		printf("min = %f\n", min); \
 	if(min>rad || max<-rad) return 0;
 
 
@@ -277,7 +274,6 @@ int planeBoxOverlap(float normal[3], float vert[3], float maxbox[3])	// -NJMP-
 	p1 = -a*v1[X] + b*v1[Z];	     	       	   \
         if(p0<p1) {min=p0; max=p1;} else {min=p1; max=p0;} \
 	rad = fa * boxhalfsize[X] + fb * boxhalfsize[Z];   \
-		printf("min = %f\n", min); \
 	if(min>rad || max<-rad) return 0;
 
 
@@ -290,7 +286,6 @@ int planeBoxOverlap(float normal[3], float vert[3], float maxbox[3])	// -NJMP-
 	p2 = a*v2[X] - b*v2[Y];			       	   \
         if(p2<p1) {min=p2; max=p1;} else {min=p1; max=p2;} \
 	rad = fa * boxhalfsize[X] + fb * boxhalfsize[Y];   \
-		printf("min = %f\n", min); \
 	if(min>rad || max<-rad) return 0;
 
 
@@ -300,7 +295,6 @@ int planeBoxOverlap(float normal[3], float vert[3], float maxbox[3])	// -NJMP-
 	p1 = a*v1[X] - b*v1[Y];			           \
         if(p0<p1) {min=p0; max=p1;} else {min=p1; max=p0;} \
 	rad = fa * boxhalfsize[X] + fb * boxhalfsize[Y];   \
-	printf("min = %f\n", min); \
 	if(min>rad || max<-rad) return 0;
 
 
@@ -402,7 +396,7 @@ int triBoxOverlap(float boxcenter[3],float boxhalfsize[3],float triverts[3][3])
    AXISTEST_Z12(e2[Y], e2[X], fey, fex);
 
 
-	printf("--------\n");
+	// printf("--------\n");
    /* Bullet 1: */
 
    /*  first test overlap in the {x,y,z}-directions */
@@ -416,7 +410,7 @@ int triBoxOverlap(float boxcenter[3],float boxhalfsize[3],float triverts[3][3])
 
 
    /* test in X-direction */
-   printf("min = %f\n", min);
+//    printf("min = %f\n", min);
 
    FINDMINMAX(v0[X],v1[X],v2[X],min,max);
 
@@ -425,7 +419,7 @@ int triBoxOverlap(float boxcenter[3],float boxhalfsize[3],float triverts[3][3])
 
 
    /* test in Y-direction */
-	printf("min = %f\n", min);
+	// printf("min = %f\n", min);
 
    FINDMINMAX(v0[Y],v1[Y],v2[Y],min,max);
 
@@ -435,7 +429,7 @@ int triBoxOverlap(float boxcenter[3],float boxhalfsize[3],float triverts[3][3])
 
    /* test in Z-direction */
 
-	printf("min = %f\n", min);
+	// printf("min = %f\n", min);
 
    FINDMINMAX(v0[Z],v1[Z],v2[Z],min,max);
 
@@ -454,7 +448,7 @@ int triBoxOverlap(float boxcenter[3],float boxhalfsize[3],float triverts[3][3])
    CROSS(normal,e0,e1);
 
    // -NJMP- (line removed here)
-	printf("min = %f\n", min);
+	// printf("min = %f\n", min);
 
    if(!planeBoxOverlap(normal,v0,boxhalfsize)) return 0;	// -NJMP-
 
@@ -504,7 +498,10 @@ t_collision		triangle_hit_aabb(t_collide_triangle *triangle,  t_collide_aabb *aa
 // 	if(!plane_hit_aabb(normal, v0, aabb->halfsize)) 
 // 		return (t_collision){ .collide = FALSE, .dist = -1 };
 //    return (t_collision){ .collide = TRUE, .dist = 1 };
-	if (triBoxOverlap((float [3]){ aabb->center.x, aabb->center.y, aabb->center.z }, (float [3]){ aabb->halfsize.x, aabb->halfsize.y, aabb->halfsize.z }, (float [3][3]) {
+	t_vec3 half = ft_vec3_mul_s(ft_vec3_sub(aabb->max, aabb->min), 0.5);
+	t_vec3 center = ft_vec3_add(aabb->min, half);
+
+	if (triBoxOverlap((float [3]){ center.x, center.y, center.z }, (float [3]){ half.x, half.y, half.z }, (float [3][3]) {
 		{ triangle->points[0].x, triangle->points[0].y, triangle->points[0].z },
 		{ triangle->points[1].x, triangle->points[1].y, triangle->points[1].z },
 		{ triangle->points[2].x, triangle->points[2].y, triangle->points[2].z }
