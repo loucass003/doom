@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 14:22:33 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/05 00:28:19 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/09 18:12:25 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,9 @@
 #include "collision.h"
 #include "doom.h"
 #include "render.h"
+#include "octree.h"
 
-/* void		create_lights(t_doom *doom)
+ void		create_lights(t_doom *doom)
 {
 	if (!(doom->lights = create_lights_array(2)))
 		return ;
@@ -33,14 +34,15 @@
 
 t_ray			create_ray(t_light *light, t_vec3 direction)
 {
-	t_vec3 d = vec3_rotate(direction, (t_vec3){-light->rotation.x, light->rotation.y, -light->rotation.z});
+	t_vec3 d = vec3_rotate(direction, (t_vec3){-light->rotation.x, -light->rotation.y, -light->rotation.z});
 	return ((t_ray){
 		.origin = light->position,
 		.direction = d
 	});
 }
 
-t_collision		hit_scene(t_doom *doom, t_ray *ray) {
+t_collision		hit_scene(t_doom *doom, t_ray *ray) 
+{
 	t_collision	min;
 	t_collision	hit;
 	int		i;
@@ -52,105 +54,112 @@ t_collision		hit_scene(t_doom *doom, t_ray *ray) {
 	};
 	float dist = INT_MAX;
 	i = -1;
-	while (++i < doom->polygons->len)
+	while (++i < doom->renderables->len)
 	{
-		t_polygon *poly = &doom->polygons->polygons[i];
-		if (poly->transparent)
+		t_renderable *r = &doom->renderables->values[i];
+		if (!r->fixed)
 			continue;
-		int triangles = floorf(poly->indices->len / 3.);
-		j = -1;
-		while (++j < triangles)
+		if (r->octree)
 		{
-			hit = ray_hit_collidable(ray, poly->collidables + j);
+			//printf("OCTREE\n");
+			t_ray copy;
+			t_mat4 m = ft_mat4_mul(
+				ft_mat4_rotation(ft_vec3_inv(r->rotation)),
+				ft_mat4_scale(ft_vec3_inv(r->scale))
+			);
+			copy.origin = ft_vec3_sub(ray->origin, r->position);
+			copy.direction = ft_mat4_mulv(m, ray->direction);
+			copy.origin = ft_mat4_mulv(m, ray->origin);
+			hit = ray_hit_collidable(&copy, &r->octree->box);
+			hit.renderable = r;
 			if (hit.collide && hit.dist >= 0 && hit.dist <= dist)
 			{
+				printf("HIT_OCTREE\n");
 				dist = hit.dist;
 				min = hit;
 			}
 		}
-	}
-	i = -1;
-	while (++i < doom->objects->len)
-	{
-		t_obj *obj = &doom->objects->objs[i];
-		if (!obj->fixed)
-			continue;
-		j = -1;
-		while (++j < obj->faces->len)
+		else
 		{
-			hit = ray_hit_collidable(ray, &obj->faces->values[j].collidable);
-			if (hit.collide && hit.dist >= 0 && hit.dist <= dist)
+			j = -1;
+			while (++j < r->faces->len)
 			{
-				dist = hit.dist;
-				min = hit;
+				hit = ray_hit_collidable(ray, &r->faces->values[j].collidable);
+				hit.renderable = r;
+				if (hit.collide && hit.dist >= 0 && hit.dist <= dist)
+				{
+					dist = hit.dist;
+					min = hit;
+				}
 			}
 		}
 	}
 	return (min);
 }
 
-short		get_pixel(t_polygon *poly, int x, int y)
-{
-	if (x < 0 || x >= poly->texture->w || y < 0 || y >= poly->texture->h)
-		return -1;
-	return poly->lightmap[y * (poly->texture->w) + x];
-}
+// short		get_pixel(t_polygon *poly, int x, int y)
+// {
+// 	if (x < 0 || x >= poly->texture->w || y < 0 || y >= poly->texture->h)
+// 		return -1;
+// 	return poly->lightmap[y * (poly->texture->w) + x];
+// }
 
-void get_adjacent(t_polygon *poly, short *pixels, int coef, int x, int y)
-{
-	int		i;
-	int		j;
+// void get_adjacent(t_polygon *poly, short *pixels, int coef, int x, int y)
+// {
+// 	int		i;
+// 	int		j;
 
-	i = -1;
-	while (++i < coef)
-	{
-		j = -1;
-		while (++j < coef)
-		{
-			pixels[i * coef + j] = get_pixel(poly, x - coef / 2 + j, y - coef / 2 + i);
-		}
-	}
-}
+// 	i = -1;
+// 	while (++i < coef)
+// 	{
+// 		j = -1;
+// 		while (++j < coef)
+// 		{
+// 			pixels[i * coef + j] = get_pixel(poly, x - coef / 2 + j, y - coef / 2 + i);
+// 		}
+// 	}
+// }
 
-void		blur_poly_shading(t_polygon *poly)
-{
-	int		coef = 3;
-	short	pixels[3 * 3];
-	int		x;
-	int		y;
-	int		add;
-	int		valid;
+// void		blur_poly_shading(t_polygon *poly)
+// {
+// 	int		coef = 3;
+// 	short	pixels[3 * 3];
+// 	int		x;
+// 	int		y;
+// 	int		add;
+// 	int		valid;
 
-	y = -1;
-	while (++y < poly->texture->h)
-	{
-		x = -1;
-		while (++x < poly->texture->w)
-		{
-			get_adjacent(poly, pixels, coef, x, y);
-			valid = 0;
-			add = 0;
-			for (int i = 0; i < coef * coef; i++)
-			{
-				short pixel = pixels[i];
-				if (pixel == -1)
-					continue;
-				valid++;
-				add += pixel;
-			}
-			if (valid == 0)
-				continue;
-			poly->lightmap[y * (poly->texture->w) + x] = fmax(AMBIANT_LIGHT, fmin(255, (float)add / (float)valid));
-		}
-	}
-}
- */
+// 	y = -1;
+// 	while (++y < poly->texture->h)
+// 	{
+// 		x = -1;
+// 		while (++x < poly->texture->w)
+// 		{
+// 			get_adjacent(poly, pixels, coef, x, y);
+// 			valid = 0;
+// 			add = 0;
+// 			for (int i = 0; i < coef * coef; i++)
+// 			{
+// 				short pixel = pixels[i];
+// 				if (pixel == -1)
+// 					continue;
+// 				valid++;
+// 				add += pixel;
+// 			}
+// 			if (valid == 0)
+// 				continue;
+// 			poly->lightmap[y * (poly->texture->w) + x] = fmax(AMBIANT_LIGHT, fmin(255, (float)add / (float)valid));
+// 		}
+// 	}
+// }
+
 
 void		init_lightning(t_doom *doom)
 {
-	/* int		i;
+	int		i;
 	t_light	*light;
 
+	printf("INIT_LIGHTS\n");
 	create_lights(doom);
 	float width = 200;
 	float height = 200;
@@ -172,31 +181,38 @@ void		init_lightning(t_doom *doom)
 					1
 				}));
 				t_collision hit = hit_scene(doom, &ray);
-				if (hit.collide && hit.who.type == COLLIDE_TRIANGLE)
+				if (hit.collide && hit.who.type == COLLIDE_AABB)
+				{
+					printf("HIT_OCTREE 2\n");
+				}
+				if (hit.collide && hit.who.type == COLLIDE_TRIANGLE && hit.renderable)
 				{
 					t_collide_triangle tri = (t_collide_triangle)hit.who.data.triangle;
 					if (tri.parent_type == PARENT_COLLIDER_OBJ)
 						continue;
 					t_vec2 uv = hit.uv;
-					int x0 = (float)(tri.polygon->texture->w) * (uv.x);
-					int y0 = (float)(tri.polygon->texture->h) * (1 - uv.y);
-					int index = y0 * (tri.polygon->texture->w) + x0;
-					float diffuseFactor = fmax(0.5, -ft_vec3_dot(tri.normal, ray.direction) * 1.2);
-					if (!tri.polygon->lightmap)
+					t_mtl *mtl = hit.renderable->faces->values[tri.face].mtl;
+					int x0 = (float)(mtl->texture_map->w) * (uv.x);
+					int y0 = (float)(mtl->texture_map->h) * (1 - uv.y);
+					int index = y0 * (mtl->texture_map->w) + x0;
+					// float diffuseFactor = fmax(0.5, -ft_vec3_dot(tri.normal, ray.direction) * 1.2);
+					float diffuseFactor = 1;
+					if (!mtl->lightmap)
 					{
-						if(!(tri.polygon->lightmap = (uint8_t *)malloc(tri.polygon->texture->w * tri.polygon->texture->h * sizeof(uint8_t))))
+						if(!(mtl->lightmap = (uint8_t *)malloc(mtl->texture_map->w * mtl->texture_map->h * sizeof(uint8_t))))
 							return ;
-						ft_memset(tri.polygon->lightmap, AMBIANT_LIGHT, tri.polygon->texture->w * tri.polygon->texture->h * sizeof(uint8_t));
+						ft_memset(mtl->lightmap, AMBIANT_LIGHT, mtl->texture_map->w * mtl->texture_map->h * sizeof(uint8_t));
 					}
-					tri.polygon->lightmap[index] = fmax(AMBIANT_LIGHT, fmin(255, diffuseFactor * 255));
+					//printf("CALL\n");
+					mtl->lightmap[index] = fmax(AMBIANT_LIGHT, fmin(255, diffuseFactor * 255));
 				}
 			}
 		}
 	}
-	for (int i = 0; i < doom->polygons->len; i++)
-	{
-		if (doom->polygons->polygons[i].lightmap)
-			blur_poly_shading(doom->polygons->polygons + i);
-	} */
+	// for (int i = 0; i < doom->polygons->len; i++)
+	// {
+	// 	if (doom->polygons->polygons[i].lightmap)
+	// 		blur_poly_shading(doom->polygons->polygons + i);
+	// }
 }
 

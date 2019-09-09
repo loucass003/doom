@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 01:15:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/05 20:39:13 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/09 16:12:08 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,9 @@ typedef struct		s_collide_triangle
 	t_vec3					v0v2;
 	struct s_polygon		*polygon;
 	struct s_obj			*obj;
-	int						triangle;
+	int						face;
+	t_bool					use_box;
+	t_collide_aabb			box;
 }					t_collide_triangle;
 
 typedef union 		u_collidable_data
@@ -71,6 +73,7 @@ typedef struct		s_collision
 	t_vec3			normal;
 	t_vec2			uv;
 	t_collidable	who;
+	struct s_renderable	*renderable;
 }					t_collision;
 
 typedef struct		s_obb_box
@@ -89,5 +92,6 @@ t_collision			ray_hit_triangle(t_ray *ray, t_collide_triangle *collidable);
 t_vec3				vec3_rotate(t_vec3 v, t_vec3 rot);
 t_collision			triangle_hit_aabb(t_collide_triangle *triangle,  t_collide_aabb *aabb);
 t_bool				get_obb_collision(t_obb_box a, t_obb_box b);
+
 
 #endif

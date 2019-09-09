@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:16:19 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/06 13:54:33 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/09 16:06:33 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ typedef struct		s_face
 	t_vec3			face_normal;
 	t_mtl			*mtl;
 	t_collidable	collidable;
+	t_collidable	pp_collidable;
 	int				group;
 }					t_face;
 
@@ -122,5 +123,6 @@ void				transform_renderable(t_renderable *r);
 // void				render_polygon(t_render_context *ctx, t_polygon *poly);
 // void				render_obj(t_render_context *ctx, t_obj *obj);
 
+t_collidable		compute_collidable(t_renderable *r, int face_index, t_vec4 *vertices);
 
 #endif

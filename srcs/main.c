@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/06 12:13:26 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/09 15:21:21 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,25 +112,6 @@ int		main(void)
 		return (-1);
 	if (!(doom.renderables = create_renderables_array(50)))
 		return (-1);
-	int		i;
-	int		j;
-	int		k;
-
-	i = -1;
-	while (++i < 2)
-	{
-		j = -1;
-		while (++j < 2)
-		{
-			k = -1;
-			while (++k < 2)
-			{
-				int index = i + 2 * (j + 2 * k);
-				
-				printf("%d %d %d -> %d\n", i, j, k, index);
-			}
-		}
-	}
 	init_sdl(&doom);
 	obj_test(&doom);
 	init_bsp(&doom);

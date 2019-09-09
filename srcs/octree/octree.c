@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/05 17:31:15 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/06 16:57:19 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/09 11:45:42 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,28 +50,27 @@ t_octree_node	*create_node(t_collidable box)
 	return (node);
 }
 
-void			compute_boxes(t_collide_aabb parent_box, t_octree_node *n)
+void			compute_boxes(t_collide_aabb p, t_octree_node *n)
 {
 	int		i;
 	int		j;
 	int		k;
-	t_vec3	size;
+	t_vec3	s;
+	t_octree_node *c;
 
 	i = -1;
-	while (++i < 2)
+	while (++i < 2 && !!(j = -1))
 	{
-		j = -1;
-		while (++j < 2)
+		while (++j < 2 && !!(k = -1))
 		{
-			k = -1;
 			while (++k < 2)
 			{
-				size = ft_vec3_mul_s(ft_vec3_sub(parent_box.max, parent_box.min), 0.5);
-				t_octree_node *child = &n->childs[i + 2 * (j + 2 * k)];
-				child->box.type = COLLIDE_AABB;
-				child->box.data.aabb = (t_collide_aabb){
-					.min = ft_vec3_add(parent_box.min, ft_vec3_mul(size, (t_vec3){ i, j, k })),
-					.max = ft_vec3_add(size, ft_vec3_add(parent_box.min, ft_vec3_mul(size, (t_vec3){ i, j, k })))
+				s = ft_vec3_mul_s(ft_vec3_sub(p.max, p.min), 0.5);
+				c = &n->childs[i + 2 * (j + 2 * k)];
+				c->box.type = COLLIDE_AABB;
+				c->box.data.aabb = (t_collide_aabb){
+					.min = ft_vec3_add(p.min, ft_vec3_mul(s, (t_vec3){ i, j, k })),
+					.max = ft_vec3_add(s, ft_vec3_add(p.min, ft_vec3_mul(s, (t_vec3){ i, j, k })))
 				};
 			}
 		}
@@ -99,7 +98,6 @@ t_bool			subdivide(t_renderable *r, t_octree_node *n)
 		{
 			if (triangle_hit_aabb(&r->faces->values[i].collidable.data.triangle, &child->box.data.aabb).collide)
 				append_ints_array(&child->faces_index, i);
-			
 		}
 		if (child->faces_index->len > 100)
 		{
@@ -132,12 +130,6 @@ t_octree_node	*create_octree(t_renderable *r)
 void			print_octree(t_octree_node	*n)
 {
 	int i;
-	/*
-	graph TD
-	A(Christmas) -->B(Go shopping)
-	A(Christmas)  -->C(A)
-	A(Christmas)  -->D(Go shopping)
-	*/
 	if (!n || !n->childs)
 		return ;
 	i = -1;
@@ -146,7 +138,7 @@ void			print_octree(t_octree_node	*n)
 		if (n->childs + i != NULL)
 		{
 			print_octree(&n->childs[i]);
-			printf("%p(%d) --> %p(%d)\n", n, 0, n->childs + i, i);
+			printf("%p(%d) --> %p(%d -- %d)\n", n,  n->faces_index->len, n->childs + i, i, n->childs[i].faces_index->len);
 		}
 	}
 }

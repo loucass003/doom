@@ -6,10 +6,11 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/03 16:26:43 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/06 16:53:44 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/09 16:30:40 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <limits.h>
 #include "collision.h"
 #include "maths/triangle.h"
 #include "render.h"
@@ -47,40 +48,22 @@ void		transfom_obj(t_obj *obj)
 }
  */
 
-static t_collidable	compute_face_collidable(t_renderable *r, t_face *face)
-{
-	t_collidable	col;
-	t_collide_triangle	tri;
 
-	col.type = COLLIDE_TRIANGLE;
-	tri.parent_type = PARENT_COLLIDER_OBJ;
-	tri.obj = r->of.data.obj;
-	tri.normal = face->face_normal;
-	tri.points[0] = vec4_to_3(r->pp_vertices[face->vertices_index[0] - 1]);
-	tri.points[1] = vec4_to_3(r->pp_vertices[face->vertices_index[1] - 1]);
-	tri.points[2] = vec4_to_3(r->pp_vertices[face->vertices_index[2] - 1]);
-	tri.uv[0] = r->vertex->vertices[face->vertex_index[0] - 1];
-	tri.uv[1] = r->vertex->vertices[face->vertex_index[1] - 1];
-	tri.uv[2] = r->vertex->vertices[face->vertex_index[2] - 1];
-	tri.v0v1 = ft_vec3_sub(tri.points[1], tri.points[0]);
-	tri.v0v2 = ft_vec3_sub(tri.points[2], tri.points[0]);
-	col.data.triangle = tri;
-	return (col);
-}
 
 t_bool			post_process_obj(t_renderable *r)
 {
 	int			i;
 	t_face		*face;
 
-	transform_renderable(r);
+
 	i = -1;
 	while (++i < r->faces->len)
 	{
 		face = &r->faces->values[i];
-		face->collidable = compute_face_collidable(r, face);
+		face->collidable = compute_collidable(r, i, r->vertices->vertices);
 	}
 	r->octree = create_octree(r);
 	print_octree(r->octree);
+	transform_renderable(r);
 	return (TRUE);
 }

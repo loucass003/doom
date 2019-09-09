@@ -12,6 +12,7 @@ SRC+=arrays/rooms.c
 SRC+=arrays/walls.c
 SRC+=audio.c
 SRC+=colisions/aabb.c
+SRC+=colisions/compute_collidables.c
 SRC+=colisions/obb.c
 SRC+=colisions/triangle.c
 SRC+=components/c_button.c

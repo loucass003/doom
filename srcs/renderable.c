@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/05 00:02:57 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/05 13:44:42 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/09 16:09:49 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,5 +47,6 @@ void		transform_renderable(t_renderable *r)
 			vec4_to_3(r->pp_vertices[face->vertices_index[0] - 1]),
 			vec4_to_3(r->pp_vertices[face->vertices_index[1] - 1]),
 			vec4_to_3(r->pp_vertices[face->vertices_index[2] - 1]));
+		face->pp_collidable = compute_collidable(r, i, r->pp_vertices);
 	}
 }
