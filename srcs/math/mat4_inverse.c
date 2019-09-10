@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/04 02:12:21 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/29 02:56:09 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/10 19:37:39 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ static void		adjoint(float a[4][4], float adj[4][4])
 
 t_bool		mat4_inverse(t_mat4 a, t_mat4 *inverse)
 {
-	const float		det = determinant(a.a, 4); 
+	const float		det = 1.0 / determinant(a.a, 4); 
 	float			adj[4][4];
 	int				i;
 	int				j;
@@ -97,7 +97,7 @@ t_bool		mat4_inverse(t_mat4 a, t_mat4 *inverse)
 	{
 		j = -1;
 		while (++j < 4)
-			inverse->a[i][j] = adj[i][j] / (float)det; 
+			inverse->a[i][j] = adj[i][j] * (float)det; 
 	}
 	return (TRUE);
 }
