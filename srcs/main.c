@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/09 15:21:21 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/10 13:21:42 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,9 +113,12 @@ int		main(void)
 	if (!(doom.renderables = create_renderables_array(50)))
 		return (-1);
 	init_sdl(&doom);
+	
+
 	obj_test(&doom);
 	init_bsp(&doom);
 	init_lightning(&doom);
+	init_SDL_mixer();
 	game_loop(&doom);
 	sdl_quit(&doom);
 	quit_openal();

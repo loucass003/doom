@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:01:13 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/05 13:37:50 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/10 13:08:08 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,6 @@ static void		update_fps(t_doom *doom)
 
 void			game_loop(t_doom *doom)
 {
-	init_openal(doom);
-	load_wav();
-
 	register_guis(doom);
 
 	doom->player.camera.projection = projection_matrix();

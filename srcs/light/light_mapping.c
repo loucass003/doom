@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   light_mapping.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 14:22:33 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/09 18:12:25 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/10 13:22:28 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 	// });
 	append_lights_array(&doom->lights,(t_light) {
 		.position = { 1.5, 1.499, 1 },
-		.rotation = ((t_vec3){ -M_PI_4, 0, 0 })
+		.rotation = ((t_vec3){ -M_PI_4, M_PI, 0 })
 	});
 }
 
