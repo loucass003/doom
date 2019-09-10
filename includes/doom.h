@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/10 13:07:56 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/09/10 15:37:19 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ void				load_all(t_doom *doom);
 t_bool				post_process_map(t_doom *doom);
 
 t_bool				init_openal(t_doom *doom);
-void				init_SDL_mixer();
+void				init_SDL_mixer(t_doom *doom);
 
 void				load_wav();
 void				quit_openal();
