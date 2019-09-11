@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 15:28:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/09 16:35:07 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/11 18:56:34 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,6 +148,11 @@ t_bool		obj_test(t_doom *doom)
 	t_renderable r;
 	t_bool lol = create_obj(doom, &r, "House2.obj");
 	r.position = (t_vec3){1, 0, 4};
+	r.scale = (t_vec3){0.003, 0.003, 0.003};
+	r.fixed = TRUE;
+	append_renderables_array(&doom->renderables, r);
+	lol = create_obj(doom, &r, "House2.obj");
+	r.position = (t_vec3){1, 0, 7};
 	r.scale = (t_vec3){0.003, 0.003, 0.003};
 	r.fixed = TRUE;
 	append_renderables_array(&doom->renderables, r);

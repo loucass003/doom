@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/22 13:41:15 by lloncham          #+#    #+#             */
-/*   Updated: 2019/09/10 17:50:43 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/11 15:57:24 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void			init_SDL_mixer(t_doom *doom)
 	alSourcef(source, AL_GAIN, 1);
 	alSource3f(source, AL_POSITION, 1, 0, 0);
 	alSourcei(source, AL_LOOPING, AL_FALSE);
-	alSourcePlay(source);
+	//alSourcePlay(source);
 }
 
 t_bool			init_openal(t_doom *doom)

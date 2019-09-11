@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/05 17:31:15 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/09 11:45:42 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/11 18:18:36 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ t_collidable	get_maximum_box(t_renderable *r)
 		box.max.z = fmax(box.max.z, vert.z);
 	}
 	col.data.aabb = box;
+	printf("min %f %f %f, max %f %f %f\n", box.min.x, box.min.y, box.min.z, box.max.x, box.max.y, box.max.z);
 	return (col);
 }
 
