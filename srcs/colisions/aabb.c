@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/14 17:20:03 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/11 18:39:38 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/12 14:28:08 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,41 +149,41 @@ t_bool	axis_test_z0(t_vec2 e[2], t_vec3 halfsize, t_vec2 *range, t_vec3 v[3])
 
 t_collision		ray_hit_aabb(t_ray *ray, t_collide_aabb *collidable)
 {
-	t_vec3	dirfrac;
+	// t_vec3	dirfrac;
 
-	dirfrac.x = 1.0f / ray->direction.x;
-	dirfrac.y = 1.0f / ray->direction.y;
-	dirfrac.z = 1.0f / ray->direction.z;
-	// lb is the corner of AABB with minimal coordinates - left bottom, rt is maximal corner
-	// r.org is origin of ray
-	float t1 = (collidable->min.x - ray->origin.x) * dirfrac.x;
-	float t2 = (collidable->max.x - ray->origin.x) * dirfrac.x;
-	float t3 = (collidable->min.y - ray->origin.y) * dirfrac.y;
-	float t4 = (collidable->max.y - ray->origin.y) * dirfrac.y;
-	float t5 = (collidable->min.z - ray->origin.z) * dirfrac.z;
-	float t6 = (collidable->max.z - ray->origin.z) * dirfrac.z;
+	// dirfrac.x = 1.0f / ray->direction.x;
+	// dirfrac.y = 1.0f / ray->direction.y;
+	// dirfrac.z = 1.0f / ray->direction.z;
+	// // lb is the corner of AABB with minimal coordinates - left bottom, rt is maximal corner
+	// // r.org is origin of ray
+	// float t1 = (collidable->min.x - ray->origin.x) * dirfrac.x;
+	// float t2 = (collidable->max.x - ray->origin.x) * dirfrac.x;
+	// float t3 = (collidable->min.y - ray->origin.y) * dirfrac.y;
+	// float t4 = (collidable->max.y - ray->origin.y) * dirfrac.y;
+	// float t5 = (collidable->min.z - ray->origin.z) * dirfrac.z;
+	// float t6 = (collidable->max.z - ray->origin.z) * dirfrac.z;
 
-	float tmin = fmax(fmax(fmin(t1, t2), fmin(t3, t4)), fmin(t5, t6));
-	float tmax = fmin(fmin(fmax(t1, t2), fmax(t3, t4)), fmax(t5, t6));
-	if (tmax < 0)
-		return (t_collision){ .collide = FALSE, .dist = 1 };
-	if (tmin > tmax)
-		return (t_collision){ .collide = FALSE, .dist = 1 };
-	return ((t_collision) {
-		.collide = TRUE,
-		.dist = tmin,
-		.who = (t_collidable){
-			.type = COLLIDE_AABB,
-			.data = { .aabb = *collidable }
-		}
-	});
-/* 	t_vec3	invdir;
+	// float tmin = fmax(fmax(fmin(t1, t2), fmin(t3, t4)), fmin(t5, t6));
+	// float tmax = fmin(fmin(fmax(t1, t2), fmax(t3, t4)), fmax(t5, t6));
+	// if (tmax < 0)
+	// 	return (t_collision){ .collide = FALSE, .dist = 0 };
+	// if (tmin > tmax)
+	// 	return (t_collision){ .collide = FALSE, .dist = 0 };
+	// return ((t_collision) {
+	// 	.collide = TRUE,
+	// 	.dist = tmin,
+	// 	.who = (t_collidable){
+	// 		.type = COLLIDE_AABB,
+	// 		.data = { .aabb = *collidable }
+	// 	}
+	// });
+ 	t_vec3	invdir;
 	double	min;
 	double	max;
 	t_vec3	cmin;
 	t_vec3	cmax;
 
-	invdir = ft_vec3_inv(ray->direction);
+	invdir = ft_vec3_div((t_vec3){1, 1, 1}, ray->direction);
 	cmin = (t_vec3){
 		((ray->direction.x < 0 ? collidable->max.x : collidable->min.x) - ray->origin.x) * invdir.x,
 		((ray->direction.y < 0 ? collidable->max.y : collidable->min.y) - ray->origin.y) * invdir.y,
@@ -218,7 +218,7 @@ t_collision		ray_hit_aabb(t_ray *ray, t_collide_aabb *collidable)
 			.type = COLLIDE_AABB,
 			.data = { .aabb = *collidable }
 		}
-	}); */
+	}); 
 }
 
 #define X 0

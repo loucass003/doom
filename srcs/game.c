@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:01:13 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/10 13:08:08 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/09/12 17:10:57 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void			game_loop(t_doom *doom)
 	register_guis(doom);
 
 	doom->player.camera.projection = projection_matrix();
-	doom->player.pos = (t_vec3){ 11, 5, 4 };
+	doom->player.pos = (t_vec3){ 1, 1, 1 };
 	doom->player.rotation.y = 4.879;
 	doom->player.rotation.x = 0;
 	doom->player.rotation.z = 0;

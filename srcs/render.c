@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 16:49:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/05 13:30:35 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/12 16:25:21 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,10 @@ void	render_renderable(t_render_context *ctx, t_renderable *r)
 		t_vec4 v0 = mat43_mulv4(ctx->camera->matrix, r->pp_vertices[face->vertices_index[0] - 1]);
 		t_vec4 v1 = mat43_mulv4(ctx->camera->matrix, r->pp_vertices[face->vertices_index[1] - 1]);
 		t_vec4 v2 = mat43_mulv4(ctx->camera->matrix, r->pp_vertices[face->vertices_index[2] - 1]);
+
+		v0 = mat4_mulv4(ctx->camera->projection, v0);
+		v1 = mat4_mulv4(ctx->camera->projection, v1);
+		v2 = mat4_mulv4(ctx->camera->projection, v2);
 
 		float it0 = get_light_intensity(ctx, r->pp_normals[face->normals_index[0] - 1], r->pp_vertices[face->vertices_index[0] - 1]);
 		float it1 = get_light_intensity(ctx, r->pp_normals[face->normals_index[1] - 1], r->pp_vertices[face->vertices_index[1] - 1]);

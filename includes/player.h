@@ -16,6 +16,7 @@ typedef struct					s_player
 	t_bool			fixed_ray;
 	t_collide_aabb	aabb;
 	t_bool			coliding;
+	t_vec3			velocity;
 }								t_player;
 
 t_ray				create_shoot_ray(t_player player, t_vec3 direction);

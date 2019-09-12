@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 01:17:41 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/11 17:41:28 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/12 13:36:45 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,15 @@ void scanline2(t_render_context *ctx, t_mtl *mtl, t_pixel p, float t, t_vertex s
 		vert.tex.x = (1.0f - t) * start.tex.x + t * end.tex.x;
 		vert.tex.y = (1.0f - t) * start.tex.y + t * end.tex.y;
 		float w = 1. / vert.pos.w;
-		int x = ft_max(0, ft_min(mtl->texture_map->w - 1, (vert.tex.x * w) * (mtl->texture_map->w)));
-		int y = ft_max(0, ft_min(mtl->texture_map->h - 1, (1. - (vert.tex.y * w)) * (mtl->texture_map->h)));
-		if (mtl->lightmap)
-			a = mtl->lightmap[y * (mtl->texture_map->w) + x];
-		if (mtl->texture_map_set)
-			c.color = get_surface_pixel(mtl->texture_map, x, y);
+		if (mtl->lightmap || mtl->texture_map_set)
+		{
+			int x = ft_max(0, ft_min(mtl->texture_map->w - 1, (vert.tex.x * w) * (mtl->texture_map->w)));
+			int y = ft_max(0, ft_min(mtl->texture_map->h - 1, (1. - (vert.tex.y * w)) * (mtl->texture_map->h)));
+			if (mtl->lightmap)
+				a = mtl->lightmap[y * (mtl->texture_map->w) + x];
+			if (mtl->texture_map_set)
+				c.color = get_surface_pixel(mtl->texture_map, x, y);
+		}
 		else if (mtl->material_color_set)
 			c.color = mtl->material_color;
 		if (!mtl->transparent)

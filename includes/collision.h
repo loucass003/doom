@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 01:15:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/11 19:03:17 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/12 14:25:09 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ typedef struct		s_collision
 	t_vec2			uv;
 	t_collidable	who;
 	t_ray			ray;
+	t_vec3			point;
+	float			tmp_dist;
 	struct s_renderable	*renderable;
 }					t_collision;
 

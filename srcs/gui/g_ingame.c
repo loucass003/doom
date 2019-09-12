@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/05 13:34:13 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/12 13:49:04 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,5 +53,7 @@ void	g_ingame_render(t_gui *self, t_doom *doom)
 	{
 		render_renderable(&doom->main_context, doom->renderables->values + i);
 	}
-		doom->main_context.image = &doom->screen_transparency;
+	// doom->renderables->values[0].rotation.y += 0.03;
+	// doom->renderables->values[0].dirty = TRUE;
+	doom->main_context.image = &doom->screen_transparency;
 }

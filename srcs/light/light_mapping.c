@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 14:22:33 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/11 19:04:37 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/12 14:56:03 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 	// 	.rotation = ((t_vec3){ M_PI - -M_PI_4,  M_PI, 0 })
 	// });
 	append_lights_array(&doom->lights,(t_light) {
-		.position = { 1.3, 0.5, 2.5 },
+		.position = { 1.3, 0.5, 2.0 },
 		.rotation = ((t_vec3){ 0, 0, 0 })
 	});
 }
@@ -60,7 +60,7 @@ t_collision		hit_scene(t_doom *doom, t_ray *ray)
 		t_renderable *r = &doom->renderables->values[i];
 		if (!r->fixed)
 			continue;
-		if (r->octree)
+		if (FALSE && r->octree)
 		{
 			//printf("OCTREE\n");
 			
@@ -76,21 +76,22 @@ t_collision		hit_scene(t_doom *doom, t_ray *ray)
 			copy.origin = ft_mat4_mulv(m, copy.origin);
 			copy.origin = ft_vec3_mul(copy.origin, scale_inv);
 			hit = ray_hit_collidable(&copy, &r->octree->box);
-		//	printf("copy O -> %f %f %f, R -> %f %f %f\n", copy.origin.x, copy.origin.y, copy.origin.z, copy.direction.x, copy.direction.y, copy.direction.z);
-		//	printf("ray O -> %f %f %f, R -> %f %f %f\n", ray->origin.x, ray->origin.y, ray->origin.z, ray->direction.x, ray->direction.y, ray->direction.z);
+			// printf("copy O -> %f %f %f, R -> %f %f %f\n", copy.origin.x, copy.origin.y, copy.origin.z, copy.direction.x, copy.direction.y, copy.direction.z);
+			// printf("ray O -> %f %f %f, R -> %f %f %f\n", ray->origin.x, ray->origin.y, ray->origin.z, ray->direction.x, ray->direction.y, ray->direction.z);
 			hit.renderable = r;
 			hit.ray = copy;
 			if (hit.collide)
 			{
-				t_vec3 point = ray->origin;
+				t_vec3 point = copy.origin;
 				point = ft_vec3_add(point, ft_vec3_mul_s(copy.direction, hit.dist));
 				point = ft_vec3_mul(point, r->scale);
 				point = ft_vec3_mul(point, r->position);
+				hit.tmp_dist = hit.dist;
 				hit.dist = ft_vec3_len(ft_vec3_sub(ray->origin, point));
+				hit.point = point;
 		//		printf("%f\n", hit.dist);
 				if (hit.dist >= 0 && hit.dist <= dist)
 				{
-					
 			//		printf("HIT_OCTREE\n");
 					dist = hit.dist;
 					min = hit;
@@ -188,58 +189,65 @@ void		init_lightning(t_doom *doom)
 
 	printf("INIT_LIGHTS\n");
 	create_lights(doom);
-	float width = 400;
-	float height = 400;
-	i = -1;
-	while (++i < doom->lights->len)
-	{
-		light = &doom->lights->lights[i];
-		for (int y = 0; y < height; y++)
-		{
-			for (int x = 0; x < width; x++)
-			{
-				if((x - 200)*(x - 200) +  (y - 200) * (y - 200) > 200*200)
-				 	continue ;
-				float x_inv = width - x;
-				float y_inv = y;
-				t_ray ray = create_ray(light, ft_vec3_norm((t_vec3){ 
-					((x_inv + 0.5) / width - 0.5),
-					((y_inv + 0.5) / height - 0.5) * (height / width),
-					1
-				}));
-				t_collision hit = hit_scene(doom, &ray);
-				if (hit.collide && hit.who.type == COLLIDE_AABB)
-				{
-					printf("HIT_OCTREE 2\n");
-					
-				}
-				if (hit.collide && hit.who.type == COLLIDE_TRIANGLE && hit.renderable)
-				{
-					t_collide_triangle tri = (t_collide_triangle)hit.who.data.triangle;
-					if (tri.parent_type == PARENT_COLLIDER_OBJ)
-						continue;
-					t_vec2 uv = hit.uv;
-					t_mtl *mtl = hit.renderable->faces->values[tri.face].mtl;
-					int x0 = (float)(mtl->texture_map->w - 1) * (uv.x);
-					int y0 = (float)(mtl->texture_map->h - 1) * (1 - uv.y);
-					int index = y0 * (mtl->texture_map->w) + x0;
-				//	float diffuseFactor = fmin(1, fmax(AMBIANT_LIGHT / 255, -ft_vec3_dot(tri.normal, ray.direction) * 4));
-					float diffuseFactor = 1;
-					if (!mtl->lightmap)
-					{
-						const int size = mtl->texture_map->w * mtl->texture_map->h * sizeof(uint8_t);
-						if(mtl->texture_map_set && !(mtl->lightmap = (uint8_t *)malloc(size)))
-							return ;
-						ft_memset(mtl->lightmap, AMBIANT_LIGHT, size);
-					}
-					//printf("CALL\n");
-					if (mtl->lightmap)
-						mtl->lightmap[index] = fmax(AMBIANT_LIGHT, fmin(255, diffuseFactor * 255));
-				}
-			}
-		}
-	}
-	//exit(0);
+	// float width = 400;
+	// float height = 400;
+	// i = -1;
+	// while (++i < doom->lights->len)
+	// {
+	// 	light = &doom->lights->lights[i];
+	// 	for (int y = 0; y < height; y++)
+	// 	{
+	// 		for (int x = 0; x < width; x++)
+	// 		{
+	// 			if((x - 200)*(x - 200) +  (y - 200) * (y - 200) > 200*200)
+	// 			 	continue ;
+	// 			float x_inv = width - x;
+	// 			float y_inv = y;
+	// 			t_ray ray = create_ray(light, ft_vec3_norm((t_vec3){ 
+	// 				((x_inv + 0.5) / width - 0.5),
+	// 				((y_inv + 0.5) / height - 0.5) * (height / width),
+	// 				1
+	// 			}));
+	// 			t_collision hit = hit_scene(doom, &ray);
+	// 			// if (hit.collide && hit.who.type == COLLIDE_AABB)
+	// 			// {
+	// 			// //	printf("HIT_OCTREE 2\n");
+	// 			// 	if (x == 200 && y == 200)
+	// 			// 	{
+	// 			// 		printf("copy O -> %f %f %f, R -> %f %f %f\n", hit.ray.origin.x, hit.ray.origin.y, hit.ray.origin.z, hit.ray.direction.x, hit.ray.direction.y, hit.ray.direction.z);
+	// 			// 		printf("ray O -> %f %f %f, R -> %f %f %f\n", ray.origin.x, ray.origin.y, ray.origin.z, ray.direction.x, ray.direction.y, ray.direction.z);
+	// 			// 		printf("point %f %f %f\n", hit.point.x, hit.point.y, hit.point.z);
+	// 			// 		printf("tmp_dist %f\n", hit.tmp_dist);
+	// 			// 		printf("dist %f\n", hit.dist);
+	// 			// 	}
+	// 			// }
+	// 			if (hit.collide && hit.who.type == COLLIDE_TRIANGLE && hit.renderable)
+	// 			{
+	// 				t_collide_triangle tri = (t_collide_triangle)hit.who.data.triangle;
+	// 				if (tri.parent_type == PARENT_COLLIDER_OBJ)
+	// 					continue;
+	// 				t_vec2 uv = hit.uv;
+	// 				t_mtl *mtl = hit.renderable->faces->values[tri.face].mtl;
+	// 				int x0 = (float)(mtl->texture_map->w - 1) * (uv.x);
+	// 				int y0 = (float)(mtl->texture_map->h - 1) * (1 - uv.y);
+	// 				int index = y0 * (mtl->texture_map->w) + x0;
+	// 			//	float diffuseFactor = fmin(1, fmax(AMBIANT_LIGHT / 255, -ft_vec3_dot(tri.normal, ray.direction) * 4));
+	// 				float diffuseFactor = 1;
+	// 				if (!mtl->lightmap)
+	// 				{
+	// 					const int size = mtl->texture_map->w * mtl->texture_map->h * sizeof(uint8_t);
+	// 					if(mtl->texture_map_set && !(mtl->lightmap = (uint8_t *)malloc(size)))
+	// 						return ;
+	// 					ft_memset(mtl->lightmap, AMBIANT_LIGHT, size);
+	// 				}
+	// 				//printf("CALL\n");
+	// 				if (mtl->lightmap)
+	// 					mtl->lightmap[index] = fmax(AMBIANT_LIGHT, fmin(255, diffuseFactor * 255));
+	// 			}
+	// 		}
+	// 	}
+	// }
+	// //exit(0);
 	// for (int i = 0; i < doom->renderables->len; i++)
 	// {
 	// 	t_renderable *r = &doom->renderables->values[i];
