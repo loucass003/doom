@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/22 13:41:15 by lloncham          #+#    #+#             */
-/*   Updated: 2019/09/12 14:59:29 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/09/12 15:33:43 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void			init_SDL_mixer(t_doom *doom)
 
 t_bool			init_openal(t_doom *doom)
 {
-	ALfloat listenerOri[] = {0.f, 0.f, 1.f, 0.f, 1.f, 0.f};
+	ALfloat listenerOri[] = {1.f, 0.f, 1.f, 0.f, 1.f, 0.f};
 
 	doom->audio.device = alcOpenDevice(NULL);
 	if (!(doom->audio.context = alcCreateContext(doom->audio.device, NULL)))
@@ -69,9 +69,9 @@ t_bool			init_openal(t_doom *doom)
 	alGenBuffers(5, &doom->audio.buffer);
 	alBufferData(doom->audio.buffer[0], AL_FORMAT_MONO16, doom->audio.music[0]->abuf, doom->audio.music[0]->alen, 44100);
 	alBufferData(doom->audio.buffer[1], AL_FORMAT_MONO16, doom->audio.music[1]->abuf, doom->audio.music[1]->alen, 44100);
-	alBufferData(doom->audio.buffer[2], AL_FORMAT_MONO16, doom->audio.music[1]->abuf, doom->audio.music[1]->alen, 44100);
-	alBufferData(doom->audio.buffer[3], AL_FORMAT_MONO16, doom->audio.music[1]->abuf, doom->audio.music[1]->alen, 44100);
-	alBufferData(doom->audio.buffer[4], AL_FORMAT_MONO16, doom->audio.music[1]->abuf, doom->audio.music[1]->alen, 44100);
+	alBufferData(doom->audio.buffer[2], AL_FORMAT_MONO16, doom->audio.music[2]->abuf, doom->audio.music[2]->alen, 44100);
+	alBufferData(doom->audio.buffer[3], AL_FORMAT_MONO16, doom->audio.music[3]->abuf, doom->audio.music[3]->alen, 44100);
+	alBufferData(doom->audio.buffer[4], AL_FORMAT_MONO16, doom->audio.music[4]->abuf, doom->audio.music[4]->alen, 44100);
 	alListener3f(AL_POSITION, 20.f, 0.f, 20.f);
 	alListener3f(AL_VELOCITY, 0.f, 0.f, 0.f);
 	alListenerfv(AL_ORIENTATION, listenerOri);
