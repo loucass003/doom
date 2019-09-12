@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/10 15:37:19 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/09/11 16:28:11 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 # include <SDL.h>
 # include <SDL_ttf.h>
 # include <SDL_mixer.h>
+# include <al.h>
+# include <alc.h>
 
 # include "libft.h"
 # include "constants.h"
@@ -53,6 +55,16 @@ typedef struct		s_textures
 // 	t_collision		collision;
 // }					t_ray_collide;
 
+typedef struct		s_audio
+{
+	Mix_Chunk		*music[5];
+	ALuint			buffer[5]; 
+	ALuint			source;
+	ALCdevice 		*device;
+	ALCcontext 		*context;
+
+}					t_audio;
+
 typedef struct		s_doom
 {
 	SDL_Window			*win;
@@ -81,6 +93,7 @@ typedef struct		s_doom
 	t_texture			*obj;
 	t_texture			*icons;
 	int					open;
+	t_audio				audio;
 	// t_ray_collide		*rays;
 }					t_doom;
 

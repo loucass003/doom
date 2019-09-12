@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/11 18:55:19 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/12 01:58:56 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ int		main(void)
 	obj_test(&doom);
 	init_bsp(&doom);
 	init_lightning(&doom);
-	init_SDL_mixer(&doom);
+	//init_SDL_mixer(&doom);
 	game_loop(&doom);
 	sdl_quit(&doom);
 	quit_openal();
