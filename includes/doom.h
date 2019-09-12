@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/11 16:28:11 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/09/12 14:13:13 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ typedef struct		s_audio
 {
 	Mix_Chunk		*music[5];
 	ALuint			buffer[5]; 
-	ALuint			source;
+	ALuint			source[5];
 	ALCdevice 		*device;
 	ALCcontext 		*context;
 
@@ -116,9 +116,7 @@ void				load_all(t_doom *doom);
 t_bool				post_process_map(t_doom *doom);
 
 t_bool				init_openal(t_doom *doom);
-void				init_SDL_mixer(t_doom *doom);
+void            	quit_openal();
 
-void				load_wav();
-void				quit_openal();
 
 #endif
