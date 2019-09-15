@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/12 17:33:54 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/15 04:29:01 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	init_bsp(t_doom *doom)
 {
 	int count = sizeof(lines) / sizeof(t_line);
 	// int count2 = sizeof(lines2) / sizeof(t_line);
-	t_renderable floor;
+	/* t_renderable floor;
 	create_polygon(&floor, P_FLOOR, (t_mtl){ .texture_map = doom->textures.bricks, .texture_map_set = TRUE });
 	for (int i = 0; i < count; i++)
 	{
@@ -79,10 +79,10 @@ void	init_bsp(t_doom *doom)
 		t_renderable wall;
 		create_wall_polygon(&wall, (t_mtl){ .texture_map = doom->textures.bricks, .texture_map_set = TRUE }, (t_line){ (t_vec2){lines[i].a.x / 100, (lines[i].a.y / 100)}, (t_vec2){lines[i].b.x / 100, (lines[i].b.y / 100)}}, (t_vec2){0, 1.5});
 		append_renderables_array(&doom->renderables, wall);
-	}
+	} */
 
 	// t_renderable tr;
-	// create_wall_polygon(&tr, (t_mtl){ .texture_map = doom->textures.test, .transparent = TRUE, .texture_map_set = TRUE }, (t_line){(t_vec2){2.5, 8}, (t_vec2){0, 8}}, (t_vec2){0, 1.5});
+	// create_wall_polygon(&tr, (t_mtl){ .texture_map = doom->textures.bricks, .texture_map_set = TRUE }, (t_line){(t_vec2){2.5, 8}, (t_vec2){0, 8}}, (t_vec2){0, 1.5});
 	// append_renderables_array(&doom->renderables, tr);
 
 	// t_ptrs	*ptrs = create_ptrs_array(1);
@@ -116,7 +116,7 @@ int		main(void)
 	obj_test(&doom);
 	init_bsp(&doom);
 	init_lightning(&doom);
-	init_openal(&doom);
+	//init_openal(&doom);
 	game_loop(&doom);
 	sdl_quit(&doom);
 	quit_openal();

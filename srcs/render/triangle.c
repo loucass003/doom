@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 01:17:41 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/12 13:36:45 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/15 04:33:25 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,19 +47,24 @@ void scanline2(t_render_context *ctx, t_mtl *mtl, t_pixel p, float t, t_vertex s
 
 	vert.pos.w = (1.0f - t) * start.pos.w + t * end.pos.w;
 	buff = ctx->buffer + p.y * (int)S_WIDTH + p.x;
+	// if (vert.pos.w > -25)
+	// 	return ;
 	if (vert.pos.w <= *buff)
 	{
 		*buff = vert.pos.w;
 		float lt_color = (1.0f - t) * start.light_color + t * end.light_color;
 		ur_color c;
-		uint8_t a = ft_max(AMBIANT_LIGHT, lt_color);
-		vert.tex.x = (1.0f - t) * start.tex.x + t * end.tex.x;
-		vert.tex.y = (1.0f - t) * start.tex.y + t * end.tex.y;
-		float w = 1. / vert.pos.w;
+		uint8_t a = ft_max(AMBIANT_LIGHT, lt_color);		
 		if (mtl->lightmap || mtl->texture_map_set)
 		{
-			int x = ft_max(0, ft_min(mtl->texture_map->w - 1, (vert.tex.x * w) * (mtl->texture_map->w)));
-			int y = ft_max(0, ft_min(mtl->texture_map->h - 1, (1. - (vert.tex.y * w)) * (mtl->texture_map->h)));
+			float w = 1. / vert.pos.w;
+			vert.tex.x = (1.0f - t) * start.tex.x + t * end.tex.x;
+			vert.tex.y = (1.0f - t) * start.tex.y + t * end.tex.y;
+			int x = (int)(fabsf((vert.tex.x > 0 ? 1 - vert.tex.x * w : vert.tex.x * w) * (mtl->texture_map->w))) % (mtl->texture_map->w);
+			int y = (int)(fabsf((vert.tex.y > 0 ? 1 - vert.tex.y * w : vert.tex.y * w) * (mtl->texture_map->h))) % (mtl->texture_map->h);
+
+			x = vert.tex.x > 0 ? (mtl->texture_map->w - 1) - x : x;
+			y = vert.tex.y < 0 ? (mtl->texture_map->h - 1) - y : y;
 			if (mtl->lightmap)
 				a = mtl->lightmap[y * (mtl->texture_map->w) + x];
 			if (mtl->texture_map_set)
@@ -101,9 +106,8 @@ void TexturedTriangle2(t_render_context *ctx, t_render_data data)
 		d2_step = vertex_div_s(d2, fabsf(d2.pos.y));
 	if (d1.pos.y)
 	{
-		int y_start = ft_max(0, ft_min(data.triangle.a.pos.y, S_HEIGHT - 1));
-		int y_end = ft_max(0, ft_min(data.triangle.b.pos.y, S_HEIGHT - 1));
-		
+		int y_start = ft_max(0, ft_min(data.triangle.a.pos.y, S_HEIGHT));
+		int y_end = ft_max(0, ft_min(data.triangle.b.pos.y, S_HEIGHT));
 		for (int i = y_start; i < y_end; i++)
 		{
 			t_vertex start = vertex_add(data.triangle.a, vertex_mul_s(d1_step, (i - (int)data.triangle.a.pos.y)));
@@ -111,8 +115,8 @@ void TexturedTriangle2(t_render_context *ctx, t_render_data data)
 			if (start.pos.x > end.pos.x)
 				swap(&start, &end);
 			float tstep = 1.0f / (end.pos.x - start.pos.x);
-			int x_start = ft_max(0, ft_min(start.pos.x, S_WIDTH - 1));
-			int x_end = ft_max(0, ft_min(end.pos.x, S_WIDTH - 1));
+			int x_start = ft_max(0, ft_min(start.pos.x, S_WIDTH));
+			int x_end = ft_max(0, ft_min(end.pos.x, S_WIDTH));
 			float t = tstep * (x_start - start.pos.x);
 			for (int j = x_start; j < x_end; j++)
 			{
@@ -127,8 +131,8 @@ void TexturedTriangle2(t_render_context *ctx, t_render_data data)
 		d1_step = vertex_div_s(d1, fabsf(d1.pos.y));
 	if (d1.pos.y)
 	{
-		int y_start = ft_max(0, ft_min(data.triangle.b.pos.y, S_HEIGHT - 1));
-		int y_end = ft_max(0, ft_min(data.triangle.c.pos.y, S_HEIGHT - 1));
+		int y_start = ft_max(0, ft_min(data.triangle.b.pos.y, S_HEIGHT));
+		int y_end = ft_max(0, ft_min(data.triangle.c.pos.y, S_HEIGHT));
 		for (int i = y_start; i < y_end; i++)
 		{
 			t_vertex start = vertex_add(data.triangle.b, vertex_mul_s(d1_step, (i - (int)data.triangle.b.pos.y)));
@@ -136,8 +140,8 @@ void TexturedTriangle2(t_render_context *ctx, t_render_data data)
 			if (start.pos.x > end.pos.x)
 				swap(&start, &end);
 			float tstep = 1.0f / (end.pos.x - start.pos.x);
-			int x_start = ft_max(0, ft_min(start.pos.x, S_WIDTH - 1));
-			int x_end = ft_max(0, ft_min(end.pos.x, S_WIDTH - 1));
+			int x_start = ft_max(0, ft_min(start.pos.x, S_WIDTH));
+			int x_end = ft_max(0, ft_min(end.pos.x, S_WIDTH));
 			float t = tstep * (x_start - start.pos.x);
 			for (int j = x_start; j < x_end; j++)
 			{

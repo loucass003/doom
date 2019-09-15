@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 16:49:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/12 16:25:21 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/15 01:36:00 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ static float	get_light_intensity(t_render_context *ctx, t_vec3 normal, t_vec4 po
 	{
 		light = &ctx->doom->lights->lights[i];
 		float d = ft_vec3_dot(normal, ft_vec3_sub(light->position, vec4_to_3(point)));
-		if (d > 5)
-			continue;
+		// if (d > 5)
+		// 	continue;
 		valid++;
 		light->rotation.y -=light->rotation.y;
 		sum += ft_max(AMBIANT_LIGHT, fmin(1, fmax(0, ft_vec3_dot(normal, ft_vec3_sub(light->rotation, light->position)))) * 255);

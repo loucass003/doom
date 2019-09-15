@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:14:55 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/12 17:28:40 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/15 14:50:58 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,39 +53,49 @@ static void	events_window(t_doom *doom, SDL_Event *event)
 	// 	room_map(doom, event, modify_room);
 }
 
- t_bool test_collision(t_doom *doom)
+t_bool test_collision(t_doom *doom)
 {
-	// if (dir.x == 0 && dir.y == 0 && dir.z == 0)
-	// 	return FALSE; 
-	//*hit = (t_collision) { .collide = FALSE, .dist = -1 };
 	for (int i = 0; i < doom->renderables->len; i++)
 	{
 		t_renderable *r = &doom->renderables->values[i];
-		if (r->of.type != RENDERABLE_POLYGON)
-			continue;
+		// if (r->of.type != RENDERABLE_POLYGON)
+		// 	continue;
 		for (int j = 0; j < r->faces->len; j++)
 		{
 			t_face *face = &r->faces->values[j];
-			t_polygon *poly = r->of.data.polygon;
-			t_collide_triangle tri = face->collidable.data.triangle;
+		//	t_polygon *poly = r->of.data.polygon;
+			t_collide_triangle tri = face->pp_collidable.data.triangle;
 			t_vec3 dir = ft_vec3_norm(doom->player.velocity);
 			t_vec3 p = ft_vec3_sub(doom->player.pos, tri.points[0]);
-			float dist = r->of.data.polygon->type == P_WALL ? 0.25 : poly->type == P_CEILING ? 0.2 : 0.6;
+		//	float dist = r->of.data.polygon->type == P_WALL ? 0.25 : poly->type == P_CEILING ? 0.2 : 0.6;
 			float d = ft_vec3_dot(face->face_normal, p);
-			if (d < 0.25)
+			//printf("dist %f\n", d);
+			t_collision hit = triangle_hit_aabb(&tri, &doom->player.aabb);
+			if (hit.collide)
 			{
-				t_vec3 n0 = ft_vec3_norm(ft_vec3_cross(face->face_normal, ft_vec3_sub(tri.points[1], tri.points[0])));
-				t_vec3 n1 = ft_vec3_norm(ft_vec3_cross(face->face_normal, ft_vec3_sub(tri.points[1], tri.points[2])));
-				t_vec3 n2 = ft_vec3_norm(ft_vec3_cross(face->face_normal, ft_vec3_sub(tri.points[0], tri.points[2])));
-				if (ft_vec3_dot(n0, p) < 0
-					|| ft_vec3_dot(n1, p) < 0 
-					|| ft_vec3_dot(n2, p) < 0)
-					continue;
+			/* 	printf("COLLIDE\n");
+				printf("face_normal %f %f %f\n", face->face_normal.x, face->face_normal.y, face->face_normal.z);
+				printf("tri_normal %f %f %f\n", tri.normal.x, tri.normal.y, tri.normal.z);
+				printf("p %f %f %f\n", p.x, p.y, p.z);
+				printf("p0 %f %f %f\n", tri.points[0].x, tri.points[0].y, tri.points[0].z);
+				printf("p1 %f %f %f\n", tri.points[1].x, tri.points[1].y, tri.points[1].z);
+				printf("p2 %f %f %f\n", tri.points[2].x, tri.points[2].y, tri.points[2].z); */
+			//	t_vec3 n0 = ft_vec3_cross(face->face_normal, ft_vec3_norm(ft_vec3_sub(tri.points[1], tri.points[0])));
+				//printf("n0 %f %f %f - %f\n", n0.x, n0.y, n0.z, ft_vec3_dot(n0, p));
+			//	t_vec3 n1 = ft_vec3_cross(face->face_normal, ft_vec3_norm(ft_vec3_sub(tri.points[1], tri.points[2])));
+			//	printf("n1 %f %f %f - %f\n", n1.x, n1.y, n1.z, ft_vec3_dot(n1, p));
+			//	t_vec3 n2 = ft_vec3_cross(face->face_normal, ft_vec3_norm(ft_vec3_sub(tri.points[0], tri.points[2])));
+			//	printf("n2 %f %f %f - %f\n", n2.x, n2.y, n2.z, ft_vec3_dot(n2, p));
+				// if (ft_vec3_dot(n0, p) < 0
+				// 	|| ft_vec3_dot(n1, p) < 0
+				// 	|| ft_vec3_dot(n2, p) < 0)
+				// 	continue;
 				t_vec3 newdir = ft_vec3_mul_s(face->face_normal, ft_vec3_dot(doom->player.velocity, ft_vec3_inv(face->face_normal)));
-				printf("pos %f %f %f\n", doom->player.pos.x, doom->player.pos.y, doom->player.pos.z);
+			//	printf("pos %f %f %f\n", doom->player.pos.x, doom->player.pos.y, doom->player.pos.z);
 				//doom->player.pos = ft_vec3_add(doom->player.pos, newdir);
 			//	printf("new pos %f %f %f\n", doom->player.pos.x, doom->player.pos.y, doom->player.pos.z);
-				doom->player.velocity = newdir;
+				doom->player.velocity = (t_vec3){0, 0, 0};
+				return TRUE;
 			}
 		}
 	}
@@ -110,16 +120,17 @@ void	hook_events(t_doom *doom)
 		doom->player.velocity.z += sinf(doom->player.rotation.y) * (s[SDL_SCANCODE_D] ? 1 : -1) * ms;
 	} 
 	if (s[SDL_SCANCODE_SPACE] || s[SDL_SCANCODE_LSHIFT])
-		doom->player.velocity.y += (s[SDL_SCANCODE_SPACE] ? 1 : -1) * ms;
+		doom->player.velocity.y += (s[SDL_SCANCODE_SPACE] ? 1 : -1) * ms * 2;
 	if (s[SDL_SCANCODE_J] || s[SDL_SCANCODE_L])
 		doom->player.rotation.y += 0.3 * (s[SDL_SCANCODE_J] ? 1 : -1) * ms;
 	if (s[SDL_SCANCODE_I] || s[SDL_SCANCODE_K])
 		doom->player.rotation.x += 0.3 * (s[SDL_SCANCODE_I] ? 1 : -1) * ms;
-	doom->player.pos = ft_vec3_add(doom->player.pos, doom->player.velocity);
-	update_player_camera(&doom->player);
 	test_collision(doom);
 	update_player_camera(&doom->player);
+	doom->player.pos = ft_vec3_add(doom->player.pos, doom->player.velocity);
+	update_player_camera(&doom->player);
 	doom->player.velocity = ft_vec3_mul_s(doom->player.velocity, 0.8);
+//	doom->player.velocity.y -= 0.05;
 	while (SDL_PollEvent(&event))
 		events_window(doom, &event);
 	SDL_PumpEvents();
