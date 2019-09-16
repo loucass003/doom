@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/22 13:41:15 by lloncham          #+#    #+#             */
-/*   Updated: 2019/09/16 16:46:15 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/09/16 16:58:36 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,15 @@ void			play_music(t_audio *s, t_vec3 pos, int id)
 	alSourcei(s->source[id], AL_SOURCE_RELATIVE, AL_TRUE);
 	alSourcef(s->source[id], AL_PITCH, 2); //RAPIDITÉ
 	alSourcef(s->source[id], AL_GAIN, 1);
-	alSource3f(s->source[id], AL_VELOCITY, pos.x, pos.y, pos.z);
+	alSource3f(s->source[id], AL_POSITION, pos.x, pos.y, pos.z);
 	alSourcei(s->source[id], AL_LOOPING, AL_FALSE);
 	alSourcePlay(s->source[id]);
 
-	while (pos.x > -100)
+	while (pos.x < 100)
 	{
-		pos.x -= 0.03f;
+		pos.x += 0.03f;
 		printf("pos.x = %f\n", pos.x);
-		alSource3f(s->source[id], AL_VELOCITY, pos.x, pos.y, pos.z); // DEFINIR POS de l'ecouteur
+		alSource3f(s->source[id], AL_POSITION, pos.x, pos.y, pos.z); // DEFINIR POS de l'ecouteur
 	}
 }
 
@@ -72,9 +72,9 @@ t_bool			init_openal(t_doom *doom)
 	alListenerfv(AL_ORIENTATION, listenerOri);
 	
 	t_vec3 pos;
-	pos.x = 0;
-	pos.y = 0;
-	pos.z = 0;
+	pos.x = 1;
+	pos.y = 1;
+	pos.z = 1;
 	alGenSources(5, &doom->audio.source);
 	play_music(&doom->audio, pos, 0);
 	// play_music(&doom->audio, 2, 1);
