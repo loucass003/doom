@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:14:55 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/15 14:50:58 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/15 15:46:49 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ t_bool test_collision(t_doom *doom)
 			//	printf("pos %f %f %f\n", doom->player.pos.x, doom->player.pos.y, doom->player.pos.z);
 				//doom->player.pos = ft_vec3_add(doom->player.pos, newdir);
 			//	printf("new pos %f %f %f\n", doom->player.pos.x, doom->player.pos.y, doom->player.pos.z);
-				doom->player.velocity = (t_vec3){0, 0, 0};
+				doom->player.velocity = ft_vec3_add(doom->player.velocity, newdir);
 				return TRUE;
 			}
 		}
@@ -111,26 +111,27 @@ void	hook_events(t_doom *doom)
 		doom->running = FALSE;
 	if (s[SDL_SCANCODE_W] || s[SDL_SCANCODE_S])
 	{
-		doom->player.velocity.x += sinf(doom->player.rotation.y) * (s[SDL_SCANCODE_W] ? 1 : -1) * ms;
-		doom->player.velocity.z += cosf(doom->player.rotation.y) * (s[SDL_SCANCODE_W] ? 1 : -1) * ms;
+		doom->player.velocity.x += sinf(doom->player.rotation.y) * (s[SDL_SCANCODE_W] ? 1 : -1);
+		doom->player.velocity.z += cosf(doom->player.rotation.y) * (s[SDL_SCANCODE_W] ? 1 : -1);
 	}
 	if (s[SDL_SCANCODE_A] || s[SDL_SCANCODE_D])
 	{
-		doom->player.velocity.x += -cosf(doom->player.rotation.y) * (s[SDL_SCANCODE_D] ? 1 : -1) * ms;
-		doom->player.velocity.z += sinf(doom->player.rotation.y) * (s[SDL_SCANCODE_D] ? 1 : -1) * ms;
+		doom->player.velocity.x += -cosf(doom->player.rotation.y) * (s[SDL_SCANCODE_D] ? 1 : -1);
+		doom->player.velocity.z += sinf(doom->player.rotation.y) * (s[SDL_SCANCODE_D] ? 1 : -1);
 	} 
 	if (s[SDL_SCANCODE_SPACE] || s[SDL_SCANCODE_LSHIFT])
-		doom->player.velocity.y += (s[SDL_SCANCODE_SPACE] ? 1 : -1) * ms * 2;
+		doom->player.velocity.y += (s[SDL_SCANCODE_SPACE] ? 1 : -1);
 	if (s[SDL_SCANCODE_J] || s[SDL_SCANCODE_L])
 		doom->player.rotation.y += 0.3 * (s[SDL_SCANCODE_J] ? 1 : -1) * ms;
 	if (s[SDL_SCANCODE_I] || s[SDL_SCANCODE_K])
 		doom->player.rotation.x += 0.3 * (s[SDL_SCANCODE_I] ? 1 : -1) * ms;
+	// update_player_camera(&doom->player);
 	test_collision(doom);
-	update_player_camera(&doom->player);
-	doom->player.pos = ft_vec3_add(doom->player.pos, doom->player.velocity);
-	update_player_camera(&doom->player);
+	doom->player.pos = ft_vec3_add(doom->player.pos, ft_vec3_mul_s(doom->player.velocity, ms));
+	doom->player.velocity.y -= 0.05;
 	doom->player.velocity = ft_vec3_mul_s(doom->player.velocity, 0.8);
-//	doom->player.velocity.y -= 0.05;
+	update_player_camera(&doom->player);
+	
 	while (SDL_PollEvent(&event))
 		events_window(doom, &event);
 	SDL_PumpEvents();
