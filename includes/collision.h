@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 01:15:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/12 14:25:09 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/17 04:20:13 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,24 @@ typedef struct		s_obb_box
 	t_vec3			z_axis;
 	t_vec3			half_size;
 }					t_obb_box;
+
+typedef struct		s_physics_data
+{
+	t_vec3			r3_posision;
+	t_vec3			r3_velocity;
+	t_vec3			e_radius;
+	t_vec3			e_position;
+	t_vec3			e_velocity;
+	t_vec3			e_norm_velocity;
+	t_vec3			e_base_point;
+	t_vec3			intersect_point;
+	t_bool			grounded;
+	t_bool			found_colision;
+	float			distance;
+	size_t			depth;
+	struct s_doom	*doom;
+}					t_physics_data;
+
 
 
 t_collision			ray_hit_collidable(t_ray *ray, t_collidable *collidable);
