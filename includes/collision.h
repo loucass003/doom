@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 01:15:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/17 04:20:13 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/17 23:47:44 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define COLLISION_H
 
 # include <libft.h>
+# include "maths/plane.h"
 
 typedef struct		s_ray
 {
@@ -98,10 +99,14 @@ typedef struct		s_physics_data
 	t_vec3			e_norm_velocity;
 	t_vec3			e_base_point;
 	t_vec3			intersect_point;
-	t_bool			grounded;
 	t_bool			found_colision;
 	float			distance;
-	size_t			depth;
+	float			t;
+	t_vec3			a;
+	t_vec3			b;
+	t_vec3			c;
+	t_plane			plane;
+	// size_t			depth;
 	struct s_doom	*doom;
 }					t_physics_data;
 
@@ -114,5 +119,6 @@ t_vec3				vec3_rotate(t_vec3 v, t_vec3 rot);
 t_collision			triangle_hit_aabb(t_collide_triangle *triangle,  t_collide_aabb *aabb);
 t_bool				get_obb_collision(t_obb_box a, t_obb_box b);
 
+t_physics_data		*check_triangle(t_physics_data *packet, t_vec3 p1, t_vec3 p2, t_vec3 p3);
 
 #endif

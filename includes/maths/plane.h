@@ -1,27 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   player.c                                           :+:      :+:    :+:   */
+/*   plane.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/08/29 17:43:35 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/17 23:26:55 by llelievr         ###   ########.fr       */
+/*   Created: 2019/09/17 22:08:31 by llelievr          #+#    #+#             */
+/*   Updated: 2019/09/17 23:21:39 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "player.h"
+#ifndef PLANE_H
+# define PLANE_H
 
-void				update_player_camera(t_player *player)
+#include "libft.h"
+
+typedef struct	s_plane 
 {
-	t_camera		*camera;
+	t_vec3	origin;
+	t_vec3	normal;
+	t_vec3	point;
+	float	f;
+}				t_plane;
 
-	camera = &player->camera;
-	camera->pos = player->entity.position;
-	camera->rotation = player->entity.rotation;
-	player->aabb = (t_collide_aabb) {
-		.min = ft_vec3_sub(camera->pos, (t_vec3){ 0.2, 0.2, 0.2 }),
-		.max = ft_vec3_add(camera->pos, (t_vec3){ 0.2, 0.2, 0.2 })
-	};
-	camera_update_maxtrix(&player->camera);
-}
+t_plane			triangle_to_plane(t_vec3 a, t_vec3 b, t_vec3 c);
+t_plane			plane_new(t_vec3 origin, t_vec3 normal);
+float			distance_to_plane( t_plane plane, t_vec3 point);
+t_bool			is_front_facing(t_plane plane, t_vec3 direction);
+
+#endif

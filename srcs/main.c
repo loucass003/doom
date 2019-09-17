@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/16 13:40:04 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/09/17 19:56:45 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ int		main(void)
 	obj_test(&doom);
 	init_bsp(&doom);
 	init_lightning(&doom);
-	init_openal(&doom);
+	//init_openal(&doom);
 	game_loop(&doom);
 	sdl_quit(&doom);
 	quit_openal();
