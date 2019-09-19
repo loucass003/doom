@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:01:13 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/17 23:52:58 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/19 05:08:46 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ static void		update_fps(t_doom *doom)
 	t2 = t1;
 	t1 = SDL_GetTicks();
 	doom->stats.delta = (t1 - t2) / 1000.;
+	printf("%f\n", doom->stats.delta );
 	if (t3 + 1000 < t1)
 	{
 		t3 = t1;
@@ -54,9 +55,9 @@ void			game_loop(t_doom *doom)
 	register_guis(doom);
 
 	doom->player.camera.projection = projection_matrix();
-	doom->player.entity.position = (t_vec3){ 1, 15, 1 };
+	doom->player.entity.position = (t_vec3){ 1, 300, 1 };
 	doom->player.entity.velocity = (t_vec3){ 0, 0, 0 };
-	doom->player.entity.radius = (t_vec3){ 0.25, 0.25, 0.25 };
+	doom->player.entity.radius = (t_vec3){ 3.5f, 10.0f, 3.5f };
 	doom->player.entity.packet.doom = doom;
 	doom->player.entity.rotation.y = 0;
 	doom->player.entity.rotation.x = 0;

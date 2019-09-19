@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:14:55 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/18 16:23:21 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/19 03:21:17 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,43 +113,45 @@ void	hook_events(t_doom *doom)
 		doom->running = FALSE;
 	if (doom->current_gui == GUI_INGAME)
 	{
-		entity_update(&doom->player.entity, doom->stats.delta);
-		t_vec3 tmp = ft_vec3_mul_s(doom->player.entity.velocity, 15. * doom->stats.delta);
+		float dt = 1.0 / 60.;
+		entity_update(&doom->player.entity, dt);
+		// doom->player.entity.position.y += doom->player.entity.radius.y;
+		t_vec3 tmp = ft_vec3_mul_s(doom->player.entity.velocity, 15. * dt);
 		tmp.y = 0;
 		if (doom->player.entity.grounded == 1) 
 			doom->player.entity.velocity = ft_vec3_sub(doom->player.entity.velocity, tmp);
 		else
-			move_speed = 50.0f;
-		doom->player.entity.velocity.y -= (100.0 * doom->stats.delta);
+			move_speed = 25.0f;
+		doom->player.entity.velocity.y -= (50.0 * dt);
 		if (s[SDL_SCANCODE_W] || s[SDL_SCANCODE_S])
 		{
-			doom->player.entity.velocity.x = sinf(doom->player.entity.rotation.y) * (s[SDL_SCANCODE_W] ? 1 : -1) * 50;
-			doom->player.entity.velocity.z = cosf(doom->player.entity.rotation.y) * (s[SDL_SCANCODE_W] ? 1 : -1) * 50;
+			doom->player.entity.velocity.x += sinf(doom->player.entity.rotation.y) * (s[SDL_SCANCODE_W] ? 1 : -1) * move_speed;
+			doom->player.entity.velocity.z += cosf(doom->player.entity.rotation.y) * (s[SDL_SCANCODE_W] ? 1 : -1) * move_speed;
 		}
 		if (s[SDL_SCANCODE_A] || s[SDL_SCANCODE_D])
 		{
-			doom->player.entity.velocity.x = -cosf(doom->player.entity.rotation.y) * (s[SDL_SCANCODE_D] ? 1 : -1) * 50;
-			doom->player.entity.velocity.z = sinf(doom->player.entity.rotation.y) * (s[SDL_SCANCODE_D] ? 1 : -1) * 50;
+			doom->player.entity.velocity.x += -cosf(doom->player.entity.rotation.y) * (s[SDL_SCANCODE_D] ? 1 : -1) * move_speed;
+			doom->player.entity.velocity.z += sinf(doom->player.entity.rotation.y) * (s[SDL_SCANCODE_D] ? 1 : -1) * move_speed;
 		} 
 		if (s[SDL_SCANCODE_SPACE] || s[SDL_SCANCODE_LSHIFT])
-			doom->player.entity.velocity.y = (s[SDL_SCANCODE_SPACE] ? 1 : -1) * 20;
+			doom->player.entity.velocity.y += (s[SDL_SCANCODE_SPACE] ? 1 : -1) * move_speed;
 		if (s[SDL_SCANCODE_J] || s[SDL_SCANCODE_L])
 			doom->player.entity.rotation.y += 0.01 * (s[SDL_SCANCODE_J] ? 1 : -1) * ms;
 		if (s[SDL_SCANCODE_I] || s[SDL_SCANCODE_K])
 			doom->player.entity.rotation.x += 0.01 * (s[SDL_SCANCODE_I] ? 1 : -1) * ms;
-		move_speed = 100.0f;
+		move_speed = 50.0f;
 		update_player_camera(&doom->player);
 		doom->main_context.camera->pos.y += 1;
 		update_player_camera(&doom->player);
 		 //		doom->player.entity.velocity.y -= (100.0f *  doom->stats.delta);
 		//	doom->player.entity.position.y += 1.0f;
-		printf("%f %f %f - %f %f %f\n", 
+	/* 	printf("%f %f %f - %f %f %f\n", 
 			doom->player.entity.position.x,
 			doom->player.entity.position.y,
 			doom->player.entity.position.z,
 			doom->player.entity.velocity.x,
 			doom->player.entity.velocity.y,
-			doom->player.entity.velocity.z);
+			doom->player.entity.velocity.z); */
 	}
 	// // test_collision(doom);
 	// // doom->player.pos = ft_vec3_add(doom->player.pos, ft_vec3_mul_s(doom->player.velocity, ms));

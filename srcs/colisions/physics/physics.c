@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/15 23:50:58 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/17 22:11:10 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/19 03:02:15 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,12 +76,12 @@ float				clamp(float min, float max, float v)
 t_physics_data		*check_triangle(t_physics_data *packet, t_vec3 p1, t_vec3 p2, t_vec3 p3)
 {
 	const	t_plane plane = triangle_to_plane(p1, p2, p3);
-
+	
 	if (!is_front_facing(plane, packet->e_norm_velocity))
 		return packet;
 	
-	float	t0 = 0;
-	float	t1 = 0;
+	double	t0 = 0;
+	double	t1 = 0;
 	t_bool	in_plane = FALSE;
 
 	float dist_to_plane = distance_to_plane(plane, packet->e_base_point);
@@ -114,7 +114,7 @@ t_physics_data		*check_triangle(t_physics_data *packet, t_vec3 p1, t_vec3 p2, t_
 
 	t_vec3	colision_point = (t_vec3){0, 0, 0};
 	t_bool	found_collision = FALSE;
-	float	t = 1;
+	double	t = 1;
 
 	if (!in_plane)
 	{
@@ -150,9 +150,9 @@ t_physics_data		*check_triangle(t_physics_data *packet, t_vec3 p1, t_vec3 p2, t_
 			colision_point = p1;
 		}
 
-		// if (!found_collision)
-		// {
-			 tmp = ft_vec3_sub(base, p2);
+		if (!found_collision)
+		{
+			tmp = ft_vec3_sub(base, p2);
 			b = 2.0 * ft_vec3_dot(velocity, tmp);
 			tmp = ft_vec3_sub(p2, base);
 			c = ft_vec3_dot(tmp, tmp) - 1;
@@ -163,11 +163,11 @@ t_physics_data		*check_triangle(t_physics_data *packet, t_vec3 p1, t_vec3 p2, t_
 				found_collision = TRUE;
 				colision_point = p2;
 			}
-		// }
+		}
 
-		// if (!found_collision)
-		// {
-			 tmp = ft_vec3_sub(base, p3);
+		if (!found_collision)
+		{
+			tmp = ft_vec3_sub(base, p3);
 			b = 2.0 * ft_vec3_dot(velocity, tmp);
 			tmp = ft_vec3_sub(p3, base);
 			c = ft_vec3_dot(tmp, tmp) - 1;
@@ -178,7 +178,7 @@ t_physics_data		*check_triangle(t_physics_data *packet, t_vec3 p1, t_vec3 p2, t_
 				found_collision = TRUE;
 				colision_point = p3;
 			}
-		// }
+		}
 
 		t_vec3	edge = ft_vec3_sub(p2, p1);
 		t_vec3	base_to_vertex = ft_vec3_sub(p1, base);

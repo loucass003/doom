@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 01:15:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/17 23:47:44 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/19 00:55:34 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ typedef struct		s_physics_data
 	t_vec3			intersect_point;
 	t_bool			found_colision;
 	float			distance;
-	float			t;
+	double			t;
 	t_vec3			a;
 	t_vec3			b;
 	t_vec3			c;

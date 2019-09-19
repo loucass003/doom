@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 22:00:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/18 16:23:59 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/19 05:23:56 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +82,11 @@ void		collide_with_world(t_entity *entity, t_vec3 e_position, t_vec3 e_velocity)
 
 		if (!entity->packet.found_colision)
 		{
-			entity->packet.e_position = dest;
+			e_position = dest;
 			return ;
 		}
+
+		printf("STOP %f %f %f\n", dest.x, dest.y, dest.z);
 
 		t_vec3 touch_point;
 
@@ -103,7 +105,7 @@ void		collide_with_world(t_entity *entity, t_vec3 e_position, t_vec3 e_velocity)
 		
 		if (i == 0)
 		{
-			float long_radius = 1.0 + 1e-3;
+			float long_radius = 1.0 + 0.001;
 			first_plane = plane_new(slide_plane_origin, slide_plane_normal);
 
 			float dist_to_plane = distance_to_plane(first_plane, dest) - long_radius;
@@ -145,7 +147,7 @@ void		collide_and_slide(t_entity *entity)
 	entity->packet.r3_velocity = gravity;
 	e_velocity = ft_vec3_div(gravity, entity->packet.e_radius);
 	collide_with_world(entity, e_position, e_velocity);
-
+	
 	entity->position = ft_vec3_mul(e_position, entity->packet.e_radius);
 }
 
@@ -164,16 +166,24 @@ void		entity_update(t_entity *entity, double dt)
 	dt = dt / 5.;
 	
 	entity->velocity = ft_vec3_mul_s(entity->velocity, dt);
+	
+	i = -1;
+	while (++i < 5)
+		collide_and_slide(entity);
 	printf("%f %f %f - %f %f %f\n", 
+		entity->position.x,
+		entity->position.y,
+		entity->position.z,
+		entity->velocity.x,
+		entity->velocity.y,
+		entity->velocity.z);
+	entity->velocity = ft_vec3_sub(entity->position, entity->packet.r3_posision);
+	entity->velocity = ft_vec3_mul_s(entity->velocity, 1.0 / dt);
+	printf(" ----$ %f %f %f - %f %f %f\n", 
 			entity->position.x,
 			entity->position.y,
 			entity->position.z,
 			entity->velocity.x,
 			entity->velocity.y,
 			entity->velocity.z);
-	i = -1;
-	while (++i < 5)
-		collide_and_slide(entity);
-	entity->velocity = ft_vec3_sub(entity->position, entity->packet.r3_posision);
-	entity->velocity = ft_vec3_mul_s(entity->velocity, 1.0 / dt);
 }
