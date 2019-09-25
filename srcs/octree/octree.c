@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/05 17:31:15 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/11 18:18:36 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/25 15:02:55 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,10 @@ t_bool			subdivide(t_renderable *r, t_octree_node *n)
 		if (child->faces_index->len > 100)
 		{
 			if (!subdivide(r, child))
+			{
+			//	n->childs = NULL;
 				return (FALSE);
+			}
 		}
 	}
 	return (TRUE);

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 22:00:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/19 05:23:56 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/25 15:37:48 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,77 +58,71 @@ void		check_grounded(t_entity *entity)
 		entity->grounded = TRUE;
 }
 
-void		collide_with_world(t_entity *entity, t_vec3 e_position, t_vec3 e_velocity)
+
+t_vec3		ft_vec3_trim(t_vec3 v, float max_len)
 {
-	t_plane	first_plane;
-	t_vec3	dest = ft_vec3_add(e_position, e_velocity);
-	t_vec3	tmp;
-	int		i;
+	float len = ft_vec3_len(v);
 
-	i = -1;
-	while (++i < 3)
+	if (len > max_len)
 	{
-		tmp = ft_vec3_norm(e_velocity);
-		entity->packet.e_norm_velocity = tmp;
-		entity->packet.e_velocity = e_velocity;
-		entity->packet.e_base_point = e_position;
-		entity->packet.e_radius = entity->radius;
-		entity->packet.found_colision = FALSE;
-		entity->packet.distance = INT_MAX;
-		entity->packet.t = 0;
+		len = 1.0 / len;
+		v = ft_vec3_mul_s(v, len);
+		v = ft_vec3_mul_s(v, max_len);
+	}
+	return v;
+}
 
-		check_collision(entity);
-		check_grounded(entity);
+t_vec3		collide_with_world(t_entity *entity, t_vec3 e_position, t_vec3 e_velocity)
+{
+	float unit_scale = 1;
+	float very_close_dist = 0.005 * unit_scale;
 
-		if (!entity->packet.found_colision)
-		{
-			e_position = dest;
-			return ;
-		}
+	if (entity->packet.depth > 5)
+		return e_position;
 
-		printf("STOP %f %f %f\n", dest.x, dest.y, dest.z);
+	entity->packet.e_velocity = e_velocity;
+	entity->packet.e_norm_velocity = ft_vec3_norm(e_velocity);
+	entity->packet.e_base_point = e_position;
+	entity->packet.found_colision = FALSE;
+	entity->packet.distance = 1e20;
 
-		t_vec3 touch_point;
+	// float scale = fmax(1.5, ft_vec3_len(e_velocity)) * 1.1;
+	// t_vec3 r3_position = ft_vec3_mul(e_position, entity->packet.e_radius);
+	// t_vec3 query_radius = ft_vec3_mul_s(entity->packet.e_radius, scale);
+	// t_vec3 min = ft_vec3_sub(r3_position, query_radius);
+	// t_vec3 max = ft_vec3_add(r3_position, query_radius);
+	check_collision(entity);
 
-		tmp = ft_vec3_mul_s(e_velocity, entity->packet.t);
-		touch_point = ft_vec3_add(e_position, tmp);
+	t_vec3 dest_point = ft_vec3_add(e_position, e_velocity);
+	if (entity->packet.found_colision == FALSE)
+	{
+		return dest_point;
+	}
 
-		float dist = ft_vec3_len(e_velocity) * entity->packet.t;
-		float short_dist = fmax(dist - 1, 0);
+	t_vec3 new_base_point = e_position;
 
-		tmp = ft_vec3_norm(e_velocity);//TODO: WHUT
-		tmp = ft_vec3_mul_s(tmp, short_dist);
-		e_position = ft_vec3_add(e_position, tmp);
-		
-		t_vec3 slide_plane_origin = entity->packet.intersect_point;
-		t_vec3 slide_plane_normal = ft_vec3_norm(ft_vec3_sub(touch_point, entity->packet.intersect_point));
-		
-		if (i == 0)
-		{
-			float long_radius = 1.0 + 0.001;
-			first_plane = plane_new(slide_plane_origin, slide_plane_normal);
+	if (entity->packet.distance >= very_close_dist)
+	{
+		t_vec3 v = ft_vec3_trim(e_velocity, entity->packet.distance - very_close_dist);
+		new_base_point = ft_vec3_add(entity->packet.e_base_point, v);
+		v = ft_vec3_norm(v);
+		entity->packet.intersect_point = ft_vec3_sub(entity->packet.intersect_point, ft_vec3_mul_s(v, very_close_dist));
+	}
 
-			float dist_to_plane = distance_to_plane(first_plane, dest) - long_radius;
+	t_vec3 slide_plane_origin = entity->packet.intersect_point;
+	t_vec3 slide_plane_normal = ft_vec3_norm(ft_vec3_sub(new_base_point, entity->packet.intersect_point));
 
-			tmp = ft_vec3_mul_s(first_plane.normal, dist_to_plane);
-			dest = ft_vec3_sub(dest, tmp);
-			e_velocity = ft_vec3_sub(dest, e_position);
-		}
-		else if (i == 1)
-		{
-			t_plane second_plane = plane_new(slide_plane_origin, slide_plane_normal);
+	t_plane sliding_plane = plane_new(slide_plane_origin, slide_plane_normal);
+	float slide_factor = distance_to_plane(sliding_plane, dest_point);
 
-			t_vec3 crease = ft_vec3_cross(first_plane.normal, second_plane.normal);
-
-			tmp = ft_vec3_sub(dest, e_position);
-			float dis = ft_vec3_dot(tmp, crease);
-			crease = ft_vec3_norm(crease);
-			
-			e_velocity = ft_vec3_mul_s(crease, dis);
-			dest = ft_vec3_add(e_position, e_velocity);
-		}
-	}	
-	e_position = dest;
+	if (entity->packet.intersect_point.y <= e_position.y && sliding_plane.normal.y > 1 && e_velocity.y < 0)
+		return new_base_point;
+	t_vec3 new_dest_point = ft_vec3_sub(dest_point, ft_vec3_mul_s(slide_plane_normal, slide_factor));
+	t_vec3 new_velocity = ft_vec3_sub(new_dest_point, entity->packet.intersect_point);
+	if (ft_vec3_len(new_velocity) < very_close_dist)
+		return new_base_point;
+	entity->packet.depth++;
+	return collide_with_world(entity, new_base_point, new_velocity);
 }
 
 void		collide_and_slide(t_entity *entity)
@@ -137,53 +131,36 @@ void		collide_and_slide(t_entity *entity)
 	entity->packet.r3_velocity = entity->velocity;
 	entity->packet.e_radius = entity->radius;
 
-	t_vec3	gravity = (t_vec3){ 0, entity->packet.r3_velocity.y, 0 };
-	entity->packet.r3_velocity.y = 0;
-
+	t_vec3	gravity = (t_vec3){0, fmin(0, entity->packet.r3_velocity.y), 0};
 	t_vec3	e_position = ft_vec3_div(entity->packet.r3_posision, entity->packet.e_radius);
 	t_vec3	e_velocity = ft_vec3_div(entity->packet.r3_velocity, entity->packet.e_radius);
-	collide_with_world(entity, e_position, e_velocity);
+	t_vec3	final_pos;
 
-	entity->packet.r3_velocity = gravity;
+	e_velocity.y = fmax(0.0, e_velocity.y);
+
+	entity->packet.depth = 0;
+	final_pos = collide_with_world(entity, e_position, e_velocity);
+
+	entity->packet.r3_posision = ft_vec3_mul(final_pos, entity->packet.e_position);
+	entity->packet.e_velocity = gravity;
+
 	e_velocity = ft_vec3_div(gravity, entity->packet.e_radius);
-	collide_with_world(entity, e_position, e_velocity);
-	
-	entity->position = ft_vec3_mul(e_position, entity->packet.e_radius);
+	entity->packet.depth = 0;
+	final_pos = collide_with_world(entity, final_pos, e_velocity);
+	entity->packet.r3_velocity = (t_vec3){0, 0, 0};
+	entity->packet.r3_posision = ft_vec3_mul(final_pos, entity->packet.e_radius);
 }
 
 void		entity_update(t_entity *entity, double dt)
 {
-	t_vec3	xz;
-	int		i;
-
-	xz = entity->velocity;
-	xz.y = 0;
-
-	if (entity->grounded && fabs(ft_vec3_len(xz)) < 0.1 && entity->velocity.y < 0)
-		entity->velocity.y = 0;
-	else
-		entity->grounded = FALSE;
-	dt = dt / 5.;
-	
-	entity->velocity = ft_vec3_mul_s(entity->velocity, dt);
-	
-	i = -1;
-	while (++i < 5)
-		collide_and_slide(entity);
-	printf("%f %f %f - %f %f %f\n", 
-		entity->position.x,
-		entity->position.y,
-		entity->position.z,
-		entity->velocity.x,
-		entity->velocity.y,
-		entity->velocity.z);
-	entity->velocity = ft_vec3_sub(entity->position, entity->packet.r3_posision);
-	entity->velocity = ft_vec3_mul_s(entity->velocity, 1.0 / dt);
-	printf(" ----$ %f %f %f - %f %f %f\n", 
-			entity->position.x,
-			entity->position.y,
-			entity->position.z,
-			entity->velocity.x,
-			entity->velocity.y,
-			entity->velocity.z);
+	entity->velocity.y -= 2;
+	entity->packet.r3_posision = entity->position;
+	entity->packet.r3_velocity = entity->velocity;
+	entity->packet.e_radius = entity->radius;
+	entity->packet.grounded = entity->grounded;
+	collide_and_slide(entity);
+	entity->position = entity->packet.r3_posision;
+	entity->velocity = entity->packet.r3_velocity;
+	entity->radius = entity->packet.e_radius;
+	entity->grounded = entity->packet.grounded;
 }

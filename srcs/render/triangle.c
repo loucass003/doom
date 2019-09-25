@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 01:17:41 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/15 04:33:25 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/25 19:42:00 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ void TexturedTriangle2(t_render_context *ctx, t_render_data data)
 	{
 		int y_start = ft_max(0, ft_min(data.triangle.a.pos.y, S_HEIGHT));
 		int y_end = ft_max(0, ft_min(data.triangle.b.pos.y, S_HEIGHT));
+		
 		for (int i = y_start; i < y_end; i++)
 		{
 			t_vertex start = vertex_add(data.triangle.a, vertex_mul_s(d1_step, (i - (int)data.triangle.a.pos.y)));
@@ -133,6 +134,7 @@ void TexturedTriangle2(t_render_context *ctx, t_render_data data)
 	{
 		int y_start = ft_max(0, ft_min(data.triangle.b.pos.y, S_HEIGHT));
 		int y_end = ft_max(0, ft_min(data.triangle.c.pos.y, S_HEIGHT));
+		
 		for (int i = y_start; i < y_end; i++)
 		{
 			t_vertex start = vertex_add(data.triangle.b, vertex_mul_s(d1_step, (i - (int)data.triangle.b.pos.y)));
