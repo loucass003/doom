@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:43:35 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/17 23:26:55 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/25 20:28:47 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void				update_player_camera(t_player *player)
 	camera = &player->camera;
 	camera->pos = player->entity.position;
 	camera->rotation = player->entity.rotation;
+	camera->pos.y += 1;
 	player->aabb = (t_collide_aabb) {
 		.min = ft_vec3_sub(camera->pos, (t_vec3){ 0.2, 0.2, 0.2 }),
 		.max = ft_vec3_add(camera->pos, (t_vec3){ 0.2, 0.2, 0.2 })

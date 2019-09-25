@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 23:57:39 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/29 19:59:06 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/25 21:00:25 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ t_mat4	projection_matrix()
 	const float	b = -(2 * FAR * NEAR) / (FAR - NEAR);
 
 	return ((t_mat4)((t_mat4_data) {
-		ASPECT_INV, 0, 0, 0,
-		0, ASPECT_INV, 0, 0,
+		1, 0, 0, 0,
+		0, 1, 0, 0,
 		0, 0, a, b,
 		0, 0, -1, 0}));
 }

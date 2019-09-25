@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 22:00:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/25 15:37:48 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/25 20:54:19 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ t_vec3		collide_with_world(t_entity *entity, t_vec3 e_position, t_vec3 e_velocit
 	t_plane sliding_plane = plane_new(slide_plane_origin, slide_plane_normal);
 	float slide_factor = distance_to_plane(sliding_plane, dest_point);
 
-	if (entity->packet.intersect_point.y <= e_position.y && sliding_plane.normal.y > 1 && e_velocity.y < 0)
+	if (entity->packet.intersect_point.y <= e_position.y && sliding_plane.normal.y > 0.8 && e_velocity.y < 0)
 		return new_base_point;
 	t_vec3 new_dest_point = ft_vec3_sub(dest_point, ft_vec3_mul_s(slide_plane_normal, slide_factor));
 	t_vec3 new_velocity = ft_vec3_sub(new_dest_point, entity->packet.intersect_point);

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:14:55 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/25 18:13:44 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/25 20:53:09 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,21 +134,21 @@ void	hook_events(t_doom *doom)
 			doom->player.entity.velocity.x += -cosf(doom->player.entity.rotation.y) * (s[SDL_SCANCODE_D] ? 1 : -1) * move_speed;
 			doom->player.entity.velocity.z += sinf(doom->player.entity.rotation.y) * (s[SDL_SCANCODE_D] ? 1 : -1) * move_speed;
 		} 
-		if (s[SDL_SCANCODE_SPACE] && doom->player.entity.grounded)
+		if (s[SDL_SCANCODE_SPACE])
 		{
 			doom->player.entity.grounded = FALSE;
-			doom->player.entity.velocity.y += 4;
+			doom->player.entity.velocity.y += 2.3;
 		}
 		if (s[SDL_SCANCODE_J] || s[SDL_SCANCODE_L])
 			doom->player.entity.rotation.y += 0.01 * (s[SDL_SCANCODE_J] ? 1 : -1) * ms;
 		if (s[SDL_SCANCODE_I] || s[SDL_SCANCODE_K])
 			doom->player.entity.rotation.x += 0.01 * (s[SDL_SCANCODE_I] ? 1 : -1) * ms;
-		move_speed = 2.0f;
+		move_speed = 1.0f;
 		entity_update(&doom->player.entity, dt);
 	//	doom->player.entity.velocity.z = 200 * dt;
 	//	doom->player.entity.velocity.y -= 100 * dt;
 		//update_player_camera(&doom->player);
-		//doom->main_context.camera->pos.y += 1;
+		
 		update_player_camera(&doom->player);
 		 //		doom->player.entity.velocity.y -= (100.0f *  doom->stats.delta);
 		//	doom->player.entity.position.y += 1.0f;
