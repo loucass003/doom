@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/25 21:17:41 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/26 00:22:16 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,30 +57,30 @@ void	init_bsp(t_doom *doom)
 {
 	int count = sizeof(lines) / sizeof(t_line);
 	// int count2 = sizeof(lines2) / sizeof(t_line);
-	 t_renderable floor;
-	create_polygon(&floor, P_FLOOR, (t_mtl){ .texture_map = doom->textures.bricks, .texture_map_set = TRUE });
-	for (int i = 0; i < count; i++)
-	{
-		add_polygon_vertice(&floor, (t_vec4){lines[i].a.x , 0, lines[i].a.y , 1});
-	}
-	append_renderables_array(&doom->renderables, floor);
+	//  t_renderable floor;
+	// create_polygon(&floor, P_FLOOR, (t_mtl){ .texture_map = doom->textures.bricks, .texture_map_set = TRUE });
+	// for (int i = 0; i < count; i++)
+	// {
+	// 	add_polygon_vertice(&floor, (t_vec4){lines[i].a.x , 0, lines[i].a.y , 1});
+	// }
+	// append_renderables_array(&doom->renderables, floor);
 	
-	t_renderable ceiling;
-	create_polygon(&ceiling, P_CEILING, (t_mtl){ .texture_map = doom->textures.bricks, .texture_map_set = TRUE });
-	for (int i = 0; i < count; i++)
-	{
-		add_polygon_vertice(&ceiling, (t_vec4){ lines[count - 1 - i].a.x , 150, lines[count - 1 - i].a.y, 1});
-	}
+	// t_renderable ceiling;
+	// create_polygon(&ceiling, P_CEILING, (t_mtl){ .texture_map = doom->textures.bricks, .texture_map_set = TRUE });
+	// for (int i = 0; i < count; i++)
+	// {
+	// 	add_polygon_vertice(&ceiling, (t_vec4){ lines[count - 1 - i].a.x , 150, lines[count - 1 - i].a.y, 1});
+	// }
 	
-	append_renderables_array(&doom->renderables, ceiling);
+	// append_renderables_array(&doom->renderables, ceiling);
 	
-	for (int i = 0; i < count; i++)
-	{
-		t_renderable wall;
-		create_wall_polygon(&wall, (t_mtl){ .texture_map = doom->textures.bricks, .texture_map_set = TRUE }, (t_line){ (t_vec2){lines[i].a.x , (lines[i].a.y )}, (t_vec2){lines[i].b.x , (lines[i].b.y )}}, (t_vec2){0, 150});
-		wall.scale = (t_vec3){ 0.1, 0.1, 0.1 };
-		append_renderables_array(&doom->renderables, wall);
-	}
+	// for (int i = 0; i < count; i++)
+	// {
+	// 	t_renderable wall;
+	// 	create_wall_polygon(&wall, (t_mtl){ .texture_map = doom->textures.bricks, .texture_map_set = TRUE }, (t_line){ (t_vec2){lines[i].a.x , (lines[i].a.y )}, (t_vec2){lines[i].b.x , (lines[i].b.y )}}, (t_vec2){0, 150});
+	// 	wall.scale = (t_vec3){ 0.1, 0.1, 0.1 };
+	// 	append_renderables_array(&doom->renderables, wall);
+	// }
 
 	// t_renderable tr;
 	// create_wall_polygon(&tr, (t_mtl){ .texture_map = doom->textures.bricks, .texture_map_set = TRUE }, (t_line){(t_vec2){2.5, 8}, (t_vec2){0, 8}}, (t_vec2){0, 1.5});
