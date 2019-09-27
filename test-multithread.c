@@ -1,79 +1,92 @@
+#include <pthread.h>
 #include "libft.h"
 #include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <pthread.h>
 
-#define THREADS 3
+#define THREADS 6
 #define S_HEIGHT 600
 
-typedef struct	s_gdata
-{
-
-	pthread_mutex_t	wait_mtx;
-	pthread_cond_t	wait_cond;
-	int				finished;
-}				t_gdata;
+typedef struct	s_gdata		t_gdata;
 
 typedef struct	s_tdata
 {
-	int				start;
-	int				end;
-	t_bool			wait;
-	t_gdata			*gdata;
+	int			start_y;
+	int			end_y;
+	t_bool		pending;
+	t_gdata		*gdata;
 }				t_tdata;
 
-void *worker(void *p)
+struct	s_gdata
 {
-	t_tdata *data = (t_tdata*)p;
+	pthread_mutex_t		work_mutex;
+	pthread_cond_t		work_cond;
+	pthread_mutex_t		wait_mutex;
+	pthread_cond_t		wait_cond;
+	t_bool				wait;
+	int					working;
+	t_tdata				workers[THREADS];
+};
+
+void			*worker(void *p)
+{
+	t_tdata		*data;
+
+	data = (t_tdata *)p;
 	while (1)
 	{
-		pthread_mutex_lock(&data->gdata->wait_mtx);
-		//printf("ENTER\n");
-		data->gdata->finished++;
-	 	if (data->gdata->finished > THREADS)
+		pthread_mutex_lock(&data->gdata->work_mutex);
+		data->gdata->working--;
+		if (data->gdata->working == 0)
 		{
-			data->wait = TRUE;
-			pthread_cond_signal(&data->gdata->wait_cond);
+			pthread_mutex_lock(&data->gdata->wait_mutex);
+			data->gdata->wait = FALSE;
+			pthread_cond_broadcast(&data->gdata->wait_cond);
+			pthread_mutex_unlock(&data->gdata->wait_mutex);
 		}
-		while (data->wait)
-			pthread_cond_wait(&data->gdata->wait_cond, &data->gdata->wait_mtx);
-		pthread_mutex_unlock(&data->gdata->wait_mtx);
-		printf("start %d end %d wait %d\n", data->start, data->end, data->wait);
+		while (!data->pending)
+			pthread_cond_wait(&data->gdata->work_cond, &data->gdata->work_mutex);
+		data->pending = FALSE;
+		pthread_mutex_unlock(&data->gdata->work_mutex);
+		printf("%d %d\n", data->start_y, data->end_y);
 	}
+	return (NULL);
 }
 
-void main()
+int				main(void)
 {
-	pthread_t threads[THREADS];
-
-	t_gdata gdata;
-	gdata.finished = THREADS;
-	pthread_cond_init(&gdata.wait_cond, NULL);
-	pthread_mutex_init(&gdata.wait_mtx, NULL);
+	pthread_t	threads[THREADS];
+//	t_tdata		datas[THREADS];
 
 
+	t_gdata		gdata;
+	ft_bzero(&gdata, sizeof(t_gdata));
+	int	delta = S_HEIGHT / THREADS;
 	for (int i = 0; i < THREADS; i++)
 	{
-		t_tdata data;
-		int delta = S_HEIGHT / THREADS;
-		data.start = delta * i;
-		data.end = delta * (i + 1);
-		data.gdata = &gdata;
-		data.wait = FALSE;
-		pthread_create(&threads[i], NULL, worker, &data);
+		t_tdata	*data = &gdata.workers[i];
+
+		data->start_y = delta * i;
+		data->end_y = delta * (i + 1);
+		data->pending = FALSE;
+		data->gdata = &gdata;
+		pthread_create(&threads[i], NULL, worker, data);
 	}
 
 	while (1)
 	{
-		printf("-----\n");
-		fflush(0);
-		gdata.finished = 0;
-		pthread_cond_signal(&gdata.wait_cond);
-		while (gdata.finished <= THREADS)
-			continue;
-		
-		printf("print image\n");
-		
+		printf("******\n");
+		pthread_mutex_lock(&gdata.work_mutex);
+		gdata.working = THREADS;
+		for (int i = 0; i < THREADS; i++)
+			gdata.workers[i].pending = TRUE;
+		pthread_mutex_lock(&gdata.wait_mutex);
+		gdata.wait = TRUE;
+		while (gdata.wait)
+			pthread_cond_wait(&gdata.wait_cond, &gdata.wait_mutex);
+		pthread_mutex_unlock(&gdata.wait_mutex);
+		for (int i = 0; i < THREADS; i++)
+			pthread_cond_broadcast(&gdata.work_cond);
+		pthread_mutex_unlock(&gdata.work_mutex);
+		printf("PROCESS FRAME\n");
 	}
+	return (0);
 }

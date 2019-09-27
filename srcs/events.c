@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:14:55 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/25 20:53:09 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/26 15:45:40 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,7 @@ void	hook_events(t_doom *doom)
 		if (s[SDL_SCANCODE_SPACE])
 		{
 			doom->player.entity.grounded = FALSE;
-			doom->player.entity.velocity.y += 2.3;
+			doom->player.entity.velocity.y += 2.1;
 		}
 		if (s[SDL_SCANCODE_J] || s[SDL_SCANCODE_L])
 			doom->player.entity.rotation.y += 0.01 * (s[SDL_SCANCODE_J] ? 1 : -1) * ms;

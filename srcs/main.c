@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/26 00:22:16 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/27 22:39:58 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	init_bsp(t_doom *doom)
 	// 	create_wall_polygon(&wall, (t_mtl){ .texture_map = doom->textures.bricks, .texture_map_set = TRUE }, (t_line){ (t_vec2){lines[i].a.x , (lines[i].a.y )}, (t_vec2){lines[i].b.x , (lines[i].b.y )}}, (t_vec2){0, 150});
 	// 	wall.scale = (t_vec3){ 0.1, 0.1, 0.1 };
 	// 	append_renderables_array(&doom->renderables, wall);
-	// }
+	//}
 
 	// t_renderable tr;
 	// create_wall_polygon(&tr, (t_mtl){ .texture_map = doom->textures.bricks, .texture_map_set = TRUE }, (t_line){(t_vec2){2.5, 8}, (t_vec2){0, 8}}, (t_vec2){0, 1.5});

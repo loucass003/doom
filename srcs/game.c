@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:01:13 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/25 20:31:55 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/26 15:51:02 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void			game_loop(t_doom *doom)
 	doom->player.camera.projection = projection_matrix();
 	doom->player.entity.position = (t_vec3){ 1, 300, 1 };
 	doom->player.entity.velocity = (t_vec3){ 0, 0, 0 };
-	doom->player.entity.radius = (t_vec3){ 1, 3.0f, 1 };
+	doom->player.entity.radius = (t_vec3){ 1, 2.5f, 1 };
 	doom->player.entity.packet.doom = doom;
 	doom->player.entity.rotation.y = 0;
 	doom->player.entity.rotation.x = 0;
