@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 01:17:41 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/25 19:42:00 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/28 17:29:30 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,10 @@ void scanline2(t_render_context *ctx, t_mtl *mtl, t_pixel p, float t, t_vertex s
 	// 	return ;
 	if (vert.pos.w <= *buff)
 	{
-		*buff = vert.pos.w;
+		
 		float lt_color = (1.0f - t) * start.light_color + t * end.light_color;
 		ur_color c;
-		uint8_t a = ft_max(AMBIANT_LIGHT, lt_color);		
+		uint8_t a = ft_max(AMBIANT_LIGHT, lt_color);
 		if (mtl->lightmap || mtl->texture_map_set)
 		{
 			float w = 1. / vert.pos.w;
@@ -69,12 +69,15 @@ void scanline2(t_render_context *ctx, t_mtl *mtl, t_pixel p, float t, t_vertex s
 				a = mtl->lightmap[y * (mtl->texture_map->w) + x];
 			if (mtl->texture_map_set)
 				c.color = get_surface_pixel(mtl->texture_map, x, y);
+			if (c.argb.a == 0) //TODO we need to know this is a sprite
+				return ;
 		}
 		else if (mtl->material_color_set)
 			c.color = mtl->material_color;
 		if (!mtl->transparent)
 			c.argb.a = a;
 		ctx->image->pixels[p.y * (int)S_WIDTH + p.x] = c.color;
+		*buff = vert.pos.w;
 	}
 }
 
@@ -162,8 +165,8 @@ void	draw_triangle(t_render_context *ctx, t_render_data data)
 	{
 		uint32_t c = data.mtl->material_color_set ? data.mtl->material_color : 0xFFFFFFFF;
 		t_triangle triangle = data.triangle;
-		// draw_line(ctx->image, (t_pixel){triangle.a.pos.x, triangle.a.pos.y, c}, (t_pixel){triangle.b.pos.x, triangle.b.pos.y});
-		// draw_line(ctx->image, (t_pixel){triangle.b.pos.x, triangle.b.pos.y, c}, (t_pixel){triangle.c.pos.x, triangle.c.pos.y});
-		// draw_line(ctx->image, (t_pixel){triangle.c.pos.x, triangle.c.pos.y, c}, (t_pixel){triangle.a.pos.x, triangle.a.pos.y});
+		draw_line(ctx->image, (t_pixel){triangle.a.pos.x, triangle.a.pos.y, c}, (t_pixel){triangle.b.pos.x, triangle.b.pos.y});
+		draw_line(ctx->image, (t_pixel){triangle.b.pos.x, triangle.b.pos.y, c}, (t_pixel){triangle.c.pos.x, triangle.c.pos.y});
+		draw_line(ctx->image, (t_pixel){triangle.c.pos.x, triangle.c.pos.y, c}, (t_pixel){triangle.a.pos.x, triangle.a.pos.y});
 	}
 }

@@ -6,11 +6,12 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 16:49:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/15 01:36:00 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/28 17:20:03 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom.h"
+#include "sprite.h"
 #include "render.h"
 
 void	render(t_doom *doom)
@@ -69,11 +70,14 @@ void	render_renderable(t_render_context *ctx, t_renderable *r)
 	int		i;
 	t_face	*face;
 
-	if (r->dirty)
+	if (r->dirty || (r->of.type == RENDERABLE_SPRITE && r->of.data.sprite->always_facing_player))
 	{
+		if (r->of.type == RENDERABLE_SPRITE && r->of.data.sprite->always_facing_player)
+			r->rotation.y = ctx->camera->rotation.y;
 		transform_renderable(r);
 		r->dirty = FALSE;
 	}
+	
 	i = -1;
 	while (++i < r->faces->len)
 	{

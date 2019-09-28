@@ -81,5 +81,6 @@ SRC+=ray.c
 SRC+=render/camera.c
 SRC+=render/triangle.c
 SRC+=render.c
-SRC+=renderable.c
+SRC+=renderables/renderable.c
+SRC+=renderables/sprite_renderable.c
 SRC+=sdl.c

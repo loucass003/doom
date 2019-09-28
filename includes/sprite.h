@@ -1,0 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sprite.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/09/28 16:27:28 by llelievr          #+#    #+#             */
+/*   Updated: 2019/09/28 16:29:47 by llelievr         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef SPRITE_H
+# define SPRITE_H
+
+# include <libft.h>
+
+typedef struct	s_sprite
+{
+	t_bool		always_facing_player;
+}				t_sprite;
+
+#endif

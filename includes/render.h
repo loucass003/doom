@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:16:19 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/09 16:06:33 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/28 16:22:58 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,13 +64,15 @@ typedef struct		s_render_context
 typedef enum		e_renderable_type
 {
 	RENDERABLE_OBJ,
-	RENDERABLE_POLYGON
+	RENDERABLE_POLYGON,
+	RENDERABLE_SPRITE
 }					t_renderable_type;
 
 typedef union		u_renderable_of_data
 {
 	struct s_polygon		*polygon;
 	struct s_obj			*obj;
+	struct s_sprite			*sprite;
 }					t_renderable_of_data;
 
 typedef struct		s_renderable_of

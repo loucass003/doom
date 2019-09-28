@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/09 14:00:21 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/09 16:20:33 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/28 17:03:54 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ t_collidable	compute_collidable(t_renderable *r, int face_index, t_vec4 *vertice
 		return (compute_polygon_face_collidable(r, face_index, vertices));
 	else
 	{
-		printf("HUM ? NOT GOOD\n");
+		// printf("HUM ? NOT GOOD\n");
 		return ((t_collidable){});
 	}
 }
