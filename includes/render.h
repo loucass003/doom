@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:16:19 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/28 16:22:58 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/29 00:03:26 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ typedef struct		s_renderable
 	t_3dvertices			*normals;
 	t_mtllist				*materials;
 	struct s_octree_node	*octree;
+	struct s_entity			*entity;
 	t_vec3					position;
 	t_vec3					rotation;
 	t_vec3					scale;
