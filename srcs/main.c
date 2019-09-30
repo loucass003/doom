@@ -6,13 +6,14 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/28 19:11:41 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/30 14:49:59 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "arrays.h"
 #include "doom.h"
 #include "octree.h"
+#include "sprite.h"
 
 t_line	lines[] = {
 	{ .a = { 0, 0 },  .b = { 500, 0 } },
@@ -95,9 +96,13 @@ void	init_bsp(t_doom *doom)
 	// t_polygon *poly0 = (t_polygon *)ptrs->values[1];
 
 	t_renderable sprite;
-	create_sprite(&sprite, (t_mtl){ .texture_map = doom->textures.sprite, .texture_map_set = TRUE });
+	create_sprite(&sprite, (t_mtl){ .texture_map = doom->textures.sprite, .texture_map_set = TRUE }, (t_vec2){ 8, 7 });
+	set_current_cell(&sprite, 0, 0);
 	sprite.scale = (t_vec3){ 5, 6, 5 };
 	sprite.position = (t_vec3){ 0, 0, 0 };
+	sprite.of.data.sprite->always_facing_player = FALSE;
+	sprite.entity = ft_memalloc(sizeof(t_entity));
+	sprite.entity->type = ENTITY_ENEMY;
 	append_renderables_array(&doom->renderables, sprite);
 
 	post_process_map(doom);

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 16:49:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/28 17:20:03 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/30 15:08:10 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,11 +73,24 @@ void	render_renderable(t_render_context *ctx, t_renderable *r)
 	if (r->dirty || (r->of.type == RENDERABLE_SPRITE && r->of.data.sprite->always_facing_player))
 	{
 		if (r->of.type == RENDERABLE_SPRITE && r->of.data.sprite->always_facing_player)
-			r->rotation.y = ctx->camera->rotation.y;
+			r->rotation.y = M_PI + ctx->camera->rotation.y;
 		transform_renderable(r);
 		r->dirty = FALSE;
 	}
 	
+	if (r->entity && r->entity->type == ENTITY_ENEMY)
+	{
+		t_sprite	*sprite;
+
+		if (r->of.type == RENDERABLE_SPRITE)
+		{
+			sprite = r->of.data.sprite;
+			// float dot = ft_vec3_dot()
+			printf("%d\n", ft_abs((float)(ctx->camera->rotation.y - r->rotation.y) * (180.0 / M_PI)) % (int)(360 / sprite->cells_count.x));
+			set_current_cell(r, 0, 0);
+		}
+	}
+
 	i = -1;
 	while (++i < r->faces->len)
 	{
@@ -87,9 +100,13 @@ void	render_renderable(t_render_context *ctx, t_renderable *r)
 			face->mtl->material_color_set = TRUE;
 			face->mtl->material_color = 0xFF555555;
 		}
-	 	float d = ft_vec3_dot(face->face_normal, ft_vec3_sub(ctx->camera->pos, vec4_to_3(r->pp_vertices[face->vertices_index[0] - 1])));
-		if (d <= 0)
-			continue;
+
+		if (!r->double_faced)
+		{
+			float d = ft_vec3_dot(face->face_normal, ft_vec3_sub(ctx->camera->pos, vec4_to_3(r->pp_vertices[face->vertices_index[0] - 1])));
+			if (d <= 0)
+				continue;
+		}
 		
 		t_vec4 v0 = mat43_mulv4(ctx->camera->matrix, r->pp_vertices[face->vertices_index[0] - 1]);
 		t_vec4 v1 = mat43_mulv4(ctx->camera->matrix, r->pp_vertices[face->vertices_index[1] - 1]);
