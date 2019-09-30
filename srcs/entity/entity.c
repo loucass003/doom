@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 22:00:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/25 20:54:19 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/30 17:39:41 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ void		check_collision(t_entity *entity)
 	while (++i < entity->packet.doom->renderables->len)
 	{
 		r = entity->packet.doom->renderables->values[i];
+		if (r.entity == entity)
+			continue;
 		j = -1;
 		while (++j < r.faces->len)
 		{
@@ -163,4 +165,7 @@ void		entity_update(t_entity *entity, double dt)
 	entity->velocity = entity->packet.r3_velocity;
 	entity->radius = entity->packet.e_radius;
 	entity->grounded = entity->packet.grounded;
+
+	if (entity->type == ENTITY_ENEMY)
+		entity_update_enemy(entity, dt);
 }

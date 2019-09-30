@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 16:49:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/30 15:08:10 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/30 18:29:31 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static float	get_light_intensity(t_render_context *ctx, t_vec3 normal, t_vec4 po
 	while (++i < ctx->doom->lights->len)
 	{
 		light = &ctx->doom->lights->lights[i];
-		float d = ft_vec3_dot(normal, ft_vec3_sub(light->position, vec4_to_3(point)));
+		//float d = ft_vec3_dot(normal, ft_vec3_sub(light->position, vec4_to_3(point)));
 		// if (d > 5)
 		// 	continue;
 		valid++;
@@ -70,27 +70,31 @@ void	render_renderable(t_render_context *ctx, t_renderable *r)
 	int		i;
 	t_face	*face;
 
+	if (r->entity)
+	{
+		r->position = ft_vec3_add(r->entity->position, r->entity->pos_offset);
+		//r->position.y -= r->entity->radius.y;
+		r->rotation = r->entity->rotation;
+		if(r->entity->type == ENTITY_ENEMY)
+		{
+			t_sprite	*sprite;
+
+			if (r->of.type == RENDERABLE_SPRITE)
+			{
+				sprite = r->of.data.sprite;
+				set_current_cell(r, (int)(((float)((ctx->camera->rotation.y - r->entity->rotation.y)) * (180.0 / M_PI)) / 45) % ((int)sprite->cells_count.x), 0);
+			}
+		}
+	}
+
 	if (r->dirty || (r->of.type == RENDERABLE_SPRITE && r->of.data.sprite->always_facing_player))
 	{
 		if (r->of.type == RENDERABLE_SPRITE && r->of.data.sprite->always_facing_player)
-			r->rotation.y = M_PI + ctx->camera->rotation.y;
+			r->rotation.y = ctx->camera->rotation.y;
 		transform_renderable(r);
 		r->dirty = FALSE;
 	}
 	
-	if (r->entity && r->entity->type == ENTITY_ENEMY)
-	{
-		t_sprite	*sprite;
-
-		if (r->of.type == RENDERABLE_SPRITE)
-		{
-			sprite = r->of.data.sprite;
-			// float dot = ft_vec3_dot()
-			printf("%d\n", ft_abs((float)(ctx->camera->rotation.y - r->rotation.y) * (180.0 / M_PI)) % (int)(360 / sprite->cells_count.x));
-			set_current_cell(r, 0, 0);
-		}
-	}
-
 	i = -1;
 	while (++i < r->faces->len)
 	{

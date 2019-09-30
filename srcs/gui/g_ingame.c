@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/12 13:49:04 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/30 16:37:26 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,11 @@ void	g_ingame_render(t_gui *self, t_doom *doom)
 
 	for (int i = 0; i < doom->renderables->len; i++)
 	{
-		render_renderable(&doom->main_context, doom->renderables->values + i);
+		t_renderable	*r = doom->renderables->values + i;
+
+		if (r->entity)
+			entity_update(r->entity, doom->stats.delta);
+		render_renderable(&doom->main_context, r);
 	}
 	// doom->renderables->values[0].rotation.y += 0.03;
 	// doom->renderables->values[0].dirty = TRUE;

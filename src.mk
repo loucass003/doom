@@ -34,6 +34,7 @@ SRC+=editor/editor_setmap.c
 SRC+=editor/editor_tools_poly.c
 SRC+=editor/editor_visual.c
 SRC+=editor/load.c
+SRC+=entity/enemy.c
 SRC+=entity/entity.c
 SRC+=events.c
 SRC+=file_utils.c

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 00:01:14 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/17 23:42:28 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/30 18:14:32 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ typedef struct		s_entity
 {
 	t_entity_type	type;
 	t_vec3			position;
+	t_vec3			pos_offset;
 	t_vec3			velocity;
 	t_vec3			rotation;
 	t_vec3			radius;
