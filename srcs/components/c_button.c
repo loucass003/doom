@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   c_button.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:59:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/29 02:24:17 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/01 16:51:17 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,15 @@ void		c_button_render(t_doom *doom, t_component *self)
 			(SDL_Rect) {self->bounds.x + 2, self->bounds.y +
 			2, self->bounds.w - 4, self->bounds.h - 4});
 	}
+
+	if (btn->texte != NULL)
+	{
+		SDL_Surface *text = TTF_RenderText_Blended(doom->fonts.helvetica,
+			btn->texte, (SDL_Color){255, 255, 255, 0});
+		apply_surface_blended(&doom->screen, text, (SDL_Rect){0, 0, text->w, text->h},
+			(SDL_Rect){self->bounds.x, self->bounds.y, self->bounds.w, self->bounds.h});
+		SDL_FreeSurface(text);
+	}
 }
 
 void		c_button_on_click(t_component *self, t_vec2 pos, t_doom *doom)
@@ -76,7 +85,7 @@ void		c_button_on_mouse_move(t_component *self, t_vec2 pos, t_doom *doom)
 		btn->color = btn->color_default;
 }
 
-t_component	 *create_button(SDL_Rect bounds, char *s)
+t_component	 *create_button(SDL_Rect bounds, char *s, char *s2)
 {
 	t_button *btn;
 
@@ -86,6 +95,12 @@ t_component	 *create_button(SDL_Rect bounds, char *s)
 	btn->super = (t_component) { .bounds = bounds, .type = C_BUTTON, 
 		.render = c_button_render, .on_click = c_button_on_click,
 		.on_mouse_move = c_button_on_mouse_move};
+	if (s2 != NULL)
+	{
+		if(!(btn->texte = (char *)malloc(sizeof(ft_strlen(s2)+1))))
+			return (NULL);
+		btn->texte = s2;
+	}
 	btn->color_default = 0xFFFFFFFF;
 	btn->color_hover = 0xFFCCCCCC;
 	btn->color = btn->color_default;

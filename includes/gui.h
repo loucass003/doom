@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gui.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 01:42:00 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/29 03:07:17 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/01 16:50:00 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ typedef struct		s_button
 	t_component		super;
 	int				text_len;
 	char			text[256];
+	char			*texte;
 	int				color;
 	int				color_default;
 	int				color_hover;
@@ -118,7 +119,7 @@ void				render_components(t_doom *doom, t_gui *gui);
 t_bool				in_bounds(SDL_Rect bounds, t_vec2 pos);
 t_bool				alloc_components(t_gui *gui, int count);
 void				free_components(t_gui *gui);
-t_component	 		*create_button(SDL_Rect bounds, char *s);
+t_component	 		*create_button(SDL_Rect bounds, char *s, char *s2);
 
 void    			find_files(t_files **list, int *files_count, char *s, char *s2);
 t_component			*create_menu(SDL_Rect bounds, char *s, t_doom *doom);

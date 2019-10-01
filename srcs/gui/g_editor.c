@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_editor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 15:50:09 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/29 20:49:48 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/01 16:39:55 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,26 +61,26 @@ void			g_editor_button(t_gui *self, t_doom *doom)
 		return ;
 	doom->editor.set_start_pos[0] = 0;
 	doom->editor.set_start_pos[1] = 0;
-	self->components[0] = create_button((SDL_Rect){6, 6, 40, 40}, "icons/icons8-jouer-80.png");
-	self->components[1] = create_button((SDL_Rect){46, 6, 40, 40}, "icons/pin.png");
+	self->components[0] = create_button((SDL_Rect){6, 6, 40, 40}, "icons/icons8-jouer-80.png", NULL);
+	self->components[1] = create_button((SDL_Rect){46, 6, 40, 40}, "icons/pin.png", NULL);
 	self->components[2] = create_button((SDL_Rect)
-	{86, 6, 40, 40}, "icons/icons8-effacer-96.png");
+	{86, 6, 40, 40}, "icons/icons8-effacer-96.png", NULL);
 	self->components[3] = create_menu((SDL_Rect)
 	{126, 6, 40, 40}, "wall", doom);
 	self->components[4] = create_menu((SDL_Rect)
 	{166, 6, 40, 40}, "obj", doom);
 	self->components[5] = create_button((SDL_Rect)
-	{206, 6, 40, 40}, "icons/poly.png");
+	{206, 6, 40, 40}, "icons/poly.png", NULL);
 	self->components[6] = create_button((SDL_Rect)
-	{246, 6, 40, 40}, "icons/curseur3.png");
+	{246, 6, 40, 40}, "icons/curseur3.png", NULL);
 	self->components[7] = create_button((SDL_Rect)
-	{286, 6, 40, 40}, "icons/croix.png");
+	{286, 6, 40, 40}, "icons/croix.png", NULL);
 	self->components[8] = create_button((SDL_Rect)
-	{323, 6, 40, 40}, "icons/icons8-stylo-64.png");
+	{323, 6, 40, 40}, "icons/icons8-stylo-64.png", NULL);
 	self->components[9] = create_button((SDL_Rect)
-	{363, 6, 40, 40}, "icons/icons8-modifier-la-ligne-80.png");
+	{363, 6, 40, 40}, "icons/icons8-modifier-la-ligne-80.png", NULL);
 	self->components[10] = create_button((SDL_Rect)
-	{403, 6, 40, 40}, "icons/icons8-porte-64.png");
+	{403, 6, 40, 40}, "icons/icons8-porte-64.png", NULL);
 	int i = 0;
 	while (i <= 10)
 		self->components[i++]->perform_action = action_performed;
