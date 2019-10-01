@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   load.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 13:20:27 by louali            #+#    #+#             */
-/*   Updated: 2019/08/29 02:39:12 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/01 16:24:57 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,11 @@ void	load(t_texture **texture, char *name, char *path)
 
 void	load_all(t_doom *doom)
 {
+	if (!(doom->background = IMG_Load("Doom.png")) || !(doom->background = SDL_ConvertSurfaceFormat(doom->background, SDL_PIXELFORMAT_ARGB8888, 0)))
+	{
+		free(doom->background);
+		return;
+	}
 	load(&doom->icons, "icons", "icons/");
 	load(&doom->obj, "objects", "objects/");
 	load(&doom->wall, "walls", "walls/");

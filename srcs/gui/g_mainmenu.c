@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_mainmenu.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:56:05 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/29 20:10:49 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/01 16:25:52 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,21 @@ static void		action_performed(t_component *cmp, t_doom *doom)
 
 void	g_mainmenu_on_enter(t_gui *self, t_doom *doom)
 {
-	if (!alloc_components(self, 2))
+		if (!alloc_components(self, 3))
 		return ;
 //	printf("init %d\n", self->component_count);
-	self->components[0] = create_button((SDL_Rect){ 5, 5, 200, 20 }, NULL);
+	self->components[0] = create_button((SDL_Rect){ (S_WIDTH - 250) / 2, (S_HEIGHT - 150) / 2, 250, 50 }, NULL);
+	((t_button *)self->components[0])->color_default = 0xFF8d1506;
+	((t_button *)self->components[0])->color_hover = 0;
 	self->components[0]->perform_action = action_performed;
-	self->components[1] = create_button((SDL_Rect){ 5, 30, 200, 20 }, NULL);
-	((t_button *)self->components[1])->color_default = 0xFFFF0000;
-	((t_button *)self->components[1])->color_hover = 0xFF0000FF;
+	self->components[1] = create_button((SDL_Rect){ (S_WIDTH - 250) / 2, (S_HEIGHT - 20) / 2, 250, 50 }, NULL);
+	((t_button *)self->components[1])->color_default = 0xFF8d1506;
+	((t_button *)self->components[1])->color_hover = 0;
 	self->components[1]->perform_action = action_performed;
+	self->components[2] = create_button((SDL_Rect){ (S_WIDTH - 250) / 2, (S_HEIGHT + 110) / 2, 250, 50 }, NULL);
+	((t_button *)self->components[2])->color_default = 0xFF8d1506;
+	((t_button *)self->components[2])->color_hover = 0;
+	self->components[2]->perform_action = action_performed;
 }
 
 void	g_mainmenu_on_leave(t_gui *self, t_doom *doom)
@@ -46,6 +52,6 @@ void	g_mainmenu_on_leave(t_gui *self, t_doom *doom)
 
 void	g_mainmenu_render(t_gui *self, t_doom *doom)
 {
-	fill_color(&doom->screen, 0xFF00FF00);
+	apply_surface(&doom->screen, doom->background, (SDL_Rect) {0, 0, doom->background->w, doom->background->h}, (SDL_Rect) {0, 0, S_WIDTH, S_HEIGHT});
 	render_components(doom, self);
 }
