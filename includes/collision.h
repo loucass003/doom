@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 01:15:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/25 13:45:43 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/01 15:08:49 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ typedef enum		e_parent_collider_type
 
 typedef enum		e_collidable_type
 {
+	COLLIDE_ELLIPSOID = 2,
 	COLLIDE_TRIANGLE = 1,
 	COLLIDE_AABB = 0
 }					t_collidable_type;
@@ -39,6 +40,12 @@ typedef	struct		s_collide_aabb
 	t_vec3			min;
 	t_vec3			max;
 }					t_collide_aabb;
+
+typedef	struct		s_collide_ellipsoid
+{
+	t_vec3			origin;
+	t_vec3			radius;
+}					t_collide_ellipsoid;
 
 typedef struct		s_collide_triangle
 {

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:14:55 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/26 15:45:40 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/01 14:02:21 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,7 @@ void	hook_events(t_doom *doom)
 		if (s[SDL_SCANCODE_I] || s[SDL_SCANCODE_K])
 			doom->player.entity.rotation.x += 0.01 * (s[SDL_SCANCODE_I] ? 1 : -1) * ms;
 		move_speed = 1.0f;
-		entity_update(&doom->player.entity, dt);
+		entity_update(doom, &doom->player.entity, dt);
 	//	doom->player.entity.velocity.z = 200 * dt;
 	//	doom->player.entity.velocity.y -= 100 * dt;
 		//update_player_camera(&doom->player);

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 00:01:14 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/30 18:14:32 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/01 16:48:58 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,10 @@ typedef struct		s_entity
 	t_vec3			radius;
 	t_bool			grounded;
 	t_physics_data	packet;
+	int				animation_step;
+	t_bool			focus;
 }					t_entity;
 
-void		entity_update(t_entity *entity, double dt);
+void		entity_update(struct s_doom *doom, t_entity *entity, double dt);
 
 #endif
