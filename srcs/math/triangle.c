@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 01:06:40 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/25 14:55:23 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/02 13:22:09 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,21 @@ void	process_triangle(t_render_context *ctx, t_mtl *mtl, t_triangle t)
 	}
 }
 
+void	task(void *p)
+{
+	t_tdata	*t;
+	
+	t = (t_tdata*)p;
+//	printf("ENTER\n");
+	t->gdata->todo_triangles++;
+	draw_triangle(t->ctx, t->data);
+	t->gdata->finished_triangles++;
+//	printf("done = %d/%d\n", t->gdata->finished_triangles, t->gdata->todo_triangles);
+	//free(p);
+	
+}
+
+
 void	post_process_triangle(t_render_context *ctx, t_mtl *mtl, t_triangle t)
 {
 	t.a = transform(t.a);
@@ -100,8 +115,21 @@ void	post_process_triangle(t_render_context *ctx, t_mtl *mtl, t_triangle t)
 		.mtl = mtl,
 		.triangle = t
 	};
-	
+
+	// t_tdata *d;
+	// if(!(d = malloc(sizeof(t_tdata))))
+	// 	return ;
+	// *d = (t_tdata){
+	// 	.gdata = &ctx->doom->gdata,
+	// 	.ctx = ctx,
+	// 	.data = data
+	// };
+
 	draw_triangle(ctx, data);
+	// task(d);
+	//tpool_add_work(ctx->doom->thpool, task, d);
+	
+	// at_thpool_newtask(ctx->doom->thpool, task, d);
 }
 
 t_vec3	get_triangle_normal(t_vec3 p0, t_vec3 p1, t_vec3 p2)

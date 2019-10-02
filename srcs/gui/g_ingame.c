@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/01 14:03:19 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/02 13:22:34 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,14 @@ void	g_ingame_on_enter(t_gui *self, t_doom *doom)
 	
 }
 
+int i = 0;
+
 void	g_ingame_render(t_gui *self, t_doom *doom)
 {
+	// if (++i > 1000)
+	// {
+	// 	sleep(30);
+	// }
 	doom->main_context.image = &doom->screen;
 	for (int i = 0; i < S_WIDTH * S_HEIGHT; i++)
 		doom->main_context.buffer[i] = 0;
@@ -49,6 +55,9 @@ void	g_ingame_render(t_gui *self, t_doom *doom)
 			render_polygon(&doom->main_context, doom->polygons->polygons + i);
 	} */
 
+	//doom->gdata.all_called = FALSE;
+	doom->gdata.todo_triangles = 0;
+	doom->gdata.finished_triangles = 0;
 	for (int i = 0; i < doom->renderables->len; i++)
 	{
 		t_renderable	*r = doom->renderables->values + i;
@@ -57,6 +66,13 @@ void	g_ingame_render(t_gui *self, t_doom *doom)
 			entity_update(doom, r->entity, doom->stats.delta);
 		render_renderable(&doom->main_context, r);
 	}
+	// printf("triangles = %d/%d\n", doom->gdata.finished_triangles, doom->gdata.todo_triangles);
+	// //doom->gdata.all_called = TRUE;
+	// //exit(1);
+	// while(doom->gdata.todo_triangles != doom->gdata.finished_triangles)
+	// 	; 
+//	tpool_wait(doom->thpool);
+
 	// doom->renderables->values[0].rotation.y += 0.03;
 	// doom->renderables->values[0].dirty = TRUE;
 	doom->main_context.image = &doom->screen_transparency;

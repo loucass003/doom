@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 01:17:41 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/28 21:54:00 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/02 21:21:01 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "doom.h"
 #include "render.h"
 #include <pthread.h>
+#include <stdatomic.h>
 
 static inline void	swap(t_vertex *a, t_vertex *b)
 {
@@ -49,10 +50,13 @@ void scanline2(t_render_context *ctx, t_mtl *mtl, t_pixel p, float t, t_vertex s
 	buff = ctx->buffer + p.y * (int)S_WIDTH + p.x;
 	// if (vert.pos.w > -25)
 	// 	return ;
+	t_bool render = FALSE;
+//	pthread_mutex_lock(&ctx->doom->mutex);
+
+	//pthread_mutex_unlock(&ctx->doom->mutex);
 	if (vert.pos.w <= *buff)
 	{
-		
-		float lt_color = (1.0f - t) * start.light_color + t * end.light_color;
+	 	float lt_color = (1.0f - t) * start.light_color + t * end.light_color;
 		ur_color c;
 		uint8_t a = ft_max(AMBIANT_LIGHT, lt_color);
 		if (mtl->lightmap || mtl->texture_map_set)
@@ -79,6 +83,7 @@ void scanline2(t_render_context *ctx, t_mtl *mtl, t_pixel p, float t, t_vertex s
 		ctx->image->pixels[p.y * (int)S_WIDTH + p.x] = c.color;
 		*buff = vert.pos.w;
 	}
+	
 }
 
 // typedef struct s_data

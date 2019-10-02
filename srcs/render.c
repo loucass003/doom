@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 16:49:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/01 16:22:55 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/02 19:08:35 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,15 @@ void	render_renderable(t_render_context *ctx, t_renderable *r)
 			if (r->of.type == RENDERABLE_SPRITE)
 			{
 				sprite = r->of.data.sprite;
-				set_current_cell(r, (int)(((float)((r->entity->rotation.y - ctx->camera->rotation.y )) * (180.0 / M_PI)) / 45) % ((int)sprite->cells_count.x), r->entity->animation_step);
+				t_vec3 view = ft_vec3_sub(ctx->camera->pos, r->entity->position);
+				// t_mat4 m;
+				// mat4_inverse(ft_mat4_rotation(r->entity->rotation), &m);
+				// view = ft_mat4_mulv(m, view);
+				view = vec3_rotate(view, (t_vec3){ 0, -r->entity->rotation.y, 0 });
+				float a = atan2(view.z, view.x);
+				float f = round(a * (4 / M_PI));
+				int texture = f;
+				set_current_cell(r, texture, r->entity->animation_step);
 			}
 		}
 	}

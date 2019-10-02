@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:01:13 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/26 15:51:02 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/02 03:38:34 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,12 @@ void			game_loop(t_doom *doom)
 	load_all(doom);
 	while (doom->running)
 	{
+		
+		doom->gdata = (t_gdata){
+			.todo_triangles = 0,
+			.all_called = FALSE
+		};
+
 		SDL_RenderClear(doom->renderer);
 		clear_image(&doom->screen);
 		clear_image(&doom->screen_transparency);

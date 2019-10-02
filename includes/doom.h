@@ -3,15 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   doom.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/01 16:21:53 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/10/02 21:18:41 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef DOOM_H
 # define DOOM_H
+
+#include <pthread.h>
+//#include "at_thpool.h"
 
 # include <SDL.h>
 # include <SDL_ttf.h>
@@ -48,6 +51,7 @@ typedef struct		s_textures
 	SDL_Surface		*bricks;
 	SDL_Surface		*test;
 	SDL_Surface		*sprite;
+	SDL_Surface		*machin;
 }					t_textures;
 
 // typedef struct		s_ray_collide
@@ -65,6 +69,21 @@ typedef struct		s_audio
 	ALCcontext 		*context;
 
 }					t_audio;
+
+typedef struct		s_gdata
+{
+	int				todo_triangles;
+	int				finished_triangles;
+	t_bool			all_called;
+}					t_gdata;
+
+typedef struct		s_tdata
+{
+	t_gdata				*gdata;
+	t_render_context	*ctx;
+	t_render_data		data;
+}					t_tdata;
+
 
 typedef struct		s_doom
 {
@@ -96,6 +115,9 @@ typedef struct		s_doom
 	int					open;
 	t_audio				audio;
 	SDL_Surface 		*background;
+	t_gdata				gdata;
+	//at_thpool_t			*thpool;
+	//pthread_mutex_t		mutex;
 	// t_ray_collide		*rays;
 }					t_doom;
 
@@ -106,10 +128,6 @@ t_bool				sdl_quit(t_doom *doom);
 void				hook_events(t_doom *doom);
 void				render(t_doom *doom);
 void				game_loop(t_doom *doom);
-
-
-
-
 
 t_bool				obj_test(t_doom *doom);
 
