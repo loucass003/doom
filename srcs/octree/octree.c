@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/05 17:31:15 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/02 05:42:07 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/03 14:05:43 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,6 @@ t_bool			subdivide(t_renderable *r, t_octree_node *n)
 		{
 			if (!subdivide(r, child))
 			{
-			//	n->childs = NULL;
 				return (FALSE);
 			}
 		}
@@ -139,10 +138,11 @@ void			print_octree(t_octree_node	*n)
 	i = -1;
 	while (++i < 8)
 	{
-		if (n->childs + i != NULL)
+		if (n->childs + i != NULL && n->childs[i].faces_index->len > 0)
 		{
 			print_octree(&n->childs[i]);
-			printf("%p(%d) --> %p(%d -- %d)\n", n,  n->faces_index->len, n->childs + i, i, n->childs[i].faces_index->len);
+			if (n->faces_index->len > 0)
+				printf("%p(%d) --> %p(%d -- %d)\n", n,  n->faces_index->len, n->childs + i, i, n->childs[i].faces_index->len);
 		}
 	}
 }

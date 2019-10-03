@@ -3,16 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: louali <louali@student.42.fr>              +#+  +:+       +#+         #
+#    By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/07 14:49:27 by llelievr          #+#    #+#              #
-#    Updated: 2019/10/03 12:37:57 by louali           ###   ########.fr        #
+#    Updated: 2019/10/03 14:12:36 by llelievr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME=doom-nukem
-CFLAGS=-Wall -Wextra -flto -O3 -ffast-math
-LIBS=-lm -lft
+CFLAGS=-Wall -Wextra -flto -O3 -ffast-math   -D THPOOL_DEBUG
+LIBS=-lm -lft -pthread
 CC=clang
 
 -include src.mk
@@ -31,8 +31,8 @@ INCDIR	=./includes/
 OBJDIR	=./objs/
 DEPSDIR = ./deps/
 
-INCLUDE += $(shell pkg-config --cflags sdl2 SDL2_image SDL2_ttf openal SDL2_mixer)
-LIBS += $(shell pkg-config --libs sdl2 SDL2_image SDL2_ttf openal SDL2_mixer)
+INCLUDE += $(shell pkg-config --cflags sdl2 SDL2_image SDL2_ttf openal SDL2_mixer) -I/usr/local/include
+LIBS += $(shell pkg-config --libs sdl2 SDL2_image SDL2_ttf openal SDL2_mixer) -L/usr/local/lib -lathpool
 
 PRECOMPILE = mkdir -p $(dir $@)
 POSTCOMPILE = sleep 0
