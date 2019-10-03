@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   doom.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/02 21:18:41 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/03 12:10:21 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ typedef struct		s_doom
 	// t_objs				*objects;
 	t_bool				collision;
 	int					menu;
-	t_line				linetodel;
+	t_wall				linetodel;
 	t_texture			*wall;
 	t_texture			*obj;
 	t_texture			*icons;
@@ -116,6 +116,8 @@ typedef struct		s_doom
 	t_audio				audio;
 	SDL_Surface 		*background;
 	t_gdata				gdata;
+	int 				indextodel;
+		int					wheredel;
 	//at_thpool_t			*thpool;
 	//pthread_mutex_t		mutex;
 	// t_ray_collide		*rays;

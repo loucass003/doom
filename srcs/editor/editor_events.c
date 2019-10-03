@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   editor_events.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/26 17:31:07 by lloncham          #+#    #+#             */
-/*   Updated: 2019/08/20 14:53:28 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/17 14:02:37 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,44 +28,24 @@ void	visual_point(t_doom *doom, int x, int y) //allume les points en rouge
 void	editor_mouse_motion(t_doom *doom, SDL_Event *event)
 {
 //	t_save	*lst;
+	t_walls *lst;
 	
 	doom->editor.last_mouse.x = event->motion.x;
 	doom->editor.last_mouse.y = event->motion.y;
 	doom->editor.set_sup[0] = event->motion.x / 20;
 	doom->editor.set_sup[1] = event->motion.y / 20;
 	visual_point(doom, doom->editor.last_mouse.x / 20, doom->editor.last_mouse.y / 20);
-	// if (doom->editor.sup == 1 && doom->editor.polygon) // PROBLEME ICI
-	// {
-	// 	lst = doom->editor.polygon;
-	// 	while (lst->floor != doom->editor.floor && lst->next != NULL)
-	// 		lst = lst->next;
-	// 	if (lst->line)
-	// 		mouseonline(doom, lst->line, doom->editor.set_sup);
-	// }
-	// if (doom->editor.sup == 1 && doom->editor.lines)
-	// {
-	// 	lst = doom->editor.lines;
-	// 	while (lst->floor != doom->editor.floor && lst->next != NULL)
-	// 		lst = lst->next;
-	// 	if (lst->line)
-	// 		mouseonline(doom, lst->line, doom->editor.set_sup);
-	// }
-	// if (doom->editor.sup == 1 && doom->editor.door)
-	// {
-	// 	lst = doom->editor.door;
-	// 	while (lst->floor != doom->editor.floor && lst->next != NULL)
-	// 		lst = lst->next;
-	// 	if (lst->line)
-	// 		mouseonline(doom, lst->line, doom->editor.set_sup);
-	// }
-	// if (doom->editor.sup == 1 && doom->editor.sector)
-	// {
-	// 	lst = doom->editor.sector;
-	// 	while (lst->floor != doom->editor.floor && lst->next != NULL)
-	// 		lst = lst->next;
-	// 	if (lst->line)
-	// 		mouseonline(doom, lst->line, doom->editor.set_sup);
-	// }
+	if (doom->editor.sup == 1) // PROBLEME ICI
+	{
+		if (doom->editor.polygon)
+			mouseonline(doom, doom->editor.polygon, doom->editor.set_sup);
+		if (doom->editor.lines)
+			mouseonline(doom, doom->editor.lines, doom->editor.set_sup);
+		// if (doom->editor.door)
+			// mouseonline(doom, doom->editor.door, doom->editor.set_sup);
+		// if (doom->editor.sector)
+			// mouseonline(doom, doom->editor.sector, doom->editor.set_sup);
+	}
 }
 
 void	editor_mouse_draw(t_doom *doom, int x, int y) //on save les donnees apres avoir verifié que les points peuvent etre la
@@ -93,9 +73,6 @@ void	editor_mouse_draw(t_doom *doom, int x, int y) //on save les donnees apres a
 				return;
     	doom->editor.line.b.x = x / 20;
 		doom->editor.line.b.y = y / 20;
-		if (doom->editor.poly == 1 && check_same_point(doom) == FALSE)
-			return ;
-		
 		save_in_lst(doom);
 		if (doom->editor.polygon)
 			check_poly_close(doom, doom->editor.polygon);
@@ -136,6 +113,10 @@ void	editor_mousebuttonup(t_doom *doom, int x, int y)
 			save_object(doom, x, y, doom->editor.objet);
 		}
 		else if (doom->editor.poly == 1 || doom->editor.lignes == 1 || doom->editor.secteur == 1 || doom->editor.porte == 1)
+		{
+			if (doom->editor.alert[0] != 0 && doom->editor.poly == 1)
+				return;
 			editor_mouse_draw(doom, x, y);
+		}
 	}
 }

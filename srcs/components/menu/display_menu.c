@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   display_menu.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 16:44:24 by louali            #+#    #+#             */
-/*   Updated: 2019/08/29 02:22:42 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/17 14:23:03 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void		put_menu(t_component *self, t_doom *doom, t_menu *menu)
 		while (y < self->bounds.y + self->bounds.h)
 		{
 			if (menu->name && doom->editor.icone == 1 && ft_strcmp(menu->name, "obj") == 0)
-				doom->screen.pixels[(y * doom->screen.width) + x] = 858585;
+				doom->screen.pixels[(y * doom->screen.width) + x] = 0xFF505050;
 			else
 				doom->screen.pixels[(y * doom->screen.width) + x] = 0;
 			y++;
@@ -37,13 +37,13 @@ void		put_menu(t_component *self, t_doom *doom, t_menu *menu)
 		apply_surface(&doom->screen, menu->select_file,
 			(SDL_Rect) {0, 0, menu->select_file->w, menu->select_file->h},
 			(SDL_Rect) {self->bounds.x + 2, self->bounds.y +
-			2, 40 - 4, MT_H - 4});
+			2, 50 - 4, MT_H - 4});
 	else 
 	{
 		for (int x = self->bounds.x; x < self->bounds.x + self->bounds.w; x++)
 			for (int y = self->bounds.y; y < self->bounds.y + self->bounds.h; y++)
 			{
-				doom->screen.pixels[(y * doom->screen.width) + x] = 5263440;
+				doom->screen.pixels[(y * doom->screen.width) + x] = 0xFF505050;
 			}
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   component.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 12:50:35 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/29 03:07:02 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/09/17 14:14:16 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,12 @@ void	display_comp(t_doom *doom, t_gui *self)
 	while (i++ <= S_WIDTH - 5)
 		doom->screen.pixels[j * doom->screen.width + i] = 0xFFFFFFFF;
 	i = 5;
-	while (j++ <= 44)
+	while (j++ <= 60)
 		doom->screen.pixels[j * doom->screen.width + i] = 0xFFFFFFFF;
 	while (i++ <= S_WIDTH - 5)
 		doom->screen.pixels[j * doom->screen.width + i] = 0xFFFFFFFF;
 	j = 5;
-	while (j++ <= 44)
+	while (j++ <= 60)
 		doom->screen.pixels[j * doom->screen.width + i] = 0xFFFFFFFF;
 	render_components(doom, self);
 }

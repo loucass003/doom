@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_editor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 15:50:09 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/01 16:39:55 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/10/03 12:12:36 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,26 +61,26 @@ void			g_editor_button(t_gui *self, t_doom *doom)
 		return ;
 	doom->editor.set_start_pos[0] = 0;
 	doom->editor.set_start_pos[1] = 0;
-	self->components[0] = create_button((SDL_Rect){6, 6, 40, 40}, "icons/icons8-jouer-80.png", NULL);
-	self->components[1] = create_button((SDL_Rect){46, 6, 40, 40}, "icons/pin.png", NULL);
+	self->components[0] = create_button((SDL_Rect){6, 9, 50, 50}, "icons/icons8-jouer-80.png", NULL);
+	self->components[1] = create_button((SDL_Rect){56, 9, 50, 50}, "icons/pin.png", NULL);
 	self->components[2] = create_button((SDL_Rect)
-	{86, 6, 40, 40}, "icons/icons8-effacer-96.png", NULL);
+	{106, 9, 50, 50}, "icons/icons8-effacer-96.png", NULL);
 	self->components[3] = create_menu((SDL_Rect)
-	{126, 6, 40, 40}, "wall", doom);
+	{156, 9, 50, 50}, "wall", doom);
 	self->components[4] = create_menu((SDL_Rect)
-	{166, 6, 40, 40}, "obj", doom);
+	{206, 9, 50, 50}, "obj", doom);
 	self->components[5] = create_button((SDL_Rect)
-	{206, 6, 40, 40}, "icons/poly.png", NULL);
+	{256, 9, 50, 50}, "icons/poly.png", NULL);
 	self->components[6] = create_button((SDL_Rect)
-	{246, 6, 40, 40}, "icons/curseur3.png", NULL);
+	{306, 9, 50, 50}, "icons/curseur3.png", NULL);
 	self->components[7] = create_button((SDL_Rect)
-	{286, 6, 40, 40}, "icons/croix.png", NULL);
+	{356, 9, 50, 50}, "icons/croix.png", NULL);
 	self->components[8] = create_button((SDL_Rect)
-	{323, 6, 40, 40}, "icons/icons8-stylo-64.png", NULL);
+	{406, 9, 50, 50}, "icons/icons8-stylo-64.png", NULL);
 	self->components[9] = create_button((SDL_Rect)
-	{363, 6, 40, 40}, "icons/icons8-modifier-la-ligne-80.png", NULL);
+	{456, 9, 50, 50}, "icons/icons8-modifier-la-ligne-80.png", NULL);
 	self->components[10] = create_button((SDL_Rect)
-	{403, 6, 40, 40}, "icons/icons8-porte-64.png", NULL);
+	{506, 9, 50, 50}, "icons/icons8-porte-64.png", NULL);
 	int i = 0;
 	while (i <= 10)
 		self->components[i++]->perform_action = action_performed;
@@ -119,20 +119,43 @@ void			g_editor_render(t_gui *self, t_doom *doom)
 	int				x;
 	int				y;
 
-	y = -1;
-	while (++y <= doom->screen.height / 20)
+
+	y = 2;
+	while (y++ <= doom->screen.height / 20)
 	{
-		x = -1;
-		if (y >= (doom->screen.height - 600) / 20)
+		x = 10;
+		while (x++ < 1270)
 		{
-			while (++x <= doom->screen.width / 20)
-			{
-					doom->screen.pixels[(y * 20 + 10) * doom->screen.width
-					+ (x * 20) + 10] = doom->editor.point[(y * (doom->screen.width
-					/ 20)) + x] == 1 ? 0xFFFF0000 : 0xFFFFFFFF;
-			}
+			doom->screen.pixels[(y * 20 + 10) * doom->screen.width
+			+ x] = doom->editor.point[(y * (doom->screen.width
+			/ 20)) + x] == 1 ? 0xFFFF0000 : 0xFF505050;
 		}
 	}
+	x = 1;
+	while (x++ <= doom->screen.width / 20)
+	{
+		y = 70;
+		while (y++ < 630)
+			{
+				doom->screen.pixels[y * doom->screen.width
+				+ (x * 20) + 10] = doom->editor.point[(y * (doom->screen.width
+				/ 20)) + x] == 1 ? 0xFFFF0000 : 0xFF505050;
+			}
+	}
+	// y = -1;
+	// while (++y <= doom->screen.height / 20)
+	// {
+	// 	x = -1;
+	// 	if (y >= (doom->screen.height - 600) / 20)
+	// 	{
+	// 		while (++x <= doom->screen.width / 20)
+	// 		{
+	// 				doom->screen.pixels[(y * 20 + 10) * doom->screen.width
+	// 				+ (x * 20) + 10] = doom->editor.point[(y * (doom->screen.width
+	// 				/ 20)) + x] == 1 ? 0xFFFF0000 : 0xFFFFFFFF;
+	// 		}
+	// 	}
+	// }
 	if (doom->editor.curseur == 1)
 		all_visual(doom, doom->editor.last_mouse.x / 20, doom->editor.last_mouse.y / 20);
 	if (doom->editor.click > 1 && (doom->editor.poly == 1 || doom->editor.porte == 1 || doom->editor.secteur == 1 || doom->editor.lignes == 1))
@@ -144,11 +167,11 @@ void			g_editor_render(t_gui *self, t_doom *doom)
 	if (doom->editor.sup == 1)
 	{
 		if (doom->editor.polygon || doom->editor.lines)
-			draw_line(&doom->screen, (t_pixel){doom->linetodel.a.x * 20 
-			+ 10, doom->linetodel.a.y * 20 + 10, 16729670}, (t_pixel){doom->linetodel.b.x 
-			* 20 + 10, doom->linetodel.b.y * 20 + 10});
+			draw_line(&doom->screen, (t_pixel){doom->linetodel.line.a.x * 20 
+			+ 10, doom->linetodel.line.a.y * 20 + 10, 0xFFFF0000}, (t_pixel){doom->linetodel.line.b.x 
+			* 20 + 10, doom->linetodel.line.b.y * 20 + 10});
 		else
-			doom->linetodel = (t_line) {0, 0, 0, 0};
+			doom->linetodel.line = (t_line) {0, 0, 0, 0};
 	}
 	display_comp(doom, self);
 	show_new_components(doom);

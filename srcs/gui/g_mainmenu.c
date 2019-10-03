@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_mainmenu.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:56:05 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/01 16:50:33 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/10/03 12:18:53 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ void	g_mainmenu_on_leave(t_gui *self, t_doom *doom)
 
 void	g_mainmenu_render(t_gui *self, t_doom *doom)
 {
+	printf("AAAAAAA");
 	apply_surface(&doom->screen, doom->background, (SDL_Rect) {0, 0, doom->background->w, doom->background->h}, (SDL_Rect) {0, 0, S_WIDTH, S_HEIGHT});
 	render_components(doom, self);
 }

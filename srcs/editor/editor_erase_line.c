@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   editor_erase_line.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 13:18:39 by lloncham          #+#    #+#             */
-/*   Updated: 2019/08/19 15:04:48 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/09/17 14:32:45 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,48 +17,67 @@ void	erase_all(t_doom *doom)
 	splice_walls_array(doom->editor.lines, 0, doom->editor.lines->len);
 	splice_walls_array(doom->editor.polygon, 0, doom->editor.polygon->len);
 	splice_objects_array(doom->editor.objects, 0, doom->editor.objects->len);
+	doom->editor.alert[0] = 0;
 	doom->editor.click = 0;
 }
 
-// void		mouseonline(t_doom *doom, t_line_list *tmp, int *line)
-// {
-// 	float			dist;
-// 	float			min;
-// 	float			somsega;
-// 	float			somsegb;
-// 	t_line_list     *list;
+void		mouseonline(t_doom *doom, t_walls *tmp, int *line)
+{
+	float			dist;
+	float			min;
+	float			somsega;
+	float			somsegb;
+	// t_line_list     *list;
+	t_walls		     *list;
 
-// 	min = 2;
-// 	list = tmp;
-// 	doom->linetodel.a.x = 0;
-// 	doom->linetodel.b.x = 0;
-// 	doom->linetodel.a.y = 0;
-// 	doom->linetodel.b.y = 0;
-// 	while (list)
-// 	{
-// 		dist = fabs(line[0] * (list->line.b.y -  list->line.a.y) 
-// 		- line[1] * (list->line.b.x - list->line.a.x) 
-// 		+ list->line.b.x * list->line.a.y 
-// 		- list->line.b.y * list->line.a.x) 
-// 		/ sqrt(pow(list->line.b.y - list->line.a.y, 2)
-// 		+ pow(list->line.b.x - list->line.a.x, 2));
-// 		if (dist < min)
-// 		{
-// 			doom->linetodel = list->line;
-// 			min = dist;
-// 		}
-// 		else if (dist == min)
-// 		{
-// 			somsega = sqrt(pow(line[0] - list->line.a.x, 2) + pow(line[1] - list->line.a.y, 2)) + sqrt(pow(line[0] - list->line.b.x, 2) + pow(line[1] - list->line.b.y, 2));
-// 			somsegb = sqrt(pow(line[0] - doom->linetodel.a.x, 2) + pow(line[1] - doom->linetodel.a.y, 2)) + sqrt(pow(line[0] - doom->linetodel.b.x, 2) + pow(line[1] - doom->linetodel.b.y, 2));
-// 			if (somsega < somsegb)
-// 				doom->linetodel = list->line;
-// 		}
-// 		list = list->next;
-// 	}
-// 	if (!tmp)
-// 		doom->editor.sup = 0;
-// }
+	int		index;
+
+	index = -1;
+	min = 2;
+	list = tmp;
+	doom->linetodel.line.a.x = 0;
+	doom->linetodel.line.b.x = 0;
+	doom->linetodel.line.a.y = 0;
+	doom->linetodel.line.b.y = 0;
+	while (++index < list->len)
+	{
+		dist = fabs(line[0] * (list->values[index].line.b.y -  list->values[index].line.a.y) 
+		- line[1] * (list->values[index].line.b.x - list->values[index].line.a.x) 
+		+ list->values[index].line.b.x * list->values[index].line.a.y 
+		- list->values[index].line.b.y * list->values[index].line.a.x) 
+		/ sqrt(pow(list->values[index].line.b.y - list->values[index].line.a.y, 2)
+		+ pow(list->values[index].line.b.x - list->values[index].line.a.x, 2));
+		if (dist < min)
+		{
+			doom->linetodel.img = list->values[index].img;
+			doom->linetodel.line = list->values[index].line;
+							doom->indextodel = index;
+				if (tmp == doom->editor.polygon)
+					doom->wheredel = 1;
+				else if (tmp == doom->editor.lines)
+					doom->wheredel = 0;
+			min = dist;
+		}
+		else if (dist == min)
+		{
+			somsega = sqrt(pow(line[0] - list->values[index].line.a.x, 2) + pow(line[1] - list->values[index].line.a.y, 2)) + sqrt(pow(line[0] - list->values[index].line.b.x, 2) + pow(line[1] - list->values[index].line.b.y, 2));
+			somsegb = sqrt(pow(line[0] - doom->linetodel.line.a.x, 2) + pow(line[1] - doom->linetodel.line.a.y, 2)) + sqrt(pow(line[0] - doom->linetodel.line.b.x, 2) + pow(line[1] - doom->linetodel.line.b.y, 2));
+			if (somsega < somsegb)
+			{
+				doom->linetodel.img = list->values[index].img;
+				doom->linetodel.line = list->values[index].line;
+				doom->indextodel = index;
+				if (tmp == doom->editor.polygon)
+					doom->wheredel = 1;
+				else if (tmp == doom->editor.lines)
+					doom->wheredel = 0;
+			}
+		}
+	}
+	// printf("%f\n %f\n", doom->linetodel->line.a.x, doom->linetodel->line.a.y);
+	if (!tmp)
+		doom->editor.sup = 0;
+}
 
 // void	erase_one_line(t_doom *doom, t_save *tmp1, int *line)
 // {
@@ -145,24 +164,17 @@ void	erase_one_obj(t_doom *doom, int x, int y) // pourquoi ne coupe pas le derni
 
 void	save_line_to_erase(t_doom *doom, int x, int y)
 {
-	int index;
-
     if (doom->editor.objet)
 			erase_one_obj(doom, x, y);
-    if (doom->editor.polygon)
-		{
-			if ((index = walls_indexof(doom->editor.polygon, doom->editor.set_sup)) == -1)
-				return; //TODO: ERROR
-		   splice_walls_array(doom->editor.polygon, index, 1);
-		}
-    if (doom->editor.lines)
-		{
-			if ((index = walls_indexof(doom->editor.lines, doom->editor.set_sup)) == -1)
-				return ;
-			splice_walls_array(doom->editor.lines, index, 1);
-		}
+    if (doom->editor.polygon && doom->wheredel == 1)
+	{
+		doom->editor.alert[0] = 0;
+		splice_walls_array(doom->editor.polygon, doom->indextodel, 1);
+	}
+	else if (doom->wheredel == 0 && doom->editor.lines)
+			splice_walls_array(doom->editor.lines, doom->indextodel, 1);
 	// if (doom->editor.door)
-	//     erase_line(doom, &doom->editor.door, doom->editor.set_sup);
+	    // erase_line(doom, &doom->editor.door, doom->editor.set_sup);
 	// if (doom->editor.sector)
-	//     erase_line(doom, &doom->editor.sector, doom->editor.set_sup);
+	    // erase_line(doom, &doom->editor.sector, doom->editor.set_sup);
 }

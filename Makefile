@@ -3,15 +3,15 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+         #
+#    By: louali <louali@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/07 14:49:27 by llelievr          #+#    #+#              #
-#    Updated: 2019/09/25 16:15:59 by llelievr         ###   ########.fr        #
+#    Updated: 2019/10/03 12:37:57 by louali           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME=doom-nukem
-CFLAGS=-Wall -Wextra -flto -O3 -ffast-math 
+CFLAGS=-Wall -Wextra -flto -O3 -ffast-math
 LIBS=-lm -lft
 CC=clang
 
