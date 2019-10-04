@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 15:28:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/04 15:39:33 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/04 19:02:53 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,6 +164,13 @@ t_bool		obj_test(t_doom *doom)
 	r.scale = (t_vec3){0.03, 0.03, 0.03};
 	r.fixed = TRUE;
 	append_renderables_array(&doom->renderables, r);
-//	printf("ERROR %d\n", !lol);
+	set_obj_working_dir(doom, "assets/obj");
+	lol = create_obj(doom, &r, "skybox.obj");
+	r.position = (t_vec3){0, 0, 0};
+	r.scale = (t_vec3){FAR_CULL, FAR_CULL, FAR_CULL};
+	//r.fixed = TRUE;
+	doom->skybox_index = doom->renderables->len;
+	append_renderables_array(&doom->renderables, r);
+	printf("ERROR %d\n", !lol);
 	return (FALSE);
 }

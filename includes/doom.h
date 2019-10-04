@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   doom.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/03 12:10:21 by louali           ###   ########.fr       */
+/*   Updated: 2019/10/04 18:38:47 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,7 @@ typedef struct		s_doom
 	t_audio				audio;
 	SDL_Surface 		*background;
 	t_gdata				gdata;
+	int					skybox_index;
 	int 				indextodel;
 		int					wheredel;
 	//at_thpool_t			*thpool;

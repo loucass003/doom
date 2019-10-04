@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/03 16:26:29 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/04 03:21:52 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/04 17:33:42 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_bool			post_process_polygon(t_renderable *r)
 	while (++i < r->faces->len)
 	{
 		face = &r->faces->values[i];
-		face->collidable = compute_collidable(r, i, r->vertices->vertices);
+		face->collidable = face_collidable(r, i, r->vertices->vertices);
 	}
 	transform_renderable(r);
 	r->octree = create_octree(r);

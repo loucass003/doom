@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 01:15:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/04 15:10:47 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/04 17:35:23 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define COLLISION_H
 
 # include <libft.h>
+# include "maths/vec4.h"
 # include "maths/plane.h"
 
 typedef struct		s_ray
@@ -124,5 +125,6 @@ t_collision			triangle_hit_aabb(t_collide_triangle *triangle,  t_collide_aabb *a
 t_bool				get_obb_collision(t_obb_box a, t_obb_box b);
 
 t_physics_data		*check_triangle(t_physics_data *packet, t_vec3 p1, t_vec3 p2, t_vec3 p3);
+t_collidable		face_collidable(struct s_renderable *r, int face_index, t_vec4 *vertices);
 
 #endif

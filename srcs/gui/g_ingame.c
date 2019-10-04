@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/04 14:23:17 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/04 18:57:47 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,9 @@ void	g_ingame_render(t_gui *self, t_doom *doom)
 	doom->gdata.todo_triangles = 0;
 	doom->gdata.finished_triangles = 0;
 	doom->renderables->values[1].rotation.y += 0.01;
-		doom->renderables->values[1].dirty = TRUE;
+	doom->renderables->values[1].dirty = TRUE;
+	doom->renderables->values[doom->skybox_index].position = doom->main_context.camera->pos;
+	doom->renderables->values[doom->skybox_index].dirty = TRUE;
 	for (int i = 0; i < doom->renderables->len; i++)
 	{
 		t_renderable	*r = doom->renderables->values + i;
