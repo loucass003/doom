@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 16:49:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/03 21:12:30 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/04 19:27:17 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,10 @@ static t_vec4	mat43_mulv4(t_mat4 m, t_vec4 p)
 	return (r);
 }
 
-static float	get_light_intensity(t_render_context *ctx, t_vec3 normal, t_vec4 point)
+static float	get_light_intensity(t_render_context *ctx, t_renderable *r, t_vec3 normal, t_vec4 point)
 {
-	if (!ctx->doom->lights)
-		return AMBIANT_LIGHT;
+	if (!ctx->doom->lights || r->no_light)
+		return (255);
 
 	int		i;
 	float	sum;
@@ -143,9 +143,9 @@ void	render_renderable(t_render_context *ctx, t_renderable *r)
 		v1 = mat4_mulv4(ctx->camera->projection, v1);
 		v2 = mat4_mulv4(ctx->camera->projection, v2);
 
-		float it0 = get_light_intensity(ctx, r->pp_normals[face->normals_index[0] - 1], r->pp_vertices[face->vertices_index[0] - 1]);
-		float it1 = get_light_intensity(ctx, r->pp_normals[face->normals_index[1] - 1], r->pp_vertices[face->vertices_index[1] - 1]);
-		float it2 = get_light_intensity(ctx, r->pp_normals[face->normals_index[2] - 1], r->pp_vertices[face->vertices_index[2] - 1]);
+		float it0 = get_light_intensity(ctx, r, r->pp_normals[face->normals_index[0] - 1], r->pp_vertices[face->vertices_index[0] - 1]);
+		float it1 = get_light_intensity(ctx, r, r->pp_normals[face->normals_index[1] - 1], r->pp_vertices[face->vertices_index[1] - 1]);
+		float it2 = get_light_intensity(ctx, r, r->pp_normals[face->normals_index[2] - 1], r->pp_vertices[face->vertices_index[2] - 1]);
 		process_triangle(ctx, face->mtl, (t_triangle) {
 			{ .pos = v0, .tex = r->vertex->vertices[face->vertex_index[0] - 1], .normal = r->pp_normals[face->normals_index[0] - 1], .light_color = it0 },
 			{ .pos = v1, .tex = r->vertex->vertices[face->vertex_index[1] - 1], .normal = r->pp_normals[face->normals_index[1] - 1], .light_color = it1 },

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/05 17:31:15 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/04 02:41:48 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/04 21:18:15 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ void			compute_boxes(t_collide_aabb p, t_octree_node *n)
 					.min = ft_vec3_add(p.min, ft_vec3_mul(s, (t_vec3){ i, j, k })),
 					.max = ft_vec3_add(s, ft_vec3_add(p.min, ft_vec3_mul(s, (t_vec3){ i, j, k })))
 				};
+				printf("min %f %f %f, max %f %f %f\n", c->box.data.aabb.min.x, c->box.data.aabb.min.y, c->box.data.aabb.min.z, c->box.data.aabb.max.x, c->box.data.aabb.max.y, c->box.data.aabb.max.z);
 			}
 		}
 	}

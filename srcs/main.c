@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/04 14:08:55 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/04 21:17:47 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,13 +113,19 @@ int		main(void)
 			.type = CTX_NORMAL,
 			.camera = NULL
 		},
-		.current_gui = -1
+		.current_gui = -1,
+		.skybox_index = -1
 	};
 
 	doom.main_context.doom = &doom;
 	//doom.thpool = at_thpool_create (20);
 	//pthread_mutex_init(&doom.mutex, NULL);
-	
+	t_octree_node *node = malloc(sizeof(t_octree_node));
+	node->childs = malloc(sizeof(t_octree_node) * 8);
+	compute_boxes((t_collide_aabb){
+		.min = (t_vec3){ -0.5, -0.5, -0.5 },
+		.max = (t_vec3){ 0.5, 0.5, 0.5 }
+	}, node);
 	if (!(doom.main_context.buffer = (float *)malloc((int)(S_WIDTH * S_HEIGHT) * sizeof(float))))
 		return (-1);
 	if (!(doom.renderables = create_renderables_array(50)))
