@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 01:15:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/04 00:18:00 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/04 15:10:47 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@ typedef struct		s_ray
 	struct s_ray	*to_local;
 }					t_ray;
 
-typedef enum		e_parent_collider_type
-{
-	PARENT_COLLIDER_OBJ,
-	PARENT_COLLIDER_POLYGON
-}					t_parent_collider_type;
+// typedef enum		e_parent_collider_type
+// {
+// 	PARENT_COLLIDER_OBJ,
+// 	PARENT_COLLIDER_POLYGON
+// }					t_parent_collider_type;
 
 typedef enum		e_collidable_type
 {
@@ -50,17 +50,12 @@ typedef	struct		s_collide_ellipsoid
 
 typedef struct		s_collide_triangle
 {
-	t_parent_collider_type	parent_type;
 	t_vec3					points[3];
 	t_vec2					uv[3];
 	t_vec3					normal;
 	t_vec3					v0v1;
 	t_vec3					v0v2;
-	struct s_polygon		*polygon;
-	struct s_obj			*obj;
 	int						face;
-	t_bool					use_box;
-	t_collide_aabb			box;
 }					t_collide_triangle;
 
 typedef union 		u_collidable_data

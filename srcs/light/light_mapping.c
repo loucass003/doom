@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 14:22:33 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/15 00:59:33 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/04 15:09:52 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,80 +42,80 @@ t_ray			create_ray(t_light *light, t_vec3 direction)
 	});
 }
 
-t_collision		hit_scene(t_doom *doom, t_ray *ray) 
-{
-	t_collision	min;
-	t_collision	hit;
-	int		i;
-	int		j;
+// t_collision		hit_scene(t_doom *doom, t_ray *ray) 
+// {
+// 	t_collision	min;
+// 	t_collision	hit;
+// 	int		i;
+// 	int		j;
 
-	min = (t_collision) {
-		.collide = FALSE,
-		.dist = -1.0
-	};
-	float dist = INT_MAX;
-	i = -1;
-	while (++i < doom->renderables->len)
-	{
-		t_renderable *r = &doom->renderables->values[i];
-		if (!r->fixed)
-			continue;
-		if (FALSE && r->octree)
-		{
-			//printf("OCTREE\n");
+// 	min = (t_collision) {
+// 		.collide = FALSE,
+// 		.dist = -1.0
+// 	};
+// 	float dist = INT_MAX;
+// 	i = -1;
+// 	while (++i < doom->renderables->len)
+// 	{
+// 		t_renderable *r = &doom->renderables->values[i];
+// 		if (!r->fixed)
+// 			continue;
+// 		if (FALSE && r->octree)
+// 		{
+// 			//printf("OCTREE\n");
 			
-			t_ray copy = (t_ray){};
-			t_mat4 m;
-			if (!mat4_inverse(ft_mat4_rotation(r->rotation), &m))
-				continue;
-			t_vec3 scale_inv = ft_vec3_div((t_vec3){1, 1, 1}, r->scale);
-			copy.direction = ft_mat4_mulv(m, ray->direction);
-			copy.direction = ft_vec3_mul(copy.direction, scale_inv);
-			copy.direction = ft_vec3_norm(copy.direction);
-			copy.origin = ft_vec3_sub(ray->origin, r->position);
-			copy.origin = ft_mat4_mulv(m, copy.origin);
-			copy.origin = ft_vec3_mul(copy.origin, scale_inv);
-			hit = ray_hit_collidable(&copy, &r->octree->box);
-			// printf("copy O -> %f %f %f, R -> %f %f %f\n", copy.origin.x, copy.origin.y, copy.origin.z, copy.direction.x, copy.direction.y, copy.direction.z);
-			// printf("ray O -> %f %f %f, R -> %f %f %f\n", ray->origin.x, ray->origin.y, ray->origin.z, ray->direction.x, ray->direction.y, ray->direction.z);
-			hit.renderable = r;
-			hit.ray = copy;
-			if (hit.collide)
-			{
-				t_vec3 point = copy.origin;
-				point = ft_vec3_add(point, ft_vec3_mul_s(copy.direction, hit.dist));
-				point = ft_vec3_mul(point, r->scale);
-				point = ft_vec3_mul(point, r->position);
-				hit.tmp_dist = hit.dist;
-				hit.dist = ft_vec3_len(ft_vec3_sub(ray->origin, point));
-				hit.point = point;
-		//		printf("%f\n", hit.dist);
-				if (hit.dist >= 0 && hit.dist <= dist)
-				{
-			//		printf("HIT_OCTREE\n");
-					dist = hit.dist;
-					min = hit;
-				}
-			}
-		}
-		else
-		{
-			j = -1;
-			while (++j < r->faces->len)
-			{
-				hit = ray_hit_collidable(ray, &r->faces->values[j].pp_collidable);
-				hit.renderable = r;
-				hit.ray = *ray;
-				if (hit.collide && hit.dist >= 0 && hit.dist <= dist)
-				{
-					dist = hit.dist;
-					min = hit;
-				}
-			}
-		}
-	}
-	return (min);
-}
+// 			t_ray copy = (t_ray){};
+// 			t_mat4 m;
+// 			if (!mat4_inverse(ft_mat4_rotation(r->rotation), &m))
+// 				continue;
+// 			t_vec3 scale_inv = ft_vec3_div((t_vec3){1, 1, 1}, r->scale);
+// 			copy.direction = ft_mat4_mulv(m, ray->direction);
+// 			copy.direction = ft_vec3_mul(copy.direction, scale_inv);
+// 			copy.direction = ft_vec3_norm(copy.direction);
+// 			copy.origin = ft_vec3_sub(ray->origin, r->position);
+// 			copy.origin = ft_mat4_mulv(m, copy.origin);
+// 			copy.origin = ft_vec3_mul(copy.origin, scale_inv);
+// 			hit = ray_hit_collidable(&copy, &r->octree->box);
+// 			// printf("copy O -> %f %f %f, R -> %f %f %f\n", copy.origin.x, copy.origin.y, copy.origin.z, copy.direction.x, copy.direction.y, copy.direction.z);
+// 			// printf("ray O -> %f %f %f, R -> %f %f %f\n", ray->origin.x, ray->origin.y, ray->origin.z, ray->direction.x, ray->direction.y, ray->direction.z);
+// 			hit.renderable = r;
+// 			hit.ray = copy;
+// 			if (hit.collide)
+// 			{
+// 				t_vec3 point = copy.origin;
+// 				point = ft_vec3_add(point, ft_vec3_mul_s(copy.direction, hit.dist));
+// 				point = ft_vec3_mul(point, r->scale);
+// 				point = ft_vec3_mul(point, r->position);
+// 				hit.tmp_dist = hit.dist;
+// 				hit.dist = ft_vec3_len(ft_vec3_sub(ray->origin, point));
+// 				hit.point = point;
+// 		//		printf("%f\n", hit.dist);
+// 				if (hit.dist >= 0 && hit.dist <= dist)
+// 				{
+// 			//		printf("HIT_OCTREE\n");
+// 					dist = hit.dist;
+// 					min = hit;
+// 				}
+// 			}
+// 		}
+// 		else
+// 		{
+// 			j = -1;
+// 			while (++j < r->faces->len)
+// 			{
+// 				hit = ray_hit_collidable(ray, &r->faces->values[j].pp_collidable);
+// 				hit.renderable = r;
+// 				hit.ray = *ray;
+// 				if (hit.collide && hit.dist >= 0 && hit.dist <= dist)
+// 				{
+// 					dist = hit.dist;
+// 					min = hit;
+// 				}
+// 			}
+// 		}
+// 	}
+// 	return (min);
+// }
 
 short		get_pixel(t_mtl *mtl, int x, int y)
 {

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:14:55 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/04 02:45:11 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/04 14:32:14 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,7 @@ void	hook_events(t_doom *doom)
 			doom->player.entity.velocity.z += sinf(doom->player.entity.rotation.y) * (s[SDL_SCANCODE_D] ? 1 : -1) * move_speed;
 		} 
 		if (s[SDL_SCANCODE_SPACE])
-		{
+		{ 
 			doom->player.entity.grounded = FALSE;
 			doom->player.entity.velocity.y += 2.1;
 		}
@@ -151,10 +151,19 @@ void	hook_events(t_doom *doom)
 			doom->player.entity.rotation.y += 0.01 * (s[SDL_SCANCODE_J] ? 1 : -1) * ms;
 		if (s[SDL_SCANCODE_I] || s[SDL_SCANCODE_K])
 			doom->player.entity.rotation.x += 0.01 * (s[SDL_SCANCODE_I] ? 1 : -1) * ms;
+		int m_x, m_y;
+		SDL_GetRelativeMouseState(&m_x, &m_y);
+		if (m_x != 0)
+		{
+			doom->player.entity.rotation.y -= m_x * ms * 0.0001;
+			// wolf->player.matrix = ft_mat2_rotation(wolf->player.rotation - M_PI_2);
+		}
+		if (m_y != 0)
+			doom->player.entity.rotation.x -= m_y * ms * 0.0001;
 		move_speed = 1.0f;
-		long start = getMicrotime();
+		//long start = getMicrotime();
 		entity_update(doom, &doom->player.entity, dt);
-		printf("delay %luus\n", getMicrotime() - start);
+		//printf("delay %luus\n", getMicrotime() - start);
 	//	doom->player.entity.velocity.z = 200 * dt;
 	//	doom->player.entity.velocity.y -= 100 * dt;
 		//update_player_camera(&doom->player);

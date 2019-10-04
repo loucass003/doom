@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/04 01:47:44 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/04 14:23:17 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void static	action_performed(t_component *cmp, t_doom *doom)
 
 void	g_ingame_on_enter(t_gui *self, t_doom *doom)
 {
-	
+	SDL_SetRelativeMouseMode(SDL_TRUE);
 }
 
 int i = 0;
