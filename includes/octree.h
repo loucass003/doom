@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/04 16:53:54 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/06 13:53:28 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/04 03:21:15 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,7 @@ struct							s_octree_node
 };
 
 t_octree_node	*create_octree(t_renderable *r);
+void			ray_intersect_octree(t_octree_node *n, t_renderable *r, t_ray *ray, t_collision *closest_hit);
+void			print_octree(t_octree_node	*n);
 
 #endif

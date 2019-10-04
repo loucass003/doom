@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:14:55 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/01 14:02:21 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/04 02:45:11 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "polygon.h"
 #include "player.h"
 #include <limits.h>
+#include "octree.h"
 #include "doom.h"
 
 static void	events_window(t_doom *doom, SDL_Event *event)
@@ -103,6 +104,13 @@ static void	events_window(t_doom *doom, SDL_Event *event)
 
 float move_speed = 1.5f;
 
+#include <sys/time.h>
+long getMicrotime(){
+	struct timeval currentTime;
+	gettimeofday(&currentTime, NULL);
+	return currentTime.tv_sec * (int)1e6 + currentTime.tv_usec;
+}
+
 void	hook_events(t_doom *doom)
 {
 	const double	ms = doom->stats.delta * 200.;
@@ -144,10 +152,44 @@ void	hook_events(t_doom *doom)
 		if (s[SDL_SCANCODE_I] || s[SDL_SCANCODE_K])
 			doom->player.entity.rotation.x += 0.01 * (s[SDL_SCANCODE_I] ? 1 : -1) * ms;
 		move_speed = 1.0f;
+		long start = getMicrotime();
 		entity_update(doom, &doom->player.entity, dt);
+		printf("delay %luus\n", getMicrotime() - start);
 	//	doom->player.entity.velocity.z = 200 * dt;
 	//	doom->player.entity.velocity.y -= 100 * dt;
 		//update_player_camera(&doom->player);
+		t_ray ray = create_shoot_ray(doom->player, (t_vec3){0, 0, 1});
+
+	
+
+		t_collision min = (t_collision) {
+			.collide = FALSE,
+			.dist = INT_MAX
+		};
+		for (int i = 0; i < doom->renderables->len; i++)
+		{
+			t_renderable *r = &doom->renderables->values[i];
+			if (!r->octree)
+				continue;
+			t_ray clone;
+			clone.origin = ft_vec3_sub(ray.origin, r->position);
+			clone.origin = vec3_rotate(clone.origin, ft_vec3_mul_s(r->rotation, -1));
+			clone.origin = ft_vec3_mul(clone.origin, ft_vec3_div((t_vec3){ 1, 1, 1 }, r->scale));
+			clone.direction = vec3_rotate(ray.direction, ft_vec3_mul_s(r->rotation, -1));
+			clone.direction = ft_vec3_mul(clone.direction, ft_vec3_div((t_vec3){ 1, 1, 1 }, r->scale));
+			clone.direction = ft_vec3_norm(clone.direction);
+			ray.to_local = &clone;
+			ray_intersect_octree(r->octree, r, &ray, &min);
+		}
+		if (min.collide)
+		{
+			t_renderable *r = min.renderable;
+			if (r)
+			{
+				t_face *face = &r->faces->values[min.who.data.triangle.face];
+				face->selected = TRUE;
+			}
+		}
 		
 		update_player_camera(&doom->player);
 		 //		doom->player.entity.velocity.y -= (100.0f *  doom->stats.delta);

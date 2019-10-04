@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/30 16:36:08 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/02 21:13:22 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/03 14:54:48 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,5 +80,5 @@ void		entity_update_enemy(t_doom *doom, t_entity *entity, double dt)
 		else
 			entity->animation_step = 0;
 	}
-	entity->velocity.y = 0.5;
+	entity->velocity.y = 0.8;
 }

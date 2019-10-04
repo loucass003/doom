@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:16:19 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/30 13:35:43 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/04 02:45:51 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef struct		s_face
 	t_mtl			*mtl;
 	t_collidable	collidable;
 	t_collidable	pp_collidable;
+	t_bool			selected;
 	int				group;
 }					t_face;
 
@@ -91,7 +92,6 @@ typedef struct		s_renderable
 	t_2dvertices			*vertex;
 	t_3dvertices			*normals;
 	t_mtllist				*materials;
-	struct s_octree_node	*octree;
 	struct s_entity			*entity;
 	t_vec3					position;
 	t_vec3					rotation;
@@ -100,6 +100,7 @@ typedef struct		s_renderable
 	t_bool					dirty;
 	t_bool					fixed;
 	t_bool					double_faced;
+	struct s_octree_node	*octree;
 }					t_renderable;
 
 typedef struct		s_renderables

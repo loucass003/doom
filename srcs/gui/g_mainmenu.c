@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_mainmenu.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:56:05 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/03 12:18:53 by louali           ###   ########.fr       */
+/*   Updated: 2019/10/03 17:11:51 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void		action_performed(t_component *cmp, t_doom *doom)
 
 void	g_mainmenu_on_enter(t_gui *self, t_doom *doom)
 {
-		if (!alloc_components(self, 3))
+	if (!alloc_components(self, 3))
 		return ;
 //	printf("init %d\n", self->component_count);
 	self->components[0] = create_button((SDL_Rect){ (S_WIDTH - 250) / 2, (S_HEIGHT - 150) / 2, 250, 50 }, NULL, "PLAY");
@@ -46,13 +46,11 @@ void	g_mainmenu_on_enter(t_gui *self, t_doom *doom)
 
 void	g_mainmenu_on_leave(t_gui *self, t_doom *doom)
 {
-	printf("HAHA\n");
 	free_components(self);
 }
 
 void	g_mainmenu_render(t_gui *self, t_doom *doom)
 {
-	printf("AAAAAAA");
 	apply_surface(&doom->screen, doom->background, (SDL_Rect) {0, 0, doom->background->w, doom->background->h}, (SDL_Rect) {0, 0, S_WIDTH, S_HEIGHT});
 	render_components(doom, self);
 }

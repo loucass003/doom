@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 16:31:56 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/28 16:36:48 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/04 03:10:14 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ t_bool	create_polygon(t_renderable *r, t_polygon_type type, t_mtl mtl)
 	if (!append_mtllist(&r->materials, mtl))
 		return (free_renderable(&r, FALSE));
 	r->dirty = TRUE;
-	r->fixed = TRUE;
+//	r->fixed = TRUE;
 	r->scale = (t_vec3){ 1, 1, 1 };
 	return (TRUE);
 }

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 16:49:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/02 19:08:35 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/03 21:12:30 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,18 @@ void	render_renderable(t_render_context *ctx, t_renderable *r)
 	while (++i < r->faces->len)
 	{
 		face = &r->faces->values[i];
+
+		if (face->selected)
+		{
+			face->mtl->material_color_set = TRUE;
+			face->mtl->material_color = 0xFFFF0000;
+		}
+		else
+		{
+			face->mtl->material_color_set = FALSE;
+			face->mtl->material_color = 0xFF555555;
+		}
+
 		if (!face->mtl->texture_map_set && !face->mtl->material_color_set)
 		{
 			face->mtl->material_color_set = TRUE;
@@ -117,7 +129,10 @@ void	render_renderable(t_render_context *ctx, t_renderable *r)
 		{
 			float d = ft_vec3_dot(face->face_normal, ft_vec3_sub(ctx->camera->pos, vec4_to_3(r->pp_vertices[face->vertices_index[0] - 1])));
 			if (d <= 0)
+			{
+				face->selected = FALSE;
 				continue;
+			}
 		}
 		
 		t_vec4 v0 = mat43_mulv4(ctx->camera->matrix, r->pp_vertices[face->vertices_index[0] - 1]);
@@ -136,5 +151,6 @@ void	render_renderable(t_render_context *ctx, t_renderable *r)
 			{ .pos = v1, .tex = r->vertex->vertices[face->vertex_index[1] - 1], .normal = r->pp_normals[face->normals_index[1] - 1], .light_color = it1 },
 			{ .pos = v2, .tex = r->vertex->vertices[face->vertex_index[2] - 1], .normal = r->pp_normals[face->normals_index[2] - 1], .light_color = it2 }
 		});
+		face->selected = FALSE;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 01:15:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/01 15:08:49 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/04 00:18:00 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ typedef struct		s_ray
 {
 	t_vec3			origin;
 	t_vec3			direction;
+	struct s_ray	*to_local;
 }					t_ray;
 
 typedef enum		e_parent_collider_type

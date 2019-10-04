@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 22:00:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/01 16:59:32 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/03 14:52:39 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,6 +155,8 @@ void		collide_and_slide(t_entity *entity)
 
 void		entity_update(t_doom *doom, t_entity *entity, double dt)
 {
+	if (entity->type == ENTITY_ENEMY)
+		entity_update_enemy(doom, entity, dt);
 	entity->velocity.y -= 1;
 	entity->packet.r3_posision = entity->position;
 	entity->packet.r3_velocity = entity->velocity;
@@ -167,6 +169,5 @@ void		entity_update(t_doom *doom, t_entity *entity, double dt)
 	entity->radius = entity->packet.e_radius;
 	entity->grounded = entity->packet.grounded;
 
-	if (entity->type == ENTITY_ENEMY)
-		entity_update_enemy(doom, entity, dt);
+	
 }

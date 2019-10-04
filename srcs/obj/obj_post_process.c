@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/03 16:26:43 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/09 16:30:40 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/03 21:25:23 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,9 @@ t_bool			post_process_obj(t_renderable *r)
 		face->collidable = compute_collidable(r, i, r->vertices->vertices);
 	}
 	r->octree = create_octree(r);
+	printf("%p %d\n", r->octree, r->faces->len);
 	print_octree(r->octree);
 	transform_renderable(r);
+	
 	return (TRUE);
 }

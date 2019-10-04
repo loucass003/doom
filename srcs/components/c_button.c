@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   c_button.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:59:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/03 12:36:12 by louali           ###   ########.fr       */
+/*   Updated: 2019/10/03 17:08:28 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void		c_button_render(t_doom *doom, t_component *self)
 		SDL_Surface *text = TTF_RenderText_Blended(doom->fonts.helvetica,
 			btn->texte, (SDL_Color){255, 255, 255, 0});
 		apply_surface_blended(&doom->screen, text, (SDL_Rect){0, 0, text->w, text->h},
-			(SDL_Rect){self->bounds.x, self->bounds.y, self->bounds.w, self->bounds.h});
+			(SDL_Rect){self->bounds.x + self->bounds.w / 2 - text->w / 2, self->bounds.y + self->bounds.h / 2 - text->h / 2, text->w, text->h});
 		SDL_FreeSurface(text);
 	}
 }
