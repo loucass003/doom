@@ -6,13 +6,13 @@
 #    By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/07 14:49:27 by llelievr          #+#    #+#              #
-#    Updated: 2019/10/03 14:12:36 by llelievr         ###   ########.fr        #
+#    Updated: 2019/10/04 13:58:13 by llelievr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME=doom-nukem
-CFLAGS=-Wall -Wextra -flto -O3 -ffast-math   -D THPOOL_DEBUG
-LIBS=-lm -lft -pthread
+CFLAGS=-Wall -Wextra -flto -O3 -ffast-math
+LIBS=-lm -lft
 CC=clang
 
 -include src.mk
@@ -31,8 +31,8 @@ INCDIR	=./includes/
 OBJDIR	=./objs/
 DEPSDIR = ./deps/
 
-INCLUDE += $(shell pkg-config --cflags sdl2 SDL2_image SDL2_ttf openal SDL2_mixer) -I/usr/local/include
-LIBS += $(shell pkg-config --libs sdl2 SDL2_image SDL2_ttf openal SDL2_mixer) -L/usr/local/lib -lathpool
+INCLUDE += $(shell pkg-config --cflags sdl2 SDL2_image SDL2_ttf openal SDL2_mixer)
+LIBS += $(shell pkg-config --libs sdl2 SDL2_image SDL2_ttf openal SDL2_mixer) 
 
 PRECOMPILE = mkdir -p $(dir $@)
 POSTCOMPILE = sleep 0
