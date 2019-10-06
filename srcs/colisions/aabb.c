@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/14 17:20:03 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/04 01:51:27 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/06 03:05:25 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,49 +175,25 @@ t_collision		ray_hit_aabb(t_ray *ray, t_collide_aabb *collidable)
 			.data = { .aabb = *collidable }
 		}
 	});
- 	// t_vec3	invdir;
-	// double	min;
-	// double	max;
-	// t_vec3	cmin;
-	// t_vec3	cmax;
-
-	// invdir = ft_vec3_div((t_vec3){1, 1, 1}, ray->direction);
-	// cmin = (t_vec3){
-	// 	((ray->direction.x < 0 ? collidable->max.x : collidable->min.x) - ray->origin.x) * invdir.x,
-	// 	((ray->direction.y < 0 ? collidable->max.y : collidable->min.y) - ray->origin.y) * invdir.y,
-	// 	((ray->direction.z < 0 ? collidable->max.z : collidable->min.z) - ray->origin.z) * invdir.z
-	// };
-
-	// cmax = (t_vec3){
-	// 	((ray->direction.x >= 0 ? collidable->max.x : collidable->min.x) - ray->origin.x) * invdir.x,
-	// 	((ray->direction.y >= 0 ? collidable->max.y : collidable->min.y) - ray->origin.y) * invdir.y,
-	// 	((ray->direction.z >= 0 ? collidable->max.z : collidable->min.z) - ray->origin.z) * invdir.z
-	// };
-
-	// min = cmin.x;
-	// max = cmax.x;
-	// if ((min > cmax.y) || (cmin.y > max)) 
-	// 	return (t_collision){ .collide = FALSE, .dist = 1 };
-	// if (cmin.y > min) 
-	// 	min = cmin.y; 
-	// if (cmax.y < max) 
-	// 	max = cmax.y; 
-	// if ((min > cmax.z) || (cmin.z > max)) 
-	// 	return (t_collision){ .collide = FALSE, .dist = 1 };
-	// if (cmin.z > min) 
-	// 	min = cmin.z; 
-	// if (cmax.z < max) 
-	// 	max = cmax.z; 
-
-	// return ((t_collision) {
-	// 	.collide = TRUE,
-	// 	.dist = min,
-	// 	.who = (t_collidable){
-	// 		.type = COLLIDE_AABB,
-	// 		.data = { .aabb = *collidable }
-	// 	}
-	// }); 
 }
+
+t_collision 			aabb_hit_aabb(t_collide_aabb *a, t_collide_aabb *b)
+{
+	if (b->min.x >= a->max.x
+		|| b->max.x <= a->min.x
+		|| b->min.y >= a->max.y
+		|| b->min.y >= a->max.y
+		|| b->min.z >= a->max.z
+		|| b->min.z >= a->max.z)
+		return (t_collision){ .collide = FALSE, .dist = -1 };
+    return ((t_collision) {
+		.collide = TRUE,
+		.who = (t_collidable){
+			.type = COLLIDE_AABB,
+			.data = { .aabb = *b }
+		}
+	});
+};
 
 #define X 0
 

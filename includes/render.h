@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:16:19 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/04 21:23:38 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/06 03:37:05 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include "maths/triangle.h"
 # include "mtl.h"
 # include "arrays.h"
+# include "renderable_of.h"
 # include "collision.h"
 
 typedef struct		s_face
@@ -31,6 +32,8 @@ typedef struct		s_face
 	t_mtl			*mtl;
 	t_collidable	collidable;
 	t_bool			selected;
+	t_bool			hidden;
+	t_bool			already_collided;
 	int				group;
 }					t_face;
 
@@ -60,26 +63,6 @@ typedef struct		s_render_context
 	t_img			*image;
 	struct s_doom	*doom;
 }					t_render_context;
-
-typedef enum		e_renderable_type
-{
-	RENDERABLE_OBJ,
-	RENDERABLE_POLYGON,
-	RENDERABLE_SPRITE
-}					t_renderable_type;
-
-typedef union		u_renderable_of_data
-{
-	struct s_polygon		*polygon;
-	struct s_obj			*obj;
-	struct s_sprite			*sprite;
-}					t_renderable_of_data;
-
-typedef struct		s_renderable_of
-{
-	t_renderable_type		type;
-	t_renderable_of_data	data;
-}					t_renderable_of;
 
 typedef struct		s_renderable
 {
@@ -129,5 +112,6 @@ void				transform_renderable(t_renderable *r);
 // void				render_obj(t_render_context *ctx, t_obj *obj);
 
 t_collidable		compute_collidable(t_renderable *r, int face_index, t_vec4 *vertices);
+t_collidable		face_collidable(t_renderable *r, int face_index, t_vec4 *vertices);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 22:00:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/03 14:52:39 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/06 03:48:42 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,31 @@
 #include "maths/plane.h"
 #include "entity.h"
 #include "render.h"
+#include "octree.h"
 
-void		check_collision(t_entity *entity)
+struct	s_entity_collision_check
+{
+	t_entity		*entity;
+	t_renderable	*r;
+};
+
+void		collide_with_face(int face, void *p)
+{
+	struct s_entity_collision_check	*data;
+	t_face							*f;
+
+	data = p;
+	f = &data->r->faces->values[face];
+	if (f->hidden)
+		return;
+	check_triangle(&data->entity->packet, 
+		ft_vec3_div(vec4_to_3(data->r->pp_vertices[f->vertices_index[0] - 1]), data->entity->packet.e_radius),
+		ft_vec3_div(vec4_to_3(data->r->pp_vertices[f->vertices_index[1] - 1]), data->entity->packet.e_radius),
+		ft_vec3_div(vec4_to_3(data->r->pp_vertices[f->vertices_index[2] - 1]), data->entity->packet.e_radius)
+	);
+}
+
+void		check_collision(t_entity *entity, t_collide_aabb area)
 {
 	int				i;
 	int				j;
@@ -28,37 +51,39 @@ void		check_collision(t_entity *entity)
 	while (++i < entity->packet.doom->renderables->len)
 	{
 		r = entity->packet.doom->renderables->values[i];
-		if (r.entity == entity)
+		if (r.of.type == RENDERABLE_SPRITE)
 			continue;
-		j = -1;
-		while (++j < r.faces->len)
+		if (r.faces->len > 50 && r.octree)
 		{
-			f = r.faces->values[j];
-			check_triangle(&entity->packet, 
-				ft_vec3_div(vec4_to_3(r.pp_vertices[f.vertices_index[0] - 1]), entity->packet.e_radius),
-				ft_vec3_div(vec4_to_3(r.pp_vertices[f.vertices_index[1] - 1]), entity->packet.e_radius),
-				ft_vec3_div(vec4_to_3(r.pp_vertices[f.vertices_index[2] - 1]), entity->packet.e_radius)
-			);
+			area.min = point_to_local(area.min, r.position, r.rotation, r.scale);
+			area.max = point_to_local(area.max, r.position, r.rotation, r.scale);
+			aabb_intersect_octree(r.octree, &area, collide_with_face, &(struct s_entity_collision_check){ .entity = entity, .r = &r });
+		}
+		else
+		{
+			j = -1;
+			while (++j < r.faces->len)
+				collide_with_face(j, &(struct s_entity_collision_check){ .entity = entity, .r = &r });
 		}
 	}
 }
 
-void		check_grounded(t_entity *entity)
-{
-	t_plane	plane;
-	float	f;
+// void		check_grounded(t_entity *entity)
+// {
+// 	t_plane	plane;
+// 	float	f;
 
-	if (!entity->packet.found_colision)
-		return ;
-	plane = triangle_to_plane(
-		ft_vec3_mul(entity->packet.a, entity->radius),
-		ft_vec3_mul(entity->packet.b, entity->radius),
-		ft_vec3_mul(entity->packet.c, entity->radius)
-	);
-	f = ft_vec3_dot(plane.normal, (t_vec3){0, 1, 0});
-	if (f >= 0.8)
-		entity->grounded = TRUE;
-}
+// 	if (!entity->packet.found_colision)
+// 		return ;
+// 	plane = triangle_to_plane(
+// 		ft_vec3_mul(entity->packet.a, entity->radius),
+// 		ft_vec3_mul(entity->packet.b, entity->radius),
+// 		ft_vec3_mul(entity->packet.c, entity->radius)
+// 	);
+// 	f = ft_vec3_dot(plane.normal, (t_vec3){0, 1, 0});
+// 	if (f >= 0.8)
+// 		entity->grounded = TRUE;
+// }
 
 
 t_vec3		ft_vec3_trim(t_vec3 v, float max_len)
@@ -88,12 +113,12 @@ t_vec3		collide_with_world(t_entity *entity, t_vec3 e_position, t_vec3 e_velocit
 	entity->packet.found_colision = FALSE;
 	entity->packet.distance = 1e20;
 
-	// float scale = fmax(1.5, ft_vec3_len(e_velocity)) * 1.1;
-	// t_vec3 r3_position = ft_vec3_mul(e_position, entity->packet.e_radius);
-	// t_vec3 query_radius = ft_vec3_mul_s(entity->packet.e_radius, scale);
-	// t_vec3 min = ft_vec3_sub(r3_position, query_radius);
-	// t_vec3 max = ft_vec3_add(r3_position, query_radius);
-	check_collision(entity);
+	float scale = fmax(1.5, ft_vec3_len(e_velocity)) * 1.1;
+	t_vec3 r3_position = ft_vec3_mul(e_position, entity->packet.e_radius);
+	t_vec3 query_radius = ft_vec3_mul_s(entity->packet.e_radius, scale);
+	t_vec3 min = ft_vec3_sub(r3_position, query_radius);
+	t_vec3 max = ft_vec3_add(r3_position, query_radius);
+	check_collision(entity, (t_collide_aabb){ .min = min, .max = max });
 
 	t_vec3 dest_point = ft_vec3_add(e_position, e_velocity);
 	if (entity->packet.found_colision == FALSE)

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/12 15:51:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/05 13:32:27 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/05 19:27:08 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ static t_bool	ear_clip_polygon(t_renderable *r)
 			int s, t;
 			t_face face;
 
+			ft_bzero(&face, sizeof(t_face));
 			face.vertices_index[0] = v[u] + 1;
 			face.vertices_index[1] = v[j] + 1;
 			face.vertices_index[2] = v[w] + 1;

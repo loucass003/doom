@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/05 17:31:15 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/04 21:18:15 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/06 03:41:33 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ t_collidable	get_maximum_box(t_renderable *r)
 	}
 	box.min = ft_vec3_sub(box.min, (t_vec3){ 1e-2, 1e-2, 1e-2 });
 	box.max = ft_vec3_add(box.max, (t_vec3){ 1e-2, 1e-2, 1e-2 });
-	printf("min %f %f %f, max %f %f %f\n", box.min.x, box.min.y, box.min.z, box.max.x, box.max.y, box.max.z);
+	// printf("min %f %f %f, max %f %f %f\n", box.min.x, box.min.y, box.min.z, box.max.x, box.max.y, box.max.z);
 	return ((t_collidable){ .type = COLLIDE_AABB, .data = { .aabb = box } });
 }
 
@@ -72,7 +72,7 @@ void			compute_boxes(t_collide_aabb p, t_octree_node *n)
 					.min = ft_vec3_add(p.min, ft_vec3_mul(s, (t_vec3){ i, j, k })),
 					.max = ft_vec3_add(s, ft_vec3_add(p.min, ft_vec3_mul(s, (t_vec3){ i, j, k })))
 				};
-				printf("min %f %f %f, max %f %f %f\n", c->box.data.aabb.min.x, c->box.data.aabb.min.y, c->box.data.aabb.min.z, c->box.data.aabb.max.x, c->box.data.aabb.max.y, c->box.data.aabb.max.z);
+				// printf("min %f %f %f, max %f %f %f\n", c->box.data.aabb.min.x, c->box.data.aabb.min.y, c->box.data.aabb.min.z, c->box.data.aabb.max.x, c->box.data.aabb.max.y, c->box.data.aabb.max.z);
 			}
 		}
 	}
@@ -148,16 +148,12 @@ void			ray_intersect_octree(t_octree_node *n, t_renderable *r, t_ray *ray, t_col
 		int i = -1;
 		while (++i < n->faces_index->len)
 		{
+			if (r->faces->values[n->faces_index->values[i]].hidden)
+				continue;
 			t_collision hit = ray_hit_triangle(ray->to_local, &r->faces->values[n->faces_index->values[i]].collidable.data.triangle);
 			if (hit.collide)
 			{
-				t_ray *local_ray = ray->to_local;
-				t_vec3 point = ft_vec3_add(local_ray->origin, ft_vec3_mul_s(local_ray->direction, hit.dist));
-				point = ft_vec3_mul(point, r->scale);
-				point = vec3_rotate(point, r->rotation);
-				point = ft_vec3_add(point, r->position);
-				float dist = ft_vec3_len(ft_vec3_sub(ray->origin, point));
-				hit.dist = dist;
+				hit = to_world_collision(*ray, hit, r->position, r->rotation, r->scale);
 				if (hit.dist > 0 && hit.dist < closest_hit->dist)
 				{
 					*closest_hit = hit;
@@ -173,6 +169,27 @@ void			ray_intersect_octree(t_octree_node *n, t_renderable *r, t_ray *ray, t_col
 		ray_intersect_octree(&n->childs[i], r, ray, closest_hit);
 }
 
+void			aabb_intersect_octree(t_octree_node *n, t_collide_aabb *aabb, void (*fn)(int face, void *param), void *param)
+{
+	int		i;
+	t_collision	ahit;
+	t_face			f;
+
+	ahit = aabb_hit_aabb(aabb, &n->box.data.aabb);
+	if (!ahit.collide)
+		return;
+	if (n->faces_index)
+	{
+		i = -1;
+		while (++i < n->faces_index->len)
+			fn(n->faces_index->values[i], param);
+	}
+	if (!n->childs)
+		return ;
+	i = -1;
+	while (++i < 8)
+		aabb_intersect_octree(&n->childs[i], aabb, fn, param);
+}
 
 void			print_octree(t_octree_node	*n)
 {

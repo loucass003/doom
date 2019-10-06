@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 16:49:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/04 19:27:17 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/05 19:25:56 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ static float	get_light_intensity(t_render_context *ctx, t_renderable *r, t_vec3 
 
 void	render_renderable(t_render_context *ctx, t_renderable *r)
 {
+	
 	int		i;
 	t_face	*face;
 
@@ -107,7 +108,8 @@ void	render_renderable(t_render_context *ctx, t_renderable *r)
 	while (++i < r->faces->len)
 	{
 		face = &r->faces->values[i];
-
+		if (face->hidden)
+			continue;
 		if (face->selected)
 		{
 			face->mtl->material_color_set = TRUE;

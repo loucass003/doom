@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/14 17:23:29 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/03 20:21:29 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/05 19:45:21 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ t_collision		ray_hit_triangle(t_ray *ray, t_collide_triangle *collidable)
 		.collide = TRUE,
 		.dist = t,
 		.uv = uv,
+		.ray = *ray,
 		.who = (t_collidable){
 			.type = COLLIDE_TRIANGLE,
 			.data = { .triangle = *collidable }

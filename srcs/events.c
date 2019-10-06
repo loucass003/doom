@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:14:55 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/04 15:31:35 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/06 03:29:39 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "player.h"
 #include <limits.h>
 #include "octree.h"
+#include "sprite.h"
 #include "doom.h"
 
 static void	events_window(t_doom *doom, SDL_Event *event)
@@ -33,6 +34,47 @@ static void	events_window(t_doom *doom, SDL_Event *event)
 			doom->guis[doom->current_gui].components[i]
 				->on_click(doom->guis[doom->current_gui].components[i],
 				(t_vec2){ event->button.x, event->button.y }, doom);
+		t_ray ray = create_shoot_ray(doom->player, (t_vec3){0, 0, 1});
+
+	
+
+		t_collision min = (t_collision) {
+			.collide = FALSE,
+			.dist = INT_MAX
+		};
+		for (int i = 0; i < doom->renderables->len; i++)
+		{
+			t_renderable *r = &doom->renderables->values[i];
+			if (!r->octree)
+				continue;
+			t_ray local = to_local_ray(ray, r->position, r->rotation, r->scale);
+			ray.to_local = &local;
+			ray_intersect_octree(r->octree, r, &ray, &min);
+		}
+		if (min.collide)
+		{
+			t_renderable *r = min.renderable;
+			if (r)
+			{
+				//splice_faces_array(r->faces, min.who.data.triangle.face, 1);
+				// t_face *face = &r->faces->values[min.who.data.triangle.face];
+				// face->hidden = TRUE;
+				t_renderable sprite;
+				create_sprite(&sprite, (t_mtl){ .texture_map = doom->textures.sprite, .texture_map_set = TRUE }, (t_vec2){ 8, 7 });
+				set_current_cell(&sprite, 0, 0);
+				sprite.scale = (t_vec3){ 5, 6, 5 };
+				//sprite.of.data.sprite->always_facing_player = FALSE;
+				sprite.entity = ft_memalloc(sizeof(t_entity));
+				sprite.entity->position = min.point;
+				sprite.entity->position.y += 2.5;
+				sprite.entity->type = ENTITY_ENEMY;
+				sprite.entity->packet.doom = doom;
+				sprite.entity->radius = (t_vec3){ 1, 2.5f, 1 };
+				sprite.entity->pos_offset.y = -2.5;
+				// sprite.entity->velocity.x += 4;
+				append_renderables_array(&doom->renderables, sprite);
+			}
+		}
 	}
 	if (event->type == SDL_MOUSEMOTION && doom->current_gui >= 0)
 	{
@@ -54,54 +96,6 @@ static void	events_window(t_doom *doom, SDL_Event *event)
 	// 	room_map(doom, event, modify_room);
 }
 
-// t_bool test_collision(t_doom *doom)
-// {
-// 	for (int i = 0; i < doom->renderables->len; i++)
-// 	{
-// 		t_renderable *r = &doom->renderables->values[i];
-// 		// if (r->of.type != RENDERABLE_POLYGON)
-// 		// 	continue;
-// 		for (int j = 0; j < r->faces->len; j++)
-// 		{
-// 			t_face *face = &r->faces->values[j];
-// 		//	t_polygon *poly = r->of.data.polygon;
-// 			t_collide_triangle tri = face->pp_collidable.data.triangle;
-// 			t_vec3 dir = ft_vec3_norm(doom->player.velocity);
-// 			t_vec3 p = ft_vec3_sub(doom->player.pos, tri.points[0]);
-// 		//	float dist = r->of.data.polygon->type == P_WALL ? 0.25 : poly->type == P_CEILING ? 0.2 : 0.6;
-// 			float d = ft_vec3_dot(face->face_normal, p);
-// 			//printf("dist %f\n", d);
-// 			t_collision hit = triangle_hit_aabb(&tri, &doom->player.aabb);
-// 			if (hit.collide)
-// 			{
-// 			/* 	printf("COLLIDE\n");
-// 				printf("face_normal %f %f %f\n", face->face_normal.x, face->face_normal.y, face->face_normal.z);
-// 				printf("tri_normal %f %f %f\n", tri.normal.x, tri.normal.y, tri.normal.z);
-// 				printf("p %f %f %f\n", p.x, p.y, p.z);
-// 				printf("p0 %f %f %f\n", tri.points[0].x, tri.points[0].y, tri.points[0].z);
-// 				printf("p1 %f %f %f\n", tri.points[1].x, tri.points[1].y, tri.points[1].z);
-// 				printf("p2 %f %f %f\n", tri.points[2].x, tri.points[2].y, tri.points[2].z); */
-// 			//	t_vec3 n0 = ft_vec3_cross(face->face_normal, ft_vec3_norm(ft_vec3_sub(tri.points[1], tri.points[0])));
-// 				//printf("n0 %f %f %f - %f\n", n0.x, n0.y, n0.z, ft_vec3_dot(n0, p));
-// 			//	t_vec3 n1 = ft_vec3_cross(face->face_normal, ft_vec3_norm(ft_vec3_sub(tri.points[1], tri.points[2])));
-// 			//	printf("n1 %f %f %f - %f\n", n1.x, n1.y, n1.z, ft_vec3_dot(n1, p));
-// 			//	t_vec3 n2 = ft_vec3_cross(face->face_normal, ft_vec3_norm(ft_vec3_sub(tri.points[0], tri.points[2])));
-// 			//	printf("n2 %f %f %f - %f\n", n2.x, n2.y, n2.z, ft_vec3_dot(n2, p));
-// 				// if (ft_vec3_dot(n0, p) < 0
-// 				// 	|| ft_vec3_dot(n1, p) < 0
-// 				// 	|| ft_vec3_dot(n2, p) < 0)
-// 				// 	continue;
-// 				t_vec3 newdir = ft_vec3_mul_s(face->face_normal, ft_vec3_dot(doom->player.velocity, ft_vec3_inv(face->face_normal)));
-// 			//	printf("pos %f %f %f\n", doom->player.pos.x, doom->player.pos.y, doom->player.pos.z);
-// 				//doom->player.pos = ft_vec3_add(doom->player.pos, newdir);
-// 			//	printf("new pos %f %f %f\n", doom->player.pos.x, doom->player.pos.y, doom->player.pos.z);
-// 				doom->player.velocity = ft_vec3_add(doom->player.velocity, newdir);
-// 				return TRUE;
-// 			}
-// 		}
-// 	}
-// }
-
 float move_speed = 1.5f;
 
 #include <sys/time.h>
@@ -122,16 +116,9 @@ void	hook_events(t_doom *doom)
 	if (doom->current_gui == GUI_INGAME)
 	{
 		float dt = 1.0 / 60.;
-	
-		// // doom->player.entity.position.y += doom->player.entity.radius.y;
-	//	t_vec3 tmp = ft_vec3_mul_s(doom->player.entity.velocity, 50. * dt);
-		// tmp.y = 0;
-		// if (doom->player.entity.grounded) 
-		// 	doom->player.entity.velocity = ft_vec3_sub(doom->player.entity.velocity, tmp);
-		// else
-		// 	move_speed = 2.0f;
-		
-		// doom->player.entity.velocity.y -= 2;
+		long start = getMicrotime();
+		entity_update(doom, &doom->player.entity, dt);
+		printf("delay %luus\n", getMicrotime() - start);
 		if (s[SDL_SCANCODE_W] || s[SDL_SCANCODE_S])
 		{
 			doom->player.entity.velocity.x += sinf(doom->player.entity.rotation.y) * (s[SDL_SCANCODE_W] ? 1 : -1) * move_speed;
@@ -165,44 +152,11 @@ void	hook_events(t_doom *doom)
 				doom->player.entity.rotation.x -= rot;
 		}
 		move_speed = 1.0f;
-		//long start = getMicrotime();
-		entity_update(doom, &doom->player.entity, dt);
-		//printf("delay %luus\n", getMicrotime() - start);
+	
 	//	doom->player.entity.velocity.z = 200 * dt;
 	//	doom->player.entity.velocity.y -= 100 * dt;
 		//update_player_camera(&doom->player);
-		t_ray ray = create_shoot_ray(doom->player, (t_vec3){0, 0, 1});
-
-	
-
-		t_collision min = (t_collision) {
-			.collide = FALSE,
-			.dist = INT_MAX
-		};
-		for (int i = 0; i < doom->renderables->len; i++)
-		{
-			t_renderable *r = &doom->renderables->values[i];
-			if (!r->octree)
-				continue;
-			t_ray clone;
-			clone.origin = ft_vec3_sub(ray.origin, r->position);
-			clone.origin = vec3_rotate(clone.origin, ft_vec3_mul_s(r->rotation, -1));
-			clone.origin = ft_vec3_mul(clone.origin, ft_vec3_div((t_vec3){ 1, 1, 1 }, r->scale));
-			clone.direction = vec3_rotate(ray.direction, ft_vec3_mul_s(r->rotation, -1));
-			clone.direction = ft_vec3_mul(clone.direction, ft_vec3_div((t_vec3){ 1, 1, 1 }, r->scale));
-			clone.direction = ft_vec3_norm(clone.direction);
-			ray.to_local = &clone;
-			ray_intersect_octree(r->octree, r, &ray, &min);
-		}
-		if (min.collide)
-		{
-			t_renderable *r = min.renderable;
-			if (r)
-			{
-				t_face *face = &r->faces->values[min.who.data.triangle.face];
-				face->selected = TRUE;
-			}
-		}
+		
 		
 		update_player_camera(&doom->player);
 		 //		doom->player.entity.velocity.y -= (100.0f *  doom->stats.delta);

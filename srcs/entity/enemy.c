@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/30 16:36:08 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/04 14:12:40 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/05 20:12:29 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,9 @@
 
 void		entity_update_enemy(t_doom *doom, t_entity *entity, double dt)
 {
-	static double	t0 = 0;
 	t_bool			walking;
 
-	t0 += 5 * dt;
+	entity->t0 += 5 * dt;
 	t_vec3 dir = ft_vec3_sub(doom->player.entity.position, entity->position);
  	t_vec3 norm_dir = ft_vec3_norm(dir);
 	t_vec3 e_dir = vec3_rotate((t_vec3){0, 0, -1}, entity->rotation);
@@ -67,9 +66,9 @@ void		entity_update_enemy(t_doom *doom, t_entity *entity, double dt)
 			entity->velocity = ft_vec3_add(entity->velocity, ft_vec3_mul_s(norm_dir, 10 * dt));
 	}
 	entity->velocity = ft_vec3_mul_s(entity->velocity, 0.9);
-	if (t0 > 1)
+	if (entity->t0 > 1)
 	{
-		t0 = 0;
+		entity->t0 = 0;
 		walking = ft_vec3_dot(entity->velocity, entity->velocity) != 0;
 		if (walking)
 		{

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/09 14:00:21 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/04 17:32:53 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/05 16:53:48 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,6 @@ t_collidable	face_collidable(t_renderable *r, int face_index, t_vec4 *vertices)
 	tri.v0v1 = ft_vec3_sub(tri.points[1], tri.points[0]);
 	tri.v0v2 = ft_vec3_sub(tri.points[2], tri.points[0]);
 	col.data.triangle = tri;
+	col.of = r->of;
 	return (col);
 }

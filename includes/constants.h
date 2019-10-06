@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 21:05:41 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/04 19:05:05 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/04 23:36:51 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@
 # define FONT_HELVETICA "assets/fonts/helvetica.ttf"
 
 # define FOV (80. * (M_PI / 180.))
-# define NEAR (1)
-# define NEAR_CLIP (1)
+# define NEAR (0.5)
+# define NEAR_CLIP (0.5)
 # define FAR_CULL (500)
 # define FAR (500)
 

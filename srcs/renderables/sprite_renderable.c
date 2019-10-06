@@ -6,10 +6,11 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/28 16:17:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/30 14:31:30 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/05 19:33:04 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "polygon.h"
 #include "sprite.h"
 #include "render.h"
 

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/04 19:09:58 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/05 19:28:09 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ void	g_ingame_render(t_gui *self, t_doom *doom)
 		if (r->entity)
 			entity_update(doom, r->entity, doom->stats.delta);
 		render_renderable(&doom->main_context, r);
+		
 	}
 	doom->main_context.image->pixels[(doom->main_context.image->height / 2) * doom->main_context.image->width + doom->main_context.image->width / 2 ] = 0xFF00FF00;
 	// printf("triangles = %d/%d\n", doom->gdata.finished_triangles, doom->gdata.todo_triangles);

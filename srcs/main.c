@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/04 21:17:47 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/05 19:16:21 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,21 +84,21 @@ void	init_bsp(t_doom *doom)
 	// }
 
 	t_renderable sprite;
-	create_sprite(&sprite, (t_mtl){ .texture_map = doom->textures.sprite, .texture_map_set = TRUE }, (t_vec2){ 8, 7 });
-	set_current_cell(&sprite, 0, 0);
-	sprite.scale = (t_vec3){ 5, 6, 5 };
-	//sprite.of.data.sprite->always_facing_player = FALSE;
-	sprite.entity = ft_memalloc(sizeof(t_entity));
-	sprite.entity->position = (t_vec3){ 5, 2.5, 0 };
-	sprite.entity->type = ENTITY_ENEMY;
-	sprite.entity->packet.doom = doom;
-	sprite.entity->radius = (t_vec3){ 1, 2.5f, 1 };
-	sprite.entity->pos_offset.y = -2.5;
-	// sprite.entity->velocity.x += 4;
-	append_renderables_array(&doom->renderables, sprite);
+	// create_sprite(&sprite, (t_mtl){ .texture_map = doom->textures.sprite, .texture_map_set = TRUE }, (t_vec2){ 8, 7 });
+	// set_current_cell(&sprite, 0, 0);
+	// sprite.scale = (t_vec3){ 5, 6, 5 };
+	// //sprite.of.data.sprite->always_facing_player = FALSE;
+	// sprite.entity = ft_memalloc(sizeof(t_entity));
+	// sprite.entity->position = (t_vec3){ 5, 2.5, 0 };
+	// sprite.entity->type = ENTITY_ENEMY;
+	// sprite.entity->packet.doom = doom;
+	// sprite.entity->radius = (t_vec3){ 1, 2.5f, 1 };
+	// sprite.entity->pos_offset.y = -2.5;
+	// // sprite.entity->velocity.x += 4;
+	// append_renderables_array(&doom->renderables, sprite);
 
 	create_sprite(&sprite, (t_mtl){ .texture_map = doom->textures.machin, .texture_map_set = TRUE }, (t_vec2){ 1, 1 });
-	set_current_cell(&sprite, 0, 0);
+	// set_current_cell(&sprite, 0, 0);
 	sprite.scale = (t_vec3){ 5, 6, 5 };
 	append_renderables_array(&doom->renderables, sprite);
 

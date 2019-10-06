@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/15 23:50:58 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/04 02:07:50 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/05 00:01:27 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ t_bool	lowest_root(t_vec3 v, float max, float *root)
 
 float				clamp(float min, float max, float v)
 {
-	return (fmin(max, fmax(min, v))); //TODO: i alwas inverse those
+	return (fmin(max, fmax(min, v)));
 }
 
 t_physics_data		*check_triangle(t_physics_data *packet, t_vec3 p1, t_vec3 p2, t_vec3 p3)
@@ -105,13 +105,10 @@ t_physics_data		*check_triangle(t_physics_data *packet, t_vec3 p1, t_vec3 p2, t_
 			t1 = t0;
 			t0 = tmp;
 		}
-
 		if (t0 > 1 || t1 < 0)
 			return (packet);
 		t0 = clamp(0, 1, t0);
 		t1 = clamp(0, 1, t1);
-		// clamp to [0,1]
-	
 	}
 
 	t_vec3	colision_point = (t_vec3){0, 0, 0};
@@ -158,7 +155,6 @@ t_physics_data		*check_triangle(t_physics_data *packet, t_vec3 p1, t_vec3 p2, t_
 			b = 2.0 * ft_vec3_dot(velocity, tmp);
 			tmp = ft_vec3_sub(p2, base);
 			c = ft_vec3_dot(tmp, tmp) - 1;
-		//	float new_t;
 			if (lowest_root((t_vec3){ a, b, c }, t, &new_t))
 			{
 				t = new_t;
@@ -173,7 +169,6 @@ t_physics_data		*check_triangle(t_physics_data *packet, t_vec3 p1, t_vec3 p2, t_
 			b = 2.0 * ft_vec3_dot(velocity, tmp);
 			tmp = ft_vec3_sub(p3, base);
 			c = ft_vec3_dot(tmp, tmp) - 1;
-		//	float new_t;
 			if (lowest_root((t_vec3){ a, b, c }, t, &new_t))
 			{
 				t = new_t;
