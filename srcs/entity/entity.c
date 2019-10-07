@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 22:00:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/06 03:48:42 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/07 16:15:01 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,7 @@ t_vec3		collide_with_world(t_entity *entity, t_vec3 e_position, t_vec3 e_velocit
 void		collide_and_slide(t_entity *entity)
 {	
 	entity->packet.r3_posision = entity->position;
-	entity->packet.r3_velocity = entity->velocity;
+	entity->packet.r3_velocity = ft_vec3_mul_s(entity->velocity, entity->packet.dt);
 	entity->packet.e_radius = entity->radius;
 
 	t_vec3	gravity = (t_vec3){0, fmin(0, entity->packet.r3_velocity.y), 0};
@@ -182,11 +182,12 @@ void		entity_update(t_doom *doom, t_entity *entity, double dt)
 {
 	if (entity->type == ENTITY_ENEMY)
 		entity_update_enemy(doom, entity, dt);
-	entity->velocity.y -= 1;
+	entity->velocity.y -= 25;
 	entity->packet.r3_posision = entity->position;
 	entity->packet.r3_velocity = entity->velocity;
 	entity->packet.e_radius = entity->radius;
 	entity->packet.grounded = entity->grounded;
+	entity->packet.dt = dt;
 	entity->packet.doom = doom;
 	collide_and_slide(entity);
 	entity->position = entity->packet.r3_posision;

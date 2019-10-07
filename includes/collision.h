@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 01:15:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/06 03:27:42 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/07 16:13:58 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ typedef struct		s_physics_data
 	t_vec3			c;
 	t_plane			plane;
 	t_bool			grounded;
+	float			dt;
 	size_t			depth;
 	struct s_doom	*doom;
 }					t_physics_data;

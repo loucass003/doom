@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:14:55 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/06 03:29:39 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/07 16:13:21 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,8 +117,9 @@ void	hook_events(t_doom *doom)
 	{
 		float dt = 1.0 / 60.;
 		long start = getMicrotime();
-		entity_update(doom, &doom->player.entity, dt);
+		entity_update(doom, &doom->player.entity, doom->stats.delta);
 		printf("delay %luus\n", getMicrotime() - start);
+		move_speed = 25;
 		if (s[SDL_SCANCODE_W] || s[SDL_SCANCODE_S])
 		{
 			doom->player.entity.velocity.x += sinf(doom->player.entity.rotation.y) * (s[SDL_SCANCODE_W] ? 1 : -1) * move_speed;
@@ -132,7 +133,7 @@ void	hook_events(t_doom *doom)
 		if (s[SDL_SCANCODE_SPACE])
 		{ 
 			doom->player.entity.grounded = FALSE;
-			doom->player.entity.velocity.y += 2.1;
+			doom->player.entity.velocity.y += 50;
 		}
 		if (s[SDL_SCANCODE_J] || s[SDL_SCANCODE_L])
 			doom->player.entity.rotation.y += 0.01 * (s[SDL_SCANCODE_J] ? 1 : -1) * ms;
@@ -151,7 +152,7 @@ void	hook_events(t_doom *doom)
 			if (doom->player.entity.rotation.x - rot < M_PI_2 && doom->player.entity.rotation.x - rot > -M_PI_2 )
 				doom->player.entity.rotation.x -= rot;
 		}
-		move_speed = 1.0f;
+	
 	
 	//	doom->player.entity.velocity.z = 200 * dt;
 	//	doom->player.entity.velocity.y -= 100 * dt;
