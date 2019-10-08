@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 22:00:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/07 16:15:01 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/08 17:00:36 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,28 @@ void		check_collision(t_entity *entity, t_collide_aabb area)
 		r = entity->packet.doom->renderables->values[i];
 		if (r.of.type == RENDERABLE_SPRITE)
 			continue;
-		if (r.faces->len > 50 && r.octree)
+		if (r.octree && r.faces->len > 100)
 		{
 			area.min = point_to_local(area.min, r.position, r.rotation, r.scale);
 			area.max = point_to_local(area.max, r.position, r.rotation, r.scale);
+			t_vec3 min = (t_vec3){ INT_MAX, INT_MAX, INT_MAX };
+			t_vec3 max = (t_vec3){ INT_MIN, INT_MIN, INT_MIN };
+			min.x = fmin(min.x, area.min.x);
+			min.y = fmin(min.y, area.min.y);
+			min.z = fmin(min.z, area.min.z);
+			min.x = fmin(min.x, area.max.x);
+			min.y = fmin(min.y, area.max.y);
+			min.z = fmin(min.z, area.max.z);
+
+			max.x = fmax(max.x, area.min.x);
+			max.y = fmax(max.y, area.min.y);
+			max.z = fmax(max.z, area.min.z);
+			max.x = fmax(max.x, area.max.x);
+			max.y = fmax(max.y, area.max.y);
+			max.z = fmax(max.z, area.max.z);
+	
+			area.min = min;
+			area.max = max;
 			aabb_intersect_octree(r.octree, &area, collide_with_face, &(struct s_entity_collision_check){ .entity = entity, .r = &r });
 		}
 		else

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 01:17:41 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/05 21:56:14 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/07 18:47:16 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,13 +164,13 @@ void TexturedTriangle2(t_render_context *ctx, t_render_data data)
 
 void	draw_triangle(t_render_context *ctx, t_render_data data)
 {
-	
-	TexturedTriangle2(ctx, data);
-	if (ctx->type == CTX_NORMAL)
+	if (!data.mtl->wireframe)
+		TexturedTriangle2(ctx, data);
+	if (ctx->type == CTX_NORMAL && data.mtl->wireframe)
 	{
 		uint32_t c = data.mtl->material_color_set ? data.mtl->material_color : 0xFFFFFFFF;
-		if (c != 0xFFFF0000)
-			return ;
+		// if (c != 0xFFFF0000)
+		// 	return ;
 		t_triangle triangle = data.triangle;
 		draw_line(ctx->image, (t_pixel){triangle.a.pos.x, triangle.a.pos.y, c}, (t_pixel){triangle.b.pos.x, triangle.b.pos.y});
 		draw_line(ctx->image, (t_pixel){triangle.b.pos.x, triangle.b.pos.y, c}, (t_pixel){triangle.c.pos.x, triangle.c.pos.y});

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/03 16:26:29 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/05 16:50:15 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/08 04:08:26 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include "render.h"
 
 
-t_bool			post_process_polygon(t_renderable *r)
+t_bool			post_process_polygon(t_doom *doom, t_renderable *r)
 {
 	int				i;
 	t_face			*face;
@@ -36,7 +36,7 @@ t_bool			post_process_polygon(t_renderable *r)
 		face->collidable = face_collidable(r, i, r->vertices->vertices);
 	}
 	transform_renderable(r);
-	r->octree = create_octree(r);
+	r->octree = create_octree(doom, r);
 	print_octree(r->octree);
 	return (TRUE);
 }

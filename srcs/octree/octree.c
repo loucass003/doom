@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/05 17:31:15 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/06 03:41:33 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/08 16:49:58 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "octree.h"
 #include "collision.h"
 #include "render.h"
+#include "arrays.h"
 
 t_collidable	get_maximum_box(t_renderable *r)
 {
@@ -34,8 +35,6 @@ t_collidable	get_maximum_box(t_renderable *r)
 		box.max.y = fmax(box.max.y, vert.y);
 		box.max.z = fmax(box.max.z, vert.z);
 	}
-	box.min = ft_vec3_sub(box.min, (t_vec3){ 1e-2, 1e-2, 1e-2 });
-	box.max = ft_vec3_add(box.max, (t_vec3){ 1e-2, 1e-2, 1e-2 });
 	// printf("min %f %f %f, max %f %f %f\n", box.min.x, box.min.y, box.min.z, box.max.x, box.max.y, box.max.z);
 	return ((t_collidable){ .type = COLLIDE_AABB, .data = { .aabb = box } });
 }
@@ -50,7 +49,7 @@ t_octree_node	*create_node(t_collidable box)
 	return (node);
 }
 
-void			compute_boxes(t_collide_aabb p, t_octree_node *n)
+void			compute_boxes(t_doom *doom, t_collide_aabb p, t_octree_node *n)
 {
 	int		i;
 	int		j;
@@ -70,23 +69,24 @@ void			compute_boxes(t_collide_aabb p, t_octree_node *n)
 				c->box.type = COLLIDE_AABB;
 				c->box.data.aabb = (t_collide_aabb){
 					.min = ft_vec3_add(p.min, ft_vec3_mul(s, (t_vec3){ i, j, k })),
-					.max = ft_vec3_add(s, ft_vec3_add(p.min, ft_vec3_mul(s, (t_vec3){ i, j, k })))
+					.max = ft_vec3_add(p.min, ft_vec3_mul(s, (t_vec3){ i + 1, j + 1, k + 1 }))
 				};
+			
 				// printf("min %f %f %f, max %f %f %f\n", c->box.data.aabb.min.x, c->box.data.aabb.min.y, c->box.data.aabb.min.z, c->box.data.aabb.max.x, c->box.data.aabb.max.y, c->box.data.aabb.max.z);
 			}
 		}
 	}
 }
 
-t_bool			subdivide(t_octree_node *n)
+t_bool			subdivide(t_doom *doom, t_octree_node *n)
 {
 	if (!n || !(n->childs = ft_memalloc(sizeof(t_octree_node) * 8)))
 		return (FALSE);
-	compute_boxes(n->box.data.aabb, n);
+	compute_boxes(doom, n->box.data.aabb, n);
 	return (TRUE);
 }
 
-t_bool			insert_octree(t_octree_node *n, t_renderable *r, int face)
+t_bool			insert_octree(t_octree_node *n, t_doom *doom, t_renderable *r, int face)
 {
 	int i;
 
@@ -98,11 +98,11 @@ t_bool			insert_octree(t_octree_node *n, t_renderable *r, int face)
 			return (FALSE);
 		if (n->faces_index->len > 100)
 		{
-			if (!subdivide(n))
+			if (!subdivide(doom, n))
 				return (FALSE);
 			i = -1;
 			while (++i < n->faces_index->len)
-				if (!insert_octree(n, r, n->faces_index->values[i]))
+				if (!insert_octree(n, doom, r, n->faces_index->values[i]))
 					return (FALSE);
 			free(n->faces_index);
 			n->faces_index = NULL;
@@ -113,24 +113,22 @@ t_bool			insert_octree(t_octree_node *n, t_renderable *r, int face)
 		i = -1;
 		while (++i < 8)
 			if (triangle_hit_aabb(&r->faces->values[face].collidable.data.triangle, &n->childs[i].box.data.aabb).collide)
-				if (!insert_octree(&n->childs[i], r, face))
+				if (!insert_octree(&n->childs[i], doom, r, face))
 					return (FALSE);
 	}
 	return (TRUE);
 }
 
-t_octree_node	*create_octree(t_renderable *r)
+t_octree_node	*create_octree(t_doom *doom, t_renderable *r)
 {
 	int				i;
 	t_octree_node	*root;
 
-	// if (r->faces->len <= 100)
-	// 	return (NULL);
 	if (!(root = create_node(get_maximum_box(r))))
 		return (NULL);
 	i = -1;
 	while (++i < r->faces->len)
-		if (!insert_octree(root, r, i))
+		if (!insert_octree(root, doom, r, i))
 			return (NULL);
 	return (root);
 }
@@ -145,6 +143,7 @@ void			ray_intersect_octree(t_octree_node *n, t_renderable *r, t_ray *ray, t_col
 		return;
 	if (n->faces_index)
 	{
+
 		int i = -1;
 		while (++i < n->faces_index->len)
 		{
@@ -171,9 +170,8 @@ void			ray_intersect_octree(t_octree_node *n, t_renderable *r, t_ray *ray, t_col
 
 void			aabb_intersect_octree(t_octree_node *n, t_collide_aabb *aabb, void (*fn)(int face, void *param), void *param)
 {
-	int		i;
-	t_collision	ahit;
-	t_face			f;
+	int				i;
+	t_collision		ahit;
 
 	ahit = aabb_hit_aabb(aabb, &n->box.data.aabb);
 	if (!ahit.collide)

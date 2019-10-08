@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/05 19:16:21 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/08 15:53:09 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,18 +84,20 @@ void	init_bsp(t_doom *doom)
 	// }
 
 	t_renderable sprite;
-	// create_sprite(&sprite, (t_mtl){ .texture_map = doom->textures.sprite, .texture_map_set = TRUE }, (t_vec2){ 8, 7 });
-	// set_current_cell(&sprite, 0, 0);
-	// sprite.scale = (t_vec3){ 5, 6, 5 };
-	// //sprite.of.data.sprite->always_facing_player = FALSE;
-	// sprite.entity = ft_memalloc(sizeof(t_entity));
-	// sprite.entity->position = (t_vec3){ 5, 2.5, 0 };
-	// sprite.entity->type = ENTITY_ENEMY;
-	// sprite.entity->packet.doom = doom;
-	// sprite.entity->radius = (t_vec3){ 1, 2.5f, 1 };
-	// sprite.entity->pos_offset.y = -2.5;
-	// // sprite.entity->velocity.x += 4;
-	// append_renderables_array(&doom->renderables, sprite);
+	create_sprite(&sprite, (t_mtl){ .texture_map = doom->textures.sprite, .texture_map_set = TRUE }, (t_vec2){ 8, 7 });
+	set_current_cell(&sprite, 0, 0);
+	sprite.scale = (t_vec3){ 5, 6, 5 };
+	//sprite.of.data.sprite->always_facing_player = FALSE;
+	sprite.entity = ft_memalloc(sizeof(t_entity));
+	//-152.831345 2.512500 -25.893129
+	sprite.entity->position = (t_vec3){ -152.831345, 2.512500, -25.893129 };
+	//sprite.entity->position = (t_vec3){ -25.893129, 2.512500, 152.831345 };
+	sprite.entity->type = ENTITY_ENEMY;
+	sprite.entity->packet.doom = doom;
+	sprite.entity->radius = (t_vec3){ 1, 2.5f, 1 };
+	sprite.entity->pos_offset.y = -2.5;
+	// sprite.entity->velocity.x += 4;
+	append_renderables_array(&doom->renderables, sprite);
 
 	create_sprite(&sprite, (t_mtl){ .texture_map = doom->textures.machin, .texture_map_set = TRUE }, (t_vec2){ 1, 1 });
 	// set_current_cell(&sprite, 0, 0);
@@ -120,12 +122,7 @@ int		main(void)
 	doom.main_context.doom = &doom;
 	//doom.thpool = at_thpool_create (20);
 	//pthread_mutex_init(&doom.mutex, NULL);
-	t_octree_node *node = malloc(sizeof(t_octree_node));
-	node->childs = malloc(sizeof(t_octree_node) * 8);
-	compute_boxes((t_collide_aabb){
-		.min = (t_vec3){ -0.5, -0.5, -0.5 },
-		.max = (t_vec3){ 0.5, 0.5, 0.5 }
-	}, node);
+
 	if (!(doom.main_context.buffer = (float *)malloc((int)(S_WIDTH * S_HEIGHT) * sizeof(float))))
 		return (-1);
 	if (!(doom.renderables = create_renderables_array(50)))

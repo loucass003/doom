@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:16:19 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/06 03:37:05 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/08 00:12:24 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,8 @@ typedef struct		s_renderable
 	t_bool					fixed;
 	t_bool					double_faced;
 	t_bool					no_light;
+	t_bool					wireframe;
+	int						wireframe_color;
 	struct s_octree_node	*octree;
 }					t_renderable;
 

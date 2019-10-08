@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/14 17:20:03 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/06 03:05:25 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/08 06:40:51 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,20 +177,32 @@ t_collision		ray_hit_aabb(t_ray *ray, t_collide_aabb *collidable)
 	});
 }
 
-t_collision 			aabb_hit_aabb(t_collide_aabb *a, t_collide_aabb *b)
+t_collision 			aabb_hit_aabb(t_collide_aabb *b, t_collide_aabb *a)
 {
-	if (b->min.x >= a->max.x
-		|| b->max.x <= a->min.x
-		|| b->min.y >= a->max.y
-		|| b->min.y >= a->max.y
-		|| b->min.z >= a->max.z
-		|| b->min.z >= a->max.z)
+	// if (a->min.x < b->min.x)
+	// {
+	// 	t_collide_aabb tmp = *a;
+	// 	*a = *b;
+	// 	*b = tmp;
+	// }
+
+ 	if(a->min.x > b->max.x)
+		return (t_collision){ .collide = FALSE, .dist = -1 };
+	if(a->min.y > b->max.y)
+		return (t_collision){ .collide = FALSE, .dist = -1 };
+	if(a->min.z > b->max.z)
+		return (t_collision){ .collide = FALSE, .dist = -1 };
+	if(a->max.x < b->min.x)
+		return (t_collision){ .collide = FALSE, .dist = -1 };
+	if(a->max.y < b->min.y)
+		return (t_collision){ .collide = FALSE, .dist = -1 };
+	if(a->max.z < b->min.z)
 		return (t_collision){ .collide = FALSE, .dist = -1 };
     return ((t_collision) {
 		.collide = TRUE,
 		.who = (t_collidable){
 			.type = COLLIDE_AABB,
-			.data = { .aabb = *b }
+			.data = { .aabb = *a }
 		}
 	});
 };

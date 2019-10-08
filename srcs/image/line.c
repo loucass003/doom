@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/02 00:28:50 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/29 02:52:44 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/08 03:51:32 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void	draw_line(t_img *img, t_pixel p0, t_pixel p1)
 	t_pixel			d;
 	t_pixel			s;
 	int				e[2];
-	unsigned int	index;
 
 	d = (t_pixel){ ft_abs(p1.x - p0.x), ft_abs(p1.y - p0.y), 0 };
 	s = (t_pixel){ (p0.x < p1.x ? 1 : -1), (p0.y < p1.y ? 1 : -1), 0 };
@@ -27,7 +26,7 @@ void	draw_line(t_img *img, t_pixel p0, t_pixel p1)
 	{
 		if (p0.x >= 0 && p0.x < (int)img->width 
 			&& p0.y >= 0 && p0.y < (int)img->height)
-			img->pixels[index = p0.y * img->width + p0.x] = p0.color;
+			img->pixels[p0.y * img->width + p0.x] = p0.color;
 		e[1] = e[0];
 		if (e[1] > -d.x)
 		{
@@ -41,3 +40,4 @@ void	draw_line(t_img *img, t_pixel p0, t_pixel p1)
 		}
 	}
 }
+
