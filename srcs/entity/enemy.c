@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/30 16:36:08 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/08 17:04:07 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/08 19:53:20 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void		entity_update_enemy(t_doom *doom, t_entity *entity, double dt)
 		if (dist > 15)
 			entity->velocity = ft_vec3_add(entity->velocity, ft_vec3_mul_s(norm_dir, 10));
 	}
-	entity->velocity = ft_vec3_mul_s(entity->velocity, 0.8);
+	//entity->velocity = ft_vec3_mul_s(entity->velocity, 0.8);
 	if (entity->t0 > 1)
 	{
 		entity->t0 = 0;

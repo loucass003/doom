@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 22:00:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/08 17:00:36 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/08 22:57:45 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,65 @@ void		collide_with_face(int face, void *p)
 	);
 }
 
+t_bool		sphere_colliding_sphere(float *collisionDistance, t_vec3 translation1, t_vec3 translation2, t_vec3 velocitySum, float radiiSum)
+{
+	float	distance_between = ft_vec3_len(ft_vec3_sub(translation1, translation2)) - radiiSum;
+	float	velocityLength = ft_vec3_len(velocitySum);
+
+	if (distance_between > 0 && velocityLength < distance_between)
+		return (FALSE);
+
+	t_vec3	norm_velocity = ft_vec3_norm(velocitySum);
+	t_vec3	direction = ft_vec3_sub(translation1, translation2);
+	float	angle_between = ft_vec3_dot(norm_velocity, direction);
+
+	if (angle_between <= 0)
+	{
+		if (distance_between < 0)
+		{
+			if (velocityLength > -distance_between)
+				return (FALSE);
+		}
+		else
+			return (FALSE);
+	}
+
+	float	direction_len = ft_vec3_len(direction);
+	float	hypotenuse = (direction_len * direction_len) - (angle_between * angle_between);
+	float 	radiiSumSquared = radiiSum * radiiSum;
+	if( hypotenuse >= radiiSumSquared )
+		return (FALSE);
+	float distance = radiiSumSquared - hypotenuse;
+	*collisionDistance = angle_between - sqrt( distance );
+	if (velocityLength < *collisionDistance)
+		return (FALSE);
+	return (TRUE);
+}
+
+void		collide_with_entity(t_entity *entity, t_entity *object)
+{
+	t_vec3	translation = ft_vec3_div(object->position, entity->radius);
+	t_vec3	velocity = ft_vec3_mul_s(ft_vec3_div(object->velocity, entity->radius), entity->packet.dt);
+
+	t_vec3	vector_collider_object = ft_vec3_norm(ft_vec3_sub(translation, entity->position));
+	t_vec3	vector_object_collider = ft_vec3_norm(ft_vec3_sub(entity->position, translation));
+
+	float	collider_radius = ft_vec3_len(vector_collider_object);
+	t_vec3	vector_object_radius = ft_vec3_mul(vector_object_collider, ft_vec3_div(object->radius, entity->radius));
+	float	object_radius = ft_vec3_len(vector_object_radius);
+
+	float	dist_to_collision = INT_MAX;
+	if (sphere_colliding_sphere(&dist_to_collision, entity->position, translation, ft_vec3_sub(velocity, entity->velocity), collider_radius + object_radius) == TRUE)
+	{
+		if (entity->packet.found_colision == FALSE || dist_to_collision < entity->packet.distance)
+		{
+			entity->packet.distance = dist_to_collision;
+			entity->packet.intersect_point = ft_vec3_mul_s(entity->packet.e_norm_velocity, dist_to_collision);
+			entity->packet.found_colision = TRUE;
+		}
+	}
+}
+
 void		check_collision(t_entity *entity, t_collide_aabb area)
 {
 	int				i;
@@ -51,9 +110,11 @@ void		check_collision(t_entity *entity, t_collide_aabb area)
 	while (++i < entity->packet.doom->renderables->len)
 	{
 		r = entity->packet.doom->renderables->values[i];
-		if (r.of.type == RENDERABLE_SPRITE)
+		if (r.entity && entity != r.entity)
+			collide_with_entity(entity, r.entity);
+		else if (r.of.type == RENDERABLE_SPRITE)
 			continue;
-		if (r.octree && r.faces->len > 100)
+		else if (r.octree && r.faces->len > 100)
 		{
 			area.min = point_to_local(area.min, r.position, r.rotation, r.scale);
 			area.max = point_to_local(area.max, r.position, r.rotation, r.scale);
@@ -84,6 +145,8 @@ void		check_collision(t_entity *entity, t_collide_aabb area)
 				collide_with_face(j, &(struct s_entity_collision_check){ .entity = entity, .r = &r });
 		}
 	}
+	if (entity != &entity->packet.doom->player.entity)
+		collide_with_entity(entity, &entity->packet.doom->player.entity);
 }
 
 // void		check_grounded(t_entity *entity)

@@ -11,10 +11,6 @@
 typedef struct					s_player
 {
 	t_camera		camera;
-	t_ray			ray;
-	t_bool			fixed_ray;
-	t_collide_aabb	aabb;
-	t_bool			coliding;
 	t_entity		entity;
 }								t_player;
 
