@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 16:49:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/10 01:40:03 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/10 23:27:51 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,6 +158,6 @@ void	render_renderable(t_render_context *ctx, t_renderable *r)
 			{ .pos = v2, .tex = vertex2, .normal = r->pp_normals[face->normals_index[2] - 1], .light_color = it2 }
 		});
 	}
-	if (r->child)
-		render_renderable(ctx, r->child);
+	// if (r->child)
+	// 	render_renderable(ctx, r->child);
 }

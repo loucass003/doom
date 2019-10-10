@@ -6,12 +6,15 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/14 16:37:29 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/09 19:18:26 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/11 00:54:14 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "player.h"
+#include <limits.h>
 #include "collision.h"
+#include "render.h"
+#include "octree.h"
 
 t_vec3	point_to_local(t_vec3 point, t_vec3 position, t_vec3 rotation, t_vec3 scale)
 {
@@ -69,4 +72,56 @@ t_collision		ray_hit_collidable(t_ray *ray, t_collidable *collidable)
 	else if (collidable->type == COLLIDE_TRIANGLE)
 		return ray_hit_triangle(ray, &collidable->data.triangle);
 	return ((t_collision){ .collide = FALSE });
+}
+
+
+t_collision		ray_hit_world(t_doom *doom, t_renderables *renderables, t_ray ray)
+{
+	t_collision		min;
+	t_collision		hit;
+	t_renderable	*r;
+	int				i;
+	int				j;
+
+	min = (t_collision) { .collide = FALSE, .dist = INT_MAX };
+	i = -1;
+	while (++i < renderables->len)
+	{
+		r = &renderables->values[i];
+		if (r->has_hitbox && r->hitbox.type == COLLIDE_ELLIPSOID)
+		{
+			t_collide_ellipsoid ellipsoid = r->hitbox.data.ellipsoid;
+			t_renderable *sphere = &doom->sphere_primitive;
+			sphere->position = ellipsoid.origin;
+			sphere->scale = ellipsoid.radius;
+			sphere->dirty = TRUE;
+			transform_renderable(sphere);
+			r = sphere; 
+		}
+		t_ray local = to_local_ray(ray, r->position, r->rotation, r->scale);
+		ray.to_local = &local;
+		if (r->octree)
+		{
+			t_collision mincpy = min;
+			ray_intersect_octree(r->octree, r, &ray, &min);
+			if (min.collide && mincpy.dist > min.dist)
+				min.renderable = &renderables->values[i];
+			continue;
+		}
+		j = -1;
+		while (++j < r->faces->len)
+		{
+			hit = ray_hit_collidable(ray.to_local, &r->faces->values[j].collidable);
+			if (hit.collide)
+			{
+				hit = to_world_collision(ray, hit, r->position, r->rotation, r->scale);
+				if (hit.dist > 0 && hit.dist < min.dist)
+				{
+					min = hit;
+					min.renderable = &renderables->values[i];
+				}
+			}
+		}
+	}
+	return (min);
 }

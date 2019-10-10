@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 15:28:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/10 04:26:10 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/11 00:33:06 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,6 +147,8 @@ t_bool		obj_test(t_doom *doom)
 	 t_renderable r;
 	t_bool lol;
 	
+	
+
 	set_obj_working_dir(doom, "assets/obj/de_dust");
 	lol = create_obj(doom, &r, "de_dust2.obj");
 	r.position = (t_vec3){0, 0, 0};

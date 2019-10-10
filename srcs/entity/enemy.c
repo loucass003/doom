@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/30 16:36:08 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/10 05:18:05 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/10 23:29:25 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_bool		create_enemy(t_doom *doom, t_renderable *r)
 	r->entity->type = ENTITY_ENEMY;
 	r->entity->packet.doom = doom;
 	r->entity->radius = (t_vec3){ 1, 2.5, 1 };
-	r->show_hitbox = TRUE;
+	//r->show_hitbox = TRUE;
 	//r->entity->pos_offset.y = -r->entity->radius.y;
 	compute_enemy_hitbox(r);
 	return (TRUE);

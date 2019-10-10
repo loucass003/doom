@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gui.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 01:42:00 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/01 16:50:00 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/10/10 21:34:09 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ typedef enum		e_component_type
 {
 	C_BUTTON,
 	C_MENU,
-	C_TEXTFIELD
+	C_TEXTFIELD,
+	C_PROGRESS
 }					t_component_type;
 
 typedef struct		s_component
@@ -49,6 +50,16 @@ typedef struct		s_button
 	int				color_hover;
 	char			*image;
 }					t_button;
+
+typedef struct		s_progress
+{
+	t_component		super;
+	float			value;
+	int				bg_color;
+	int				fg_color;
+	char			text[256];
+	int				text_len;
+}					t_progress;
 
 typedef struct		s_files
 {
@@ -120,6 +131,7 @@ t_bool				in_bounds(SDL_Rect bounds, t_vec2 pos);
 t_bool				alloc_components(t_gui *gui, int count);
 void				free_components(t_gui *gui);
 t_component	 		*create_button(SDL_Rect bounds, char *s, char *s2);
+t_component	 		*create_progress(SDL_Rect bounds);
 
 void    			find_files(t_files **list, int *files_count, char *s, char *s2);
 t_component			*create_menu(SDL_Rect bounds, char *s, t_doom *doom);

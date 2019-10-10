@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:14:55 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/10 04:49:50 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/11 00:39:44 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,48 +31,38 @@ static void	events_window(t_doom *doom, SDL_Event *event)
 	if (event->type == SDL_MOUSEBUTTONUP && doom->current_gui >= 0)
 	{
 		for (int i = 0; i < doom->guis[doom->current_gui].component_count; i++)
-			doom->guis[doom->current_gui].components[i]
-				->on_click(doom->guis[doom->current_gui].components[i],
-				(t_vec2){ event->button.x, event->button.y }, doom);
+			if (doom->guis[doom->current_gui].components[i]->on_click)
+				doom->guis[doom->current_gui].components[i]
+					->on_click(doom->guis[doom->current_gui].components[i],
+					(t_vec2){ event->button.x, event->button.y }, doom);
 	}
 	if (event->type == SDL_MOUSEMOTION && doom->current_gui >= 0)
 	{
 		doom->mouse = (t_vec2){ event->motion.x, event->motion.y };
 		for (int i = 0; i < doom->guis[doom->current_gui].component_count; i++)
 		{
-			doom->guis[doom->current_gui].components[i]
-				->on_mouse_move(doom->guis[doom->current_gui].components[i],
-				doom->mouse, doom);
+			if (doom->guis[doom->current_gui].components[i]->on_mouse_move)
+				doom->guis[doom->current_gui].components[i]
+					->on_mouse_move(doom->guis[doom->current_gui].components[i],
+					doom->mouse, doom);
 		}
 	}
 	if (event->type == SDL_KEYDOWN && (key == SDL_SCANCODE_P))
 	{
 		t_ray ray = create_shoot_ray(doom->player, (t_vec3){0, 0, 1});
-			t_collision min = (t_collision) {
-				.collide = FALSE,
-				.dist = INT_MAX
-			};
-			for (int i = 0; i < doom->renderables->len; i++)
+		t_collision hit = ray_hit_world(doom, doom->renderables, ray);
+		if (hit.collide)
+		{
+			t_renderable *r = hit.renderable;
+			if (r && !r->entity)
 			{
-				t_renderable *r = &doom->renderables->values[i];
-				if (!r->octree)
-					continue;
-				t_ray local = to_local_ray(ray, r->position, r->rotation, r->scale);
-				ray.to_local = &local;
-				ray_intersect_octree(r->octree, r, &ray, &min);
+				t_renderable enemy;
+				create_enemy(doom, &enemy);
+				enemy.entity->position = hit.point;
+				enemy.entity->position.y += enemy.entity->radius.y;
+				append_renderables_array(&doom->renderables, enemy);
 			}
-			if (min.collide)
-			{
-				t_renderable *r = min.renderable;
-				if (r && !r->entity && !r->wireframe)
-				{
-					t_renderable enemy;
-					create_enemy(doom, &enemy);
-					enemy.entity->position = min.point;
-					enemy.entity->position.y += enemy.entity->radius.y;
-					append_renderables_array(&doom->renderables, enemy);
-				}
-			}
+		}
 	}
 
 	if (event->type == SDL_KEYDOWN && (key == SDL_SCANCODE_O))
@@ -145,6 +135,16 @@ void	hook_events(t_doom *doom)
 		}
 	
 		update_player_camera(&doom->player);
+		// t_ray ray = create_shoot_ray(doom->player, (t_vec3){0, 0, 1});
+		// t_collision hit = ray_hit_world(doom, doom->renderables, ray);
+		// if (hit.collide)
+		// {
+		// 	t_renderable *r = hit.renderable;
+		// 	if (r)
+		// 	{
+		// 		r->wireframe = TRUE;
+		// 	}
+		// }
 	}
 	while (SDL_PollEvent(&event))
 		events_window(doom, &event);

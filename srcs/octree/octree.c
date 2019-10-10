@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/05 17:31:15 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/10 05:05:38 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/10 22:53:30 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,12 +143,9 @@ void			ray_intersect_octree(t_octree_node *n, t_renderable *r, t_ray *ray, t_col
 		return;
 	if (n->faces_index)
 	{
-
 		int i = -1;
 		while (++i < n->faces_index->len)
 		{
-			if (r->faces->values[n->faces_index->values[i]].hidden)
-				continue;
 			t_collision hit = ray_hit_triangle(ray->to_local, &r->faces->values[n->faces_index->values[i]].collidable.data.triangle);
 			if (hit.collide)
 			{
