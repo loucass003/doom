@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/05 17:25:21 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/05 17:25:52 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/09 22:04:36 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ typedef enum		e_renderable_type
 	RENDERABLE_UNKNOWN,
 	RENDERABLE_OBJ,
 	RENDERABLE_POLYGON,
-	RENDERABLE_SPRITE
+	RENDERABLE_SPRITE,
+	RENDERABLE_ELLIPSOID
 }					t_renderable_type;
 
 typedef union		u_renderable_of_data
@@ -26,6 +27,7 @@ typedef union		u_renderable_of_data
 	struct s_polygon		*polygon;
 	struct s_obj			*obj;
 	struct s_sprite			*sprite;
+	struct s_ellipsoid		*ellipsoid;
 }					t_renderable_of_data;
 
 typedef struct		s_renderable_of

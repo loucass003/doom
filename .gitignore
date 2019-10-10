@@ -2,3 +2,4 @@
 objs
 doom-nukem
 deps
+node_modules/

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:16:19 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/08 00:12:24 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/10 05:21:21 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,14 @@ typedef struct		s_renderable
 	t_bool					fixed;
 	t_bool					double_faced;
 	t_bool					no_light;
+	t_bool					show_hitbox;
 	t_bool					wireframe;
 	int						wireframe_color;
+	t_bool					has_hitbox;
+	t_collidable			hitbox;
+	t_vec3					hitbox_offset;
 	struct s_octree_node	*octree;
+	struct s_renderable		*child;
 }					t_renderable;
 
 typedef struct		s_renderables
@@ -115,5 +120,6 @@ void				transform_renderable(t_renderable *r);
 
 t_collidable		compute_collidable(t_renderable *r, int face_index, t_vec4 *vertices);
 t_collidable		face_collidable(t_renderable *r, int face_index, t_vec4 *vertices);
-
+void				compute_ellipsoid_hitbox(t_renderable *r, t_vec3 pos, t_vec3 radius);
+void				update_hitbox(t_renderable *r);
 #endif

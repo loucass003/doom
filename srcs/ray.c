@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/14 16:37:29 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/07 18:25:01 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/09 19:18:26 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_ray			create_shoot_ray(t_player player, t_vec3 direction)
 	// 	d = direction;
 	//printf("DIR %f %f %f\n", d.x, d.y, d.x);
 	return ((t_ray){
-		.origin = player.entity.position,
+		.origin = player.camera.pos,
 		.direction = d
 	});
 }

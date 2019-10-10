@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 01:15:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/07 16:13:58 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/10 01:13:30 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ typedef union 		u_collidable_data
 {
 	t_collide_aabb		aabb;
 	t_collide_triangle	triangle;
+	t_collide_ellipsoid	ellipsoid;
 }					t_collidable_data;
 
 typedef struct		s_collidable
@@ -123,6 +124,7 @@ t_collision			triangle_hit_aabb(t_collide_triangle *triangle,  t_collide_aabb *a
 t_bool				get_obb_collision(t_obb_box a, t_obb_box b);
 
 t_physics_data		*check_triangle(t_physics_data *packet, t_vec3 p1, t_vec3 p2, t_vec3 p3);
+
 
 
 

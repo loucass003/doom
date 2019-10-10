@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/19 17:50:27 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/29 03:05:34 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/10 04:42:47 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,8 +135,8 @@ static t_vec3	vec3_rotate_y(t_vec3 v, float angle)
 
 static t_vec3	vec3_rotate_z(t_vec3 v, float angle)
 {
-	const float cos_a = cos(angle);
-	const float sin_a = sin(angle);
+	const float cos_a = cosf(angle);
+	const float sin_a = sinf(angle);
 
 	return ((t_vec3){
 		v.x * cos_a - v.y * sin_a,

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 16:49:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/08 04:33:46 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/10 01:40:03 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,7 @@ void	render_renderable(t_render_context *ctx, t_renderable *r)
 
 	if (r->entity)
 	{
-		r->position = ft_vec3_add(r->entity->position, r->entity->pos_offset);
-		//r->position.y -= r->entity->radius.y;
+		r->position = r->entity->position;
 		r->rotation = r->entity->rotation;
 		if(r->entity->type == ENTITY_ENEMY)
 		{
@@ -104,6 +103,8 @@ void	render_renderable(t_render_context *ctx, t_renderable *r)
 		r->dirty = FALSE;
 	}
 	
+	t_vec2	vertex = (t_vec2){ 0, 0 };
+
 	i = -1;
 	while (++i < r->faces->len)
 	{
@@ -118,7 +119,6 @@ void	render_renderable(t_render_context *ctx, t_renderable *r)
 		if (face->mtl->wireframe || (!face->mtl->texture_map_set && !face->mtl->material_color_set))
 		{
 			face->mtl->material_color_set = TRUE;
-
 			face->mtl->material_color = face->mtl->wireframe ? r->wireframe_color : 0xFF555555;
 		}
 
@@ -140,10 +140,24 @@ void	render_renderable(t_render_context *ctx, t_renderable *r)
 		float it0 = get_light_intensity(ctx, r, r->pp_normals[face->normals_index[0] - 1], r->pp_vertices[face->vertices_index[0] - 1]);
 		float it1 = get_light_intensity(ctx, r, r->pp_normals[face->normals_index[1] - 1], r->pp_vertices[face->vertices_index[1] - 1]);
 		float it2 = get_light_intensity(ctx, r, r->pp_normals[face->normals_index[2] - 1], r->pp_vertices[face->vertices_index[2] - 1]);
+		
+		t_vec2 vertex0 = vertex;
+		t_vec2 vertex1 = vertex;
+		t_vec2 vertex2 = vertex;
+
+		if (r->vertex)
+		{
+			vertex0 = r->vertex->vertices[face->vertex_index[0] - 1];
+			vertex1 = r->vertex->vertices[face->vertex_index[1] - 1];
+			vertex2 = r->vertex->vertices[face->vertex_index[2] - 1];
+		}
+
 		process_triangle(ctx, face->mtl, (t_triangle) {
-			{ .pos = v0, .tex = r->vertex->vertices[face->vertex_index[0] - 1], .normal = r->pp_normals[face->normals_index[0] - 1], .light_color = it0 },
-			{ .pos = v1, .tex = r->vertex->vertices[face->vertex_index[1] - 1], .normal = r->pp_normals[face->normals_index[1] - 1], .light_color = it1 },
-			{ .pos = v2, .tex = r->vertex->vertices[face->vertex_index[2] - 1], .normal = r->pp_normals[face->normals_index[2] - 1], .light_color = it2 }
+			{ .pos = v0, .tex = vertex0, .normal = r->pp_normals[face->normals_index[0] - 1], .light_color = it0 },
+			{ .pos = v1, .tex = vertex1, .normal = r->pp_normals[face->normals_index[1] - 1], .light_color = it1 },
+			{ .pos = v2, .tex = vertex2, .normal = r->pp_normals[face->normals_index[2] - 1], .light_color = it2 }
 		});
 	}
+	if (r->child)
+		render_renderable(ctx, r->child);
 }

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 15:28:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/08 16:13:57 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/10 04:26:10 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,12 +168,12 @@ t_bool		obj_test(t_doom *doom)
 	// r.scale = (t_vec3){0.06, 0.06, 0.06};
 	// r.fixed = TRUE;
 	// append_renderables_array(&doom->renderables, r);
-/* 	set_obj_working_dir(doom, "assets/obj");
+	set_obj_working_dir(doom, "assets/obj");
 	lol = create_obj(doom, &r, "House2.obj");
-	r.position = (t_vec3){7, 0, 0};
+	r.position = (t_vec3){-10, 0, 0};
 	r.scale = (t_vec3){0.03, 0.03, 0.03};
 	r.fixed = TRUE;
-	append_renderables_array(&doom->renderables, r); */
+	append_renderables_array(&doom->renderables, r);
 	
 	// lol = create_obj(doom, &r, "skybox.obj");
 	// r.position = (t_vec3){0, 0, 0};

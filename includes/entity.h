@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 00:01:14 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/05 20:12:04 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/10 01:25:28 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ typedef struct		s_entity
 {
 	t_entity_type	type;
 	t_vec3			position;
-	t_vec3			pos_offset;
 	t_vec3			velocity;
 	t_vec3			rotation;
 	t_vec3			radius;
@@ -38,5 +37,7 @@ typedef struct		s_entity
 }					t_entity;
 
 void		entity_update(struct s_doom *doom, t_entity *entity, double dt);
+t_bool		create_enemy(struct s_doom *doom, t_renderable *r);
+void		compute_enemy_hitbox(t_renderable *r);
 
 #endif

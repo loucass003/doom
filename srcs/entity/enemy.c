@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/30 16:36:08 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/08 19:53:20 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/10 05:18:05 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,34 +16,26 @@
 #include "sprite.h"
 #include "entity.h"
 
-// t_collision		ray_hit_entity(t_renderables *renderables, t_ray *ray, t_entity *collided)
-// {
-// 	t_collision	min;
-// 	t_collision	hit;
-// 	int			i;
-// 	float		dist;
+void		compute_enemy_hitbox(t_renderable *r)
+{
+	compute_ellipsoid_hitbox(r, r->entity->position, r->entity->radius);
+}
 
-// 	min = (t_collision) { .collide = FALSE, .dist = -1.0 };
-// 	dist = INT_MAX;
-// 	i = -1;
-// 	while (++i < renderables->len)
-// 	{
-// 		t_renderable *r = &renderables->values[i];
-// 		if (!r->entity)
-// 			continue;
-// 		hit = ray_hit_aabb(ray, &(t_collide_aabb){
-// 			.min = ft_vec3_sub(r->entity->position, r->entity->radius),
-// 			.max = ft_vec3_add(r->entity->position, r->entity->radius)
-// 		});
-// 		if (hit.collide && hit.dist < dist)
-// 		{
-// 			dist = hit.dist;
-// 			collided = r->entity;
-// 			min = hit;
-// 		}
-// 	}
-// 	return (min);
-// }
+t_bool		create_enemy(t_doom *doom, t_renderable *r)
+{
+	if (!create_sprite(r, (t_mtl){ .texture_map = doom->textures.sprite, .texture_map_set = TRUE }, (t_vec2){ 8, 7 }))
+		return (FALSE);
+	set_current_cell(r, 0, 0);
+	r->scale = (t_vec3){ 5, 5, 5 };
+	r->entity = ft_memalloc(sizeof(t_entity));
+	r->entity->type = ENTITY_ENEMY;
+	r->entity->packet.doom = doom;
+	r->entity->radius = (t_vec3){ 1, 2.5, 1 };
+	r->show_hitbox = TRUE;
+	//r->entity->pos_offset.y = -r->entity->radius.y;
+	compute_enemy_hitbox(r);
+	return (TRUE);
+}
 
 void		entity_update_enemy(t_doom *doom, t_entity *entity, double dt)
 {

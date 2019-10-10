@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/08 15:53:09 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/10 05:23:28 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "doom.h"
 #include "octree.h"
 #include "sprite.h"
+#include "ellipsoid.h"
 
 t_line	lines[] = {
 	{ .a = { 0, 0 },  .b = { 500, 0 } },
@@ -83,27 +84,46 @@ void	init_bsp(t_doom *doom)
 	// 	append_renderables_array(&doom->renderables, wall);
 	// }
 
+	// t_renderable sprite;
+	// create_sprite(&sprite, (t_mtl){ .texture_map = doom->textures.sprite, .texture_map_set = TRUE }, (t_vec2){ 8, 7 });
+	// set_current_cell(&sprite, 0, 0);
+	// sprite.scale = (t_vec3){ 5, 6, 5 };
+	// //sprite.of.data.sprite->always_facing_player = FALSE;
+	// sprite.entity = ft_memalloc(sizeof(t_entity));
+	// //-152.831345 2.512500 -25.893129
+	// sprite.entity->position = (t_vec3){ -152.831345, 2.512500, -25.893129 };
+	// //sprite.entity->position = (t_vec3){ -25.893129, 2.512500, 152.831345 };
+	// sprite.entity->type = ENTITY_ENEMY;
+	// sprite.entity->packet.doom = doom;
+	// sprite.entity->radius = (t_vec3){ 1, 2.5f, 1 };
+	// sprite.entity->pos_offset.y = -2.5;
+	// // sprite.entity->velocity.x += 4;
+	// append_renderables_array(&doom->renderables, sprite);
 	t_renderable sprite;
-	create_sprite(&sprite, (t_mtl){ .texture_map = doom->textures.sprite, .texture_map_set = TRUE }, (t_vec2){ 8, 7 });
-	set_current_cell(&sprite, 0, 0);
-	sprite.scale = (t_vec3){ 5, 6, 5 };
-	//sprite.of.data.sprite->always_facing_player = FALSE;
-	sprite.entity = ft_memalloc(sizeof(t_entity));
-	//-152.831345 2.512500 -25.893129
-	sprite.entity->position = (t_vec3){ -152.831345, 2.512500, -25.893129 };
-	//sprite.entity->position = (t_vec3){ -25.893129, 2.512500, 152.831345 };
-	sprite.entity->type = ENTITY_ENEMY;
-	sprite.entity->packet.doom = doom;
-	sprite.entity->radius = (t_vec3){ 1, 2.5f, 1 };
-	sprite.entity->pos_offset.y = -2.5;
-	// sprite.entity->velocity.x += 4;
-	append_renderables_array(&doom->renderables, sprite);
-
 	create_sprite(&sprite, (t_mtl){ .texture_map = doom->textures.machin, .texture_map_set = TRUE }, (t_vec2){ 1, 1 });
 	// set_current_cell(&sprite, 0, 0);
 	sprite.scale = (t_vec3){ 5, 6, 5 };
+	sprite.position.y = sprite.scale.y / 2;
+	sprite.show_hitbox = TRUE;
+	sprite.hitbox_offset.y -= 1.5;
+	t_sprite *s = sprite.of.data.sprite;
+	s->hitbox_radius = (t_vec3){ 1.5, 2, 1.5 };
+	compute_sprite_hitbox(&sprite);
+	// sprite.child = malloc(sizeof(t_renderable));
+	// create_ellipsoid(sprite.child, 0xFFFF0000, (t_vec2){ 30, 30 }, s->radius);
+	// sprite.child->position = sprite.position;
+	// sprite.child->position.y += s->radius.y / 2;
+	// sprite.child->wireframe = TRUE;
+	// sprite.child->wireframe_color = 0xFFFF0000;
 	append_renderables_array(&doom->renderables, sprite);
 
+	t_renderable ellipsoid;
+	create_ellipsoid(&ellipsoid, 0xFFFF0000, (t_vec2){ 30, 30 }, (t_vec3){ 1, 1, 1 });
+	ellipsoid.position = (t_vec3){ 5, 0.5, 5 };
+	ellipsoid.scale = (t_vec3){ 1, 1, 1 };
+	ellipsoid.wireframe = TRUE;
+	ellipsoid.wireframe_color = 0xFFFF0000;
+	append_renderables_array(&doom->renderables, ellipsoid);
 	post_process_map(doom);
 }
 
@@ -127,6 +147,10 @@ int		main(void)
 		return (-1);
 	if (!(doom.renderables = create_renderables_array(50)))
 		return (-1);
+	if (!create_ellipsoid(&doom.sphere_primitive, 0xFFFF0000, (t_vec2){ 12, 12 }, (t_vec3){ 1, 1, 1 }))
+		return (-1);
+	post_process_obj(&doom, &doom.sphere_primitive);
+	//doom.sphere_primitive.octree = create_octree(&doom, &doom.sphere_primitive);
 	init_sdl(&doom);
 	obj_test(&doom);
 	init_bsp(&doom);

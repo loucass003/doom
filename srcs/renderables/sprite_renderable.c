@@ -6,13 +6,18 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/28 16:17:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/05 19:33:04 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/10 01:24:31 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "polygon.h"
 #include "sprite.h"
 #include "render.h"
+
+void		compute_sprite_hitbox(t_renderable *r)
+{
+	compute_ellipsoid_hitbox(r, r->position, r->of.data.sprite->hitbox_radius);
+}
 
 static t_bool	add_point(t_renderable *r, t_vec4 v, t_vec2 vertex)
 {
@@ -68,14 +73,14 @@ t_bool	create_sprite(t_renderable *r, t_mtl mtl, t_vec2 cells_count)
 		return (free_renderable(&r, FALSE));
 	if (!append_mtllist(&r->materials, mtl))
 		return (free_renderable(&r, FALSE));
-	if (!(r->pp_vertices = (t_vec4 *)malloc(sizeof(t_vec4) * 4)))
+	add_point(r, (t_vec4){ -0.5, -0.5, 0, 1 }, (t_vec2){ 1, 0 });
+	add_point(r, (t_vec4){ 0.5, -0.5, 0, 1 }, (t_vec2){ 1, 1 });
+	add_point(r, (t_vec4){ 0.5, 0.5, 0, 1 }, (t_vec2){ 0, 1 });
+	add_point(r, (t_vec4){ -0.5, 0.5, 0, 1 }, (t_vec2){ 0, 0 });
+	if (!(r->pp_vertices = (t_vec4 *)malloc(sizeof(t_vec4) * r->vertices->len)))
 		return (FALSE);
-	if (!(r->pp_normals = (t_vec3 *)malloc(sizeof(t_vec3) * 4)))
+	if (!(r->pp_normals = (t_vec3 *)malloc(sizeof(t_vec3) * r->normals->len)))
 		return (FALSE);
-	add_point(r, (t_vec4){ -0.5, 0, 0, 1 }, (t_vec2){ 1, 0 });
-	add_point(r, (t_vec4){ 0.5, 0, 0, 1 }, (t_vec2){ 1, 1 });
-	add_point(r, (t_vec4){ 0.5, 1, 0, 1 }, (t_vec2){ 0, 1 });
-	add_point(r, (t_vec4){ -0.5, 1, 0, 1 }, (t_vec2){ 0, 0 });
 	triangulate_polygon(r);
 	r->dirty = TRUE;
 	r->fixed = FALSE;

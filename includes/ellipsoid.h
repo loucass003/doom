@@ -1,24 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   player.c                                           :+:      :+:    :+:   */
+/*   ellipsoid.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/08/29 17:43:35 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/10 02:17:11 by llelievr         ###   ########.fr       */
+/*   Created: 2019/10/09 22:02:47 by llelievr          #+#    #+#             */
+/*   Updated: 2019/10/09 22:41:11 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "player.h"
+#ifndef ELLIPSOID_H
+# define ELLIPSOID_H
 
-void				update_player_camera(t_player *player)
+# include <libft.h>
+
+typedef struct	s_ellipsoid
 {
-	t_camera		*camera;
+	t_vec3	radius;
+}				t_ellipsoid;
 
-	camera = &player->camera;
-	camera->pos = player->entity.position;
-	//camera->pos.y += 1;
-	camera->rotation = player->entity.rotation;
-	camera_update_maxtrix(&player->camera);
-}
+t_bool	create_ellipsoid(t_renderable *r, int color, t_vec2 res, t_vec3 radius);
+
+#endif
