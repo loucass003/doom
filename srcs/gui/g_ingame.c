@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/10 21:56:00 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/11 00:59:48 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ void	g_ingame_render(t_gui *self, t_doom *doom)
 			sphere->wireframe = TRUE;
 			sphere->wireframe_color = 0xFFFF0000;
 			sphere->dirty = TRUE;
+			sphere->double_faced = FALSE;
 			render_renderable(&doom->main_context, sphere);
 		}
 	}

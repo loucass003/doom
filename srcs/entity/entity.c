@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 22:00:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/10 05:30:41 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/11 01:02:23 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,6 @@ void		check_collision(t_entity *entity, t_collide_aabb area)
 		r = entity->packet.doom->renderables->values[i];
 		if (r.entity && entity == r.entity)
 			continue;
-		
 		new_area = area;
 		if (r.has_hitbox && r.hitbox.type == COLLIDE_ELLIPSOID)
 		{

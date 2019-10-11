@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/30 16:36:08 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/10 23:29:25 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/11 02:04:27 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "render.h"
 #include "sprite.h"
 #include "entity.h"
+#include <sys/random.h>
 
 void		compute_enemy_hitbox(t_renderable *r)
 {
@@ -44,32 +45,56 @@ void		entity_update_enemy(t_doom *doom, t_entity *entity, double dt)
 	entity->t0 += 5 * dt;
 	t_vec3 dir = ft_vec3_sub(doom->player.entity.position, entity->position);
  	t_vec3 norm_dir = ft_vec3_norm(dir);
-	t_vec3 e_dir = vec3_rotate((t_vec3){0, 0, -1}, entity->rotation);
-	float f = acosf(ft_vec3_dot(norm_dir, e_dir));
-	float dist = ft_vec3_len(dir);
-	if (f < 1.59 && dist < 50)
+	t_ray ray = (t_ray){ .origin = doom->player.entity.position, .direction = ft_vec3_inv(norm_dir) };
+	t_vec3 view = ft_vec3_sub(doom->player.entity.position, entity->position);
+	view = vec3_rotate(view, (t_vec3){ 0, -entity->rotation.y, 0 });
+	float a = atan2(view.z, view.x);
+	entity->hit_data.collide = FALSE;
+	
+	if ((a < 1.5 && a > -1.5) || entity->focus)
+		entity->hit_data = ray_hit_world(doom, doom->renderables, ray);
+	if (entity->hit_data.collide && entity->hit_data.renderable && entity->hit_data.renderable->entity == entity && entity->hit_data.dist < 50)
 		entity->focus = TRUE;
-	else if (dist > 50)
+	else
+	{
 		entity->focus = FALSE;
+		entity->animation_step = 0;
+	}
 	if (entity->focus)
 	{
 		entity->rotation.y = doom->player.camera.rotation.y + M_PI_2;
-		if (dist > 15)
+		if (entity->hit_data.dist > 20)
 			entity->velocity = ft_vec3_add(entity->velocity, ft_vec3_mul_s(norm_dir, 10));
+		else
+			entity->animation_step = 6;
 	}
+
 	//entity->velocity = ft_vec3_mul_s(entity->velocity, 0.8);
 	if (entity->t0 > 1)
 	{
+		entity->shooting = FALSE;
 		entity->t0 = 0;
 		walking = ft_vec3_dot(entity->velocity, entity->velocity) != 0;
-		if (walking)
+		if (entity->focus)
+		{
+			entity->t1++;
+			if (entity->t1 >= 5 && !walking)
+			{
+				entity->shooting = TRUE;
+				entity->t1 = 0;
+				uint8_t u;
+				getrandom(&u, 1, GRND_RANDOM);
+				if (u > 100)
+					doom->player.entity.life -= 0.1;
+			}
+		}
+		
+		if (walking && entity->hit_data.dist > 20)
 		{
 			entity->animation_step++;
 			if (entity->animation_step == 5)
 				entity->animation_step = walking;
 		}
-		else
-			entity->animation_step = 0;
 	}
 	entity->velocity.y = 15;
 }

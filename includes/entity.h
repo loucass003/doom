@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 00:01:14 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/10 20:48:34 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/11 01:55:14 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,11 @@ typedef struct		s_entity
 	float			life;
 	float			max_life;
 	float			t0;
+	float			t1;
 	int				animation_step;
 	t_bool			focus;
+	t_collision		hit_data;
+	t_bool			shooting;
 }					t_entity;
 
 void		entity_update(struct s_doom *doom, t_entity *entity, double dt);
