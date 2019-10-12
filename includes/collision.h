@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 01:15:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/10 23:01:30 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/12 00:12:41 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ typedef struct		s_physics_data
 	t_bool			grounded;
 	float			dt;
 	size_t			depth;
+	struct s_renderable	*r;
 	struct s_doom	*doom;
 }					t_physics_data;
 
@@ -123,7 +124,7 @@ t_vec3				vec3_rotate(t_vec3 v, t_vec3 rot);
 t_collision			triangle_hit_aabb(t_collide_triangle *triangle,  t_collide_aabb *aabb);
 t_bool				get_obb_collision(t_obb_box a, t_obb_box b);
 
-t_physics_data		*check_triangle(t_physics_data *packet, t_vec3 p1, t_vec3 p2, t_vec3 p3);
+t_physics_data		*check_triangle(struct s_renderable *r, t_physics_data *packet, t_vec3 p1, t_vec3 p2, t_vec3 p3);
 
 
 

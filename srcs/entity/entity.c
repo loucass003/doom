@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 22:00:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/11 01:02:23 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/12 03:21:38 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ void		collide_with_face(int face, void *p)
 	f = &data->r->faces->values[face];
 	// if (f->hidden)
 	// 	return;
-	check_triangle(&data->entity->packet, 
+	check_triangle(data->r,
+		&data->entity->packet, 
 		ft_vec3_div(vec4_to_3(data->r->pp_vertices[f->vertices_index[0] - 1]), data->entity->packet.e_radius),
 		ft_vec3_div(vec4_to_3(data->r->pp_vertices[f->vertices_index[1] - 1]), data->entity->packet.e_radius),
 		ft_vec3_div(vec4_to_3(data->r->pp_vertices[f->vertices_index[2] - 1]), data->entity->packet.e_radius)
@@ -141,9 +142,10 @@ void		check_collision(t_entity *entity, t_collide_aabb area)
 	while (++i < entity->packet.doom->renderables->len)
 	{
 		r = entity->packet.doom->renderables->values[i];
-		if (r.entity && entity == r.entity)
+		if (r.of.type == RENDERABLE_ENTITY && r.of.data.entity == entity)
 			continue;
 		new_area = area;
+		t_physics_data data = entity->packet;
 		if (r.has_hitbox && r.hitbox.type == COLLIDE_ELLIPSOID)
 		{
 			t_collide_ellipsoid ellipsoid = r.hitbox.data.ellipsoid;
@@ -154,7 +156,10 @@ void		check_collision(t_entity *entity, t_collide_aabb area)
 			transform_renderable(sphere);
 			new_area.min = point_to_local(new_area.min, ellipsoid.origin, (t_vec3){0, 0, 0}, ellipsoid.radius);
 			new_area.max = point_to_local(new_area.max, ellipsoid.origin, (t_vec3){0, 0, 0}, ellipsoid.radius);
+		
 			collide_with_octree(sphere, entity, sphere->octree, new_area);
+			if (data.distance > entity->packet.distance)
+				entity->packet.r = &entity->packet.doom->renderables->values[i];
 		}
 		else if (r.octree && r.faces->len > 100)
 		{
@@ -168,12 +173,20 @@ void		check_collision(t_entity *entity, t_collide_aabb area)
 			while (++j < r.faces->len)
 				collide_with_face(j, &(struct s_entity_collision_check){ .entity = entity, .r = &r });
 		}
+		if (entity->packet.r && entity->packet.r->of.type == RENDERABLE_ITEMSTACK)
+		{
+			if (entity_hit_itemstack(entity, entity->packet.r->of.data.itemstack))
+			{
+				printf("AMOUNT %d\n", entity->packet.r->of.data.itemstack->amount);
+				if (entity->packet.r->of.data.itemstack->amount <= 0)
+				{
+					splice_renderables_array(entity->packet.doom->renderables, i, 1);
+					i--;
+				}
+				entity->packet = data;
+			}
+		}
 	}
-	// if (entity != &entity->packet.doom->player.entity)
-	// {
-	// 	t_entity *player = &entity->packet.doom->player.entity;
-	// 	collide_with_entity(entity, (t_collide_ellipsoid){ .origin = player->position, .radius = player->radius }, player->velocity);
-	// }
 }
 
 // void		check_grounded(t_entity *entity)

@@ -7,11 +7,15 @@
 #include "polygon.h"
 #include "entity.h"
 #include "camera.h"
+#include "item.h"
+
+#define PLAYER_INV_SIZE (8)
 
 typedef struct					s_player
 {
 	t_camera		camera;
 	t_entity		entity;
+	t_itemstack		item[PLAYER_INV_SIZE]; 
 }								t_player;
 
 t_ray				create_shoot_ray(t_player player, t_vec3 direction);

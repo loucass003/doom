@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/10 05:23:28 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/12 03:23:26 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void	init_bsp(t_doom *doom)
 	sprite.position.y = sprite.scale.y / 2;
 	sprite.show_hitbox = TRUE;
 	sprite.hitbox_offset.y -= 1.5;
-	t_sprite *s = sprite.of.data.sprite;
+	t_sprite *s = sprite.sprite;
 	s->hitbox_radius = (t_vec3){ 1.5, 2, 1.5 };
 	compute_sprite_hitbox(&sprite);
 	// sprite.child = malloc(sizeof(t_renderable));
@@ -124,6 +124,20 @@ void	init_bsp(t_doom *doom)
 	ellipsoid.wireframe = TRUE;
 	ellipsoid.wireframe_color = 0xFFFF0000;
 	append_renderables_array(&doom->renderables, ellipsoid);
+
+	t_renderable itemstack;
+	t_item *weapon = create_item_weapon(doom->textures.gun0, (SDL_Rect){ 217, 151, 120, 120 }, WEAPON_GUN);
+	create_itemstack_renderable(&itemstack, weapon, 1);
+	itemstack.position = (t_vec3){ -7, 1.5, 58 };
+	append_renderables_array(&doom->renderables, itemstack);
+	create_itemstack_renderable(&itemstack, weapon, 1);
+	itemstack.position = (t_vec3){ -10, 1.5, 58 };
+	append_renderables_array(&doom->renderables, itemstack);
+	weapon = create_item_weapon(doom->textures.gun0, (SDL_Rect){ 217, 151, 120, 120 }, WEAPON_AR);
+	create_itemstack_renderable(&itemstack, weapon, 1);
+	itemstack.position = (t_vec3){ -13, 1.5, 58 };
+	append_renderables_array(&doom->renderables, itemstack);
+
 	post_process_map(doom);
 }
 

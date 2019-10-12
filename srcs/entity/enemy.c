@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/30 16:36:08 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/11 02:04:27 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/11 21:35:38 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@
 
 void		compute_enemy_hitbox(t_renderable *r)
 {
-	compute_ellipsoid_hitbox(r, r->entity->position, r->entity->radius);
+	const t_entity	*entity = r->of.data.entity;
+
+	compute_ellipsoid_hitbox(r, entity->position, entity->radius);
 }
 
 t_bool		create_enemy(t_doom *doom, t_renderable *r)
@@ -28,10 +30,12 @@ t_bool		create_enemy(t_doom *doom, t_renderable *r)
 		return (FALSE);
 	set_current_cell(r, 0, 0);
 	r->scale = (t_vec3){ 5, 5, 5 };
-	r->entity = ft_memalloc(sizeof(t_entity));
-	r->entity->type = ENTITY_ENEMY;
-	r->entity->packet.doom = doom;
-	r->entity->radius = (t_vec3){ 1, 2.5, 1 };
+	r->of.type = RENDERABLE_ENTITY;
+	if (!(r->of.data.entity = ft_memalloc(sizeof(t_entity))))
+		return (FALSE);
+	r->of.data.entity->type = ENTITY_ENEMY;
+	r->of.data.entity->packet.doom = doom;
+	r->of.data.entity->radius = (t_vec3){ 1, 2.5, 1 };
 	//r->show_hitbox = TRUE;
 	//r->entity->pos_offset.y = -r->entity->radius.y;
 	compute_enemy_hitbox(r);
@@ -53,7 +57,7 @@ void		entity_update_enemy(t_doom *doom, t_entity *entity, double dt)
 	
 	if ((a < 1.5 && a > -1.5) || entity->focus)
 		entity->hit_data = ray_hit_world(doom, doom->renderables, ray);
-	if (entity->hit_data.collide && entity->hit_data.renderable && entity->hit_data.renderable->entity == entity && entity->hit_data.dist < 50)
+	if (entity->hit_data.collide && entity->hit_data.renderable && entity->hit_data.renderable->of.data.entity == entity && entity->hit_data.dist < 50)
 		entity->focus = TRUE;
 	else
 	{

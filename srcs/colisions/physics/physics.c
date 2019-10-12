@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/15 23:50:58 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/05 00:01:27 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/12 01:29:55 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,11 @@ float				clamp(float min, float max, float v)
 	return (fmin(max, fmax(min, v)));
 }
 
-t_physics_data		*check_triangle(t_physics_data *packet, t_vec3 p1, t_vec3 p2, t_vec3 p3)
+t_physics_data		*check_triangle(t_renderable *r, t_physics_data *packet, t_vec3 p1, t_vec3 p2, t_vec3 p3)
 {
 	const	t_plane plane = triangle_to_plane(p1, p2, p3);
 	
+	packet->r = NULL;
 	if (!is_front_facing(plane, packet->e_norm_velocity))
 		return packet;
 	
@@ -247,6 +248,7 @@ t_physics_data		*check_triangle(t_physics_data *packet, t_vec3 p1, t_vec3 p2, t_
 			packet->distance = dist_to_coll;
 			packet->intersect_point = colision_point;
 			packet->found_colision = TRUE;
+			packet->r = r;
 			// packet->t = t;
 			// packet->a = p1;
 			// packet->b = p2;

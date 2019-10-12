@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 21:21:40 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/29 16:24:25 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/12 03:06:14 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void				apply_surface_blended(t_img *img, SDL_Surface *s,
 						SDL_Rect src, SDL_Rect dst);
 void				apply_surface(t_img *img, SDL_Surface *s,
 						SDL_Rect src, SDL_Rect dst);
+void				fill_rect(t_img *img, SDL_Rect bounds, int color);
 
 #endif
 

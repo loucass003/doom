@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 16:49:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/11 01:58:51 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/11 21:40:05 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,32 +71,35 @@ void	render_renderable(t_render_context *ctx, t_renderable *r)
 	int		i;
 	t_face	*face;
 
-	if (r->entity)
+	if (r->of.type == RENDERABLE_ENTITY)
 	{
-		r->position = r->entity->position;
-		r->rotation = r->entity->rotation;
-		if(r->entity->type == ENTITY_ENEMY)
+		t_entity *entity = r->of.data.entity;
+		r->position = entity->position;
+		r->rotation = entity->rotation;
+		r->dirty = TRUE;
+		if(entity->type == ENTITY_ENEMY)
 		{
 			t_sprite	*sprite;
 
-			if (r->of.type == RENDERABLE_SPRITE)
+			if (r->sprite)
 			{
-				sprite = r->of.data.sprite;
-				t_vec3 view = ft_vec3_sub(ctx->camera->pos, r->entity->position);
-				view = vec3_rotate(view, (t_vec3){ 0, -r->entity->rotation.y, 0 });
+				sprite = r->sprite;
+				t_vec3 view = ft_vec3_sub(ctx->camera->pos, entity->position);
+				view = vec3_rotate(view, (t_vec3){ 0, -entity->rotation.y, 0 });
 				float a = atan2(view.z, view.x);
 				float f = round(a * (4 / M_PI));
 				int texture = f;
-				if (r->entity->animation_step == 6)
-					texture = r->entity->shooting ? 2 : 1;
-				set_current_cell(r, texture, r->entity->animation_step);
+				if (entity->animation_step == 6)
+					texture = entity->shooting ? 2 : 1;
+				set_current_cell(r, texture, entity->animation_step);
 			}
 		}
+		
 	}
 
-	if (r->dirty || (r->of.type == RENDERABLE_SPRITE && r->of.data.sprite->always_facing_player))
+	if (r->dirty || (r->sprite && r->sprite->always_facing_player))
 	{
-		if (r->of.type == RENDERABLE_SPRITE && r->of.data.sprite->always_facing_player)
+		if (r->sprite && r->sprite->always_facing_player)
 			r->rotation.y = ctx->camera->rotation.y;
 		transform_renderable(r);
 		r->dirty = FALSE;

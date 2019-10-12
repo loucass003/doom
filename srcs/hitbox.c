@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/10 01:05:07 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/10 05:22:19 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/11 21:30:14 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "collision.h"
 #include "render.h"
 #include "entity.h"
+#include "sprite.h"
 
 void		compute_ellipsoid_hitbox(t_renderable *r, t_vec3 pos, t_vec3 radius)
 {
@@ -33,8 +34,8 @@ void		update_hitbox(t_renderable *r)
 {
 	if (!r->has_hitbox)
 		return ;
-	if (r->entity && r->entity->type == ENTITY_ENEMY)
+	if (r->of.type == RENDERABLE_ENTITY && r->of.data.entity->type == ENTITY_ENEMY)
 		compute_enemy_hitbox(r);
-	else if (r->of.data.sprite)
+	else if (r->sprite)
 		compute_sprite_hitbox(r);
 }

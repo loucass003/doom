@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:16:19 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/11 00:12:08 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/11 21:22:42 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include "arrays.h"
 # include "renderable_of.h"
 # include "collision.h"
+
 
 typedef struct		s_face
 {
@@ -74,7 +75,7 @@ typedef struct		s_renderable
 	t_2dvertices			*vertex;
 	t_3dvertices			*normals;
 	t_mtllist				*materials;
-	struct s_entity			*entity;
+	struct s_sprite			*sprite;
 	t_vec3					position;
 	t_vec3					rotation;
 	t_vec3					scale;

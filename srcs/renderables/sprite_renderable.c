@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/28 16:17:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/10 23:35:38 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/11 21:24:47 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 void		compute_sprite_hitbox(t_renderable *r)
 {
-	compute_ellipsoid_hitbox(r, r->position, r->of.data.sprite->hitbox_radius);
+	compute_ellipsoid_hitbox(r, r->position, r->sprite->hitbox_radius);
 }
 
 static t_bool	add_point(t_renderable *r, t_vec4 v, t_vec2 vertex)
@@ -38,9 +38,9 @@ void	set_current_cell(t_renderable *r, int x, int y)
 	t_vec2		pos;
 
 	mtl = &r->materials->values[0];
-	if (r->of.type != RENDERABLE_SPRITE || !mtl->texture_map_set)
+	if (!r->sprite || !mtl->texture_map_set)
 		return ;
-	sprite = r->of.data.sprite;
+	sprite = r->sprite;
 	pos = (t_vec2){ x, sprite->cells_count.y - 1 - y };
 	div = (t_vec2){ mtl->texture_map->w / sprite->cells_count.x, mtl->texture_map->h / sprite->cells_count.y };
 	sprite->is_spritesheet = TRUE;
@@ -56,11 +56,11 @@ void	set_current_cell(t_renderable *r, int x, int y)
 t_bool	create_sprite(t_renderable *r, t_mtl mtl, t_vec2 cells_count)
 {
 	ft_bzero(r, sizeof(t_renderable));
-	r->of.type = RENDERABLE_SPRITE;
-	if (!(r->of.data.sprite = ft_memalloc(sizeof(t_sprite))))
+	r->of.type = RENDERABLE_UNKNOWN;
+	if (!(r->sprite = ft_memalloc(sizeof(t_sprite))))
 		return (FALSE);
-	r->of.data.sprite->always_facing_player = TRUE;
-	r->of.data.sprite->cells_count = cells_count;
+	r->sprite->always_facing_player = TRUE;
+	r->sprite->cells_count = cells_count;
 	if(!(r->vertices = create_4dvertices_array(4)))
 		return (free_renderable(&r, FALSE));
 	if(!(r->vertex = create_2dvertices_array(4)))

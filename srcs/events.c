@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:14:55 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/11 00:39:44 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/11 21:54:02 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,12 @@ static void	events_window(t_doom *doom, SDL_Event *event)
 		if (hit.collide)
 		{
 			t_renderable *r = hit.renderable;
-			if (r && !r->entity)
+			if (r && r->of.type != RENDERABLE_ENTITY)
 			{
 				t_renderable enemy;
 				create_enemy(doom, &enemy);
-				enemy.entity->position = hit.point;
-				enemy.entity->position.y += enemy.entity->radius.y;
+				enemy.of.data.entity->position = hit.point;
+				enemy.of.data.entity->position.y += enemy.of.data.entity->radius.y;
 				append_renderables_array(&doom->renderables, enemy);
 			}
 		}
