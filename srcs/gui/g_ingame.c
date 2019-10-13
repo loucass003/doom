@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/12 03:17:04 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/12 19:26:00 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ void	g_ingame_render(t_gui *self, t_doom *doom)
 		if (is->of)
 		{
 			apply_surface_blended(doom->main_context.image, is->of->image, is->of->bounds, (SDL_Rect){ 10, 50 + i * 60, 50, 50 });
+			if (is->amount <= 1)
+				continue;
 			const SDL_Color	color = {255, 255, 255, 0};
 			SDL_Surface		*text;
 
