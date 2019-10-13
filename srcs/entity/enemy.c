@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/30 16:36:08 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/11 21:35:38 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/13 18:37:03 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,8 @@ void		entity_update_enemy(t_doom *doom, t_entity *entity, double dt)
 			{
 				entity->shooting = TRUE;
 				entity->t1 = 0;
-				uint8_t u;
-				getrandom(&u, 1, GRND_RANDOM);
+				uint8_t u = 120;
+				//getrandom(&u, 1, GRND_RANDOM);
 				if (u > 100)
 					doom->player.entity.life -= 0.1;
 			}
