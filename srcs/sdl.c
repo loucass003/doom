@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 20:10:35 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/11 23:30:11 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/14 15:21:01 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ static t_bool	load_textures(t_doom *doom)
 	if (!(doom->textures.machin = SDL_ConvertSurfaceFormat(IMG_Load("assets/textures/sprite.png"), SDL_PIXELFORMAT_ARGB8888, 0)))
 		return (FALSE);  
 	if (!(doom->textures.gun0 = SDL_ConvertSurfaceFormat(IMG_Load("assets/textures/gun0.png"), SDL_PIXELFORMAT_ARGB8888, 0)))
+		return (FALSE);  
+	if (!(doom->textures.ammo1 = SDL_ConvertSurfaceFormat(IMG_Load("assets/textures/ammo1.png"), SDL_PIXELFORMAT_ARGB8888, 0)))
 		return (FALSE);  
 	return (TRUE);
 }

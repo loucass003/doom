@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:14:55 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/11 21:54:02 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/14 15:37:06 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,15 @@ static void	events_window(t_doom *doom, SDL_Event *event)
 	if (event->type == SDL_KEYDOWN && (key == SDL_SCANCODE_SEMICOLON))
 	{
 		SDL_SetRelativeMouseMode(SDL_FALSE);
+	}
+
+	if (event->type == SDL_KEYDOWN && (key == SDL_SCANCODE_UP || key == SDL_SCANCODE_DOWN))
+	{
+		doom->player.selected_slot += (key == SDL_SCANCODE_DOWN ? 1 : -1);
+		if (doom->player.selected_slot < 0)
+			doom->player.selected_slot = 7;
+		if (doom->player.selected_slot > 7)
+			doom->player.selected_slot = 0;
 	}
 }
 

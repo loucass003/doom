@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 20:30:43 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/12 03:23:04 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/14 15:18:13 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ typedef struct		s_itemstack
 t_bool				create_itemstack_renderable(t_renderable *r, t_item *item, int amount);
 t_item				*create_item(t_item_type type, SDL_Surface *image, SDL_Rect bounds, int max_stack_size);
 t_item				*create_item_weapon(SDL_Surface *image, SDL_Rect bounds, t_weapon_type type);
+t_item				*create_item_ammo(SDL_Surface *image);
 t_bool				entity_hit_itemstack(struct s_entity *entity, t_itemstack *is);
 
 #endif

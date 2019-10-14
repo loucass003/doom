@@ -15,7 +15,8 @@ typedef struct					s_player
 {
 	t_camera		camera;
 	t_entity		entity;
-	t_itemstack		item[PLAYER_INV_SIZE]; 
+	t_itemstack		item[PLAYER_INV_SIZE];
+	int				selected_slot;
 }								t_player;
 
 t_ray				create_shoot_ray(t_player player, t_vec3 direction);

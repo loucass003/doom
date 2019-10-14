@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 20:16:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/12 03:24:34 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/14 16:18:45 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,14 @@ t_item	*create_item(t_item_type type, SDL_Surface *image, SDL_Rect bounds, int m
 	return (item);
 }
 
+// SDL_Rect	get_weapon_animation_cell(int x, int y, t_item *item)
+// {
+// 	if (item->type != ITEM_WEAPON)
+// 		return (SDL_Rect){ 0, 0, item->image->w, item->image->h };
+// 	if (item->data.weapon.type == WEAPON_GUN)
+// 		return 
+// }
+
 t_item	*create_item_weapon(SDL_Surface *image, SDL_Rect bounds, t_weapon_type type)
 {
 	t_item	*weapon;
@@ -39,6 +47,15 @@ t_item	*create_item_weapon(SDL_Surface *image, SDL_Rect bounds, t_weapon_type ty
 	weapon->data.weapon.type = type;
 	weapon->data.weapon.damage = 0.3;
 	return (weapon);
+}
+
+t_item	*create_item_ammo(SDL_Surface *image)
+{
+	t_item	*ammo;
+	
+	if (!(ammo = create_item(ITEM_AMMO, image, (SDL_Rect){ 0, 0, image->w, image->h }, 500)))
+		return (NULL);
+	return (ammo);
 }
 
 t_bool	create_itemstack_renderable(t_renderable *r, t_item *item, int amount)
@@ -103,7 +120,8 @@ t_bool				entity_hit_itemstack(t_entity *entity, t_itemstack *is)
 	if (inv_is->of && inv_is->of->type == ITEM_WEAPON 
 		&& inv_is->of->data.weapon.type == is->of->data.weapon.type)
 		return (TRUE);
-	else if ((s = get_empty_slot(&entity->packet.doom->player)) == -1)
+	else if (inv_is->of && inv_is->of->type == ITEM_WEAPON 
+		&& (s = get_empty_slot(&entity->packet.doom->player)) == -1)
 		return (TRUE); 
 	inv_is = &entity->packet.doom->player.item[s];
 	inv_is->of = is->of;

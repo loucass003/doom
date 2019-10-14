@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/12 19:26:00 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/14 15:35:01 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ void	g_ingame_render(t_gui *self, t_doom *doom)
 	while (++i < PLAYER_INV_SIZE)
 	{
 		t_itemstack		*is = &doom->player.item[i];
+		if (i == doom->player.selected_slot)
+			fill_rect(doom->main_context.image, (SDL_Rect){ 8, 48 + i * 60, 54, 54 }, 0xFFFFFF00);
 		fill_rect(doom->main_context.image, (SDL_Rect){ 10, 50 + i * 60, 50, 50 }, 0xFFFF0000);
 		if (is->of)
 		{

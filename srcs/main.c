@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/12 19:26:50 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/14 15:54:28 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,14 +127,14 @@ void	init_bsp(t_doom *doom)
 
 	t_renderable itemstack;
 	t_item *weapon = create_item_weapon(doom->textures.gun0, (SDL_Rect){ 217, 151, 120, 120 }, WEAPON_GUN);
+	t_item *ammo = create_item_ammo(doom->textures.ammo1);
 	create_itemstack_renderable(&itemstack, weapon, 1);
 	itemstack.position = (t_vec3){ -7, 1.5, 58 };
 	append_renderables_array(&doom->renderables, itemstack);
-	create_itemstack_renderable(&itemstack, weapon, 1);
+	create_itemstack_renderable(&itemstack, ammo, 32);
 	itemstack.position = (t_vec3){ -10, 1.5, 58 };
 	append_renderables_array(&doom->renderables, itemstack);
-	weapon = create_item_weapon(doom->textures.gun0, (SDL_Rect){ 217, 151, 120, 120 }, WEAPON_AR);
-	create_itemstack_renderable(&itemstack, weapon, 1);
+	create_itemstack_renderable(&itemstack, ammo, 33);
 	itemstack.position = (t_vec3){ -13, 1.5, 58 };
 	append_renderables_array(&doom->renderables, itemstack);
 
