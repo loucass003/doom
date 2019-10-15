@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:14:55 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/14 15:37:06 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/15 18:47:39 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,12 @@ static void	events_window(t_doom *doom, SDL_Event *event)
 		doom->guis[doom->current_gui].on_event(&doom->guis[doom->current_gui], event, doom);
 	if (event->type == SDL_QUIT)
 		doom->running = FALSE;
+	if (event->type == SDL_MOUSEBUTTONDOWN)
+		{
+			t_itemstack	*is = &doom->player.item[doom->player.selected_slot];
+			if (is->of && is->of->on_use)
+				is->of->on_use(doom, is);
+		}
 	if (event->type == SDL_MOUSEBUTTONUP && doom->current_gui >= 0)
 	{
 		for (int i = 0; i < doom->guis[doom->current_gui].component_count; i++)
@@ -154,6 +160,7 @@ void	hook_events(t_doom *doom)
 		// 		r->wireframe = TRUE;
 		// 	}
 		// }
+		
 	}
 	while (SDL_PollEvent(&event))
 		events_window(doom, &event);

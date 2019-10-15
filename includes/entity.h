@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 00:01:14 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/11 01:55:14 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/15 18:57:28 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,10 @@ typedef struct		s_entity
 	float			max_life;
 	float			t0;
 	float			t1;
+	t_bool			diying;
+	t_bool			died;
 	int				animation_step;
+	int				diying_step;
 	t_bool			focus;
 	t_collision		hit_data;
 	t_bool			shooting;

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/14 15:13:57 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/15 19:46:29 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ typedef struct		s_textures
 	SDL_Surface		*sprite;
 	SDL_Surface		*machin;
 	SDL_Surface		*gun0;
+	SDL_Surface		*medkit;
 	SDL_Surface		*ammo1;
 }					t_textures;
 

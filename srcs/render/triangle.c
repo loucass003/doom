@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 01:17:41 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/07 18:47:16 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/15 01:40:02 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void scanline2(t_render_context *ctx, t_mtl *mtl, t_pixel p, float t, t_vertex s
 	{
 	 	float lt_color = (1.0f - t) * start.light_color + t * end.light_color;
 		ur_color c;
-		uint8_t a = ft_max(AMBIANT_LIGHT, lt_color);
+		float a = ft_max(AMBIANT_LIGHT, lt_color) / 255.0;
 		if (mtl->lightmap || mtl->texture_map_set)
 		{
 			float w = 1. / vert.pos.w;
@@ -70,7 +70,7 @@ void scanline2(t_render_context *ctx, t_mtl *mtl, t_pixel p, float t, t_vertex s
 			x = vert.tex.x > 0 ? (mtl->texture_map->w - 1) - x : x;
 			y = vert.tex.y < 0 ? (mtl->texture_map->h - 1) - y : y;
 			if (mtl->lightmap)
-				a = mtl->lightmap[y * (mtl->texture_map->w) + x];
+				a = mtl->lightmap[y * (mtl->texture_map->w) + x] / 255.0;
 			if (mtl->texture_map_set)
 				c.color = get_surface_pixel(mtl->texture_map, x, y);
 			if (c.argb.a == 0) //TODO we need to know this is a sprite
@@ -79,7 +79,11 @@ void scanline2(t_render_context *ctx, t_mtl *mtl, t_pixel p, float t, t_vertex s
 		else if (mtl->material_color_set)
 			c.color = mtl->material_color;
 		if (!mtl->transparent)
-			c.argb.a = a;
+		{
+			c.argb.r *= a;
+			c.argb.g *= a;
+			c.argb.b *= a;
+		}
 		ctx->image->pixels[p.y * (int)S_WIDTH + p.x] = c.color;
 		*buff = vert.pos.w;
 	}

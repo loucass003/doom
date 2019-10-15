@@ -71,6 +71,7 @@ SRC+=audio.c
 SRC+=post_processing.c
 SRC+=item.c
 SRC+=player.c
+SRC+=gui/g_gameover.c
 SRC+=gui/g_editor.c
 SRC+=gui/gui.c
 SRC+=gui/g_ingame.c

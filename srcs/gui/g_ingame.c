@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/14 15:35:01 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/15 20:35:14 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,12 @@ void	g_ingame_on_enter(t_gui *self, t_doom *doom)
 	((t_progress *)self->components[0])->fg_color = 0xFF00FF00;
 }
 
-int i = 0;
+
 
 void	g_ingame_render(t_gui *self, t_doom *doom)
 {
+	static float ticks = 0;
+
 	doom->main_context.image = &doom->screen;
 	for (int i = 0; i < S_WIDTH * S_HEIGHT; i++)
 		doom->main_context.buffer[i] = 0;
@@ -69,6 +71,7 @@ void	g_ingame_render(t_gui *self, t_doom *doom)
 	}
 
 	doom->main_context.image->pixels[(doom->main_context.image->height / 2) * doom->main_context.image->width + doom->main_context.image->width / 2 ] = 0xFF00FF00;
+	draw_circle(doom->main_context.image, (t_pixel){ S_WIDTH_2, S_HEIGHT_2, 0xFF00FF00 }, 10);
 	doom->main_context.image = &doom->screen_transparency;
 
 
@@ -96,6 +99,31 @@ void	g_ingame_render(t_gui *self, t_doom *doom)
 		}
 	}
 
+	ticks += doom->stats.delta * 30.;
+
+	t_itemstack	*is = &doom->player.item[doom->player.selected_slot]; 
+
+	if (is->of && is->of->type == ITEM_WEAPON)
+	{
+		t_weapon	*weapon = &is->of->data.weapon;
+		if (ticks > 1 && weapon->fireing)
+		{
+			ticks = 0;
+			weapon->current_step++;
+			if (weapon->current_step == weapon->steps_count)
+			{
+				weapon->current_step = (SDL_GetMouseState(NULL, NULL) & SDL_BUTTON(SDL_BUTTON_LEFT) ? 0 : weapon->idle_step);
+				weapon->fireing = FALSE;
+			}
+			set_current_animation_step(weapon, weapon->animation_seq[weapon->current_step]);
+		}
+		apply_surface_blended(doom->main_context.image, weapon->animation, weapon->curr_image, (SDL_Rect){ S_WIDTH_2 - 80 / 2, S_HEIGHT - 300, 300, 300 });
+	}
+
 	((t_progress *)self->components[0])->value = doom->player.entity.life * (1 / doom->player.entity.max_life) * 100;
+	if (doom->player.entity.life <= 0)
+	{
+		set_gui(doom, GUI_GAMEOVER);
+	}
 	render_components(doom, self);
 }

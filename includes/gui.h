@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 01:42:00 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/10 21:34:09 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/15 20:20:56 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,9 @@ void				g_ingame_on_enter(t_gui *self, t_doom *doom);
 void				g_mainmenu_render(t_gui *self, t_doom *doom);
 void				g_mainmenu_on_enter(t_gui *self, t_doom *doom);
 void				g_mainmenu_on_leave(t_gui *self, t_doom *doom);
+void				g_gameover_render(t_gui *self, t_doom *doom);
+void				g_gameover_on_enter(t_gui *self, t_doom *doom);
+void				g_gameover_on_leave(t_gui *self, t_doom *doom);
 void				g_editor_on_enter(t_gui *self, t_doom *doom);
 void				g_editor_on_leave(t_gui *self, t_doom *doom);
 void				g_editor_render(t_gui *self, t_doom *doom);

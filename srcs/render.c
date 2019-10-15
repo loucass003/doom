@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 16:49:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/11 21:40:05 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/15 19:00:32 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,8 @@ void	render_renderable(t_render_context *ctx, t_renderable *r)
 				int texture = f;
 				if (entity->animation_step == 6)
 					texture = entity->shooting ? 2 : 1;
+				if (entity->diying)
+					texture = entity->diying_step;
 				set_current_cell(r, texture, entity->animation_step);
 			}
 		}
