@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 15:26:39 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/17 10:14:56 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/17 10:36:34 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,20 +34,6 @@ typedef struct	s_obj
 	size_t			groups_count;
 	char			groups[GROUPS_MAX][GROUPS_NAME_LEN];
 	char			*working_dir;
-	//TODO: NEED TO BE REPLACED
-/* 	t_mtllist		*materials;
-	char			*working_dir; //TODO: NEED TO BE SET IN MATERIAL
-	t_4dvertices	*vertices;
-	t_vec4			*pp_vertices;
-	t_vec3			*pp_normals;
-	t_faces			*faces;
-	t_2dvertices	*vertex;
-	t_3dvertices	*normals;
-	t_vec3			position;
-	t_vec3			rotation;
-	t_vec3			scale;
-	t_bool			dirty;
-	t_bool			fixed; */
 }				t_obj;
 
 typedef struct	s_objs
