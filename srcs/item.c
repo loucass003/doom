@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 20:16:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/15 19:52:22 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/16 20:10:49 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ void	set_current_animation_step(t_weapon *weapon, int i)
 	const t_vec2	cell_size = (t_vec2){ weapon->bounds.w / (int)weapon->cells.x,
 		weapon->bounds.h / (int)weapon->cells.y };
 	const int		row = i / (int)weapon->cells.x;
-	
 	
 	weapon->curr_image.y = (int)cell_size.y * row;
 	weapon->curr_image.x = (int)cell_size.x * (i - (row * (int)weapon->cells.x));

@@ -6,11 +6,11 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 12:57:00 by llelievr          #+#    #+#             */
-/*   Updated: 2019/07/10 18:12:37 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/17 10:09:58 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "obj.h"
+#include "io.h"
 
 static t_bool	get_sign(t_reader *r, t_bool s)
 {

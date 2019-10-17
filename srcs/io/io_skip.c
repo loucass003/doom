@@ -6,11 +6,11 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 12:57:57 by llelievr          #+#    #+#             */
-/*   Updated: 2019/06/28 02:25:17 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/17 10:09:42 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "obj.h"
+#include "io.h"
 
 void			io_skip_ws(t_reader *r)
 {
