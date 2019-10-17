@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/15 19:46:29 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/17 14:39:50 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 # include "gui.h"
 # include "player.h"
 # include "render.h"
+# include "ressource.h"
 
 typedef struct		s_stats
 {
@@ -122,7 +123,8 @@ typedef struct		s_doom
 	t_gdata				gdata;
 	int					skybox_index;
 	int 				indextodel;
-		int					wheredel;
+	int					wheredel;
+	t_ressources		*ressources;
 	//at_thpool_t			*thpool;
 	//pthread_mutex_t		mutex;
 	// t_ray_collide		*rays;

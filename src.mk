@@ -8,6 +8,7 @@ SRC+=arrays/objs.c
 SRC+=arrays/polygons.c
 SRC+=arrays/ptrs.c
 SRC+=arrays/renderables.c
+SRC+=arrays/ressources.c
 SRC+=arrays/rooms.c
 SRC+=arrays/walls.c
 SRC+=audio.c
