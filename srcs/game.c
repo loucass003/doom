@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:01:13 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/10 20:49:54 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/18 23:17:05 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,13 @@ static void		update_fps(t_doom *doom)
 void			game_loop(t_doom *doom)
 {
 	register_guis(doom);
-
+	init_ressources_registry(doom);
+	if (check_ressources_errors(doom))
+		set_gui(doom, GUI_RESSOURCES);
+	else
+		set_gui(doom, GUI_MAIN_MENU);
 	init_player(doom);
-	set_gui(doom, GUI_MAIN_MENU);
+	
 	int  i = 0;
 	load_all(doom);
 	while (doom->running)

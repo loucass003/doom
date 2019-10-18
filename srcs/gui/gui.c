@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 09:46:13 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/15 20:20:13 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/18 22:42:22 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	register_guis(t_doom *doom)
 	doom->guis[GUI_MAIN_MENU] = (t_gui){ .render = g_mainmenu_render, .on_enter = g_mainmenu_on_enter, .on_leave = g_mainmenu_on_leave };
 	doom->guis[GUI_EDITOR] = (t_gui) { .render = g_editor_render, .on_enter = g_editor_on_enter, .on_leave = g_editor_on_leave, .on_event = g_editor_on_event };
 	doom->guis[GUI_GAMEOVER] = (t_gui) { .render = g_gameover_render, .on_enter = g_gameover_on_enter, .on_leave = g_gameover_on_leave };
+	doom->guis[GUI_RESSOURCES] = (t_gui) { .render = g_ressources_render, .on_enter = g_ressources_on_enter, .on_leave = g_ressources_on_leave };
 }
 
 void	set_gui(t_doom *doom, int id)

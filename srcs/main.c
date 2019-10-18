@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/15 19:48:44 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/18 22:44:27 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,6 +160,7 @@ int		main(void)
 	doom.main_context.doom = &doom;
 	//doom.thpool = at_thpool_create (20);
 	//pthread_mutex_init(&doom.mutex, NULL);
+
 
 	if (!(doom.main_context.buffer = (float *)malloc((int)(S_WIDTH * S_HEIGHT) * sizeof(float))))
 		return (-1);

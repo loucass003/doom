@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   component.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 12:50:35 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/17 14:14:16 by louali           ###   ########.fr       */
+/*   Updated: 2019/10/19 00:26:17 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	render_components(t_doom *doom, t_gui *gui)
 
 	i = -1;
 	while (++i < gui->component_count)
-		gui->components[i]->render(doom, gui->components[i]);
+		gui->components[i]->render(doom, gui->components[i], &doom->screen);
 }
 
 void	free_components(t_gui *gui)

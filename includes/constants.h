@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 21:05:41 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/15 20:21:19 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/18 22:41:55 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,12 @@
 # define FAR_CULL (500)
 # define FAR (500)
 
-# define GUI_COUNT (4)
+# define GUI_COUNT (5)
 # define GUI_INGAME (0)
 # define GUI_MAIN_MENU (1)
 # define GUI_EDITOR (2)
 # define GUI_GAMEOVER (3)
+# define GUI_RESSOURCES (3)
 
 # define AMBIANT_LIGHT (100)
 

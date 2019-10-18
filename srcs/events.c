@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:14:55 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/17 12:17:13 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/18 22:58:14 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,11 @@ static void	events_window(t_doom *doom, SDL_Event *event)
 
 	if (doom->current_gui >= 0 && doom->guis[doom->current_gui].on_event != NULL)
 		doom->guis[doom->current_gui].on_event(&doom->guis[doom->current_gui], event, doom);
+	if (doom->current_gui >= 0)
+		for (int i = 0; i < doom->guis[doom->current_gui].component_count; i++)
+			if (doom->guis[doom->current_gui].components[i]->on_event)
+				doom->guis[doom->current_gui].components[i]
+					->on_event(doom->guis[doom->current_gui].components[i], event, doom);
 	if (event->type == SDL_QUIT)
 		doom->running = FALSE;
 	if (event->type == SDL_MOUSEBUTTONDOWN)
