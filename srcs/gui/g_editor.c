@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 15:50:09 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/19 17:39:25 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/19 23:39:56 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,28 +110,34 @@ void			g_editor_render(t_gui *self, t_doom *doom)
 	int				y;
 
 
-	y = 2;
-	while (y++ <= doom->screen.height / 20)
-	{
-		x = 10;
-		while (x++ < 1270)
-		{
-			doom->screen.pixels[(y * 20 + 10) * doom->screen.width
-			+ x] = doom->editor.point[(y * (doom->screen.width
-			/ 20)) + x] == 1 ? 0xFFFF0000 : 0xFF505050;
-		}
-	}
-	x = 1;
-	while (x++ <= doom->screen.width / 20)
-	{
-		y = 70;
-		while (y++ < 630)
-			{
-				doom->screen.pixels[y * doom->screen.width
-				+ (x * 20) + 10] = doom->editor.point[(y * (doom->screen.width
-				/ 20)) + x] == 1 ? 0xFFFF0000 : 0xFF505050;
-			}
-	}
+	int i = -1;
+	while (++i <= (int)(doom->screen.height - 70) / 20)
+		draw_line(&doom->screen, (t_pixel){ 10, i * 20 + 70, 0xFF505050}, (t_pixel){ doom->screen.width - 10, i * 20 + 70 });
+	i = -1;
+	while (++i <= (int)(doom->screen.width - 20) / 20)
+		draw_line(&doom->screen, (t_pixel){ i * 20 + 10, 70, 0xFF505050}, (t_pixel){ i * 20 + 10, doom->screen.height - 10 });
+	// y = 2;
+	// while (y++ <= doom->screen.height / 20)
+	// { 
+	// 	x = 10;
+	// 	while (x++ < 1270)
+	// 	{
+	// 		doom->screen.pixels[(y * 20 + 10) * doom->screen.width
+	// 		+ x] = doom->editor.point[(y * (doom->screen.width
+	// 		/ 20)) + x] == 1 ? 0xFFFF0000 : 0xFF505050;
+	// 	}
+	// }
+	// x = 1;
+	// while (x++ <= doom->screen.width / 20)
+	// {
+	// 	y = 70;
+	// 	while (y++ < 630)
+	// 		{
+	// 			doom->screen.pixels[y * doom->screen.width
+	// 			+ (x * 20) + 10] = doom->editor.point[(y * (doom->screen.width
+	// 			/ 20)) + x] == 1 ? 0xFFFF0000 : 0xFF505050;
+	// 		}
+	// }
 	// y = -1;
 	// while (++y <= doom->screen.height / 20)
 	// {

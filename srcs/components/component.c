@@ -6,22 +6,13 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 12:50:35 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/19 17:37:32 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/19 23:29:49 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "gui.h"
 #include "doom.h"
-
-// t_bool	alloc_components(t_gui *gui, int count)
-// {
-// 	if (!(gui->components = (t_component **)malloc(sizeof(t_component *) * count)))
-// 		return (FALSE);
-// 	ft_bzero(gui->components, sizeof(t_component *) * count);
-// 	gui->component_count = count;
-// 	return (TRUE);
-// }
 
 void	render_components(t_doom *doom, t_gui *gui)
 {

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 01:42:00 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/19 17:24:40 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/19 23:29:30 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,13 +97,6 @@ typedef struct		s_select
 	int					fg_color;
 	t_select_items		*items;
 }					t_select;
-
-typedef struct		s_scrollbox
-{
-	t_component			super;
-	t_img				*viewport;
-	float				scroll_value;
-}					t_scrollbox;
 
 typedef struct		s_files
 {
