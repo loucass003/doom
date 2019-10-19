@@ -3,10 +3,8 @@
 
 void	g_ressources_on_enter(t_gui *self, t_doom *doom)
 {
-	if (!alloc_components(self, 1))
-		return ;
-	self->components[0] = create_select((SDL_Rect){ (S_WIDTH - 250) / 2, (S_HEIGHT - 150) / 2, 250, 50 }, "Ressource type");
-	t_select	*select = (t_select *)self->components[0];
+	append_components_array(&self->components, create_select((SDL_Rect){ (S_WIDTH - 250) / 2, (S_HEIGHT - 150) / 2, 250, 50 }, "Ressource type"));
+	t_select	*select = (t_select *)self->components->values[0];
 	append_select_items_array(&select->items, (t_select_item){ .name = "TEST", .value = 0 });
 	append_select_items_array(&select->items, (t_select_item){ .name = "TESTLOL", .value = 0 });
 	append_select_items_array(&select->items, (t_select_item){ .name = "COUCOU", .value = 0 });

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:56:05 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/15 20:21:52 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/19 17:36:42 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,33 +15,27 @@
 
 static void		action_performed(t_component *cmp, t_doom *doom)
 {
-	if (cmp == doom->guis[doom->current_gui].components[0])
-	{
+	if (cmp == doom->guis[doom->current_gui].components->values[0])
 		set_gui(doom, GUI_INGAME);
-	}
-	else if (cmp == doom->guis[doom->current_gui].components[1])
-	{
+	else if (cmp == doom->guis[doom->current_gui].components->values[1])
 		set_gui(doom, GUI_EDITOR);
-	}
 }
 
 void	g_mainmenu_on_enter(t_gui *self, t_doom *doom)
 {
-	if (!alloc_components(self, 3))
-		return ;
-//	printf("init %d\n", self->component_count);
-	self->components[0] = create_button((SDL_Rect){ (S_WIDTH - 250) / 2, (S_HEIGHT - 150) / 2, 250, 50 }, NULL, "PLAY");
-	((t_button *)self->components[0])->color_default = 0xFF8d1506;
-	((t_button *)self->components[0])->color_hover = 0;
-	self->components[0]->perform_action = action_performed;
-	self->components[1] = create_button((SDL_Rect){ (S_WIDTH - 250) / 2, (S_HEIGHT - 20) / 2, 250, 50 }, NULL, "MAP EDITOR");
-	((t_button *)self->components[1])->color_default = 0xFF8d1506;
-	((t_button *)self->components[1])->color_hover = 0;
-	self->components[1]->perform_action = action_performed;
-	self->components[2] = create_button((SDL_Rect){ (S_WIDTH - 250) / 2, (S_HEIGHT + 110) / 2, 250, 50 }, NULL, NULL);
-	((t_button *)self->components[2])->color_default = 0xFF8d1506;
-	((t_button *)self->components[2])->color_hover = 0;
-	self->components[2]->perform_action = action_performed;
+	int		i;
+
+	append_components_array(&self->components, create_button((SDL_Rect){ (S_WIDTH - 250) / 2, (S_HEIGHT - 150) / 2, 250, 50 }, NULL, "PLAY"));
+	append_components_array(&self->components, create_button((SDL_Rect){ (S_WIDTH - 250) / 2, (S_HEIGHT - 20) / 2, 250, 50 }, NULL, "MAP EDITOR"));
+	append_components_array(&self->components, create_button((SDL_Rect){ (S_WIDTH - 250) / 2, (S_HEIGHT + 110) / 2, 250, 50 }, NULL, NULL));
+	
+	i = -1;
+	while (++i < self->components->len)
+	{
+		((t_button *)self->components->values[i])->color_default = 0xFF8d1506;
+		((t_button *)self->components->values[i])->color_hover = 0;
+		self->components->values[i]->perform_action = action_performed;
+	}
 }
 
 void	g_mainmenu_on_leave(t_gui *self, t_doom *doom)

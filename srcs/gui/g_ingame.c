@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/15 20:35:14 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/19 17:33:37 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,21 +17,17 @@
 
 void static	action_performed(t_component *cmp, t_doom *doom)
 {
-	if (cmp == doom->guis[doom->current_gui].components[0])
-	{
+	if (cmp == doom->guis[doom->current_gui].components->values[0])
 		set_gui(doom, GUI_EDITOR);
-	}
 }
 
 void	g_ingame_on_enter(t_gui *self, t_doom *doom)
 {
 	SDL_SetRelativeMouseMode(SDL_TRUE);
-	if (!alloc_components(self, 1))
-		return ;
-	self->components[0] = create_progress((SDL_Rect){ 5, 5, 200, 30 });
-	((t_progress *)self->components[0])->value = 50;
-	((t_progress *)self->components[0])->bg_color = 0xFFFF0000;
-	((t_progress *)self->components[0])->fg_color = 0xFF00FF00;
+	append_components_array(&self->components, create_progress((SDL_Rect){ 5, 5, 200, 30 }));
+	((t_progress *)self->components->values[0])->value = 50;
+	((t_progress *)self->components->values[0])->bg_color = 0xFFFF0000;
+	((t_progress *)self->components->values[0])->fg_color = 0xFF00FF00;
 }
 
 
@@ -120,7 +116,7 @@ void	g_ingame_render(t_gui *self, t_doom *doom)
 		apply_surface_blended(doom->main_context.image, weapon->animation, weapon->curr_image, (SDL_Rect){ S_WIDTH_2 - 80 / 2, S_HEIGHT - 300, 300, 300 });
 	}
 
-	((t_progress *)self->components[0])->value = doom->player.entity.life * (1 / doom->player.entity.max_life) * 100;
+	((t_progress *)self->components->values[0])->value = doom->player.entity.life * (1 / doom->player.entity.max_life) * 100;
 	if (doom->player.entity.life <= 0)
 	{
 		set_gui(doom, GUI_GAMEOVER);

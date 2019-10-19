@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 09:46:13 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/18 22:42:22 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/19 17:07:41 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,17 @@ void	set_gui(t_doom *doom, int id)
 	if (doom->current_gui >= 0)
 	{
 		old_gui = &doom->guis[doom->current_gui];
+		if (old_gui->components)
+			ft_memdel(&old_gui->components);
 		if (old_gui->on_leave != NULL)
 			old_gui->on_leave(old_gui, doom);
 	}
 	doom->current_gui = id;
 	new_gui = &doom->guis[doom->current_gui];
 	if (new_gui->on_enter != NULL)
+	{
+		if (!new_gui->components)
+			new_gui->components = create_components_array(10);
 		new_gui->on_enter(new_gui, doom);
+	}
 }

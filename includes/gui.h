@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 01:42:00 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/19 01:25:03 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/19 17:24:40 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,13 @@ typedef struct		s_component
 	void				(*perform_action)(struct s_component *self, t_doom *doom);
 	void				(*on_event)(struct s_component *self, SDL_Event *event, t_doom *doom);
 }					t_component;
+
+typedef struct		s_components
+{
+	int				len;
+	int				capacity;
+	t_component		*values[];
+}					t_components;
 
 typedef struct		s_button
 {
@@ -91,6 +98,13 @@ typedef struct		s_select
 	t_select_items		*items;
 }					t_select;
 
+typedef struct		s_scrollbox
+{
+	t_component			super;
+	t_img				*viewport;
+	float				scroll_value;
+}					t_scrollbox;
+
 typedef struct		s_files
 {
     struct s_files		*next;
@@ -137,8 +151,7 @@ typedef struct		s_icone
 
 typedef struct		s_gui
 {
-	t_component		**components;
-	int				component_count;
+	t_components	*components;
 	void			(*render)(struct s_gui *self, t_doom *doom);
 	void			(*on_enter)(struct s_gui *self, t_doom *doom);
 	void			(*on_leave)(struct s_gui *self, t_doom *doom);
@@ -164,7 +177,7 @@ void				register_guis(t_doom *doom);
 void				set_gui(t_doom *doom, int id);
 void				render_components(t_doom *doom, t_gui *gui);
 t_bool				in_bounds(SDL_Rect bounds, t_vec2 pos);
-t_bool				alloc_components(t_gui *gui, int count);
+// t_bool				alloc_components(t_gui *gui, int count);
 void				free_components(t_gui *gui);
 t_component	 		*create_button(SDL_Rect bounds, char *s, char *s2);
 t_component	 		*create_progress(SDL_Rect bounds);
@@ -186,6 +199,12 @@ t_select_items		*splice_select_items_array(t_select_items *arr, int index, int n
 t_select_items		*copy_select_items_array(t_select_items *src, t_select_items **dst);
 int					select_items_indexof(t_select_items *arr, t_select_item *elem);
 
-t_component			 *create_select(SDL_Rect bounds, char *text);
+t_components		*create_components_array(int capacity);
+t_components		*append_components_array(t_components **arr, t_component *v);
+t_components		*splice_components_array(t_components *arr, int index, int n);
+t_components		*copy_components_array(t_components *src, t_components **dst);
+int					components_indexof(t_components *arr, t_component *elem);
+
+t_component			*create_select(SDL_Rect bounds, char *text);
 
 #endif

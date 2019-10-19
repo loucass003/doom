@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 15:50:09 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/15 21:21:59 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/19 17:39:25 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,61 +30,50 @@ void			set_var(t_doom *doom)
 static void		action_performed(t_component *cmp, t_doom *doom)
 {
 	set_var(doom);
-	if (cmp == doom->guis[doom->current_gui].components[0])
+	if (cmp == doom->guis[doom->current_gui].components->values[0])
 		set_map(doom);
-	else if (cmp == doom->guis[doom->current_gui].components[1]) //start
+	else if (cmp == doom->guis[doom->current_gui].components->values[1]) //start
 		doom->editor.set_start = (doom->editor.set_start == 0) ? 1 : 0;
-	else if (cmp == doom->guis[doom->current_gui].components[2]) //sup ligne
+	else if (cmp == doom->guis[doom->current_gui].components->values[2]) //sup ligne
 		doom->editor.sup = (doom->editor.sup == 0) ? 1 : 0;
-	else if (cmp == doom->guis[doom->current_gui].components[4]) //objet
+	else if (cmp == doom->guis[doom->current_gui].components->values[4]) //objet
 		doom->editor.icone = (doom->editor.icone == 0) ? 1 : 0;
-	else if (cmp == doom->guis[doom->current_gui].components[5]) //poly
+	else if (cmp == doom->guis[doom->current_gui].components->values[5]) //poly
 		doom->editor.poly = (doom->editor.poly == 0) ? 1 : 0;
-	else if (cmp == doom->guis[doom->current_gui].components[6]) //modif
+	else if (cmp == doom->guis[doom->current_gui].components->values[6]) //modif
 		doom->editor.curseur = (doom->editor.curseur == 0) ? 1 : 0;
-	else if (cmp == doom->guis[doom->current_gui].components[7]) //erase
+	else if (cmp == doom->guis[doom->current_gui].components->values[7]) //erase
 		erase_all(doom);
-	else if (cmp == doom->guis[doom->current_gui].components[8]) //lignes
+	else if (cmp == doom->guis[doom->current_gui].components->values[8]) //lignes
 	{
 		if (doom->editor.lignes == 0)
 			doom->editor.click = 0;
 		doom->editor.lignes = (doom->editor.lignes == 0) ? 1 : 0;
 	}
-	else if (cmp == doom->guis[doom->current_gui].components[9])
+	else if (cmp == doom->guis[doom->current_gui].components->values[9])
 		doom->editor.secteur = (doom->editor.secteur == 0) ? 1 : 0;
-	else if (cmp == doom->guis[doom->current_gui].components[10])
+	else if (cmp == doom->guis[doom->current_gui].components->values[10])
 		doom->editor.porte = (doom->editor.porte == 0) ? 1 : 0;
 }
 
 void			g_editor_button(t_gui *self, t_doom *doom)
 {
-	if (!alloc_components(self, 11))
-		return ;
 	doom->editor.set_start_pos[0] = 0;
 	doom->editor.set_start_pos[1] = 0;
-	self->components[0] = create_button((SDL_Rect){6, 9, 50, 50}, "icons/icons8-jouer-80.png", NULL);
-	self->components[1] = create_button((SDL_Rect){56, 9, 50, 50}, "icons/pin.png", NULL);
-	self->components[2] = create_button((SDL_Rect)
-	{106, 9, 50, 50}, "icons/icons8-effacer-96.png", NULL);
-	self->components[3] = create_menu((SDL_Rect)
-	{156, 9, 50, 50}, "wall", doom);
-	self->components[4] = create_menu((SDL_Rect)
-	{206, 9, 50, 50}, "obj", doom);
-	self->components[5] = create_button((SDL_Rect)
-	{256, 9, 50, 50}, "icons/poly.png", NULL);
-	self->components[6] = create_button((SDL_Rect)
-	{306, 9, 50, 50}, "icons/curseur3.png", NULL);
-	self->components[7] = create_button((SDL_Rect)
-	{356, 9, 50, 50}, "icons/croix.png", NULL);
-	self->components[8] = create_button((SDL_Rect)
-	{406, 9, 50, 50}, "icons/icons8-stylo-64.png", NULL);
-	self->components[9] = create_button((SDL_Rect)
-	{456, 9, 50, 50}, "icons/icons8-modifier-la-ligne-80.png", NULL);
-	self->components[10] = create_button((SDL_Rect)
-	{506, 9, 50, 50}, "icons/icons8-porte-64.png", NULL);
+	append_components_array(&self->components, create_button((SDL_Rect){6, 9, 50, 50}, "icons/icons8-jouer-80.png", NULL));
+	append_components_array(&self->components, create_button((SDL_Rect){56, 9, 50, 50}, "icons/pin.png", NULL));
+	append_components_array(&self->components, create_button((SDL_Rect){106, 9, 50, 50}, "icons/icons8-effacer-96.png", NULL));
+	append_components_array(&self->components, create_menu((SDL_Rect){156, 9, 50, 50}, "wall", doom));
+	append_components_array(&self->components, create_menu((SDL_Rect){206, 9, 50, 50}, "obj", doom));
+	append_components_array(&self->components, create_button((SDL_Rect){256, 9, 50, 50}, "icons/poly.png", NULL));
+	append_components_array(&self->components, create_button((SDL_Rect){306, 9, 50, 50}, "icons/curseur3.png", NULL));
+	append_components_array(&self->components, create_button((SDL_Rect){356, 9, 50, 50}, "icons/croix.png", NULL));
+	append_components_array(&self->components, create_button((SDL_Rect){406, 9, 50, 50}, "icons/icons8-stylo-64.png", NULL));
+	append_components_array(&self->components, create_button((SDL_Rect){456, 9, 50, 50}, "icons/icons8-modifier-la-ligne-80.png", NULL));
+	append_components_array(&self->components, create_button((SDL_Rect){506, 9, 50, 50}, "icons/icons8-porte-64.png", NULL));
 	int i = 0;
 	while (i <= 10)
-		self->components[i++]->perform_action = action_performed;
+		self->components->values[i++]->perform_action = action_performed;
 }
 
 void			g_editor_on_enter(t_gui *self, t_doom *doom)
