@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 01:42:00 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/21 04:53:31 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/21 18:19:15 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ typedef struct		s_textfield
 	int					text_len;
 	int					bg_color;
 	int					fg_color;
+	float				t0;
 }					t_textfield;
 
 typedef struct		s_files

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 20:10:35 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/15 19:48:10 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/21 17:26:41 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 static t_bool	load_fonts(t_doom *doom)
 {
-	if (!(doom->fonts.helvetica = TTF_OpenFont(FONT_HELVETICA, 25)))
+	if (!(doom->fonts.helvetica = TTF_OpenFont(FONT_VERAMONO, 25)))
 		return (FALSE);
 	return (TRUE);
 }

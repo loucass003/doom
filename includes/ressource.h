@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 10:19:30 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/20 03:01:46 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/21 20:59:11 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ typedef struct	s_ressource
 	t_ressource_data	data;
 	t_bool				loaded;
 	size_t				used;
+	t_bool				fixed;
 }				t_ressource;
 
 typedef struct	s_ressources
@@ -61,5 +62,6 @@ t_ressources	*copy_ressources_array(t_ressources *src, t_ressources **dst);
 t_bool			init_ressources_registry(struct s_doom *doom);
 t_bool			check_ressources_errors(struct s_doom *doom);
 t_bool			ressource_error(t_ressource *r);
+t_bool			a(t_doom *doom, char *name, t_ressource_type type, t_bool fixed);
 
 #endif

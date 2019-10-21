@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 21:05:41 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/18 22:41:55 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/21 17:26:38 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@
 # define S_SIZE (S_WIDTH * S_HEIGHT)
 # define ASPECT_INV (1. / (S_HEIGHT / S_WIDTH))
 
-# define FONT_HELVETICA "assets/fonts/helvetica.ttf"
+# define FONT_VERAMONO "assets/fonts/VeraMono.ttf"
 
 # define FOV (80. * (M_PI / 180.))
 # define NEAR (0.5)

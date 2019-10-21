@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 22:53:11 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/20 21:35:42 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/21 20:35:19 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,9 @@ void		c_select_render(t_doom *doom, t_component *self, t_img *image)
 	select = (t_select *)self;
 	fill_rect(image, self->bounds, select->bg_color);
 	t_select_item	*item = &select->items->values[select->selected_item];
+	t_color c = ft_i_color(select->fg_color);
 	SDL_Surface *text = TTF_RenderText_Blended(doom->fonts.helvetica,
-	select->selected_item != -1 ? item->name : select->text, (SDL_Color){255, 255, 255, 0});
+	select->selected_item != -1 ? item->name : select->text, (SDL_Color){c.r, c.g, c.b, 0});
 	apply_surface_blended(image, text, (SDL_Rect){0, 0, text->w, text->h},
 		(SDL_Rect){self->bounds.x, self->bounds.y + self->bounds.h / 2 - text->h / 2, fmin(self->bounds.w, text->w), text->h});
 	SDL_FreeSurface(text);
@@ -86,7 +87,7 @@ t_component	 *create_select(SDL_Rect bounds, char *text)
 
 	if (!(select = (t_select *)ft_memalloc(sizeof(t_select))))
 		return (NULL);
-	select->super = (t_component) { .visible = TRUE, .bounds = bounds, .type = C_SELECT, 
+	select->super = (t_component) { .enabled = TRUE, .visible = TRUE, .bounds = bounds, .type = C_SELECT, 
 		.render = c_select_render, .on_event = c_select_on_event };
 	select->bg_color = 0xFF505050;
 	select->fg_color = 0xFFFFFFFF;

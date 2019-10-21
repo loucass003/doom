@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 14:37:12 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/20 20:08:02 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/21 20:59:03 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,13 @@
 #include "doom.h"
 #include "ressource.h"
 
-static t_bool	a(t_doom *doom, char *name, t_ressource_type type)
+t_bool	a(t_doom *doom, char *name, t_ressource_type type, t_bool fixed)
 {
 	t_ressource	*ressource;
 	
-
 	if (!(ressource = malloc(sizeof(t_ressource))))
 		return (FALSE);
-	*ressource = (t_ressource){ .type = type };
+	*ressource = (t_ressource){ .type = type, .fixed = fixed };
 	ft_memcpy(ressource->display_name, name, ft_strlen(name));
 	return (!append_ressources_array(&doom->res_manager.ressources, ressource));
 }
@@ -45,8 +44,7 @@ t_bool			init_ressources_registry(t_doom *doom)
 	if (!init_ressources_select_items(&doom->res_manager))
 		return (FALSE);
 	error = FALSE;
-	for (int i = 0; i < 18; i++)
-		error |= a(doom, "MAIN_MENU_BACKGROUND", RESSOURCE_TEXTURE);
+	error |= a(doom, "MAIN_MENU_BACKGROUND", RESSOURCE_TEXTURE, TRUE);
 	return (error);
 }
 
