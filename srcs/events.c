@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:14:55 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/19 17:40:56 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/20 22:06:53 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,31 @@
 #include "octree.h"
 #include "sprite.h"
 #include "doom.h"
+#include "gui.h"
+
+// void		component_to_union(t_components_u *u, t_component *c)
+// {
+// 	if (c->type == C_SELECT)
+// 		u->select = *(t_select *)c;
+// 	else if (c->type == C_MENU)
+// 		u->menu = *(t_menu *)c;
+// 	else if (c->type == C_PROGRESS)
+// 		u->progress = *(t_progress *)c;
+// 	else if (c->type == C_BUTTON)
+// 		u->button = *(t_button *)c;
+// }
+
+// void		union_to_component(t_components_u *u, t_component_type type, t_component *c)
+// {
+// 	if (type == C_SELECT)
+// 		*((t_select *)c) = u->select;
+// 	else if (type == C_MENU)
+// 		*((t_menu *)c) = u->menu;
+// 	else if (type == C_PROGRESS)
+// 		*((t_progress *)c) = u->progress;
+// 	else if (type == C_BUTTON)
+// 		*((t_button *)c) = u->button;
+// }
 
 static void	events_window(t_doom *doom, SDL_Event *event)
 {
@@ -27,10 +52,10 @@ static void	events_window(t_doom *doom, SDL_Event *event)
 	if (doom->current_gui >= 0 && doom->guis[doom->current_gui].on_event != NULL)
 		doom->guis[doom->current_gui].on_event(&doom->guis[doom->current_gui], event, doom);
 	if (doom->current_gui >= 0)
-		for (int i = 0; i < doom->guis[doom->current_gui].components->len; i++)
+		for (int i = doom->guis[doom->current_gui].components->len - 1; i > 0; i--)
 			if (doom->guis[doom->current_gui].components->values[i]->on_event)
-				doom->guis[doom->current_gui].components->values[i]
-					->on_event(doom->guis[doom->current_gui].components->values[i], event, doom);
+				if (!doom->guis[doom->current_gui].components->values[i]->on_event(doom->guis[doom->current_gui].components->values[i], event, doom))
+					break;
 	if (event->type == SDL_QUIT)
 		doom->running = FALSE;
 	if (event->type == SDL_MOUSEBUTTONDOWN)

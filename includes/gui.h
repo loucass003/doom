@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 01:42:00 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/19 23:29:30 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/21 04:53:31 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ typedef struct		s_component
 	void				(*on_click)(struct s_component *self, t_vec2 pos, t_doom *doom);
 	void				(*on_mouse_move)(struct s_component *self, t_vec2 pos, t_doom *doom);
 	void				(*perform_action)(struct s_component *self, t_doom *doom);
-	void				(*on_event)(struct s_component *self, SDL_Event *event, t_doom *doom);
+	t_bool				(*on_event)(struct s_component *self, SDL_Event *event, t_doom *doom);
 }					t_component;
 
 typedef struct		s_components
@@ -98,6 +98,18 @@ typedef struct		s_select
 	t_select_items		*items;
 }					t_select;
 
+typedef struct		s_textfield
+{
+	t_component			super;
+	char				*placeholder;
+	char				*text;
+	t_bool				focus;
+	t_bool				bar;
+	int					text_len;
+	int					bg_color;
+	int					fg_color;
+}					t_textfield;
+
 typedef struct		s_files
 {
     struct s_files		*next;
@@ -142,6 +154,14 @@ typedef struct		s_icone
 	SDL_Surface		*texture;
 }					t_icone;
 
+typedef union		u_components_u
+{
+	t_select		select;
+	t_progress		progress;
+	t_button		button;
+	t_menu			menu;
+}					t_components_u;
+
 typedef struct		s_gui
 {
 	t_components	*components;
@@ -170,7 +190,6 @@ void				register_guis(t_doom *doom);
 void				set_gui(t_doom *doom, int id);
 void				render_components(t_doom *doom, t_gui *gui);
 t_bool				in_bounds(SDL_Rect bounds, t_vec2 pos);
-// t_bool				alloc_components(t_gui *gui, int count);
 void				free_components(t_gui *gui);
 t_component	 		*create_button(SDL_Rect bounds, char *s, char *s2);
 t_component	 		*create_progress(SDL_Rect bounds);
@@ -199,5 +218,7 @@ t_components		*copy_components_array(t_components *src, t_components **dst);
 int					components_indexof(t_components *arr, t_component *elem);
 
 t_component			*create_select(SDL_Rect bounds, char *text);
+t_component			*create_textfield(SDL_Rect bounds, char *placeholder);
+void				c_textfield_render(t_doom *doom, t_component *self, t_img *image);
 
 #endif

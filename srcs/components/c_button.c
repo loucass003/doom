@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:59:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/03 17:08:28 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/20 02:32:39 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,11 +91,11 @@ t_component	 *create_button(SDL_Rect bounds, char *s, char *s2)
 	if (!(btn = (t_button *)malloc(sizeof(t_button))))
 		return (NULL);
 	ft_bzero(btn, sizeof(t_button));
-	btn->super = (t_component) { .bounds = bounds, .type = C_BUTTON, 
-		.render = c_button_render, .on_click = c_button_on_click,
-		.on_mouse_move = c_button_on_mouse_move};
-	btn->color_default = 0xFFFFFFFF;
-	btn->color_hover = 0xFFCCCCCC;
+	btn->super = (t_component) { .bounds = bounds, .visible = TRUE, 
+		.type = C_BUTTON, .render = c_button_render, 
+		.on_click = c_button_on_click, .on_mouse_move = c_button_on_mouse_move};
+	btn->color_default = 0xFF505050;
+	btn->color_hover = 0xFF606060;
 	btn->color = btn->color_default;
 	btn->image = s;
 	btn->texte = s2;

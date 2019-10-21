@@ -6,14 +6,14 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 13:06:49 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/29 02:51:49 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/20 21:30:52 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "image.h"
 
-static inline void	put_pixel(t_img *img, t_pixel p)
+static inline void	put_cpixel(t_img *img, t_pixel p)
 {
 	if (p.y * img->width + p.x < 0 || p.y * img->width + p.x > img->width * img->height)
 		return ;
@@ -22,14 +22,14 @@ static inline void	put_pixel(t_img *img, t_pixel p)
 
 static void		fill(t_img *img, t_pixel center, t_pixel p) 
 { 
-	put_pixel(img, (t_pixel){ center.x + p.x, center.y + p.y, center.color }); 
-	put_pixel(img, (t_pixel){ center.x - p.x, center.y + p.y, center.color }); 
-	put_pixel(img, (t_pixel){ center.x + p.x, center.y - p.y, center.color }); 
-	put_pixel(img, (t_pixel){ center.x - p.x, center.y - p.y, center.color }); 
-	put_pixel(img, (t_pixel){ center.x + p.y, center.y + p.x, center.color }); 
-	put_pixel(img, (t_pixel){ center.x - p.y, center.y + p.x, center.color }); 
-	put_pixel(img, (t_pixel){ center.x + p.y, center.y - p.x, center.color }); 
-	put_pixel(img, (t_pixel){ center.x - p.y, center.y - p.x, center.color }); 
+	put_cpixel(img, (t_pixel){ center.x + p.x, center.y + p.y, center.color }); 
+	put_cpixel(img, (t_pixel){ center.x - p.x, center.y + p.y, center.color }); 
+	put_cpixel(img, (t_pixel){ center.x + p.x, center.y - p.y, center.color }); 
+	put_cpixel(img, (t_pixel){ center.x - p.x, center.y - p.y, center.color }); 
+	put_cpixel(img, (t_pixel){ center.x + p.y, center.y + p.x, center.color }); 
+	put_cpixel(img, (t_pixel){ center.x - p.y, center.y + p.x, center.color }); 
+	put_cpixel(img, (t_pixel){ center.x + p.y, center.y - p.x, center.color }); 
+	put_cpixel(img, (t_pixel){ center.x - p.y, center.y - p.x, center.color }); 
 } 
   
 void			draw_circle(t_img *img, t_pixel center, int r) 

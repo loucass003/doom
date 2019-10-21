@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/17 14:39:50 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/19 23:58:06 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ typedef struct		s_doom
 	int					skybox_index;
 	int 				indextodel;
 	int					wheredel;
-	t_ressources		*ressources;
+	t_ressource_manager	res_manager;
 	//at_thpool_t			*thpool;
 	//pthread_mutex_t		mutex;
 	// t_ray_collide		*rays;

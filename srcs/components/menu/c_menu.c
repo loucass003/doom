@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 14:21:03 by louali            #+#    #+#             */
-/*   Updated: 2019/08/29 02:22:31 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/20 02:33:09 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ t_component	*create_menu(SDL_Rect bounds, char *s, t_doom *doom)
 	if (!(btn = (t_menu *)malloc(sizeof(t_menu))))
 		return (NULL);
 	ft_bzero(btn, sizeof(t_menu));
-	btn->super = (t_component) { .bounds = bounds, .type = C_BUTTON,
+	btn->super = (t_component) { .visible = TRUE, .bounds = bounds, .type = C_BUTTON,
 		.render = c_render, .on_click = c_on_click,
 		.on_mouse_move = c_on_mouse_move};
 	btn->open = FALSE;

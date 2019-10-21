@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 02:55:10 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/12 03:09:49 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/20 21:31:44 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,5 +20,6 @@ void		fill_rect(t_img *img, SDL_Rect bounds, int color)
 	j = -1;
 	while (++j < bounds.h && !!(i = -1))
 		while (++i < bounds.w)
-			img->pixels[(j + bounds.y) * img->width + i + bounds.x] = color;
+			if (!put_pixel(img, bounds.x + i, bounds.y + j, color))
+				return ;			
 }

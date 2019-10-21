@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 23:06:40 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/19 17:24:28 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/20 00:02:23 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int		components_indexof(t_components *arr, t_component *elem)
 	i = -1;
 	while (++i < arr->len)
 	{
-		if (arr->values + i == elem)
+		if (arr->values[i] == elem)
 			return (i);
 	}
 	return (-1);

@@ -38,6 +38,7 @@ SRC+=components/component.c
 SRC+=components/c_button.c
 SRC+=components/menu/display_menu.c
 SRC+=components/menu/c_menu.c
+SRC+=components/c_textfield.c
 SRC+=components/c_progress.c
 SRC+=editor/editor_in_out.c
 SRC+=editor/editor_visual.c

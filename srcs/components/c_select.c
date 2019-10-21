@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 22:53:11 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/19 01:43:28 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/20 21:35:42 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "gui.h"
 #include "doom.h"
 
-void		c_select_on_event(t_component *self, SDL_Event *event, t_doom *doom)
+t_bool		c_select_on_event(t_component *self, SDL_Event *event, t_doom *doom)
 {
 	t_select	*select;
 	t_vec2		pos;
@@ -35,15 +35,18 @@ void		c_select_on_event(t_component *self, SDL_Event *event, t_doom *doom)
 				&& pos.x < self->bounds.x + self->bounds.w)
 				select->selected_item = curr_item;
 			select->open = FALSE;
+			return (FALSE);
 		}
 		if (in_bounds(self->bounds, pos))
 			select->open = TRUE;
+		
 	}
 	if (event->type == SDL_MOUSEMOTION)
 	{
 		pos = (t_vec2){ event->motion.x, event->motion.y };
 		select->hover_item = curr_item;
 	}
+	return (TRUE);
 }
 
 void		c_select_render(t_doom *doom, t_component *self, t_img *image)
@@ -55,15 +58,12 @@ void		c_select_render(t_doom *doom, t_component *self, t_img *image)
 		return ;
 	select = (t_select *)self;
 	fill_rect(image, self->bounds, select->bg_color);
-	if (select->selected_item != -1)
-	{
-		t_select_item	*item = &select->items->values[select->selected_item];
-		SDL_Surface *text = TTF_RenderText_Blended(doom->fonts.helvetica,
-		item->name, (SDL_Color){255, 255, 255, 0});
-		apply_surface_blended(image, text, (SDL_Rect){0, 0, text->w, text->h},
-			(SDL_Rect){self->bounds.x, self->bounds.y + self->bounds.h / 2 - text->h / 2, text->w, text->h});
-		SDL_FreeSurface(text);
-	}
+	t_select_item	*item = &select->items->values[select->selected_item];
+	SDL_Surface *text = TTF_RenderText_Blended(doom->fonts.helvetica,
+	select->selected_item != -1 ? item->name : select->text, (SDL_Color){255, 255, 255, 0});
+	apply_surface_blended(image, text, (SDL_Rect){0, 0, text->w, text->h},
+		(SDL_Rect){self->bounds.x, self->bounds.y + self->bounds.h / 2 - text->h / 2, fmin(self->bounds.w, text->w), text->h});
+	SDL_FreeSurface(text);
 	if (select->open)
 	{
 		i = -1;
@@ -86,7 +86,7 @@ t_component	 *create_select(SDL_Rect bounds, char *text)
 
 	if (!(select = (t_select *)ft_memalloc(sizeof(t_select))))
 		return (NULL);
-	select->super = (t_component) { .bounds = bounds, .type = C_SELECT, 
+	select->super = (t_component) { .visible = TRUE, .bounds = bounds, .type = C_SELECT, 
 		.render = c_select_render, .on_event = c_select_on_event };
 	select->bg_color = 0xFF505050;
 	select->fg_color = 0xFFFFFFFF;

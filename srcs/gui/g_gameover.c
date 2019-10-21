@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/15 20:19:09 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/19 17:31:40 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/20 00:01:22 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void	g_gameover_on_enter(t_gui *self, t_doom *doom)
 
 void	g_gameover_on_leave(t_gui *self, t_doom *doom)
 {
-	free_components(self);
 }
 
 void	g_gameover_render(t_gui *self, t_doom *doom)

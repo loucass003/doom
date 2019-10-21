@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/10 20:55:53 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/10 21:44:50 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/20 02:32:53 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "gui.h"
 #include "doom.h"
 
-void		c_progress_render(t_doom *doom, t_component *self)
+void		c_progress_render(t_doom *doom, t_component *self, t_img *img)
 {
 	t_progress	*progress;
 	int			x;
@@ -32,7 +32,8 @@ void		c_progress_render(t_doom *doom, t_component *self)
 			color = self->bounds.w / 100. * progress->value > x
 				? progress->fg_color
 				: progress->bg_color;
-			doom->screen.pixels[(y + self->bounds.y) * doom->screen.width + x + self->bounds.x] = color;
+			doom->screen.pixels[(y + self->bounds.y) *
+				doom->screen.width + x + self->bounds.x] = color;
 		}
 	}
 }
@@ -44,7 +45,8 @@ t_component	 *create_progress(SDL_Rect bounds)
 	if (!(progress = (t_progress *)malloc(sizeof(t_progress))))
 		return (NULL);
 	ft_bzero(progress, sizeof(t_progress));
-	progress->super = (t_component) { .bounds = bounds, .type = C_PROGRESS, 
+	progress->super = (t_component) { .visible = TRUE, 
+		.bounds = bounds, .type = C_PROGRESS, 
 		.render = c_progress_render };
 	return ((t_component *)progress);
 }

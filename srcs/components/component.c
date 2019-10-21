@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 12:50:35 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/19 23:29:49 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/20 02:31:59 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,20 @@ void	render_components(t_doom *doom, t_gui *gui)
 
 	i = -1;
 	while (++i < gui->components->len)
-		gui->components->values[i]->render(doom, gui->components->values[i], &doom->screen);
+		if (gui->components->values[i]->visible)
+			gui->components->values[i]->render(doom, gui->components->values[i], &doom->screen);
 }
 
 void	free_components(t_gui *gui)
 {
+	int		i;
+
+	if (gui->components)
+	{
+		i = -1;
+		while (++i < gui->components->len)
+			free(gui->components->values[i]);
+	}
 	free(gui->components);
 }
 
