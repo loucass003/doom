@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   component.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 12:50:35 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/21 18:58:54 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/22 14:36:59 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	free_components(t_gui *gui)
 			free(gui->components->values[i]);
 	}
 	free(gui->components);
+	gui->components = NULL;
 }
 
 t_bool	in_bounds(SDL_Rect bounds, t_vec2 pos)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   c_button.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:59:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/22 03:02:16 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/22 14:49:54 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void		c_button_render(t_doom *doom, t_component *self)
 	}
 }
 
-void		c_button_on_event(t_component *self, SDL_Event *event, t_doom *doom)
+t_bool		c_button_on_event(t_component *self, SDL_Event *event, t_doom *doom)
 {
 	t_button	*btn;
 
@@ -83,8 +83,9 @@ void		c_button_on_event(t_component *self, SDL_Event *event, t_doom *doom)
 	{
 		if (in_bounds(self->bounds, (t_vec2){ event->motion.x, event->motion.y }) 
 			&& self->perform_action != NULL)
-		self->perform_action(self, doom);
+			self->perform_action(self, doom);
 	}
+	return (TRUE);
 }
 
 t_component	 *create_button(SDL_Rect bounds, char *s, char *s2)

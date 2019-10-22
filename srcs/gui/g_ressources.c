@@ -30,6 +30,7 @@ void			update_selects(t_gui *self, t_ressource_manager *rm)
 			s->fg_color = !s->super.enabled ? 0xFFAAAAAA : 0xFFFFFFFF;
 			text->fg_color = !text->super.enabled ? 0xFFAAAAAA : 0xFFFFFFFF;
 			self->components->values[i * 3 + 2]->visible = !rm->ressources->values[res_index]->fixed;
+			self->components->values[i * 3 + 2]->enabled = !rm->ressources->values[res_index]->fixed;
 		}
 		else
 		{
@@ -50,13 +51,15 @@ void			apply_select_value(t_gui *self, t_doom *doom)
 		if (i < (doom->res_manager.ressources->len - (doom->res_manager.page * PAGE_SIZE)))
 		{
 			t_select *select = (t_select *)self->components->values[i * 3];
-			doom->res_manager.ressources->values[doom->res_manager.page * PAGE_SIZE + i]->type = select->items->values[select->selected_item].value;
+			if (select->selected_item >= 0)
+				doom->res_manager.ressources->values[doom->res_manager.page * PAGE_SIZE + i]->type = select->items->values[select->selected_item].value;
 		}
 	}
 }
 
 static void		delete_ressource_performed(t_component *cmp, t_doom *doom)
 {
+	printf("CALL2\n");
 	int	i;
 
 	i = -1;
@@ -74,6 +77,7 @@ static void		delete_ressource_performed(t_component *cmp, t_doom *doom)
 
 static void		action_performed(t_component *cmp, t_doom *doom)
 {
+	printf("CALL\n");
 	if (cmp == doom->guis[doom->current_gui].components->values[PAGE_SIZE * 3 + 1])
 		doom->res_manager.page--;
 	else if (cmp == doom->guis[doom->current_gui].components->values[PAGE_SIZE * 3 + 2])
@@ -83,7 +87,7 @@ static void		action_performed(t_component *cmp, t_doom *doom)
 	if (doom->res_manager.page > get_pages_count(&doom->res_manager))
 		doom->res_manager.page = 0;
 	if (cmp == doom->guis[doom->current_gui].components->values[PAGE_SIZE * 3 + 3])
-		a(doom, "", RESSOURCE_UNSET, FALSE);
+		a(doom, "TEST", RESSOURCE_UNSET, FALSE);
 	update_selects(&doom->guis[doom->current_gui], &doom->res_manager);
 }
 
@@ -108,9 +112,13 @@ void	g_ressources_on_enter(t_gui *self, t_doom *doom)
 	append_components_array(&self->components, create_button((SDL_Rect){S_WIDTH_2 - 140, S_HEIGHT - 50, 40, 40}, NULL, "<"));
 	append_components_array(&self->components, create_button((SDL_Rect){S_WIDTH_2 + 100, S_HEIGHT - 50, 40, 40}, NULL, ">"));
 	append_components_array(&self->components, create_button((SDL_Rect){S_WIDTH - 215, 15, 200, 40}, NULL, "ADD RESSOURCE"));
+	
 	i = -1;
 	while (++i < 4)
+	{
+		printf("%d %d\n", i, (PAGE_SIZE * 3) + i);
 		self->components->values[(PAGE_SIZE * 3) + i]->perform_action = action_performed;
+	}
 	update_selects(self, &doom->res_manager);
 }
 
@@ -169,7 +177,7 @@ void	g_ressources_render(t_gui *self, t_doom *doom)
 {
 	fill_color(&doom->screen, 0xFF252525);
 	render_page(self, doom);
-	apply_select_value(self, doom);
 	render_components(doom, self);
 	render_page_label(self, doom);
+	apply_select_value(self, doom);
 }

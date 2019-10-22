@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_ingame.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/22 02:07:14 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/22 14:35:51 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,7 @@ void	g_ingame_render(t_gui *self, t_doom *doom)
 	if (doom->player.entity.life <= 0)
 	{
 		set_gui(doom, GUI_GAMEOVER);
+		return ;
 	}
 	render_components(doom, self);
 }
