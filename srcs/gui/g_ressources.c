@@ -82,8 +82,17 @@ static void		delete_ressource_performed(t_component *cmp, t_doom *doom)
 }
 
 void	g_ressources_on_event(t_gui *self, SDL_Event *event, t_doom *doom)
-{
-
+{	
+	if (event->type == SDL_DROPFILE)
+	{
+		int x, y;
+		SDL_GetMouseState(&x, &y);
+		printf("DROP %s %d %d\n", event->drop.file, x, y);
+	}
+	else if (event->type == SDL_MOUSEMOTION)
+	{
+		printf("CALL\n");
+	}
 }
 
 static void		action_performed(t_component *cmp, t_doom *doom)
@@ -170,6 +179,8 @@ void	render_page(t_gui *self, t_doom *doom)
 {
 	int	i;
 	t_ressource		*res;
+	int x, y;
+	SDL_GetMouseState(&x, &y);
 
 	i = -1;
 	while (++i < PAGE_SIZE)
@@ -177,7 +188,11 @@ void	render_page(t_gui *self, t_doom *doom)
 		if (i < (doom->res_manager.ressources->len - (doom->res_manager.page * PAGE_SIZE)))
 		{
 			res = doom->res_manager.ressources->values[i];
-			draw_rect(&doom->screen, (SDL_Rect){ S_WIDTH_2 - 356, 53 + i * 30, 584, 28 }, res->loaded ? 0xFF00FF00 : 0xFFFF0000);
+			int color = res->loaded ? 0xFF00FF00 : 0xFFFF0000;
+			if (i == y / 30 - 53)
+				color = 0xFFFFFFFF;
+			
+			draw_rect(&doom->screen, (SDL_Rect){ S_WIDTH_2 - 356, 53 + i * 30, 584, 28 }, color);
 		}
 	}
 }
