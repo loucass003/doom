@@ -7,6 +7,7 @@
 void			update_selects(t_gui *self, t_ressource_manager *rm)
 {
 	int	i;
+	int	res_index;
 	t_select	*s;
 	t_textfield *text;
 
@@ -15,19 +16,20 @@ void			update_selects(t_gui *self, t_ressource_manager *rm)
 	{
 		if (i < (rm->ressources->len - (rm->page * PAGE_SIZE)))
 		{
+			res_index = rm->page * PAGE_SIZE + i;
 			self->components->values[i * 3]->visible = TRUE;
 			s = (t_select *)self->components->values[i * 3];
-			s->selected_item = rm->ressources->values[i]->type - 1;
+			s->selected_item = rm->ressources->values[res_index]->type - 1;
 			self->components->values[i * 3 + 1]->visible = TRUE;
 			text = (t_textfield *)self->components->values[i * 3 + 1];
 			ft_strcpy(text->text, 
-				rm->ressources->values[i]->display_name);
-			text->text_len = ft_strlen(rm->ressources->values[i]->display_name);
-			text->super.enabled = !rm->ressources->values[i]->fixed;
+				rm->ressources->values[res_index]->display_name);
+			text->text_len = ft_strlen(rm->ressources->values[res_index]->display_name);
+			text->super.enabled = !rm->ressources->values[res_index]->fixed;
 			s->super.enabled = text->super.enabled;
 			s->fg_color = !s->super.enabled ? 0xFFAAAAAA : 0xFFFFFFFF;
 			text->fg_color = !text->super.enabled ? 0xFFAAAAAA : 0xFFFFFFFF;
-			self->components->values[i * 3 + 2]->visible = TRUE;
+			self->components->values[i * 3 + 2]->visible = !rm->ressources->values[res_index]->fixed;
 		}
 		else
 		{
@@ -40,16 +42,32 @@ void			update_selects(t_gui *self, t_ressource_manager *rm)
 
 void			apply_select_value(t_gui *self, t_doom *doom)
 {
-	int	i;
-	t_select	*select;
+	int		i;
 
 	i = -1;
-	while (++i < self->components->len)
+	while (++i < PAGE_SIZE)
 	{
 		if (i < (doom->res_manager.ressources->len - (doom->res_manager.page * PAGE_SIZE)))
 		{
-			t_select *select = (t_select *)self->components->values[PAGE_SIZE - 1 - i];
+			t_select *select = (t_select *)self->components->values[i * 3];
 			doom->res_manager.ressources->values[doom->res_manager.page * PAGE_SIZE + i]->type = select->items->values[select->selected_item].value;
+		}
+	}
+}
+
+static void		delete_ressource_performed(t_component *cmp, t_doom *doom)
+{
+	int	i;
+
+	i = -1;
+	while (++i < PAGE_SIZE)
+	{
+		if (cmp == doom->guis[doom->current_gui].components->values[i * 3 + 2])
+		{
+			int index = i + (doom->res_manager.page * PAGE_SIZE);
+			splice_ressources_array(doom->res_manager.ressources, index, 1);
+			update_selects(&doom->guis[doom->current_gui], &doom->res_manager);
+			return;
 		}
 	}
 }
@@ -65,14 +83,14 @@ static void		action_performed(t_component *cmp, t_doom *doom)
 	if (doom->res_manager.page > get_pages_count(&doom->res_manager))
 		doom->res_manager.page = 0;
 	if (cmp == doom->guis[doom->current_gui].components->values[PAGE_SIZE * 3 + 3])
-		a(doom, "EMPTY", RESSOURCE_UNSET, FALSE);
+		a(doom, "", RESSOURCE_UNSET, FALSE);
 	update_selects(&doom->guis[doom->current_gui], &doom->res_manager);
 }
 
 void	g_ressources_on_enter(t_gui *self, t_doom *doom)
 {
-	doom->screen.secure = TRUE;
 	int i;
+
 	i = -1;
 	while (++i < PAGE_SIZE)
 	{
@@ -83,6 +101,7 @@ void	g_ressources_on_enter(t_gui *self, t_doom *doom)
 		self->components->values[i * 3 + 1]->visible = FALSE;
 		append_components_array(&self->components, create_button((SDL_Rect){S_WIDTH_2 + 202, 55 + i * 30, 25, 25}, NULL, "X"));
 		self->components->values[i * 3 + 2]->visible = FALSE;
+		self->components->values[i * 3 + 2]->perform_action = delete_ressource_performed;
 	}
 
 	append_components_array(&self->components, create_button((SDL_Rect){S_WIDTH - 210, S_HEIGHT - 50, 200, 40}, NULL, "CONTINUE"));
@@ -150,6 +169,7 @@ void	g_ressources_render(t_gui *self, t_doom *doom)
 {
 	fill_color(&doom->screen, 0xFF252525);
 	render_page(self, doom);
+	apply_select_value(self, doom);
 	render_components(doom, self);
 	render_page_label(self, doom);
 }

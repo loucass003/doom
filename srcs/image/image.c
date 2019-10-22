@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 21:24:49 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/03 16:10:49 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/22 00:15:52 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 
 t_bool	create_image(SDL_Renderer *renderer, uint32_t w, uint32_t h, t_img *img)
 {
+	ft_bzero(img, sizeof(t_img));
 	img->size = w * h;
 	img->width = w;
 	img->height = h;

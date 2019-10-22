@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 21:05:41 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/21 17:26:38 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/22 00:10:04 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@
 # define GUI_MAIN_MENU (1)
 # define GUI_EDITOR (2)
 # define GUI_GAMEOVER (3)
-# define GUI_RESSOURCES (3)
+# define GUI_RESSOURCES (4)
 
 # define AMBIANT_LIGHT (100)
 

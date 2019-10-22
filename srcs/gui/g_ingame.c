@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/19 17:33:37 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/22 02:07:14 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void static	action_performed(t_component *cmp, t_doom *doom)
 
 void	g_ingame_on_enter(t_gui *self, t_doom *doom)
 {
+	doom->screen.secure = FALSE;
 	SDL_SetRelativeMouseMode(SDL_TRUE);
 	append_components_array(&self->components, create_progress((SDL_Rect){ 5, 5, 200, 30 }));
 	((t_progress *)self->components->values[0])->value = 50;

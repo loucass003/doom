@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:59:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/21 20:09:24 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/22 03:02:16 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,21 +67,24 @@ void		c_button_render(t_doom *doom, t_component *self)
 	}
 }
 
-void		c_button_on_click(t_component *self, t_vec2 pos, t_doom *doom)
-{
-	if (in_bounds(self->bounds, pos) && self->perform_action != NULL)
-		self->perform_action(self, doom);
-}
-
-void		c_button_on_mouse_move(t_component *self, t_vec2 pos, t_doom *doom)
+void		c_button_on_event(t_component *self, SDL_Event *event, t_doom *doom)
 {
 	t_button	*btn;
 
 	btn = (t_button *)self;
-	if (in_bounds(self->bounds, pos))
-		btn->color = btn->color_hover;
-	else
-		btn->color = btn->color_default;
+	if (event->type == SDL_MOUSEMOTION)
+	{
+		if (in_bounds(self->bounds, (t_vec2){ event->motion.x, event->motion.y }))
+			btn->color = btn->color_hover;
+		else
+			btn->color = btn->color_default;
+	}
+	else if (event->type == SDL_MOUSEBUTTONUP)
+	{
+		if (in_bounds(self->bounds, (t_vec2){ event->motion.x, event->motion.y }) 
+			&& self->perform_action != NULL)
+		self->perform_action(self, doom);
+	}
 }
 
 t_component	 *create_button(SDL_Rect bounds, char *s, char *s2)
@@ -91,9 +94,9 @@ t_component	 *create_button(SDL_Rect bounds, char *s, char *s2)
 	if (!(btn = (t_button *)malloc(sizeof(t_button))))
 		return (NULL);
 	ft_bzero(btn, sizeof(t_button));
-	btn->super = (t_component) { .enabled = TRUE, .bounds = bounds, .visible = TRUE, 
-		.type = C_BUTTON, .render = c_button_render, 
-		.on_click = c_button_on_click, .on_mouse_move = c_button_on_mouse_move};
+	btn->super = (t_component) { .enabled = TRUE, .bounds = bounds, 
+		.visible = TRUE, .type = C_BUTTON, .render = c_button_render, 
+		.on_event = c_button_on_event};
 	btn->color_default = 0xFF505050;
 	btn->color_hover = 0xFF606060;
 	btn->color = btn->color_default;
