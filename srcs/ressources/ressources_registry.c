@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ressources_registry.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 14:37:12 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/22 14:50:44 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/10/22 16:05:52 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ t_bool			init_ressources_registry(t_doom *doom)
 	if (!init_ressources_select_items(&doom->res_manager))
 		return (FALSE);
 	error = FALSE;
-	error |= a(doom, "MAIN_MENU_BACKGROUND", RESSOURCE_TEXTURE, TRUE);
+	error = a(doom, "MAIN_MENU_BACKGROUND", RESSOURCE_TEXTURE, TRUE);
 	return (error);
 }
 

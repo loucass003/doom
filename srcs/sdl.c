@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 20:10:35 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/21 17:26:41 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/22 15:44:39 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ t_bool			init_sdl(t_doom *doom)
 		return (sdl_quit(doom));
 	SDL_RenderSetLogicalSize(doom->renderer, S_WIDTH, S_HEIGHT);
 	SDL_SetRenderDrawBlendMode(doom->renderer, SDL_BLENDMODE_NONE);
+	SDL_EventState(SDL_DROPFILE, SDL_DISABLE);
 	if (!create_image(doom->renderer, S_WIDTH, S_HEIGHT, &doom->screen))
 		return (sdl_quit(doom));
 	if (!create_image(doom->renderer, S_WIDTH, S_HEIGHT, &doom->screen_transparency))

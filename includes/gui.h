@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 01:42:00 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/21 18:19:15 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/22 15:55:37 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,6 +187,7 @@ void				g_editor_on_enter(t_gui *self, t_doom *doom);
 void				g_editor_on_leave(t_gui *self, t_doom *doom);
 void				g_editor_render(t_gui *self, t_doom *doom);
 void				g_editor_on_event(t_gui *self, SDL_Event *event, t_doom *doom);
+void				g_ressources_on_event(t_gui *self, SDL_Event *event, t_doom *doom);
 void				register_guis(t_doom *doom);
 void				set_gui(t_doom *doom, int id);
 void				render_components(t_doom *doom, t_gui *gui);

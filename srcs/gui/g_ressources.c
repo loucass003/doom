@@ -53,13 +53,14 @@ void			apply_select_value(t_gui *self, t_doom *doom)
 			t_select *select = (t_select *)self->components->values[i * 3];
 			if (select->selected_item >= 0)
 				doom->res_manager.ressources->values[doom->res_manager.page * PAGE_SIZE + i]->type = select->items->values[select->selected_item].value;
+			t_textfield *tf = (t_textfield *)self->components->values[i * 3 + 1];
+			ft_strcpy(doom->res_manager.ressources->values[doom->res_manager.page * PAGE_SIZE + i]->display_name, tf->text);
 		}
 	}
 }
 
 static void		delete_ressource_performed(t_component *cmp, t_doom *doom)
 {
-	printf("CALL2\n");
 	int	i;
 
 	i = -1;
@@ -68,16 +69,25 @@ static void		delete_ressource_performed(t_component *cmp, t_doom *doom)
 		if (cmp == doom->guis[doom->current_gui].components->values[i * 3 + 2])
 		{
 			int index = i + (doom->res_manager.page * PAGE_SIZE);
-			splice_ressources_array(doom->res_manager.ressources, index, 1);
-			update_selects(&doom->guis[doom->current_gui], &doom->res_manager);
+			if (doom->res_manager.ressources->values[index]->used == 0)
+			{
+				splice_ressources_array(doom->res_manager.ressources, index, 1);
+				if (doom->res_manager.page > get_pages_count(&doom->res_manager))
+					doom->res_manager.page = get_pages_count(&doom->res_manager);
+				update_selects(&doom->guis[doom->current_gui], &doom->res_manager);
+			}
 			return;
 		}
 	}
 }
 
+void	g_ressources_on_event(t_gui *self, SDL_Event *event, t_doom *doom)
+{
+
+}
+
 static void		action_performed(t_component *cmp, t_doom *doom)
 {
-	printf("CALL\n");
 	if (cmp == doom->guis[doom->current_gui].components->values[PAGE_SIZE * 3 + 1])
 		doom->res_manager.page--;
 	else if (cmp == doom->guis[doom->current_gui].components->values[PAGE_SIZE * 3 + 2])
@@ -87,7 +97,7 @@ static void		action_performed(t_component *cmp, t_doom *doom)
 	if (doom->res_manager.page > get_pages_count(&doom->res_manager))
 		doom->res_manager.page = 0;
 	if (cmp == doom->guis[doom->current_gui].components->values[PAGE_SIZE * 3 + 3])
-		a(doom, "TEST", RESSOURCE_UNSET, FALSE);
+		a(doom, "", RESSOURCE_UNSET, FALSE);
 	update_selects(&doom->guis[doom->current_gui], &doom->res_manager);
 }
 
@@ -95,6 +105,7 @@ void	g_ressources_on_enter(t_gui *self, t_doom *doom)
 {
 	int i;
 
+	SDL_EventState(SDL_DROPFILE, SDL_ENABLE);
 	i = -1;
 	while (++i < PAGE_SIZE)
 	{
@@ -115,21 +126,19 @@ void	g_ressources_on_enter(t_gui *self, t_doom *doom)
 	
 	i = -1;
 	while (++i < 4)
-	{
-		printf("%d %d\n", i, (PAGE_SIZE * 3) + i);
 		self->components->values[(PAGE_SIZE * 3) + i]->perform_action = action_performed;
-	}
 	update_selects(self, &doom->res_manager);
 }
 
 void	g_ressources_on_leave(t_gui *self, t_doom *doom)
 {
+	SDL_EventState(SDL_DROPFILE, SDL_DISABLE);
 	doom->screen.secure = FALSE;
 }
 
 int		get_pages_count(t_ressource_manager *rm)
 {
-	return (ceilf(rm->ressources->len / PAGE_SIZE));
+	return (ceil((rm->ressources->len - 1) / PAGE_SIZE));
 }
 
 void	render_page_label(t_gui *self, t_doom *doom)
