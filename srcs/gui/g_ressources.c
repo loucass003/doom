@@ -81,17 +81,31 @@ static void		delete_ressource_performed(t_component *cmp, t_doom *doom)
 	}
 }
 
+t_vec2	get_mouse_pos(t_doom *doom)
+{
+	int	x;
+	int	y;
+	int	x_w;
+	int	y_w;
+
+	SDL_GetWindowPosition(doom->win, &x_w, &y_w);
+	SDL_GetGlobalMouseState(&x, &y);
+	return (t_vec2){ x - x_w, y - y_w };
+}
+
 void	g_ressources_on_event(t_gui *self, SDL_Event *event, t_doom *doom)
 {	
 	if (event->type == SDL_DROPFILE)
 	{
-		int x, y;
-		SDL_GetMouseState(&x, &y);
-		printf("DROP %s %d %d\n", event->drop.file, x, y);
-	}
-	else if (event->type == SDL_MOUSEMOTION)
-	{
-		printf("CALL\n");
+		t_vec2	pos = get_mouse_pos(doom);
+		int index = ((int)(pos.y - 53) / 30) + (doom->res_manager.page * PAGE_SIZE);
+		printf("DROP TEST %d\n", index);
+		if (index >= 0 && index < doom->res_manager.ressources->len)
+		{
+			doom->res_manager.ressources->values[index]->path = ft_strdup(event->drop.file);
+			printf("DROP %s %f\n", event->drop.file);
+			SDL_free(event->drop.file);
+		}
 	}
 }
 
@@ -113,7 +127,7 @@ static void		action_performed(t_component *cmp, t_doom *doom)
 void	g_ressources_on_enter(t_gui *self, t_doom *doom)
 {
 	int i;
-
+	SDL_CaptureMouse(SDL_TRUE);
 	SDL_EventState(SDL_DROPFILE, SDL_ENABLE);
 	i = -1;
 	while (++i < PAGE_SIZE)
@@ -175,12 +189,15 @@ void	render_page_label(t_gui *self, t_doom *doom)
 	SDL_FreeSurface(t);
 }
 
+
+
 void	render_page(t_gui *self, t_doom *doom)
 {
+	const t_vec2	pos = get_mouse_pos(doom);
 	int	i;
 	t_ressource		*res;
-	int x, y;
-	SDL_GetMouseState(&x, &y);
+
+	//printf("%d %d\n", x - x_w, y - y_w);
 
 	i = -1;
 	while (++i < PAGE_SIZE)
@@ -189,9 +206,8 @@ void	render_page(t_gui *self, t_doom *doom)
 		{
 			res = doom->res_manager.ressources->values[i];
 			int color = res->loaded ? 0xFF00FF00 : 0xFFFF0000;
-			if (i == y / 30 - 53)
+			if (in_bounds((SDL_Rect){ S_WIDTH_2 - 356, 53 + i * 30, 584, 28 }, pos))
 				color = 0xFFFFFFFF;
-			
 			draw_rect(&doom->screen, (SDL_Rect){ S_WIDTH_2 - 356, 53 + i * 30, 584, 28 }, color);
 		}
 	}
