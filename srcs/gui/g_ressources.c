@@ -26,7 +26,7 @@ void			update_selects(t_gui *self, t_ressource_manager *rm)
 				rm->ressources->values[res_index]->display_name);
 			text->text_len = ft_strlen(rm->ressources->values[res_index]->display_name);
 			text->super.enabled = !rm->ressources->values[res_index]->fixed;
-			s->super.enabled = text->super.enabled;
+			s->super.enabled = !rm->ressources->values[res_index]->fixed && !rm->ressources->values[res_index]->loaded; 
 			s->fg_color = !s->super.enabled ? 0xFFAAAAAA : 0xFFFFFFFF;
 			text->fg_color = !text->super.enabled ? 0xFFAAAAAA : 0xFFFFFFFF;
 			self->components->values[i * 3 + 2]->visible = !rm->ressources->values[res_index]->fixed;
@@ -69,7 +69,8 @@ static void		delete_ressource_performed(t_component *cmp, t_doom *doom)
 		if (cmp == doom->guis[doom->current_gui].components->values[i * 3 + 2])
 		{
 			int index = i + (doom->res_manager.page * PAGE_SIZE);
-			if (doom->res_manager.ressources->values[index]->used == 0)
+			if (index >= 0 && index < doom->res_manager.ressources->len
+				&& doom->res_manager.ressources->values[index]->used == 0)
 			{
 				splice_ressources_array(doom->res_manager.ressources, index, 1);
 				if (doom->res_manager.page > get_pages_count(&doom->res_manager))
@@ -95,16 +96,20 @@ t_vec2	get_mouse_pos(t_doom *doom)
 
 void	g_ressources_on_event(t_gui *self, SDL_Event *event, t_doom *doom)
 {	
+	t_ressource		*r;
+
 	if (event->type == SDL_DROPFILE)
 	{
 		t_vec2	pos = get_mouse_pos(doom);
 		int index = ((int)(pos.y - 53) / 30) + (doom->res_manager.page * PAGE_SIZE);
-		printf("DROP TEST %d\n", index);
 		if (index >= 0 && index < doom->res_manager.ressources->len)
 		{
-			doom->res_manager.ressources->values[index]->path = ft_strdup(event->drop.file);
-			printf("DROP %s %f\n", event->drop.file);
+			r = doom->res_manager.ressources->values[index];
+			if (r->type == RESSOURCE_UNSET)
+				return ;
+			load_ressource(doom, r, event->drop.file);
 			SDL_free(event->drop.file);
+			update_selects(&doom->guis[doom->current_gui], &doom->res_manager);
 		}
 	}
 }
@@ -122,6 +127,8 @@ static void		action_performed(t_component *cmp, t_doom *doom)
 	if (cmp == doom->guis[doom->current_gui].components->values[PAGE_SIZE * 3 + 3])
 		a(doom, "", RESSOURCE_UNSET, FALSE);
 	update_selects(&doom->guis[doom->current_gui], &doom->res_manager);
+	if (cmp == doom->guis[doom->current_gui].components->values[PAGE_SIZE * 3] && !check_ressources_errors(doom))
+		set_gui(doom, GUI_MAIN_MENU);
 }
 
 void	g_ressources_on_enter(t_gui *self, t_doom *doom)

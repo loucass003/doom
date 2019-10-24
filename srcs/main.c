@@ -6,10 +6,12 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/22 00:26:19 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/24 05:16:33 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <sys/mman.h>
+#include <errno.h>
 #include "arrays.h"
 #include "doom.h"
 #include "octree.h"
@@ -145,7 +147,7 @@ void	init_bsp(t_doom *doom)
 	post_process_map(doom);
 }
 
-int		main(void)
+int		main(int argc, char **argv)
 {
  	t_doom doom = (t_doom) {
 		.running = TRUE,
@@ -156,6 +158,9 @@ int		main(void)
 		.current_gui = -1,
 		.skybox_index = -1
 	};
+
+	if (argc == 2)
+		load_datapack(&doom, argv[1]);
 
 	doom.main_context.doom = &doom;
 	//doom.thpool = at_thpool_create (20);
@@ -174,8 +179,22 @@ int		main(void)
 	obj_test(&doom);
 	init_bsp(&doom);
 	init_lightning(&doom);
+
+	// char	*data;
+
+	// t_json_state state = (t_json_state){ ft_strdup("TOTO"), 12, 25 };
+
+	// lseek(doom.res_manager.fd, sizeof(int) * 2 + 5, SEEK_SET);
+	// write(doom.res_manager.fd, "", 1);
+	// if ((data = mmap(0, sizeof(int) * 2 + 5, PROT_WRITE, MAP_SHARED, doom.res_manager.fd, 0)) == MAP_FAILED)
+	// 	printf("Oh dear, something went wrong! %s\n", strerror(errno));
+	// ft_memcpy(data, state.str, 5);
+	// ft_memcpy(data + 5, &state + 5, sizeof(int) * 2);
+
+	// munmap(data, sizeof(int) * 2 + 5);
 	game_loop(&doom);
 	sdl_quit(&doom);
 	quit_openal();
+	close_datapack(&doom);
 	return (0);
 }

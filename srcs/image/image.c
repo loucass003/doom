@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 21:24:49 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/22 00:15:52 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/24 02:06:21 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@
 
 t_bool	create_image(SDL_Renderer *renderer, uint32_t w, uint32_t h, t_img *img)
 {
-	ft_bzero(img, sizeof(t_img));
 	img->size = w * h;
 	img->width = w;
 	img->height = h;
 	img->renderer = renderer;
+	img->secure = FALSE;
 	if (img->ignore_texture == FALSE && !(img->texture = SDL_CreateTexture(renderer,
 		SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, w, h)))
 		return (FALSE);
