@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 10:19:30 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/24 03:21:48 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/24 22:46:42 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,5 +66,6 @@ t_bool			ressource_error(t_ressource *r);
 t_bool			a(t_doom *doom, char *name, t_ressource_type type, t_bool fixed);
 t_bool			load_ressource(t_doom *doom, t_ressource *r, char *path);
 t_bool			close_datapack(t_doom *doom);
+t_bool			save_datapack(t_doom *doom);
 
 #endif

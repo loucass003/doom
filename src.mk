@@ -57,6 +57,7 @@ SRC+=editor/load.c
 SRC+=game.c
 SRC+=sdl.c
 SRC+=ressources/load_datapack.c
+SRC+=ressources/save_datapack.c
 SRC+=ressources/load_ressource.c
 SRC+=ressources/ressources_registry.c
 SRC+=events.c

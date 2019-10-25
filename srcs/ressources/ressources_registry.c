@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 14:37:12 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/22 16:05:52 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/25 07:03:15 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_bool	a(t_doom *doom, char *name, t_ressource_type type, t_bool fixed)
 	
 	if (!(ressource = malloc(sizeof(t_ressource))))
 		return (FALSE);
-	*ressource = (t_ressource){ .type = type, .fixed = fixed };
+	*ressource = (t_ressource){ .type = type, .fixed = fixed, .used = fixed };
 	ft_memcpy(ressource->display_name, name, ft_strlen(name));
 	return (!append_ressources_array(&doom->res_manager.ressources, ressource));
 }
