@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/24 02:52:17 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/26 19:37:08 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/26 19:42:46 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ t_bool		read_ressources(t_ressource_manager *rm)
 		return (FALSE);
 	if (res_count <= 0)
 		return (FALSE);
-	printf("RES COUNT %d %d\n", res_count, rm->ressources->len);
 	i = -1;
 	while (++i < res_count)
 	{
@@ -100,10 +99,7 @@ t_bool		load_datapack(t_doom *doom, char *path)
 	doom->res_manager.reader = (t_reader) { .pos = 0 };
 	doom->res_manager.path = path;
 	if (stat(path, &stats) == -1)
-	{
-		printf("No file\n");
 		return (TRUE);
-	}
 	if ((doom->res_manager.reader.fd = open(doom->res_manager.path, O_RDONLY, 0666)) == -1)
 		return (FALSE);
 	if (!read_header(&doom->res_manager))
