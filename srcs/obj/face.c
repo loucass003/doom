@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/25 19:30:54 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/04 23:52:23 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/26 02:05:58 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,11 @@ t_bool		read_face_part(t_reader *r, size_t i, t_face *face)
 	char	v;
 
 	j = 0;
-	while ((v = io_peek(r)) == '/' || j == 0)
+	while (io_peek(r, &v) && (v == '/' || j == 0))
 	{
 		if (v == '/')
 			io_next(r);
-		if (io_peek(r) == '/')
+		if (io_peek(r, &v) && v == '/')
 		{
 			j++;
 			continue;
@@ -82,7 +82,7 @@ t_bool		face_formatter(t_obj *obj, t_reader *reader, t_renderable *r)
 
 	ft_bzero(&face, sizeof(t_face));
 	i = 0;
-	while ((c = io_peek(reader)) == ' ')
+	while (io_peek(reader, &c) && c == ' ')
 	{
 		io_next(reader);
 		if (!read_face_part(reader, i, &face))

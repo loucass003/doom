@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/28 03:24:11 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/14 18:45:24 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/26 02:05:58 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_bool			mtl_newmtl_formatter(t_obj *obj, t_reader *reader, t_renderable *r)
 
 	len = 0;
 	io_next(reader);
-	while ((c = io_peek(reader)) != -1 && c != '\n' && len < GROUPS_NAME_LEN)
+	while (io_peek(reader, &c) && c != '\n' && len < GROUPS_NAME_LEN)
 	{
 		io_next(reader);
 		name[len++] = c;
@@ -75,7 +75,7 @@ t_bool			mtl_map_kd_formatter(t_obj *o, t_reader *reader, t_renderable *r)
 	l = 0;
 	io_next(reader);
 	ft_bzero(name, sizeof(char) * (MATERIAL_TEXTURE_LEN + 1));
-	while ((c = io_peek(reader)) != -1 && c != '\n' && l < MATERIAL_TEXTURE_LEN)
+	while (io_peek(reader, &c) && c != '\n' && l < MATERIAL_TEXTURE_LEN)
 	{
 		io_next(reader);
 		name[l++] = c;
@@ -97,7 +97,7 @@ t_bool			mtl_kd_formatter(t_obj *o, t_reader *reader, t_renderable *r)
 	int			i;
 	
 	i = 0;
-	while ((c = io_peek(reader)) == ' ')
+	while (io_peek(reader, &c) && c == ' ')
 	{
 		io_next(reader);
 		if(!io_readfloat(reader, &color.a[i]))

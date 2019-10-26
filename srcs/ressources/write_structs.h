@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/25 05:41:51 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/25 06:39:50 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/26 03:33:58 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,11 @@
 # include <libft.h>
 # include "ressource.h"
 
-typedef struct		s_wr_header
-{
-	ssize_t			file_size;
-}					t_wr_header;
-
 typedef struct		s_wr_ressource
 {
 	t_ressource_type	type;
 	t_bool				fixed;
+	t_bool				loaded;
 	int					name_len;
 }					t_wr_ressource;
 

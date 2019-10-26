@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/25 06:51:44 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/25 20:31:59 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,6 +159,7 @@ int		main(int argc, char **argv)
 		.skybox_index = -1
 	};
 
+	init_ressources_registry(&doom);
 	if (argc == 2)
 		load_datapack(&doom, argv[1]);
 

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 14:34:00 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/15 04:05:46 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/26 02:05:58 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ t_bool			vertice_formatter(t_obj *obj, t_reader *reader, t_renderable *r)
 	
 	vertice.v.w = 1;
 	i = 0;
-	while ((c = io_peek(reader)) == ' ')
+	while (io_peek(reader, &c) && c == ' ')
 	{
 		io_next(reader);
 		if(!io_readfloat(reader, &vertice.a[i]))
@@ -59,7 +59,7 @@ t_bool			normal_formatter(t_obj *obj, t_reader *reader, t_renderable *r)
 	int			i;
 	
 	i = 0;
-	while ((c = io_peek(reader)) == ' ')
+	while (io_peek(reader, &c) && c == ' ')
 	{
 		io_next(reader);
 		if(!io_readfloat(reader, &normal.a[i]))
@@ -81,7 +81,7 @@ t_bool			vertex_formatter(t_obj *obj, t_reader *reader, t_renderable *r)
 	int			i;
 	
 	i = 0;
-	while ((c = io_peek(reader)) == ' ')
+	while (io_peek(reader, &c) && c == ' ')
 	{
 		io_next(reader);
 		if(!io_readfloat(reader, &vertex.a[i]))
@@ -104,7 +104,7 @@ t_bool			group_formatter(t_obj *obj, t_reader *reader)
 
 	len = 0;
 	io_next(reader);
-	while ((c = io_peek(reader)) != -1 && c != '\n' && len < GROUPS_NAME_LEN)
+	while (io_peek(reader, &c) && c != '\n' && len < GROUPS_NAME_LEN)
 	{
 		io_next(reader);
 		name[len++] = c;

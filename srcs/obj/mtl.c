@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 17:07:44 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/04 23:40:32 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/26 02:05:58 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static t_bool	mtl_process_formaters(t_obj *obj, t_reader *reader, t_renderable *
 		io_skip_until(reader, "\n");
 		io_skip_empty(reader);
 	}
-	if (!formatter && io_peek(reader) != -1)
+	if (!formatter && io_peek(reader, NULL))
 		return (FALSE);
 	return (TRUE);
 }
@@ -69,7 +69,7 @@ t_bool			mtllib_formatter(t_obj *obj, t_reader *reader, t_renderable *r)
 	io_next(reader);
 	ft_bzero(file, sizeof(char) * (MATERIAL_FILE_LEN + 1));
 	len = 0;
-	while ((c = io_peek(reader)) != -1 && c != '\n' && len < MATERIAL_FILE_LEN)
+	while (io_peek(reader, &c) && c != '\n' && len < MATERIAL_FILE_LEN)
 	{
 		io_next(reader);
 		file[len++] = c;
@@ -91,7 +91,7 @@ t_bool			usemtl_formatter(t_obj *obj, t_reader *reader, t_renderable *r)
 	obj->can_add_materials = FALSE;
 	io_next(reader);
 	len = 0;
-	while ((c = io_peek(reader)) != -1 && c != '\n' && len < MATERIAL_NAME_LEN)
+	while (io_peek(reader, &c) && c != '\n' && len < MATERIAL_NAME_LEN)
 	{
 		io_next(reader);
 		name[len++] = c;

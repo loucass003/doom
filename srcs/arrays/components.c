@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 23:06:40 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/20 00:02:23 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/26 03:45:22 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ t_components	*append_components_array(t_components **arr, t_component *v)
 	t_components	*new;
 	size_t			old_size;
 
+	if (!v)
+		return (NULL);
 	if ((*arr)->len == (*arr)->capacity)
 	{
 		old_size = sizeof(t_components) + ((*arr)->capacity * sizeof(t_component *));

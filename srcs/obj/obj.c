@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 15:28:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/16 19:57:00 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/26 02:05:58 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_obj_prefix	*get_formatter(t_obj_prefix *prefixes, size_t prefixes_count, t_rea
 	io_skip_ws(reader);
 	len = 0;
 	ft_bzero(name, sizeof(char) * 40);
-	while (len < 40 && (c = io_peek(reader)) != -1 && c != ' ' && c != '\n')
+	while (len < 40 && io_peek(reader, &c) && c != ' ' && c != '\n')
 	{
 		io_next(reader);
 		name[len++] = c;
@@ -94,7 +94,7 @@ t_bool		load_obj(t_doom *doom, t_renderable *r, t_obj *obj, char *file)
 		io_skip_until(&reader, "\n");
 		io_skip_empty(&reader);
 	}
-	if (!formatter && io_peek(&reader) != -1)
+	if (!formatter && io_peek(&reader, NULL))
 		return (FALSE);
 	return (TRUE);
 }
