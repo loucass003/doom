@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 10:19:30 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/24 22:46:42 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/26 18:44:12 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <libft.h>
 # include "gui.h"
+# include "io.h"
 
 typedef enum	e_ressource_type
 {
@@ -48,12 +49,20 @@ typedef struct	s_ressources
 	t_ressource		*values[];
 }				t_ressources;
 
+typedef struct	s_wr_header
+{
+	size_t		file_size;
+}				t_wr_header;
+
 typedef struct	s_ressource_manager
 {
 	t_ressources	*ressources;
 	int				page;
 	t_select_items	*ressources_types;
-	int				fd;
+	t_reader		reader;
+	struct s_doom	*doom;
+	t_wr_header		dp_header;
+	char			*path;
 }				t_ressource_manager;
 
 t_ressources	*create_ressources_array(int capacity);

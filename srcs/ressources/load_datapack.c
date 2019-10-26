@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/24 02:52:17 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/26 04:12:10 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/26 18:44:18 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,12 +95,14 @@ t_bool		load_datapack(t_doom *doom, char *path)
 {
 	doom->res_manager.doom = doom;
 	doom->res_manager.reader = (t_reader) { .pos = 0 };
-	if ((doom->res_manager.reader.fd = open(path, O_RDWR | O_CREAT, 0666)) == -1)
+	doom->res_manager.path = path;
+	if ((doom->res_manager.reader.fd = open(doom->res_manager.path, O_RDWR, 0666)) == -1)
 		return (FALSE);
 	if (!read_header(&doom->res_manager))
 		return (FALSE);
 	if (!read_ressources(&doom->res_manager))
 		return (FALSE);
+	close_datapack(doom);
 	return (TRUE);
 }
 

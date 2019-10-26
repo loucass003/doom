@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/25 20:31:59 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/26 19:14:47 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ void	init_bsp(t_doom *doom)
 	create_ellipsoid(&ellipsoid, 0xFFFF0000, (t_vec2){ 30, 30 }, (t_vec3){ 1, 1, 1 });
 	ellipsoid.position = (t_vec3){ 5, 0.5, 5 };
 	ellipsoid.scale = (t_vec3){ 1, 1, 1 };
-	ellipsoid.wireframe = TRUE;
+	//ellipsoid.wireframe = TRUE;
 	ellipsoid.wireframe_color = 0xFFFF0000;
 	append_renderables_array(&doom->renderables, ellipsoid);
 
@@ -159,8 +159,13 @@ int		main(int argc, char **argv)
 		.skybox_index = -1
 	};
 
+	if (argc != 2)
+	{
+		ft_putendl("Usage: ./doom-nukem <datapack>");
+		return (0);
+	}
 	init_ressources_registry(&doom);
-	if (argc == 2)
+	
 		load_datapack(&doom, argv[1]);
 
 	doom.main_context.doom = &doom;
