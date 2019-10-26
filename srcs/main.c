@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/26 19:14:47 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/26 19:31:22 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,7 +166,11 @@ int		main(int argc, char **argv)
 	}
 	init_ressources_registry(&doom);
 	
-		load_datapack(&doom, argv[1]);
+	if (!load_datapack(&doom, argv[1]))
+	{
+		ft_putendl("Error: invalid datapack");
+		return (0);
+	}
 
 	doom.main_context.doom = &doom;
 	//doom.thpool = at_thpool_create (20);
