@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 13:06:49 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/20 21:30:52 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/27 02:44:07 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void		fill(t_img *img, t_pixel center, t_pixel p)
 	put_cpixel(img, (t_pixel){ center.x - p.y, center.y - p.x, center.color }); 
 } 
   
-void			draw_circle(t_img *img, t_pixel center, int r) 
+void			draw_circle(t_img *img, t_pixel center, int r)
 { 
 	t_pixel p;
 	int d; 

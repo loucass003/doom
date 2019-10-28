@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   component.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 12:50:35 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/22 14:36:59 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/10/27 02:20:32 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,23 +43,4 @@ t_bool	in_bounds(SDL_Rect bounds, t_vec2 pos)
 	return (pos.x >= bounds.x && pos.y >= bounds.y 
 		&& pos.y < bounds.y + bounds.h 
 		&& pos.x < bounds.x + bounds.w);
-}
-
-void	display_comp(t_doom *doom, t_gui *self)
-{
-	int i;
-	int j;
-	i = 5;
-	j = 5;
-	while (i++ <= S_WIDTH - 5)
-		doom->screen.pixels[j * doom->screen.width + i] = 0xFFFFFFFF;
-	i = 5;
-	while (j++ <= 60)
-		doom->screen.pixels[j * doom->screen.width + i] = 0xFFFFFFFF;
-	while (i++ <= S_WIDTH - 5)
-		doom->screen.pixels[j * doom->screen.width + i] = 0xFFFFFFFF;
-	j = 5;
-	while (j++ <= 60)
-		doom->screen.pixels[j * doom->screen.width + i] = 0xFFFFFFFF;
-	render_components(doom, self);
 }

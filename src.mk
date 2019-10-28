@@ -7,7 +7,6 @@ SRC+=obj/obj_post_process.c
 SRC+=obj/mtl.c
 SRC+=obj/face.c
 SRC+=main.c
-SRC+=polygon/render_polygon.c
 SRC+=polygon/polygon_post_process.c
 SRC+=polygon/polygon.c
 SRC+=polygon/uv_mapping.c

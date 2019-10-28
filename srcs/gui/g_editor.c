@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 15:50:09 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/19 23:39:56 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/27 22:08:42 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,80 +14,98 @@
 #include "gui.h"
 #include "doom.h"
 
-void			set_var(t_doom *doom)
-{
-	doom->editor.lignes = 0;
-	doom->editor.curseur = 0;
-	doom->editor.poly = 0;
-	doom->editor.icone = 0;
-	doom->editor.sup = 0;
-	doom->editor.secteur = 0;
-	doom->editor.porte = 0;
-	doom->editor.set_start = 0;
-}
+# define CELLS_SPACING (10)
+
+// void			set_var(t_doom *doom)
+// {
+// 	doom->editor.lignes = 0;
+// 	doom->editor.curseur = 0;
+// 	doom->editor.poly = 0;
+// 	doom->editor.icone = 0;
+// 	doom->editor.sup = 0;
+// 	doom->editor.secteur = 0;
+// 	doom->editor.porte = 0;
+// 	doom->editor.set_start = 0;
+// }
 
 
 static void		action_performed(t_component *cmp, t_doom *doom)
 {
-	set_var(doom);
-	if (cmp == doom->guis[doom->current_gui].components->values[0])
-		set_map(doom);
-	else if (cmp == doom->guis[doom->current_gui].components->values[1]) //start
-		doom->editor.set_start = (doom->editor.set_start == 0) ? 1 : 0;
-	else if (cmp == doom->guis[doom->current_gui].components->values[2]) //sup ligne
-		doom->editor.sup = (doom->editor.sup == 0) ? 1 : 0;
-	else if (cmp == doom->guis[doom->current_gui].components->values[4]) //objet
-		doom->editor.icone = (doom->editor.icone == 0) ? 1 : 0;
-	else if (cmp == doom->guis[doom->current_gui].components->values[5]) //poly
-		doom->editor.poly = (doom->editor.poly == 0) ? 1 : 0;
-	else if (cmp == doom->guis[doom->current_gui].components->values[6]) //modif
-		doom->editor.curseur = (doom->editor.curseur == 0) ? 1 : 0;
-	else if (cmp == doom->guis[doom->current_gui].components->values[7]) //erase
-		erase_all(doom);
-	else if (cmp == doom->guis[doom->current_gui].components->values[8]) //lignes
+	int			i;
+	t_button	*btn;
+
+	btn = cmp;
+	i = -1;
+	while (++i < 8)
 	{
-		if (doom->editor.lignes == 0)
-			doom->editor.click = 0;
-		doom->editor.lignes = (doom->editor.lignes == 0) ? 1 : 0;
+		btn = doom->guis[doom->current_gui].components->values[i];
+		if (cmp == btn)
+		{
+			doom->editor.selected_tool = i;
+			btn->selected = TRUE;
+		}
+		else
+			btn->selected = FALSE;
 	}
-	else if (cmp == doom->guis[doom->current_gui].components->values[9])
-		doom->editor.secteur = (doom->editor.secteur == 0) ? 1 : 0;
-	else if (cmp == doom->guis[doom->current_gui].components->values[10])
-		doom->editor.porte = (doom->editor.porte == 0) ? 1 : 0;
+	//set_var(doom);
+	// if (cmp == doom->guis[doom->current_gui].components->values[0])
+	// 	set_map(doom);
+	// else if (cmp == doom->guis[doom->current_gui].components->values[1]) //start
+	// 	doom->editor.set_start = (doom->editor.set_start == 0) ? 1 : 0;
+	// else if (cmp == doom->guis[doom->current_gui].components->values[2]) //sup ligne
+	// 	doom->editor.sup = (doom->editor.sup == 0) ? 1 : 0;
+	// else if (cmp == doom->guis[doom->current_gui].components->values[4]) //objet
+	// 	doom->editor.icone = (doom->editor.icone == 0) ? 1 : 0;
+	// else if (cmp == doom->guis[doom->current_gui].components->values[5]) //poly
+	// 	doom->editor.poly = (doom->editor.poly == 0) ? 1 : 0;
+	// else if (cmp == doom->guis[doom->current_gui].components->values[6]) //modif
+	// 	doom->editor.curseur = (doom->editor.curseur == 0) ? 1 : 0;
+	// else if (cmp == doom->guis[doom->current_gui].components->values[7]) //erase
+	// 	erase_all(doom);
+	// else if (cmp == doom->guis[doom->current_gui].components->values[8]) //lignes
+	// {
+	// 	if (doom->editor.lignes == 0)
+	// 		doom->editor.click = 0;
+	// 	doom->editor.lignes = (doom->editor.lignes == 0) ? 1 : 0;
+	// }
+	// else if (cmp == doom->guis[doom->current_gui].components->values[9])
+	// 	doom->editor.secteur = (doom->editor.secteur == 0) ? 1 : 0;
+	// else if (cmp == doom->guis[doom->current_gui].components->values[10])
+	// 	doom->editor.porte = (doom->editor.porte == 0) ? 1 : 0;
 }
 
 void			g_editor_button(t_gui *self, t_doom *doom)
 {
+	doom->editor.line_start_cell = (t_vec2){ -1, -1 };
 	doom->editor.set_start_pos[0] = 0;
 	doom->editor.set_start_pos[1] = 0;
-	append_components_array(&self->components, create_button((SDL_Rect){6, 9, 50, 50}, "icons/icons8-jouer-80.png", NULL));
-	append_components_array(&self->components, create_button((SDL_Rect){56, 9, 50, 50}, "icons/pin.png", NULL));
-	append_components_array(&self->components, create_button((SDL_Rect){106, 9, 50, 50}, "icons/icons8-effacer-96.png", NULL));
-	append_components_array(&self->components, create_menu((SDL_Rect){156, 9, 50, 50}, "wall", doom));
-	append_components_array(&self->components, create_menu((SDL_Rect){206, 9, 50, 50}, "obj", doom));
-	append_components_array(&self->components, create_button((SDL_Rect){256, 9, 50, 50}, "icons/poly.png", NULL));
-	append_components_array(&self->components, create_button((SDL_Rect){306, 9, 50, 50}, "icons/curseur3.png", NULL));
-	append_components_array(&self->components, create_button((SDL_Rect){356, 9, 50, 50}, "icons/croix.png", NULL));
-	append_components_array(&self->components, create_button((SDL_Rect){406, 9, 50, 50}, "icons/icons8-stylo-64.png", NULL));
-	append_components_array(&self->components, create_button((SDL_Rect){456, 9, 50, 50}, "icons/icons8-modifier-la-ligne-80.png", NULL));
-	append_components_array(&self->components, create_button((SDL_Rect){506, 9, 50, 50}, "icons/icons8-porte-64.png", NULL));
+	append_components_array(&self->components, create_button((SDL_Rect){8, 9, 50, 50}, "icons/icons8-jouer-80.png", NULL));
+	append_components_array(&self->components, create_button((SDL_Rect){60, 9, 50, 50}, "icons/pin.png", NULL));
+	append_components_array(&self->components, create_button((SDL_Rect){112, 9, 50, 50}, "icons/icons8-effacer-96.png", NULL));
+	append_components_array(&self->components, create_button((SDL_Rect){164, 9, 50, 50}, "icons/poly.png", NULL));
+	append_components_array(&self->components, create_button((SDL_Rect){216, 9, 50, 50}, "icons/curseur3.png", NULL));
+	append_components_array(&self->components, create_button((SDL_Rect){268, 9, 50, 50}, "icons/croix.png", NULL));
+	append_components_array(&self->components, create_button((SDL_Rect){320, 9, 50, 50}, "icons/icons8-stylo-64.png", NULL));
+	append_components_array(&self->components, create_button((SDL_Rect){372, 9, 50, 50}, "icons/icons8-modifier-la-ligne-80.png", NULL));
 	int i = 0;
-	while (i <= 10)
+	while (i < 8)
 		self->components->values[i++]->perform_action = action_performed;
 }
 
 void			g_editor_on_enter(t_gui *self, t_doom *doom)
 {
-	doom->editor.polygon = create_walls_array(20);
-	doom->editor.lines = create_walls_array(10);
-	doom->editor.objects = create_objects_array(10);
-	if (!(doom->editor.point = (uint8_t *)malloc(sizeof(uint8_t)
-		* (((doom->screen.width) * doom->screen.height - 600) / 20))))
-		return ; //TODO: ERROR
-	ft_bzero(doom->editor.point, sizeof(uint8_t)
-		* (((doom->screen.width) * doom->screen.height - 600) / 20));
-	set_alert_message(doom);
-	set_var(doom);
+	doom->editor.rooms = create_rooms_array(5);
+	doom->editor.current_room = -1;
+	// doom->editor.polygon = create_walls_array(20);
+	// doom->editor.lines = create_walls_array(10);
+	// doom->editor.objects = create_objects_array(10);
+	// if (!(doom->editor.point = (uint8_t *)malloc(sizeof(uint8_t)
+	// 	* (((doom->screen.width) * doom->screen.height - 600) / 20))))
+	// 	return ; //TODO: ERROR
+	// ft_bzero(doom->editor.point, sizeof(uint8_t)
+	// 	* (((doom->screen.width) * doom->screen.height - 600) / 20));
+	// set_alert_message(doom);
+	// set_var(doom);
 	g_editor_button(self, doom);
 }
 
@@ -96,12 +114,138 @@ void			g_editor_on_leave(t_gui *self, t_doom *doom)
 
 }
 
+t_vec2			get_grid_pos(t_vec2	grid_cell)
+{
+	return ((t_vec2){ 10 + (int)(grid_cell.x * CELLS_SPACING), 70 + (int)(grid_cell.y * CELLS_SPACING) });
+}
+
+t_bool		onSegment(t_vec2 p, t_vec2 q, t_vec2 r) 
+{
+	if (q.x < fmax(p.x, r.x) && q.x > fmin(p.x, r.x)
+		&& q.y < fmax(p.y, r.y) && q.y > fmin(p.y, r.y))
+		return TRUE;
+	return FALSE;
+} 
+
+int			orientation(t_vec2 p, t_vec2 q, t_vec2 r) 
+{
+	int val = (q.y - p.y) * (r.x - q.x) - 
+				(q.x - p.x) * (r.y - q.y); 
+
+	if (val == 0) return 0;
+	return (val > 0) ? 1: 2;
+} 
+
+t_bool		seg_intersect(t_line p, t_line q, t_bool colinear_check)
+{ 
+    int o1 = orientation(p.a, p.b, q.a); 
+    int o2 = orientation(p.a, p.b, q.b); 
+    int o3 = orientation(q.a, q.b, p.a); 
+    int o4 = orientation(q.a, q.b, p.b); 
+
+	if (o1 != o2 && o3 != o4)
+		return TRUE;
+
+	if (colinear_check)
+	{
+		if (o1 == 0 && onSegment(p.a, q.a, p.b)) 
+			return TRUE;
+		if (o2 == 0 && onSegment(p.a, q.b, p.b))
+			return TRUE;
+		if (o3 == 0 && onSegment(q.a, p.a, q.b))
+			return TRUE;
+		if (o4 == 0 && onSegment(q.a, p.b, q.b))
+			return TRUE;
+	}
+	return FALSE;
+}
+
+
+t_bool			is_simple_polygon(t_room *room)
+{
+	int		i;
+	int		j;
+	t_line	line1;
+	t_line	line2;
+
+	// if (room->points->len < 5)
+	// 	return (TRUE);
+	printf("CHECK ---\n");
+	i = -1;
+	while (++i < room->points->len)
+	{
+		int next = (i + 1) % room->points->len;
+		t_vec2	p0 = get_grid_pos(room->points->vertices[i]);
+		t_vec2	p1 = get_grid_pos(room->points->vertices[next]);
+		line1 = (t_line){ .a = p0, .b = p1 };
+		j = i + 1;
+		while (++j < room->points->len) 
+		{
+			int next = (j + 1) % room->points->len;
+			t_vec2	p0 = get_grid_pos(room->points->vertices[j]);
+			t_vec2	p1 = get_grid_pos(room->points->vertices[next]);
+			line2 = (t_line){ .a = p0, .b = p1 };
+			printf("%f %f %f %f -- %f %f %f %f\n", line1.a.x, line1.a.y, line1.b.x, line1.b.y, line2.a.x, line2.a.y, line2.b.x, line2.b.y);
+			/*if (seg_intersect(line1, line2, FALSE))
+				return (FALSE);*/
+		}
+	}
+	return (TRUE);
+}
+
 void			g_editor_on_event(t_gui *self, SDL_Event *event, t_doom *doom)
 {
 	if (event->type == SDL_MOUSEMOTION)
-		editor_mouse_motion(doom, event);
-	if (event->type == SDL_MOUSEBUTTONUP && event->button.y > (doom->screen.height - 600))
-		editor_mousebuttonup(doom, event->button.x, event->button.y);
+	{
+		t_vec2 pos = (t_vec2){ event->motion.x, event->motion.y };
+		if (in_bounds((SDL_Rect){ 5, 65, doom->screen.width - 5, doom->screen.height - 65 }, pos))
+			doom->editor.grid_cell = (t_vec2){ (int)(pos.x - 5) / CELLS_SPACING, (int)(pos.y - 65) / CELLS_SPACING };
+		else
+			doom->editor.grid_cell = (t_vec2){ -1, -1 };
+	}
+	else if (event->type == SDL_MOUSEBUTTONUP)
+	{
+		if (doom->editor.selected_tool == 3 && doom->editor.grid_cell.x != -1)
+		{
+			if (doom->editor.current_room == -1)
+			{
+				append_rooms_array(&doom->editor.rooms, (t_room){ .points = create_2dvertices_array(15) });
+				doom->editor.current_room = doom->editor.rooms->len - 1;
+			}
+
+			t_room	*curr_room = &doom->editor.rooms->values[doom->editor.current_room];
+
+			if (curr_room->points->len >= 3 && ( event->button.button == SDL_BUTTON_RIGHT || (curr_room->points->vertices[0].x == doom->editor.grid_cell.x && curr_room->points->vertices[0].y == doom->editor.grid_cell.y)))
+			{
+				curr_room->closed = TRUE;
+				doom->editor.current_room = -1;
+				doom->editor.line_start_cell = (t_vec2){ -1, -1 };
+			}
+			else
+			{
+				append_2dvertices_array(&curr_room->points, doom->editor.grid_cell);
+				if (!is_simple_polygon(curr_room))
+					splice_2dvertices_array(curr_room->points, curr_room->points->len - 1, 1);
+				else
+					doom->editor.line_start_cell = doom->editor.grid_cell;
+			}
+
+			// if (event->button.button == SDL_BUTTON_RIGHT)
+			// 	doom->editor.line_start_cell = (t_vec2){ -1, -1 };
+			// else if (doom->editor.line_start_cell.x != -1)
+			// {
+			// 	printf("ADD LINE\n");
+			// 	doom->editor.line_start_cell = (t_vec2){ -1, -1 };
+			// }
+			// else
+			// 	doom->editor.line_start_cell = doom->editor.grid_cell;
+		}
+	}
+
+	// if (event->type == SDL_MOUSEMOTION)
+	// 	editor_mouse_motion(doom, event);
+	// if (event->type == SDL_MOUSEBUTTONUP && event->button.y > (doom->screen.height - 600))
+	// 	editor_mousebuttonup(doom, event->button.x, event->button.y);
 }
 
 void			g_editor_render(t_gui *self, t_doom *doom)
@@ -111,64 +255,46 @@ void			g_editor_render(t_gui *self, t_doom *doom)
 
 
 	int i = -1;
-	while (++i <= (int)(doom->screen.height - 70) / 20)
-		draw_line(&doom->screen, (t_pixel){ 10, i * 20 + 70, 0xFF505050}, (t_pixel){ doom->screen.width - 10, i * 20 + 70 });
+	while (++i <= (int)(doom->screen.height - 70) / CELLS_SPACING)
+		draw_line(&doom->screen, (t_pixel){ 10, i * CELLS_SPACING + 70, 0xFF505050}, (t_pixel){ doom->screen.width - 10, i * CELLS_SPACING + 70 });
 	i = -1;
-	while (++i <= (int)(doom->screen.width - 20) / 20)
-		draw_line(&doom->screen, (t_pixel){ i * 20 + 10, 70, 0xFF505050}, (t_pixel){ i * 20 + 10, doom->screen.height - 10 });
-	// y = 2;
-	// while (y++ <= doom->screen.height / 20)
-	// { 
-	// 	x = 10;
-	// 	while (x++ < 1270)
-	// 	{
-	// 		doom->screen.pixels[(y * 20 + 10) * doom->screen.width
-	// 		+ x] = doom->editor.point[(y * (doom->screen.width
-	// 		/ 20)) + x] == 1 ? 0xFFFF0000 : 0xFF505050;
-	// 	}
-	// }
-	// x = 1;
-	// while (x++ <= doom->screen.width / 20)
-	// {
-	// 	y = 70;
-	// 	while (y++ < 630)
-	// 		{
-	// 			doom->screen.pixels[y * doom->screen.width
-	// 			+ (x * 20) + 10] = doom->editor.point[(y * (doom->screen.width
-	// 			/ 20)) + x] == 1 ? 0xFFFF0000 : 0xFF505050;
-	// 		}
-	// }
-	// y = -1;
-	// while (++y <= doom->screen.height / 20)
-	// {
-	// 	x = -1;
-	// 	if (y >= (doom->screen.height - 600) / 20)
-	// 	{
-	// 		while (++x <= doom->screen.width / 20)
-	// 		{
-	// 				doom->screen.pixels[(y * 20 + 10) * doom->screen.width
-	// 				+ (x * 20) + 10] = doom->editor.point[(y * (doom->screen.width
-	// 				/ 20)) + x] == 1 ? 0xFFFF0000 : 0xFFFFFFFF;
-	// 		}
-	// 	}
-	// }
-	if (doom->editor.curseur == 1)
-		all_visual(doom, doom->editor.last_mouse.x / 20, doom->editor.last_mouse.y / 20);
-	if (doom->editor.click > 1 && (doom->editor.poly == 1 || doom->editor.porte == 1 || doom->editor.secteur == 1 || doom->editor.lignes == 1))
-		visual_line(doom, (t_line){doom->editor.line.b.x, doom->editor.line.b.y, (int)doom->editor.last_mouse.x / 20, (int)doom->editor.last_mouse.y / 20});
-	if (doom->editor.click == 1 && (doom->editor.poly == 1 || doom->editor.porte == 1 || doom->editor.secteur == 1 || doom->editor.lignes == 1))
-		visual_line(doom, (t_line){doom->editor.line.a.x, doom->editor.line.a.y, (int)doom->editor.last_mouse.x / 20, (int)doom->editor.last_mouse.y / 20});
-	write_alert_message(doom);
-	print_all(doom);
-	if (doom->editor.sup == 1)
+	while (++i <= (int)(doom->screen.width - 20) / CELLS_SPACING)
+		draw_line(&doom->screen, (t_pixel){ i * CELLS_SPACING + 10, 70, 0xFF505050}, (t_pixel){ i * CELLS_SPACING + 10, doom->screen.height - 10 });
+	if (doom->editor.grid_cell.x != -1)
 	{
-		if (doom->editor.polygon || doom->editor.lines)
-			draw_line(&doom->screen, (t_pixel){doom->linetodel.line.a.x * 20 
-			+ 10, doom->linetodel.line.a.y * 20 + 10, 0xFFFF0000}, (t_pixel){doom->linetodel.line.b.x 
-			* 20 + 10, doom->linetodel.line.b.y * 20 + 10});
-		else
-			doom->linetodel.line = (t_line) {0, 0, 0, 0};
+		t_vec2 grid_pos = get_grid_pos(doom->editor.grid_cell);
+		draw_circle(&doom->screen, (t_pixel){ grid_pos.x, grid_pos.y, 0xFFFF00FF }, 5);
 	}
-	display_comp(doom, self);
-	show_new_components(doom);
+	if (doom->editor.line_start_cell.x != -1)
+	{
+		t_vec2	p0 = get_grid_pos(doom->editor.line_start_cell);
+		t_vec2	p1 = get_grid_pos(doom->editor.grid_cell);
+		draw_line(&doom->screen, (t_pixel){ p0.x, p0.y, 0xFF909090}, (t_pixel){ p1.x, p1.y, 0 });
+	}
+
+	i = -1;
+	while (++i < doom->editor.rooms->len)
+	{
+		t_room *room = &doom->editor.rooms->values[i];
+		if (room->points->len < 2)
+			continue;
+		int j = -1;
+		if (!room->closed)
+		{
+			t_vec2	first_point = get_grid_pos(room->points->vertices[0]);
+			draw_circle(&doom->screen, (t_pixel){ first_point.x, first_point.y, 0xFFFF00FF }, 5);
+		}
+		while (++j < room->points->len - !(room->closed))
+		{
+			int next = (j + 1) % room->points->len;
+			t_vec2	p0 = get_grid_pos(room->points->vertices[j]);
+			t_vec2	p1 = get_grid_pos(room->points->vertices[next]);
+			draw_circle(&doom->screen, (t_pixel){ p0.x, p0.y, 0xFFFF00FF }, 2);
+			draw_line(&doom->screen, (t_pixel){ p0.x, p0.y, 0xFFFF9090}, (t_pixel){ p1.x, p1.y, 0 });
+		}
+	}
+
+	draw_rect(&doom->screen, (SDL_Rect){ 5, 5, S_WIDTH - 10, 55 }, 0xFFFFFFFF);
+	render_components(doom, self);
+	// show_new_components(doom);
 }

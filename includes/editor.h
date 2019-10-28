@@ -5,6 +5,7 @@
 # include <libft.h>
 # include "maths/line.h"
 # include "gui.h"
+# include "arrays.h"
 
 typedef struct		s_object
 {
@@ -34,7 +35,8 @@ typedef struct		s_walls
 
 typedef struct		s_room
 {
-	t_walls			*walls;
+	t_2dvertices	*points;
+	t_bool			closed;
 }					t_room;
 
 typedef struct		s_rooms
@@ -46,6 +48,13 @@ typedef struct		s_rooms
 
 typedef struct		s_editor
 {
+	t_vec2			grid_cell;
+	int				selected_tool;
+	t_vec2			line_start_cell;
+	t_rooms			*rooms;
+	int				current_room;
+	
+	
 	uint8_t			*point;
 	int				click;
 	int				sup;
@@ -66,7 +75,7 @@ typedef struct		s_editor
 	// t_save			*door;
 	// t_save			*sector;
 	// t_save			*polygon;
-	// t_save			*lines;
+	//t_save			*lines;
 	//t_obj			*obj;
 	t_line			line;
 	t_vec2			last_mouse;

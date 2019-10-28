@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   editor_alert.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/30 14:37:21 by lloncham          #+#    #+#             */
-/*   Updated: 2019/09/17 14:27:43 by louali           ###   ########.fr       */
+/*   Updated: 2019/10/27 02:09:44 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,21 +40,21 @@ void	write_alert_message(t_doom *doom)
 		text = TTF_RenderText_Blended(doom->fonts.helvetica, close, color);
 		apply_surface_blended(&doom->screen, text
 		, (SDL_Rect){0, 0, text->w, text->h}
-		, (SDL_Rect){S_WIDTH - 350, 20, text->w + 5, text->h + 5});
+		, (SDL_Rect){S_WIDTH - 450, 20, text->w + 5, text->h + 5});
 	}
 	else if (doom->editor.alert[0] == 1)
 	{
 		text = TTF_RenderText_Blended(doom->fonts.helvetica, ok, color);
 		apply_surface_blended(&doom->screen, text
 		, (SDL_Rect){0, 0, text->w, text->h}
-		, (SDL_Rect){S_WIDTH - 350, 20, text->w + 5, text->h + 5});
+		, (SDL_Rect){S_WIDTH - 450, 20, text->w + 5, text->h + 5});
 	}
 	if (doom->editor.alert[1] == 1 && doom->editor.click != 1)
 	{
 		text = TTF_RenderText_Blended(doom->fonts.helvetica, points, color);
 		apply_surface_blended(&doom->screen, text
 		, (SDL_Rect){0, 0, text->w, text->h}
-		, (SDL_Rect){S_WIDTH - 350, 30, text->w + 5, text->h + 5});
+		, (SDL_Rect){S_WIDTH - 450, 30, text->w + 5, text->h + 5});
 	}
 	if (doom->editor.alert[2] == 1)
 	{
@@ -68,6 +68,6 @@ void	write_alert_message(t_doom *doom)
 		text = TTF_RenderText_Blended(doom->fonts.helvetica, out, color);
 		apply_surface_blended(&doom->screen, text
 		, (SDL_Rect){0, 0, text->w, text->h}
-		, (SDL_Rect){S_WIDTH - 350, 30, text->w + 5, text->h + 5});
+		, (SDL_Rect){S_WIDTH - 450, 30, text->w + 5, text->h + 5});
 	}
 }

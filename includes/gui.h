@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 01:42:00 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/22 15:55:37 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/27 03:18:02 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ typedef struct		s_button
 	int				color;
 	int				color_default;
 	int				color_hover;
+	t_bool			selected;
 	char			*image;
 }					t_button;
 
