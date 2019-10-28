@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   enemy.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rle-ru <rle-ru@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/30 16:36:08 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/15 20:00:38 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/28 18:26:39 by rle-ru           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,11 @@ void		entity_update_enemy(t_doom *doom, t_entity *entity, double dt)
 
 	if (entity->died)
 		return ;
-	if (entity->life <= 0)
+	if (entity->life <= 0 && !entity->diying)
 	{
 		entity->diying = TRUE;
 		entity->animation_step = 5;
+		play_music(&doom->audio, entity->position, 5);
 	}
 	entity->t0 += 5 * dt;
 	t_vec3 dir = ft_vec3_sub(doom->player.entity.position, entity->position);
@@ -101,6 +102,8 @@ void		entity_update_enemy(t_doom *doom, t_entity *entity, double dt)
 			{
 				entity->shooting = TRUE;
 				entity->t1 = 0;
+
+				play_music(&doom->audio, entity->position, 7, FALSE);
 				uint8_t u = rand();
 				if (u > 120)
 					doom->player.entity.life -= 0.1;

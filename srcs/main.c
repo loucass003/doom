@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rle-ru <rle-ru@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/26 19:31:22 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/28 17:04:14 by rle-ru           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,6 +192,7 @@ int		main(int argc, char **argv)
 	game_loop(&doom);
 	save_datapack(&doom);
 	sdl_quit(&doom);
+	alDeleteSources(MAX_SOUNDS, &doom.audio.source);
 	quit_openal();
 	return (0);
 }

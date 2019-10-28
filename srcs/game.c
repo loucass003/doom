@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rle-ru <rle-ru@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:01:13 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/25 20:31:46 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/28 18:10:04 by rle-ru           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,35 @@ static void		update_fps(t_doom *doom)
 	}
 }
 
+void			update_sounds(t_doom *doom)
+{
+	int		i;
+	ALint	status;
+
+	i = 0;
+	while (i < MAX_SOUNDS)
+	{
+		if (doom->audio.source_status[i] == TRUE)
+		{
+			alGetSourcei(doom->audio.source[i], AL_SOURCE_STATE, &status);
+			if (status != AL_PLAYING)
+			{
+				doom->audio.source_status[i] = FALSE;
+				// alDeleteSources(1, &doom->audio.source[i]);
+			}
+		}
+		++i;
+	}
+	
+	// t_vec3	forward = ft_mat4_mulv(ft_mat4_rotation(doom->player.camera.rotation), (t_vec3){ 0, 0, 1 });
+	// alListenerfv(AL_POSITION, (ALfloat[3]){doom->player.camera.pos.x, doom->player.camera.pos.y, doom->player.camera.pos.z});
+	// alListenerfv(AL_ORIENTATION, (ALfloat[6]){forward.x, forward.y, forward.z, 0.f, 1.f, 0.f};);
+	// ALfloat listenerOri[] = {1.f, 0.f, 1.f, 0.f, 1.f, 0.f};
+	// ALfloat listenerPos[]={20.f, 0.f, 20.f};
+	// ALfloat listenerVel[]={0.f, 0.f, 0.f};
+
+}
+
 void			game_loop(t_doom *doom)
 {
 	register_guis(doom);
@@ -62,6 +91,7 @@ void			game_loop(t_doom *doom)
 	
 	int  i = 0;
 	load_all(doom);
+	init_openal(doom);
 	while (doom->running)
 	{
 		doom->gdata = (t_gdata){
@@ -82,6 +112,7 @@ void			game_loop(t_doom *doom)
 		apply_image(&doom->screen_transparency, NULL);
 		SDL_RenderPresent(doom->renderer);
 		update_fps(doom);
+		update_sounds(doom);
 	/* 	 if (++i > 100)
 			exit(0); */
 	}

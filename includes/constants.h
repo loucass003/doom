@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   constants.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rle-ru <rle-ru@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 21:05:41 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/22 00:10:04 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/28 17:30:56 by rle-ru           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,5 +56,7 @@
 # define GUI_RESSOURCES (4)
 
 # define AMBIANT_LIGHT (100)
+
+# define MAX_SOUNDS (20)
 
 #endif
