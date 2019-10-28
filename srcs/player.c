@@ -6,7 +6,7 @@
 /*   By: rle-ru <rle-ru@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:43:35 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/28 18:19:30 by rle-ru           ###   ########.fr       */
+/*   Updated: 2019/10/28 18:43:21 by rle-ru           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ void				update_player_camera(t_player *player)
 	t_vec3	forward = ft_mat4_mulv(ft_mat4_rotation(player->camera.rotation), (t_vec3){ 0, 0, 1 });
 	alListener3f(AL_POSITION, player->camera.pos.x, player->camera.pos.y, player->camera.pos.z);
 	alListenerfv(AL_ORIENTATION, (ALfloat[6]){forward.x, forward.y, forward.z, 0.f, 1.f, 0.f});
-	ALenum error = alGetError();
-		printf("alGenBuffers : %s\n", alGetString(error)); 
+	// ALenum error = alGetError();
+	// 	printf("alGenBuffers : %s\n", alGetString(error)); 
 }
 
 
