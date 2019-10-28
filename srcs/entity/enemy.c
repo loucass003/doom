@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   enemy.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rle-ru <rle-ru@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/30 16:36:08 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/28 18:26:39 by rle-ru           ###   ########.fr       */
+/*   Updated: 2019/10/28 21:46:26 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ void		entity_update_enemy(t_doom *doom, t_entity *entity, double dt)
 			if (!walking)
 				entity->animation_step = 6;
 			entity->t1++;
-			if (entity->t1 >= 5 && !walking)
+			if (entity->t1 >= 5 && !walking && !entity->diying)
 			{
 				entity->shooting = TRUE;
 				entity->t1 = 0;

@@ -3,15 +3,15 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+         #
+#    By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/07 14:49:27 by llelievr          #+#    #+#              #
-#    Updated: 2019/10/22 14:17:22 by lloncham         ###   ########.fr        #
+#    Updated: 2019/10/28 21:42:06 by llelievr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME=doom-nukem
-CFLAGS=-Wall -Wextra -g -ffast-math
+CFLAGS=-Wall -Wextra -flto -O3 -ffast-math
 LIBS=-lm -lft
 CC=clang
 
@@ -76,7 +76,7 @@ re: fclean $(NAME)
 
 
 get_files:
-	@find srcs -type f | sed 's/srcs\///g' | sed 's/^/SRC+=/' > src.mk
+	@find srcs -type f -name '*.c' | sed 's/srcs\///g' | sed 's/^/SRC+=/' > src.mk
 
 include $(wildcard $(DEPSDIR)/**/*.d)
 
