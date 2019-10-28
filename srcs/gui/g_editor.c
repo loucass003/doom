@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 15:50:09 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/27 22:08:42 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/28 17:26:01 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,14 @@ static void		action_performed(t_component *cmp, t_doom *doom)
 		}
 		else
 			btn->selected = FALSE;
+	}
+	
+	if (doom->editor.current_room != -1)
+	{
+		t_room	*curr_room = &doom->editor.rooms->values[doom->editor.current_room];
+		curr_room->closed = TRUE;
+		doom->editor.current_room = -1;
+		doom->editor.line_start_cell = (t_vec2){ -1, -1 };
 	}
 	//set_var(doom);
 	// if (cmp == doom->guis[doom->current_gui].components->values[0])
@@ -119,14 +127,6 @@ t_vec2			get_grid_pos(t_vec2	grid_cell)
 	return ((t_vec2){ 10 + (int)(grid_cell.x * CELLS_SPACING), 70 + (int)(grid_cell.y * CELLS_SPACING) });
 }
 
-t_bool		onSegment(t_vec2 p, t_vec2 q, t_vec2 r) 
-{
-	if (q.x < fmax(p.x, r.x) && q.x > fmin(p.x, r.x)
-		&& q.y < fmax(p.y, r.y) && q.y > fmin(p.y, r.y))
-		return TRUE;
-	return FALSE;
-} 
-
 int			orientation(t_vec2 p, t_vec2 q, t_vec2 r) 
 {
 	int val = (q.y - p.y) * (r.x - q.x) - 
@@ -143,21 +143,37 @@ t_bool		seg_intersect(t_line p, t_line q, t_bool colinear_check)
     int o3 = orientation(q.a, q.b, p.a); 
     int o4 = orientation(q.a, q.b, p.b); 
 
+	if ((q.a.x == p.b.x && q.a.y == p.b.y) || (q.b.x == p.a.x && q.b.y == p.a.y))
+		return (FALSE);
 	if (o1 != o2 && o3 != o4)
 		return TRUE;
-
-	if (colinear_check)
-	{
-		if (o1 == 0 && onSegment(p.a, q.a, p.b)) 
-			return TRUE;
-		if (o2 == 0 && onSegment(p.a, q.b, p.b))
-			return TRUE;
-		if (o3 == 0 && onSegment(q.a, p.a, q.b))
-			return TRUE;
-		if (o4 == 0 && onSegment(q.a, p.b, q.b))
-			return TRUE;
-	}
 	return FALSE;
+}
+
+t_bool		get_line_intersection(t_line a, t_line b, float *i_x, float *i_y)
+{
+	t_vec2	s1;
+	t_vec2	s2;
+
+	s1.x = a.b.x - a.a.x;     s1.y = a.b.y - a.a.y;
+	s2.x = b.b.x - b.a.x;     s2.y = b.b.y - b.a.y;
+
+	float s, t;
+	s = (-s1.y * (a.a.x - b.a.x) + s1.x * (a.a.y - b.a.y)) / (-s2.x * s1.y + s1.x * s2.y);
+	t = ( s2.x * (a.a.y - b.a.y) - s2.y * (a.a.x - b.a.x)) / (-s2.x * s1.y + s1.x * s2.y);
+
+	if (s >= 0 && s <= 1 && t >= 0 && t <= 1)
+	{
+		// Collision detected
+		if (i_x != NULL)
+			*i_x = a.a.x + (t * s1.x);
+		if (i_y != NULL)
+			*i_y = a.a.y + (t * s1.y);
+		printf("COLLISION\n");
+		return (TRUE);
+	}
+
+	return (FALSE); // No collision
 }
 
 
@@ -175,19 +191,26 @@ t_bool			is_simple_polygon(t_room *room)
 	while (++i < room->points->len)
 	{
 		int next = (i + 1) % room->points->len;
-		t_vec2	p0 = get_grid_pos(room->points->vertices[i]);
-		t_vec2	p1 = get_grid_pos(room->points->vertices[next]);
+		t_vec2	p0 = room->points->vertices[i];
+		t_vec2	p1 = room->points->vertices[next];
 		line1 = (t_line){ .a = p0, .b = p1 };
-		j = i + 1;
+		j = -1;
 		while (++j < room->points->len) 
 		{
-			int next = (j + 1) % room->points->len;
-			t_vec2	p0 = get_grid_pos(room->points->vertices[j]);
-			t_vec2	p1 = get_grid_pos(room->points->vertices[next]);
+			int next = (j);
+			int next2 = (j + 1) % room->points->len;
+			t_vec2	p0 = room->points->vertices[next];
+			t_vec2	p1 = room->points->vertices[next2];
 			line2 = (t_line){ .a = p0, .b = p1 };
 			printf("%f %f %f %f -- %f %f %f %f\n", line1.a.x, line1.a.y, line1.b.x, line1.b.y, line2.a.x, line2.a.y, line2.b.x, line2.b.y);
-			/*if (seg_intersect(line1, line2, FALSE))
-				return (FALSE);*/
+			if (line1.a.x == line2.a.x && line1.a.y == line2.a.y && line1.b.x == line2.b.x && line1.b.y == line2.b.y)
+				continue;
+			if (line1.b.x == line2.a.x && line1.b.y == line2.a.y)
+				continue;
+			if (line2.b.x == line1.a.x && line2.b.y == line1.a.y)
+				continue;
+			if (get_line_intersection(line1, line2, NULL, NULL))
+				return (FALSE);
 		}
 	}
 	return (TRUE);
