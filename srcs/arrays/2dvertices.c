@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/08 13:54:28 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/29 19:50:10 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/29 15:41:27 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,4 +70,20 @@ t_2dvertices	*copy_2dvertices_array(t_2dvertices *src, t_2dvertices **dst)
 	ft_memcpy(*dst, src,
 		sizeof(t_2dvertices) + (src->capacity * sizeof(t_vec2)));
 	return (*dst);
+}
+
+
+int		vertices2d_indexof(t_2dvertices *arr, t_vec2 v)
+{
+	int		i;
+	t_vec2	vi;
+
+	i = -1;
+	while (++i < arr->len)
+	{
+		vi = arr->vertices[i];
+		if (vi.x == v.x && vi.y == v.y)
+			return (i);
+	}
+	return (-1);
 }

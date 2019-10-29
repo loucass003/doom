@@ -46,6 +46,7 @@ t_2dvertices		*splice_2dvertices_array(t_2dvertices *arr,
 						int index, int n);
 t_2dvertices		*copy_2dvertices_array(t_2dvertices *src,
 						t_2dvertices **dst);
+int					vertices2d_indexof(t_2dvertices *arr, t_vec2 v);
 
 t_3dvertices		*create_3dvertices_array(int capacity);
 t_3dvertices		*append_3dvertices_array(t_3dvertices **arr, t_vec3 v);
@@ -67,6 +68,7 @@ t_ints				*splice_ints_array(t_ints *arr,
 						int index, int n);
 t_ints				*copy_ints_array(t_ints *src,
 						t_ints **dst);
+int					ints_indexof(t_ints *arr, int i);
 
 
 t_ptrs				*create_ptrs_array(int capacity);

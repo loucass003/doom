@@ -46,10 +46,18 @@ typedef struct		s_rooms
 	t_room			values[];
 }					t_rooms;
 
+typedef enum		e_grid_grab
+{
+	GG_NONE,
+	GG_POINT,
+	GG_LINE
+}					t_grid_grab;
+
 typedef struct		s_editor
 {
 	t_vec2			grid_cell;
-	int				grid_cell_color;
+	t_grid_grab		grid_cell_grab;
+	t_vec2			close_seg;
 	int				selected_tool;
 	t_vec2			line_start_cell;
 	t_rooms			*rooms;
