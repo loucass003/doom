@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 15:50:09 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/28 17:26:01 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/29 04:12:12 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ void			g_editor_button(t_gui *self, t_doom *doom)
 void			g_editor_on_enter(t_gui *self, t_doom *doom)
 {
 	doom->editor.rooms = create_rooms_array(5);
+	doom->editor.points = create_2dvertices_array(50);
 	doom->editor.current_room = -1;
 	// doom->editor.polygon = create_walls_array(20);
 	// doom->editor.lines = create_walls_array(10);
@@ -120,11 +121,6 @@ void			g_editor_on_enter(t_gui *self, t_doom *doom)
 void			g_editor_on_leave(t_gui *self, t_doom *doom)
 {
 
-}
-
-t_vec2			get_grid_pos(t_vec2	grid_cell)
-{
-	return ((t_vec2){ 10 + (int)(grid_cell.x * CELLS_SPACING), 70 + (int)(grid_cell.y * CELLS_SPACING) });
 }
 
 int			orientation(t_vec2 p, t_vec2 q, t_vec2 r) 
@@ -150,7 +146,7 @@ t_bool		seg_intersect(t_line p, t_line q, t_bool colinear_check)
 	return FALSE;
 }
 
-t_bool		get_line_intersection(t_line a, t_line b, float *i_x, float *i_y)
+t_bool		get_line_intersection(t_line a, t_line b, t_bool strict)
 {
 	t_vec2	s1;
 	t_vec2	s2;
@@ -162,59 +158,112 @@ t_bool		get_line_intersection(t_line a, t_line b, float *i_x, float *i_y)
 	s = (-s1.y * (a.a.x - b.a.x) + s1.x * (a.a.y - b.a.y)) / (-s2.x * s1.y + s1.x * s2.y);
 	t = ( s2.x * (a.a.y - b.a.y) - s2.y * (a.a.x - b.a.x)) / (-s2.x * s1.y + s1.x * s2.y);
 
-	if (s >= 0 && s <= 1 && t >= 0 && t <= 1)
-	{
-		// Collision detected
-		if (i_x != NULL)
-			*i_x = a.a.x + (t * s1.x);
-		if (i_y != NULL)
-			*i_y = a.a.y + (t * s1.y);
-		printf("COLLISION\n");
+	/* if (strict && s >= 0 && s <= 1 && t >= 0 && t <= 1)
 		return (TRUE);
-	}
-
-	return (FALSE); // No collision
+	else */ if (s > 0 && s < 1 && t > 0 && t < 1)
+		return (TRUE);
+	return (FALSE);
 }
 
 
-t_bool			is_simple_polygon(t_room *room)
+t_bool			room_intersect(t_editor *editor, t_room *room)
 {
 	int		i;
 	int		j;
+	int		k;
 	t_line	line1;
 	t_line	line2;
 
-	// if (room->points->len < 5)
-	// 	return (TRUE);
-	printf("CHECK ---\n");
 	i = -1;
-	while (++i < room->points->len)
+	while (++i < room->indices->len - 1)
 	{
-		int next = (i + 1) % room->points->len;
-		t_vec2	p0 = room->points->vertices[i];
-		t_vec2	p1 = room->points->vertices[next];
+		t_vec2 p0 = editor->points->vertices[room->indices->values[i]];
+		t_vec2 p1 = editor->points->vertices[room->indices->values[i + 1]];
 		line1 = (t_line){ .a = p0, .b = p1 };
 		j = -1;
-		while (++j < room->points->len) 
+		while (++j < editor->rooms->len)
 		{
-			int next = (j);
-			int next2 = (j + 1) % room->points->len;
-			t_vec2	p0 = room->points->vertices[next];
-			t_vec2	p1 = room->points->vertices[next2];
-			line2 = (t_line){ .a = p0, .b = p1 };
-			printf("%f %f %f %f -- %f %f %f %f\n", line1.a.x, line1.a.y, line1.b.x, line1.b.y, line2.a.x, line2.a.y, line2.b.x, line2.b.y);
-			if (line1.a.x == line2.a.x && line1.a.y == line2.a.y && line1.b.x == line2.b.x && line1.b.y == line2.b.y)
-				continue;
-			if (line1.b.x == line2.a.x && line1.b.y == line2.a.y)
-				continue;
-			if (line2.b.x == line1.a.x && line2.b.y == line1.a.y)
-				continue;
-			if (get_line_intersection(line1, line2, NULL, NULL))
-				return (FALSE);
+			t_room	*room2 = &editor->rooms->values[j];
+			k = -1;
+			while (++k < room2->indices->len - 1)
+			{
+				t_vec2 p0 = editor->points->vertices[room2->indices->values[k]];
+				t_vec2 p1 = editor->points->vertices[room2->indices->values[k + 1]];
+				line2 = (t_line){ .a = p0, .b = p1 };
+				if (line1.a.x == line2.a.x && line1.a.y == line2.a.y && line1.b.x == line2.b.x && line1.b.y == line2.b.y)
+					continue;
+				if (line1.b.x == line2.a.x && line1.b.y == line2.a.y)
+					continue;
+				if (line2.b.x == line1.a.x && line2.b.y == line1.a.y)
+					continue;
+				if (get_line_intersection(line1, line2, room2 == room))
+					return (FALSE);
+			}
 		}
 	}
 	return (TRUE);
 }
+
+t_bool			is_in_range(t_vec2 pos, t_vec2 test)
+{
+	return ((test.x - pos.x) * (test.x - pos.x) + (test.y - pos.y) * (test.y - pos.y) < 9 * 9);
+}
+
+t_vec2			get_point_on_seg(t_vec2 p0, t_vec2 p1, t_vec2 pos)
+{
+	const	t_vec2	b = ft_vec2_sub(p1, p0);
+	const	t_vec2	p = ft_vec2_sub(pos, p0);
+	float	f;
+	float	l;
+	
+	l = ft_vec2_len(b);
+	f = clamp(0, 1, ft_vec2_dot(p, b) / l / l);
+	return ((t_vec2){ p0.x + f * b.x, p0.y + f * b.y });
+}
+
+t_bool			is_point_on_seg(t_vec2 project, t_vec2 pos)
+{
+	printf("%f\n", ft_vec2_len(ft_vec2_sub(project, pos)));
+	return (ft_vec2_len(ft_vec2_sub(project, pos)) < 6);
+}
+
+t_vec2			get_close_point(t_editor *editor, t_vec2 pos)
+{
+	int k;
+	int j;
+
+	j = -1;
+	while (++j < editor->rooms->len)
+	{
+		t_room	*room2 = &editor->rooms->values[j];
+		k = -1;
+		while (++k < room2->indices->len - 1)
+		{
+			t_vec2 p0 = editor->points->vertices[room2->indices->values[k]];
+			t_vec2 p1 = editor->points->vertices[room2->indices->values[k + 1]];
+			if (is_in_range(p0, pos))
+			{
+				editor->grid_cell_color = 0xFFFFFF00;
+				return p0;
+			}
+			if (is_in_range(p1, pos))
+			{
+				editor->grid_cell_color = 0xFFFFFF00;
+				return p1;
+			}
+			t_vec2	project = get_point_on_seg(p0, p1, pos);
+			if (is_point_on_seg(project, pos))
+			{
+				editor->grid_cell_color = 0xFF00FF00;
+				return project;
+			}
+		}
+	}
+	editor->grid_cell_color = 0xFFFF00FF;
+	return (pos);
+}
+
+
 
 void			g_editor_on_event(t_gui *self, SDL_Event *event, t_doom *doom)
 {
@@ -222,7 +271,7 @@ void			g_editor_on_event(t_gui *self, SDL_Event *event, t_doom *doom)
 	{
 		t_vec2 pos = (t_vec2){ event->motion.x, event->motion.y };
 		if (in_bounds((SDL_Rect){ 5, 65, doom->screen.width - 5, doom->screen.height - 65 }, pos))
-			doom->editor.grid_cell = (t_vec2){ (int)(pos.x - 5) / CELLS_SPACING, (int)(pos.y - 65) / CELLS_SPACING };
+			doom->editor.grid_cell = get_close_point(&doom->editor, pos);
 		else
 			doom->editor.grid_cell = (t_vec2){ -1, -1 };
 	}
@@ -232,36 +281,32 @@ void			g_editor_on_event(t_gui *self, SDL_Event *event, t_doom *doom)
 		{
 			if (doom->editor.current_room == -1)
 			{
-				append_rooms_array(&doom->editor.rooms, (t_room){ .points = create_2dvertices_array(15) });
+				append_rooms_array(&doom->editor.rooms, (t_room){ .indices = create_ints_array(15) });
 				doom->editor.current_room = doom->editor.rooms->len - 1;
 			}
 
 			t_room	*curr_room = &doom->editor.rooms->values[doom->editor.current_room];
-
-			if (curr_room->points->len >= 3 && ( event->button.button == SDL_BUTTON_RIGHT || (curr_room->points->vertices[0].x == doom->editor.grid_cell.x && curr_room->points->vertices[0].y == doom->editor.grid_cell.y)))
+			if (curr_room->indices->len >= 3)
 			{
-				curr_room->closed = TRUE;
-				doom->editor.current_room = -1;
-				doom->editor.line_start_cell = (t_vec2){ -1, -1 };
+				t_vec2 vert0 = doom->editor.points->vertices[curr_room->indices->values[0]];
+				if (event->button.button == SDL_BUTTON_RIGHT || (vert0.x == doom->editor.grid_cell.x && vert0.y == doom->editor.grid_cell.y))
+				{
+					curr_room->closed = TRUE;
+					doom->editor.current_room = -1;
+					doom->editor.line_start_cell = (t_vec2){ -1, -1 };
+					return ;
+				}
+			}
+			
+			append_2dvertices_array(&doom->editor.points, doom->editor.grid_cell);
+			append_ints_array(&curr_room->indices, doom->editor.points->len - 1);
+			if (!room_intersect(&doom->editor, curr_room))
+			{
+				splice_2dvertices_array(doom->editor.points, doom->editor.points->len - 1, 1);
+				splice_ints_array(curr_room->indices, curr_room->indices->len - 1, 1);
 			}
 			else
-			{
-				append_2dvertices_array(&curr_room->points, doom->editor.grid_cell);
-				if (!is_simple_polygon(curr_room))
-					splice_2dvertices_array(curr_room->points, curr_room->points->len - 1, 1);
-				else
-					doom->editor.line_start_cell = doom->editor.grid_cell;
-			}
-
-			// if (event->button.button == SDL_BUTTON_RIGHT)
-			// 	doom->editor.line_start_cell = (t_vec2){ -1, -1 };
-			// else if (doom->editor.line_start_cell.x != -1)
-			// {
-			// 	printf("ADD LINE\n");
-			// 	doom->editor.line_start_cell = (t_vec2){ -1, -1 };
-			// }
-			// else
-			// 	doom->editor.line_start_cell = doom->editor.grid_cell;
+				doom->editor.line_start_cell = doom->editor.grid_cell;
 		}
 	}
 
@@ -285,13 +330,13 @@ void			g_editor_render(t_gui *self, t_doom *doom)
 		draw_line(&doom->screen, (t_pixel){ i * CELLS_SPACING + 10, 70, 0xFF505050}, (t_pixel){ i * CELLS_SPACING + 10, doom->screen.height - 10 });
 	if (doom->editor.grid_cell.x != -1)
 	{
-		t_vec2 grid_pos = get_grid_pos(doom->editor.grid_cell);
-		draw_circle(&doom->screen, (t_pixel){ grid_pos.x, grid_pos.y, 0xFFFF00FF }, 5);
+		t_vec2 grid_pos = doom->editor.grid_cell;
+		draw_circle(&doom->screen, (t_pixel){ grid_pos.x, grid_pos.y, doom->editor.grid_cell_color }, 5);
 	}
 	if (doom->editor.line_start_cell.x != -1)
 	{
-		t_vec2	p0 = get_grid_pos(doom->editor.line_start_cell);
-		t_vec2	p1 = get_grid_pos(doom->editor.grid_cell);
+		t_vec2	p0 = doom->editor.line_start_cell;
+		t_vec2	p1 = doom->editor.grid_cell;
 		draw_line(&doom->screen, (t_pixel){ p0.x, p0.y, 0xFF909090}, (t_pixel){ p1.x, p1.y, 0 });
 	}
 
@@ -299,21 +344,23 @@ void			g_editor_render(t_gui *self, t_doom *doom)
 	while (++i < doom->editor.rooms->len)
 	{
 		t_room *room = &doom->editor.rooms->values[i];
-		if (room->points->len < 2)
+		if (room->indices->len < 2)
 			continue;
 		int j = -1;
 		if (!room->closed)
 		{
-			t_vec2	first_point = get_grid_pos(room->points->vertices[0]);
-			draw_circle(&doom->screen, (t_pixel){ first_point.x, first_point.y, 0xFFFF00FF }, 5);
+			t_vec2	first_point = doom->editor.points->vertices[room->indices->values[0]];
+			draw_circle(&doom->screen, (t_pixel){ first_point.x, first_point.y, 0xFFFFF00F }, 6);
 		}
-		while (++j < room->points->len - !(room->closed))
+		while (++j < room->indices->len - !(room->closed))
 		{
-			int next = (j + 1) % room->points->len;
-			t_vec2	p0 = get_grid_pos(room->points->vertices[j]);
-			t_vec2	p1 = get_grid_pos(room->points->vertices[next]);
-			draw_circle(&doom->screen, (t_pixel){ p0.x, p0.y, 0xFFFF00FF }, 2);
+			int next = (j + 1) % room->indices->len;
+			t_vec2	p0 = doom->editor.points->vertices[room->indices->values[j]];
+			t_vec2	p1 = doom->editor.points->vertices[room->indices->values[next]];
 			draw_line(&doom->screen, (t_pixel){ p0.x, p0.y, 0xFFFF9090}, (t_pixel){ p1.x, p1.y, 0 });
+			draw_circle(&doom->screen, (t_pixel){ p0.x, p0.y, 0xFFFF00FF }, 2);
+			// if (is_in_range(p0, doom->editor.grid_cell))
+			// 	draw_circle(&doom->screen, (t_pixel){ p0.x, p0.y, 0xFFFFF00F }, 6);
 		}
 	}
 

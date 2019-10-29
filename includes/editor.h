@@ -35,7 +35,7 @@ typedef struct		s_walls
 
 typedef struct		s_room
 {
-	t_2dvertices	*points;
+	t_ints			*indices;
 	t_bool			closed;
 }					t_room;
 
@@ -49,9 +49,11 @@ typedef struct		s_rooms
 typedef struct		s_editor
 {
 	t_vec2			grid_cell;
+	int				grid_cell_color;
 	int				selected_tool;
 	t_vec2			line_start_cell;
 	t_rooms			*rooms;
+	t_2dvertices	*points;
 	int				current_room;
 	
 	

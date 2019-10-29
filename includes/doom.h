@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   doom.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rle-ru <rle-ru@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/28 18:00:36 by rle-ru           ###   ########.fr       */
+/*   Updated: 2019/10/29 03:35:10 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,7 @@ typedef struct		s_doom
 }					t_doom;
 
 
+float				clamp(float min, float max, float v);
 
 t_bool				init_sdl(t_doom *doom);
 t_bool				sdl_quit(t_doom *doom);
