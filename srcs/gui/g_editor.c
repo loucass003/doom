@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 15:50:09 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/29 18:49:31 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/10/30 18:41:45 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,8 @@ static void		action_performed(t_component *cmp, t_doom *doom)
 void			g_editor_button(t_gui *self, t_doom *doom)
 {
 	doom->editor.line_start_cell = (t_vec2){ -1, -1 };
+	doom->editor.current_point = -1;
+	doom->editor.current_room = -1;
 	doom->editor.set_start_pos[0] = 0;
 	doom->editor.set_start_pos[1] = 0;
 	append_components_array(&self->components, create_button((SDL_Rect){8, 9, 50, 50}, "icons/icons8-jouer-80.png", NULL));
@@ -158,15 +160,15 @@ t_bool		get_line_intersection(t_line a, t_line b, t_bool strict)
 	s = (-s1.y * (a.a.x - b.a.x) + s1.x * (a.a.y - b.a.y)) / (-s2.x * s1.y + s1.x * s2.y);
 	t = ( s2.x * (a.a.y - b.a.y) - s2.y * (a.a.x - b.a.x)) / (-s2.x * s1.y + s1.x * s2.y);
 
-	/* if (strict && s >= 0 && s <= 1 && t >= 0 && t <= 1)
+	if (strict && s >= 0 && s <= 1 && t >= 0 && t <= 1)
 		return (TRUE);
-	else */ if (s > 0 && s < 1 && t > 0 && t < 1)
+	else if (s > 0 && s < 1 && t > 0 && t < 1)
 		return (TRUE);
 	return (FALSE);
 }
 
 
-t_bool			room_intersect(t_editor *editor, t_room *room, t_bool strict)
+t_bool			room_intersect(t_editor *editor, t_room *room, t_room *room2, t_bool strict)
 {
 	int		i;
 	int		j;
@@ -180,29 +182,25 @@ t_bool			room_intersect(t_editor *editor, t_room *room, t_bool strict)
 		t_vec2 p0 = editor->points->vertices[room->indices->values[i]];
 		t_vec2 p1 = editor->points->vertices[room->indices->values[i + 1]];
 		line1 = (t_line){ .a = p0, .b = p1 };
-		j = -1;
-		while (++j < editor->rooms->len)
+		k = -1;
+		while (++k < room2->indices->len - !(room2->closed))
 		{
-			t_room	*room2 = &editor->rooms->values[j];
-			k = -1;
-			while (++k < room2->indices->len - !(room2->closed))
-			{
-				t_vec2 p0 = editor->points->vertices[room2->indices->values[k]];
-				t_vec2 p1 = editor->points->vertices[room2->indices->values[(k + 1) % room2->indices->len]];
-				line2 = (t_line){ .a = p0, .b = p1 };
-				if (line1.a.x == line2.a.x && line1.a.y == line2.a.y && line1.b.x == line2.b.x && line1.b.y == line2.b.y)
-					continue;
-				if (line1.b.x == line2.a.x && line1.b.y == line2.a.y)
-					continue;
-				if (line2.b.x == line1.a.x && line2.b.y == line1.a.y)
-					continue;
-				if (get_line_intersection(line1, line2, strict || room == room2))
-					return (TRUE);
-			}
+			t_vec2 p0 = editor->points->vertices[room2->indices->values[k]];
+			t_vec2 p1 = editor->points->vertices[room2->indices->values[(k + 1) % room2->indices->len]];
+			line2 = (t_line){ .a = p0, .b = p1 };
+			if (line1.a.x == line2.a.x && line1.a.y == line2.a.y && line1.b.x == line2.b.x && line1.b.y == line2.b.y)
+				continue;
+			if (line1.b.x == line2.a.x && line1.b.y == line2.a.y)
+				continue;
+			if (line2.b.x == line1.a.x && line2.b.y == line1.a.y)
+				continue;
+			if (get_line_intersection(line1, line2, strict))
+				return (TRUE);
 		}
 	}
 	return (FALSE);
 }
+
 
 t_bool			is_in_range(t_vec2 pos, t_vec2 test)
 {
@@ -254,7 +252,7 @@ t_vec2			get_close_point(t_editor *editor, t_vec2 pos)
 			if (is_point_on_seg(project, pos))
 			{
 				editor->grid_cell_grab = GG_LINE;
-				editor->close_seg = (t_vec2){ room2->indices->values[k], room2->indices->values[k + 1] };
+				editor->close_seg = (t_vec2){ room2->indices->values[k], room2->indices->values[(k + 1) % room2->indices->len] };
 				return project;
 			}
 		}
@@ -274,6 +272,9 @@ void			g_editor_on_event(t_gui *self, SDL_Event *event, t_doom *doom)
 			doom->editor.grid_cell = get_close_point(&doom->editor, pos);
 		else
 			doom->editor.grid_cell = (t_vec2){ -1, -1 };
+		
+		if (doom->editor.selected_tool == 4 && doom->editor.grid_cell.x != -1 && doom->editor.current_point != -1)
+			doom->editor.points->vertices[doom->editor.current_point] = doom->editor.grid_cell;
 	}
 	else if (event->type == SDL_MOUSEBUTTONDOWN)
 	{
@@ -298,7 +299,9 @@ void			g_editor_on_event(t_gui *self, SDL_Event *event, t_doom *doom)
 					return ;
 				}
 			}
-			
+
+			if (event->button.button == SDL_BUTTON_RIGHT)
+				return ;
 			int	index = vertices2d_indexof(doom->editor.points, doom->editor.grid_cell);
 			
 			if (doom->editor.grid_cell_grab == GG_NONE || doom->editor.grid_cell_grab == GG_LINE)
@@ -309,7 +312,7 @@ void			g_editor_on_event(t_gui *self, SDL_Event *event, t_doom *doom)
 				if (doom->editor.grid_cell_grab == GG_NONE)
 				{
 					append_ints_array(&curr_room->indices, index);
-					if (room_intersect(&doom->editor, curr_room, TRUE))
+					if (room_intersect(&doom->editor, curr_room, curr_room, TRUE))
 					{
 						splice_2dvertices_array(doom->editor.points, index, 1);
 						splice_ints_array(curr_room->indices, curr_room->indices->len - 1, 1);
@@ -319,18 +322,15 @@ void			g_editor_on_event(t_gui *self, SDL_Event *event, t_doom *doom)
 				}
 				else if (doom->editor.grid_cell_grab == GG_LINE)
 				{
-					printf("SPLIT LINE\n");
 					append_ints_array(&curr_room->indices, index);
-					if (room_intersect(&doom->editor, curr_room, FALSE))
+					if (room_intersect(&doom->editor, curr_room, curr_room, TRUE))
 					{
-						printf("INTERSECT! 2\n");
 						splice_2dvertices_array(doom->editor.points, index, 1);
 						splice_ints_array(curr_room->indices, curr_room->indices->len - 1, 1);
 						return ;
 					}
 					else
 						doom->editor.line_start_cell = doom->editor.grid_cell;
-					printf("INDEX %d\n", index);
 					int		i;
 
 					i = -1;
@@ -344,7 +344,6 @@ void			g_editor_on_event(t_gui *self, SDL_Event *event, t_doom *doom)
 							append_ints_array(&room0->indices, -20);
 							ft_memmove(room0->indices->values + index1 + 1, room0->indices->values + index1, (room0->indices->len - (index1 + 1)) * sizeof(int));
 							room0->indices->values[index1] = index;
-							printf("FOUND LINE %d\n", room0->indices->len - (index1 + 1));
 						}
 					}
 					
@@ -353,33 +352,80 @@ void			g_editor_on_event(t_gui *self, SDL_Event *event, t_doom *doom)
 			else if (doom->editor.grid_cell_grab == GG_POINT && index != -1)
 			{
 				append_ints_array(&curr_room->indices, index);
-				if (room_intersect(&doom->editor, curr_room, TRUE))
+				if (room_intersect(&doom->editor, curr_room, curr_room, TRUE))
 				{
-					printf("INTERSECT! 1 \n");
 					splice_ints_array(curr_room->indices, curr_room->indices->len - 1, 1);
 				}
 				else
 					doom->editor.line_start_cell = doom->editor.grid_cell;
 			}
-			
-			// if (doom->editor.grid_cell_grab == GG_POINT || doom->editor.grid_cell_grab == GG_NONE)
-			// {
-			// 	if (index == -1)
-			// 	{
-			// 		append_2dvertices_array(&doom->editor.points, doom->editor.grid_cell);
-			// 		index = doom->editor.points->len - 1;
-			// 		append_ints_array(&curr_room->indices, index);
-			// 		if (!room_intersect(&doom->editor, curr_room))
-			// 		{
-			// 			splice_2dvertices_array(doom->editor.points, index, 1);
-			// 			splice_ints_array(curr_room->indices, curr_room->indices->len - 1, 1);
-			// 		}
-			// 		else
-			// 			doom->editor.line_start_cell = doom->editor.grid_cell;
-			// 	}
-			
+		}
+		else if (doom->editor.selected_tool == 4)
+		{
+			int	index = vertices2d_indexof(doom->editor.points, doom->editor.grid_cell);
+			if (doom->editor.grid_cell_grab == GG_LINE)
+			{
 				
-			// }
+				printf("CLICK ON LINE\n");
+			}
+			else if (doom->editor.grid_cell_grab == GG_POINT && index != -1)
+			{
+				doom->editor.current_point = index;
+				printf("CLICK ON POINT\n");
+			}
+		}
+	}
+	else if (event->type == SDL_MOUSEBUTTONUP)
+	{
+		if (doom->editor.selected_tool == 4)
+		{
+			doom->editor.current_point = -1;
+		}
+	}
+	else if (event->type == SDL_KEYDOWN)
+	{
+		if (event->key.keysym.scancode == SDL_SCANCODE_DELETE)
+		{
+			if (doom->editor.grid_cell_grab == GG_POINT)
+			{
+				int i;
+				int	index = vertices2d_indexof(doom->editor.points, doom->editor.grid_cell);
+				if (index == -1)
+					return;
+			
+				splice_2dvertices_array(doom->editor.points, index, 1);
+				i = -1;
+				while (++i < doom->editor.rooms->len)
+				{
+					int index0 = ints_indexof(doom->editor.rooms->values[i].indices, index);
+					if (index == -1)
+						continue;
+					if (doom->editor.rooms->values[i].indices->len - 1 < 3)
+					{
+						doom->editor.current_room = -1;
+						splice_rooms_array(doom->editor.rooms, i--, 1);
+					}
+					else
+					{
+						t_ints *new_indices = create_ints_array(doom->editor.rooms->values[i].indices->capacity);
+						int j = -1;
+						while (++j < doom->editor.rooms->values[i].indices->len)
+						{
+							if (doom->editor.rooms->values[i].indices->values[j] == index)
+								continue;
+							append_ints_array(&new_indices, doom->editor.rooms->values[i].indices->values[j] - 1);
+						}
+						ft_memdel(&doom->editor.rooms->values[i].indices);
+						doom->editor.rooms->values[i].indices = new_indices;
+					}
+				}
+			}
+			else if (doom->editor.current_room != -1)
+			{
+				splice_rooms_array(doom->editor.rooms, doom->editor.current_room, 1);
+				doom->editor.current_room = -1;
+				doom->editor.line_start_cell = (t_vec2){ -1, -1 };
+			}
 		}
 	}
 
@@ -437,7 +483,9 @@ void			g_editor_render(t_gui *self, t_doom *doom)
 			int next = (j + 1) % room->indices->len;
 			t_vec2	p0 = doom->editor.points->vertices[room->indices->values[j]];
 			t_vec2	p1 = doom->editor.points->vertices[room->indices->values[next]];
-			draw_line(&doom->screen, (t_pixel){ p0.x, p0.y, 0xFFFF9090}, (t_pixel){ p1.x, p1.y, 0 });
+
+			int color = i == doom->editor.current_room ? 0xFFFFF0F0 : 0xFFFF9090;
+			draw_line(&doom->screen, (t_pixel){ p0.x, p0.y, color}, (t_pixel){ p1.x, p1.y, 0 });
 			draw_circle(&doom->screen, (t_pixel){ p0.x, p0.y, 0xFFFF00FF }, 2);
 			// if (is_in_range(p0, doom->editor.grid_cell))
 			// 	draw_circle(&doom->screen, (t_pixel){ p0.x, p0.y, 0xFFFFF00F }, 6);

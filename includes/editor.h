@@ -63,6 +63,7 @@ typedef struct		s_editor
 	t_rooms			*rooms;
 	t_2dvertices	*points;
 	int				current_room;
+	int				current_point;
 	
 	
 	uint8_t			*point;
