@@ -282,6 +282,39 @@ void			remove_point(t_editor *editor, int index)
 	}
 }
 
+void			remove_room(t_editor *editor, int index)
+{
+	t_room		*room;
+	int			i;
+	int			j;
+
+	room = &editor->rooms->values[index];
+	i = -1;
+	while (++i < room->indices->len)
+	{
+		j = -1;
+		int		indice = room->indices->values[i];
+		t_bool	contain_point = FALSE;
+		while (++j < editor->rooms->len)
+		{
+			t_room	*room0;
+
+			room0 = &editor->rooms->values[j];
+			if (room == room0)
+				continue;
+			if (ints_indexof(room0->indices, indice) != -1)
+				contain_point = TRUE;
+		}
+		splice_ints_array(room->indices, i--, 1);
+		if (!contain_point)
+		{
+			i = -1;
+			remove_point(editor, indice);
+		}
+	}
+	splice_rooms_array(editor->rooms, index, 1);
+}
+
 void			g_editor_on_event(t_gui *self, SDL_Event *event, t_doom *doom)
 {
 	if (event->type == SDL_MOUSEMOTION)
@@ -415,6 +448,7 @@ void			g_editor_on_event(t_gui *self, SDL_Event *event, t_doom *doom)
 				int	index = vertices2d_indexof(doom->editor.points, doom->editor.grid_cell);
 				if (index == -1)
 					return;
+				t_bool rem_room = FALSE;
 				i = -1;
 				while (++i < doom->editor.rooms->len)
 				{
@@ -425,21 +459,19 @@ void			g_editor_on_event(t_gui *self, SDL_Event *event, t_doom *doom)
 					{
 						doom->editor.current_room = -1;
 						int j = -1;
-						printf("CALL\n");
-						while (++j < doom->editor.rooms->values[i].indices->len)
-							if (doom->editor.rooms->values[i].indices->values[j] != index)
-								remove_point(&doom->editor, doom->editor.rooms->values[i].indices->values[j]);
-						splice_rooms_array(doom->editor.rooms, i--, 1);
+						remove_room(&doom->editor, i);
+						rem_room = TRUE;
+						break;
 					}
 					else
 						splice_ints_array(doom->editor.rooms->values[i].indices, index0, 1);
 				}
-			
-				remove_point(&doom->editor, index);
+				if (!rem_room)
+					remove_point(&doom->editor, index);
 			}
 			else if (doom->editor.current_room != -1)
 			{
-				splice_rooms_array(doom->editor.rooms, doom->editor.current_room, 1);
+				remove_room(&doom->editor, doom->editor.current_room);
 				doom->editor.current_room = -1;
 				doom->editor.line_start_cell = (t_vec2){ -1, -1 };
 			}
