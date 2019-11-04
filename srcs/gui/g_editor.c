@@ -36,7 +36,7 @@ static void		action_performed(t_component *cmp, t_doom *doom)
 
 	btn = cmp;
 	i = -1;
-	while (++i < 8)
+	while (++i < 9)
 	{
 		btn = doom->guis[doom->current_gui].components->values[i];
 		if (cmp == btn)
@@ -93,12 +93,13 @@ void			g_editor_button(t_gui *self, t_doom *doom)
 	append_components_array(&self->components, create_button((SDL_Rect){60, 9, 50, 50}, "icons/pin.png", NULL));
 	append_components_array(&self->components, create_button((SDL_Rect){112, 9, 50, 50}, "icons/icons8-effacer-96.png", NULL));
 	append_components_array(&self->components, create_button((SDL_Rect){164, 9, 50, 50}, "icons/poly.png", NULL));
-	append_components_array(&self->components, create_button((SDL_Rect){216, 9, 50, 50}, "icons/curseur3.png", NULL));
-	append_components_array(&self->components, create_button((SDL_Rect){268, 9, 50, 50}, "icons/croix.png", NULL));
-	append_components_array(&self->components, create_button((SDL_Rect){320, 9, 50, 50}, "icons/icons8-stylo-64.png", NULL));
-	append_components_array(&self->components, create_button((SDL_Rect){372, 9, 50, 50}, "icons/icons8-modifier-la-ligne-80.png", NULL));
+	append_components_array(&self->components, create_button((SDL_Rect){216, 9, 50, 50}, "icons/point.png", NULL));
+	append_components_array(&self->components, create_button((SDL_Rect){268, 9, 50, 50}, "icons/curseur3.png", NULL));
+	append_components_array(&self->components, create_button((SDL_Rect){320, 9, 50, 50}, "icons/croix.png", NULL));
+	append_components_array(&self->components, create_button((SDL_Rect){372, 9, 50, 50}, "icons/icons8-stylo-64.png", NULL));
+	append_components_array(&self->components, create_button((SDL_Rect){424, 9, 50, 50}, "icons/icons8-modifier-la-ligne-80.png", NULL));
 	int i = 0;
-	while (i < 8)
+	while (i < 9)
 		self->components->values[i++]->perform_action = action_performed;
 }
 
@@ -315,6 +316,25 @@ void			remove_room(t_editor *editor, int index)
 	splice_rooms_array(editor->rooms, index, 1);
 }
 
+void			insert_point(t_editor *editor, t_vec2 seg, int point_index)
+{
+	int		i;
+
+	i = -1;
+	while (++i < editor->rooms->len)
+	{
+		t_room	*room0 = &editor->rooms->values[i];
+		int		index0 = ints_indexof(room0->indices, seg.x);
+		int		index1 = ints_indexof(room0->indices, seg.y);
+		if (index0 != -1 && index1 != -1)
+		{
+			append_ints_array(&room0->indices, -20);
+			ft_memmove(room0->indices->values + index1 + 1, room0->indices->values + index1, (room0->indices->len - (index1 + 1)) * sizeof(int));
+			room0->indices->values[index1] = point_index;
+		}
+	}
+}
+
 void			g_editor_on_event(t_gui *self, SDL_Event *event, t_doom *doom)
 {
 	if (event->type == SDL_MOUSEMOTION)
@@ -325,11 +345,32 @@ void			g_editor_on_event(t_gui *self, SDL_Event *event, t_doom *doom)
 		else
 			doom->editor.grid_cell = (t_vec2){ -1, -1 };
 		
-		if (doom->editor.selected_tool == 4 && doom->editor.grid_cell.x != -1 && doom->editor.current_point != -1)
+		if (doom->editor.selected_tool == 5 && doom->editor.grid_cell.x != -1 && doom->editor.current_point != -1)
 		{
 			// t_room	*curr_room = &doom->editor.rooms->values[doom->editor.current_room];
-			// if (!room_intersect(&doom->editor, curr_room, curr_room, TRUE))
+			// if (!room_intersect(&doom->editor, curr_room, curr_room, TRUE)) 
+			t_vec2 pos = doom->editor.points->vertices[doom->editor.current_point];
+
 			doom->editor.points->vertices[doom->editor.current_point] = doom->editor.grid_cell;
+			int	i;
+			t_bool cancel = FALSE;
+
+			i = -1;
+			while (++i < doom->editor.rooms->len)
+			{
+				t_room *room = &doom->editor.rooms->values[i];
+				int index = ints_indexof(room->indices, doom->editor.current_point);
+				if (index != -1)
+					if (room_intersect(&doom->editor, room, room, TRUE))
+					{
+						cancel = TRUE;
+						break;
+					}
+			}
+
+			if (cancel)
+				doom->editor.points->vertices[doom->editor.current_point] = pos;
+			
 		}
 	}
 	else if (event->type == SDL_MOUSEBUTTONDOWN)
@@ -351,7 +392,7 @@ void			g_editor_on_event(t_gui *self, SDL_Event *event, t_doom *doom)
 					curr_room->closed = TRUE;
 					doom->editor.current_room = -1;
 					doom->editor.line_start_cell = (t_vec2){ -1, -1 };
-					// printf("CLOSE\n");
+					printf("CLOSE\n");
 					return ;
 				}
 			}
@@ -387,22 +428,7 @@ void			g_editor_on_event(t_gui *self, SDL_Event *event, t_doom *doom)
 					}
 					else
 						doom->editor.line_start_cell = doom->editor.grid_cell;
-					int		i;
-
-					i = -1;
-					while (++i < doom->editor.rooms->len)
-					{
-						t_room	*room0 = &doom->editor.rooms->values[i];
-						int		index0 = ints_indexof(room0->indices, doom->editor.close_seg.x);
-						int		index1 = ints_indexof(room0->indices, doom->editor.close_seg.y);
-						if (index0 != -1 && index1 != -1)
-						{
-							append_ints_array(&room0->indices, -20);
-							ft_memmove(room0->indices->values + index1 + 1, room0->indices->values + index1, (room0->indices->len - (index1 + 1)) * sizeof(int));
-							room0->indices->values[index1] = index;
-						}
-					}
-					
+					insert_point(&doom->editor, doom->editor.close_seg, index);
 				}
 			}
 			else if (doom->editor.grid_cell_grab == GG_POINT && index != -1)
@@ -418,22 +444,22 @@ void			g_editor_on_event(t_gui *self, SDL_Event *event, t_doom *doom)
 		}
 		else if (doom->editor.selected_tool == 4)
 		{
-			int	index = vertices2d_indexof(doom->editor.points, doom->editor.grid_cell);
 			if (doom->editor.grid_cell_grab == GG_LINE)
 			{
-				
-				// printf("CLICK ON LINE\n");
+				append_2dvertices_array(&doom->editor.points, doom->editor.grid_cell);
+				int index = doom->editor.points->len - 1;
+				insert_point(&doom->editor, doom->editor.close_seg, index);
 			}
-			else if (doom->editor.grid_cell_grab == GG_POINT && index != -1)
-			{
+		}
+		else if (doom->editor.selected_tool == 5)
+		{
+			if (doom->editor.grid_cell_grab == GG_POINT && index != -1)
 				doom->editor.current_point = index;
-				// printf("CLICK ON POINT\n");
-			}
 		}
 	}
 	else if (event->type == SDL_MOUSEBUTTONUP)
 	{
-		if (doom->editor.selected_tool == 4)
+		if (doom->editor.selected_tool == 5)
 		{
 			doom->editor.current_point = -1;
 		}
