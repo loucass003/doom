@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 15:50:09 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/31 05:14:29 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/06 16:53:15 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -326,6 +326,14 @@ void			insert_point(t_editor *editor, t_vec2 seg, int point_index)
 		t_room	*room0 = &editor->rooms->values[i];
 		int		index0 = ints_indexof(room0->indices, seg.x);
 		int		index1 = ints_indexof(room0->indices, seg.y);
+		
+		if (index0 > index1)
+		{
+			int tmp = index0;
+			index0 = index1;
+			index1 = tmp;
+		}
+		
 		if (index0 != -1 && index1 != -1)
 		{
 			append_ints_array(&room0->indices, -20);
@@ -361,11 +369,13 @@ void			g_editor_on_event(t_gui *self, SDL_Event *event, t_doom *doom)
 				t_room *room = &doom->editor.rooms->values[i];
 				int index = ints_indexof(room->indices, doom->editor.current_point);
 				if (index != -1)
+				{
 					if (room_intersect(&doom->editor, room, room, TRUE))
 					{
 						cancel = TRUE;
 						break;
 					}
+				}
 			}
 
 			if (cancel)
@@ -453,6 +463,7 @@ void			g_editor_on_event(t_gui *self, SDL_Event *event, t_doom *doom)
 		}
 		else if (doom->editor.selected_tool == 5)
 		{
+			int	index = vertices2d_indexof(doom->editor.points, doom->editor.grid_cell);
 			if (doom->editor.grid_cell_grab == GG_POINT && index != -1)
 				doom->editor.current_point = index;
 		}
