@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   audio.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rle-ru <rle-ru@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/22 13:41:15 by lloncham          #+#    #+#             */
-/*   Updated: 2019/10/28 18:42:50 by rle-ru           ###   ########.fr       */
+/*   Updated: 2019/11/07 19:36:23 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,13 +78,6 @@ void			init_SDL_mixer(t_doom *doom)
 
 t_bool			init_openal(t_doom *doom)
 {
-	
-
-
-	// ALfloat listenerOri[] = {1.f, 0.f, 1.f, 0.f, 1.f, 0.f};
-	// ALfloat listenerPos[] = {20.f, 0.f, 20.f};
-	// ALfloat listenerVel[] = {0.f, 0.f, 0.f};
-
 	doom->audio.device = alcOpenDevice(NULL);
 	if (!(doom->audio.context = alcCreateContext(doom->audio.device, NULL)))
 		printf("context error\n");
@@ -92,7 +85,6 @@ t_bool			init_openal(t_doom *doom)
 		printf("context current error\n");
 
 	init_SDL_mixer(doom);
-	
 	alGenBuffers(8, doom->audio.buffer);
 	alBufferData(doom->audio.buffer[0], AL_FORMAT_MONO16, doom->audio.music[0]->abuf, doom->audio.music[0]->alen, 44100);
 	alBufferData(doom->audio.buffer[1], AL_FORMAT_MONO16, doom->audio.music[1]->abuf, doom->audio.music[1]->alen, 44100);
@@ -111,10 +103,6 @@ t_bool			init_openal(t_doom *doom)
 	pos.y = 0;
 	pos.z = 0;
 	alGenSources(MAX_SOUNDS, doom->audio.source);
-	//alGenSources(5, &doom->audio.source);
-	play_music(&doom->audio, pos, 7, TRUE);
-	// play_music(&doom->audio, 2, 1);
-	// alSourceStop, alSourcePause, et alSourceRewind
 	return (TRUE);
 }
 

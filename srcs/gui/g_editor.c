@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 15:50:09 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/07 01:34:25 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/07 20:24:36 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -237,6 +237,7 @@ t_vec2			get_close_point(t_editor *editor, t_vec2 pos)
 		k = -1;
 		while (++k < room2->indices->len)
 		{
+			
 			t_vec2 p0 = editor->points->vertices[room2->indices->values[k]];
 			t_vec2 p1 = editor->points->vertices[room2->indices->values[(k + 1) % room2->indices->len]];
 			if (is_in_range(p0, pos))
@@ -573,13 +574,14 @@ void			g_editor_render(t_gui *self, t_doom *doom)
 			int color = i == doom->editor.current_room ? 0xFFFFF0F0 : 0xFFFF9090;
 			draw_line(&doom->screen, (t_pixel){ p0.x, p0.y, color}, (t_pixel){ p1.x, p1.y, 0 });
 			draw_circle(&doom->screen, (t_pixel){ p0.x, p0.y, 0xFFFF00FF }, 2);
-
+		
+			if (p0.x == p1.x && p0.y == p1.y)
+				continue;
 			t_vec2	dir = ft_vec2_norm(ft_vec2_sub(p0, p1));
 			t_vec2	n = (t_vec2){ -dir.y, dir.x };
 			t_vec2	center = ft_vec2_add(p0, ft_vec2_mul_s(ft_vec2_sub(p1, p0), 0.5));
 			draw_line(&doom->screen, (t_pixel){ center.x, center.y, color}, (t_pixel){ center.x + n.x * 10, center.y + n.y * 10, 0 });
-			// if (is_in_range(p0, doom->editor.grid_cell))
-			// 	draw_circle(&doom->screen, (t_pixel){ p0.x, p0.y, 0xFFFFF00F }, 6);
+			
 		}
 	}
 
