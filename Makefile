@@ -6,7 +6,7 @@
 #    By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/07 14:49:27 by llelievr          #+#    #+#              #
-#    Updated: 2019/10/28 21:42:06 by llelievr         ###   ########.fr        #
+#    Updated: 2019/11/08 17:15:04 by llelievr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,7 +45,7 @@ POSTCOMPILE += ;mv -f $(DEPSDIR)$*.Td $(DEPSDIR)$*.d && touch $@
 
 endif
 
-all: $(FT_LIB) $(NAME)
+all: make_ft | $(NAME)
 
 dev: CFLAGS +=-g
 dev: FT_TASK = dev 
@@ -58,8 +58,11 @@ $(OBJDIR)%.o: $(SRCDIR)%.c
 	$(CC) $(CFLAGS) $(INCLUDE) $(FT_INC) -I $(INCDIR)  -o $@ -c $<
 	@$(POSTCOMPILE)
 
-$(FT_LIB):
+make_ft: 
 	make -j4 -C $(FT)
+
+$(FT_LIB): make_ft
+
 
 $(NAME): $(OBJS) $(FT_LIB)
 	$(CC) $(CFLAGS) -o $(NAME) $(FT_LNK) $(INCLUDE) $(LIBS) $(OBJS) $(FT_LIB)

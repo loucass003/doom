@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 15:50:09 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/08 02:31:42 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/08 13:41:27 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -387,7 +387,7 @@ void			g_editor_on_event(t_gui *self, SDL_Event *event, t_doom *doom)
 	}
 	else if (event->type == SDL_MOUSEBUTTONDOWN)
 	{
-		
+		const Uint8 *state = SDL_GetKeyboardState(NULL);
 		if (doom->editor.selected_tool == 3 && doom->editor.grid_cell.x != -1)
 		{
 			if (doom->editor.line_start_cell.x == doom->editor.grid_cell.x && doom->editor.line_start_cell.y == doom->editor.grid_cell.y)
@@ -411,9 +411,10 @@ void			g_editor_on_event(t_gui *self, SDL_Event *event, t_doom *doom)
 					doom->editor.grid_cell = (t_vec2){ -1, -1 };
 					doom->editor.grid_cell_grab = GG_NONE;
 					doom->editor.line_start_cell = (t_vec2){ -1, -1 };
-					curr_room->normals_type = create_ints_array(ceil(curr_room->indices->len / 2.));
-					ft_memset(curr_room->normals_type->values, 0, sizeof(int) * ceil(curr_room->indices->len / 2.));
-					printf("CLOSE\n");
+					curr_room->normals_type = create_ints_array(curr_room->indices->len);
+					ft_memset(curr_room->normals_type->values, 0, sizeof(int) * curr_room->indices->len);
+					curr_room->normals_type->len = curr_room->indices->len;
+					printf("CLOSE %d\n", curr_room->indices->len);
 					return ;
 				}
 			}
@@ -478,7 +479,7 @@ void			g_editor_on_event(t_gui *self, SDL_Event *event, t_doom *doom)
 			if (index != -1)
 				doom->editor.current_point = index;
 		}
-		else if (event->button.clicks == 2 && event->button.button == SDL_BUTTON_LEFT && doom->editor.grid_cell_grab == GG_LINE)
+		else if (state[SDL_SCANCODE_LCTRL] && event->button.button == SDL_BUTTON_LEFT && doom->editor.grid_cell_grab == GG_LINE)
 		{
 			printf("SWAP NORMAL\n");
 			int i = -1;
@@ -486,17 +487,19 @@ void			g_editor_on_event(t_gui *self, SDL_Event *event, t_doom *doom)
 			{
 				t_room *room = &doom->editor.rooms->values[i];
 				int		index0 = ints_indexof(room->indices, doom->editor.close_seg.x);
-				// int		index1 = ints_indexof(room->indices, doom->editor.close_seg.y);
+				int		index1 = ints_indexof(room->indices, doom->editor.close_seg.y);
 				
-				// if (index0 > index1)
-				// {
-				// 	int tmp = index0;
-				// 	index0 = index1;
-				// 	index1 = tmp;
-				// }
+				if (index0 > index1 && index1 != 0)
+				{
+					int tmp = index0;
+					index0 = index1;
+					index1 = tmp;
+				}
 
+				printf("index0 == %d %d\n", index0, room->normals_type->len);
 				if (index0 != -1)
 				{
+					
 					if (++room->normals_type->values[index0] == 3)
 						room->normals_type->values[index0] = 0;
 				}
@@ -604,17 +607,25 @@ void			g_editor_render(t_gui *self, t_doom *doom)
 			draw_line(&doom->screen, (t_pixel){ p0.x, p0.y, color}, (t_pixel){ p1.x, p1.y, 0 });
 			draw_circle(&doom->screen, (t_pixel){ p0.x, p0.y, 0xFFFF00FF }, 2);
 		
-			if (!room->closed || p0.x == p1.x && p0.y == p1.y)
+			if (!room->closed || (p0.x == p1.x && p0.y == p1.y))
 				continue;
 			int	normal_type = room->normals_type->values[j];
 			t_vec2	dir = ft_vec2_norm(ft_vec2_sub(p0, p1));
 			t_vec2	n = (t_vec2){ -dir.y, dir.x };
 			t_vec2	center = ft_vec2_add(p0, ft_vec2_mul_s(ft_vec2_sub(p1, p0), 0.5));
 			if (normal_type == 2)
+			{
 				draw_line(&doom->screen, (t_pixel){ center.x, center.y, color}, (t_pixel){ center.x + n.x * 10, center.y + n.y * 10, 0 });
-			if (normal_type == 1)
 				n = ft_vec2_inv(n);
-			draw_line(&doom->screen, (t_pixel){ center.x, center.y, color}, (t_pixel){ center.x + n.x * 10, center.y + n.y * 10, 0 });
+				draw_line(&doom->screen, (t_pixel){ center.x, center.y, color}, (t_pixel){ center.x + n.x * 10, center.y + n.y * 10, 0 });
+			}
+			else if (normal_type == 1)
+			{
+				n = ft_vec2_inv(n);
+				draw_line(&doom->screen, (t_pixel){ center.x, center.y, color}, (t_pixel){ center.x + n.x * 10, center.y + n.y * 10, 0 });
+			}
+			else
+				draw_line(&doom->screen, (t_pixel){ center.x, center.y, color}, (t_pixel){ center.x + n.x * 10, center.y + n.y * 10, 0 });
 		}
 	}
 
