@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   c_menu.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 14:21:03 by louali            #+#    #+#             */
-/*   Updated: 2019/10/21 20:09:29 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/08 15:34:51 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,41 +56,42 @@ void		close_menu(t_component *self, t_vec2 pos, t_menu *m, SDL_Surface *t, t_doo
 	}
 }
 
-static void	c_on_click(t_component *self, t_vec2 pos, t_doom *doom)
-{
-	t_menu			*menu;
-	SDL_Surface		*texture;
-
-	menu = (t_menu *)self;
-	texture = NULL;
-	if (in_bounds(self->bounds, pos) && self->perform_action != NULL)
-		self->perform_action(self, doom);
-	close_menu(self, pos, menu, texture, doom);
-
-}
-
-static void	c_on_mouse_move(t_component *self, t_vec2 pos, t_doom *doom)
+static t_bool	on_menu_event(t_component *self, SDL_Event *event, t_doom *doom)
 {
 	t_menu	*menu;
+	SDL_Surface		*texture;
+	t_vec2			pos;
 
 	menu = (t_menu*)self;
-	if (pos.x >= self->bounds.x && pos.y >= self->bounds.y
+	pos = (t_vec2){ event->motion.x, event->motion.y };
+	if (event->type == SDL_MOUSEMOTION)
+	{
+		if (pos.x >= self->bounds.x && pos.y >= self->bounds.y
 		&& pos.y < self->bounds.y + self->bounds.h
 		&& pos.x < self->bounds.x + self->bounds.w)
-	{
-		menu->open = TRUE;
-		doom->open = 1;
-		if (ft_strcmp(menu->name, "wall") == 0)
-			self->bounds.h = MT_H + doom->wall->count * 30;
-		else if (ft_strcmp(menu->name, "obj") == 0)
-			self->bounds.h = MT_H + doom->obj->count * 30;			
+		{
+			menu->open = TRUE;
+			doom->open = 1;
+			if (ft_strcmp(menu->name, "wall") == 0)
+				self->bounds.h = MT_H + doom->wall->count * 30;
+			else if (ft_strcmp(menu->name, "obj") == 0)
+				self->bounds.h = MT_H + doom->obj->count * 30;			
+		}
+		else
+		{
+			doom->open = 0;
+			menu->open = FALSE;
+			self->bounds.h = MT_H;
+		}
 	}
-	else
+	else if (event->type == SDL_MOUSEBUTTONUP)
 	{
-		doom->open = 0;
-		menu->open = FALSE;
-		self->bounds.h = MT_H;
+		texture = NULL;
+		if (in_bounds(self->bounds, pos) && self->perform_action != NULL)
+			self->perform_action(self, doom);
+		close_menu(self, pos, menu, texture, doom);
 	}
+	return (FALSE);
 }
 
 t_component	*create_menu(SDL_Rect bounds, char *s, t_doom *doom)
@@ -103,8 +104,7 @@ t_component	*create_menu(SDL_Rect bounds, char *s, t_doom *doom)
 		return (NULL);
 	ft_bzero(btn, sizeof(t_menu));
 	btn->super = (t_component) { .enabled = TRUE, .visible = TRUE, .bounds = bounds, .type = C_BUTTON,
-		.render = c_render, .on_click = c_on_click,
-		.on_mouse_move = c_on_mouse_move};
+		.render = c_render, .on_event = on_menu_event };
 	btn->open = FALSE;
 	doom->open = 0;
 	btn->color = 0xFFFFFFFF;

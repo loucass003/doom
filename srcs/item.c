@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   item.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rle-ru <rle-ru@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 20:16:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/28 18:25:37 by rle-ru           ###   ########.fr       */
+/*   Updated: 2019/11/08 14:48:43 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ t_item	*create_item_ammo(SDL_Surface *image)
 {
 	t_item	*ammo;
 	
-	if (!(ammo = create_item(ITEM_AMMO, image, (SDL_Rect){ 0, 0, image->w, image->h }, 500)))
+	if (!(ammo = create_item(ITEM_AMMO, image, (SDL_Rect){ 0, 0, image->w, image->h }, 75)))
 		return (NULL);
 	return (ammo);
 }

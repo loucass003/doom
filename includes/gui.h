@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gui.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 01:42:00 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/27 03:18:02 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/08 15:29:59 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,6 @@ typedef struct		s_component
 	t_bool				visible;
 	t_bool				enabled;
 	void				(*render)(t_doom *doom, struct s_component *self, t_img *img);
-	void				(*on_click)(struct s_component *self, t_vec2 pos, t_doom *doom);
-	void				(*on_mouse_move)(struct s_component *self, t_vec2 pos, t_doom *doom);
 	void				(*perform_action)(struct s_component *self, t_doom *doom);
 	t_bool				(*on_event)(struct s_component *self, SDL_Event *event, t_doom *doom);
 }					t_component;

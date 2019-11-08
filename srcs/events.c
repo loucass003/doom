@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   events.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:14:55 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/21 20:08:43 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/08 15:25:12 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,31 +58,31 @@ static void	events_window(t_doom *doom, SDL_Event *event)
 					break;
 	if (event->type == SDL_QUIT)
 		doom->running = FALSE;
-	if (event->type == SDL_MOUSEBUTTONDOWN)
-		{
-			t_itemstack	*is = &doom->player.item[doom->player.selected_slot];
-			if (is->of && is->of->on_use)
-				is->of->on_use(doom, is);
-		}
-	if (event->type == SDL_MOUSEBUTTONUP && doom->current_gui >= 0)
-	{
-		for (int i = 0; i < doom->guis[doom->current_gui].components->len; i++)
-			if (doom->guis[doom->current_gui].components->values[i]->on_click)
-				doom->guis[doom->current_gui].components->values[i]
-					->on_click(doom->guis[doom->current_gui].components->values[i],
-					(t_vec2){ event->button.x, event->button.y }, doom);
-	}
-	if (event->type == SDL_MOUSEMOTION && doom->current_gui >= 0)
-	{
-		doom->mouse = (t_vec2){ event->motion.x, event->motion.y };
-		for (int i = 0; i < doom->guis[doom->current_gui].components->len; i++)
-		{
-			if (doom->guis[doom->current_gui].components->values[i]->on_mouse_move)
-				doom->guis[doom->current_gui].components->values[i]
-					->on_mouse_move(doom->guis[doom->current_gui].components->values[i],
-					doom->mouse, doom);
-		}
-	}
+	// if (event->type == SDL_MOUSEBUTTONDOWN)
+	// 	{
+	// 		t_itemstack	*is = &doom->player.item[doom->player.selected_slot];
+	// 		if (is->of && is->of->on_use)
+	// 			is->of->on_use(doom, is);
+	// 	}
+	// if (event->type == SDL_MOUSEBUTTONUP && doom->current_gui >= 0)
+	// {
+	// 	for (int i = 0; i < doom->guis[doom->current_gui].components->len; i++)
+	// 		if (doom->guis[doom->current_gui].components->values[i]->on_click)
+	// 			doom->guis[doom->current_gui].components->values[i]
+	// 				->on_click(doom->guis[doom->current_gui].components->values[i],
+	// 				(t_vec2){ event->button.x, event->button.y }, doom);
+	// }
+	// if (event->type == SDL_MOUSEMOTION && doom->current_gui >= 0)
+	// {
+	// 	doom->mouse = (t_vec2){ event->motion.x, event->motion.y };
+	// 	for (int i = 0; i < doom->guis[doom->current_gui].components->len; i++)
+	// 	{
+	// 		if (doom->guis[doom->current_gui].components->values[i]->on_mouse_move)
+	// 			doom->guis[doom->current_gui].components->values[i]
+	// 				->on_mouse_move(doom->guis[doom->current_gui].components->values[i],
+	// 				doom->mouse, doom);
+	// 	}
+	// }
 	if (event->type == SDL_KEYDOWN && (key == SDL_SCANCODE_P))
 	{
 		t_ray ray = create_shoot_ray(doom->player, (t_vec3){0, 0, 1});
