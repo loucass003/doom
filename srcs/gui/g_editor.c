@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 15:50:09 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/07 20:24:36 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/08 02:31:42 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -250,6 +250,7 @@ t_vec2			get_close_point(t_editor *editor, t_vec2 pos)
 				editor->grid_cell_grab = GG_POINT;
 				return p1;
 			}
+
 			t_vec2	project = get_point_on_seg(p0, p1, pos);
 			if (is_point_on_seg(project, pos))
 			{
@@ -349,7 +350,7 @@ void			g_editor_on_event(t_gui *self, SDL_Event *event, t_doom *doom)
 	if (event->type == SDL_MOUSEMOTION)
 	{
 		t_vec2 pos = (t_vec2){ event->motion.x, event->motion.y };
-		if (in_bounds((SDL_Rect){ 5, 65, doom->screen.width - 5, doom->screen.height - 65 }, pos))
+		if (in_bounds((SDL_Rect){ 10, 70, doom->screen.width - 20, doom->screen.height - 80 }, pos))
 			doom->editor.grid_cell = get_close_point(&doom->editor, pos);
 		else
 			doom->editor.grid_cell = (t_vec2){ -1, -1 };
@@ -386,10 +387,15 @@ void			g_editor_on_event(t_gui *self, SDL_Event *event, t_doom *doom)
 	}
 	else if (event->type == SDL_MOUSEBUTTONDOWN)
 	{
+		
 		if (doom->editor.selected_tool == 3 && doom->editor.grid_cell.x != -1)
 		{
+			if (doom->editor.line_start_cell.x == doom->editor.grid_cell.x && doom->editor.line_start_cell.y == doom->editor.grid_cell.y)
+				return ;
+
 			if (doom->editor.current_room == -1)
 			{
+				printf("NEW_ROOM\n");
 				append_rooms_array(&doom->editor.rooms, (t_room){ .indices = create_ints_array(15) });
 				doom->editor.current_room = doom->editor.rooms->len - 1;
 			}
@@ -402,7 +408,11 @@ void			g_editor_on_event(t_gui *self, SDL_Event *event, t_doom *doom)
 				{
 					curr_room->closed = TRUE;
 					doom->editor.current_room = -1;
+					doom->editor.grid_cell = (t_vec2){ -1, -1 };
+					doom->editor.grid_cell_grab = GG_NONE;
 					doom->editor.line_start_cell = (t_vec2){ -1, -1 };
+					curr_room->normals_type = create_ints_array(ceil(curr_room->indices->len / 2.));
+					ft_memset(curr_room->normals_type->values, 0, sizeof(int) * ceil(curr_room->indices->len / 2.));
 					printf("CLOSE\n");
 					return ;
 				}
@@ -462,11 +472,35 @@ void			g_editor_on_event(t_gui *self, SDL_Event *event, t_doom *doom)
 				insert_point(&doom->editor, doom->editor.close_seg, index);
 			}
 		}
-		else if (doom->editor.selected_tool == 5)
+		else if (doom->editor.selected_tool == 5 && doom->editor.grid_cell_grab == GG_POINT)
 		{
 			int	index = vertices2d_indexof(doom->editor.points, doom->editor.grid_cell);
-			if (doom->editor.grid_cell_grab == GG_POINT && index != -1)
+			if (index != -1)
 				doom->editor.current_point = index;
+		}
+		else if (event->button.clicks == 2 && event->button.button == SDL_BUTTON_LEFT && doom->editor.grid_cell_grab == GG_LINE)
+		{
+			printf("SWAP NORMAL\n");
+			int i = -1;
+			while (++i < doom->editor.rooms->len)
+			{
+				t_room *room = &doom->editor.rooms->values[i];
+				int		index0 = ints_indexof(room->indices, doom->editor.close_seg.x);
+				// int		index1 = ints_indexof(room->indices, doom->editor.close_seg.y);
+				
+				// if (index0 > index1)
+				// {
+				// 	int tmp = index0;
+				// 	index0 = index1;
+				// 	index1 = tmp;
+				// }
+
+				if (index0 != -1)
+				{
+					if (++room->normals_type->values[index0] == 3)
+						room->normals_type->values[index0] = 0;
+				}
+			}
 		}
 	}
 	else if (event->type == SDL_MOUSEBUTTONUP)
@@ -515,11 +549,6 @@ void			g_editor_on_event(t_gui *self, SDL_Event *event, t_doom *doom)
 			}
 		}
 	}
-
-	// if (event->type == SDL_MOUSEMOTION)
-	// 	editor_mouse_motion(doom, event);
-	// if (event->type == SDL_MOUSEBUTTONUP && event->button.y > (doom->screen.height - 600))
-	// 	editor_mousebuttonup(doom, event->button.x, event->button.y);
 }
 
 void			g_editor_render(t_gui *self, t_doom *doom)
@@ -546,7 +575,7 @@ void			g_editor_render(t_gui *self, t_doom *doom)
 		draw_circle(&doom->screen, (t_pixel){ grid_pos.x, grid_pos.y, color }, 5);
 	}
 	
-	if (doom->editor.line_start_cell.x != -1)
+	if (doom->editor.line_start_cell.x != -1 && doom->editor.grid_cell.x != -1)
 	{
 		t_vec2	p0 = doom->editor.line_start_cell;
 		t_vec2	p1 = doom->editor.grid_cell;
@@ -575,13 +604,17 @@ void			g_editor_render(t_gui *self, t_doom *doom)
 			draw_line(&doom->screen, (t_pixel){ p0.x, p0.y, color}, (t_pixel){ p1.x, p1.y, 0 });
 			draw_circle(&doom->screen, (t_pixel){ p0.x, p0.y, 0xFFFF00FF }, 2);
 		
-			if (p0.x == p1.x && p0.y == p1.y)
+			if (!room->closed || p0.x == p1.x && p0.y == p1.y)
 				continue;
+			int	normal_type = room->normals_type->values[j];
 			t_vec2	dir = ft_vec2_norm(ft_vec2_sub(p0, p1));
 			t_vec2	n = (t_vec2){ -dir.y, dir.x };
 			t_vec2	center = ft_vec2_add(p0, ft_vec2_mul_s(ft_vec2_sub(p1, p0), 0.5));
+			if (normal_type == 2)
+				draw_line(&doom->screen, (t_pixel){ center.x, center.y, color}, (t_pixel){ center.x + n.x * 10, center.y + n.y * 10, 0 });
+			if (normal_type == 1)
+				n = ft_vec2_inv(n);
 			draw_line(&doom->screen, (t_pixel){ center.x, center.y, color}, (t_pixel){ center.x + n.x * 10, center.y + n.y * 10, 0 });
-			
 		}
 	}
 

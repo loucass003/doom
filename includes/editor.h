@@ -36,6 +36,7 @@ typedef struct		s_walls
 typedef struct		s_room
 {
 	t_ints			*indices;
+	t_ints			*normals_type;
 	t_bool			closed;
 }					t_room;
 
