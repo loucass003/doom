@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rle-ru <rle-ru@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:01:13 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/28 18:10:04 by rle-ru           ###   ########.fr       */
+/*   Updated: 2019/11/11 00:26:37 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ void			game_loop(t_doom *doom)
 	int  i = 0;
 	load_all(doom);
 	init_openal(doom);
+	enter_gui(doom, GUI_EDITOR_SETTINGS);
 	while (doom->running)
 	{
 		doom->gdata = (t_gdata){
@@ -116,5 +117,6 @@ void			game_loop(t_doom *doom)
 	/* 	 if (++i > 100)
 			exit(0); */
 	}
+	leave_gui(doom, GUI_EDITOR_SETTINGS);
 	// FREE TEXTURES FROM LOAD_ALL
 }

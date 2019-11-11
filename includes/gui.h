@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gui.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 01:42:00 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/08 15:29:59 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/11/11 00:55:56 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ typedef struct		s_component
 	t_bool				visible;
 	t_bool				enabled;
 	void				(*render)(t_doom *doom, struct s_component *self, t_img *img);
-	void				(*perform_action)(struct s_component *self, t_doom *doom);
+	t_bool				(*perform_action)(struct s_component *self, t_doom *doom);
 	t_bool				(*on_event)(struct s_component *self, SDL_Event *event, t_doom *doom);
 }					t_component;
 
@@ -179,6 +179,10 @@ void				g_mainmenu_on_leave(t_gui *self, t_doom *doom);
 void				g_gameover_render(t_gui *self, t_doom *doom);
 void				g_gameover_on_enter(t_gui *self, t_doom *doom);
 void				g_gameover_on_leave(t_gui *self, t_doom *doom);
+void				g_editor_settings_render(t_gui *self, t_doom *doom);
+void				g_editor_settings_on_enter(t_gui *self, t_doom *doom);
+void				g_editor_settings_on_leave(t_gui *self, t_doom *doom);
+void				g_editor_settings_on_event(t_gui *self, SDL_Event *event, t_doom *doom);
 void				g_ressources_render(t_gui *self, t_doom *doom);
 void				g_ressources_on_enter(t_gui *self, t_doom *doom);
 void				g_ressources_on_leave(t_gui *self, t_doom *doom);
@@ -188,6 +192,10 @@ void				g_editor_render(t_gui *self, t_doom *doom);
 void				g_editor_on_event(t_gui *self, SDL_Event *event, t_doom *doom);
 void				g_ressources_on_event(t_gui *self, SDL_Event *event, t_doom *doom);
 void				register_guis(t_doom *doom);
+void				enter_gui(t_doom *doom, int id);
+void				leave_gui(t_doom *doom, int id);
+void				gui_events(t_doom *doom, SDL_Event *event, int id);
+void				components_events(t_doom *doom, SDL_Event *event, int id);
 void				set_gui(t_doom *doom, int id);
 void				render_components(t_doom *doom, t_gui *gui);
 t_bool				in_bounds(SDL_Rect bounds, t_vec2 pos);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_ingame.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/22 14:35:51 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/11/11 00:59:21 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,7 @@
 
 void static	action_performed(t_component *cmp, t_doom *doom)
 {
-	if (cmp == doom->guis[doom->current_gui].components->values[0])
-		set_gui(doom, GUI_EDITOR);
+	
 }
 
 void	g_ingame_on_enter(t_gui *self, t_doom *doom)
@@ -124,4 +123,5 @@ void	g_ingame_render(t_gui *self, t_doom *doom)
 		return ;
 	}
 	render_components(doom, self);
+	doom->guis[GUI_EDITOR_SETTINGS].render(&doom->guis[GUI_EDITOR_SETTINGS], doom);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   constants.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rle-ru <rle-ru@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 21:05:41 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/28 17:30:56 by rle-ru           ###   ########.fr       */
+/*   Updated: 2019/11/11 00:12:49 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,13 @@
 # define FAR_CULL (500)
 # define FAR (500)
 
-# define GUI_COUNT (5)
+# define GUI_COUNT (6)
 # define GUI_INGAME (0)
 # define GUI_MAIN_MENU (1)
 # define GUI_EDITOR (2)
 # define GUI_GAMEOVER (3)
 # define GUI_RESSOURCES (4)
+# define GUI_EDITOR_SETTINGS (5)
 
 # define AMBIANT_LIGHT (100)
 

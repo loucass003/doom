@@ -59,7 +59,7 @@ void			apply_select_value(t_gui *self, t_doom *doom)
 	}
 }
 
-static void		delete_ressource_performed(t_component *cmp, t_doom *doom)
+static t_bool		delete_ressource_performed(t_component *cmp, t_doom *doom)
 {
 	int	i;
 
@@ -77,9 +77,10 @@ static void		delete_ressource_performed(t_component *cmp, t_doom *doom)
 					doom->res_manager.page = get_pages_count(&doom->res_manager);
 				update_selects(&doom->guis[doom->current_gui], &doom->res_manager);
 			}
-			return;
+			return (TRUE);
 		}
 	}
+	return (TRUE);
 }
 
 t_vec2	get_mouse_pos(t_doom *doom)
@@ -114,7 +115,7 @@ void	g_ressources_on_event(t_gui *self, SDL_Event *event, t_doom *doom)
 	}
 }
 
-static void		action_performed(t_component *cmp, t_doom *doom)
+static t_bool		action_performed(t_component *cmp, t_doom *doom)
 {
 	if (cmp == doom->guis[doom->current_gui].components->values[PAGE_SIZE * 3 + 1])
 		doom->res_manager.page--;
@@ -128,7 +129,11 @@ static void		action_performed(t_component *cmp, t_doom *doom)
 		a(doom, "", RESSOURCE_UNSET, FALSE);
 	update_selects(&doom->guis[doom->current_gui], &doom->res_manager);
 	if (cmp == doom->guis[doom->current_gui].components->values[PAGE_SIZE * 3] && !check_ressources_errors(doom))
+	{
 		set_gui(doom, GUI_MAIN_MENU);
+		return (FALSE);
+	}
+	return (TRUE);
 }
 
 void	g_ressources_on_enter(t_gui *self, t_doom *doom)

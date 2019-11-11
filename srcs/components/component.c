@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 12:50:35 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/27 02:20:32 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/11 00:52:19 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,23 @@ t_bool	in_bounds(SDL_Rect bounds, t_vec2 pos)
 	return (pos.x >= bounds.x && pos.y >= bounds.y 
 		&& pos.y < bounds.y + bounds.h 
 		&& pos.x < bounds.x + bounds.w);
+}
+
+void	components_events(t_doom *doom, SDL_Event *event, int id)
+{
+	t_gui	*gui;
+	int		i;
+
+	if (id < 0)
+		return ;
+	gui = &doom->guis[id];
+	i = -1;
+	while (++i < gui->components->len)
+	{
+		if (gui->components->values[i]->enabled 
+			&& gui->components->values[i]->on_event
+			&& !gui->components->values[i]->on_event(gui->components->values[i],
+				event, doom))
+			break;
+	}
 }

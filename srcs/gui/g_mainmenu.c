@@ -3,24 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   g_mainmenu.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:56:05 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/08 15:12:40 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/11/11 00:58:06 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "gui.h"
 #include "doom.h"
 
-static void		action_performed(t_component *cmp, t_doom *doom)
+static t_bool		action_performed(t_component *cmp, t_doom *doom)
 {
 	if (cmp == doom->guis[doom->current_gui].components->values[0])
+	{
 		set_gui(doom, GUI_INGAME);
+		return (FALSE);
+	}
 	else if (cmp == doom->guis[doom->current_gui].components->values[1])
+	{
 		set_gui(doom, GUI_EDITOR);
+		return (FALSE);
+	}
 	else if (cmp == doom->guis[doom->current_gui].components->values[2])
+	{
 		set_gui(doom, GUI_RESSOURCES);
+		return (FALSE);
+	}
+	return (TRUE);
 }
 
 void	g_mainmenu_on_enter(t_gui *self, t_doom *doom)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   events.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:14:55 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/08 15:25:12 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/11/11 01:01:41 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,21 +49,16 @@ static void	events_window(t_doom *doom, SDL_Event *event)
 {
 	const SDL_Scancode	key = event->key.keysym.scancode;
 
-	if (doom->current_gui >= 0 && doom->guis[doom->current_gui].on_event != NULL)
-		doom->guis[doom->current_gui].on_event(&doom->guis[doom->current_gui], event, doom);
-	if (doom->current_gui >= 0)
-		for (int i = 0; i < doom->guis[doom->current_gui].components->len; i++)
-			if (doom->guis[doom->current_gui].components->values[i]->enabled && doom->guis[doom->current_gui].components->values[i]->on_event)
-				if (!doom->guis[doom->current_gui].components->values[i]->on_event(doom->guis[doom->current_gui].components->values[i], event, doom))
-					break;
+	gui_events(doom, event, doom->current_gui);
+	components_events(doom, event, doom->current_gui);
 	if (event->type == SDL_QUIT)
 		doom->running = FALSE;
-	// if (event->type == SDL_MOUSEBUTTONDOWN)
-	// 	{
-	// 		t_itemstack	*is = &doom->player.item[doom->player.selected_slot];
-	// 		if (is->of && is->of->on_use)
-	// 			is->of->on_use(doom, is);
-	// 	}
+	if (event->type == SDL_MOUSEBUTTONDOWN)
+	{
+		t_itemstack	*is = &doom->player.item[doom->player.selected_slot];
+		if (is->of && is->of->on_use)
+			is->of->on_use(doom, is);
+	}
 	// if (event->type == SDL_MOUSEBUTTONUP && doom->current_gui >= 0)
 	// {
 	// 	for (int i = 0; i < doom->guis[doom->current_gui].components->len; i++)
@@ -178,7 +173,6 @@ void	hook_events(t_doom *doom)
 			if (doom->player.entity.rotation.x - rot < M_PI_2 && doom->player.entity.rotation.x - rot > -M_PI_2 )
 				doom->player.entity.rotation.x -= rot;
 		}
-	
 		update_player_camera(&doom->player);
 	}
 	while (SDL_PollEvent(&event))
