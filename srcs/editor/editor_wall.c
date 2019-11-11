@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 18:54:05 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/10 23:29:10 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/11 17:13:30 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,12 +61,14 @@ t_bool		editor_render_wall(t_doom *doom, t_editor *editor, t_room *room, int j)
 {
 	t_vec2	p0;
 	t_vec2	p1;
-	const int	color = editor->current_room != -1 && room
+	int	color = editor->current_room != -1 && room
 		== &editor->rooms->values[editor->current_room] ? 0xFFFFF0F0 : 0xFFFF9090;
 	
 	p0 = editor->points->vertices[room->walls->values[j].indice];
 	p1 = editor->points->vertices[
 			room->walls->values[(j + 1) % room->walls->len].indice];
+	if (editor->current_seg.x == room->walls->values[j].indice && editor->current_seg.y == room->walls->values[(j + 1) % room->walls->len].indice)
+		color = 0xFFFF0000;
 	draw_line(&doom->screen, (t_pixel){ p0.x, p0.y, color},
 		(t_pixel){ p1.x, p1.y, 0 });
 	draw_circle(&doom->screen, (t_pixel){ p0.x, p0.y, 0xFFFF00FF }, 2);

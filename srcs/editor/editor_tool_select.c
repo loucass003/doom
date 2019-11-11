@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 20:13:35 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/10 23:35:44 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/11 18:03:15 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,17 @@ void			editor_tool_select(t_editor *editor, SDL_Event *event)
 		swap_normal(editor);
 		return ;
 	}
-	editor->current_room = get_close_room(editor);
+
+	if (editor->grid_cell_grab != GG_OUTSIDE)
+	{
+		if (editor->current_room != -1)
+			editor->current_seg = get_close_seg(editor, &editor->rooms->values[editor->current_room], editor->grid_cell);
+		else
+			editor->current_seg = (t_vec2){ -1, -1 };
+		editor_settings_update(editor);
+		if (editor->grid_cell_grab == GG_POINT || editor->grid_cell_grab == GG_NONE)
+			select_room(editor, get_close_room(editor));
+	}
 	if (editor->grid_cell_grab == GG_POINT)
 	{
 		index = vertices2d_indexof(editor->points, editor->grid_cell);

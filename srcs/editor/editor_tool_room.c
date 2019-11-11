@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 20:09:08 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/10 22:04:51 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/11 14:31:35 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void		editor_tool_room(t_editor *editor, SDL_Event *event)
 	{
 		printf("NEW_ROOM\n");
 		append_rooms_array(&editor->rooms, (t_room){ .walls = create_walls_array(15) });
-		editor->current_room = editor->rooms->len - 1;
+		select_room(editor, editor->rooms->len - 1);
 	}
 
 	t_room	*curr_room = &editor->rooms->values[editor->current_room];
@@ -34,7 +34,7 @@ void		editor_tool_room(t_editor *editor, SDL_Event *event)
 		if (event->button.button == SDL_BUTTON_RIGHT || (vert0.x == editor->grid_cell.x && vert0.y == editor->grid_cell.y))
 		{
 			curr_room->closed = TRUE;
-			editor->current_room = -1;
+			select_room(editor, -1);
 			editor->grid_cell = (t_vec2){ -1, -1 };
 			editor->grid_cell_grab = GG_NONE;
 			editor->line_start_cell = (t_vec2){ -1, -1 };

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 18:37:59 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/10 19:34:11 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/11 18:03:09 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,4 +92,11 @@ void			editor_render_rooms(t_gui *self, t_doom *doom, t_editor *editor)
 			if (!editor_render_wall(doom, editor, room, j))
 				continue;
 	}
+}
+
+
+void			select_room(t_editor *editor, int index)
+{
+	editor->current_room = index;
+	editor_settings_update(editor);
 }

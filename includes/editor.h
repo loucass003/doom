@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 14:35:33 by lloncham          #+#    #+#             */
-/*   Updated: 2019/11/10 23:17:58 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/11 18:03:41 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,8 @@ typedef enum		e_grid_grab
 {
 	GG_NONE,
 	GG_POINT,
-	GG_LINE
+	GG_LINE,
+	GG_OUTSIDE
 }					t_grid_grab;
 
 typedef struct		s_editor
@@ -85,6 +86,7 @@ typedef struct		s_editor
 	t_vec2			grid_cell;
 	t_grid_grab		grid_cell_grab;
 	t_vec2			close_seg;
+	t_vec2			current_seg;
 	int				selected_tool;
 	t_vec2			line_start_cell;
 	t_rooms			*rooms;
@@ -162,5 +164,8 @@ void				editor_tool_point_move(t_editor *editor);
 void				editor_tool_point_release(t_editor *editor);
 void				editor_tool_room(t_editor *editor, SDL_Event *event);
 void				editor_delete_action(t_editor *editor);
+void				select_room(t_editor *editor, int index);
+t_vec2				get_close_seg(t_editor *editor, t_room *room, t_vec2 pos);
+void				editor_settings_update(t_editor *editor);
 
 #endif

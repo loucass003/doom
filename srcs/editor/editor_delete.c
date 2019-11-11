@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 22:38:06 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/10 23:22:48 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/11 14:31:33 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void	editor_remove_point(t_editor *editor)
 			continue;
 		if (editor->rooms->values[i].walls->len - 1 < 3)
 		{
-			editor->current_room = -1;
+			select_room(editor, -1);
 			remove_room(editor, i);
 			rem_room = TRUE;
 			break;
@@ -48,7 +48,7 @@ void	editor_delete_action(t_editor *editor)
 	else if (editor->current_room != -1)
 	{
 		remove_room(editor, editor->current_room);
-		editor->current_room = -1;
+		select_room(editor, -1);
 		editor->line_start_cell = (t_vec2){ -1, -1 };
 	}
 }

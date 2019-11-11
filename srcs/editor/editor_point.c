@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 18:46:30 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/10 18:55:54 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/11 17:31:04 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,22 @@ t_bool			is_in_range(t_vec2 pos, t_vec2 test)
 	return ((test.x - pos.x) * (test.x - pos.x) + (test.y - pos.y) * (test.y - pos.y) < 9 * 9);
 }
 
+t_vec2			get_close_seg(t_editor *editor, t_room *room, t_vec2 pos)
+{
+	int		i;
+
+	i = -1;
+	while (++i < room->walls->len - !(room->closed))
+	{
+		t_vec2 p0 = editor->points->vertices[room->walls->values[i].indice];
+		t_vec2 p1 = editor->points->vertices[room->walls->values[(i + 1) % room->walls->len].indice];
+		t_vec2	project = get_point_on_seg(p0, p1, pos);
+		if (is_point_on_seg(project, pos))
+			return (t_vec2){ room->walls->values[i].indice, room->walls->values[(i + 1) % room->walls->len].indice };
+	}
+	return (t_vec2){ -1, -1 };
+}
+
 t_vec2			get_close_point(t_editor *editor, t_vec2 pos)
 {
 	int k;
@@ -111,5 +127,12 @@ t_vec2			get_close_point(t_editor *editor, t_vec2 pos)
 		}
 	}
 	editor->grid_cell_grab = GG_NONE;
+	if (!in_bounds((SDL_Rect){ 10, 70, S_WIDTH - 20, S_HEIGHT - 80 }, pos) 
+		|| (editor->settings_open && editor->settings_visible 
+			&& in_bounds((SDL_Rect){ S_WIDTH - 335, 75, 320, 550 }, pos)))
+	{
+		printf("OUTSIDE\n");
+		editor->grid_cell_grab = GG_OUTSIDE;
+	}
 	return (pos);
 }

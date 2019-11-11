@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 15:50:09 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/11 00:57:10 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/11 15:09:36 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static t_bool		tools_action_performed(t_component *cmp, t_doom *doom)
 	{
 		t_room	*curr_room = &doom->editor.rooms->values[doom->editor.current_room];
 		curr_room->closed = TRUE;
-		doom->editor.current_room = -1;
+		select_room(&doom->editor, -1);
 		doom->editor.line_start_cell = (t_vec2){ -1, -1 };
 	}
 	return (TRUE);
@@ -63,6 +63,7 @@ void			g_editor_button(t_gui *self, t_doom *doom)
 		self->components->values[i++]->perform_action = tools_action_performed;
 	append_components_array(&self->components, create_button((SDL_Rect){S_WIDTH - 57, 9, 50, 50}, "icons/settings.png", NULL));
 	self->components->values[self->components->len - 1]->perform_action = action_performed;
+	((t_button *)self->components->values[self->components->len - 1])->selected = TRUE;;
 }
 
 void			g_editor_on_enter(t_gui *self, t_doom *doom)
@@ -71,8 +72,9 @@ void			g_editor_on_enter(t_gui *self, t_doom *doom)
 	doom->editor.points = create_2dvertices_array(50);
 	doom->editor.line_start_cell = (t_vec2){ -1, -1 };
 	doom->editor.current_point = -1;
-	doom->editor.current_room = -1;
-	doom->editor.settings_open = FALSE;
+	select_room(&doom->editor, -1);
+	doom->editor.settings_open = TRUE;
+
 	g_editor_button(self, doom);
 }
 
@@ -89,7 +91,10 @@ void			g_editor_on_event(t_gui *self, SDL_Event *event, t_doom *doom)
 		if (in_bounds((SDL_Rect){ 10, 70, doom->screen.width - 20, doom->screen.height - 80 }, pos))
 			doom->editor.grid_cell = get_close_point(&doom->editor, pos);
 		else
+		{
+			doom->editor.grid_cell_grab = GG_OUTSIDE;
 			doom->editor.grid_cell = (t_vec2){ -1, -1 };
+		}
 		
 		if ((doom->editor.selected_tool == TOOL_POINT || doom->editor.selected_tool == TOOL_SELECT) && doom->editor.grid_cell.x != -1 && doom->editor.current_point != -1)
 			editor_tool_point_move(&doom->editor);
