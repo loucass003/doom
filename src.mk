@@ -95,6 +95,7 @@ SRC+=renderables/renderable.c
 SRC+=renderables/sprite_renderable.c
 SRC+=ressources/load_datapack.c
 SRC+=ressources/load_ressource.c
+SRC+=ressources/ressource_texture.c
 SRC+=ressources/ressources_registry.c
 SRC+=ressources/save_datapack.c
 SRC+=sdl.c

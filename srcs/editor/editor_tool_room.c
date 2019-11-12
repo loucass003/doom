@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 20:09:08 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/11 14:31:35 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/12 18:15:53 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void		editor_tool_room(t_editor *editor, SDL_Event *event)
 		index = editor->points->len - 1;
 		if (editor->grid_cell_grab == GG_NONE)
 		{
-			append_walls_array(&curr_room->walls, init_wall(index));
+			append_walls_array(&curr_room->walls, init_wall(editor, index));
 			if (room_intersect(editor, curr_room, curr_room, TRUE))
 			{
 				splice_2dvertices_array(editor->points, index, 1);
@@ -65,7 +65,7 @@ void		editor_tool_room(t_editor *editor, SDL_Event *event)
 		}
 		else if (editor->grid_cell_grab == GG_LINE)
 		{
-			append_walls_array(&curr_room->walls, init_wall(index));
+			append_walls_array(&curr_room->walls, init_wall(editor, index));
 			if (room_intersect(editor, curr_room, curr_room, TRUE))
 			{
 				splice_2dvertices_array(editor->points, index, 1);
@@ -79,7 +79,7 @@ void		editor_tool_room(t_editor *editor, SDL_Event *event)
 	}
 	else if (editor->grid_cell_grab == GG_POINT && index != -1)
 	{
-		append_walls_array(&curr_room->walls, init_wall(index));
+		append_walls_array(&curr_room->walls, init_wall(editor, index));
 		if (room_intersect(editor, curr_room, curr_room, TRUE))
 		{
 			splice_walls_array(curr_room->walls, curr_room->walls->len - 1, 1);

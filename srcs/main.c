@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rle-ru <rle-ru@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/28 17:04:14 by rle-ru           ###   ########.fr       */
+/*   Updated: 2019/11/12 17:37:47 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ void	init_bsp(t_doom *doom)
 	create_ellipsoid(&ellipsoid, 0xFFFF0000, (t_vec2){ 30, 30 }, (t_vec3){ 1, 1, 1 });
 	ellipsoid.position = (t_vec3){ 5, 0.5, 5 };
 	ellipsoid.scale = (t_vec3){ 1, 1, 1 };
-	//ellipsoid.wireframe = TRUE;
+	// ellipsoid.wireframe = TRUE;
 	ellipsoid.wireframe_color = 0xFFFF0000;
 	append_renderables_array(&doom->renderables, ellipsoid);
 
@@ -173,6 +173,7 @@ int		main(int argc, char **argv)
 	}
 
 	doom.main_context.doom = &doom;
+	doom.editor.doom = &doom;
 	//doom.thpool = at_thpool_create (20);
 	//pthread_mutex_init(&doom.mutex, NULL);
 

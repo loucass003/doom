@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/24 22:14:40 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/26 18:46:36 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/12 17:28:40 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,18 +34,7 @@ t_bool		write_header(t_ressource_manager *rm)
 	return (TRUE);
 }
 
-t_bool		write_texture(t_ressource_manager *rm, t_img *img)
-{
-	const t_wr_img	wr_img = (t_wr_img){ 
-		.size = img->size * sizeof(uint32_t),
-		.width = img->width,
-		.height = img->height
-	};
 
-	dp_write(rm, &wr_img, sizeof(t_wr_img));
-	dp_write(rm, img->pixels, wr_img.size);
-	return (TRUE);
-}
 
 t_bool		write_ressource(t_ressource_manager *rm, t_ressource *r)
 {

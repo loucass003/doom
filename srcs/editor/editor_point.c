@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 18:46:30 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/11 17:31:04 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/12 18:15:37 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,9 @@ void			insert_point(t_editor *editor, t_vec2 seg, int point_index)
 
 		if (index0 != -1 && index1 != -1)
 		{
-			append_walls_array(&room0->walls, init_wall(-20));
+			append_walls_array(&room0->walls, init_wall(editor, -20));
 			ft_memmove(room0->walls->values + index1 + 1, room0->walls->values + index1, (room0->walls->len - (index1 + 1)) * sizeof(t_wall));
-			room0->walls->values[index1] = init_wall(point_index);
+			room0->walls->values[index1] = init_wall(editor, point_index);
 		}
 	}
 }

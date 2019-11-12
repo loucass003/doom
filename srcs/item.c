@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   item.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rle-ru <rle-ru@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 20:16:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/12 20:57:49 by rle-ru           ###   ########.fr       */
+/*   Updated: 2019/11/12 21:11:33 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	on_use_weapon(t_doom *doom, t_itemstack *is)
 	hit = ray_hit_world(doom, doom->renderables, create_shoot_ray(doom->player, (t_vec3){0, 0, 1}));
 	if (hit.collide && hit.renderable->of.type == RENDERABLE_ENTITY && hit.renderable->of.data.entity->type == ENTITY_ENEMY)
 	{
-		doom->gameover.totaldamage += 0.6;
+		doom->gameover.totaldamage += weapon->damage;
 		hit.renderable->of.data.entity->life -= weapon->damage;
 		hit.renderable->of.data.entity->focus = TRUE;
 	}

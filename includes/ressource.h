@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 10:19:30 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/26 18:44:12 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/12 18:17:02 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,5 +76,6 @@ t_bool			a(t_doom *doom, char *name, t_ressource_type type, t_bool fixed);
 t_bool			load_ressource(t_doom *doom, t_ressource *r, char *path);
 t_bool			close_datapack(t_doom *doom);
 t_bool			save_datapack(t_doom *doom);
+t_ressource		*get_default_texture(t_ressource_manager *rm, t_bool use);
 
 #endif

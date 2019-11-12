@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:14:55 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/11 01:01:41 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/12 20:41:09 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ static void	events_window(t_doom *doom, SDL_Event *event)
 
 	gui_events(doom, event, doom->current_gui);
 	components_events(doom, event, doom->current_gui);
+	components_events(doom, event, GUI_EDITOR_SETTINGS);
 	if (event->type == SDL_QUIT)
 		doom->running = FALSE;
 	if (event->type == SDL_MOUSEBUTTONDOWN)

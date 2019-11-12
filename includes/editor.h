@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 14:35:33 by lloncham          #+#    #+#             */
-/*   Updated: 2019/11/11 18:03:41 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/12 18:18:13 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include "maths/line.h"
 # include "gui.h"
 # include "arrays.h"
+# include "ressource.h"
 
 # define TOOL_ROOM (1)
 # define TOOL_POINT (2)
@@ -46,6 +47,7 @@ typedef struct		s_objects
 typedef struct		s_wall
 {
 	int				indice;
+	t_ressource		*texture;
 	uint8_t			normal_type;
 	t_bool			invisible;
 	t_bool			collisions;
@@ -95,6 +97,7 @@ typedef struct		s_editor
 	int				current_point;
 	t_bool			settings_open;
 	t_bool			settings_visible;
+	t_doom			*doom;
 	
 	
 	// uint8_t			*point;
@@ -153,7 +156,7 @@ t_bool				room_intersect(t_editor *editor, t_room *room, t_room *room2, t_bool s
 void				remove_point(t_editor *editor, int index);
 void				insert_point(t_editor *editor, t_vec2 seg, int point_index);
 t_vec2				get_close_point(t_editor *editor, t_vec2 pos);
-t_wall				init_wall(int indice);
+t_wall				init_wall(t_editor *editor, int indice);
 void				editor_grid_render(t_gui *self, t_doom *doom, t_editor *editor);
 void				editor_render_rooms(t_gui *self, t_doom *doom, t_editor *editor);
 t_bool				editor_render_wall(t_doom *doom, t_editor *editor, t_room *room, int j);
