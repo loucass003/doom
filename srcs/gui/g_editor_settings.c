@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/11 00:11:31 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/12 20:40:44 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/12 22:17:23 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 static void		action_performed(t_component *cmp, t_doom *doom)
 {
-	
+	//if (cmp == doom->guis->components[doom->])
 }
 
 void			g_editor_settings_on_enter(t_gui *self, t_doom *doom)
