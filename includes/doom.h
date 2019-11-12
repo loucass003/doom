@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   doom.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rle-ru <rle-ru@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/12 15:30:48 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/11/12 20:57:25 by rle-ru           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,8 @@ typedef struct		s_textures
 
 typedef struct		s_audio
 {
-	Mix_Chunk		*music[8];
-	ALuint			buffer[8];
+	Mix_Chunk		*music[10];
+	ALuint			buffer[10];
 	ALuint			source[MAX_SOUNDS];
 	t_bool			source_status[MAX_SOUNDS];
 	ALCdevice 		*device;
@@ -157,5 +157,6 @@ t_bool				post_process_map(t_doom *doom);
 t_bool				init_openal(t_doom *doom);
 void            	quit_openal();
 
-
+void				entity_sound(t_entity *s, int buffer, int source, int peach);
+void				player_sound(t_audio *s, int source, int buffer, float peach);
 #endif

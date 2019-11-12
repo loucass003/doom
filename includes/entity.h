@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   entity.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rle-ru <rle-ru@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 00:01:14 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/15 18:57:28 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/12 18:47:23 by rle-ru           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "libft.h"
 # include "collision.h"
+# include <al.h>
 
 typedef enum		e_entity_type
 {
@@ -42,6 +43,8 @@ typedef struct		s_entity
 	t_bool			focus;
 	t_collision		hit_data;
 	t_bool			shooting;
+	ALuint			source[3];
+
 }					t_entity;
 
 void		entity_update(struct s_doom *doom, t_entity *entity, double dt);

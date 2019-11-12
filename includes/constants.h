@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   constants.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rle-ru <rle-ru@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 21:05:41 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/11 00:12:49 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/12 20:57:19 by rle-ru           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,5 +59,10 @@
 # define AMBIANT_LIGHT (100)
 
 # define MAX_SOUNDS (20)
+# define CHAR_SHOOTING (MAX_SOUNDS - 1)
+# define ITEM_PICK (CHAR_SHOOTING - 1)
+# define CHAR_FOOTSTEP (ITEM_PICK - 1)
+
+# define MAX_OPEN_SOUNDS (CHAR_FOOTSTEP)
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   entity.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rle-ru <rle-ru@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 22:00:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/10 23:51:34 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/12 20:56:38 by rle-ru           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -301,8 +301,25 @@ void		collide_and_slide(t_entity *entity)
 
 void		entity_update(t_doom *doom, t_entity *entity, double dt)
 {
+	ALint status;
+
 	if (entity->type == ENTITY_ENEMY)
+	{
 		entity_update_enemy(doom, entity, dt);
+		if ((entity->velocity.x || entity->velocity.z))
+		{
+				// && entity->velocity.y == 0)
+			alGetSourcei(entity->source[2], AL_SOURCE_STATE, &status);
+			if (status != AL_PLAYING)
+				entity_sound(entity, 9, 2, 1);
+		}
+			// play_music(&doom->audio, entity->position, 9, TRUE);
+	}
+	if (entity->type == ENTITY_PLAYER
+			&& (entity->velocity.x || entity->velocity.z)
+			&& entity->velocity.y == 0
+			&& doom->audio.source_status[CHAR_FOOTSTEP] == 0)
+		player_sound(&doom->audio, CHAR_FOOTSTEP, 9, 1);
 	entity->velocity.y -= 40;
 	entity->packet.r3_posision = entity->position;
 	entity->packet.r3_velocity = entity->velocity;

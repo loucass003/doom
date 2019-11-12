@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   enemy.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rle-ru <rle-ru@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/30 16:36:08 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/12 14:37:14 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/11/12 20:57:51 by rle-ru           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ t_bool		create_enemy(t_doom *doom, t_renderable *r)
 	r->of.data.entity->packet.doom = doom;
 	r->of.data.entity->radius = (t_vec3){ 1, 2.5, 1 };
 	r->of.data.entity->life = 1;
+	alGenSources(3, r->of.data.entity->source);
 	//r->show_hitbox = TRUE;
 	//r->entity->pos_offset.y = -r->entity->radius.y;
 	compute_enemy_hitbox(r);
@@ -53,7 +54,8 @@ void		entity_update_enemy(t_doom *doom, t_entity *entity, double dt)
 	{
 		entity->diying = TRUE;
 		entity->animation_step = 5;
-		play_music(&doom->audio, entity->position, 5);
+		// play_music(&doom->audio, entity->position, 5, FALSE);
+		entity_sound(entity, 5, 0, 2);
 	}
 	entity->t0 += 5 * dt;
 	t_vec3 dir = ft_vec3_sub(doom->player.entity.position, entity->position);
@@ -103,7 +105,7 @@ void		entity_update_enemy(t_doom *doom, t_entity *entity, double dt)
 				entity->shooting = TRUE;
 				entity->t1 = 0;
 
-				play_music(&doom->audio, entity->position, 7, FALSE);
+				entity_sound(entity, 7, 1, 1);
 				uint8_t u = rand();
 				if (u > 120)
 					doom->player.entity.life -= 0.1;
