@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 14:37:12 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/08 15:12:08 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/11/12 11:55:17 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ t_bool			init_ressources_registry(t_doom *doom)
 		return (FALSE);
 	error = FALSE;
 	error |= a(doom, "MAIN_MENU_BACKGROUND", RESSOURCE_TEXTURE, TRUE);
+	error |= a(doom, "GAMEOVER_BACKGROUND", RESSOURCE_TEXTURE, TRUE);
 	return (error);
 }
 

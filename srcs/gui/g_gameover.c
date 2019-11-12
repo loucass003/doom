@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_gameover.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/15 20:19:09 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/11 00:13:02 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/12 12:03:58 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,9 @@ void	g_gameover_on_leave(t_gui *self, t_doom *doom)
 
 void	g_gameover_render(t_gui *self, t_doom *doom)
 {
-	apply_surface(&doom->screen, doom->background, (SDL_Rect) {0, 0, doom->background->w, doom->background->h}, (SDL_Rect) {0, 0, S_WIDTH, S_HEIGHT});
+	t_img	*gameover;
+	
+	gameover = doom->res_manager.ressources->values[1]->data.texture;
+	apply_image_to_image(&doom->screen, gameover, (SDL_Rect) {0, 0, gameover->width, gameover->height}, (SDL_Rect) {0, 0, S_WIDTH, S_HEIGHT});
 	render_components(doom, self);
 }
