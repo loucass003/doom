@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   enemy.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/30 16:36:08 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/28 21:46:26 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/12 14:37:14 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,8 +112,11 @@ void		entity_update_enemy(t_doom *doom, t_entity *entity, double dt)
 		if (entity->diying)
 		{
 			entity->animation_step = 5;
-			if (++entity->diying_step == 4)
+			if (++entity->diying_step == 4){
 				entity->died = TRUE;
+				doom->gameover.kill += 1;
+			}
+				
 		}
 	}
 	entity->velocity.y = 15;

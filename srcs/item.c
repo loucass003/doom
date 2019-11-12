@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   item.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 20:16:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/10 23:40:15 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/12 15:31:25 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ void	on_use_weapon(t_doom *doom, t_itemstack *is)
 		// play_music(&doom->audio, doom->player.camera.pos, 7);
 		play_music(&doom->audio, (t_vec3){0, 0, 0}, 7, TRUE);
 		inv_is->amount--;
+		doom->gameover.bullets += 1;
 	}
 	if (inv_is->amount <= 0)
 		inv_is->of = NULL;
@@ -67,6 +68,7 @@ void	on_use_weapon(t_doom *doom, t_itemstack *is)
 	hit = ray_hit_world(doom, doom->renderables, create_shoot_ray(doom->player, (t_vec3){0, 0, 1}));
 	if (hit.collide && hit.renderable->of.type == RENDERABLE_ENTITY && hit.renderable->of.data.entity->type == ENTITY_ENEMY)
 	{
+		doom->gameover.totaldamage += 0.6;
 		hit.renderable->of.data.entity->life -= weapon->damage;
 		hit.renderable->of.data.entity->focus = TRUE;
 	}

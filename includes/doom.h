@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   doom.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/29 03:35:10 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/12 15:30:48 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,14 @@ typedef struct		s_tdata
 }					t_tdata;
 
 
+typedef struct		s_gameover
+{
+	int				kill;
+	int				bullets;
+	int				weapon;
+	float			totaldamage;
+}					t_gameover;
+
 typedef struct		s_doom
 {
 	SDL_Window			*win;
@@ -126,11 +134,11 @@ typedef struct		s_doom
 	int 				indextodel;
 	int					wheredel;
 	t_ressource_manager	res_manager;
+	t_gameover			gameover;
 	//at_thpool_t			*thpool;
 	//pthread_mutex_t		mutex;
 	// t_ray_collide		*rays;
 }					t_doom;
-
 
 float				clamp(float min, float max, float v);
 

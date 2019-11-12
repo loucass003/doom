@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:01:13 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/11 00:26:37 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/12 15:24:43 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,17 @@ void			update_sounds(t_doom *doom)
 
 }
 
+void			init_gameover(t_doom *doom)
+{
+	t_gameover		*gameover;
+
+	gameover = &doom->gameover;
+	gameover->kill = 0;
+	gameover->bullets = 0;
+	gameover->weapon = 0;
+	gameover->totaldamage = 0;
+}
+
 void			game_loop(t_doom *doom)
 {
 	register_guis(doom);
@@ -88,7 +99,8 @@ void			game_loop(t_doom *doom)
 	else
 		set_gui(doom, GUI_MAIN_MENU);
 	init_player(doom);
-	
+	init_gameover(doom);
+	 
 	int  i = 0;
 	load_all(doom);
 	init_openal(doom);

@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/15 20:19:09 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/12 12:03:58 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/11/12 15:30:59 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,13 @@ void	g_gameover_on_leave(t_gui *self, t_doom *doom)
 
 void	g_gameover_render(t_gui *self, t_doom *doom)
 {
-	t_img	*gameover;
+	t_img	*background;
 	
-	gameover = doom->res_manager.ressources->values[1]->data.texture;
-	apply_image_to_image(&doom->screen, gameover, (SDL_Rect) {0, 0, gameover->width, gameover->height}, (SDL_Rect) {0, 0, S_WIDTH, S_HEIGHT});
+	background = doom->res_manager.ressources->values[1]->data.texture;
+	printf("%d kill\n ", doom->gameover.kill);
+	printf("%d bullets\n ", doom->gameover.bullets);
+	printf("%d weapon\n ", doom->gameover.weapon);
+	printf("%f damage\n ", doom->gameover.totaldamage);
+	apply_image_to_image(&doom->screen, background, (SDL_Rect) {0, 0, background->width, background->height}, (SDL_Rect) {0, 0, S_WIDTH, S_HEIGHT});
 	render_components(doom, self);
 }
