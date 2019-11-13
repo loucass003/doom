@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/24 02:52:17 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/13 01:07:43 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/13 16:54:55 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ t_bool		load_datapack(t_doom *doom, char *path)
 	if (!read_header(&doom->res_manager))
 		return (FALSE);
 	if (!read_ressources(&doom->res_manager))
+		return (FALSE);
+	if (!read_map(&doom->res_manager))
 		return (FALSE);
 	close_datapack(doom);
 	return (TRUE);

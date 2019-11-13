@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/12 17:37:47 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/13 16:57:23 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,6 +147,15 @@ void	init_bsp(t_doom *doom)
 	post_process_map(doom);
 }
 
+t_bool	init_map(t_doom *doom)
+{
+	if (!(doom->editor.rooms = create_rooms_array(15)))
+		return (FALSE);
+	if (!(doom->editor.points = create_2dvertices_array(50)))
+		return (FALSE);
+	return (TRUE);
+}
+
 int		main(int argc, char **argv)
 {
  	t_doom doom = (t_doom) {
@@ -165,7 +174,8 @@ int		main(int argc, char **argv)
 		return (0);
 	}
 	init_ressources_registry(&doom);
-	
+	init_map(&doom);
+
 	if (!load_datapack(&doom, argv[1]))
 	{
 		ft_putendl("Error: invalid datapack");

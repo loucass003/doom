@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 15:50:09 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/11 15:09:36 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/13 16:56:25 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,7 @@ void			g_editor_button(t_gui *self, t_doom *doom)
 
 void			g_editor_on_enter(t_gui *self, t_doom *doom)
 {
-	doom->editor.rooms = create_rooms_array(5);
-	doom->editor.points = create_2dvertices_array(50);
+	
 	doom->editor.line_start_cell = (t_vec2){ -1, -1 };
 	doom->editor.current_point = -1;
 	select_room(&doom->editor, -1);
