@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:14:55 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/12 20:41:09 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/13 00:54:23 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,10 @@ void	hook_events(t_doom *doom)
 
 	if (s[SDL_SCANCODE_ESCAPE])
 		doom->running = FALSE;
+	if (s[SDL_SCANCODE_BACKSPACE])
+	{
+		set_gui(doom, GUI_MAIN_MENU);
+	}
 	if (doom->current_gui == GUI_INGAME)
 	{
 		float dt = 1.0 / 60.;

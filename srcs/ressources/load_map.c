@@ -1,26 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   datapack.h                                         :+:      :+:    :+:   */
+/*   load_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/24 22:46:54 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/25 00:14:02 by llelievr         ###   ########.fr       */
+/*   Created: 2019/11/13 01:53:42 by llelievr          #+#    #+#             */
+/*   Updated: 2019/11/13 01:53:51 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef DATAPACK_H
-# define DATAPACK_H
-
-# include "ressource.h"
-
-typedef struct		s_datapack
-{
-	t_ressource			*ressources;
-	struct s_img		*textures;
-	struct s_renderable	*renderables;
-
-}					t_datapack;
-
-#endif
+#include <libft.h>
+#include "doom.h"
+#include "ressource.h"
+#include "write_structs.h"

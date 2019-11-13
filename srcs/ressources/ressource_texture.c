@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/12 17:27:40 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/12 18:14:19 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/13 01:06:15 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,24 @@ t_bool		load_texture(t_doom *doom, t_ressource *r, char *path)
 	ft_memcpy(img->pixels, s->pixels, s->w * s->h * sizeof(uint32_t));
 	r->loaded = TRUE;
 	r->data.texture = img;
+	return (TRUE);
+}
+
+t_bool		read_texture(t_ressource_manager *rm, t_img **img)
+{
+	t_wr_img wr_img;
+
+	if (!io_memcpy(&rm->reader, &wr_img, sizeof(t_wr_img)))
+		return (FALSE);
+	if (!(*img = malloc(sizeof(t_img))))
+		return (FALSE);
+	(*img)->ignore_texture = TRUE;
+	if (!create_image(rm->doom->renderer, wr_img.width, wr_img.height, *img))
+		return (FALSE);
+	if ((*img)->size * sizeof(uint32_t) != wr_img.size)
+		return (FALSE);
+	if (!io_memcpy(&rm->reader, (*img)->pixels, wr_img.size))
+		return (FALSE);
 	return (TRUE);
 }
 

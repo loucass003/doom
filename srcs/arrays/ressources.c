@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 13:56:22 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/18 19:31:12 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/13 00:33:16 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,4 +72,16 @@ t_ressources	*copy_ressources_array(t_ressources *src, t_ressources **dst)
 	ft_memcpy(*dst, src,
 		sizeof(t_ressources) + (src->capacity * sizeof(t_ressource *)));
 	return (*dst);
+}
+
+
+int		ressources_indexof(t_ressources *arr, t_ressource *r)
+{
+	int		j;
+	
+	j = -1;
+	while (++j < arr->len)
+		if (arr->values[j] == r)
+			return (j);
+	return (-1);
 }

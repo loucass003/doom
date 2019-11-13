@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 10:19:30 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/12 18:17:02 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/13 02:09:05 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,13 +69,25 @@ t_ressources	*create_ressources_array(int capacity);
 t_ressources	*append_ressources_array(t_ressources **arr, t_ressource *v);
 t_ressources	*splice_ressources_array(t_ressources *arr, int index, int n);
 t_ressources	*copy_ressources_array(t_ressources *src, t_ressources **dst);
+int				ressources_indexof(t_ressources *arr, t_ressource *r);
 t_bool			init_ressources_registry(struct s_doom *doom);
 t_bool			check_ressources_errors(struct s_doom *doom);
 t_bool			ressource_error(t_ressource *r);
 t_bool			a(t_doom *doom, char *name, t_ressource_type type, t_bool fixed);
 t_bool			load_ressource(t_doom *doom, t_ressource *r, char *path);
+t_bool			load_texture(t_doom *doom, t_ressource *r, char *path);
 t_bool			close_datapack(t_doom *doom);
 t_bool			save_datapack(t_doom *doom);
 t_ressource		*get_default_texture(t_ressource_manager *rm, t_bool use);
+void			dp_write(t_ressource_manager *rm, const void *buf, size_t n);
 
+t_bool			write_map(t_ressource_manager *r);
+t_bool			write_rooms(t_ressource_manager *r);
+t_bool			write_room(t_ressource_manager *r, struct s_room *room);
+t_bool			write_wall(t_ressource_manager *r, struct s_wall *wall);
+t_bool			write_texture(t_ressource_manager *rm, t_img *img);
+
+t_bool			read_texture(t_ressource_manager *rm, t_img **img);
+t_bool			read_ressources(t_ressource_manager *rm);
+t_bool			read_ressource(t_ressource_manager *rm, t_ressource *r);
 #endif

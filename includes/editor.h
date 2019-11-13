@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 14:35:33 by lloncham          #+#    #+#             */
-/*   Updated: 2019/11/12 18:18:13 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/13 02:06:58 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include "maths/line.h"
 # include "gui.h"
 # include "arrays.h"
-# include "ressource.h"
+
 
 # define TOOL_ROOM (1)
 # define TOOL_POINT (2)
@@ -46,11 +46,11 @@ typedef struct		s_objects
 
 typedef struct		s_wall
 {
-	int				indice;
-	t_ressource		*texture;
-	uint8_t			normal_type;
-	t_bool			invisible;
-	t_bool			collisions;
+	int					indice;
+	struct s_ressource	*texture;
+	uint8_t				normal_type;
+	t_bool				invisible;
+	t_bool				collisions;
 }					t_wall;
 
 typedef struct		s_walls
@@ -63,8 +63,6 @@ typedef struct		s_walls
 typedef struct		s_room
 {
 	t_walls			*walls;
-	// t_ints			*indices;
-	// t_ints			*normals_type;
 	t_bool			closed;
 }					t_room;
 
@@ -100,30 +98,7 @@ typedef struct		s_editor
 	t_doom			*doom;
 	
 	
-	// uint8_t			*point;
-	// int				click;
-	// int				sup;
-	// int				set_start;
-	// int				poly;
-	// int				lignes;
-	// int				curseur;
 	int				icone;
-	// int				porte;
-	// int				secteur;
-	// int				alert[4];
-	// int				set_sup[4];
-	// int				set_start_pos[2];
-	// int				save_modif[3];
-	// t_walls			*polygon;
-	// t_walls			*lines;
-	// t_objects		*objects;
-	// // t_save			*door;
-	// // t_save			*sector;
-	// // t_save			*polygon;
-	// //t_save			*lines;
-	// //t_obj			*obj;
-	// t_line			line;
-	// t_vec2			last_mouse;
 	SDL_Surface		*objet;
 	SDL_Surface		*texture;
 }					t_editor;

@@ -139,7 +139,7 @@ static t_bool		action_performed(t_component *cmp, t_doom *doom)
 void	g_ressources_on_enter(t_gui *self, t_doom *doom)
 {
 	int i;
-	SDL_CaptureMouse(SDL_TRUE);
+
 	SDL_EventState(SDL_DROPFILE, SDL_ENABLE);
 	i = -1;
 	while (++i < PAGE_SIZE)
