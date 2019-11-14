@@ -6,11 +6,13 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 20:09:08 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/12 18:15:53 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/14 05:25:22 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "editor.h"
+#include "doom.h"
+#include "ressource.h"
 
 void		editor_tool_room(t_editor *editor, SDL_Event *event)
 {
@@ -21,7 +23,11 @@ void		editor_tool_room(t_editor *editor, SDL_Event *event)
 	if (editor->current_room == -1)
 	{
 		printf("NEW_ROOM\n");
-		append_rooms_array(&editor->rooms, (t_room){ .walls = create_walls_array(15) });
+		append_rooms_array(&editor->rooms, (t_room){
+			.walls = create_walls_array(15), 
+			.floor_texture = get_default_texture(&editor->doom->res_manager, TRUE), 
+			.ceiling_texture = get_default_texture(&editor->doom->res_manager, TRUE) 
+		});
 		select_room(editor, editor->rooms->len - 1);
 	}
 

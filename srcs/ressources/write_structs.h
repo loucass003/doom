@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/25 05:41:51 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/13 01:41:18 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/14 05:28:24 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ typedef struct		s_wr_room
 {
 	t_bool			closed;
 	int				walls_count;
+	int				floor_res_index;
+	int				ceiling_res_index;
 }					t_wr_room;
 
 typedef struct		s_wr_wall

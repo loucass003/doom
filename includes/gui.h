@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 01:42:00 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/11 00:55:56 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/14 01:54:22 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ typedef enum		e_component_type
 	C_MENU,
 	C_TEXTFIELD,
 	C_PROGRESS,
-	C_SELECT
+	C_SELECT,
+	C_CHECKBOX
 }					t_component_type;
 
 typedef struct		s_component
@@ -109,6 +110,18 @@ typedef struct		s_textfield
 	int					fg_color;
 	float				t0;
 }					t_textfield;
+
+typedef struct		s_checkbox
+{
+	t_component			super;
+	char				*text;
+	t_bool				value;
+	int					bg_color;
+	int					color_default;
+	int					color_hover;
+	int					fg_color;
+}					t_checkbox;
+
 
 typedef struct		s_files
 {
@@ -229,5 +242,7 @@ int					components_indexof(t_components *arr, t_component *elem);
 t_component			*create_select(SDL_Rect bounds, char *text);
 t_component			*create_textfield(SDL_Rect bounds, char *placeholder);
 void				c_textfield_render(t_doom *doom, t_component *self, t_img *image);
+
+t_component			*create_checkbox(t_doom *doom, t_vec2 pos, char *text);
 
 #endif

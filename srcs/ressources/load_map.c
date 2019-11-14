@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 01:53:42 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/13 17:06:55 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/14 05:30:53 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,13 @@ t_bool		read_room(t_ressource_manager *r)
 		return (FALSE);
 	if (!(walls = create_walls_array(wr_room.walls_count + 5)))
 		return (FALSE);
-	room = (t_room) { .closed = wr_room.closed, .walls = walls };
+	if (wr_room.ceiling_res_index < 0 || wr_room.ceiling_res_index >= r->ressources->len)
+		return (FALSE);
+	if (wr_room.floor_res_index < 0 || wr_room.floor_res_index >= r->ressources->len)
+		return (FALSE);
+	room = (t_room) { .closed = wr_room.closed, .walls = walls, 
+		.floor_texture = r->ressources->values[wr_room.floor_res_index],
+		.ceiling_texture = r->ressources->values[wr_room.ceiling_res_index] };
 	i = -1;
 	while (++i < wr_room.walls_count)
 		if (!read_wall(r, walls))
@@ -72,7 +78,6 @@ t_bool		read_rooms(t_ressource_manager *r)
 		return (FALSE);
 	if (rooms_count < 0)
 		return (FALSE);
-
 	i = -1;
 	while (++i < rooms_count)
 		if (!read_room(r))

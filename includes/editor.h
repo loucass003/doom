@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 14:35:33 by lloncham          #+#    #+#             */
-/*   Updated: 2019/11/13 02:06:58 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/14 05:14:11 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@
 # define TOOL_POINT (2)
 # define TOOL_SELECT (3)
 # define CELLS_SPACING (10)
+# define ES_WALL_COMPONENTS (4)
+# define ES_ROOM_COMPONENTS (8)
 
 typedef struct		s_object
 {
@@ -62,8 +64,10 @@ typedef struct		s_walls
 
 typedef struct		s_room
 {
-	t_walls			*walls;
-	t_bool			closed;
+	t_walls				*walls;
+	struct s_ressource	*floor_texture;
+	struct s_ressource	*ceiling_texture;
+	t_bool				closed;
 }					t_room;
 
 typedef struct		s_rooms
@@ -145,5 +149,6 @@ void				editor_delete_action(t_editor *editor);
 void				select_room(t_editor *editor, int index);
 t_vec2				get_close_seg(t_editor *editor, t_room *room, t_vec2 pos);
 void				editor_settings_update(t_editor *editor);
+t_wall				*get_current_wall(t_editor *editor);
 
 #endif
