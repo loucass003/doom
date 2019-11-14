@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/12 15:51:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/05 19:27:08 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/14 18:30:18 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@
 
 #define EPSILON (1e-6)
 
-static float	area(t_4dvertices *vertices)
+static float	area(t_4dvertices *vertices, int *filters, int filters_count)
 {
-	int n = vertices->len;
+	int n = filters_count;
 	float A = 0.0f;
 	for (int p = n - 1, q = 0; q < n; p = q++) {
-		t_vec4 pval = vertices->vertices[p];
-		t_vec4 qval = vertices->vertices[q];
+		t_vec4 pval = vertices->vertices[filters[p]];
+		t_vec4 qval = vertices->vertices[filters[q]];
 		A += pval.x * qval.y - qval.x * pval.y;
 	}
 	return (A * 0.5f);
@@ -72,23 +72,23 @@ static t_bool	snip(t_4dvertices *vertices, int u, int j, int w, int n, int *v)
 	return (TRUE);
 }
 
-static t_bool	ear_clip_polygon(t_renderable *r)
+static t_bool	ear_clip2(int *filters, int filters_count, int vertices_count, t_4dvertices *vertices, t_faces **faces, int face_type, t_mtl *face_material)
 {
 	int		*v;
 
-	if (r->vertices->len < 3
-		|| !(v = (int *)malloc(r->vertices->len * sizeof(int)))
-		|| (!r->faces && !(r->faces = create_faces_array(r->vertices->len))))
+	if (filters_count < 3
+		|| !(v = (int *)malloc(filters_count * sizeof(int)))
+		|| (!(*faces = create_faces_array(filters_count))))
 		return (FALSE);
-	if (area(r->vertices) > 0) {
-		for (int i = 0; i < r->vertices->len; i++)
-			v[i] = i;
+	if (area(vertices, filters, filters_count) > 0) {
+		for (int i = 0; i < filters_count; i++)
+			v[i] = filters[i];
 	}
 	else {
-		for (int i = 0; i < r->vertices->len; i++)
-			v[i] = (r->vertices->len - 1) - i;
+		for (int i = 0; i < filters_count; i++)
+			v[i] = filters[(filters_count - 1) - i];
 	}
-	int nv = r->vertices->len;
+	int nv = filters_count;
 	int count = 2 * nv;
 	for (int j = nv - 1; nv > 2; )
 	{
@@ -106,7 +106,7 @@ static t_bool	ear_clip_polygon(t_renderable *r)
 		int w = j + 1;
 		if (nv <= w)
 			w = 0;
-		if (snip(r->vertices, u, j, w, nv, v))
+		if (snip(vertices, u, j, w, nv, v))
 		{
 			int s, t;
 			t_face face;
@@ -116,19 +116,16 @@ static t_bool	ear_clip_polygon(t_renderable *r)
 			face.vertices_index[1] = v[j] + 1;
 			face.vertices_index[2] = v[w] + 1;
 			face.vertex_set = TRUE;
-			face.vertex_index[0] = v[u] + 1 ;
-			face.vertex_index[1] = v[j] + 1 ;
-			face.vertex_index[2] = v[w] + 1 ;
+			face.vertex_index[0] = v[u] + 1;
+			face.vertex_index[1] = v[j] + 1;
+			face.vertex_index[2] = v[w] + 1;
 			face.normals_set = TRUE;
 			face.normals_index[0] = v[u] + 1;
 			face.normals_index[1] = v[j] + 1;
 			face.normals_index[2] = v[w] + 1;
-			if (r->materials && r->materials->len == 1)
-				face.mtl = &r->materials->values[0];
-			append_faces_array(&r->faces, face);
-			// append_ints_array(&polygon->indices, v[u]);
-			// append_ints_array(&polygon->indices, v[j]);
-			// append_ints_array(&polygon->indices, v[w]);
+			if (face_material)
+				face.mtl = face_material;
+			append_faces_array(&*faces, face);
 			for (s = j, t = j + 1; t < nv; s++, t++)
 				v[s] = v[t];
 			nv--;
@@ -137,6 +134,23 @@ static t_bool	ear_clip_polygon(t_renderable *r)
 	}
 	free(v);
 	return (TRUE);
+}
+
+static t_bool	ear_clip_polygon(t_renderable *r)
+{
+	int		*filter;
+	int		i;
+
+	if (!(filter = malloc(r->vertices->len * sizeof(int))))
+		return (FALSE);
+	i = -1;
+	while (++i < r->vertices->len)
+		filter[i] = i;
+
+	t_mtl	*material = NULL;
+	if (r->materials->len > 0)
+		material = &r->materials->values[0];
+	return (ear_clip2(filter, r->vertices->len, r->vertices->len, r->vertices, &r->faces, 0, material));
 }
 
 t_bool	compute_change_of_basis(t_renderable *r, t_mat4 *p_inv, t_mat4 *reverse)
