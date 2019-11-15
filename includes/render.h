@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:16:19 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/11 21:22:42 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/15 16:09:09 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,5 +124,6 @@ t_collidable		face_collidable(t_renderable *r, int face_index, t_vec4 *vertices)
 void				compute_ellipsoid_hitbox(t_renderable *r, t_vec3 pos, t_vec3 radius);
 void				update_hitbox(t_renderable *r);
 t_collision			ray_hit_world(struct s_doom *doom, t_renderables *renderables, t_ray ray);
+t_bool				create_renderable(t_renderable	*r, t_render_type *type);
 
 #endif
