@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 15:50:09 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/13 16:56:25 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/15 14:42:06 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,12 @@ static t_bool		tools_action_performed(t_component *cmp, t_doom *doom)
 		curr_room->closed = TRUE;
 		select_room(&doom->editor, -1);
 		doom->editor.line_start_cell = (t_vec2){ -1, -1 };
+	}
+	if (doom->editor.selected_tool == 0)
+	{
+		doom->editor.selected_tool = -1;
+		set_gui(doom, GUI_INGAME);
+		return (FALSE);
 	}
 	return (TRUE);
 }
