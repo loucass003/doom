@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   item.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 20:16:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/12 21:11:33 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/15 15:38:03 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,8 +199,11 @@ t_bool				entity_hit_itemstack(t_entity *entity, t_itemstack *is)
 	inv_is = &entity->packet.doom->player.item[s];
 	inv_is->of = is->of;
 	i = inv_is->of->max_stack_size - inv_is->amount;
+
 	if (i > 0)
 	{
+		if (inv_is->of->type == ITEM_WEAPON)
+			entity->packet.doom->gameover.weapon += ft_min(i, is->amount);
 		inv_is->amount += ft_min(i, is->amount);
 		is->amount -= ft_min(i, is->amount);
 		player_sound(&entity->packet.doom->audio, ITEM_PICK, 8, 2);
