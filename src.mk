@@ -46,6 +46,7 @@ SRC+=editor/editor_tool_point.c
 SRC+=editor/editor_point.c
 SRC+=editor/editor_intersect.c
 SRC+=editor/editor_tool_select.c
+SRC+=editor/editor_setmap.c
 SRC+=editor/editor_tool_room.c
 SRC+=editor/editor_settings.c
 SRC+=editor/load.c

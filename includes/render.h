@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:16:19 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/15 16:09:09 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/17 01:40:56 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,9 @@ typedef struct		s_face
 	t_bool			selected;
 	t_bool			hidden;
 	t_bool			already_collided;
+	t_bool			double_sided;
+	t_bool			has_collision;
+	char			normal_type;
 	int				group;
 }					t_face;
 
@@ -124,6 +127,6 @@ t_collidable		face_collidable(t_renderable *r, int face_index, t_vec4 *vertices)
 void				compute_ellipsoid_hitbox(t_renderable *r, t_vec3 pos, t_vec3 radius);
 void				update_hitbox(t_renderable *r);
 t_collision			ray_hit_world(struct s_doom *doom, t_renderables *renderables, t_ray ray);
-t_bool				create_renderable(t_renderable	*r, t_render_type *type);
+t_bool				create_renderable(t_renderable	*r, t_renderable_type type);
 
 #endif

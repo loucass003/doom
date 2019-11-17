@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 18:54:05 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/12 18:17:32 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/17 01:43:55 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,14 @@
 
 t_wall			init_wall(t_editor *editor, int indice)
 {
-	if (index < 0)
+	if (indice < 0)
 		return (t_wall){ .indice = indice };
-	return  (t_wall){ .indice = indice, .normal_type = 0, .texture = get_default_texture(&editor->doom->res_manager, TRUE) };
+	return  (t_wall){ 
+		.indice = indice, 
+		.normal_type = 0, 
+		.texture = get_default_texture(&editor->doom->res_manager, TRUE), 
+		.collisions = TRUE 
+	};
 }
 
 int			wall_indexof_by_indice(t_walls *walls, int indice)

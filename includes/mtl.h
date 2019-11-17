@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/04 22:13:55 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/07 18:45:40 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/16 22:23:54 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 #include <libft.h>
 #include <SDL.h>
+#include "image.h"
 
 # define MATERIAL_FILE_LEN 255
 # define MATERIAL_TEXTURE_LEN 255
@@ -24,7 +25,7 @@ typedef struct	s_mtl
 {
 	char		name[MATERIAL_NAME_LEN];
 	t_bool		texture_map_set;
-	SDL_Surface	*texture_map;
+	t_img		*texture_map;
 	uint8_t		*lightmap;
 	t_bool		material_color_set;
 	t_bool		transparent;

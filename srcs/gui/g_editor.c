@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 15:50:09 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/15 14:42:06 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/16 21:37:33 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ static t_bool		tools_action_performed(t_component *cmp, t_doom *doom)
 	if (doom->editor.selected_tool == 0)
 	{
 		doom->editor.selected_tool = -1;
+		editor_setmap(&doom->editor);
 		set_gui(doom, GUI_INGAME);
 		return (FALSE);
 	}

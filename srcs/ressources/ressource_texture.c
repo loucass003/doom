@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/12 17:27:40 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/13 01:06:15 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/16 22:46:52 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include "ressource.h"
 #include "write_structs.h"
 
-t_bool		load_texture(t_doom *doom, t_ressource *r, char *path)
+t_bool		load_texture_file(t_doom *doom, t_ressource *r, char *path)
 {
 	SDL_Surface	*s;
 	t_img		*img;

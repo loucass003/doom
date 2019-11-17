@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 18:02:59 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/05 02:01:36 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/16 21:28:19 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static float		sign(float a)
 	return (0);
 }
 
-static t_vec4		compute_bounds(t_renderable *r)
+static t_vec4		compute_bounds(t_4dvertices *vertices)
 {
 	t_vec2	min;
 	t_vec2	max;
@@ -34,9 +34,9 @@ static t_vec4		compute_bounds(t_renderable *r)
 	min = (t_vec2){ INT_MAX, INT_MAX };
 
 	i = -1;
-	while (++i < r->vertices->len)
+	while (++i < vertices->len)
 	{
-		vert = r->vertices->vertices[i];
+		vert = vertices->vertices[i];
 		min.x = fmin(min.x, vert.x);
 		min.y = fmin(min.y, vert.y);
 		max.x = fmax(max.x, vert.x);
@@ -45,26 +45,26 @@ static t_vec4		compute_bounds(t_renderable *r)
 	return ((t_vec4){ .x = min.x, .y = min.y, .z = ft_absf(max.x - min.x), .w = ft_absf(max.y - min.y) });
 }
 
-void				uv_mapping(t_renderable *r)
+void				uv_mapping(t_4dvertices *vertices, t_2dvertices *vertex)
 {
-	const t_vec4	bounds = compute_bounds(r);
+	const t_vec4	bounds = compute_bounds(vertices);
 	int				i;
 	t_vec4			v;
 	t_vec2			dir;
 	t_vec2			sub;
 
-	if (r->vertices->len < 2)
+	if (vertices->len < 2)
 		return ; //TODO: Not supposed to happen
 	sub = ft_vec2_sub(
-		(t_vec2){r->vertices->vertices[1].x, r->vertices->vertices[1].y},
-		(t_vec2){r->vertices->vertices[0].x, r->vertices->vertices[0].y}
+		(t_vec2){vertices->vertices[1].x, vertices->vertices[1].y},
+		(t_vec2){vertices->vertices[0].x, vertices->vertices[0].y}
 	);
 	dir = (t_vec2){sign(sub.x), sign(sub.y)};
 	i = -1;
 //	printf("PLOP %f %f\n", dir.x, dir.y);
-	while (++i < r->vertices->len)
+	while (++i < vertices->len)
 	{
-		v = r->vertices->vertices[i];
+		v = vertices->vertices[i];
 		//printf("T %f %f\n", v.x, v.y);
 		t_vec2 u = (t_vec2) {
 			.y = (dir.y == 1)
@@ -75,7 +75,7 @@ void				uv_mapping(t_renderable *r)
 				: 1 - ft_absf(v.y - bounds.y) / bounds.w
 		};
 	//	printf("U %f %f\n", u.x, u.y);
-		r->vertex->vertices[i] = u;
+		vertex->vertices[i] = u;
 	}
 	return ;
 }

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 16:49:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/12 17:43:49 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/17 00:13:40 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,8 @@ void	render_renderable(t_render_context *ctx, t_renderable *r)
 		face = &r->faces->values[i];
 		if (face->hidden)
 			continue;
+		if (r->double_faced)
+			face->double_sided = TRUE;
 		face->mtl->wireframe = r->wireframe;
 
 		if (r->wireframe_color == 0)
@@ -125,7 +127,7 @@ void	render_renderable(t_render_context *ctx, t_renderable *r)
 			face->mtl->material_color = face->mtl->wireframe ? r->wireframe_color : 0xFF555555;
 		}
 
-		if (!r->double_faced)
+		if (!face->double_sided)
 		{
 			float d = ft_vec3_dot(face->face_normal, ft_vec3_sub(ctx->camera->pos, vec4_to_3(r->pp_vertices[face->vertices_index[0] - 1])));
 			if (d <= 0)

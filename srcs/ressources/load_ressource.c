@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/24 01:51:49 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/13 01:51:14 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/16 22:46:59 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 t_bool		load_ressource(t_doom *doom, t_ressource *r, char *path)
 {
 	if (r->type == RESSOURCE_TEXTURE)
-		return (load_texture(doom, r, path));
+		return (load_texture_file(doom, r, path));
 	else
 		return (FALSE);
 }

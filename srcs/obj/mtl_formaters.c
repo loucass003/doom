@@ -6,13 +6,15 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/28 03:24:11 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/26 02:05:58 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/16 22:59:44 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <SDL.h>
 #include <SDL_image.h>
 #include "obj.h"
+#include "image.h"
+#include "doom.h"
 
 t_bool			mtl_newmtl_formatter(t_obj *obj, t_reader *reader, t_renderable *r)
 {
@@ -43,11 +45,11 @@ t_bool			mtl_newmtl_formatter(t_obj *obj, t_reader *reader, t_renderable *r)
 	return (TRUE);
 }
 
-static t_bool	load_texture(char *path, t_mtl *mtl)
+t_bool	load_texture(char *path, t_mtl *mtl)
 {
 	if (!path)
 		return (FALSE);
-	if (!(mtl->texture_map = IMG_Load(path)))
+	if (!(mtl->texture_map = surface_to_image(NULL, SDL_ConvertSurfaceFormat(IMG_Load(path), SDL_PIXELFORMAT_ARGB8888, 0))))
 	{
 		free(path);
 		ft_putstr("Unable to load material texture: ");
@@ -55,7 +57,7 @@ static t_bool	load_texture(char *path, t_mtl *mtl)
 		return (FALSE);
 	}
 	free(path);
-	mtl->texture_map =  SDL_ConvertSurfaceFormat(mtl->texture_map, SDL_PIXELFORMAT_ARGB8888, 0);
+//	mtl->texture_map = surface_to_image(NULL, SDL_ConvertSurfaceFormat(mtl->texture_map, SDL_PIXELFORMAT_ARGB8888, 0));
 	mtl->texture_map_set = TRUE;
 	return (TRUE);
 } 

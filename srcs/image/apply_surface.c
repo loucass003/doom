@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:28:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/22 00:52:34 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/17 01:29:13 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,29 @@ void			apply_image_to_image(t_img *img, t_img *s,
 		while (++j < s_p.x)
 		{
 			img->pixels[((i * img->width) + j)] = s->pixels[(((int)((i - d2.y) * s_v.y) + src.y) * s->width) + ((int)((j - d2.x) * s_v.x) + src.x)];
+		}
+	}
+}
+
+void			apply_image_blended(t_img *img, t_img *s, SDL_Rect src,
+	SDL_Rect dst)
+{
+	int				i;
+	int				j;
+	const float		s_w = src.w / (float)dst.w;
+	const float		s_h = src.h / (float)dst.h;
+
+	i = -1;
+	while (++i < dst.h)
+	{
+		j = -1;
+		while (++j < dst.w)
+		{
+			if (!put_pixel(img, dst.x + j, dst.y + i, ft_color_i(ft_alpha_blend(
+				ft_i_color(s->pixels[((uint32_t)(j * s_w) + src.x) + ((uint32_t)(i * s_h) + src.y) * s->width]),
+				ft_i_color(img->pixels[
+						((dst.y + i) * img->width) + (dst.x + j)])))))
+				break;
 		}
 	}
 }

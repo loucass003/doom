@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 21:24:49 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/24 02:06:21 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/16 22:58:46 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,12 @@
 #include <stdlib.h>
 #include <SDL_image.h>
 #include <SDL.h>
+#include "doom.h"
 #include "image.h"
 
 t_bool	create_image(SDL_Renderer *renderer, uint32_t w, uint32_t h, t_img *img)
 {
+	
 	img->size = w * h;
 	img->width = w;
 	img->height = h;
@@ -31,6 +33,19 @@ t_bool	create_image(SDL_Renderer *renderer, uint32_t w, uint32_t h, t_img *img)
 	if (!(img->pixels = (uint32_t *)malloc(img->size * sizeof(uint32_t))))
 		return (FALSE);
 	return (TRUE);
+}
+
+t_img	*surface_to_image(struct s_doom *doom, SDL_Surface *s)
+{
+	t_img	*img;
+
+	if (!(img = malloc(sizeof(t_img))))
+		return (NULL);
+	img->ignore_texture = TRUE;
+	if (!create_image(doom ? doom->renderer : NULL, s->w, s->h, img))
+		return (NULL);
+	ft_memcpy(img->pixels, s->pixels, s->w * s->h * sizeof(uint32_t));
+	return (img);
 }
 
 t_bool	destroy_image(t_img *img)

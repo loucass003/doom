@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/11 00:59:21 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/17 01:28:42 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	g_ingame_render(t_gui *self, t_doom *doom)
 		fill_rect(doom->main_context.image, (SDL_Rect){ 10, 50 + i * 60, 50, 50 }, 0xFFFF0000);
 		if (is->of)
 		{
-			apply_surface_blended(doom->main_context.image, is->of->image, is->of->bounds, (SDL_Rect){ 10, 50 + i * 60, 50, 50 });
+			apply_image_blended(doom->main_context.image, is->of->image, is->of->bounds, (SDL_Rect){ 10, 50 + i * 60, 50, 50 });
 			if (is->amount <= 1)
 				continue;
 			const SDL_Color	color = {255, 255, 255, 0};
@@ -113,7 +113,7 @@ void	g_ingame_render(t_gui *self, t_doom *doom)
 			}
 			set_current_animation_step(weapon, weapon->animation_seq[weapon->current_step]);
 		}
-		apply_surface_blended(doom->main_context.image, weapon->animation, weapon->curr_image, (SDL_Rect){ S_WIDTH_2 - 80 / 2, S_HEIGHT - 300, 300, 300 });
+		apply_image_blended(doom->main_context.image, weapon->animation, weapon->curr_image, (SDL_Rect){ S_WIDTH_2 - 80 / 2, S_HEIGHT - 300, 300, 300 });
 	}
 
 	((t_progress *)self->components->values[0])->value = doom->player.entity.life * (1 / doom->player.entity.max_life) * 100;

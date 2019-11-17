@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 01:04:42 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/08 04:09:48 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/16 21:29:31 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ t_bool				create_polygon(t_renderable *r, t_polygon_type type, t_mtl mtl);
 t_bool				add_polygon_vertice(t_renderable *r, t_vec4 v);
 
 t_bool				triangulate_polygon(t_renderable *r);
-void				uv_mapping(t_renderable *r);
+void				uv_mapping(t_4dvertices *vertices, t_2dvertices *vertex);
 t_bool				post_process_polygon(struct s_doom *doom, t_renderable *r);
 
 #endif

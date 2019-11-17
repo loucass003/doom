@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   enemy.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rle-ru <rle-ru@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/30 16:36:08 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/12 20:57:51 by rle-ru           ###   ########.fr       */
+/*   Updated: 2019/11/16 22:35:31 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void		compute_enemy_hitbox(t_renderable *r)
 
 t_bool		create_enemy(t_doom *doom, t_renderable *r)
 {
-	if (!create_sprite(r, (t_mtl){ .texture_map = doom->textures.sprite, .texture_map_set = TRUE }, (t_vec2){ 8, 7 }))
+	if (!create_sprite(r, (t_mtl){ .texture_map = surface_to_image(doom, doom->textures.sprite), .texture_map_set = TRUE }, (t_vec2){ 8, 7 }))
 		return (FALSE);
 	set_current_cell(r, 0, 0);
 	r->scale = (t_vec3){ 5, 5, 5 };

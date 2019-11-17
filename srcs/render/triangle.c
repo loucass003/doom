@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 01:17:41 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/12 18:04:38 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/16 22:23:41 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "maths/triangle.h"
 #include "doom.h"
 #include "render.h"
+#include "image.h"
 #include <pthread.h>
 #include <stdatomic.h>
 
@@ -64,15 +65,15 @@ void scanline2(t_render_context *ctx, t_mtl *mtl, t_pixel p, float t, t_vertex s
 			float w = 1. / vert.pos.w;
 			vert.tex.x = (1.0f - t) * start.tex.x + t * end.tex.x ;
 			vert.tex.y = (1.0f - t) * start.tex.y + t * end.tex.y;
-			int x = (int)(ft_abs(((vert.tex.x > 0) - vert.tex.x * w) * (mtl->texture_map->w))) % (mtl->texture_map->w);
-			int y = (int)(ft_abs(((vert.tex.y > 0) - vert.tex.y * w) * (mtl->texture_map->h))) % (mtl->texture_map->h);
+			int x = (int)(ft_abs(((vert.tex.x > 0) - vert.tex.x * w) * (mtl->texture_map->width))) % (mtl->texture_map->width);
+			int y = (int)(ft_abs(((vert.tex.y > 0) - vert.tex.y * w) * (mtl->texture_map->height))) % (mtl->texture_map->height);
 
-			x = vert.tex.x > 0 ? (mtl->texture_map->w - 1) - x : x;
-			y = vert.tex.y < 0 ? (mtl->texture_map->h - 1) - y : y;
+			x = vert.tex.x > 0 ? (mtl->texture_map->width - 1) - x : x;
+			y = vert.tex.y < 0 ? (mtl->texture_map->height - 1) - y : y;
 			if (mtl->lightmap)
-				a = mtl->lightmap[y * (mtl->texture_map->w) + x] / 255.0;
+				a = mtl->lightmap[y * (mtl->texture_map->width) + x] / 255.0;
 			if (mtl->texture_map_set)
-				c.color = get_surface_pixel(mtl->texture_map, x, y);
+				c.color = mtl->texture_map->pixels[(y * mtl->texture_map->width) + x];
 			if (c.argb.a == 0) //TODO we need to know this is a sprite
 				return ;
 		}

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/13 16:57:23 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/16 22:38:05 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ void	init_bsp(t_doom *doom)
 	// // sprite.entity->velocity.x += 4;
 	// append_renderables_array(&doom->renderables, sprite);
 	t_renderable sprite;
-	create_sprite(&sprite, (t_mtl){ .texture_map = doom->textures.machin, .texture_map_set = TRUE }, (t_vec2){ 1, 1 });
+	create_sprite(&sprite, (t_mtl){ .texture_map = surface_to_image(doom, doom->textures.machin), .texture_map_set = TRUE }, (t_vec2){ 1, 1 });
 	// set_current_cell(&sprite, 0, 0);
 	sprite.scale = (t_vec3){ 5, 6, 5 };
 	sprite.position.y = sprite.scale.y / 2;
@@ -128,9 +128,9 @@ void	init_bsp(t_doom *doom)
 	append_renderables_array(&doom->renderables, ellipsoid);
 
 	t_renderable itemstack;
-	t_item *weapon = create_item_weapon_gun(doom->textures.gun0, doom->textures.gun0);
-	t_item *ammo = create_item_ammo(doom->textures.ammo1);
-	t_item *heal = create_item_heal(doom->textures.medkit);
+	t_item *weapon = create_item_weapon_gun(surface_to_image(doom, doom->textures.gun0), surface_to_image(doom, doom->textures.gun0));
+	t_item *ammo = create_item_ammo(surface_to_image(doom, doom->textures.ammo1));
+	t_item *heal = create_item_heal(surface_to_image(doom, doom->textures.medkit));
 	create_itemstack_renderable(&itemstack, weapon, 1);
 	itemstack.position = (t_vec3){ -7, 1.5, 58 };
 	append_renderables_array(&doom->renderables, itemstack);

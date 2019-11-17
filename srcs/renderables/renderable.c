@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/05 00:02:57 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/15 16:08:22 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/17 01:34:49 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,16 +43,23 @@ void		transform_renderable(t_renderable *r)
 	while (++i < r->faces->len)
 	{
 		t_face *face = &r->faces->values[i];
-		face->face_normal = get_triangle_normal(
+		t_vec3	n = get_triangle_normal(
 			vec4_to_3(r->pp_vertices[face->vertices_index[0] - 1]),
 			vec4_to_3(r->pp_vertices[face->vertices_index[1] - 1]),
 			vec4_to_3(r->pp_vertices[face->vertices_index[2] - 1]));
+	
+		if (face->normal_type == 0)
+			face->face_normal = ft_vec3_inv(n);
+		else
+			face->face_normal = n;
 	}
 }
 
 
-t_bool		create_renderable(t_renderable	*r, t_render_type *type)
+t_bool		create_renderable(t_renderable	*r, t_renderable_type type)
 {
+	ft_bzero(r, sizeof(t_renderable));
+	r->of.type = type;
 	if(!(r->vertices = create_4dvertices_array(4)))
 		return (free_renderable(&r, FALSE));
 	if(!(r->vertex = create_2dvertices_array(4)))
@@ -63,5 +70,5 @@ t_bool		create_renderable(t_renderable	*r, t_render_type *type)
 		return (free_renderable(&r, FALSE));
 	if(!(r->materials = create_mtllist(1)))
 		return (free_renderable(&r, FALSE));
-	return (FALSE);
+	return (TRUE);
 }

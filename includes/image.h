@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   image.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 21:21:40 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/08 15:23:18 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/11/16 22:53:13 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define IMAGE_H
 
 #include <SDL.h>
+#include <SDL_image.h>
 #include <libft.h>
 
 typedef struct		s_img
@@ -45,6 +46,8 @@ void				apply_surface(t_img *img, SDL_Surface *s,
 						SDL_Rect src, SDL_Rect dst);
 void				fill_rect(t_img *img, SDL_Rect bounds, int color);
 void				draw_rect(t_img *img, SDL_Rect rect, int color);
+
+
 
 #endif
 

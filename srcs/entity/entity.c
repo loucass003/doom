@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   entity.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rle-ru <rle-ru@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 22:00:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/12 20:56:38 by rle-ru           ###   ########.fr       */
+/*   Updated: 2019/11/17 01:45:23 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,26 @@ void		collide_with_face(int face, void *p)
 
 	data = p;
 	f = &data->r->faces->values[face];
-	// if (f->hidden)
-	// 	return;
-	check_triangle(data->r,
-		&data->entity->packet, 
-		ft_vec3_div(vec4_to_3(data->r->pp_vertices[f->vertices_index[0] - 1]), data->entity->packet.e_radius),
-		ft_vec3_div(vec4_to_3(data->r->pp_vertices[f->vertices_index[1] - 1]), data->entity->packet.e_radius),
-		ft_vec3_div(vec4_to_3(data->r->pp_vertices[f->vertices_index[2] - 1]), data->entity->packet.e_radius)
-	);
+	if (!f->has_collision)
+		return;
+	if (f->normal_type == 1 || f->normal_type == 2)
+	{
+		check_triangle(data->r,
+			&data->entity->packet, 
+			ft_vec3_div(vec4_to_3(data->r->pp_vertices[f->vertices_index[0] - 1]), data->entity->packet.e_radius),
+			ft_vec3_div(vec4_to_3(data->r->pp_vertices[f->vertices_index[1] - 1]), data->entity->packet.e_radius),
+			ft_vec3_div(vec4_to_3(data->r->pp_vertices[f->vertices_index[2] - 1]), data->entity->packet.e_radius)
+		);
+	}
+	if (f->normal_type == 0 || f->normal_type == 2)	
+	{
+		check_triangle(data->r,
+			&data->entity->packet, 
+			ft_vec3_div(vec4_to_3(data->r->pp_vertices[f->vertices_index[2] - 1]), data->entity->packet.e_radius),
+			ft_vec3_div(vec4_to_3(data->r->pp_vertices[f->vertices_index[1] - 1]), data->entity->packet.e_radius),
+			ft_vec3_div(vec4_to_3(data->r->pp_vertices[f->vertices_index[0] - 1]), data->entity->packet.e_radius)
+		);
+	}
 }
 
 // t_collision		sphere_colliding_sphere(t_vec3 translation1, t_vec3 translation2, t_vec3 velocitySum, float radiiSum)
@@ -121,13 +133,6 @@ void		collide_with_octree(t_renderable *r, t_entity *entity, t_octree_node *octr
 	area.min = min;
 	area.max = max;
 	aabb_intersect_octree(octree, &area, collide_with_face, &(struct s_entity_collision_check){ .entity = entity, .r = r });
-}
-
-#include <sys/time.h>
-long getMicrotime(){
-	struct timeval currentTime;
-	gettimeofday(&currentTime, NULL);
-	return currentTime.tv_sec * (int)1e6 + currentTime.tv_usec;
 }
 
 void		check_collision(t_entity *entity, t_collide_aabb area)

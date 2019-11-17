@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   doom.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rle-ru <rle-ru@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/12 20:57:25 by rle-ru           ###   ########.fr       */
+/*   Updated: 2019/11/16 22:54:01 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,4 +159,6 @@ void            	quit_openal();
 
 void				entity_sound(t_entity *s, int buffer, int source, int peach);
 void				player_sound(t_audio *s, int source, int buffer, float peach);
+
+t_img				*surface_to_image(t_doom *doom, SDL_Surface *s); //TODO: NEED TO BE REMOVE 
 #endif

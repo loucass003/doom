@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   item.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 20:16:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/15 15:38:03 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/11/17 01:25:33 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include "doom.h"
 #include "item.h"
 
-t_item	*create_item(t_item_type type, SDL_Surface *image, SDL_Rect bounds, int max_stack_size)
+t_item	*create_item(t_item_type type, t_img *image, SDL_Rect bounds, int max_stack_size)
 {
 	t_item	*item;
 
@@ -74,7 +74,7 @@ void	on_use_weapon(t_doom *doom, t_itemstack *is)
 	}
 }
 
-t_item	*create_item_weapon_gun(SDL_Surface *image, SDL_Surface *animation)
+t_item	*create_item_weapon_gun(t_img *image, t_img *animation)
 {
 	static const uint8_t	seq[6] = { 0, 1, 2, 3, 4, 5 };
 	t_item					*gun;
@@ -82,7 +82,7 @@ t_item	*create_item_weapon_gun(SDL_Surface *image, SDL_Surface *animation)
 	if (!(gun = create_item_weapon(image, (SDL_Rect){0, 768, 120, 120}, WEAPON_GUN)))
 		return (NULL);
 	gun->data.weapon.animation = animation;
-	gun->data.weapon.bounds = (SDL_Rect){ 0, 0, animation->w, animation->h - 120 };
+	gun->data.weapon.bounds = (SDL_Rect){ 0, 0, animation->width, animation->height - 120 };
 	gun->data.weapon.cells = (t_vec2){ 3, 6 };
 	gun->data.weapon.animation_seq = (uint8_t *)seq;
 	gun->data.weapon.steps_count = 6;
@@ -91,7 +91,7 @@ t_item	*create_item_weapon_gun(SDL_Surface *image, SDL_Surface *animation)
 	return (gun);
 }
 
-t_item	*create_item_weapon(SDL_Surface *image, SDL_Rect bounds, t_weapon_type type)
+t_item	*create_item_weapon(t_img *image, SDL_Rect bounds, t_weapon_type type)
 {
 	t_item	*weapon;
 
@@ -102,20 +102,20 @@ t_item	*create_item_weapon(SDL_Surface *image, SDL_Rect bounds, t_weapon_type ty
 	return (weapon);
 }
 
-t_item	*create_item_ammo(SDL_Surface *image)
+t_item	*create_item_ammo(t_img *image)
 {
 	t_item	*ammo;
 	
-	if (!(ammo = create_item(ITEM_AMMO, image, (SDL_Rect){ 0, 0, image->w, image->h }, 75)))
+	if (!(ammo = create_item(ITEM_AMMO, image, (SDL_Rect){ 0, 0, image->width, image->height }, 75)))
 		return (NULL);
 	return (ammo);
 }
 
-t_item	*create_item_heal(SDL_Surface *image)
+t_item	*create_item_heal(t_img *image)
 {
 	t_item	*heal;
 	
-	if (!(heal = create_item(ITEM_HEAL, image, (SDL_Rect){ 0, 0, image->w, image->h }, 1)))
+	if (!(heal = create_item(ITEM_HEAL, image, (SDL_Rect){ 0, 0, image->width, image->height }, 1)))
 		return (NULL);
 	return (heal);
 }
@@ -132,8 +132,8 @@ t_bool	create_itemstack_renderable(t_renderable *r, t_item *item, int amount)
 	r->of.data.itemstack->of = item;
 	r->of.data.itemstack->amount = amount;
 	sprite = r->sprite;
-	sprite->uv_max = (t_vec2){ (float)item->bounds.x / (float)item->image->w, 1 - (float)item->bounds.y / (float)item->image->h };
-	sprite->uv_min = (t_vec2){ (float)(item->bounds.x + item->bounds.w) / (float)item->image->w, 1 - (float)(item->bounds.y + item->bounds.h) / (float)item->image->h };
+	sprite->uv_max = (t_vec2){ (float)item->bounds.x / (float)item->image->width, 1 - (float)item->bounds.y / (float)item->image->height };
+	sprite->uv_min = (t_vec2){ (float)(item->bounds.x + item->bounds.w) / (float)item->image->width, 1 - (float)(item->bounds.y + item->bounds.h) / (float)item->image->height };
 	r->vertex->vertices[0] = sprite->uv_min;
 	r->vertex->vertices[1] = (t_vec2){ sprite->uv_max.x, sprite->uv_min.y };
 	r->vertex->vertices[2] = sprite->uv_max;

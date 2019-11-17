@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/12 15:51:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/14 18:30:18 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/17 01:41:40 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,13 +72,12 @@ static t_bool	snip(t_4dvertices *vertices, int u, int j, int w, int n, int *v)
 	return (TRUE);
 }
 
-static t_bool	ear_clip2(int *filters, int filters_count, int vertices_count, t_4dvertices *vertices, t_faces **faces, int face_type, t_mtl *face_material)
+t_bool	ear_clip2(int *filters, int filters_count, int vertices_count, t_4dvertices *vertices, t_faces **faces, int face_type, t_mtl *face_material)
 {
 	int		*v;
 
 	if (filters_count < 3
-		|| !(v = (int *)malloc(filters_count * sizeof(int)))
-		|| (!(*faces = create_faces_array(filters_count))))
+		|| !(v = (int *)malloc(filters_count * sizeof(int))))
 		return (FALSE);
 	if (area(vertices, filters, filters_count) > 0) {
 		for (int i = 0; i < filters_count; i++)
@@ -112,6 +111,8 @@ static t_bool	ear_clip2(int *filters, int filters_count, int vertices_count, t_4
 			t_face face;
 
 			ft_bzero(&face, sizeof(t_face));
+			face.normal_type = 1;
+			face.has_collision = TRUE;
 			face.vertices_index[0] = v[u] + 1;
 			face.vertices_index[1] = v[j] + 1;
 			face.vertices_index[2] = v[w] + 1;
@@ -153,12 +154,8 @@ static t_bool	ear_clip_polygon(t_renderable *r)
 	return (ear_clip2(filter, r->vertices->len, r->vertices->len, r->vertices, &r->faces, 0, material));
 }
 
-t_bool	compute_change_of_basis(t_renderable *r, t_mat4 *p_inv, t_mat4 *reverse)
+t_bool	compute_change_of_basis(t_vec3 n, t_mat4 *p_inv, t_mat4 *reverse)
 {
-	const t_vec3	n = get_triangle_normal(
-		vec4_to_3(r->vertices->vertices[0]),
-		vec4_to_3(r->vertices->vertices[1]),
-		vec4_to_3(r->vertices->vertices[2]));
 	const t_vec3	up = (t_vec3){0, 0, 1};
 	t_vec3			u;
 	t_vec3			w;
@@ -178,18 +175,22 @@ t_bool	compute_change_of_basis(t_renderable *r, t_mat4 *p_inv, t_mat4 *reverse)
 
 t_bool	triangulate_polygon(t_renderable *r)
 {
-	t_mat4	p_inv;
-	t_mat4	reverse;
-	int		i;
+	t_mat4			p_inv;
+	t_mat4			reverse;
+	int				i;
+	const t_vec3	n = get_triangle_normal(
+		vec4_to_3(r->vertices->vertices[0]),
+		vec4_to_3(r->vertices->vertices[1]),
+		vec4_to_3(r->vertices->vertices[2]));
 
-	if (!compute_change_of_basis(r, &p_inv, &reverse))
+	if (!compute_change_of_basis(n, &p_inv, &reverse))
 		return (FALSE);
 	i = -1;
 	while (++i < r->vertices->len)
 		r->vertices->vertices[i] = mat4_mulv4(p_inv,
 			r->vertices->vertices[i]);
 	ear_clip_polygon(r);
-	uv_mapping(r);
+	uv_mapping(r->vertices, r->vertex);
 	i = -1;
 	while (++i < r->vertices->len)
 		r->vertices->vertices[i] = mat4_mulv4(reverse,

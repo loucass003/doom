@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 14:22:33 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/04 15:09:52 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/16 22:25:54 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,69 +117,69 @@ t_ray			create_ray(t_light *light, t_vec3 direction)
 // 	return (min);
 // }
 
-short		get_pixel(t_mtl *mtl, int x, int y)
-{
-	if (x < 0 || x >= mtl->texture_map->w || y < 0 || y >= mtl->texture_map->h)
-		return -1;
-	return mtl->lightmap[y * (mtl->texture_map->w) + x];
-}
+// short		get_pixel(t_mtl *mtl, int x, int y)
+// {
+// 	if (x < 0 || x >= mtl->texture_map->w || y < 0 || y >= mtl->texture_map->h)
+// 		return -1;
+// 	return mtl->lightmap[y * (mtl->texture_map->w) + x];
+// }
 
-void get_adjacent(t_mtl *mtl, short *pixels, int coef, int x, int y)
-{
-	int		i;
-	int		j;
+// void get_adjacent(t_mtl *mtl, short *pixels, int coef, int x, int y)
+// {
+// 	int		i;
+// 	int		j;
 
-	i = -1;
-	while (++i < coef)
-	{
-		j = -1;
-		while (++j < coef)
-		{
-			uint8_t value = get_pixel(mtl, x - coef / 2 + j, y - coef / 2 + i);
-			if (value == AMBIANT_LIGHT)
-				value = fmax(0, value - 30);
-			pixels[i * coef + j] = value;
-		}
-	}
-}
+// 	i = -1;
+// 	while (++i < coef)
+// 	{
+// 		j = -1;
+// 		while (++j < coef)
+// 		{
+// 			uint8_t value = get_pixel(mtl, x - coef / 2 + j, y - coef / 2 + i);
+// 			if (value == AMBIANT_LIGHT)
+// 				value = fmax(0, value - 30);
+// 			pixels[i * coef + j] = value;
+// 		}
+// 	}
+// }
 
-void		blur_poly_shading(t_mtl *mtl)
-{
-	int		coef = 3;
-	short	pixels[3 * 3];
-	int		x;
-	int		y;
-	int		add;
-	int		valid;
+// void		blur_poly_shading(t_mtl *mtl)
+// {
+// 	int		coef = 3;
+// 	short	pixels[3 * 3];
+// 	int		x;
+// 	int		y;
+// 	int		add;
+// 	int		valid;
 
-	uint8_t	*copy = malloc(mtl->texture_map->w * mtl->texture_map->h * sizeof(uint8_t));
-	ft_memcpy(copy, mtl->lightmap, mtl->texture_map->w * mtl->texture_map->h * sizeof(uint8_t));
+// 	uint8_t	*copy = malloc(mtl->texture_map->w * mtl->texture_map->h * sizeof(uint8_t));
+// 	ft_memcpy(copy, mtl->lightmap, mtl->texture_map->w * mtl->texture_map->h * sizeof(uint8_t));
 
-	y = -1;
-	while (++y < mtl->texture_map->h)
-	{
-		x = -1;
-		while (++x < mtl->texture_map->w)
-		{
-			get_adjacent(mtl, pixels, coef, x, y);
-			valid = 0;
-			add = 0;
-			for (int i = 0; i < coef * coef; i++)
-			{
-				short pixel = pixels[i];
-				if (pixel == -1)
-					continue;
-				valid++;
-				add += pixel;
-			}
-			if (valid == 0)
-				continue;
-			copy[y * (mtl->texture_map->w) + x] = fmax(AMBIANT_LIGHT, fmin(255, (float)add / (float)valid));
-		}
-	}
-	free(mtl->lightmap);
-	mtl->lightmap = copy;
-}
+// 	y = -1;
+// 	while (++y < mtl->texture_map->h)
+// 	{
+// 		x = -1;
+// 		while (++x < mtl->texture_map->w)
+// 		{
+// 			get_adjacent(mtl, pixels, coef, x, y);
+// 			valid = 0;
+// 			add = 0;
+// 			for (int i = 0; i < coef * coef; i++)
+// 			{
+// 				short pixel = pixels[i];
+// 				if (pixel == -1)
+// 					continue;
+// 				valid++;
+// 				add += pixel;
+// 			}
+// 			if (valid == 0)
+// 				continue;
+// 			copy[y * (mtl->texture_map->w) + x] = fmax(AMBIANT_LIGHT, fmin(255, (float)add / (float)valid));
+// 		}
+// 	}
+// 	free(mtl->lightmap);
+// 	mtl->lightmap = copy;
+// }
 
 
 void		init_lightning(t_doom *doom)
