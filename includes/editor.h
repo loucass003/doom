@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 14:35:33 by lloncham          #+#    #+#             */
-/*   Updated: 2019/11/18 00:06:38 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/18 16:59:44 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@
 # define ES_GUI_ROOM (0)
 # define ES_GUI_WALL (1)
 # define ES_GUI_OBJECT (2)
+
+# define ES_OBJ_GUIS_COUNT (5)
 
 typedef enum		e_object_type
 {
@@ -101,7 +103,7 @@ typedef struct		s_editor_settings
 	t_bool			open;
 	t_bool			visible;
 	t_gui			guis[ES_GUIS_COUNT];
-	t_gui			guis_object[1];
+	t_gui			guis_object[ES_OBJ_GUIS_COUNT];
 	int				current_gui;
 	int				current_gui_object;
 }					t_editor_settings;

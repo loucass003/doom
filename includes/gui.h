@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 01:42:00 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/17 22:57:33 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/18 17:58:48 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,11 +210,12 @@ void				g_es_wall_render(t_gui *self, t_doom *doom);
 void				g_es_wall_enter(t_gui *self, t_doom *doom);
 void				g_es_object_render(t_gui *self, t_doom *doom);
 void				g_es_object_enter(t_gui *self, t_doom *doom);
+void				g_es_object_leave(t_gui *self, t_doom *doom);
 void				register_guis(t_doom *doom);
-void				enter_gui(t_doom *doom, int id);
-void				leave_gui(t_doom *doom, int id);
-void				gui_events(t_doom *doom, SDL_Event *event, int id);
-void				components_events(t_doom *doom, SDL_Event *event, int id);
+void				enter_gui(t_doom *doom, t_gui *guis, int id);
+void				leave_gui(t_doom *doom, t_gui *guis, int id);
+void				gui_events(t_doom *doom, t_gui *guis, SDL_Event *event, int id);
+void				components_events(t_doom *doom, t_gui *guis, SDL_Event *event, int id);
 void				set_gui(t_doom *doom, int id);
 void				render_components(t_doom *doom, t_gui *gui);
 t_bool				in_bounds(SDL_Rect bounds, t_vec2 pos);

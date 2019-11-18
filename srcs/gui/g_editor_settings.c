@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/11 00:11:31 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/17 22:48:40 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/18 18:01:21 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,22 +33,7 @@ void			g_editor_settings_on_leave(t_gui *self, t_doom *doom)
 void			g_editor_settings_on_event(t_gui *self, SDL_Event *event,
 	t_doom *doom)
 {
-	t_gui	*gui;
-	int		i;
-	
-	if (doom->editor.settings.current_gui != -1)
-	{
-		gui = &doom->editor.settings.guis[doom->editor.settings.current_gui];
-		i = -1;
-		while (++i < gui->components->len)
-		{
-			if (gui->components->values[i]->enabled 
-				&& gui->components->values[i]->on_event
-				&& !gui->components->values[i]->on_event(gui->components->values[i],
-					event, doom))
-				break;
-		}
-	}
+	components_events(doom, doom->editor.settings.guis, event, doom->editor.settings.current_gui);
 }
 
 void			g_editor_settings_render(t_gui *self, t_doom *doom)

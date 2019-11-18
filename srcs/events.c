@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:14:55 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/13 00:54:23 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/18 17:58:40 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,9 @@ static void	events_window(t_doom *doom, SDL_Event *event)
 {
 	const SDL_Scancode	key = event->key.keysym.scancode;
 
-	gui_events(doom, event, doom->current_gui);
-	components_events(doom, event, doom->current_gui);
-	components_events(doom, event, GUI_EDITOR_SETTINGS);
+	gui_events(doom, doom->guis, event, doom->current_gui);
+	components_events(doom, doom->guis, event, doom->current_gui);
+	components_events(doom, doom->guis, event, GUI_EDITOR_SETTINGS);
 	if (event->type == SDL_QUIT)
 		doom->running = FALSE;
 	if (event->type == SDL_MOUSEBUTTONDOWN)

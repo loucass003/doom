@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/09 21:56:55 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/10 03:28:10 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/18 14:38:18 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static t_bool		create_ellipsoid_faces(t_renderable *r, t_vec2 res)
 				.mtl = &r->materials->values[0] };
 			if (!append_faces_array(&r->faces, face))
 				return (FALSE);
-			face = (t_face){ .vertices_index = { second, second + 1, first + 1 },
+			face = (t_face){ .has_collision = TRUE, .vertices_index = { second, second + 1, first + 1 },
 				.normals_index = { second, second + 1, first + 1 },
 				.mtl = &r->materials->values[0] };
 			if (!append_faces_array(&r->faces, face))

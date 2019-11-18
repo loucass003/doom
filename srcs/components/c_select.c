@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 22:53:11 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/18 01:51:56 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/18 17:05:55 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,18 @@ t_bool		c_select_on_event(t_component *self, SDL_Event *event, t_doom *doom)
 	curr_item = pos.y >= self->bounds.y + self->bounds.h ? (pos.y - (self->bounds.y + self->bounds.h)) / select->item_height : -1;
 	if (event->type == SDL_MOUSEBUTTONUP)
 	{
-		
-		height = self->bounds.h + select->items->len * select->item_height;
+		height = self->bounds.h + (select->items ? select->items->len : 0) * select->item_height;
 		if (select->open)
 		{
 			if (!in_bounds(self->bounds, pos) 
 				&& pos.x >= self->bounds.x && pos.y >= self->bounds.y
 				&& pos.y < self->bounds.y + height
 				&& pos.x < self->bounds.x + self->bounds.w)
+			{
 				select->selected_item = curr_item;
+				if (self->perform_action && !self->perform_action(self, doom))
+					return (FALSE);
+			}
 			select->open = FALSE;
 			return (FALSE);
 		}
