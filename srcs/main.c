@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/16 22:38:05 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/17 18:34:52 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,6 +152,8 @@ t_bool	init_map(t_doom *doom)
 	if (!(doom->editor.rooms = create_rooms_array(15)))
 		return (FALSE);
 	if (!(doom->editor.points = create_2dvertices_array(50)))
+		return (FALSE);
+	if (!(doom->editor.objects = create_objects_array(15)))
 		return (FALSE);
 	return (TRUE);
 }

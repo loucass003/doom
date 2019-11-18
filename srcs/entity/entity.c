@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 22:00:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/17 01:45:23 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/17 23:09:45 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,64 +53,6 @@ void		collide_with_face(int face, void *p)
 		);
 	}
 }
-
-// t_collision		sphere_colliding_sphere(t_vec3 translation1, t_vec3 translation2, t_vec3 velocitySum, float radiiSum)
-// {
-// 	float	distance_between = ft_vec3_len(ft_vec3_sub(translation1, translation2)) - radiiSum;
-// 	float	velocityLength = ft_vec3_len(velocitySum);
-
-// 	if (distance_between > 0 && velocityLength < distance_between)
-// 		return ((t_collision){ .collide = FALSE, .dist = -1 });
-// 	t_vec3	norm_velocity = ft_vec3_norm(velocitySum);
-// 	t_vec3	direction = ft_vec3_sub(translation1, translation2);
-// 	float	angle_between = ft_vec3_dot(norm_velocity, direction);
-
-// 	if (angle_between < 0)
-// 	{
-// 		if (distance_between < 0)
-// 		{
-// 			if (velocityLength > -distance_between)
-// 				return ((t_collision){ .collide = FALSE, .dist = -1 });
-// 		}
-// 		else
-// 			return ((t_collision){ .collide = FALSE, .dist = -1 });
-// 	}
-
-// 	float	direction_len = ft_vec3_len(direction);
-// 	float	hypotenuse = (direction_len * direction_len) - (angle_between * angle_between);
-// 	float 	radiiSumSquared = radiiSum * radiiSum;
-// 	if( hypotenuse >= radiiSumSquared )
-// 		return ((t_collision){ .collide = FALSE, .dist = -1 });
-// 	float distance = radiiSumSquared - hypotenuse;
-// 	float collisionDistance = angle_between - sqrtf( distance );
-// 	if (velocityLength < collisionDistance)
-// 		return ((t_collision){ .collide = FALSE, .dist = -1 });
-// 	return ((t_collision){ .collide = TRUE, .dist = collisionDistance });
-// }
-
-// void		collide_with_entity(t_entity *entity, t_collide_ellipsoid ellisioid, t_vec3 ellipsoid_velocity)
-// {
-// 	t_vec3	translation = ft_vec3_div(ellisioid.origin, entity->radius);
-// 	t_vec3	velocity = ft_vec3_div(ellipsoid_velocity, entity->radius);
-
-// 	t_vec3	vector_collider_object = ft_vec3_norm(ft_vec3_sub(translation, entity->position));
-// 	t_vec3	vector_object_collider = ft_vec3_norm(ft_vec3_sub(entity->position, translation));
-
-// 	float	collider_radius = ft_vec3_len(vector_collider_object);
-// 	t_vec3	vector_object_radius = ft_vec3_mul(vector_object_collider, ft_vec3_div(ellisioid.radius, entity->radius));
-// 	float	object_radius = ft_vec3_len(vector_object_radius);
-
-// 	t_collision hit = sphere_colliding_sphere(entity->position, translation, ft_vec3_sub(velocity, entity->velocity), collider_radius + object_radius);
-// 	if (hit.collide)
-// 	{
-// 		if (entity->packet.found_colision == FALSE || hit.dist < entity->packet.distance)
-// 		{
-// 			entity->packet.distance = hit.dist;
-// 			entity->packet.intersect_point = ft_vec3_mul_s(entity->packet.e_norm_velocity, hit.dist);
-// 			entity->packet.found_colision = TRUE;
-// 		}
-// 	}
-// }
 
 void		collide_with_octree(t_renderable *r, t_entity *entity, t_octree_node *octree, t_collide_aabb area)
 {

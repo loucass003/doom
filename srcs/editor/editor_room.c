@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 18:37:59 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/12 13:54:03 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/17 23:12:02 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ void			editor_render_rooms(t_gui *self, t_doom *doom, t_editor *editor)
 
 void			select_room(t_editor *editor, int index)
 {
+	editor->current_object = -1;
 	editor->current_room = index;
 	editor_settings_update(editor);
 }

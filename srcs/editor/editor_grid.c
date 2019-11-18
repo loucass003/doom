@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 18:56:08 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/10 19:34:26 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/17 18:55:22 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,4 @@ void	editor_grid_render(t_gui *self, t_doom *doom, t_editor *editor)
 		draw_line(&doom->screen, (t_pixel){ editor->line_start_cell.x, 
 			editor->line_start_cell.y, 0xFF909090}, (t_pixel){ 
 				editor->grid_cell.x, editor->grid_cell.y, 0 });
-	editor_render_rooms(self, doom, editor);
 }

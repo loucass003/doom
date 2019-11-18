@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 18:54:05 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/17 01:43:55 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/17 22:01:12 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,4 +85,15 @@ t_bool		editor_render_wall(t_doom *doom, t_editor *editor, t_room *room, int j)
 		return (FALSE);
 	editor_render_wall_nornal(doom, room, (t_line){ .a = p0, .b = p1 }, j);
 	return (TRUE);
+}
+
+t_wall			*get_current_wall(t_editor *editor)
+{
+	if (editor->current_room == -1)
+		return (NULL);
+	t_room	*room = &editor->rooms->values[editor->current_room];
+	int wall_index = wall_indexof_by_indice(room->walls, editor->current_seg.x);
+	if (wall_index == -1)
+		return (NULL);
+	return (&room->walls->values[wall_index]);
 }

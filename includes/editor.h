@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 14:35:33 by lloncham          #+#    #+#             */
-/*   Updated: 2019/11/14 05:14:11 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/18 00:06:38 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,19 +18,35 @@
 # include "maths/line.h"
 # include "gui.h"
 # include "arrays.h"
-
+# include "renderable_of.h"
 
 # define TOOL_ROOM (1)
 # define TOOL_POINT (2)
 # define TOOL_SELECT (3)
+# define TOOL_OBJECTS (4)
 # define CELLS_SPACING (10)
-# define ES_WALL_COMPONENTS (4)
-# define ES_ROOM_COMPONENTS (8)
+
+# define ES_GUIS_COUNT (3)
+# define ES_GUI_ROOM (0)
+# define ES_GUI_WALL (1)
+# define ES_GUI_OBJECT (2)
+
+typedef enum		e_object_type
+{
+	OBJECT_NONE = -1,
+	OBJECT_PLAYER = 0,
+	OBJECT_ITEMSTACK = 1,
+	OBJECT_SPRITE = 2,
+	OBJECT_ENTITY = 3,
+	OBJECT_MODEL = 4
+}					t_object_type;
 
 typedef struct		s_object
 {
-	t_vec2			pos;
-	SDL_Surface		*img;
+	t_object_type	type;
+	t_vec3			pos;
+	t_vec3			scale;
+	t_renderable_of	of;
 }					t_object;
 
 typedef struct		s_objects
@@ -39,12 +55,6 @@ typedef struct		s_objects
 	int				capacity;
 	t_object		values[];
 }					t_objects;
-
-// typedef struct		s_wall
-// {
-// 	t_line			line;
-// 	SDL_Surface		*img;
-// }					t_wall;
 
 typedef struct		s_wall
 {
@@ -82,29 +92,43 @@ typedef enum		e_grid_grab
 	GG_NONE,
 	GG_POINT,
 	GG_LINE,
+	GG_OBJECT,
 	GG_OUTSIDE
 }					t_grid_grab;
 
+typedef struct		s_editor_settings
+{
+	t_bool			open;
+	t_bool			visible;
+	t_gui			guis[ES_GUIS_COUNT];
+	t_gui			guis_object[1];
+	int				current_gui;
+	int				current_gui_object;
+}					t_editor_settings;
+
 typedef struct		s_editor
 {
-	t_vec2			grid_cell;
-	t_grid_grab		grid_cell_grab;
-	t_vec2			close_seg;
-	t_vec2			current_seg;
-	int				selected_tool;
-	t_vec2			line_start_cell;
-	t_rooms			*rooms;
-	t_2dvertices	*points;
-	int				current_room;
-	int				current_point;
-	t_bool			settings_open;
-	t_bool			settings_visible;
-	t_doom			*doom;
+	t_vec2				grid_cell;
+	t_grid_grab			grid_cell_grab;
+	t_vec2				close_seg;
+	int					close_object;
+	t_vec2				current_seg;
+	int					selected_tool;
+	t_vec2				line_start_cell;
+	t_rooms				*rooms;
+	t_2dvertices		*points;
+	t_objects			*objects;
+	int					current_room;
+	int					current_point;
+	int					current_object;
+	t_bool				object_grab;
+	t_editor_settings	settings;
+	t_doom				*doom;
 	
 	
-	int				icone;
-	SDL_Surface		*objet;
-	SDL_Surface		*texture;
+	int					icone;
+	SDL_Surface			*objet;
+	SDL_Surface			*texture;
 }					t_editor;
 
 
@@ -145,10 +169,19 @@ void				editor_tool_select(t_editor *editor, SDL_Event *event);
 void				editor_tool_point_move(t_editor *editor);
 void				editor_tool_point_release(t_editor *editor);
 void				editor_tool_room(t_editor *editor, SDL_Event *event);
+void				editor_tool_objects(t_editor *editor, SDL_Event *event);
 void				editor_delete_action(t_editor *editor);
 void				select_room(t_editor *editor, int index);
 t_vec2				get_close_seg(t_editor *editor, t_room *room, t_vec2 pos);
 void				editor_settings_update(t_editor *editor);
 t_wall				*get_current_wall(t_editor *editor);
+t_bool				is_settings_open(t_editor *editor);
+t_bool				get_close_object(t_editor *editor, t_vec2 *pos);
+int					get_object(t_editor *editor, t_vec2 pos);
+t_bool				editor_render_objects(t_editor *editor);
+t_bool				is_in_range(t_vec2 pos, t_vec2 test);
+t_object			init_object(t_vec2 pos);
+t_wall				*get_current_wall(t_editor *editor);
+void				set_gui_settings(t_editor *editor, int id);
 
 #endif

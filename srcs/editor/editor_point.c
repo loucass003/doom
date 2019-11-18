@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 18:46:30 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/12 18:15:37 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/17 23:10:33 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,41 +98,53 @@ t_vec2			get_close_seg(t_editor *editor, t_room *room, t_vec2 pos)
 	return (t_vec2){ -1, -1 };
 }
 
+t_vec2			point_on_room(t_editor *editor, t_room *room, t_vec2 pos, t_bool *found)
+{
+	int			k;
+
+	*found = TRUE;
+	k = -1;
+	while (++k < room->walls->len - !(room->closed))
+	{
+		t_vec2 p0 = editor->points->vertices[room->walls->values[k].indice];
+		t_vec2 p1 = editor->points->vertices[room->walls->values[(k + 1) % room->walls->len].indice];
+		editor->grid_cell_grab = GG_POINT;
+		if (is_in_range(p0, pos))
+			return p0;
+		if (is_in_range(p1, pos))
+			return p1;
+		t_vec2	project = get_point_on_seg(p0, p1, pos);
+		if (is_point_on_seg(project, pos))
+		{
+			editor->grid_cell_grab = GG_LINE;
+			editor->close_seg = (t_vec2){ room->walls->values[k].indice, room->walls->values[(k + 1) % room->walls->len].indice };
+			return project;
+		}
+	}
+	*found = FALSE;
+	return (pos);
+}
+
 t_vec2			get_close_point(t_editor *editor, t_vec2 pos)
 {
-	int k;
 	int j;
+	t_vec2	p;
 
+	p = pos;
+	if ((editor->selected_tool == TOOL_OBJECTS || editor->selected_tool == TOOL_SELECT) && get_close_object(editor, &p))
+		return (p);
 	j = -1;
 	while (++j < editor->rooms->len)
 	{
 		t_room	*room2 = &editor->rooms->values[j];
-		k = -1;
-		while (++k < room2->walls->len - !(room2->closed))
-		{
-			t_vec2 p0 = editor->points->vertices[room2->walls->values[k].indice];
-			t_vec2 p1 = editor->points->vertices[room2->walls->values[(k + 1) % room2->walls->len].indice];
-			editor->grid_cell_grab = GG_POINT;
-			if (is_in_range(p0, pos))
-				return p0;
-			if (is_in_range(p1, pos))
-				return p1;
-			t_vec2	project = get_point_on_seg(p0, p1, pos);
-			if (is_point_on_seg(project, pos))
-			{
-				editor->grid_cell_grab = GG_LINE;
-				editor->close_seg = (t_vec2){ room2->walls->values[k].indice, room2->walls->values[(k + 1) % room2->walls->len].indice };
-				return project;
-			}
-		}
+		t_bool	found = FALSE;
+		p = point_on_room(editor, room2, pos, &found);
+		if (found)
+			return (p);
 	}
 	editor->grid_cell_grab = GG_NONE;
 	if (!in_bounds((SDL_Rect){ 10, 70, S_WIDTH - 20, S_HEIGHT - 80 }, pos) 
-		|| (editor->settings_open && editor->settings_visible 
-			&& in_bounds((SDL_Rect){ S_WIDTH - 335, 75, 320, 550 }, pos)))
-	{
-		printf("OUTSIDE\n");
+		|| (is_settings_open(editor) && in_bounds((SDL_Rect){ S_WIDTH - 335, 75, 320, 550 }, pos)))
 		editor->grid_cell_grab = GG_OUTSIDE;
-	}
 	return (pos);
 }

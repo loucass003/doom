@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 22:53:11 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/21 20:35:19 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/18 01:51:56 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ t_bool		c_select_on_event(t_component *self, SDL_Event *event, t_doom *doom)
 	curr_item = pos.y >= self->bounds.y + self->bounds.h ? (pos.y - (self->bounds.y + self->bounds.h)) / select->item_height : -1;
 	if (event->type == SDL_MOUSEBUTTONUP)
 	{
+		
 		height = self->bounds.h + select->items->len * select->item_height;
 		if (select->open)
 		{
@@ -39,13 +40,9 @@ t_bool		c_select_on_event(t_component *self, SDL_Event *event, t_doom *doom)
 		}
 		if (in_bounds(self->bounds, pos))
 			select->open = TRUE;
-		
 	}
-	if (event->type == SDL_MOUSEMOTION)
-	{
-		pos = (t_vec2){ event->motion.x, event->motion.y };
+	else if (event->type == SDL_MOUSEMOTION)
 		select->hover_item = curr_item;
-	}
 	return (TRUE);
 }
 
@@ -58,14 +55,15 @@ void		c_select_render(t_doom *doom, t_component *self, t_img *image)
 		return ;
 	select = (t_select *)self;
 	fill_rect(image, self->bounds, select->bg_color);
-	t_select_item	*item = &select->items->values[select->selected_item];
+	t_select_item	*it = select->selected_item == -1 ? NULL : &select->items->values[select->selected_item];
 	t_color c = ft_i_color(select->fg_color);
 	SDL_Surface *text = TTF_RenderText_Blended(doom->fonts.helvetica,
-	select->selected_item != -1 ? item->name : select->text, (SDL_Color){c.r, c.g, c.b, 0});
+	it ? it->name : select->text, (SDL_Color){c.r, c.g, c.b, 0});
 	apply_surface_blended(image, text, (SDL_Rect){0, 0, text->w, text->h},
 		(SDL_Rect){self->bounds.x, self->bounds.y + self->bounds.h / 2 - text->h / 2, fmin(self->bounds.w, text->w), text->h});
 	SDL_FreeSurface(text);
-	if (select->open)
+
+	if (select->open && select->items)
 	{
 		i = -1;
 		while (++i < select->items->len)
@@ -94,7 +92,5 @@ t_component	 *create_select(SDL_Rect bounds, char *text)
 	select->selected_item = -1;
 	select->text = text;
 	select->item_height = 30;
-	if (!(select->items = create_select_items_array(5)))
-		return (NULL);
 	return ((t_component *)select);
 }
