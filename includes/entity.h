@@ -6,7 +6,7 @@
 /*   By: rle-ru <rle-ru@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 00:01:14 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/12 18:47:23 by rle-ru           ###   ########.fr       */
+/*   Updated: 2019/11/19 14:43:20 by rle-ru           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,28 @@
 typedef enum		e_entity_type
 {
 	ENTITY_PLAYER,
-	ENTITY_ENEMY
+	ENTITY_ENEMY,
+	ENTITY_GRENADA
 }					t_entity_type;
+
+typedef struct		s_entity_grenada
+{
+	float			damage;
+	float			range;
+	long			delay;
+}					t_entity_grenada;
+
+typedef union		u_entity_of
+{
+	t_entity_grenada	grenada;
+	// t_entity_enemy		enemy;
+}					t_entity_of;
+
 
 typedef struct		s_entity
 {
 	t_entity_type	type;
+	t_entity_of		of;
 	t_vec3			position;
 	t_vec3			velocity;
 	t_vec3			rotation;
@@ -49,6 +65,7 @@ typedef struct		s_entity
 
 void		entity_update(struct s_doom *doom, t_entity *entity, double dt);
 t_bool		create_enemy(struct s_doom *doom, t_renderable *r);
+t_bool		create_grenada(t_renderable *r, struct s_doom *doom);
 void		compute_enemy_hitbox(t_renderable *r);
 
 #endif

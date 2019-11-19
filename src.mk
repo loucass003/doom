@@ -43,6 +43,7 @@ SRC+=editor/editor_wall.c
 SRC+=editor/load.c
 SRC+=entity/enemy.c
 SRC+=entity/entity.c
+SRC+=entity/grenada.c
 SRC+=events.c
 SRC+=file_utils.c
 SRC+=game.c

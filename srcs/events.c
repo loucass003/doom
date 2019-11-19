@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   events.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rle-ru <rle-ru@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:14:55 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/18 17:58:40 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/19 15:48:16 by rle-ru           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,20 @@ static void	events_window(t_doom *doom, SDL_Event *event)
 				append_renderables_array(&doom->renderables, enemy);
 			}
 		}
+	}
+
+	if (event->type == SDL_KEYDOWN && key == SDL_SCANCODE_G)
+	{
+		t_renderable grenada;
+		create_grenada(&grenada, doom);
+		grenada.of.data.entity->position = doom->player.entity.position;
+		t_vec3 forward = vec3_rotate((t_vec3){ 0, 0, 1 }, (t_vec3){-doom->player.entity.rotation.x, doom->player.entity.rotation.y, 0});
+		printf("%f %f %f\n", forward.x, forward.y, forward.z);
+		forward.y *= 20;
+		forward.x *= 14;
+		forward.z *= 14;
+		grenada.of.data.entity->velocity = forward;
+		append_renderables_array(&doom->renderables, grenada);
 	}
 
 	if (event->type == SDL_KEYDOWN && (key == SDL_SCANCODE_O))

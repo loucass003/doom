@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   entity.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rle-ru <rle-ru@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 22:00:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/18 14:37:50 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/19 15:46:57 by rle-ru           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -242,7 +242,7 @@ void		collide_and_slide(t_entity *entity)
 	e_velocity = ft_vec3_div(gravity, entity->packet.e_radius);
 	entity->packet.depth = 0;
 	final_pos = collide_with_world(entity, final_pos, e_velocity);
-	entity->packet.r3_velocity = (t_vec3){0, 0, 0};
+//	entity->packet.r3_velocity = (t_vec3){0, 0, 0};
 	entity->packet.r3_posision = ft_vec3_mul(final_pos, entity->packet.e_radius);
 }
 
@@ -267,7 +267,13 @@ void		entity_update(t_doom *doom, t_entity *entity, double dt)
 			&& entity->velocity.y == 0
 			&& doom->audio.source_status[CHAR_FOOTSTEP] == 0)
 		player_sound(&doom->audio, CHAR_FOOTSTEP, 9, 1);
-	entity->velocity.y -= 40;
+	if (entity->type == ENTITY_GRENADA)
+	{
+		entity->velocity.y -= 0.9;
+		entity->velocity.y = fmax(-4, entity->velocity.y);
+	}
+	else
+		entity->velocity.y -= 40;
 	entity->packet.r3_posision = entity->position;
 	entity->packet.r3_velocity = entity->velocity;
 	entity->packet.e_radius = entity->radius;
@@ -276,7 +282,10 @@ void		entity_update(t_doom *doom, t_entity *entity, double dt)
 	entity->packet.doom = doom;
 	collide_and_slide(entity);
 	entity->position = entity->packet.r3_posision;
-	entity->velocity = entity->packet.r3_velocity;
+	if (entity->type == ENTITY_GRENADA)
+		entity->velocity = ft_vec3_mul_s(entity->velocity, 0.999);
+	else
+		entity->velocity = ft_vec3_mul_s(entity->velocity, 0.5);
 	entity->radius = entity->packet.e_radius;
 	entity->grounded = entity->packet.grounded;
 }
