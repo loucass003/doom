@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 01:20:07 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/16 21:41:26 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/19 00:57:31 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,17 +54,13 @@ t_bool		write_rooms(t_ressource_manager *r)
 	dp_write(r, &r->doom->editor.rooms->len, sizeof(int));
 	i = -1;
 	while (++i < r->doom->editor.rooms->len)
-	{
 		if (!write_room(r, &r->doom->editor.rooms->values[i]))
 			return (FALSE);
-	}
 	return (TRUE);
 }
 
 t_bool		write_points(t_ressource_manager *r)
 {
-	int		i;
-
 	dp_write(r, &r->doom->editor.points->len, sizeof(int));
 	dp_write(r, &r->doom->editor.points->vertices,
 		sizeof(t_vec2) * r->doom->editor.points->len);
@@ -75,4 +71,5 @@ t_bool		write_map(t_ressource_manager *r)
 {
 	write_points(r);
 	write_rooms(r);
+	return (TRUE);
 }

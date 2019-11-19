@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 09:46:13 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/18 17:57:14 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/19 00:17:15 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	gui_events(t_doom *doom, t_gui *guis, SDL_Event *event, int id)
 
 	if (id < 0)
 		return ;
-	gui = &gui[id];
+	gui = &guis[id];
 	if (gui->on_event != NULL)
 		gui->on_event(gui, event, doom);
 	

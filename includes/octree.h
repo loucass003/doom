@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/04 16:53:54 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/08 05:01:22 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/19 01:11:22 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ typedef struct s_octree_node	t_octree_node;
 struct							s_octree_node
 {
 	t_octree_node	*parent;
-//	int				childs_count;
 	t_octree_node	*childs;
 	t_collidable	box;
 	t_ints			*faces_index;

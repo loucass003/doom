@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/11 18:01:41 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/18 17:59:58 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/19 00:46:23 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_bool	editor_settings_guis(t_editor *editor)
 	int		i;
 
 	editor->settings.guis[ES_GUI_ROOM] = (t_gui){ .render = g_es_room_render, .on_enter = g_es_room_enter };
-	editor->settings.guis[ES_GUI_OBJECT] = (t_gui){ .render = g_es_object_render, .on_enter = g_es_object_enter, .on_leave = g_es_object_leave };
+	editor->settings.guis[ES_GUI_OBJECT] = (t_gui){ .render = g_es_object_render, .on_enter = g_es_object_enter, .on_leave = g_es_object_leave, .on_event = g_es_object_on_event };
 	editor->settings.guis[ES_GUI_WALL] = (t_gui){ .render = g_es_wall_render, .on_enter = g_es_wall_enter };
 	return (TRUE);
 }

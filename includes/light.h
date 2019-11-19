@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/30 04:25:19 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/02 18:31:12 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/19 01:03:48 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ typedef struct		s_lights
 {
 	int				len;
 	int				capacity;
-	t_light			lights[];
+	t_light			values[];
 }					t_lights;
 
 t_lights		*create_lights_array(int capacity);

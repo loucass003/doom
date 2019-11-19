@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:16:19 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/17 01:40:56 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/19 01:11:18 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,6 @@ typedef struct		s_renderable
 	t_collidable			hitbox;
 	t_vec3					hitbox_offset;
 	struct s_octree_node	*octree;
-	struct s_renderable		*child;
 }					t_renderable;
 
 typedef struct		s_renderables

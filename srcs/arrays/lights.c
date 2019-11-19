@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/11 21:38:16 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/02 18:29:07 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/19 01:04:04 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ t_lights	*append_lights_array(t_lights **arr, t_light p)
 		free(*arr);
 		*arr = new;
 	}
-	(*arr)->lights[(*arr)->len++] = p;
+	(*arr)->values[(*arr)->len++] = p;
 	return (*arr);
 }
 
@@ -53,7 +53,7 @@ t_lights	*splice_lights_array(t_lights *arr, int index, int n)
 		index = index + arr->len - 1;
 	if (n <= 0 || index >= arr->len || index + n > arr->len)
 		return (NULL);
-	ft_memcpy(arr->lights + index, arr->lights + index + n,
+	ft_memcpy(arr->values + index, arr->values + index + n,
 		(arr->len - (index + n)) * sizeof(t_light));
 	arr->len -= n;
 	return (arr);

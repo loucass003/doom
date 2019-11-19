@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 16:49:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/17 00:13:40 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/19 01:11:05 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static float	get_light_intensity(t_render_context *ctx, t_renderable *r, t_vec3 
 	valid = 0;
 	while (++i < ctx->doom->lights->len)
 	{
-		light = &ctx->doom->lights->lights[i];
+		light = &ctx->doom->lights->values[i];
 		//float d = ft_vec3_dot(normal, ft_vec3_sub(light->position, vec4_to_3(point)));
 		// if (d > 5)
 		// 	continue;
@@ -163,6 +163,4 @@ void	render_renderable(t_render_context *ctx, t_renderable *r)
 			{ .pos = v2, .tex = vertex2, .normal = r->pp_normals[face->normals_index[2] - 1], .light_color = it2 }
 		});
 	}
-	// if (r->child)
-	// 	render_renderable(ctx, r->child);
 }

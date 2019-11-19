@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/17 01:28:42 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/19 01:06:46 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,19 @@ void	g_ingame_render(t_gui *self, t_doom *doom)
 			sphere->double_faced = FALSE;
 			render_renderable(&doom->main_context, sphere);
 		}
+	}
+
+	for (int i = 0; i < doom->lights->len; i++)
+	{
+		t_renderable	*sphere = &doom->sphere_primitive;
+		t_light			*light = &doom->lights->values[i];
+		sphere->position = light->position;
+		sphere->scale = (t_vec3){ 0.2, 0.2, 0.2 };
+		sphere->wireframe = TRUE;
+		sphere->wireframe_color = 0xFFFF0000;
+		sphere->dirty = TRUE;
+		sphere->double_faced = FALSE;
+		render_renderable(&doom->main_context, sphere);
 	}
 
 	doom->main_context.image->pixels[(doom->main_context.image->height / 2) * doom->main_context.image->width + doom->main_context.image->width / 2 ] = 0xFF00FF00;

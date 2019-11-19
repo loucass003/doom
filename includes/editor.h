@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 14:35:33 by lloncham          #+#    #+#             */
-/*   Updated: 2019/11/18 16:59:44 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/19 01:19:33 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct		s_object
 	t_vec3			pos;
 	t_vec3			scale;
 	t_renderable_of	of;
+	t_bool			no_light;
 }					t_object;
 
 typedef struct		s_objects
