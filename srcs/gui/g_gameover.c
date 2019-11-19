@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_gameover.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/15 20:19:09 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/15 15:37:46 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/11/19 14:50:09 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,15 +40,38 @@ void	g_gameover_on_leave(t_gui *self, t_doom *doom)
 
 void	g_gameover_render(t_gui *self, t_doom *doom)
 {
-	t_img	*background;
-	int		i;
-
-	i = -1;
-	printf("%d kill\n ", doom->gameover.kill);
-	printf("%d bullets\n ", doom->gameover.bullets);
-	printf("%d weapon\n ", doom->gameover.weapon);
-	printf("%f damage\n ", doom->gameover.totaldamage);
+	t_img			*background;
+	SDL_Surface		*text;
+	float			totalscore;
+	const SDL_Color	color = {255, 255, 255, 0};
+	
 	background = doom->res_manager.ressources->values[1]->data.texture;
 	apply_image_to_image(&doom->screen, background, (SDL_Rect) {0, 0, background->width, background->height}, (SDL_Rect) {0, 0, S_WIDTH, S_HEIGHT});
+	
+	text = TTF_RenderText_Blended(doom->fonts.helvetica, ft_int_to_str(doom->gameover.kill).str, color);
+	apply_surface_blended(&doom->screen, text, (SDL_Rect){0, 0, text->w, text->h}, (SDL_Rect){355, 104, text->w, text->h});
+	SDL_FreeSurface(text);
+
+	text = TTF_RenderText_Blended(doom->fonts.helvetica, ft_int_to_str(doom->gameover.bullets).str, color);
+	apply_surface_blended(&doom->screen, text, (SDL_Rect){0, 0, text->w, text->h}, (SDL_Rect){355, 155, text->w, text->h});
+	SDL_FreeSurface(text);
+
+	text = TTF_RenderText_Blended(doom->fonts.helvetica, ft_int_to_str(doom->gameover.weapon).str, color);
+	apply_surface_blended(&doom->screen, text, (SDL_Rect){0, 0, text->w, text->h}, (SDL_Rect){355, 206, text->w, text->h});
+	SDL_FreeSurface(text);
+
+	text = TTF_RenderText_Blended(doom->fonts.helvetica, ft_int_to_str((int)doom->gameover.totaldamage).str, color);
+	apply_surface_blended(&doom->screen, text, (SDL_Rect){0, 0, text->w, text->h}, (SDL_Rect){355, 260, text->w, text->h});
+	SDL_FreeSurface(text);
+	
+	if (doom->gameover.kill == 0 && doom->gameover.bullets == 0)
+		totalscore = (doom->gameover.weapon * 30) + (doom->gameover.totaldamage * 15);
+	else
+		totalscore = ((doom->gameover.kill * 20) / doom->gameover.bullets) + (doom->gameover.weapon * 30) + (doom->gameover.totaldamage * 15);
+	
+	text = TTF_RenderText_Blended(doom->fonts.helvetica, ft_int_to_str((int)totalscore).str, color);
+	apply_surface_blended(&doom->screen, text, (SDL_Rect){0, 0, text->w, text->h}, (SDL_Rect){215, 60, text->w, text->h});
+	SDL_FreeSurface(text);
+
 	render_components(doom, self);
 }
