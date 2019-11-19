@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 15:55:03 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/17 01:46:19 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/19 17:25:47 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,6 +198,15 @@ t_bool		editor_setmap(t_editor *editor)
 			return (FALSE);
 		if (!append_renderables_array(&editor->doom->renderables, r))
 			return (FALSE);
+	}
+	i = -1;
+	while (++i < editor->objects->len)
+	{
+		t_object		*object = &editor->objects->values[i];
+		if (object->type == OBJECT_NONE)
+			continue ;
+		if (object->type == OBJECT_PLAYER)
+			editor->doom->player.entity.position = ft_vec3_div_s(object->pos, 5);
 	}
 	return (TRUE);
 }

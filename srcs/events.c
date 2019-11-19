@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   events.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rle-ru <rle-ru@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:14:55 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/19 15:48:16 by rle-ru           ###   ########.fr       */
+/*   Updated: 2019/11/19 17:03:26 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ static void	events_window(t_doom *doom, SDL_Event *event)
 	if (event->type == SDL_KEYDOWN && key == SDL_SCANCODE_G)
 	{
 		t_renderable grenada;
+		grenada = doom->grenada_primitive;
 		create_grenada(&grenada, doom);
 		grenada.of.data.entity->position = doom->player.entity.position;
 		t_vec3 forward = vec3_rotate((t_vec3){ 0, 0, 1 }, (t_vec3){-doom->player.entity.rotation.x, doom->player.entity.rotation.y, 0});

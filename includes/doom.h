@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/16 22:54:01 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/19 16:56:35 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ typedef struct		s_doom
 	// t_polygons			*polygons;
 	t_render_context	main_context;
 	t_renderable		sphere_primitive;
+	t_renderable		grenada_primitive;
 	t_player			player;
 	t_vec2				mouse;
 	t_textures			textures;

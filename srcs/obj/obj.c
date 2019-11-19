@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 15:28:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/18 15:23:57 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/19 17:07:30 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,6 +167,16 @@ t_bool		obj_test(t_doom *doom)
 	r.wireframe_color = 0xFFFF0000;
 	r.fixed = TRUE;
 	append_renderables_array(&doom->renderables, r);
+	set_obj_working_dir(doom, "assets/obj");
+	lol = create_obj(doom, &doom->grenada_primitive, "grenada.obj");
+	doom->grenada_primitive.position = (t_vec3){0, 0, 0};
+	doom->grenada_primitive.rotation = (t_vec3){0, 10, 0};
+	doom->grenada_primitive.scale = (t_vec3){0.05, 0.05, 0.05};
+	//append_renderables_array(&doom->renderables, doom->grenada_primitive);
+//	post_process_obj(doom, &doom->grenada_primitive);
+	//r.wireframe = TRUE;
+	//r.wireframe_color = 0xFFFF0000;
+	//r.fixed = TRUE;
 	// set_obj_working_dir(doom, "assets/obj/cs_italy");
 	// lol = create_obj(doom, &r, "cs_italy.obj");
 	// r.position = (t_vec3){0, 0, 0};

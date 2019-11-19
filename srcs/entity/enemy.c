@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   enemy.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rle-ru <rle-ru@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/30 16:36:08 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/19 14:30:41 by rle-ru           ###   ########.fr       */
+/*   Updated: 2019/11/19 17:17:09 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ t_bool		create_enemy(t_doom *doom, t_renderable *r)
 	r->of.data.entity->radius = (t_vec3){ 1, 2.5, 1 };
 	r->of.data.entity->life = 1;
 	alGenSources(3, r->of.data.entity->source);
-	//r->show_hitbox = TRUE;
+	r->show_hitbox = TRUE;
 	//r->entity->pos_offset.y = -r->entity->radius.y;
 	compute_enemy_hitbox(r);
 	return (TRUE);
