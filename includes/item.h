@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   item.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 20:30:43 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/17 01:24:58 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/20 13:59:07 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 typedef enum		e_weapon_type
 {
 	WEAPON_GUN,
+	WEAPON_AXE,
 	WEAPON_AR
 }					t_weapon_type;
 
@@ -76,5 +77,7 @@ t_item				*create_item_weapon_gun(t_img *image, t_img *animation);
 t_item				*create_item_ammo(t_img *image);
 t_item				*create_item_heal(t_img *image);
 t_bool				entity_hit_itemstack(struct s_entity *entity, t_itemstack *is);
+t_item				*create_item_weapon_axe(t_img *image, t_img *animation);
+
 
 #endif

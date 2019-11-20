@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sdl.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 20:10:35 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/22 15:44:39 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/20 14:36:41 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ static t_bool	load_textures(t_doom *doom)
 	if (!(doom->textures.medkit = SDL_ConvertSurfaceFormat(IMG_Load("assets/textures/medkit.png"), SDL_PIXELFORMAT_ARGB8888, 0)))
 		return (FALSE);  
 	if (!(doom->textures.ammo1 = SDL_ConvertSurfaceFormat(IMG_Load("assets/textures/ammo1.png"), SDL_PIXELFORMAT_ARGB8888, 0)))
+		return (FALSE);  
+	if (!(doom->textures.axe = SDL_ConvertSurfaceFormat(IMG_Load("assets/textures/axe.png"), SDL_PIXELFORMAT_ARGB8888, 0)))
 		return (FALSE);  
 	return (TRUE);
 }

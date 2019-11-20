@@ -3,22 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   g_gameover.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/15 20:19:09 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/19 14:50:09 by Lisa             ###   ########.fr       */
+/*   Updated: 2019/11/20 13:37:38 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "gui.h"
 #include "doom.h"
 
-static void		action_performed(t_component *cmp, t_doom *doom)
+static t_bool		action_performed(t_component *cmp, t_doom *doom)
 {
 	if (cmp == doom->guis[doom->current_gui].components->values[0])
 	{
 		set_gui(doom, GUI_MAIN_MENU);
+		return (FALSE);
 	}
+	return (TRUE);
 }
 
 void	g_gameover_on_enter(t_gui *self, t_doom *doom)

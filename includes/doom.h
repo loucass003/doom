@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   doom.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/19 16:56:35 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/20 14:20:20 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ typedef struct		s_textures
 	SDL_Surface		*gun0;
 	SDL_Surface		*medkit;
 	SDL_Surface		*ammo1;
+	SDL_Surface		*axe;
 }					t_textures;
 
 // typedef struct		s_ray_collide

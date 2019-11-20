@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_ingame.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/19 01:06:46 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/20 14:58:00 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ void	g_ingame_render(t_gui *self, t_doom *doom)
 			weapon->current_step++;
 			if (weapon->current_step == weapon->steps_count)
 			{
-				weapon->current_step = (SDL_GetMouseState(NULL, NULL) & SDL_BUTTON(SDL_BUTTON_LEFT) ? 0 : weapon->idle_step);
+				weapon->current_step = (SDL_GetMouseState(NULL, NULL) & SDL_BUTTON(SDL_BUTTON_LEFT) ? 0 : weapon->animation_seq[weapon->idle_step]);
 				weapon->fireing = FALSE;
 			}
 			set_current_animation_step(weapon, weapon->animation_seq[weapon->current_step]);

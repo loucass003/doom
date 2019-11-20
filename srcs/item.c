@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   item.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 20:16:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/17 01:25:33 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/20 14:52:22 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ void	set_current_animation_step(t_weapon *weapon, int i)
 		weapon->bounds.h / (int)weapon->cells.y };
 	const int		row = i / (int)weapon->cells.x;
 	
-	weapon->curr_image.y = (int)cell_size.y * row;
-	weapon->curr_image.x = (int)cell_size.x * (i - (row * (int)weapon->cells.x));
+	weapon->curr_image.y = weapon->bounds.y + (int)cell_size.y * row;
+	weapon->curr_image.x = weapon->bounds.x + (int)cell_size.x * (i - (row * (int)weapon->cells.x));
 	weapon->curr_image.w = cell_size.x;
 	weapon->curr_image.h = cell_size.y;
 }
@@ -88,6 +88,24 @@ t_item	*create_item_weapon_gun(t_img *image, t_img *animation)
 	gun->data.weapon.steps_count = 6;
 	gun->on_use = on_use_weapon;
 	set_current_animation_step(&gun->data.weapon, 0);
+	return (gun);
+}
+
+t_item	*create_item_weapon_axe(t_img *image, t_img *animation)
+{
+	static const uint8_t	seq[7] = { 3, 2, 1, 0, 1, 2, 3 };
+	t_item					*gun;
+
+	if (!(gun = create_item_weapon(image, (SDL_Rect){0, 0, 60, 136}, WEAPON_AXE)))
+		return (NULL);
+	gun->data.weapon.animation = animation;
+	gun->data.weapon.bounds = (SDL_Rect){ 0, 194, 439 * 2, 601 * 2 };
+	gun->data.weapon.cells = (t_vec2){ 2, 2 };
+	gun->data.weapon.animation_seq = (uint8_t *)seq;
+	gun->data.weapon.steps_count = 7;
+	gun->data.weapon.idle_step = 3;
+	gun->on_use = on_use_weapon;
+	set_current_animation_step(&gun->data.weapon, 3);
 	return (gun);
 }
 

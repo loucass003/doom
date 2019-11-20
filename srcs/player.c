@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:43:35 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/17 01:20:08 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/20 13:59:56 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void				init_player(t_doom *doom)
 	player = &doom->player;
 	player->camera.projection = projection_matrix();
 	// player->entity.position = (t_vec3){ 0, 2.512500, 45.176151 };
-	player->entity.position = (t_vec3){ 0, 10, 0 };
+	player->entity.position = (t_vec3){ 0, 20, 0 };
 	player->entity.velocity = (t_vec3){ 0, 0, 0 };
 	player->entity.radius = (t_vec3){ 1, 2.5f, 1 };
 	player->entity.packet.doom = doom;
