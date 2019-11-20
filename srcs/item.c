@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 20:16:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/20 14:52:22 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/11/20 15:05:27 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,24 @@ void	on_use_weapon(t_doom *doom, t_itemstack *is)
 	}
 }
 
+void	on_use_axe(t_doom *doom, t_itemstack *is)
+{
+	t_collision	hit;
+	t_weapon	*weapon;
+
+	weapon = &is->of->data.weapon;
+	if (weapon->fireing)
+		return;
+	weapon->fireing = TRUE;
+	hit = ray_hit_world(doom, doom->renderables, create_shoot_ray(doom->player, (t_vec3){0, 0, 1}));
+	if (hit.collide && hit.dist < 2 && hit.renderable->of.type == RENDERABLE_ENTITY && hit.renderable->of.data.entity->type == ENTITY_ENEMY)
+	{
+		doom->gameover.totaldamage += weapon->damage;
+		hit.renderable->of.data.entity->life -= weapon->damage;
+		hit.renderable->of.data.entity->focus = TRUE;
+	}
+}
+
 t_item	*create_item_weapon_gun(t_img *image, t_img *animation)
 {
 	static const uint8_t	seq[6] = { 0, 1, 2, 3, 4, 5 };
@@ -94,19 +112,18 @@ t_item	*create_item_weapon_gun(t_img *image, t_img *animation)
 t_item	*create_item_weapon_axe(t_img *image, t_img *animation)
 {
 	static const uint8_t	seq[7] = { 3, 2, 1, 0, 1, 2, 3 };
-	t_item					*gun;
+	t_item					*axe;
 
-	if (!(gun = create_item_weapon(image, (SDL_Rect){0, 0, 60, 136}, WEAPON_AXE)))
+	if (!(axe = create_item_weapon(image, (SDL_Rect){0, 0, 60, 136}, WEAPON_AXE)))
 		return (NULL);
-	gun->data.weapon.animation = animation;
-	gun->data.weapon.bounds = (SDL_Rect){ 0, 194, 439 * 2, 601 * 2 };
-	gun->data.weapon.cells = (t_vec2){ 2, 2 };
-	gun->data.weapon.animation_seq = (uint8_t *)seq;
-	gun->data.weapon.steps_count = 7;
-	gun->data.weapon.idle_step = 3;
-	gun->on_use = on_use_weapon;
-	set_current_animation_step(&gun->data.weapon, 3);
-	return (gun);
+	axe->data.weapon.animation = animation;
+	axe->data.weapon.bounds = (SDL_Rect){ 0, 194, 439 * 2, 601 * 2 };
+	axe->data.weapon.cells = (t_vec2){ 2, 2 };
+	axe->data.weapon.animation_seq = (uint8_t *)seq;
+	axe->data.weapon.steps_count = 7;
+	axe->on_use = on_use_axe;
+	set_current_animation_step(&axe->data.weapon, 3);
+	return (axe);
 }
 
 t_item	*create_item_weapon(t_img *image, SDL_Rect bounds, t_weapon_type type)
