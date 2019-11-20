@@ -51,6 +51,7 @@ SRC+=get_file_name.c
 SRC+=gui/editor_settings/g_es_object.c
 SRC+=gui/editor_settings/g_es_room.c
 SRC+=gui/editor_settings/g_es_wall.c
+SRC+=gui/editor_settings/object/g_es_obj_itemstack.c
 SRC+=gui/editor_settings/object/g_es_obj_player.c
 SRC+=gui/g_editor.c
 SRC+=gui/g_editor_settings.c

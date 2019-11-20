@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   item.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 20:30:43 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/20 13:59:07 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/11/20 17:03:20 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@
 
 typedef enum		e_weapon_type
 {
-	WEAPON_GUN,
-	WEAPON_AXE,
-	WEAPON_AR
+	WEAPON_GUN = 0,
+	WEAPON_AXE = 1,
+	WEAPON_AR = 2
 }					t_weapon_type;
 
 typedef struct		s_weapon
@@ -41,12 +41,12 @@ typedef struct		s_weapon
 
 typedef enum		e_item_type
 {
-	ITEM_UNKNOWN,
-	ITEM_WEAPON,
-	ITEM_AMMO,
-	ITEM_HEAL,
-	ITEM_KEY,
-	ITEM_JETPACK
+	ITEM_UNKNOWN = -1,
+	ITEM_WEAPON = 0,
+	ITEM_AMMO = 1,
+	ITEM_HEAL = 2,
+	ITEM_KEY = 3,
+	ITEM_JETPACK = 4
 }					t_item_type;
 
 typedef union		u_item_data

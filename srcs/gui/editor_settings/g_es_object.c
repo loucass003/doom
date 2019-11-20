@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 22:55:54 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/19 01:23:57 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/20 17:04:02 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,15 @@ void	set_es_object_gui(t_editor *editor, int id)
 		enter_gui(editor->doom, editor->settings.guis_object, editor->settings.current_gui_object);
 }
 
+void			set_object_default(t_doom *doom, t_object *object)
+{
+	if (object->type == OBJECT_ITEMSTACK)
+	{
+		object->of.itemstack = create_item_weapon_gun(surface_to_image(doom, doom->textures.gun0), surface_to_image(doom, doom->textures.gun0));
+
+	}
+}
+
 static t_bool			action_performed(t_component *cmp, t_doom *doom)
 {
 	const t_editor *editor = &doom->editor;
@@ -31,9 +40,13 @@ static t_bool			action_performed(t_component *cmp, t_doom *doom)
 		t_object	*object = &editor->objects->values[editor->current_object];
 		if (object->type != ((t_select *)cmp)->items->values[((t_select *)cmp)->selected_item].value)
 		{
+			ft_bzero(object, sizeof(t_object));
 			object->type = ((t_select *)cmp)->items->values[((t_select *)cmp)->selected_item].value;
 			if (object->type != OBJECT_NONE)
+			{
+				set_object_default(doom, object);
 				set_es_object_gui(&doom->editor, object->type);
+			}
 		}
 
 	}
@@ -64,7 +77,7 @@ void			g_es_object_enter(t_gui *self, t_doom *doom)
 	append_components_array(&self->components, create_checkbox(doom, (t_vec2){ x + 10, y + 60}, "No Light"));
 
 	doom->editor.settings.guis_object[OBJECT_PLAYER] = (t_gui){ .render = g_es_obj_player_render, .on_enter = g_es_obj_player_enter };
-	doom->editor.settings.guis_object[OBJECT_ITEMSTACK] = (t_gui){ .render = g_es_obj_player_render, .on_enter = g_es_obj_player_enter };
+	doom->editor.settings.guis_object[OBJECT_ITEMSTACK] = (t_gui){ .render = g_es_obj_itemstack_render, .on_enter = g_es_obj_itemstack_enter };
 	doom->editor.settings.guis_object[OBJECT_SPRITE] = (t_gui){ .render = g_es_wall_render, .on_enter = g_es_wall_enter };
 	doom->editor.settings.guis_object[OBJECT_ENTITY] = (t_gui){ .render = g_es_wall_render, .on_enter = g_es_wall_enter };
 	doom->editor.settings.guis_object[OBJECT_MODEL] = (t_gui){ .render = g_es_wall_render, .on_enter = g_es_wall_enter };
@@ -76,6 +89,7 @@ void			g_es_object_enter(t_gui *self, t_doom *doom)
 void			g_es_object_on_event(t_gui *self, SDL_Event *event,
 	t_doom *doom)
 {
+	gui_events(doom, doom->editor.settings.guis_object, event, doom->editor.settings.current_gui_object);
 	components_events(doom, doom->editor.settings.guis_object, event, doom->editor.settings.current_gui_object);
 }
 

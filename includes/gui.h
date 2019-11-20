@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 01:42:00 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/19 00:46:18 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/20 16:10:46 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,6 +215,9 @@ void				g_es_object_on_event(t_gui *self, SDL_Event *event, t_doom *doom);
 
 void				g_es_obj_player_enter(t_gui *self, t_doom *doom);
 void				g_es_obj_player_render(t_gui *self, t_doom *doom);
+
+void				g_es_obj_itemstack_enter(t_gui *self, t_doom *doom);
+void				g_es_obj_itemstack_render(t_gui *self, t_doom *doom);
 
 void				register_guis(t_doom *doom);
 void				enter_gui(t_doom *doom, t_gui *guis, int id);

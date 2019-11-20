@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 14:35:33 by lloncham          #+#    #+#             */
-/*   Updated: 2019/11/19 01:19:33 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/20 15:58:23 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,20 @@ typedef enum		e_object_type
 	OBJECT_MODEL = 4
 }					t_object_type;
 
+typedef union		u_object_of
+{
+	struct s_itemstack	*itemstack;
+	struct s_entity		*entity;
+	struct s_sprite		*sprite;
+}					t_object_of;
+
 typedef struct		s_object
 {
 	t_object_type	type;
 	t_vec3			pos;
 	t_vec3			scale;
-	t_renderable_of	of;
 	t_bool			no_light;
+	t_object_of		of;
 }					t_object;
 
 typedef struct		s_objects
