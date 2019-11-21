@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 20:30:43 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/20 17:03:20 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/21 03:34:11 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ typedef struct		s_weapon
 typedef enum		e_item_type
 {
 	ITEM_UNKNOWN = -1,
-	ITEM_WEAPON = 0,
-	ITEM_AMMO = 1,
+	ITEM_AMMO = 0,
+	ITEM_WEAPON = 1,
 	ITEM_HEAL = 2,
 	ITEM_KEY = 3,
 	ITEM_JETPACK = 4
@@ -78,6 +78,7 @@ t_item				*create_item_ammo(t_img *image);
 t_item				*create_item_heal(t_img *image);
 t_bool				entity_hit_itemstack(struct s_entity *entity, t_itemstack *is);
 t_item				*create_item_weapon_axe(t_img *image, t_img *animation);
+t_itemstack			*create_itemstack(t_item *item, int amount);
 
 
 #endif

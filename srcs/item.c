@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   item.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 20:16:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/20 15:05:27 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/11/21 03:28:58 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 #include "render.h"
+#include "renderable_of.h"
 #include "sprite.h"
 #include "entity.h"
 #include "doom.h"
@@ -155,17 +156,26 @@ t_item	*create_item_heal(t_img *image)
 	return (heal);
 }
 
+t_itemstack	*create_itemstack(t_item *item, int amount)
+{
+	t_itemstack	*is;
+
+	if (!(is = ft_memalloc(sizeof(t_itemstack))))
+		return (NULL);
+	is->of = item;
+	is->amount = amount;
+	return (is);
+}
+
 t_bool	create_itemstack_renderable(t_renderable *r, t_item *item, int amount)
 {
 	t_sprite	*sprite;
 
-	if (!create_sprite(r, (t_mtl){ .texture_map = item->image, .texture_map_set = TRUE }, (t_vec2){ 1, 1 }))
+	if (!create_sprite_renderable(r, (t_mtl){ .texture_map = item->image, .texture_map_set = TRUE }, (t_vec2){ 1, 1 }))
 		return (FALSE);
 	r->of.type = RENDERABLE_ITEMSTACK;
-	if (!(r->of.data.itemstack = ft_memalloc(sizeof(t_itemstack))))
+	if (!(r->of.data.itemstack = create_itemstack(item, amount)))
 		return (FALSE);
-	r->of.data.itemstack->of = item;
-	r->of.data.itemstack->amount = amount;
 	sprite = r->sprite;
 	sprite->uv_max = (t_vec2){ (float)item->bounds.x / (float)item->image->width, 1 - (float)item->bounds.y / (float)item->image->height };
 	sprite->uv_min = (t_vec2){ (float)(item->bounds.x + item->bounds.w) / (float)item->image->width, 1 - (float)(item->bounds.y + item->bounds.h) / (float)item->image->height };

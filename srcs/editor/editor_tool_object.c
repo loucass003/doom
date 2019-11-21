@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 17:24:14 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/18 17:21:34 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/21 03:49:38 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,10 @@ void			editor_tool_objects(t_editor *editor, SDL_Event *event)
 		editor->current_object = editor->objects->len - 1;
 		editor_settings_update(editor);
 	}
-	if (editor->current_object == -1 && editor->close_object != -1 && editor->grid_cell_grab == GG_OBJECT)
+	if (editor->close_object != -1 && editor->grid_cell_grab == GG_OBJECT)
 	{
 		editor->current_object = editor->close_object;
+		editor->object_grab = TRUE;
 		editor_settings_update(editor);
 	}
 	if (editor->current_object != -1 && (editor->grid_cell_grab == GG_NONE))
@@ -50,11 +51,4 @@ void			editor_tool_objects(t_editor *editor, SDL_Event *event)
 		editor->current_object = -1;
 		editor_settings_update(editor);
 	}
-	if (editor->current_object != -1 &&  editor->close_object != -1 && editor->grid_cell_grab == GG_OBJECT)
-	{
-		editor->current_object = editor->close_object;
-		editor->object_grab = TRUE;
-		editor_settings_update(editor);
-	}
-	
 }

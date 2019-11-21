@@ -6,12 +6,13 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 22:55:54 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/20 17:04:02 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/21 03:50:47 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "editor.h"
 #include "doom.h"
+#include "sprite.h"
 
 void	set_es_object_gui(t_editor *editor, int id)
 {
@@ -26,9 +27,19 @@ void			set_object_default(t_doom *doom, t_object *object)
 {
 	if (object->type == OBJECT_ITEMSTACK)
 	{
-		object->of.itemstack = create_item_weapon_gun(surface_to_image(doom, doom->textures.gun0), surface_to_image(doom, doom->textures.gun0));
-
+		t_item	*item = create_item_weapon_gun(surface_to_image(doom, doom->textures.gun0), surface_to_image(doom, doom->textures.gun0));
+		if (!(object->of.itemstack = create_itemstack(item, 1)))
+			return ;
 	}
+	else if (object->type == OBJECT_ENTITY)
+		object->of.entity = create_enemy_entity(doom);
+	else if (object->type == OBJECT_SPRITE)
+		object->of.sprite = create_sprite((t_vec2){ 1, 1 }, get_default_texture(&doom->res_manager, TRUE));
+}
+
+void			free_object(t_object *object)
+{
+	//TODO: leaks
 }
 
 static t_bool			action_performed(t_component *cmp, t_doom *doom)
@@ -40,10 +51,12 @@ static t_bool			action_performed(t_component *cmp, t_doom *doom)
 		t_object	*object = &editor->objects->values[editor->current_object];
 		if (object->type != ((t_select *)cmp)->items->values[((t_select *)cmp)->selected_item].value)
 		{
-			ft_bzero(object, sizeof(t_object));
+			free_object(object);
+			object->of.entity = NULL;
 			object->type = ((t_select *)cmp)->items->values[((t_select *)cmp)->selected_item].value;
 			if (object->type != OBJECT_NONE)
 			{
+				printf("CALL ?\n");
 				set_object_default(doom, object);
 				set_es_object_gui(&doom->editor, object->type);
 			}
@@ -72,7 +85,7 @@ void			g_es_object_enter(t_gui *self, t_doom *doom)
 	append_select_items_array(&((t_select *)self->components->values[0])->items, (t_select_item){ .name = "ENTITY", .value = OBJECT_ENTITY });
 	append_select_items_array(&((t_select *)self->components->values[0])->items, (t_select_item){ .name = "MODEL", .value = OBJECT_MODEL });
 	t_object	*object = &doom->editor.objects->values[doom->editor.current_object];
-	((t_select *)self->components->values[0])->selected_item = object->type;
+	((t_select *)self->components->values[0])->selected_item = select_items_indexof(((t_select *)self->components->values[0])->items, object->type);
 
 	append_components_array(&self->components, create_checkbox(doom, (t_vec2){ x + 10, y + 60}, "No Light"));
 

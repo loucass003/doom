@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/20 14:42:32 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/11/21 03:07:14 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ void	init_bsp(t_doom *doom)
 	// // sprite.entity->velocity.x += 4;
 	// append_renderables_array(&doom->renderables, sprite);
 	t_renderable sprite;
-	create_sprite(&sprite, (t_mtl){ .texture_map = surface_to_image(doom, doom->textures.machin), .texture_map_set = TRUE }, (t_vec2){ 1, 1 });
+	create_sprite_renderable(&sprite, (t_mtl){ .texture_map = surface_to_image(doom, doom->textures.machin), .texture_map_set = TRUE }, (t_vec2){ 1, 1 });
 	// set_current_cell(&sprite, 0, 0);
 	sprite.scale = (t_vec3){ 5, 6, 5 };
 	sprite.position.y = sprite.scale.y / 2;

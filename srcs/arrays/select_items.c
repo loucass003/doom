@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 23:06:40 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/18 23:09:54 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/21 03:36:23 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,14 +72,14 @@ t_select_items	*copy_select_items_array(t_select_items *src, t_select_items **ds
 	return (*dst);
 }
 
-int		select_items_indexof(t_select_items *arr, t_select_item *elem)
+int		select_items_indexof(t_select_items *arr, int item_value)
 {
 	int	i;
 
 	i = -1;
 	while (++i < arr->len)
 	{
-		if (arr->values + i == elem)
+		if (arr->values[i].value == item_value)
 			return (i);
 	}
 	return (-1);

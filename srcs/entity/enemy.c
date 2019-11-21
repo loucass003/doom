@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/30 16:36:08 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/19 17:17:09 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/21 03:07:09 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,22 +24,31 @@ void		compute_enemy_hitbox(t_renderable *r)
 	compute_ellipsoid_hitbox(r, entity->position, entity->radius);
 }
 
+t_entity	*create_enemy_entity(t_doom *doom)
+{
+	t_entity	*enemy;
+
+	if (!(enemy = ft_memalloc(sizeof(t_entity))))
+		return (NULL);
+	enemy->type = ENTITY_ENEMY;
+	enemy->packet.doom = doom;
+	enemy->radius = (t_vec3){ 1, 2.5, 1 };
+	enemy->life = 1;
+	return (enemy);
+}
+
 t_bool		create_enemy(t_doom *doom, t_renderable *r)
 {
-	if (!create_sprite(r, (t_mtl){ .texture_map = surface_to_image(doom, doom->textures.sprite), .texture_map_set = TRUE }, (t_vec2){ 8, 7 }))
+	if (!create_sprite_renderable(r, (t_mtl){ .texture_map = surface_to_image(doom, doom->textures.sprite), .texture_map_set = TRUE }, (t_vec2){ 8, 7 }))
 		return (FALSE);
 	
 	set_current_cell(r, 0, 0);
 	r->scale = (t_vec3){ 5, 5, 5 };
 	r->of.type = RENDERABLE_ENTITY;
-	if (!(r->of.data.entity = ft_memalloc(sizeof(t_entity))))
+	if (!(r->of.data.entity = create_enemy_entity(doom)))
 		return (FALSE);
-	r->of.data.entity->type = ENTITY_ENEMY;
-	r->of.data.entity->packet.doom = doom;
-	r->of.data.entity->radius = (t_vec3){ 1, 2.5, 1 };
-	r->of.data.entity->life = 1;
 	alGenSources(3, r->of.data.entity->source);
-	r->show_hitbox = TRUE;
+	//r->show_hitbox = TRUE;
 	//r->entity->pos_offset.y = -r->entity->radius.y;
 	compute_enemy_hitbox(r);
 	return (TRUE);

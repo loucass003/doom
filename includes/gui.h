@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 01:42:00 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/20 16:10:46 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/21 03:36:35 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -246,7 +246,7 @@ t_select_items		*create_select_items_array(int capacity);
 t_select_items		*append_select_items_array(t_select_items **arr, t_select_item v);
 t_select_items		*splice_select_items_array(t_select_items *arr, int index, int n);
 t_select_items		*copy_select_items_array(t_select_items *src, t_select_items **dst);
-int					select_items_indexof(t_select_items *arr, t_select_item *elem);
+int					select_items_indexof(t_select_items *arr, int item_value);
 
 t_components		*create_components_array(int capacity);
 t_components		*append_components_array(t_components **arr, t_component *v);

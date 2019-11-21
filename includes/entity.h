@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   entity.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rle-ru <rle-ru@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 00:01:14 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/19 14:43:20 by rle-ru           ###   ########.fr       */
+/*   Updated: 2019/11/21 03:17:49 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ typedef struct		s_entity
 }					t_entity;
 
 void		entity_update(struct s_doom *doom, t_entity *entity, double dt);
+t_entity	*create_enemy_entity(struct s_doom *doom);
 t_bool		create_enemy(struct s_doom *doom, t_renderable *r);
 t_bool		create_grenada(t_renderable *r, struct s_doom *doom);
 void		compute_enemy_hitbox(t_renderable *r);

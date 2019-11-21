@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/28 16:17:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/16 22:25:32 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/21 03:33:07 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	set_current_cell(t_renderable *r, int x, int y)
 	sprite = r->sprite;
 	pos = (t_vec2){ x, sprite->cells_count.y - 1 - y };
 	div = (t_vec2){ mtl->texture_map->width / sprite->cells_count.x, mtl->texture_map->height / sprite->cells_count.y };
-	sprite->is_spritesheet = TRUE;
+	//sprite->is_spritesheet = TRUE;
 	sprite->current_cell = y * sprite->cells_count.x + x;
 	sprite->uv_min = ft_vec2_div(ft_vec2_mul(pos, div), (t_vec2){  mtl->texture_map->width, mtl->texture_map->height});
 	sprite->uv_max = ft_vec2_div(ft_vec2_mul(ft_vec2_add(pos, (t_vec2){ 1, 1 }), div),  (t_vec2){  mtl->texture_map->width, mtl->texture_map->height});
@@ -53,7 +53,19 @@ void	set_current_cell(t_renderable *r, int x, int y)
 	r->vertex->vertices[3] = (t_vec2){ sprite->uv_min.x, sprite->uv_max.y };
 }
 
-t_bool	create_sprite(t_renderable *r, t_mtl mtl, t_vec2 cells_count)
+t_sprite	*create_sprite(t_vec2 cells_count, t_ressource *texture)
+{
+	t_sprite	*sprite;
+
+	if (!(sprite = ft_memalloc(sizeof(t_sprite))))
+		return (NULL);
+	sprite->always_facing_player = TRUE;
+	sprite->cells_count = cells_count;
+	sprite->texture = texture;
+	return (sprite);
+}
+
+t_bool	create_sprite_renderable(t_renderable *r, t_mtl mtl, t_vec2 cells_count)
 {
 	ft_bzero(r, sizeof(t_renderable));
 	r->of.type = RENDERABLE_UNKNOWN;
