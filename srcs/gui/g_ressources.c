@@ -147,7 +147,7 @@ void	g_ressources_on_enter(t_gui *self, t_doom *doom)
 		append_components_array(&self->components, create_select((SDL_Rect){S_WIDTH_2, 55 + i * 30, 200, 25}, "RESSOURCE TYPE"));
 		self->components->values[i * 3]->visible = FALSE;
 		((t_select *)self->components->values[i * 3])->items = doom->res_manager.ressources_types;
-		append_components_array(&self->components, create_textfield((SDL_Rect){S_WIDTH_2 - 353, 55 + i * 30, 350, 25}, "RESSOURCE NAME"));
+		append_components_array(&self->components, create_textfield((SDL_Rect){S_WIDTH_2 - 353, 55 + i * 30, 350, 25}, "RESSOURCE NAME", FALSE));
 		self->components->values[i * 3 + 1]->visible = FALSE;
 		append_components_array(&self->components, create_button((SDL_Rect){S_WIDTH_2 + 202, 55 + i * 30, 25, 25}, NULL, "X"));
 		self->components->values[i * 3 + 2]->visible = FALSE;

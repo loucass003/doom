@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:14:55 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/19 17:03:26 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/21 14:46:33 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,7 @@ void	hook_events(t_doom *doom)
 
 	if (s[SDL_SCANCODE_ESCAPE])
 		doom->running = FALSE;
-	if (s[SDL_SCANCODE_BACKSPACE])
+	if (s[SDL_SCANCODE_HOME])
 	{
 		set_gui(doom, GUI_MAIN_MENU);
 	}

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 22:55:54 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/21 05:09:40 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/21 18:32:11 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,22 @@ t_itemstack		*create_itemstack_from_type(t_doom *doom, t_item_type type)
 		item = create_item_heal(surface_to_image(doom, doom->textures.medkit));
 	else if (type == ITEM_WEAPON)
 		item = create_item_weapon_gun(surface_to_image(doom, doom->textures.gun0), surface_to_image(doom, doom->textures.gun0));
-	if (!item || !(it = create_itemstack(item, 25)))
+	if (!item || !(it = create_itemstack(item, 1)))
+		return (NULL);
+	return (it);
+}
+
+t_itemstack		*create_itemstack_weapon_from_type(t_doom *doom, t_weapon_type type)
+{
+	t_itemstack	*it;
+	t_item	*item;
+
+	item = NULL;
+	if (type == WEAPON_GUN)
+		item = create_item_weapon_gun(surface_to_image(doom, doom->textures.gun0), surface_to_image(doom, doom->textures.gun0));
+	else if (type == WEAPON_AXE)
+		item = create_item_weapon_axe(surface_to_image(doom, doom->textures.axe), surface_to_image(doom, doom->textures.axe));
+	if (!item || !(it = create_itemstack(item, 1)))
 		return (NULL);
 	return (it);
 }
@@ -40,10 +55,34 @@ static t_bool			action_performed(t_component *cmp, t_doom *doom)
 		t_select_item val = ((t_select *)cmp)->items->values[((t_select *)cmp)->selected_item];
 		if (val.value != object->of.itemstack->of->type)
 		{
+			free_object(object);
 			object->of.itemstack = create_itemstack_from_type(doom, (t_item_type)val.value);
 			t_int_str istr = ft_int_to_str(object->of.itemstack->amount);
-			
 			ft_memcpy(((t_textfield *)editor->settings.guis_object[OBJECT_ITEMSTACK].components->values[1])->text, istr.str, istr.len);
+			ft_memset(((t_textfield *)editor->settings.guis_object[OBJECT_ITEMSTACK].components->values[1])->text + istr.len, 0, 255 - istr.len);
+			((t_textfield *)editor->settings.guis_object[OBJECT_ITEMSTACK].components->values[1])->text_len = istr.len;
+			editor->settings.guis_object[OBJECT_ITEMSTACK].components->values[2]->visible = object->of.itemstack->of->type == ITEM_WEAPON;
+			editor->settings.guis_object[OBJECT_ITEMSTACK].components->values[2]->enabled = object->of.itemstack->of->type == ITEM_WEAPON;
+		}
+	}
+	else if (cmp == editor->settings.guis_object[OBJECT_ITEMSTACK].components->values[1])
+	{
+		t_object	*object = &doom->editor.objects->values[doom->editor.current_object];
+		object->of.itemstack->amount = 1;
+		if (!((t_textfield *)cmp)->error)
+			object->of.itemstack->amount = ((t_textfield *)cmp)->value;
+	}
+	else if (cmp == editor->settings.guis_object[OBJECT_ITEMSTACK].components->values[2])
+	{
+		t_object	*object = &doom->editor.objects->values[doom->editor.current_object];
+		t_select_item val = ((t_select *)cmp)->items->values[((t_select *)cmp)->selected_item];
+		if (val.value != object->of.itemstack->of->data.weapon.type)
+		{
+			free_object(object);
+			object->of.itemstack = create_itemstack_weapon_from_type(doom, (t_weapon_type)val.value);
+			t_int_str istr = ft_int_to_str(object->of.itemstack->amount);
+			ft_memcpy(((t_textfield *)editor->settings.guis_object[OBJECT_ITEMSTACK].components->values[1])->text, istr.str, istr.len);
+			ft_memset(((t_textfield *)editor->settings.guis_object[OBJECT_ITEMSTACK].components->values[1])->text + istr.len, 0, 255 - istr.len);
 			((t_textfield *)editor->settings.guis_object[OBJECT_ITEMSTACK].components->values[1])->text_len = istr.len;
 		}
 	}
@@ -56,7 +95,7 @@ void			g_es_obj_itemstack_enter(t_gui *self, t_doom *doom)
 	int			y = 75 + 80;
 
 	append_components_array(&self->components, create_select((SDL_Rect){x + 10, y + 10, 300, 30}, "ITEM TYPE"));
-	((t_select *)self->components->values[0])->items = create_select_items_array(10);
+	((t_select *)self->components->values[0])->items = create_select_items_array(3);
 	self->components->values[0]->perform_action = action_performed;
 	append_select_items_array(&((t_select *)self->components->values[0])->items, (t_select_item){ .name = "WEAPON", .value = ITEM_WEAPON });
 	append_select_items_array(&((t_select *)self->components->values[0])->items, (t_select_item){ .name = "AMMO", .value = ITEM_AMMO });
@@ -68,12 +107,25 @@ void			g_es_obj_itemstack_enter(t_gui *self, t_doom *doom)
 		printf("NOT COOL\n");
 		return ;
 	}
-	printf("CALL %d\n", is->of->type);
+	printf("CALL %d %d\n", is->of->type, is->amount);
 	((t_select *)self->components->values[0])->selected_item = select_items_indexof(((t_select *)self->components->values[0])->items, is->of->type);
-	append_components_array(&self->components, create_textfield((SDL_Rect){x + 10, y + 50, 300, 30}, "AMOUNT"));
+	append_components_array(&self->components, create_textfield((SDL_Rect){x + 10, y + 50, 300, 30}, "AMOUNT", TRUE));
 	t_int_str istr = ft_int_to_str(is->amount);
 	ft_memcpy(((t_textfield *)self->components->values[1])->text, istr.str, istr.len);
+	ft_memset(((t_textfield *)self->components->values[1])->text + istr.len, 0, 255 - istr.len);
 	((t_textfield *)self->components->values[1])->text_len = istr.len;
+	self->components->values[1]->perform_action = action_performed;
+
+	append_components_array(&self->components, create_select((SDL_Rect){x + 10, y + 90, 300, 30}, "WEAPON TYPE"));
+	((t_select *)self->components->values[2])->items = create_select_items_array(3);
+	self->components->values[2]->perform_action = action_performed;
+	append_select_items_array(&((t_select *)self->components->values[2])->items, (t_select_item){ .name = "GUN", .value = WEAPON_GUN });
+	append_select_items_array(&((t_select *)self->components->values[2])->items, (t_select_item){ .name = "AXE", .value = WEAPON_AXE });
+	append_select_items_array(&((t_select *)self->components->values[2])->items, (t_select_item){ .name = "GRENADA", .value = WEAPON_GRENADA });
+	if (is->of->type == ITEM_WEAPON)
+		((t_select *)self->components->values[2])->selected_item = select_items_indexof(((t_select *)self->components->values[2])->items, is->of->data.weapon.type);
+	self->components->values[2]->visible = is->of->type == ITEM_WEAPON;
+	self->components->values[2]->enabled = is->of->type == ITEM_WEAPON;
 }
 
 void			g_es_obj_itemstack_render(t_gui *self, t_doom *doom)

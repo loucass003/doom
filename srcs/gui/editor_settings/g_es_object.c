@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 22:55:54 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/21 03:50:47 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/21 18:09:06 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "doom.h"
 #include "sprite.h"
 
-void	set_es_object_gui(t_editor *editor, int id)
+void	 set_es_object_gui(t_editor *editor, int id)
 {
 	if (editor->settings.current_gui_object >= 0)
 		leave_gui(editor->doom, editor->settings.guis_object, editor->settings.current_gui_object);
@@ -96,7 +96,10 @@ void			g_es_object_enter(t_gui *self, t_doom *doom)
 	doom->editor.settings.guis_object[OBJECT_MODEL] = (t_gui){ .render = g_es_wall_render, .on_enter = g_es_wall_enter };
 
 	if (object->type != OBJECT_NONE)
+	{
+		printf("ALLO ?\n");
 		set_es_object_gui(&doom->editor, object->type);
+	}
 }
 
 void			g_es_object_on_event(t_gui *self, SDL_Event *event,

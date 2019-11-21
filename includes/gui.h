@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 01:42:00 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/21 03:36:35 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/21 14:51:09 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,9 @@ typedef struct		s_textfield
 	char				*text;
 	t_bool				focus;
 	t_bool				bar;
+	t_bool				number;
+	t_bool				error;
+	int					value;
 	int					text_len;
 	int					bg_color;
 	int					fg_color;
@@ -255,7 +258,7 @@ t_components		*copy_components_array(t_components *src, t_components **dst);
 int					components_indexof(t_components *arr, t_component *elem);
 
 t_component			*create_select(SDL_Rect bounds, char *text);
-t_component			*create_textfield(SDL_Rect bounds, char *placeholder);
+t_component			*create_textfield(SDL_Rect bounds, char *placeholder, t_bool number);
 void				c_textfield_render(t_doom *doom, t_component *self, t_img *image);
 
 t_component			*create_checkbox(t_doom *doom, t_vec2 pos, char *text);

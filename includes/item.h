@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 20:30:43 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/21 03:34:11 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/21 18:10:59 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ typedef enum		e_weapon_type
 {
 	WEAPON_GUN = 0,
 	WEAPON_AXE = 1,
+	WEAPON_GRENADA = 1,
 	WEAPON_AR = 2
 }					t_weapon_type;
 

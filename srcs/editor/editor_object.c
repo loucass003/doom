@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 18:26:47 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/17 19:14:52 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/21 17:23:42 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ t_bool		editor_render_objects(t_editor *editor)
 		object = &editor->objects->values[i];
 
 		color = i == editor->current_object ? 0xFFAAFFAA : 0xFF00AA00;
-		draw_circle(&editor->doom->screen, (t_pixel){ object->pos.x, object->pos.z, color }, 10);
+		draw_circle(&editor->doom->screen, (t_pixel){ object->pos.x, object->pos.z, color }, 8);
 	}
 	return (TRUE);
 }

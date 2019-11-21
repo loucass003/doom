@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/21 03:16:01 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/21 20:56:10 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/21 17:21:06 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,16 @@ t_bool		c_textfield_on_event(t_component *self, SDL_Event *event, t_doom *doom)
 	}
 	else if (event->type == SDL_MOUSEBUTTONUP)
 		tf->focus = in_bounds(self->bounds, (t_vec2){ event->motion.x, event->motion.y });
+	if ((event->type == SDL_KEYDOWN && event->key.keysym.scancode == SDL_SCANCODE_BACKSPACE) || event->type == SDL_TEXTINPUT)
+	{
+		if (tf->number && tf->focus)
+		{
+			tf->error = FALSE;
+			tf->value = ft_atoi2(tf->text, &tf->error);
+		}
+		if (self->perform_action && !self->perform_action(self, doom))
+			return (FALSE);
+	}
 	return (TRUE);
 }
 
@@ -49,6 +59,8 @@ void		c_textfield_render(t_doom *doom, t_component *self, t_img *image)
 	if (tf->t0 > 1 && !(tf->t0 = 0))
 		tf->bar = !tf->bar;
 	fill_rect(image, self->bounds, tf->bg_color);
+	if (tf->error)
+		draw_rect(image, self->bounds, 0xFFFF0000);
 	str = tf->text_len == 0 && !tf->focus && tf->placeholder ? tf->placeholder : tf->text;
 	if (str && *str)
 	{
@@ -70,7 +82,7 @@ void		c_textfield_render(t_doom *doom, t_component *self, t_img *image)
 		draw_line(image, (t_pixel){ self->bounds.x + 2, self->bounds.y + self->bounds.h - 5, 0xFFFFFFFF},  (t_pixel){ self->bounds.x + 12, self->bounds.y + self->bounds.h - 5, 0});
 }
 
-t_component	 *create_textfield(SDL_Rect bounds, char *placeholder)
+t_component	 *create_textfield(SDL_Rect bounds, char *placeholder, t_bool number)
 {
 	t_textfield	*tf;
 
@@ -80,6 +92,7 @@ t_component	 *create_textfield(SDL_Rect bounds, char *placeholder)
 		.render = c_textfield_render, .on_event = c_textfield_on_event };
 	if (!(tf->text = ft_memalloc(sizeof(char) * 255)))
 		return (NULL);
+	tf->number = number;
 	tf->placeholder = placeholder;
 	tf->bg_color = 0xFF505050;
 	tf->fg_color = 0xFFFFFFFF;

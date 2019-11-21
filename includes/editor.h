@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 14:35:33 by lloncham          #+#    #+#             */
-/*   Updated: 2019/11/20 15:58:23 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/21 17:17:36 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,5 +193,6 @@ t_bool				is_in_range(t_vec2 pos, t_vec2 test);
 t_object			init_object(t_vec2 pos);
 t_wall				*get_current_wall(t_editor *editor);
 void				set_gui_settings(t_editor *editor, int id);
+void				free_object(t_object *object);
 
 #endif
