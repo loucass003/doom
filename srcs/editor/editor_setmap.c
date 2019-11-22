@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 15:55:03 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/19 17:25:47 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/22 15:56:02 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,6 +207,17 @@ t_bool		editor_setmap(t_editor *editor)
 			continue ;
 		if (object->type == OBJECT_PLAYER)
 			editor->doom->player.entity.position = ft_vec3_div_s(object->pos, 5);
+		else if (object->type == OBJECT_ITEMSTACK)
+		{
+			t_renderable r;
+			t_itemstack		*itemstack = object->of.itemstack;
+			
+			create_itemstack_renderable(&r, itemstack->of, itemstack->amount);
+			r.position = ft_vec3_div_s(object->pos, 5);
+			r.position.y += r.scale.y;
+			if (!append_renderables_array(&editor->doom->renderables, r))
+				return (FALSE);
+		}
 	}
 	return (TRUE);
 }

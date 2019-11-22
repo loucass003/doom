@@ -6,44 +6,14 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 22:55:54 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/21 18:32:11 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/22 19:47:52 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "editor.h"
 #include "doom.h"
 
-t_itemstack		*create_itemstack_from_type(t_doom *doom, t_item_type type)
-{
-	t_itemstack	*it;
-	t_item	*item;
 
-	item = NULL;
-	if (type == ITEM_AMMO)
-		item = create_item_ammo(surface_to_image(doom, doom->textures.ammo1));
-	else if (type == ITEM_HEAL)
-		item = create_item_heal(surface_to_image(doom, doom->textures.medkit));
-	else if (type == ITEM_WEAPON)
-		item = create_item_weapon_gun(surface_to_image(doom, doom->textures.gun0), surface_to_image(doom, doom->textures.gun0));
-	if (!item || !(it = create_itemstack(item, 1)))
-		return (NULL);
-	return (it);
-}
-
-t_itemstack		*create_itemstack_weapon_from_type(t_doom *doom, t_weapon_type type)
-{
-	t_itemstack	*it;
-	t_item	*item;
-
-	item = NULL;
-	if (type == WEAPON_GUN)
-		item = create_item_weapon_gun(surface_to_image(doom, doom->textures.gun0), surface_to_image(doom, doom->textures.gun0));
-	else if (type == WEAPON_AXE)
-		item = create_item_weapon_axe(surface_to_image(doom, doom->textures.axe), surface_to_image(doom, doom->textures.axe));
-	if (!item || !(it = create_itemstack(item, 1)))
-		return (NULL);
-	return (it);
-}
 
 static t_bool			action_performed(t_component *cmp, t_doom *doom)
 {
@@ -56,13 +26,15 @@ static t_bool			action_performed(t_component *cmp, t_doom *doom)
 		if (val.value != object->of.itemstack->of->type)
 		{
 			free_object(object);
-			object->of.itemstack = create_itemstack_from_type(doom, (t_item_type)val.value);
+			object->of.itemstack = create_itemstack_from_type(doom, (t_item_type)val.value, WEAPON_GUN);
 			t_int_str istr = ft_int_to_str(object->of.itemstack->amount);
 			ft_memcpy(((t_textfield *)editor->settings.guis_object[OBJECT_ITEMSTACK].components->values[1])->text, istr.str, istr.len);
 			ft_memset(((t_textfield *)editor->settings.guis_object[OBJECT_ITEMSTACK].components->values[1])->text + istr.len, 0, 255 - istr.len);
 			((t_textfield *)editor->settings.guis_object[OBJECT_ITEMSTACK].components->values[1])->text_len = istr.len;
 			editor->settings.guis_object[OBJECT_ITEMSTACK].components->values[2]->visible = object->of.itemstack->of->type == ITEM_WEAPON;
 			editor->settings.guis_object[OBJECT_ITEMSTACK].components->values[2]->enabled = object->of.itemstack->of->type == ITEM_WEAPON;
+			if (object->of.itemstack->of->type == ITEM_WEAPON)
+				((t_select *)editor->settings.guis_object[OBJECT_ITEMSTACK].components->values[2])->selected_item = select_items_indexof(((t_select *)editor->settings.guis_object[OBJECT_ITEMSTACK].components->values[2])->items, object->of.itemstack->of->data.weapon.type);
 		}
 	}
 	else if (cmp == editor->settings.guis_object[OBJECT_ITEMSTACK].components->values[1])
@@ -79,7 +51,7 @@ static t_bool			action_performed(t_component *cmp, t_doom *doom)
 		if (val.value != object->of.itemstack->of->data.weapon.type)
 		{
 			free_object(object);
-			object->of.itemstack = create_itemstack_weapon_from_type(doom, (t_weapon_type)val.value);
+			object->of.itemstack = create_itemstack_from_type(doom, ITEM_WEAPON, (t_weapon_type)val.value);
 			t_int_str istr = ft_int_to_str(object->of.itemstack->amount);
 			ft_memcpy(((t_textfield *)editor->settings.guis_object[OBJECT_ITEMSTACK].components->values[1])->text, istr.str, istr.len);
 			ft_memset(((t_textfield *)editor->settings.guis_object[OBJECT_ITEMSTACK].components->values[1])->text + istr.len, 0, 255 - istr.len);
@@ -107,7 +79,6 @@ void			g_es_obj_itemstack_enter(t_gui *self, t_doom *doom)
 		printf("NOT COOL\n");
 		return ;
 	}
-	printf("CALL %d %d\n", is->of->type, is->amount);
 	((t_select *)self->components->values[0])->selected_item = select_items_indexof(((t_select *)self->components->values[0])->items, is->of->type);
 	append_components_array(&self->components, create_textfield((SDL_Rect){x + 10, y + 50, 300, 30}, "AMOUNT", TRUE));
 	t_int_str istr = ft_int_to_str(is->amount);

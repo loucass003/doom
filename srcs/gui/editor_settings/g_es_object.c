@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 22:55:54 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/22 00:38:03 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/22 19:42:14 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,7 @@ void	 set_es_object_gui(t_editor *editor, int id)
 void			set_object_default(t_doom *doom, t_object *object)
 {
 	if (object->type == OBJECT_ITEMSTACK)
-	{
-		t_item	*item = create_item_weapon_gun(surface_to_image(doom, doom->textures.gun0), surface_to_image(doom, doom->textures.gun0));
-		if (!(object->of.itemstack = create_itemstack(item, 1)))
-			return ;
-	}
+		object->of.itemstack = create_itemstack_from_type(doom, ITEM_AMMO, -1);
 	else if (object->type == OBJECT_ENTITY)
 		object->of.entity = create_enemy_entity(doom);
 	else if (object->type == OBJECT_SPRITE)
@@ -56,12 +52,10 @@ static t_bool			action_performed(t_component *cmp, t_doom *doom)
 			object->type = ((t_select *)cmp)->items->values[((t_select *)cmp)->selected_item].value;
 			if (object->type != OBJECT_NONE)
 			{
-				printf("CALL ?\n");
 				set_object_default(doom, object);
 				set_es_object_gui(&doom->editor, object->type);
 			}
 		}
-
 	}
 	if (cmp == editor->settings.guis[ES_GUI_OBJECT].components->values[1])
 	{
@@ -96,10 +90,7 @@ void			g_es_object_enter(t_gui *self, t_doom *doom)
 	doom->editor.settings.guis_object[OBJECT_MODEL] = (t_gui){ .render = g_es_wall_render, .on_enter = g_es_wall_enter };
 
 	if (object->type != OBJECT_NONE)
-	{
-		printf("ALLO ?\n");
 		set_es_object_gui(&doom->editor, object->type);
-	}
 }
 
 void			g_es_object_on_event(t_gui *self, SDL_Event *event,

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 01:53:42 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/15 16:20:47 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/22 20:30:04 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,11 +104,78 @@ t_bool		read_points(t_ressource_manager *r)
 	return (TRUE);
 }
 
+t_bool		read_item(t_ressource_manager *r, t_item **item)
+{
+	t_item_type		item_type;
+	t_weapon_type	weapon_type;
+
+	item_type = ITEM_UNKNOWN;
+	weapon_type = -1;
+	if (!io_memcpy(&r->reader, &item_type, sizeof(t_item_type)))
+		return (FALSE);
+	if (item_type == ITEM_WEAPON && !io_memcpy(&r->reader, &weapon_type, sizeof(t_weapon_type)))
+		return (FALSE);
+	*item = create_item_from_type(r->doom, item_type, weapon_type);
+	if (!*item)
+		return (FALSE);
+	return (TRUE);
+}
+
+t_bool		read_itemstack(t_ressource_manager *r, t_itemstack **is)
+{
+	int				amount;
+	t_item			*item;
+
+	if (!io_memcpy(&r->reader, &amount, sizeof(int)))
+		return (FALSE);
+	if (!read_item(r, &item))
+		return (FALSE);
+	if (!(*is = create_itemstack(item, amount)))
+		return (FALSE);
+	return (TRUE);
+}
+
+t_bool		read_object(t_ressource_manager *r, t_object *object)
+{
+	t_wr_object	wr_object;
+
+	if (!io_memcpy(&r->reader, &wr_object, sizeof(t_wr_object)))
+		return (FALSE);
+	*object = (t_object) { .type = wr_object.type, .pos = wr_object.pos,
+		.scale = wr_object.scale, .no_light = wr_object.no_light };
+
+	if (wr_object.type == OBJECT_ITEMSTACK && !read_itemstack(r, &object->of.itemstack))
+		return (FALSE);
+	return (TRUE);
+}
+
+t_bool		read_objects(t_ressource_manager *r)
+{
+	int			objects_count;
+	int			i;
+	t_object	o;
+
+	if (!io_memcpy(&r->reader, &objects_count, sizeof(int)))
+		return (FALSE);
+	
+	i = -1;
+	while (++i < objects_count)
+	{
+		if (!read_object(r, &o))
+			return (FALSE);
+		if (!append_objects_array(&r->doom->editor.objects, o))
+			return (FALSE);
+	}
+	return (TRUE);
+}
+
 t_bool		read_map(t_ressource_manager *r)
 {
 	if (!read_points(r))
 		return (FALSE);
 	if (!read_rooms(r))
+		return (FALSE);
+	if (!read_objects(r))
 		return (FALSE);
 	return (TRUE);
 }

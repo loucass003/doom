@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/21 03:07:14 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/22 19:16:18 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,10 +122,10 @@ void	init_bsp(t_doom *doom)
 	append_renderables_array(&doom->renderables, ellipsoid);
 
 	t_renderable itemstack;
-	t_item *weapon = create_item_weapon_gun(surface_to_image(doom, doom->textures.gun0), surface_to_image(doom, doom->textures.gun0));
-	t_item *axe = create_item_weapon_axe(surface_to_image(doom, doom->textures.axe), surface_to_image(doom, doom->textures.axe));
-	t_item *ammo = create_item_ammo(surface_to_image(doom, doom->textures.ammo1));
-	t_item *heal = create_item_heal(surface_to_image(doom, doom->textures.medkit));
+	t_item *weapon = create_item_weapon_gun(doom->res_manager.ressources->values[2], doom->res_manager.ressources->values[3]);
+	t_item *axe = create_item_weapon_axe(doom->res_manager.ressources->values[2], doom->res_manager.ressources->values[4]);
+	t_item *ammo = create_item_ammo(doom->res_manager.ressources->values[2]);
+	t_item *heal = create_item_heal(doom->res_manager.ressources->values[2]);
 	create_itemstack_renderable(&itemstack, weapon, 1);
 	itemstack.position = (t_vec3){ -7, 1.5, 58 };
 	append_renderables_array(&doom->renderables, itemstack);
@@ -198,7 +198,7 @@ int		main(int argc, char **argv)
 	//doom.sphere_primitive.octree = create_octree(&doom, &doom.sphere_primitive);
 	init_sdl(&doom);
 	obj_test(&doom);
-	init_bsp(&doom);
+	
 	init_lightning(&doom);
 	game_loop(&doom);
 	save_datapack(&doom);

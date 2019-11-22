@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/25 05:41:51 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/14 05:28:24 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/22 19:57:19 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,21 @@ typedef struct		s_wr_room
 	int				floor_res_index;
 	int				ceiling_res_index;
 }					t_wr_room;
+
+typedef struct		s_wr_sprite
+{
+	t_bool			always_facing_player;
+	int				texture_index;
+	t_vec3			hitbox_radius;
+}					t_wr_sprite;
+
+typedef struct		s_wr_object
+{
+	t_object_type	type;
+	t_vec3			pos;
+	t_vec3			scale;
+	t_bool			no_light;
+}					t_wr_object;
 
 typedef struct		s_wr_wall
 {
