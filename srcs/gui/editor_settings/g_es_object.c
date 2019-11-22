@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 22:55:54 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/21 18:09:06 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/22 00:38:03 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void			g_es_object_enter(t_gui *self, t_doom *doom)
 
 	doom->editor.settings.guis_object[OBJECT_PLAYER] = (t_gui){ .render = g_es_obj_player_render, .on_enter = g_es_obj_player_enter };
 	doom->editor.settings.guis_object[OBJECT_ITEMSTACK] = (t_gui){ .render = g_es_obj_itemstack_render, .on_enter = g_es_obj_itemstack_enter };
-	doom->editor.settings.guis_object[OBJECT_SPRITE] = (t_gui){ .render = g_es_wall_render, .on_enter = g_es_wall_enter };
+	doom->editor.settings.guis_object[OBJECT_SPRITE] = (t_gui){ .render = g_es_obj_sprite_render, .on_enter = g_es_obj_sprite_enter };
 	doom->editor.settings.guis_object[OBJECT_ENTITY] = (t_gui){ .render = g_es_wall_render, .on_enter = g_es_wall_enter };
 	doom->editor.settings.guis_object[OBJECT_MODEL] = (t_gui){ .render = g_es_wall_render, .on_enter = g_es_wall_enter };
 
