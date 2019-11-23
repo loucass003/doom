@@ -6,7 +6,7 @@
 #    By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/07 14:49:27 by llelievr          #+#    #+#              #
-#    Updated: 2019/11/12 17:06:42 by llelievr         ###   ########.fr        #
+#    Updated: 2019/11/23 10:38:06 by llelievr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,7 +51,7 @@ dev: CFLAGS +=-g
 dev: FT_TASK = dev 
 dev: re
 
-$(OBJS): Makefile src.mk
+$(OBJS): Makefile
 
 $(OBJDIR)%.o: $(SRCDIR)%.c
 	@$(PRECOMPILE)
@@ -81,6 +81,7 @@ re: fclean $(NAME)
 get_files:
 	@find srcs -type f -name '*.c' | sed 's/srcs\///g' | sed 's/^/SRC+=/' > src.mk
 
-include $(wildcard $(DEPSDIR)/**/*.d)
+
+include $(shell find $(DEPSDIR) -iname "*.d")
 
 .PHONY: clean fclean re all get_files

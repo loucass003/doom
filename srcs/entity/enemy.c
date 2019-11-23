@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/30 16:36:08 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/21 03:07:09 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/23 16:26:40 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,12 @@ t_entity	*create_enemy_entity(t_doom *doom)
 
 t_bool		create_enemy(t_doom *doom, t_renderable *r)
 {
-	if (!create_sprite_renderable(r, (t_mtl){ .texture_map = surface_to_image(doom, doom->textures.sprite), .texture_map_set = TRUE }, (t_vec2){ 8, 7 }))
+	t_sprite	*sprite;
+
+	if (!(sprite = create_sprite((t_vec2){ 8, 7 }, doom->res_manager.ressources->values[5])))
+		return (FALSE);
+
+	if (!create_sprite_renderable(r, sprite))
 		return (FALSE);
 	
 	set_current_cell(r, 0, 0);

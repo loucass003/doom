@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/28 16:27:28 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/21 03:32:50 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/23 16:27:58 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ typedef struct	s_sprite
 }				t_sprite;
 
 void			set_current_cell(t_renderable *r, int x, int y);
-t_bool			create_sprite_renderable(t_renderable *r, t_mtl mtl, t_vec2 cells_count);
+t_bool			create_sprite_renderable(t_renderable *r, t_sprite *sprite);
 t_sprite		*create_sprite(t_vec2 cells_count, t_ressource *texture);
 void			compute_sprite_hitbox(t_renderable *r);	
 

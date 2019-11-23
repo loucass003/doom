@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 15:55:03 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/22 15:56:02 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/23 16:56:37 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "editor.h"
 #include "render.h"
 #include "octree.h"
+#include "sprite.h"
 
 t_bool	triangulate_floor_ceil(t_renderable *r, t_vec3 n, int *filter, int filter_len, t_mtl *mtl)
 {
@@ -153,8 +154,8 @@ t_bool		create_room_mesh(t_renderable *r, t_editor *editor, t_room *room)
 	r->scale = (t_vec3){ 1, 1, 1 };
 	r->dirty = TRUE;
 	r->visible = TRUE;
-	//r->wireframe = TRUE;
-	//r->wireframe_color = 0xFFFF0000;
+	// r->wireframe = TRUE;
+	r->wireframe_color = 0xFFFF0000;
 	return (TRUE);
 }
 
@@ -215,6 +216,16 @@ t_bool		editor_setmap(t_editor *editor)
 			create_itemstack_renderable(&r, itemstack->of, itemstack->amount);
 			r.position = ft_vec3_div_s(object->pos, 5);
 			r.position.y += r.scale.y;
+			if (!append_renderables_array(&editor->doom->renderables, r))
+				return (FALSE);
+		}
+		else if (object->type == OBJECT_SPRITE)
+		{
+			t_renderable 	r;
+			
+			if (!create_sprite_renderable(&r, object->of.sprite))
+				return (FALSE);
+			r.position = ft_vec3_div_s(object->pos, 5);
 			if (!append_renderables_array(&editor->doom->renderables, r))
 				return (FALSE);
 		}

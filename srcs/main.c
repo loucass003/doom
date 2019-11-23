@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/22 19:16:18 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/23 16:28:43 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,17 +101,17 @@ void	init_bsp(t_doom *doom)
 	// sprite.entity->pos_offset.y = -2.5;
 	// // sprite.entity->velocity.x += 4;
 	// append_renderables_array(&doom->renderables, sprite);
-	t_renderable sprite;
-	create_sprite_renderable(&sprite, (t_mtl){ .texture_map = surface_to_image(doom, doom->textures.machin), .texture_map_set = TRUE }, (t_vec2){ 1, 1 });
-	// set_current_cell(&sprite, 0, 0);
-	sprite.scale = (t_vec3){ 5, 6, 5 };
-	sprite.position.y = sprite.scale.y / 2;
-	sprite.show_hitbox = TRUE;
-	sprite.hitbox_offset.y -= 1.5;
-	t_sprite *s = sprite.sprite;
-	s->hitbox_radius = (t_vec3){ 1.5, 2, 1.5 };
-	compute_sprite_hitbox(&sprite);
-	append_renderables_array(&doom->renderables, sprite);
+	// t_renderable sprite;
+	// create_sprite_renderable(&sprite, (t_mtl){ .texture_map = surface_to_image(doom, doom->textures.machin), .texture_map_set = TRUE }, (t_vec2){ 1, 1 });
+	// // set_current_cell(&sprite, 0, 0);
+	// sprite.scale = (t_vec3){ 5, 6, 5 };
+	// sprite.position.y = sprite.scale.y / 2;
+	// sprite.show_hitbox = TRUE;
+	// sprite.hitbox_offset.y -= 1.5;
+	// t_sprite *s = sprite.sprite;
+	// s->hitbox_radius = (t_vec3){ 1.5, 2, 1.5 };
+	// compute_sprite_hitbox(&sprite);
+	// append_renderables_array(&doom->renderables, sprite);
 
 	t_renderable ellipsoid;
 	create_ellipsoid(&ellipsoid, 0xFFFF0000, (t_vec2){ 30, 30 }, (t_vec3){ 1, 1, 1 });

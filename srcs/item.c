@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 20:16:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/22 19:29:18 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/23 16:27:31 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,7 +202,9 @@ t_bool	create_itemstack_renderable(t_renderable *r, t_item *item, int amount)
 {
 	t_sprite	*sprite;
 
-	if (!create_sprite_renderable(r, (t_mtl){ .texture_map = item->image->data.texture, .texture_map_set = TRUE }, (t_vec2){ 1, 1 }))
+	if (!(sprite = create_sprite((t_vec2){ 1, 1 }, item->image)))
+		return (FALSE);
+	if (!create_sprite_renderable(r, sprite))
 		return (FALSE);
 	r->of.type = RENDERABLE_ITEMSTACK;
 	if (!(r->of.data.itemstack = create_itemstack(item, amount)))

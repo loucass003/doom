@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/28 16:17:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/21 03:33:07 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/23 16:25:22 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,14 +65,14 @@ t_sprite	*create_sprite(t_vec2 cells_count, t_ressource *texture)
 	return (sprite);
 }
 
-t_bool	create_sprite_renderable(t_renderable *r, t_mtl mtl, t_vec2 cells_count)
+t_bool	create_sprite_renderable(t_renderable *r, t_sprite *sprite)
 {
 	ft_bzero(r, sizeof(t_renderable));
 	r->of.type = RENDERABLE_UNKNOWN;
 	if (!(r->sprite = ft_memalloc(sizeof(t_sprite))))
 		return (FALSE);
 	r->sprite->always_facing_player = TRUE;
-	r->sprite->cells_count = cells_count;
+	r->sprite->cells_count = sprite->cells_count;
 	if(!(r->vertices = create_4dvertices_array(4)))
 		return (free_renderable(&r, FALSE));
 	if(!(r->vertex = create_2dvertices_array(4)))
@@ -83,7 +83,7 @@ t_bool	create_sprite_renderable(t_renderable *r, t_mtl mtl, t_vec2 cells_count)
 		return (free_renderable(&r, FALSE));
 	if(!(r->materials = create_mtllist(1)))
 		return (free_renderable(&r, FALSE));
-	if (!append_mtllist(&r->materials, mtl))
+	if (!append_mtllist(&r->materials, (t_mtl){ .texture_map = sprite->texture->data.texture, .texture_map_set = TRUE }))
 		return (free_renderable(&r, FALSE));
 	add_point(r, (t_vec4){ -0.5, -0.5, 0, 1 }, (t_vec2){ 1, 0 });
 	add_point(r, (t_vec4){ 0.5, -0.5, 0, 1 }, (t_vec2){ 1, 1 });

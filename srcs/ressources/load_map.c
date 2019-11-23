@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 01:53:42 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/22 20:30:04 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/23 11:34:02 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "doom.h"
 #include "ressource.h"
 #include "write_structs.h"
+#include "sprite.h"
 
 t_bool		read_wall(t_ressource_manager *r, t_walls *walls)
 {
@@ -135,6 +136,23 @@ t_bool		read_itemstack(t_ressource_manager *r, t_itemstack **is)
 	return (TRUE);
 }
 
+t_bool		read_sprite(t_ressource_manager *r, t_sprite **sprite)
+{
+	t_wr_sprite		wr_sprite;
+	t_sprite		*s;
+
+	if (!io_memcpy(&r->reader, &wr_sprite, sizeof(t_wr_sprite)))
+		return (FALSE);
+	if (wr_sprite.texture_index < 0 || wr_sprite.texture_index >= r->ressources->len)
+		return (FALSE);
+	if (!(s = create_sprite((t_vec2){ 1, 1 }, r->ressources->values[wr_sprite.texture_index])))
+		return (FALSE);
+	s->always_facing_player = wr_sprite.always_facing_player;
+	s->hitbox_radius = wr_sprite.hitbox_radius;
+	*sprite = s;
+	return (TRUE);
+}
+
 t_bool		read_object(t_ressource_manager *r, t_object *object)
 {
 	t_wr_object	wr_object;
@@ -143,8 +161,9 @@ t_bool		read_object(t_ressource_manager *r, t_object *object)
 		return (FALSE);
 	*object = (t_object) { .type = wr_object.type, .pos = wr_object.pos,
 		.scale = wr_object.scale, .no_light = wr_object.no_light };
-
 	if (wr_object.type == OBJECT_ITEMSTACK && !read_itemstack(r, &object->of.itemstack))
+		return (FALSE);
+	else if (wr_object.type == OBJECT_SPRITE && !read_sprite(r, &object->of.sprite))
 		return (FALSE);
 	return (TRUE);
 }
@@ -157,7 +176,6 @@ t_bool		read_objects(t_ressource_manager *r)
 
 	if (!io_memcpy(&r->reader, &objects_count, sizeof(int)))
 		return (FALSE);
-	
 	i = -1;
 	while (++i < objects_count)
 	{
