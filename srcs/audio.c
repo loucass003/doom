@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   audio.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rle-ru <rle-ru@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/22 13:41:15 by lloncham          #+#    #+#             */
-/*   Updated: 2019/11/12 20:57:41 by rle-ru           ###   ########.fr       */
+/*   Updated: 2019/11/23 19:48:30 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,14 @@ int				get_source(t_audio *s)
 
 void			entity_sound(t_entity *s, int buffer, int source, int peach)
 {
-	alSourcei(s->source[source], AL_BUFFER, s->packet.doom->audio.buffer[buffer]);
-	alSourcei(s->source[source], AL_SOURCE_RELATIVE, 0);
-	alSourcef(s->source[source], AL_PITCH, peach); //RAPIDITÉ
-	alSourcef(s->source[source], AL_GAIN, 15);
-	alSourcei(s->source[source], AL_DISTANCE_MODEL, AL_LINEAR_DISTANCE_CLAMPED);
-	alSource3f(s->source[source], AL_POSITION, s->position.x, s->position.y, s->position.z);
-	alSourcei(s->source[source], AL_LOOPING, AL_FALSE);
-	alSourcePlay(s->source[source]);
+	alSourcei(s->sources[source], AL_BUFFER, s->packet.doom->audio.buffer[buffer]);
+	alSourcei(s->sources[source], AL_SOURCE_RELATIVE, 0);
+	alSourcef(s->sources[source], AL_PITCH, peach); //RAPIDITÉ
+	alSourcef(s->sources[source], AL_GAIN, 15);
+	alSourcei(s->sources[source], AL_DISTANCE_MODEL, AL_LINEAR_DISTANCE_CLAMPED);
+	alSource3f(s->sources[source], AL_POSITION, s->position.x, s->position.y, s->position.z);
+	alSourcei(s->sources[source], AL_LOOPING, AL_FALSE);
+	alSourcePlay(s->sources[source]);
 }
 
 void			player_sound(t_audio *s, int source, int buffer, float peach)
@@ -130,11 +130,6 @@ t_bool			init_openal(t_doom *doom)
 	// alListenerfv(AL_POSITION, listenerPos);
 	// alListenerfv(AL_VELOCITY, listenerVel);
 	// alListenerfv(AL_ORIENTATION, listenerOri);
-	
-	t_vec3 pos;
-	pos.x = 0;
-	pos.y = 0;
-	pos.z = 0;
 	alGenSources(MAX_SOUNDS, doom->audio.source);
 	return (TRUE);
 }

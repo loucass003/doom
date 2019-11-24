@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 20:16:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/23 16:27:31 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/23 19:50:17 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	on_use_weapon(t_doom *doom, t_itemstack *is)
 	{
 		doom->gameover.totaldamage += weapon->damage;
 		hit.renderable->of.data.entity->life -= weapon->damage;
-		hit.renderable->of.data.entity->focus = TRUE;
+		hit.renderable->of.data.entity->of.enemy.focus = TRUE;
 	}
 }
 
@@ -89,7 +89,7 @@ void	on_use_axe(t_doom *doom, t_itemstack *is)
 	{
 		doom->gameover.totaldamage += weapon->damage;
 		hit.renderable->of.data.entity->life -= weapon->damage;
-		hit.renderable->of.data.entity->focus = TRUE;
+		hit.renderable->of.data.entity->of.enemy.focus = TRUE;
 	}
 }
 

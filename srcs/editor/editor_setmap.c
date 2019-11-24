@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 15:55:03 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/23 16:56:37 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/24 00:57:19 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,7 +152,7 @@ t_bool		create_room_mesh(t_renderable *r, t_editor *editor, t_room *room)
 	transform_renderable(r);
 	r->octree = create_octree(editor->doom, r);
 	r->scale = (t_vec3){ 1, 1, 1 };
-	r->dirty = TRUE;
+	r->dirty = TRUE; 
 	r->visible = TRUE;
 	// r->wireframe = TRUE;
 	r->wireframe_color = 0xFFFF0000;
@@ -226,6 +226,16 @@ t_bool		editor_setmap(t_editor *editor)
 			if (!create_sprite_renderable(&r, object->of.sprite))
 				return (FALSE);
 			r.position = ft_vec3_div_s(object->pos, 5);
+			if (!append_renderables_array(&editor->doom->renderables, r))
+				return (FALSE);
+		}
+		else if (object->type == OBJECT_ENTITY)
+		{
+			t_renderable r;
+			if (object->of.entity == ENTITY_ENEMY)
+				create_enemy_renderable(editor->doom, &r);
+			r.of.data.entity->position = ft_vec3_div_s(object->pos, 5);
+			r.of.data.entity->position.y += r.of.data.entity->radius.y;
 			if (!append_renderables_array(&editor->doom->renderables, r))
 				return (FALSE);
 		}

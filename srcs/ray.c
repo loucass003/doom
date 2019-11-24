@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/14 16:37:29 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/15 19:12:22 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/24 00:57:02 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ t_collision		ray_hit_world(t_doom *doom, t_renderables *renderables, t_ray ray)
 	while (++i < renderables->len)
 	{
 		r = &renderables->values[i];
-		if (r->of.type == RENDERABLE_ENTITY && r->of.data.entity->died)
+		if (r->of.type == RENDERABLE_ENTITY && r->of.data.entity->type == ENTITY_ENEMY && r->of.data.entity->of.enemy.died)
 			continue;
 		if (r->has_hitbox && r->hitbox.type == COLLIDE_ELLIPSOID)
 		{

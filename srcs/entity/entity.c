@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   entity.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rle-ru <rle-ru@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 22:00:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/19 15:46:57 by rle-ru           ###   ########.fr       */
+/*   Updated: 2019/11/24 03:42:05 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void		check_collision(t_entity *entity, t_collide_aabb area)
 	while (++i < entity->packet.doom->renderables->len)
 	{
 		r = entity->packet.doom->renderables->values[i];
-		if ((r.of.type == RENDERABLE_ENTITY && r.of.data.entity == entity) || (r.of.type == RENDERABLE_ENTITY && r.of.data.entity->died))
+		if (r.of.data.entity == entity || r.of.data.entity->type == ENTITY_GRENADA || (r.of.type == RENDERABLE_ENTITY && r.of.data.entity->of.enemy.died))
 			continue;
 		new_area = area;
 		t_physics_data data = entity->packet;
@@ -136,22 +136,19 @@ void		check_collision(t_entity *entity, t_collide_aabb area)
 	}
 }
 
-// void		check_grounded(t_entity *entity)
-// {
-// 	t_plane	plane;
-// 	float	f;
+void		check_grounded(t_entity *entity)
+{
+	// t_plane	plane;
+	// float	f;
 
-// 	if (!entity->packet.found_colision)
-// 		return ;
-// 	plane = triangle_to_plane(
-// 		ft_vec3_mul(entity->packet.a, entity->radius),
-// 		ft_vec3_mul(entity->packet.b, entity->radius),
-// 		ft_vec3_mul(entity->packet.c, entity->radius)
-// 	);
-// 	f = ft_vec3_dot(plane.normal, (t_vec3){0, 1, 0});
-// 	if (f >= 0.8)
-// 		entity->grounded = TRUE;
-// }
+	// if (!entity->packet.found_colision)
+	// 	return ;
+	// f = ft_vec3_dot(entity->packet.plane.normal, (t_vec3){0, 1, 0});
+	// if (f >= 0.8 && entity->velocity.y <= 0 && entity->packet.intersect_point.y <= entity->position.y)
+	// 	entity->grounded = TRUE;
+	// else
+	// 	entity->grounded = FALSE;
+}
 
 
 t_vec3		ft_vec3_trim(t_vec3 v, float max_len)
@@ -187,10 +184,12 @@ t_vec3		collide_with_world(t_entity *entity, t_vec3 e_position, t_vec3 e_velocit
 	t_vec3 min = ft_vec3_sub(r3_position, query_radius);
 	t_vec3 max = ft_vec3_add(r3_position, query_radius);
 	check_collision(entity, (t_collide_aabb){ .min = min, .max = max });
+	check_grounded(entity);
 
 	t_vec3 dest_point = ft_vec3_add(e_position, e_velocity);
 	if (entity->packet.found_colision == FALSE)
 	{
+		entity->grounded = FALSE;
 		return dest_point;
 	}
 
@@ -210,8 +209,15 @@ t_vec3		collide_with_world(t_entity *entity, t_vec3 e_position, t_vec3 e_velocit
 	t_plane sliding_plane = plane_new(slide_plane_origin, slide_plane_normal);
 	float slide_factor = distance_to_plane(sliding_plane, dest_point);
 
-	if (entity->packet.intersect_point.y <= e_position.y && sliding_plane.normal.y > 0.8 && e_velocity.y < 0)
-		return new_base_point;
+	
+	if (entity->type != ENTITY_GRENADA && entity->packet.intersect_point.y <= e_position.y && e_velocity.y < 0)
+	{
+		if (sliding_plane.normal.y > 0.99)
+			entity->grounded = TRUE;
+		if (sliding_plane.normal.y > 0.95)
+			return new_base_point;
+	}
+	// entity->grounded = FALSE;
 	t_vec3 new_dest_point = ft_vec3_sub(dest_point, ft_vec3_mul_s(slide_plane_normal, slide_factor));
 	t_vec3 new_velocity = ft_vec3_sub(new_dest_point, entity->packet.intersect_point);
 	if (ft_vec3_len(new_velocity) < very_close_dist)
@@ -242,7 +248,7 @@ void		collide_and_slide(t_entity *entity)
 	e_velocity = ft_vec3_div(gravity, entity->packet.e_radius);
 	entity->packet.depth = 0;
 	final_pos = collide_with_world(entity, final_pos, e_velocity);
-//	entity->packet.r3_velocity = (t_vec3){0, 0, 0};
+	//entity->packet.r3_velocity = (t_vec3){0, 0, 0};
 	entity->packet.r3_posision = ft_vec3_mul(final_pos, entity->packet.e_radius);
 }
 
@@ -256,7 +262,7 @@ void		entity_update(t_doom *doom, t_entity *entity, double dt)
 		if ((entity->velocity.x || entity->velocity.z))
 		{
 				// && entity->velocity.y == 0)
-			alGetSourcei(entity->source[2], AL_SOURCE_STATE, &status);
+			alGetSourcei(entity->sources[2], AL_SOURCE_STATE, &status);
 			if (status != AL_PLAYING)
 				entity_sound(entity, 9, 2, 1);
 		}
@@ -273,19 +279,39 @@ void		entity_update(t_doom *doom, t_entity *entity, double dt)
 		entity->velocity.y = fmax(-4, entity->velocity.y);
 	}
 	else
-		entity->velocity.y -= 40;
+	{	
+		if (entity->grounded && entity->jump && entity->velocity.y < 0)
+			entity->velocity.y = fmax(0, entity->velocity.y);
+		if (entity->jump && entity->velocity.y <= 10 && !entity->packet.found_colision)
+			entity->velocity.y += 1.5;
+		if (entity->jump && entity->velocity.y >= 10)
+			entity->jump = FALSE;
+		if (!entity->jump)
+		{
+			entity->velocity.y -= !entity->grounded ? 8 : 40;
+			entity->velocity.y = fmax(-40, entity->velocity.y);
+		}
+	}
 	entity->packet.r3_posision = entity->position;
 	entity->packet.r3_velocity = entity->velocity;
 	entity->packet.e_radius = entity->radius;
-	entity->packet.grounded = entity->grounded;
+	entity->packet.grounded = FALSE;
 	entity->packet.dt = dt;
 	entity->packet.doom = doom;
 	collide_and_slide(entity);
+	if (entity->grounded)
+		entity->jump = FALSE;
+
 	entity->position = entity->packet.r3_posision;
 	if (entity->type == ENTITY_GRENADA)
 		entity->velocity = ft_vec3_mul_s(entity->velocity, 0.999);
+	else if (entity->type == ENTITY_ENEMY)
+		entity->velocity = (t_vec3){ 0, 0, 0 };
 	else
-		entity->velocity = ft_vec3_mul_s(entity->velocity, 0.5);
+	{
+		entity->velocity.x *= !entity->grounded && !entity->packet.found_colision ? 0.99 : 0.5;
+		entity->velocity.z *= !entity->grounded && !entity->packet.found_colision ? 0.99 : 0.5;
+	}
 	entity->radius = entity->packet.e_radius;
-	entity->grounded = entity->packet.grounded;
+//	entity->grounded = entity->packet.grounded;
 }

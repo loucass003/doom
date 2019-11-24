@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/15 23:50:58 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/17 01:10:42 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/24 01:43:25 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -250,10 +250,10 @@ t_physics_data		*check_triangle(t_renderable *r, t_physics_data *packet, t_vec3 
 			packet->found_colision = TRUE;
 			packet->r = r;
 			// packet->t = t;
-			// packet->a = p1;
-			// packet->b = p2;
-			// packet->c = p3;
-			// packet->plane = plane;
+			packet->a = p1;
+			packet->b = p2;
+			packet->c = p3;
+			packet->plane = plane;
 		}
 
 		t_vec3 n = ft_vec3_norm(ft_vec3_sub(colision_point, packet->e_velocity));

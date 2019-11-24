@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 14:02:33 by rle-ru            #+#    #+#             */
-/*   Updated: 2019/11/19 17:15:23 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/24 01:47:57 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_bool	create_grenada(t_renderable *r, t_doom *doom)
 	grenada->range = 10;
 	r->scale = (t_vec3){ 0.10, 0.10, 0.10 };
 	r->of.data.entity->radius = (t_vec3){ 0.5, 0.5, 0.5 };
-	r->show_hitbox = TRUE;
-	compute_ellipsoid_hitbox(r, r->of.data.entity->position, r->of.data.entity->radius);
+	//r->show_hitbox = TRUE;
+	//compute_ellipsoid_hitbox(r, r->of.data.entity->position, r->of.data.entity->radius);
 	return (TRUE);
 }

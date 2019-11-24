@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:14:55 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/21 14:46:33 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/24 03:19:38 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,25 +60,7 @@ static void	events_window(t_doom *doom, SDL_Event *event)
 		if (is->of && is->of->on_use)
 			is->of->on_use(doom, is);
 	}
-	// if (event->type == SDL_MOUSEBUTTONUP && doom->current_gui >= 0)
-	// {
-	// 	for (int i = 0; i < doom->guis[doom->current_gui].components->len; i++)
-	// 		if (doom->guis[doom->current_gui].components->values[i]->on_click)
-	// 			doom->guis[doom->current_gui].components->values[i]
-	// 				->on_click(doom->guis[doom->current_gui].components->values[i],
-	// 				(t_vec2){ event->button.x, event->button.y }, doom);
-	// }
-	// if (event->type == SDL_MOUSEMOTION && doom->current_gui >= 0)
-	// {
-	// 	doom->mouse = (t_vec2){ event->motion.x, event->motion.y };
-	// 	for (int i = 0; i < doom->guis[doom->current_gui].components->len; i++)
-	// 	{
-	// 		if (doom->guis[doom->current_gui].components->values[i]->on_mouse_move)
-	// 			doom->guis[doom->current_gui].components->values[i]
-	// 				->on_mouse_move(doom->guis[doom->current_gui].components->values[i],
-	// 				doom->mouse, doom);
-	// 	}
-	// }
+	
 	if (event->type == SDL_KEYDOWN && (key == SDL_SCANCODE_P))
 	{
 		t_ray ray = create_shoot_ray(doom->player, (t_vec3){0, 0, 1});
@@ -89,7 +71,8 @@ static void	events_window(t_doom *doom, SDL_Event *event)
 			if (r && r->of.type != RENDERABLE_ENTITY)
 			{
 				t_renderable enemy;
-				create_enemy(doom, &enemy);
+				
+				create_enemy_renderable(doom, &enemy);
 				enemy.of.data.entity->position = hit.point;
 				enemy.of.data.entity->position.y += enemy.of.data.entity->radius.y;
 				append_renderables_array(&doom->renderables, enemy);
@@ -110,15 +93,6 @@ static void	events_window(t_doom *doom, SDL_Event *event)
 		forward.z *= 14;
 		grenada.of.data.entity->velocity = forward;
 		append_renderables_array(&doom->renderables, grenada);
-	}
-
-	if (event->type == SDL_KEYDOWN && (key == SDL_SCANCODE_O))
-	{
-		if (doom->renderables->values[1].rotation.y != 0)
-			doom->renderables->values[1].rotation.y = 0;
-		else
-			doom->renderables->values[1].rotation.y = M_PI_2;
-		doom->renderables->values[1].dirty = TRUE;
 	}
 
 	if (event->type == SDL_KEYDOWN && (key == SDL_SCANCODE_SEMICOLON))
@@ -158,7 +132,7 @@ void	hook_events(t_doom *doom)
 		//long start = getMicrotime();
 		entity_update(doom, &doom->player.entity, doom->stats.delta);
 		//printf("delay %luus\n", getMicrotime() - start);
-		move_speed = 25;
+		move_speed = !doom->player.entity.grounded ? 0.5 : 5;
 		if (s[SDL_SCANCODE_W] || s[SDL_SCANCODE_S])
 		{
 			doom->player.entity.velocity.x += sinf(doom->player.entity.rotation.y) * (s[SDL_SCANCODE_W] ? 1 : -1) * move_speed;
@@ -169,10 +143,10 @@ void	hook_events(t_doom *doom)
 			doom->player.entity.velocity.x += -cosf(doom->player.entity.rotation.y) * (s[SDL_SCANCODE_D] ? 1 : -1) * move_speed;
 			doom->player.entity.velocity.z += sinf(doom->player.entity.rotation.y) * (s[SDL_SCANCODE_D] ? 1 : -1) * move_speed;
 		} 
-		if (s[SDL_SCANCODE_SPACE])
+		if (s[SDL_SCANCODE_SPACE] && !doom->player.entity.jump && doom->player.entity.grounded)
 		{ 
-			doom->player.entity.grounded = FALSE;
-			doom->player.entity.velocity.y += 50;
+			doom->player.entity.jump = TRUE;
+			//doom->player.entity.velocity.y += 50;
 		}
 		if (s[SDL_SCANCODE_LSHIFT])
 		{ 

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/30 16:36:08 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/23 16:26:40 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/24 03:20:29 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,108 +17,102 @@
 #include "entity.h"
 #include <stdlib.h>
 
-void		compute_enemy_hitbox(t_renderable *r)
+void		compute_entity_hitbox(t_renderable *r)
 {
 	const t_entity	*entity = r->of.data.entity;
 
 	compute_ellipsoid_hitbox(r, entity->position, entity->radius);
 }
 
-t_entity	*create_enemy_entity(t_doom *doom)
-{
-	t_entity	*enemy;
-
-	if (!(enemy = ft_memalloc(sizeof(t_entity))))
-		return (NULL);
-	enemy->type = ENTITY_ENEMY;
-	enemy->packet.doom = doom;
-	enemy->radius = (t_vec3){ 1, 2.5, 1 };
-	enemy->life = 1;
-	return (enemy);
-}
-
-t_bool		create_enemy(t_doom *doom, t_renderable *r)
+t_bool		create_enemy_renderable(t_doom *doom, t_renderable *r)
 {
 	t_sprite	*sprite;
+	t_entity	*enemy;
 
 	if (!(sprite = create_sprite((t_vec2){ 8, 7 }, doom->res_manager.ressources->values[5])))
 		return (FALSE);
-
 	if (!create_sprite_renderable(r, sprite))
 		return (FALSE);
-	
 	set_current_cell(r, 0, 0);
-	r->scale = (t_vec3){ 5, 5, 5 };
 	r->of.type = RENDERABLE_ENTITY;
-	if (!(r->of.data.entity = create_enemy_entity(doom)))
+	if (!(enemy = ft_memalloc(sizeof(t_entity))))
 		return (FALSE);
-	alGenSources(3, r->of.data.entity->source);
-	//r->show_hitbox = TRUE;
-	//r->entity->pos_offset.y = -r->entity->radius.y;
-	compute_enemy_hitbox(r);
+	enemy->type = ENTITY_ENEMY;
+	enemy->packet.doom = doom;
+	enemy->scale = (t_vec3){ 5, 5, 5 };
+	enemy->radius = (t_vec3){ 1, 2.5, 1 };
+	enemy->life = 1;
+	enemy->sources = enemy->of.enemy.sources;
+	alGenSources(3, enemy->sources);
+	r->of.data.entity = enemy;
+	r->scale = enemy->scale;
+	compute_entity_hitbox(r);
 	return (TRUE);
 }
 
 void		entity_update_enemy(t_doom *doom, t_entity *entity, double dt)
 {
+	t_entity_enemy	*enemy;
 	t_bool			walking;
 
-	if (entity->died)
+
+	enemy = &entity->of.enemy;
+	if (enemy->died)
 		return ;
-	if (entity->life <= 0 && !entity->diying)
+	if (entity->life <= 0 && !enemy->diying)
 	{
-		entity->diying = TRUE;
-		entity->animation_step = 5;
+		enemy->diying = TRUE;
+		enemy->animation_step = 5;
 		// play_music(&doom->audio, entity->position, 5, FALSE);
 		entity_sound(entity, 5, 0, 2);
 	}
-	entity->t0 += 5 * dt;
+	enemy->t0 += 5 * dt;
 	t_vec3 dir = ft_vec3_sub(doom->player.entity.position, entity->position);
  	t_vec3 norm_dir = ft_vec3_norm(dir);
 	t_ray ray = (t_ray){ .origin = doom->player.entity.position, .direction = ft_vec3_inv(norm_dir) };
 	t_vec3 view = ft_vec3_sub(doom->player.entity.position, entity->position);
 	view = vec3_rotate(view, (t_vec3){ 0, -entity->rotation.y, 0 });
 	float a = atan2(view.z, view.x);
-	entity->hit_data.collide = FALSE;
+	enemy->hit_data.collide = FALSE;
 
-	if ((a < 1.5 && a > -1.5) || entity->focus)
-		entity->hit_data = ray_hit_world(doom, doom->renderables, ray);
-	if (entity->hit_data.collide && entity->hit_data.renderable && entity->hit_data.renderable->of.data.entity == entity && entity->hit_data.dist < 50)
-		entity->focus = TRUE;
+	if ((a < 1.5 && a > -1.5) || enemy->focus)
+		enemy->hit_data = ray_hit_world(doom, doom->renderables, ray);
+	if (enemy->hit_data.collide && enemy->hit_data.renderable && enemy->hit_data.renderable->of.data.entity == entity && enemy->hit_data.dist < 50)
+		enemy->focus = TRUE;
 	else
 	{
-		entity->focus = FALSE;
-		entity->animation_step = 0;
+		enemy->focus = FALSE;
+		enemy->animation_step = 0;
 	}
 
-	if (entity->focus || entity->diying)
+	if (enemy->focus || enemy->diying)
 	{
 		entity->rotation.y = doom->player.camera.rotation.y + M_PI_2;
-		if (!entity->diying && entity->hit_data.dist > 20)
+		if (!enemy->diying && enemy->hit_data.dist > 20)
 			entity->velocity = ft_vec3_add(entity->velocity, ft_vec3_mul_s(norm_dir, 10));
 	}
-	if (entity->t0 > 1)
+	if (enemy->t0 > 1)
 	{
-		entity->t0 = 0;
-		entity->shooting = FALSE;
+		enemy->t0 = 0;
+		enemy->shooting = FALSE;
 		walking = ft_vec3_dot(entity->velocity, entity->velocity) != 0;
-		if (entity->hit_data.dist > 20)
+		if (enemy->hit_data.dist > 20)
 		{
-			entity->animation_step++;
-			if (entity->animation_step >= 5)
-				entity->animation_step = 1;
+			enemy->animation_step++;
+			if (enemy->animation_step >= 5)
+				enemy->animation_step = 1;
 		}
 		if (!walking)
-			entity->animation_step = 0;
-		if (entity->focus)
+			enemy->animation_step = 0;
+		if (enemy->focus)
 		{
 			if (!walking)
-				entity->animation_step = 6;
-			entity->t1++;
-			if (entity->t1 >= 5 && !walking && !entity->diying)
+				enemy->animation_step = 6;
+			enemy->t1++;
+			if (enemy->t1 >= 5 && !walking && !enemy->diying)
 			{
-				entity->shooting = TRUE;
-				entity->t1 = 0;
+				enemy->shooting = TRUE;
+				enemy->t1 = 0;
 
 				entity_sound(entity, 7, 1, 1);
 				uint8_t u = rand();
@@ -126,15 +120,15 @@ void		entity_update_enemy(t_doom *doom, t_entity *entity, double dt)
 					doom->player.entity.life -= 0.1;
 			}
 		}
-		if (entity->diying)
+		if (enemy->diying)
 		{
-			entity->animation_step = 5;
-			if (++entity->diying_step == 4){
-				entity->died = TRUE;
+			enemy->animation_step = 5;
+			if (++enemy->diying_step == 4){
+				enemy->died = TRUE;
 				doom->gameover.kill += 1;
 			}
 				
 		}
 	}
-	entity->velocity.y = 15;
+	//entity->velocity.y = 15;
 }

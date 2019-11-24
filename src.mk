@@ -89,6 +89,7 @@ SRC+=gui/g_gameover.c
 SRC+=gui/g_editor.c
 SRC+=gui/g_editor_settings.c
 SRC+=gui/gui.c
+SRC+=gui/editor_settings/object/g_es_obj_entity.c
 SRC+=gui/editor_settings/object/g_es_obj_itemstack.c
 SRC+=gui/editor_settings/object/g_es_obj_sprite.c
 SRC+=gui/editor_settings/object/g_es_obj_player.c

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/28 16:17:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/23 16:25:22 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/24 00:57:03 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,7 @@ t_bool	create_sprite_renderable(t_renderable *r, t_sprite *sprite)
 {
 	ft_bzero(r, sizeof(t_renderable));
 	r->of.type = RENDERABLE_UNKNOWN;
-	if (!(r->sprite = ft_memalloc(sizeof(t_sprite))))
-		return (FALSE);
-	r->sprite->always_facing_player = TRUE;
-	r->sprite->cells_count = sprite->cells_count;
+	r->sprite = sprite;
 	if(!(r->vertices = create_4dvertices_array(4)))
 		return (free_renderable(&r, FALSE));
 	if(!(r->vertex = create_2dvertices_array(4)))

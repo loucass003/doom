@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hitbox.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/10 01:05:07 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/08 15:30:37 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/11/23 19:57:03 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void		update_hitbox(t_renderable *r)
 	if (!r->has_hitbox)
 		return ;
 	if (r->of.type == RENDERABLE_ENTITY && r->of.data.entity->type == ENTITY_ENEMY)
-		compute_enemy_hitbox(r);
+		compute_entity_hitbox(r);
 	else if (r->sprite)
 		compute_sprite_hitbox(r);
 }

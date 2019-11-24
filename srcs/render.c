@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 16:49:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/19 17:02:03 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/23 19:52:22 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,21 +79,20 @@ void	render_renderable(t_render_context *ctx, t_renderable *r)
 		if(entity->type == ENTITY_ENEMY)
 		{
 			t_sprite	*sprite;
+			t_entity_enemy	*enemy;
 
-			if (r->sprite)
-			{
-				sprite = r->sprite;
-				t_vec3 view = ft_vec3_sub(ctx->camera->pos, entity->position);
-				view = vec3_rotate(view, (t_vec3){ 0, -entity->rotation.y, 0 });
-				float a = atan2(view.z, view.x);
-				float f = round(a * (4 / M_PI));
-				int texture = f;
-				if (entity->animation_step == 6)
-					texture = entity->shooting ? 2 : 1;
-				if (entity->diying)
-					texture = entity->diying_step;
-				set_current_cell(r, texture, entity->animation_step);
-			}
+			enemy = &entity->of.enemy;
+			sprite = r->sprite;
+			t_vec3 view = ft_vec3_sub(ctx->camera->pos, entity->position);
+			view = vec3_rotate(view, (t_vec3){ 0, -entity->rotation.y, 0 });
+			float a = atan2(view.z, view.x);
+			float f = round(a * (4 / M_PI));
+			int texture = f;
+			if (enemy->animation_step == 6)
+				texture = enemy->shooting ? 2 : 1;
+			if (enemy->diying)
+				texture = enemy->diying_step;
+			set_current_cell(r, texture, enemy->animation_step);
 		}
 		
 	}

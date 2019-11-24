@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 15:50:09 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/17 22:02:09 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/24 01:11:35 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,7 @@ void			g_editor_on_event(t_gui *self, SDL_Event *event, t_doom *doom)
 	{
 		if (event->key.keysym.scancode == SDL_SCANCODE_DELETE)
 			editor_delete_action(&doom->editor);
+		
 	}
 }
 

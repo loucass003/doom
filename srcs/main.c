@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/23 16:28:43 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/24 00:54:05 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,8 @@ t_bool	init_map(t_doom *doom)
 		return (FALSE);
 	if (!(doom->editor.objects = create_objects_array(15)))
 		return (FALSE);
+	if (!(doom->renderables = create_renderables_array(50)))
+		return (FALSE);
 	return (TRUE);
 }
 
@@ -190,12 +192,13 @@ int		main(int argc, char **argv)
 
 	if (!(doom.main_context.buffer = (float *)malloc((int)(S_WIDTH * S_HEIGHT) * sizeof(float))))
 		return (-1);
-	if (!(doom.renderables = create_renderables_array(50)))
-		return (-1);
+	
 	if (!create_ellipsoid(&doom.sphere_primitive, 0xFFFF0000, (t_vec2){ 12, 12 }, (t_vec3){ 1, 1, 1 }))
 		return (-1);
+	
 	post_process_obj(&doom, &doom.sphere_primitive);
-	//doom.sphere_primitive.octree = create_octree(&doom, &doom.sphere_primitive);
+//	doom.sphere_primitive.octree = create_octree(&doom, &doom.sphere_primitive);
+	printf("SPHERE %p\n", doom.sphere_primitive.octree);
 	init_sdl(&doom);
 	obj_test(&doom);
 	

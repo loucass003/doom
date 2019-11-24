@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 22:38:06 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/12 13:53:44 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/24 01:11:43 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,5 +50,11 @@ void	editor_delete_action(t_editor *editor)
 		remove_room(editor, editor->current_room);
 		select_room(editor, -1);
 		editor->line_start_cell = (t_vec2){ -1, -1 };
+	}
+	else if (editor->current_object != -1)
+	{
+		splice_objects_array(editor->objects, editor->current_object, 1);
+		editor->current_object = -1;
+		editor_settings_update(editor);
 	}
 }

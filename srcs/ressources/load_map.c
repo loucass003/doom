@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 01:53:42 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/23 11:34:02 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/23 22:55:53 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,13 @@ t_bool		read_sprite(t_ressource_manager *r, t_sprite **sprite)
 	return (TRUE);
 }
 
+t_bool		read_entity(t_ressource_manager *r, t_entity_type *type)
+{
+	if (!io_memcpy(&r->reader, type, sizeof(t_entity_type)))
+		return (FALSE);
+	return (TRUE);
+}
+
 t_bool		read_object(t_ressource_manager *r, t_object *object)
 {
 	t_wr_object	wr_object;
@@ -164,6 +171,8 @@ t_bool		read_object(t_ressource_manager *r, t_object *object)
 	if (wr_object.type == OBJECT_ITEMSTACK && !read_itemstack(r, &object->of.itemstack))
 		return (FALSE);
 	else if (wr_object.type == OBJECT_SPRITE && !read_sprite(r, &object->of.sprite))
+		return (FALSE);
+	else if (wr_object.type == OBJECT_ENTITY && !read_entity(r, &object->of.entity))
 		return (FALSE);
 	return (TRUE);
 }
