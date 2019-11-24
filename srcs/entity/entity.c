@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 22:00:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/24 03:42:05 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/24 18:36:21 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void		check_collision(t_entity *entity, t_collide_aabb area)
 	while (++i < entity->packet.doom->renderables->len)
 	{
 		r = entity->packet.doom->renderables->values[i];
-		if (r.of.data.entity == entity || r.of.data.entity->type == ENTITY_GRENADA || (r.of.type == RENDERABLE_ENTITY && r.of.data.entity->of.enemy.died))
+		if (r.of.data.entity == entity || (r.of.type == RENDERABLE_ENTITY && (r.of.data.entity->type == ENTITY_GRENADA || r.of.data.entity->of.enemy.died)))
 			continue;
 		new_area = area;
 		t_physics_data data = entity->packet;
@@ -210,11 +210,9 @@ t_vec3		collide_with_world(t_entity *entity, t_vec3 e_position, t_vec3 e_velocit
 	float slide_factor = distance_to_plane(sliding_plane, dest_point);
 
 	
-	if (entity->type != ENTITY_GRENADA && entity->packet.intersect_point.y <= e_position.y && e_velocity.y < 0)
+	if (entity->type != ENTITY_GRENADA && entity->packet.intersect_point.y <= e_position.y && sliding_plane.normal.y > 0.95 && e_velocity.y < 0)
 	{
-		if (sliding_plane.normal.y > 0.99)
 			entity->grounded = TRUE;
-		if (sliding_plane.normal.y > 0.95)
 			return new_base_point;
 	}
 	// entity->grounded = FALSE;
@@ -259,7 +257,7 @@ void		entity_update(t_doom *doom, t_entity *entity, double dt)
 	if (entity->type == ENTITY_ENEMY)
 	{
 		entity_update_enemy(doom, entity, dt);
-		if ((entity->velocity.x || entity->velocity.z))
+		if ((entity->velocity.x || entity->velocity.z) && entity->grounded)
 		{
 				// && entity->velocity.y == 0)
 			alGetSourcei(entity->sources[2], AL_SOURCE_STATE, &status);
@@ -270,7 +268,7 @@ void		entity_update(t_doom *doom, t_entity *entity, double dt)
 	}
 	if (entity->type == ENTITY_PLAYER
 			&& (entity->velocity.x || entity->velocity.z)
-			&& entity->velocity.y == 0
+			&& entity->grounded
 			&& doom->audio.source_status[CHAR_FOOTSTEP] == 0)
 		player_sound(&doom->audio, CHAR_FOOTSTEP, 9, 1);
 	if (entity->type == ENTITY_GRENADA)
@@ -311,6 +309,10 @@ void		entity_update(t_doom *doom, t_entity *entity, double dt)
 	{
 		entity->velocity.x *= !entity->grounded && !entity->packet.found_colision ? 0.99 : 0.5;
 		entity->velocity.z *= !entity->grounded && !entity->packet.found_colision ? 0.99 : 0.5;
+		if (entity->velocity.x < 1 && entity->velocity.x > -1)
+			entity->velocity.x = 0;
+		if (entity->velocity.z < 1 && entity->velocity.z > -1)
+			entity->velocity.z = 0;
 	}
 	entity->radius = entity->packet.e_radius;
 //	entity->grounded = entity->packet.grounded;

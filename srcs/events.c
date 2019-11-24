@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:14:55 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/24 03:19:38 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/24 18:28:36 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,7 @@ void	hook_events(t_doom *doom)
 		//long start = getMicrotime();
 		entity_update(doom, &doom->player.entity, doom->stats.delta);
 		//printf("delay %luus\n", getMicrotime() - start);
-		move_speed = !doom->player.entity.grounded ? 0.5 : 5;
+		move_speed = !doom->player.entity.grounded ? 1.2 : 10;
 		if (s[SDL_SCANCODE_W] || s[SDL_SCANCODE_S])
 		{
 			doom->player.entity.velocity.x += sinf(doom->player.entity.rotation.y) * (s[SDL_SCANCODE_W] ? 1 : -1) * move_speed;
