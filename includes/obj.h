@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 15:26:39 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/17 10:36:34 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/25 11:23:10 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,5 +71,7 @@ t_objs			*copy_objs_array(t_objs *src,
 						t_objs **dst);
 t_bool			post_process_obj(struct s_doom *doom, t_renderable *r);
 void			transfom_obj(t_obj *obj);
+t_bool			create_obj(struct s_doom *doom, t_renderable *r, char *file);
+t_bool			set_obj_working_dir(struct s_doom *doom, char *folder);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/12 15:51:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/17 01:41:40 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/25 14:55:11 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ static t_bool	snip(t_4dvertices *vertices, int u, int j, int w, int n, int *v)
 	return (TRUE);
 }
 
-t_bool	ear_clip2(int *filters, int filters_count, int vertices_count, t_4dvertices *vertices, t_faces **faces, int face_type, t_mtl *face_material)
+t_bool	ear_clip2(int *filters, int filters_count, int vertices_count, t_4dvertices *vertices, t_faces **faces, int face_type, int face_material)
 {
 	int		*v;
 
@@ -124,8 +124,7 @@ t_bool	ear_clip2(int *filters, int filters_count, int vertices_count, t_4dvertic
 			face.normals_index[0] = v[u] + 1;
 			face.normals_index[1] = v[j] + 1;
 			face.normals_index[2] = v[w] + 1;
-			if (face_material)
-				face.mtl = face_material;
+			face.mtl_index = face_material;
 			append_faces_array(&*faces, face);
 			for (s = j, t = j + 1; t < nv; s++, t++)
 				v[s] = v[t];
@@ -147,11 +146,7 @@ static t_bool	ear_clip_polygon(t_renderable *r)
 	i = -1;
 	while (++i < r->vertices->len)
 		filter[i] = i;
-
-	t_mtl	*material = NULL;
-	if (r->materials->len > 0)
-		material = &r->materials->values[0];
-	return (ear_clip2(filter, r->vertices->len, r->vertices->len, r->vertices, &r->faces, 0, material));
+	return (ear_clip2(filter, r->vertices->len, r->vertices->len, r->vertices, &r->faces, 0, 0));
 }
 
 t_bool	compute_change_of_basis(t_vec3 n, t_mat4 *p_inv, t_mat4 *reverse)

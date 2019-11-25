@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   write_ressource.c                                  :+:      :+:    :+:   */
+/*   save_ressource.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 01:08:20 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/13 01:52:18 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/25 12:47:21 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ t_bool		write_ressource(t_ressource_manager *rm, t_ressource *r)
 		return (TRUE);
 	if (r->type == RESSOURCE_TEXTURE)
 		return (write_texture(rm, r->data.texture));
+	else if (r->type == RESSOURCE_MODEL)
+		return (write_model(rm, r->data.model));
 	return (TRUE);
 }
 

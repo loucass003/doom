@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/25 05:41:51 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/22 19:57:19 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/25 15:36:36 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,24 @@ typedef struct		s_wr_img
 	uint32_t		height;
 	t_bool			secure;
 }					t_wr_img;
+
+typedef struct		s_wr_model
+{
+	int				vertices_count;
+	int				vertex_count;
+	int				normals_count;
+	int				materials_count;
+	int				faces_count;
+}					t_wr_model;
+
+typedef struct		s_wr_mtl
+{
+	t_bool			texture_map_set;
+	t_bool			material_color_set;
+	t_bool			transparent;
+	t_bool			wireframe;
+	int				material_color;
+}					t_wr_mtl;
 
 typedef struct		s_wr_data
 {

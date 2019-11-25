@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 15:55:03 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/24 00:57:19 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/25 14:54:51 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include "octree.h"
 #include "sprite.h"
 
-t_bool	triangulate_floor_ceil(t_renderable *r, t_vec3 n, int *filter, int filter_len, t_mtl *mtl)
+t_bool	triangulate_floor_ceil(t_renderable *r, t_vec3 n, int *filter, int filter_len, int mtl)
 {
 	t_mat4			p_inv;
 	t_mat4			reverse;
@@ -29,8 +29,6 @@ t_bool	triangulate_floor_ceil(t_renderable *r, t_vec3 n, int *filter, int filter
 	while (++i < filter_len)
 		r->vertices->vertices[filter[i]] = mat4_mulv4(p_inv,
 			r->vertices->vertices[filter[i]]);
-	
-
 	ear_clip2(filter, filter_len, r->vertices->len, r->vertices, &r->faces, 0, mtl);
 	uv_mapping(r->vertices, r->vertex);
 	i = -1;
@@ -63,11 +61,11 @@ t_bool		create_room_mesh(t_renderable *r, t_editor *editor, t_room *room)
 	i = -1;
 	while (++i < room->walls->len)
 		filter[i] = i * 2;
-	triangulate_floor_ceil(r, (t_vec3){ 0, -1, 0 }, filter, room->walls->len, &r->materials->values[0]);
+	triangulate_floor_ceil(r, (t_vec3){ 0, -1, 0 }, filter, room->walls->len, 0);
 	i = -1;
 	while (++i < room->walls->len)
 		filter[i] = (i * 2) + 1;
-	triangulate_floor_ceil(r, (t_vec3){ 0, 1, 0 }, filter, room->walls->len, &r->materials->values[1]);
+	triangulate_floor_ceil(r, (t_vec3){ 0, 1, 0 }, filter, room->walls->len, 1);
 	i = -1;
 	while (++i < room->walls->len)
 	{
@@ -116,7 +114,7 @@ t_bool		create_room_mesh(t_renderable *r, t_editor *editor, t_room *room)
 		face.vertices_index[0] = i * 2 + 1;
 		face.vertices_index[1] = next * 2 + 1 + 1;
 		face.vertices_index[2] = i * 2 + 1 + 1;
-		face.mtl = &r->materials->values[i + 2];
+		face.mtl_index = i + 2;
 		append_faces_array(&r->faces, face);
 		
 		ft_bzero(&face, sizeof(t_face));
@@ -135,7 +133,7 @@ t_bool		create_room_mesh(t_renderable *r, t_editor *editor, t_room *room)
 		face.vertices_index[0] = i * 2 + 1;
 		face.vertices_index[1] = next * 2 + 1;
 		face.vertices_index[2] = next * 2 + 1 + 1;
-		face.mtl = &r->materials->values[i + 2];
+		face.mtl_index = i + 2;
 		append_faces_array(&r->faces, face);
 	}
 	if (!r->pp_vertices && !(r->pp_vertices = malloc(sizeof(t_vec4) * r->vertices->len)))

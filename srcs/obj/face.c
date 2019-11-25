@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/25 19:30:54 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/17 01:42:37 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/25 14:50:51 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ t_bool		face_formatter(t_obj *obj, t_reader *reader, t_renderable *r)
 		ft_putstr("f: Faces need to be triangle\n");
 		return (FALSE);
 	}
-	face.mtl = obj->current_mtl != -1 ? &r->materials->values[obj->current_mtl] : 0;
+	face.mtl_index = obj->current_mtl != -1 ? obj->current_mtl : 0;
 	face.group = obj->current_group;
 	face.normal_type = 1;
 	face.has_collision = TRUE;

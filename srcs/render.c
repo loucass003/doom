@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 16:49:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/23 19:52:22 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/25 14:56:27 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ void	render_renderable(t_render_context *ctx, t_renderable *r)
 {
 	int		i;
 	t_face	*face;
+	t_mtl	*mtl;
 
 	if (r->of.type == RENDERABLE_ENTITY)
 	{
@@ -111,19 +112,21 @@ void	render_renderable(t_render_context *ctx, t_renderable *r)
 	while (++i < r->faces->len)
 	{
 		face = &r->faces->values[i];
+		mtl = &r->materials->values[face->mtl_index];
 		if (face->hidden)
 			continue;
 		if (r->double_faced)
 			face->double_sided = TRUE;
-		face->mtl->wireframe = r->wireframe;
+		if (r->wireframe)
+			mtl->wireframe = TRUE;
 
 		if (r->wireframe_color == 0)
 			r->wireframe_color =  0xFF555555;
 
-		if (face->mtl->wireframe || (!face->mtl->texture_map_set && !face->mtl->material_color_set))
+		if (mtl->wireframe || (!mtl->texture_map_set && !mtl->material_color_set))
 		{
-			face->mtl->material_color_set = TRUE;
-			face->mtl->material_color = face->mtl->wireframe ? r->wireframe_color : 0xFF555555;
+			mtl->material_color_set = TRUE;
+			mtl->material_color = mtl->wireframe ? r->wireframe_color : 0xFF555555;
 		}
 
 		if (!face->double_sided)
@@ -156,7 +159,7 @@ void	render_renderable(t_render_context *ctx, t_renderable *r)
 			vertex2 = r->vertex->vertices[face->vertex_index[2] - 1];
 		}
 
-		process_triangle(ctx, face->mtl, (t_triangle) {
+		process_triangle(ctx, mtl, (t_triangle) {
 			{ .pos = v0, .tex = vertex0, .normal = r->pp_normals[face->normals_index[0] - 1], .light_color = it0 },
 			{ .pos = v1, .tex = vertex1, .normal = r->pp_normals[face->normals_index[1] - 1], .light_color = it1 },
 			{ .pos = v2, .tex = vertex2, .normal = r->pp_normals[face->normals_index[2] - 1], .light_color = it2 }
