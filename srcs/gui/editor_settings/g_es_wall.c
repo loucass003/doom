@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   g_es.wall.c                                        :+:      :+:    :+:   */
+/*   g_es_wall.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 20:40:10 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/17 22:41:53 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/26 15:22:24 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,12 @@ static t_bool			action_performed(t_component *cmp, t_doom *doom)
 	if (cmp == editor->settings.guis[ES_GUI_WALL].components->values[0])
 	{
 		t_wall *wall = get_current_wall(editor);
-		wall->texture = get_prev_texture(&doom->res_manager, wall->texture);
+		wall->texture = get_prev_ressource(&doom->res_manager, wall->texture, RESSOURCE_TEXTURE);
 	}
 	if (cmp == editor->settings.guis[ES_GUI_WALL].components->values[1])
 	{
 		t_wall *wall = get_current_wall(editor);
-		wall->texture = get_next_texture(&doom->res_manager, wall->texture);
+		wall->texture = get_next_ressource(&doom->res_manager, wall->texture, RESSOURCE_TEXTURE);
 	}
 	if (cmp == editor->settings.guis[ES_GUI_WALL].components->values[2])
 	{

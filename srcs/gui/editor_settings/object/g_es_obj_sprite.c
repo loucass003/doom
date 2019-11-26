@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 22:55:54 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/22 01:31:05 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/26 15:22:49 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,12 @@ static t_bool			action_performed(t_component *cmp, t_doom *doom)
 	if (cmp == editor->settings.guis_object[OBJECT_SPRITE].components->values[0])
 	{
 		t_sprite	*sprite = object->of.sprite;
-		sprite->texture = get_prev_texture(&doom->res_manager, sprite->texture);
+		sprite->texture = get_prev_ressource(&doom->res_manager, sprite->texture, RESSOURCE_TEXTURE);
 	}
 	if (cmp == editor->settings.guis_object[OBJECT_SPRITE].components->values[1])
 	{
 		t_sprite	*sprite = object->of.sprite;
-		sprite->texture = get_next_texture(&doom->res_manager, sprite->texture);
+		sprite->texture = get_next_ressource(&doom->res_manager, sprite->texture, RESSOURCE_TEXTURE);
 	}
 	return (TRUE);
 }

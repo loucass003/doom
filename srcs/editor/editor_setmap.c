@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 15:55:03 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/26 00:03:28 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/26 17:06:30 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,7 +152,7 @@ t_bool		create_room_mesh(t_renderable *r, t_editor *editor, t_room *room)
 	r->scale = (t_vec3){ 1, 1, 1 };
 	r->dirty = TRUE; 
 	r->visible = TRUE;
-	// r->wireframe = TRUE;
+	r->wireframe = TRUE;
 	r->wireframe_color = 0xFFFF0000;
 	return (TRUE);
 }
@@ -237,6 +237,32 @@ t_bool		editor_setmap(t_editor *editor)
 				create_enemy_renderable(editor->doom, &r);
 			r.of.data.entity->position = ft_vec3_div_s(object->pos, 5);
 			r.of.data.entity->position.y += r.of.data.entity->radius.y;
+			if (!append_renderables_array(&editor->doom->renderables, r))
+				return (FALSE);
+		}
+		else if (object->type == OBJECT_MODEL)
+		{
+			t_renderable r;
+			int		i;
+			t_face *face;
+
+			r = *object->of.model->data.model;
+			r.scale = (t_vec3){ 1, 1, 1 };
+			if (!r.pp_vertices && !(r.pp_vertices = malloc(sizeof(t_vec4) * r.vertices->len)))
+				return (FALSE);
+			if (!r.pp_normals && !(r.pp_normals = malloc(sizeof(t_vec3) * r.normals->len)))
+				return (FALSE);
+			i = -1;
+			while (++i < r.faces->len)
+			{
+				face = &r.faces->values[i];
+				face->collidable = face_collidable(&r, i, r.vertices->vertices);
+			}
+			r.dirty = TRUE;
+			transform_renderable(&r);
+			r.octree = create_octree(editor->doom, &r);
+			r.position = ft_vec3_div_s(object->pos, 5);
+			r.position.y += r.scale.y;
 			if (!append_renderables_array(&editor->doom->renderables, r))
 				return (FALSE);
 		}

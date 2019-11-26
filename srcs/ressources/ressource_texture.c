@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/12 17:27:40 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/16 22:46:52 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/26 15:10:16 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ t_bool		write_texture(t_ressource_manager *rm, t_img *img)
 
 t_ressource		*get_default_texture(t_ressource_manager *rm, t_bool use)
 {
-	rm->ressources->values[0]->used++;
+	if (use)
+		rm->ressources->values[0]->used++;
 	return (rm->ressources->values[0]);
 }

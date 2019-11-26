@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 22:55:54 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/23 23:33:56 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/26 16:29:05 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ void			set_object_default(t_doom *doom, t_object *object)
 		object->of.entity = ENTITY_ENEMY;
 	else if (object->type == OBJECT_SPRITE)
 		object->of.sprite = create_sprite((t_vec2){ 1, 1 }, get_default_texture(&doom->res_manager, TRUE));
+	else if (object->type == OBJECT_MODEL)
+		object->of.model = get_next_ressource(&doom->res_manager, NULL, RESSOURCE_MODEL);
 }
 
 void			free_object(t_object *object)
@@ -87,7 +89,7 @@ void			g_es_object_enter(t_gui *self, t_doom *doom)
 	doom->editor.settings.guis_object[OBJECT_ITEMSTACK] = (t_gui){ .render = g_es_obj_itemstack_render, .on_enter = g_es_obj_itemstack_enter };
 	doom->editor.settings.guis_object[OBJECT_SPRITE] = (t_gui){ .render = g_es_obj_sprite_render, .on_enter = g_es_obj_sprite_enter };
 	doom->editor.settings.guis_object[OBJECT_ENTITY] = (t_gui){ .render = g_es_obj_entity_render, .on_enter = g_es_obj_entity_enter };
-	doom->editor.settings.guis_object[OBJECT_MODEL] = (t_gui){ .render = g_es_wall_render, .on_enter = g_es_wall_enter };
+	doom->editor.settings.guis_object[OBJECT_MODEL] = (t_gui){ .render = g_es_obj_model_render, .on_enter = g_es_obj_model_enter };
 
 	if (object->type != OBJECT_NONE)
 		set_es_object_gui(&doom->editor, object->type);
@@ -110,7 +112,8 @@ void			g_es_object_render(t_gui *self, t_doom *doom)
 	//draw_line(&doom->screen, (t_pixel){ S_WIDTH - 335 + 160, 135, 0xFFFF0000 }, (t_pixel){ S_WIDTH - 335 + 160, 235, 0 });
 	if (doom->editor.settings.current_gui_object >= 0)
 	{
-		doom->editor.settings.guis_object[doom->editor.settings.current_gui_object].render(&doom->editor.settings.guis_object[doom->editor.settings.current_gui_object], doom);
+		if (doom->editor.settings.guis_object[doom->editor.settings.current_gui_object].render)
+			doom->editor.settings.guis_object[doom->editor.settings.current_gui_object].render(&doom->editor.settings.guis_object[doom->editor.settings.current_gui_object], doom);
 		render_components(doom, &doom->editor.settings.guis_object[doom->editor.settings.current_gui_object]);
 	}
 }

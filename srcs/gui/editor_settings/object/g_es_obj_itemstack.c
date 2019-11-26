@@ -6,14 +6,12 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 22:55:54 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/22 19:47:52 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/26 15:01:03 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "editor.h"
 #include "doom.h"
-
-
 
 static t_bool			action_performed(t_component *cmp, t_doom *doom)
 {

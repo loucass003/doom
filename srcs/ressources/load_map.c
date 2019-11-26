@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 01:53:42 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/23 22:55:53 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/26 16:37:30 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,6 +160,22 @@ t_bool		read_entity(t_ressource_manager *r, t_entity_type *type)
 	return (TRUE);
 }
 
+t_bool		read_object_model(t_ressource_manager *r, t_ressource **model)
+{
+	int				model_index;
+	t_ressource		*res;
+
+	if (!io_memcpy(&r->reader, &model_index, sizeof(int)))
+		return (FALSE);
+	if (model_index < 0 || model_index >= r->ressources->len)
+		return (FALSE);
+	res = r->ressources->values[model_index];
+	if (res->type != RESSOURCE_MODEL)
+		return (FALSE);
+	*model = res;
+	return (TRUE);
+}
+
 t_bool		read_object(t_ressource_manager *r, t_object *object)
 {
 	t_wr_object	wr_object;
@@ -173,6 +189,8 @@ t_bool		read_object(t_ressource_manager *r, t_object *object)
 	else if (wr_object.type == OBJECT_SPRITE && !read_sprite(r, &object->of.sprite))
 		return (FALSE);
 	else if (wr_object.type == OBJECT_ENTITY && !read_entity(r, &object->of.entity))
+		return (FALSE);
+	else if (wr_object.type == OBJECT_MODEL && !read_object_model(r, &object->of.model))
 		return (FALSE);
 	return (TRUE);
 }

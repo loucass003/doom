@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 14:35:33 by lloncham          #+#    #+#             */
-/*   Updated: 2019/11/25 22:19:04 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/26 15:26:32 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ typedef union		u_object_of
 	struct s_itemstack	*itemstack;
 	struct s_sprite		*sprite;
 	t_entity_type		entity;
-	int					model;
+	struct s_ressource	*model;
 }					t_object_of;
 
 typedef struct		s_object

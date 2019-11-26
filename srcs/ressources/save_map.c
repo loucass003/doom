@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 01:20:07 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/23 23:35:56 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/26 16:33:26 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,14 @@ t_bool		write_entity(t_ressource_manager *r, t_entity_type entity_type)
 	return (TRUE);
 }
 
+t_bool		write_object_model(t_ressource_manager *r, t_ressource *model)
+{
+	const int index = ressources_indexof(r->ressources, model);
+
+	dp_write(r, &index, sizeof(int));
+	return (TRUE);
+}
+
 t_bool		write_object(t_ressource_manager *r, t_object *object)
 {
 	const t_wr_object	wr_object = (t_wr_object) {
@@ -118,6 +126,8 @@ t_bool		write_object(t_ressource_manager *r, t_object *object)
 		write_sprite(r, object->of.sprite);
 	else if (object->type == OBJECT_ENTITY)
 		write_entity(r, object->of.entity);
+	else if (object->type == OBJECT_MODEL)
+		write_object_model(r, object->of.model);
 	return (TRUE);
 }
 

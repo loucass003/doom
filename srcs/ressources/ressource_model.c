@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/25 10:50:33 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/26 01:20:53 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/26 18:30:58 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,11 @@ t_bool		read_material(t_ressource_manager *r, t_mtl *mtl)
 
 	if (!io_memcpy(&r->reader, &wr_mtl, sizeof(t_wr_mtl)))
 		return (FALSE);
+	mtl->texture_map_set = wr_mtl.texture_map_set;
+	mtl->material_color_set = wr_mtl.material_color_set;
+	mtl->material_color = wr_mtl.material_color;
+	mtl->wireframe = wr_mtl.wireframe;
+	mtl->transparent = wr_mtl.transparent;
 	if (wr_mtl.texture_map_set && !read_texture(r, &mtl->texture_map))
 		return (FALSE);
 	return (TRUE);
@@ -79,7 +84,7 @@ t_bool		write_model(t_ressource_manager *r, t_renderable *model)
 	if (model->vertex)
 		dp_write(r, model->vertex->vertices, sizeof(t_vec2) * model->vertex->len);
 	i = -1;
-	while (++i < wr_model.materials_count)
+	while (++i < model->materials->len)
 		if (!write_material(r, &model->materials->values[i]))
 			return (FALSE);
 	return (TRUE);

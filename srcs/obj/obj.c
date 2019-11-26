@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 15:28:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/25 23:20:04 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/26 18:34:32 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,14 @@ t_bool	create_obj(t_doom *doom, t_renderable *r, char *file)
 		return (free_renderable(&r, FALSE));
 	if (!load_obj(doom, r, r->of.data.obj, file))
 		return (free_renderable(&r, FALSE));
+	if (r->materials->len == 0)
+	{
+		printf("ADD DEFAULT MATERIAL\n");
+		if (!append_mtllist(&r->materials, (t_mtl){ .material_color_set = TRUE, .material_color = 0xFFFFFFFF }))
+			return (FALSE);
+	}
+	if (r->normals->len == 0)
+		return (FALSE);
 	if (!(r->pp_vertices = (t_vec4 *)malloc(sizeof(t_vec4) * r->vertices->len)))
 		return (free_renderable(&r, FALSE));
 	if (!(r->pp_normals = (t_vec3 *)malloc(sizeof(t_vec3) * r->normals->len)))
