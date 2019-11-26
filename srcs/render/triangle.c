@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 01:17:41 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/16 22:23:41 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/26 00:04:39 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,8 @@ void scanline2(t_render_context *ctx, t_mtl *mtl, t_pixel p, float t, t_vertex s
 
 			x = vert.tex.x > 0 ? (mtl->texture_map->width - 1) - x : x;
 			y = vert.tex.y < 0 ? (mtl->texture_map->height - 1) - y : y;
-			if (mtl->lightmap)
-				a = mtl->lightmap[y * (mtl->texture_map->width) + x] / 255.0;
+			// if (mtl->lightmap)
+			// 	a = mtl->lightmap[y * (mtl->texture_map->width) + x] / 255.0;
 			if (mtl->texture_map_set)
 				c.color = mtl->texture_map->pixels[(y * mtl->texture_map->width) + x];
 			if (c.argb.a == 0) //TODO we need to know this is a sprite
@@ -84,7 +84,7 @@ void scanline2(t_render_context *ctx, t_mtl *mtl, t_pixel p, float t, t_vertex s
 			c.argb.r *= a;
 			c.argb.g *= a;
 			c.argb.b *= a;
-		}
+		}	
 		ctx->image->pixels[p.y * (int)S_WIDTH + p.x] = c.color;
 		*buff = vert.pos.w;
 	}

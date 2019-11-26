@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 15:28:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/23 14:12:13 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/25 23:20:04 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,11 +158,21 @@ t_bool		obj_test(t_doom *doom)
 	r.fixed = TRUE;
 	doom->skybox_index = doom->renderables->len;
 	append_renderables_array(&doom->renderables, r);
-	set_obj_working_dir(doom, "assets/obj/de_dust");
-	lol = create_obj(doom, &r, "de_dust2.obj");
+	// set_obj_working_dir(doom, "assets/obj/de_dust");
+	// lol = create_obj(doom, &r, "de_dust2.obj");
+	// r.position = (t_vec3){0, 0, 0};
+	// r.rotation = (t_vec3){0, 0, 0};
+	// r.scale = (t_vec3){0.05, 0.05, 0.05};
+	// //r.wireframe = TRUE;
+	// r.wireframe_color = 0xFFFF0000;
+	// r.fixed = TRUE;
+	// append_renderables_array(&doom->renderables, r);
+	set_obj_working_dir(doom, "assets/obj/winter");
+	lol = create_obj(doom, &r, "winter.obj");
 	r.position = (t_vec3){0, 0, 0};
 	r.rotation = (t_vec3){0, 0, 0};
-	r.scale = (t_vec3){0.05, 0.05, 0.05};
+//	r.scale = (t_vec3){0.05, 0.05, 0.05};
+	r.scale = (t_vec3){5, 5, 5};
 	//r.wireframe = TRUE;
 	r.wireframe_color = 0xFFFF0000;
 	r.fixed = TRUE;

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 14:35:33 by lloncham          #+#    #+#             */
-/*   Updated: 2019/11/23 21:56:00 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/25 22:19:04 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,9 @@ typedef enum		e_object_type
 typedef union		u_object_of
 {
 	struct s_itemstack	*itemstack;
-	t_entity_type		entity;
 	struct s_sprite		*sprite;
+	t_entity_type		entity;
+	int					model;
 }					t_object_of;
 
 typedef struct		s_object

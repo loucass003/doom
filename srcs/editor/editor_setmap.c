@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 15:55:03 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/25 14:54:51 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/26 00:03:28 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,7 +205,10 @@ t_bool		editor_setmap(t_editor *editor)
 		if (object->type == OBJECT_NONE)
 			continue ;
 		if (object->type == OBJECT_PLAYER)
+		{
 			editor->doom->player.entity.position = ft_vec3_div_s(object->pos, 5);
+			editor->doom->player.entity.position.y += 50;
+		}
 		else if (object->type == OBJECT_ITEMSTACK)
 		{
 			t_renderable r;
