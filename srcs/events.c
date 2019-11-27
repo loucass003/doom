@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:14:55 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/27 00:25:48 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/27 17:23:32 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,10 @@ void	hook_events(t_doom *doom)
 		//long start = getMicrotime();
 		entity_update(doom, &doom->player.entity, doom->stats.delta);
 		//printf("delay %luus\n", getMicrotime() - start);
-		move_speed = !doom->player.entity.grounded ? 1.2 : 10;
+		if (doom->main_context.type == CTX_EDITOR)
+			move_speed = 10;
+		else
+			move_speed = !doom->player.entity.grounded ? 1.2 : 10;
 		if (s[SDL_SCANCODE_W] || s[SDL_SCANCODE_S])
 		{
 			doom->player.entity.velocity.x += sinf(doom->player.entity.rotation.y) * (s[SDL_SCANCODE_W] ? 1 : -1) * move_speed;
@@ -161,11 +164,11 @@ void	hook_events(t_doom *doom)
 		{
 			if (s[SDL_SCANCODE_SPACE] )
 			{ 
-				doom->player.entity.velocity.y += 2;
+				doom->player.entity.velocity.y += 8;
 			}
 			if (s[SDL_SCANCODE_LSHIFT])
 			{ 
-				doom->player.entity.velocity.y -= 2;
+				doom->player.entity.velocity.y -= 8;
 			}
 		}
 		if (s[SDL_SCANCODE_J] || s[SDL_SCANCODE_L])

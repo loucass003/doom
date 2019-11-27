@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 01:06:40 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/02 13:22:09 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/27 16:06:04 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static t_vertex	transform(t_vertex v)
 	const float w_inv = 1 / v.pos.w;
 
 	v.pos.x = (v.pos.x * z_inv + 1) * S_WIDTH_2;
-	v.pos.y = (v.pos.y * z_inv + 0.5) * S_HEIGHT_2 * ASPECT_INV;
+	v.pos.y = (v.pos.y * z_inv + 1) * S_HEIGHT_2;
 	v.tex = ft_vec2_div_s(v.tex, v.pos.w);
 	v.pos.w = w_inv;
 	return v;
@@ -53,16 +53,16 @@ void	process_triangle(t_render_context *ctx, t_mtl *mtl, t_triangle t)
 	// t.a.pos = mat4_mulv4(ctx->camera->projection, t.a.pos);
 	// t.b.pos = mat4_mulv4(ctx->camera->projection, t.b.pos);
 	// t.c.pos = mat4_mulv4(ctx->camera->projection, t.c.pos);
-	if (t.a.pos.y < t.a.pos.w && t.b.pos.y < t.b.pos.w && t.c.pos.y < t.c.pos.w)
-		return;
-	if (t.a.pos.y > -t.a.pos.w && t.b.pos.y > -t.b.pos.w && t.c.pos.y > -t.c.pos.w)
-		return;
-	if (t.a.pos.x < t.a.pos.w && t.b.pos.x < t.b.pos.w && t.c.pos.x < t.c.pos.w)
-		return;
-	if (t.a.pos.x > -t.a.pos.w && t.b.pos.x > -t.b.pos.w && t.c.pos.x > -t.c.pos.w)
-		return;
-	if (t.a.pos.z > FAR_CULL && t.b.pos.z > FAR_CULL && t.c.pos.z > FAR_CULL)
-		return;
+	// if (t.a.pos.y < t.a.pos.w && t.b.pos.y < t.b.pos.w && t.c.pos.y < t.c.pos.w)
+	// 	return;
+	// if (t.a.pos.y > -t.a.pos.w && t.b.pos.y > -t.b.pos.w && t.c.pos.y > -t.c.pos.w)
+	// 	return;
+	// if (t.a.pos.x < t.a.pos.w && t.b.pos.x < t.b.pos.w && t.c.pos.x < t.c.pos.w)
+	// 	return;
+	// if (t.a.pos.x > -t.a.pos.w && t.b.pos.x > -t.b.pos.w && t.c.pos.x > -t.c.pos.w)
+	// 	return;
+	// if (t.a.pos.z > FAR_CULL && t.b.pos.z > FAR_CULL && t.c.pos.z > FAR_CULL)
+	// 	return;
 	if (t.a.pos.z < NEAR_CLIP && t.b.pos.z < NEAR_CLIP && t.c.pos.z < NEAR_CLIP)
 		return;
 	

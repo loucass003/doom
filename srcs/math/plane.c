@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 22:09:35 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/25 13:12:38 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/27 15:07:38 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ t_plane	plane_new(t_vec3 origin, t_vec3 normal)
 	});
 }
 
-float	distance_to_plane( t_plane plane, t_vec3 point)
+float	distance_to_plane(t_plane plane, t_vec3 point)
 {
 	return ft_vec3_dot(point, plane.normal) + plane.f;
 }

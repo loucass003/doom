@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 16:49:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/27 04:02:17 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/27 17:24:41 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,12 +187,13 @@ void	render_renderable(t_render_context *ctx, t_renderable *r)
 		r->faces->values[i].rendered = FALSE;
 	faces_count = 0;
 	
-	if (r->octree)
-		frustum_intersect_octree(r->octree, ctx->camera->frustum, render_face, &face_data);
-	printf("%d/%d\n", faces_count, r->faces->len);
+	// if (r->octree)
+	// 	frustum_intersect_octree(r->octree, ctx->camera->frustum, render_face, &face_data);
+
 	// r->wireframe = TRUE;	 
-	// i = -1;
-	// while (++i < r->faces->len)
-	// 	render_face(i, &face_data);
+	i = -1;
+	while (++i < r->faces->len)
+		render_face(i, &face_data);
+	printf("%d/%d\n", faces_count, r->faces->len);
 	// r->wireframe = FALSE;	
 }

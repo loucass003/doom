@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/26 23:35:31 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/27 03:51:52 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/27 17:07:04 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ void		compute_frustum_planes(t_mat4 m, t_vec4 *planes)
 	// t_vec4 r2 = (t_vec4){ m.a[1][0], m.a[1][1], m.a[1][2], m.a[1][3] };
 	// t_vec4 r3 = (t_vec4){ m.a[2][0], m.a[2][1], m.a[2][2], m.a[2][3] };
 	// t_vec4 r4 = (t_vec4){ m.a[3][0], m.a[3][1], m.a[3][2], m.a[3][3] };
+
+	
 
 	planes[0] = ft_vec4_norm((t_vec4){ me3 - me0, me7 - me4, me11 - me8, me15 - me12 });
 	planes[1] = ft_vec4_norm((t_vec4){ me3 + me0, me7 + me4, me11 + me8, me15 + me12 });
