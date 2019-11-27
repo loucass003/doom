@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:14:55 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/24 18:28:36 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/27 00:25:48 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,16 +142,31 @@ void	hook_events(t_doom *doom)
 		{
 			doom->player.entity.velocity.x += -cosf(doom->player.entity.rotation.y) * (s[SDL_SCANCODE_D] ? 1 : -1) * move_speed;
 			doom->player.entity.velocity.z += sinf(doom->player.entity.rotation.y) * (s[SDL_SCANCODE_D] ? 1 : -1) * move_speed;
-		} 
-		if (s[SDL_SCANCODE_SPACE] && !doom->player.entity.jump && doom->player.entity.grounded)
-		{ 
-			doom->player.entity.jump = TRUE;
-			//doom->player.entity.velocity.y += 50;
 		}
-		if (s[SDL_SCANCODE_LSHIFT])
-		{ 
-			doom->player.entity.grounded = FALSE;
-			doom->player.entity.velocity.y -= 50;
+		if (doom->main_context.type == CTX_NORMAL)
+		{
+			if (s[SDL_SCANCODE_SPACE] && !doom->player.entity.jump && doom->player.entity.grounded)
+			{ 
+				doom->player.entity.jump = TRUE;
+				//doom->player.entity.velocity.y += 50;
+			}
+			if (s[SDL_SCANCODE_LSHIFT])
+			{ 
+				doom->player.entity.grounded = FALSE;
+				doom->player.entity.velocity.y -= 50;
+			}
+		}
+
+		if (doom->main_context.type == CTX_EDITOR)
+		{
+			if (s[SDL_SCANCODE_SPACE] )
+			{ 
+				doom->player.entity.velocity.y += 2;
+			}
+			if (s[SDL_SCANCODE_LSHIFT])
+			{ 
+				doom->player.entity.velocity.y -= 2;
+			}
 		}
 		if (s[SDL_SCANCODE_J] || s[SDL_SCANCODE_L])
 			doom->player.entity.rotation.y += 0.01 * (s[SDL_SCANCODE_J] ? 1 : -1) * ms;

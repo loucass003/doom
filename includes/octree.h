@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/04 16:53:54 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/19 01:11:22 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/27 00:36:34 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ t_octree_node	*create_octree(t_doom *doom, t_renderable *r);
 void			ray_intersect_octree(t_octree_node *n, t_renderable *r, t_ray *ray, t_collision *closest_hit);
 void			aabb_intersect_octree(t_octree_node *n, t_collide_aabb *aabb, void (*fn)(int face, void *param), void *param);
 void			print_octree(t_octree_node	*n);
+void			frustum_intersect_octree(t_octree_node *n, t_vec4 *frustum, void (*fn)(int face, void *param), void *param);
 
 
 #endif

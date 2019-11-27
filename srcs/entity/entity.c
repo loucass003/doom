@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 22:00:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/24 18:36:21 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/26 23:08:25 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -254,66 +254,75 @@ void		entity_update(t_doom *doom, t_entity *entity, double dt)
 {
 	ALint status;
 
-	if (entity->type == ENTITY_ENEMY)
+	if (doom->main_context.type == CTX_NORMAL)
 	{
-		entity_update_enemy(doom, entity, dt);
-		if ((entity->velocity.x || entity->velocity.z) && entity->grounded)
+		if (entity->type == ENTITY_ENEMY)
 		{
-				// && entity->velocity.y == 0)
-			alGetSourcei(entity->sources[2], AL_SOURCE_STATE, &status);
-			if (status != AL_PLAYING)
-				entity_sound(entity, 9, 2, 1);
+			entity_update_enemy(doom, entity, dt);
+			if ((entity->velocity.x || entity->velocity.z) && entity->grounded)
+			{
+					// && entity->velocity.y == 0)
+				alGetSourcei(entity->sources[2], AL_SOURCE_STATE, &status);
+				if (status != AL_PLAYING)
+					entity_sound(entity, 9, 2, 1);
+			}
+				// play_music(&doom->audio, entity->position, 9, TRUE);
 		}
-			// play_music(&doom->audio, entity->position, 9, TRUE);
-	}
-	if (entity->type == ENTITY_PLAYER
-			&& (entity->velocity.x || entity->velocity.z)
-			&& entity->grounded
-			&& doom->audio.source_status[CHAR_FOOTSTEP] == 0)
-		player_sound(&doom->audio, CHAR_FOOTSTEP, 9, 1);
-	if (entity->type == ENTITY_GRENADA)
-	{
-		entity->velocity.y -= 0.9;
-		entity->velocity.y = fmax(-4, entity->velocity.y);
-	}
-	else
-	{	
-		if (entity->grounded && entity->jump && entity->velocity.y < 0)
-			entity->velocity.y = fmax(0, entity->velocity.y);
-		if (entity->jump && entity->velocity.y <= 10 && !entity->packet.found_colision)
-			entity->velocity.y += 1.5;
-		if (entity->jump && entity->velocity.y >= 10)
+		if (entity->type == ENTITY_PLAYER
+				&& (entity->velocity.x || entity->velocity.z)
+				&& entity->grounded
+				&& doom->audio.source_status[CHAR_FOOTSTEP] == 0)
+			player_sound(&doom->audio, CHAR_FOOTSTEP, 9, 1);
+		if (entity->type == ENTITY_GRENADA)
+		{
+			entity->velocity.y -= 0.9;
+			entity->velocity.y = fmax(-4, entity->velocity.y);
+		}
+		else
+		{	
+			if (entity->grounded && entity->jump && entity->velocity.y < 0)
+				entity->velocity.y = fmax(0, entity->velocity.y);
+			if (entity->jump && entity->velocity.y <= 10 && !entity->packet.found_colision)
+				entity->velocity.y += 1.5;
+			if (entity->jump && entity->velocity.y >= 10)
+				entity->jump = FALSE;
+			if (!entity->jump)
+			{
+				entity->velocity.y -= !entity->grounded ? 8 : 40;
+				entity->velocity.y = fmax(-40, entity->velocity.y);
+			}
+		}
+		entity->packet.r3_posision = entity->position;
+		entity->packet.r3_velocity = entity->velocity;
+		entity->packet.e_radius = entity->radius;
+		entity->packet.grounded = FALSE;
+		entity->packet.dt = dt;
+		entity->packet.doom = doom;
+		collide_and_slide(entity);
+		if (entity->grounded)
 			entity->jump = FALSE;
-		if (!entity->jump)
+		entity->position = entity->packet.r3_posision;
+		if (entity->type == ENTITY_GRENADA)
+			entity->velocity = ft_vec3_mul_s(entity->velocity, 0.999);
+		else if (entity->type == ENTITY_ENEMY)
+			entity->velocity = (t_vec3){ 0, 0, 0 };
+		else
 		{
-			entity->velocity.y -= !entity->grounded ? 8 : 40;
-			entity->velocity.y = fmax(-40, entity->velocity.y);
+			entity->velocity.x *= !entity->grounded && !entity->packet.found_colision ? 0.99 : 0.5;
+			entity->velocity.z *= !entity->grounded && !entity->packet.found_colision ? 0.99 : 0.5;
+			if (entity->velocity.x < 1 && entity->velocity.x > -1)
+				entity->velocity.x = 0;
+			if (entity->velocity.z < 1 && entity->velocity.z > -1)
+				entity->velocity.z = 0;
 		}
+		entity->radius = entity->packet.e_radius;
 	}
-	entity->packet.r3_posision = entity->position;
-	entity->packet.r3_velocity = entity->velocity;
-	entity->packet.e_radius = entity->radius;
-	entity->packet.grounded = FALSE;
-	entity->packet.dt = dt;
-	entity->packet.doom = doom;
-	collide_and_slide(entity);
-	if (entity->grounded)
-		entity->jump = FALSE;
-
-	entity->position = entity->packet.r3_posision;
-	if (entity->type == ENTITY_GRENADA)
-		entity->velocity = ft_vec3_mul_s(entity->velocity, 0.999);
-	else if (entity->type == ENTITY_ENEMY)
-		entity->velocity = (t_vec3){ 0, 0, 0 };
-	else
+	else if (doom->main_context.type == CTX_EDITOR)
 	{
-		entity->velocity.x *= !entity->grounded && !entity->packet.found_colision ? 0.99 : 0.5;
-		entity->velocity.z *= !entity->grounded && !entity->packet.found_colision ? 0.99 : 0.5;
-		if (entity->velocity.x < 1 && entity->velocity.x > -1)
-			entity->velocity.x = 0;
-		if (entity->velocity.z < 1 && entity->velocity.z > -1)
-			entity->velocity.z = 0;
+		entity->grounded = FALSE;
+		entity->position = ft_vec3_add(entity->position, ft_vec3_mul_s(entity->velocity, dt));
+		entity->velocity = ft_vec3_mul_s(entity->velocity, 0.5);
 	}
-	entity->radius = entity->packet.e_radius;
+	
 //	entity->grounded = entity->packet.grounded;
 }

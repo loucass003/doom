@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 15:55:03 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/26 17:06:30 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/26 23:02:27 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,7 +152,7 @@ t_bool		create_room_mesh(t_renderable *r, t_editor *editor, t_room *room)
 	r->scale = (t_vec3){ 1, 1, 1 };
 	r->dirty = TRUE; 
 	r->visible = TRUE;
-	r->wireframe = TRUE;
+	//r->wireframe = TRUE;
 	r->wireframe_color = 0xFFFF0000;
 	return (TRUE);
 }
@@ -183,6 +183,7 @@ t_bool		editor_setmap(t_editor *editor)
 	int		i;
 
 	printf("SETMAP\n");
+	editor->doom->main_context.type = CTX_EDITOR;
 	editor->doom->renderables->len = 0;
 	editor->doom->skybox_index = -1;
 	i = -1;

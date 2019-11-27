@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:56:05 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/22 19:14:56 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/26 22:59:50 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ static t_bool		action_performed(t_component *cmp, t_doom *doom)
 	if (cmp == doom->guis[doom->current_gui].components->values[0])
 	{
 		init_bsp(doom);
+		doom->main_context.type = CTX_NORMAL;
 		set_gui(doom, GUI_INGAME);
 		return (FALSE);
 	}

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:16:19 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/25 15:02:19 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/27 03:53:55 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ typedef struct		s_face
 	t_bool			has_collision;
 	char			normal_type;
 	int				group;
+	t_bool			rendered;
 }					t_face;
 
 typedef struct		s_faces
@@ -51,6 +52,7 @@ typedef struct		s_faces
 typedef enum		s_render_type
 {
 	CTX_NORMAL,
+	CTX_EDITOR
 }					t_render_type;
 
 typedef struct		s_render_data

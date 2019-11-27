@@ -6,13 +6,14 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 16:49:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/25 14:56:27 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/27 04:02:17 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom.h"
 #include "sprite.h"
 #include "render.h"
+#include "octree.h"
 
 void	render(t_doom *doom)
 {
@@ -64,12 +65,84 @@ static float	get_light_intensity(t_render_context *ctx, t_renderable *r, t_vec3 
 	return sum / (float)valid;
 }
 
+typedef struct	s_face_data
+{
+	t_render_context	*ctx;
+	t_renderable		*r;
+}				t_face_data;
+
+
+int faces_count = 0;
+
+void	render_face(int face_index, void *p)
+{
+	//printf("CALL\n");
+	t_face_data *face_data = p;
+	t_vec2	vertex = (t_vec2){ 0, 0 };
+	t_renderable *r = face_data->r;
+	t_render_context *ctx = face_data->ctx;
+	t_face *face = &r->faces->values[face_index];
+	t_mtl *mtl = &r->materials->values[face->mtl_index];
+	if (face->hidden || face->rendered)
+		return;
+	face->rendered = TRUE;
+	faces_count++;
+	if (r->double_faced)
+		face->double_sided = TRUE;
+	if (r->wireframe)
+		mtl->wireframe = TRUE;
+
+	if (r->wireframe_color == 0)
+		r->wireframe_color =  0xFF555555;
+
+	if (mtl->wireframe || (!mtl->texture_map_set && !mtl->material_color_set))
+	{
+		mtl->material_color_set = TRUE;
+		mtl->material_color = mtl->wireframe ? r->wireframe_color : 0xFF555555;
+	}
+
+	if (!face->double_sided)
+	{
+		float d = ft_vec3_dot(face->face_normal, ft_vec3_sub(ctx->camera->pos, vec4_to_3(r->pp_vertices[face->vertices_index[0] - 1])));
+		if (d <= 0)
+			return;
+	}
+
+	
+	
+	t_vec4 v0 = mat4_mulv4(ctx->camera->total_matrix, r->pp_vertices[face->vertices_index[0] - 1]);
+	t_vec4 v1 = mat4_mulv4(ctx->camera->total_matrix, r->pp_vertices[face->vertices_index[1] - 1]);
+	t_vec4 v2 = mat4_mulv4(ctx->camera->total_matrix, r->pp_vertices[face->vertices_index[2] - 1]);
+
+
+	float it0 = get_light_intensity(ctx, r, r->pp_normals[face->normals_index[0] - 1], r->pp_vertices[face->vertices_index[0] - 1]);
+	float it1 = get_light_intensity(ctx, r, r->pp_normals[face->normals_index[1] - 1], r->pp_vertices[face->vertices_index[1] - 1]);
+	float it2 = get_light_intensity(ctx, r, r->pp_normals[face->normals_index[2] - 1], r->pp_vertices[face->vertices_index[2] - 1]);
+	
+	t_vec2 vertex0 = vertex;
+	t_vec2 vertex1 = vertex;
+	t_vec2 vertex2 = vertex;
+
+	if (r->vertex)
+	{
+		vertex0 = r->vertex->vertices[face->vertex_index[0] - 1];
+		vertex1 = r->vertex->vertices[face->vertex_index[1] - 1];
+		vertex2 = r->vertex->vertices[face->vertex_index[2] - 1];
+	}
+
+	process_triangle(ctx, mtl, (t_triangle) {
+		{ .pos = v0, .tex = vertex0, .normal = r->pp_normals[face->normals_index[0] - 1], .light_color = it0 },
+		{ .pos = v1, .tex = vertex1, .normal = r->pp_normals[face->normals_index[1] - 1], .light_color = it1 },
+		{ .pos = v2, .tex = vertex2, .normal = r->pp_normals[face->normals_index[2] - 1], .light_color = it2 }
+	});
+}
+
 
 void	render_renderable(t_render_context *ctx, t_renderable *r)
 {
 	int		i;
-	t_face	*face;
-	t_mtl	*mtl;
+	// t_face	*face;
+	// t_mtl	*mtl;
 
 	if (r->of.type == RENDERABLE_ENTITY)
 	{
@@ -106,63 +179,20 @@ void	render_renderable(t_render_context *ctx, t_renderable *r)
 		r->dirty = FALSE;
 	}
 	
-	t_vec2	vertex = (t_vec2){ 0, 0 };
+	
+	t_face_data face_data = (t_face_data){ .ctx = ctx, .r = r };
 
 	i = -1;
 	while (++i < r->faces->len)
-	{
-		face = &r->faces->values[i];
-		mtl = &r->materials->values[face->mtl_index];
-		if (face->hidden)
-			continue;
-		if (r->double_faced)
-			face->double_sided = TRUE;
-		if (r->wireframe)
-			mtl->wireframe = TRUE;
-
-		if (r->wireframe_color == 0)
-			r->wireframe_color =  0xFF555555;
-
-		if (mtl->wireframe || (!mtl->texture_map_set && !mtl->material_color_set))
-		{
-			mtl->material_color_set = TRUE;
-			mtl->material_color = mtl->wireframe ? r->wireframe_color : 0xFF555555;
-		}
-
-		if (!face->double_sided)
-		{
-			float d = ft_vec3_dot(face->face_normal, ft_vec3_sub(ctx->camera->pos, vec4_to_3(r->pp_vertices[face->vertices_index[0] - 1])));
-			if (d <= 0)
-				continue;
-		}
-		
-		t_vec4 v0 = mat43_mulv4(ctx->camera->matrix, r->pp_vertices[face->vertices_index[0] - 1]);
-		t_vec4 v1 = mat43_mulv4(ctx->camera->matrix, r->pp_vertices[face->vertices_index[1] - 1]);
-		t_vec4 v2 = mat43_mulv4(ctx->camera->matrix, r->pp_vertices[face->vertices_index[2] - 1]);
-
-		v0 = mat4_mulv4(ctx->camera->projection, v0);
-		v1 = mat4_mulv4(ctx->camera->projection, v1);
-		v2 = mat4_mulv4(ctx->camera->projection, v2);
-
-		float it0 = get_light_intensity(ctx, r, r->pp_normals[face->normals_index[0] - 1], r->pp_vertices[face->vertices_index[0] - 1]);
-		float it1 = get_light_intensity(ctx, r, r->pp_normals[face->normals_index[1] - 1], r->pp_vertices[face->vertices_index[1] - 1]);
-		float it2 = get_light_intensity(ctx, r, r->pp_normals[face->normals_index[2] - 1], r->pp_vertices[face->vertices_index[2] - 1]);
-		
-		t_vec2 vertex0 = vertex;
-		t_vec2 vertex1 = vertex;
-		t_vec2 vertex2 = vertex;
-
-		if (r->vertex)
-		{
-			vertex0 = r->vertex->vertices[face->vertex_index[0] - 1];
-			vertex1 = r->vertex->vertices[face->vertex_index[1] - 1];
-			vertex2 = r->vertex->vertices[face->vertex_index[2] - 1];
-		}
-
-		process_triangle(ctx, mtl, (t_triangle) {
-			{ .pos = v0, .tex = vertex0, .normal = r->pp_normals[face->normals_index[0] - 1], .light_color = it0 },
-			{ .pos = v1, .tex = vertex1, .normal = r->pp_normals[face->normals_index[1] - 1], .light_color = it1 },
-			{ .pos = v2, .tex = vertex2, .normal = r->pp_normals[face->normals_index[2] - 1], .light_color = it2 }
-		});
-	}
+		r->faces->values[i].rendered = FALSE;
+	faces_count = 0;
+	
+	if (r->octree)
+		frustum_intersect_octree(r->octree, ctx->camera->frustum, render_face, &face_data);
+	printf("%d/%d\n", faces_count, r->faces->len);
+	// r->wireframe = TRUE;	 
+	// i = -1;
+	// while (++i < r->faces->len)
+	// 	render_face(i, &face_data);
+	// r->wireframe = FALSE;	
 }

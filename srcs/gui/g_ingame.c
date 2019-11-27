@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/24 00:52:52 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/27 00:38:13 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "doom.h"
 #include <limits.h>
 #include "gui.h"
+#include "octree.h"
 
 void static	action_performed(t_component *cmp, t_doom *doom)
 {
