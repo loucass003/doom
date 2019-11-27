@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 16:49:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/27 17:24:41 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/27 17:32:57 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,10 +110,13 @@ void	render_face(int face_index, void *p)
 
 	
 	
-	t_vec4 v0 = mat4_mulv4(ctx->camera->total_matrix, r->pp_vertices[face->vertices_index[0] - 1]);
-	t_vec4 v1 = mat4_mulv4(ctx->camera->total_matrix, r->pp_vertices[face->vertices_index[1] - 1]);
-	t_vec4 v2 = mat4_mulv4(ctx->camera->total_matrix, r->pp_vertices[face->vertices_index[2] - 1]);
+	t_vec4 v0 = mat43_mulv4(ctx->camera->matrix, r->pp_vertices[face->vertices_index[0] - 1]);
+	t_vec4 v1 = mat43_mulv4(ctx->camera->matrix, r->pp_vertices[face->vertices_index[1] - 1]);
+	t_vec4 v2 = mat43_mulv4(ctx->camera->matrix, r->pp_vertices[face->vertices_index[2] - 1]);
 
+	v0 = mat4_mulv4(ctx->camera->projection, v0);
+	v1 = mat4_mulv4(ctx->camera->projection, v1);
+	v2 = mat4_mulv4(ctx->camera->projection, v2);
 
 	float it0 = get_light_intensity(ctx, r, r->pp_normals[face->normals_index[0] - 1], r->pp_vertices[face->vertices_index[0] - 1]);
 	float it1 = get_light_intensity(ctx, r, r->pp_normals[face->normals_index[1] - 1], r->pp_vertices[face->vertices_index[1] - 1]);
@@ -187,13 +190,13 @@ void	render_renderable(t_render_context *ctx, t_renderable *r)
 		r->faces->values[i].rendered = FALSE;
 	faces_count = 0;
 	
-	// if (r->octree)
-	// 	frustum_intersect_octree(r->octree, ctx->camera->frustum, render_face, &face_data);
+	if (r->octree)
+		frustum_intersect_octree(r->octree, ctx->camera->frustum, render_face, &face_data);
 
 	// r->wireframe = TRUE;	 
-	i = -1;
-	while (++i < r->faces->len)
-		render_face(i, &face_data);
+	// i = -1;
+	// while (++i < r->faces->len)
+	// 	render_face(i, &face_data);
 	printf("%d/%d\n", faces_count, r->faces->len);
 	// r->wireframe = FALSE;	
 }
