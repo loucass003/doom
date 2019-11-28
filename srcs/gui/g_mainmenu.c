@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_mainmenu.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:56:05 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/26 22:59:50 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/28 14:33:14 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static t_bool		action_performed(t_component *cmp, t_doom *doom)
 {
 	if (cmp == doom->guis[doom->current_gui].components->values[0])
 	{
-		init_bsp(doom);
+		//init_bsp(doom);
 		doom->main_context.type = CTX_NORMAL;
 		set_gui(doom, GUI_INGAME);
 		return (FALSE);

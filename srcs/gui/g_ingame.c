@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_ingame.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/28 04:15:15 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/28 14:10:47 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	g_ingame_render(t_gui *self, t_doom *doom)
 		doom->renderables->values[doom->skybox_index].position = doom->main_context.camera->pos;
 		doom->renderables->values[doom->skybox_index].dirty = TRUE;
 	}
-	printf("START FAME ------------\n");
+	//printf("START FAME ------------\n");
 	for (int i = 0; i < doom->renderables->len; i++)
 	{
 		t_renderable	*r = doom->renderables->values + i;

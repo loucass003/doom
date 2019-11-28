@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   enemy.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/30 16:36:08 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/24 03:20:29 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/28 14:16:11 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,6 @@
 #include "sprite.h"
 #include "entity.h"
 #include <stdlib.h>
-
-void		compute_entity_hitbox(t_renderable *r)
-{
-	const t_entity	*entity = r->of.data.entity;
-
-	compute_ellipsoid_hitbox(r, entity->position, entity->radius);
-}
 
 t_bool		create_enemy_renderable(t_doom *doom, t_renderable *r)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/28 04:27:06 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/28 14:34:01 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,7 +203,7 @@ int		main(int argc, char **argv)
 	printf("SPHERE %p\n", doom.sphere_primitive.octree);
 	init_sdl(&doom);
 	obj_test(&doom);
-	
+	init_bsp(&doom);
 	init_lightning(&doom);
 	game_loop(&doom);
 	save_datapack(&doom);

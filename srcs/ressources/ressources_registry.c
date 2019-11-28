@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ressources_registry.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 14:37:12 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/23 14:06:24 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/28 14:23:41 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ t_bool			init_ressources_registry(t_doom *doom)
 	error |= a(doom, "GUN_ANNIMATION", RESSOURCE_TEXTURE, TRUE);
 	error |= a(doom, "AXE_ANNIMATION", RESSOURCE_TEXTURE, TRUE);
 	error |= a(doom, "ENEMY_SPRITESHEET", RESSOURCE_TEXTURE, TRUE);
+	error |= a(doom, "BOSS_SPRITESHEET", RESSOURCE_TEXTURE, TRUE);
 	return (error);
 }
 

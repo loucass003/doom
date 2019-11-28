@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   events.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:14:55 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/28 03:27:46 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/28 14:05:48 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,14 +177,14 @@ void	hook_events(t_doom *doom)
 			doom->player.entity.rotation.x += 0.01 * (s[SDL_SCANCODE_I] ? 1 : -1) * ms;
 		int m_x, m_y;
 		SDL_GetRelativeMouseState(&m_x, &m_y);
-		// if (m_x != 0)
-		// 	doom->player.entity.rotation.y -= m_x * ms * 0.0001;
-		// if (m_y != 0)
-		// {
-		// 	float rot = m_y * ms * 0.0001;
-		// 	if (doom->player.entity.rotation.x - rot < M_PI_2 && doom->player.entity.rotation.x - rot > -M_PI_2 )
-		// 		doom->player.entity.rotation.x -= rot;
-		// }
+		if (m_x != 0)
+			doom->player.entity.rotation.y -= m_x * ms * 0.0001;
+		if (m_y != 0)
+		{
+			float rot = m_y * ms * 0.0001;
+			if (doom->player.entity.rotation.x - rot < M_PI_2 && doom->player.entity.rotation.x - rot > -M_PI_2 )
+				doom->player.entity.rotation.x -= rot;
+		}
 		update_player_camera(&doom->player);
 	}
 	

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_es_obj_entity.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 22:55:54 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/23 23:34:33 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/28 14:25:52 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void			g_es_obj_entity_enter(t_gui *self, t_doom *doom)
 	((t_select *)self->components->values[0])->items = create_select_items_array(1);
 	self->components->values[0]->perform_action = action_performed;
 	append_select_items_array(&((t_select *)self->components->values[0])->items, (t_select_item){ .name = "ENEMY", .value = ENTITY_ENEMY });
+	append_select_items_array(&((t_select *)self->components->values[0])->items, (t_select_item){ .name = "BOSS", .value = ENTITY_BOSS });
 	t_object	*object = &doom->editor.objects->values[doom->editor.current_object];
 	((t_select *)self->components->values[0])->selected_item = select_items_indexof(((t_select *)self->components->values[0])->items, object->of.entity);
 }

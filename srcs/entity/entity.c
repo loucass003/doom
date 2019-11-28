@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   entity.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 22:00:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/26 23:08:25 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/28 14:38:39 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,11 @@ void		check_collision(t_entity *entity, t_collide_aabb area)
 	while (++i < entity->packet.doom->renderables->len)
 	{
 		r = entity->packet.doom->renderables->values[i];
-		if (r.of.data.entity == entity || (r.of.type == RENDERABLE_ENTITY && (r.of.data.entity->type == ENTITY_GRENADA || r.of.data.entity->of.enemy.died)))
+		if (r.of.data.entity == entity 
+			|| (r.of.type == RENDERABLE_ENTITY 
+			&& (r.of.data.entity->type == ENTITY_GRENADA 
+				|| (r.of.data.entity->type == ENTITY_ENEMY && r.of.data.entity->of.enemy.died) 
+				|| (r.of.data.entity->type == ENTITY_BOSS && r.of.data.entity->of.boss.dead))))
 			continue;
 		new_area = area;
 		t_physics_data data = entity->packet;
@@ -256,6 +260,10 @@ void		entity_update(t_doom *doom, t_entity *entity, double dt)
 
 	if (doom->main_context.type == CTX_NORMAL)
 	{
+		if (entity->type == ENTITY_BOSS)
+		{
+			entity_update_boss(doom, entity, dt);
+		}
 		if (entity->type == ENTITY_ENEMY)
 		{
 			entity_update_enemy(doom, entity, dt);
@@ -325,4 +333,11 @@ void		entity_update(t_doom *doom, t_entity *entity, double dt)
 	}
 	
 //	entity->grounded = entity->packet.grounded;
+}
+
+void		compute_entity_hitbox(t_renderable *r)
+{
+	const t_entity	*entity = r->of.data.entity;
+
+	compute_ellipsoid_hitbox(r, entity->position, entity->radius);
 }

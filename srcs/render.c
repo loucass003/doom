@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 16:49:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/28 04:31:15 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/28 15:38:24 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,6 +171,13 @@ void	render_renderable(t_render_context *ctx, t_renderable *r)
 				texture = enemy->diying_step;
 			set_current_cell(r, texture, enemy->animation_step);
 		}
+		else if (entity->type == ENTITY_BOSS)
+		{
+			t_entity_boss	*boss;
+
+			boss = &entity->of.boss;
+			set_current_cell(r, boss->animation_step, boss->phase);
+		}
 		
 	}
 
@@ -191,18 +198,18 @@ void	render_renderable(t_render_context *ctx, t_renderable *r)
 	faces_count = 0;
 	
 
-	if (r->octree)
-	{
-		frustum_to_local(ctx->camera, r);
-		frustum_intersect_octree(r->octree, ctx->camera->frustum, render_face, &face_data);
-		printf("OCTREE %d %d/%d\n", r->of.type, faces_count, r->faces->len);
-	}
-	else
+	// if (r->octree)
+	// {
+	// 	frustum_to_local(ctx->camera, r);
+	// 	frustum_intersect_octree(r->octree, ctx->camera->frustum, render_face, &face_data);
+	// //	printf("OCTREE %d %d/%d\n", r->of.type, faces_count, r->faces->len);
+	// }
+	// else
 	{
 		i = -1;
 		while (++i < r->faces->len)
 			render_face(i, &face_data);
-		printf("NORMAL %d %d/%d\n", r->of.type, faces_count, r->faces->len);
+//		printf("NORMAL %d %d/%d\n", r->of.type, faces_count, r->faces->len);
 	}
 	//r->wireframe = TRUE;
 

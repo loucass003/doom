@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/14 16:37:29 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/24 00:57:02 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/28 15:00:36 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ t_collision		ray_hit_world(t_doom *doom, t_renderables *renderables, t_ray ray)
 	while (++i < renderables->len)
 	{
 		r = &renderables->values[i];
-		if (r->of.type == RENDERABLE_ENTITY && r->of.data.entity->type == ENTITY_ENEMY && r->of.data.entity->of.enemy.died)
+		if (r->of.type == RENDERABLE_ENTITY && ((r->of.data.entity->type == ENTITY_ENEMY && r->of.data.entity->of.enemy.died) || (r->of.data.entity->type == ENTITY_BOSS && r->of.data.entity->of.boss.dead)))
 			continue;
 		if (r->has_hitbox && r->hitbox.type == COLLIDE_ELLIPSOID)
 		{

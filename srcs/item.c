@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   item.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 20:16:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/23 19:50:17 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/28 15:52:39 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	on_use_weapon(t_doom *doom, t_itemstack *is)
 		inv_is->of = NULL;
 	
 	hit = ray_hit_world(doom, doom->renderables, create_shoot_ray(doom->player, (t_vec3){0, 0, 1}));
-	if (hit.collide && hit.renderable->of.type == RENDERABLE_ENTITY && hit.renderable->of.data.entity->type == ENTITY_ENEMY)
+	if (hit.collide && hit.renderable->of.type == RENDERABLE_ENTITY && (hit.renderable->of.data.entity->type == ENTITY_ENEMY || hit.renderable->of.data.entity->type == ENTITY_BOSS))
 	{
 		doom->gameover.totaldamage += weapon->damage;
 		hit.renderable->of.data.entity->life -= weapon->damage;
@@ -85,7 +85,7 @@ void	on_use_axe(t_doom *doom, t_itemstack *is)
 		return;
 	weapon->fireing = TRUE;
 	hit = ray_hit_world(doom, doom->renderables, create_shoot_ray(doom->player, (t_vec3){0, 0, 1}));
-	if (hit.collide && hit.dist < 2 && hit.renderable->of.type == RENDERABLE_ENTITY && hit.renderable->of.data.entity->type == ENTITY_ENEMY)
+	if (hit.collide && hit.dist < 2 && hit.renderable->of.type == RENDERABLE_ENTITY && (hit.renderable->of.data.entity->type == ENTITY_ENEMY || hit.renderable->of.data.entity->type == ENTITY_BOSS))
 	{
 		doom->gameover.totaldamage += weapon->damage;
 		hit.renderable->of.data.entity->life -= weapon->damage;

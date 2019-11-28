@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   editor_setmap.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 15:55:03 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/26 23:02:27 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/28 14:27:32 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -236,6 +236,8 @@ t_bool		editor_setmap(t_editor *editor)
 			t_renderable r;
 			if (object->of.entity == ENTITY_ENEMY)
 				create_enemy_renderable(editor->doom, &r);
+			else if (object->of.entity == ENTITY_BOSS)
+				create_boss_renderable(editor->doom, &r);
 			r.of.data.entity->position = ft_vec3_div_s(object->pos, 5);
 			r.of.data.entity->position.y += r.of.data.entity->radius.y;
 			if (!append_renderables_array(&editor->doom->renderables, r))
