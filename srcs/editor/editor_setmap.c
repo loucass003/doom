@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   editor_setmap.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 15:55:03 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/28 14:27:32 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/11/28 22:10:25 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,7 +182,6 @@ t_bool		editor_setmap(t_editor *editor)
 {
 	int		i;
 
-	printf("SETMAP\n");
 	editor->doom->main_context.type = CTX_EDITOR;
 	editor->doom->renderables->len = 0;
 	editor->doom->skybox_index = -1;
@@ -240,6 +239,7 @@ t_bool		editor_setmap(t_editor *editor)
 				create_boss_renderable(editor->doom, &r);
 			r.of.data.entity->position = ft_vec3_div_s(object->pos, 5);
 			r.of.data.entity->position.y += r.of.data.entity->radius.y;
+			r.show_hitbox = TRUE;
 			if (!append_renderables_array(&editor->doom->renderables, r))
 				return (FALSE);
 		}

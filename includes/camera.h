@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:40:59 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/27 03:36:10 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/28 21:10:37 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ typedef struct		s_camera
 	t_vec3			pos;
 	t_vec3			rotation;
 	t_mat4			matrix;
-	t_mat4			total_matrix;
+	t_mat4			frustum_matrix;
 	t_mat4			projection;
 	t_vec4 			frustum[6];
 }					t_camera;

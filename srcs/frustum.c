@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/26 23:35:31 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/28 04:00:27 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/28 21:10:26 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,10 +79,13 @@ t_bool		aabb_vs_frustrum(t_collide_aabb aabb, t_vec4 *planes)
 void		frustum_to_local(t_camera *camera, t_renderable *r)
 {
 	t_mat4 m = ft_mat4_mul(
-		camera->projection,
+		camera->frustum_matrix,
 		ft_mat4_mul(
-			ft_mat4_rotation((t_vec3){-camera->rotation.x, -camera->rotation.y - M_PI, -camera->rotation.z}),
-			ft_mat4_translation(point_to_local((t_vec3){-camera->pos.x, -camera->pos.y, -camera->pos.z}, r->position, r->rotation, r->scale))
+			ft_mat4_mul(
+				ft_mat4_translation(r->position),
+				ft_mat4_rotation(r->rotation)
+			),
+			ft_mat4_scale(r->scale)
 		)
 	);
 	compute_frustum_planes(m, camera->frustum);

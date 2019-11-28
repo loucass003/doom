@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 23:57:39 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/28 04:02:45 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/28 21:09:52 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,13 @@ void	camera_update_maxtrix(t_camera *camera)
 		ft_mat4_rotation((t_vec3){camera->rotation.x, -camera->rotation.y, camera->rotation.z}),
 		ft_mat4_translation(ft_vec3_inv(camera->pos))
 	);
-	camera->total_matrix = ft_mat4_mul(camera->projection, camera->matrix);
-	// t_mat4 p = camera->projection;
-	// //p.b[10] *= -1;
-	// t_mat4 m = ft_mat4_mul(
-	// 	camera->projection,
-	// 	ft_mat4_mul(
-	// 		ft_mat4_rotation((t_vec3){-camera->rotation.x, -camera->rotation.y - M_PI, -camera->rotation.z}),
-	// 		ft_mat4_translation((t_vec3){-camera->pos.x, -camera->pos.y, -camera->pos.z})
-	// 	)
-	// );
-	// compute_frustum_planes(m, camera->frustum);
+	camera->frustum_matrix = ft_mat4_mul(
+		camera->projection,
+		ft_mat4_mul(
+			ft_mat4_rotation((t_vec3){-camera->rotation.x, -camera->rotation.y - M_PI, -camera->rotation.z}),
+			ft_mat4_translation((t_vec3){-camera->pos.x, -camera->pos.y, -camera->pos.z})
+		)
+	);
 }
 
 t_mat4	projection_matrix()

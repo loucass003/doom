@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_ingame.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/28 14:10:47 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/11/28 21:56:35 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void static	action_performed(t_component *cmp, t_doom *doom)
 void	g_ingame_on_enter(t_gui *self, t_doom *doom)
 {
 	doom->screen.secure = FALSE;
-//	SDL_SetRelativeMouseMode(SDL_TRUE);
+	SDL_SetRelativeMouseMode(SDL_TRUE);
 	append_components_array(&self->components, create_progress((SDL_Rect){ 5, 5, 200, 30 }));
 	((t_progress *)self->components->values[0])->value = 50;
 	((t_progress *)self->components->values[0])->bg_color = 0xFFFF0000;

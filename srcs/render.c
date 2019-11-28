@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 16:49:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/28 15:38:24 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/11/28 18:22:15 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,13 +198,13 @@ void	render_renderable(t_render_context *ctx, t_renderable *r)
 	faces_count = 0;
 	
 
-	// if (r->octree)
-	// {
-	// 	frustum_to_local(ctx->camera, r);
-	// 	frustum_intersect_octree(r->octree, ctx->camera->frustum, render_face, &face_data);
-	// //	printf("OCTREE %d %d/%d\n", r->of.type, faces_count, r->faces->len);
-	// }
-	// else
+	if (r->octree)
+	{
+		frustum_to_local(ctx->camera, r);
+		frustum_intersect_octree(r->octree, ctx->camera->frustum, render_face, &face_data);
+	//	printf("OCTREE %d %d/%d\n", r->of.type, faces_count, r->faces->len);
+	}
+	else
 	{
 		i = -1;
 		while (++i < r->faces->len)
