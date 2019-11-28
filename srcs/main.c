@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/24 00:54:05 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/28 04:27:06 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,9 @@ void	init_bsp(t_doom *doom)
 	ellipsoid.scale = (t_vec3){ 1, 1, 1 };
 	// ellipsoid.wireframe = TRUE;
 	ellipsoid.wireframe_color = 0xFFFF0000;
+	post_process_obj(doom, &ellipsoid);
 	append_renderables_array(&doom->renderables, ellipsoid);
+	
 
 	t_renderable itemstack;
 	t_item *weapon = create_item_weapon_gun(doom->res_manager.ressources->values[2], doom->res_manager.ressources->values[3]);

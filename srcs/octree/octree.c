@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/05 17:31:15 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/27 04:08:10 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/28 03:32:36 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,33 +189,11 @@ void			aabb_intersect_octree(t_octree_node *n, t_collide_aabb *aabb, void (*fn)(
 void			frustum_intersect_octree(t_octree_node *n, t_vec4 *frustum, void (*fn)(int face, void *param), void *param)
 {
 	int				i;
-
-	t_collide_aabb	area = n->box.data.aabb;
-	// t_vec3 min = (t_vec3){ INT_MAX, INT_MAX, INT_MAX };
-	// t_vec3 max = (t_vec3){ INT_MIN, INT_MIN, INT_MIN };
-	// min.x = fmin(min.x, area.min.x);
-	// min.y = fmin(min.y, area.min.y);
-	// min.z = fmin(min.z, area.min.z);
-	// min.x = fmin(min.x, area.max.x);
-	// min.y = fmin(min.y, area.max.y);
-	// min.z = fmin(min.z, area.max.z);
-
-	// max.x = fmax(max.x, area.min.x);
-	// max.y = fmax(max.y, area.min.y);
-	// max.z = fmax(max.z, area.min.z);
-	// max.x = fmax(max.x, area.max.x);
-	// max.y = fmax(max.y, area.max.y);
-	// max.z = fmax(max.z, area.max.z);
-
-	// area.min = min;
-	// area.max = max;
-
-
-	if (!aabb_vs_frustrum(area, frustum))
+	
+	if (!aabb_vs_frustrum(n->box.data.aabb, frustum))
 		return;
 	if (n->faces_index && !n->childs)
 	{
-	//	printf("RENDER FRAMES\n");
 		i = -1;
 		while (++i < n->faces_index->len)
 			fn(n->faces_index->values[i], param);

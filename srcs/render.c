@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 16:49:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/27 17:32:57 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/28 04:31:15 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void	render_face(int face_index, void *p)
 	t_mtl *mtl = &r->materials->values[face->mtl_index];
 	if (face->hidden || face->rendered)
 		return;
-	face->rendered = TRUE;
+	
 	faces_count++;
 	if (r->double_faced)
 		face->double_sided = TRUE;
@@ -108,8 +108,8 @@ void	render_face(int face_index, void *p)
 			return;
 	}
 
-	
-	
+	face->rendered = TRUE;
+
 	t_vec4 v0 = mat43_mulv4(ctx->camera->matrix, r->pp_vertices[face->vertices_index[0] - 1]);
 	t_vec4 v1 = mat43_mulv4(ctx->camera->matrix, r->pp_vertices[face->vertices_index[1] - 1]);
 	t_vec4 v2 = mat43_mulv4(ctx->camera->matrix, r->pp_vertices[face->vertices_index[2] - 1]);
@@ -190,13 +190,22 @@ void	render_renderable(t_render_context *ctx, t_renderable *r)
 		r->faces->values[i].rendered = FALSE;
 	faces_count = 0;
 	
-	if (r->octree)
-		frustum_intersect_octree(r->octree, ctx->camera->frustum, render_face, &face_data);
 
-	// r->wireframe = TRUE;	 
-	// i = -1;
-	// while (++i < r->faces->len)
-	// 	render_face(i, &face_data);
-	printf("%d/%d\n", faces_count, r->faces->len);
-	// r->wireframe = FALSE;	
+	if (r->octree)
+	{
+		frustum_to_local(ctx->camera, r);
+		frustum_intersect_octree(r->octree, ctx->camera->frustum, render_face, &face_data);
+		printf("OCTREE %d %d/%d\n", r->of.type, faces_count, r->faces->len);
+	}
+	else
+	{
+		i = -1;
+		while (++i < r->faces->len)
+			render_face(i, &face_data);
+		printf("NORMAL %d %d/%d\n", r->of.type, faces_count, r->faces->len);
+	}
+	//r->wireframe = TRUE;
+
+	
+	//r->wireframe = FALSE;
 }

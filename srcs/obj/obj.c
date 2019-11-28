@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 15:28:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/27 04:06:40 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/28 04:12:54 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,14 +158,14 @@ t_bool		obj_test(t_doom *doom)
 	
 
 
-	// set_obj_working_dir(doom, "assets/obj");
-	// lol = create_obj(doom, &r, "skybox.obj");
-	// r.position = (t_vec3){0, 0, 0};
-	// r.scale = (t_vec3){FAR_CULL, FAR_CULL, FAR_CULL};
-	// r.no_light = TRUE;
-	// r.fixed = TRUE;
-	// doom->skybox_index = doom->renderables->len;
-	// append_renderables_array(&doom->renderables, r);
+	set_obj_working_dir(doom, "assets/obj");
+	lol = create_obj(doom, &r, "skybox.obj");
+	r.position = (t_vec3){0, 0, 0};
+	r.scale = (t_vec3){FAR_CULL, FAR_CULL, FAR_CULL};
+	r.no_light = TRUE;
+	r.fixed = TRUE;
+	doom->skybox_index = doom->renderables->len;
+	 append_renderables_array(&doom->renderables, r);
 	// set_obj_working_dir(doom, "assets/obj/de_dust");
 	// lol = create_obj(doom, &r, "de_dust2.obj");
 	// r.position = (t_vec3){0, 0, 0};

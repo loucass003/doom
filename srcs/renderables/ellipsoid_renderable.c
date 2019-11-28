@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/09 21:56:55 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/25 14:56:58 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/28 04:09:54 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ t_bool	create_ellipsoid(t_renderable *r, int color, t_vec2 res, t_vec3 radius)
 	r->dirty = TRUE;
 	r->fixed = FALSE; 
 	r->scale = (t_vec3){ 1, 1, 1 };
+	
 	//r->double_faced = TRUE;
 	return (TRUE);
 }
