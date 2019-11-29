@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 18:54:05 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/17 22:01:12 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/29 05:18:01 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,9 @@ t_bool		editor_render_wall(t_doom *doom, t_editor *editor, t_room *room, int j)
 	int	color = editor->current_room != -1 && room
 		== &editor->rooms->values[editor->current_room] ? 0xFFFFF0F0 : 0xFFFF9090;
 	
+	if (point_in_room(editor, room, editor->grid_cell))
+		color = 0xFF00FF00;
+
 	p0 = editor->points->vertices[room->walls->values[j].indice];
 	p1 = editor->points->vertices[
 			room->walls->values[(j + 1) % room->walls->len].indice];

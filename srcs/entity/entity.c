@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   entity.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 22:00:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/28 14:38:39 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/11/29 04:20:18 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,8 @@ void		check_collision(t_entity *entity, t_collide_aabb area)
 			new_area.min = point_to_local(new_area.min, r.position, r.rotation, r.scale);
 			new_area.max = point_to_local(new_area.max, r.position, r.rotation, r.scale);
 			collide_with_octree(&r, entity, r.octree, new_area);
+			if (data.distance > entity->packet.distance)
+				entity->packet.r = &entity->packet.doom->renderables->values[i];
 		}
 		else
 		{

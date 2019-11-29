@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 18:37:59 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/17 23:12:02 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/29 05:24:30 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,4 +100,31 @@ void			select_room(t_editor *editor, int index)
 	editor->current_object = -1;
 	editor->current_room = index;
 	editor_settings_update(editor);
+}
+
+
+t_bool			point_in_room(t_editor *editor, t_room *room, t_vec2 point)
+{
+	t_bool		inside;
+	int			i;
+	int			j;
+	t_line		seg;
+
+	inside = FALSE;
+	i = -1;
+	while (++i < room->walls->len)
+	{
+		j = (i + 1) % room->walls->len;
+		seg.a = editor->points->vertices[room->walls->values[i].indice];
+		seg.b = editor->points->vertices[room->walls->values[j].indice];
+
+		if ((seg.a.y <= point.y && seg.b.y > point.y)
+			|| (seg.b.y <= point.y && seg.a.y > point.y))
+		{
+			if (((seg.b.x - seg.a.x) * (point.y - seg.a.y)
+				/ (seg.b.y - seg.a.y) + seg.a.x) < point.x)
+				inside = !inside;
+		}
+	}
+	return (inside);
 }
