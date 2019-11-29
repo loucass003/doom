@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/09 22:02:47 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/09 22:41:11 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/29 23:20:52 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define ELLIPSOID_H
 
 # include <libft.h>
+# include "render.h"
 
 typedef struct	s_ellipsoid
 {

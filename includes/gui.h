@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 01:42:00 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/29 18:41:01 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/29 23:13:42 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ typedef struct s_doom	t_doom;
 typedef enum		e_component_type
 {
 	C_BUTTON,
-	C_MENU,
 	C_TEXTFIELD,
 	C_PROGRESS,
 	C_SELECT,
@@ -140,23 +139,6 @@ typedef struct		s_texture
 	struct s_texture	*next;
 }						t_texture;
 
-typedef struct		s_menu
-{
-	t_component		super;
-	t_bool			open;
-	t_files			*name_file;
-	// char			*select_file;
-	SDL_Surface		*select_file;
-	int				select_pos;
-	int				posx;
-	int				posy;
-	int				files_count;
-	SDL_Surface		*texture;
-	int				color;
-	int				click;
-	char			*name;
-}					t_menu;
-
 typedef struct		s_icone
 {
 	t_component		super;
@@ -169,14 +151,6 @@ typedef struct		s_icone
 	int				files_count;
 	SDL_Surface		*texture;
 }					t_icone;
-
-typedef union		u_components_u
-{
-	t_select		select;
-	t_progress		progress;
-	t_button		button;
-	t_menu			menu;
-}					t_components_u;
 
 typedef struct		s_gui
 {
@@ -239,15 +213,10 @@ void				free_components(t_gui *gui);
 t_component	 		*create_button(SDL_Rect bounds, char *s, char *s2);
 t_component	 		*create_progress(SDL_Rect bounds);
 
-void    			find_files(t_files **list, int *files_count, char *s, char *s2);
-t_component			*create_menu(SDL_Rect bounds, char *s, t_doom *doom);
-t_component	 		*create_icone(SDL_Rect bounds);
 
 DIR					*open_dir(char *s);
 void				close_dir(DIR *rep);
 t_files				*copy_name(struct dirent *file, t_files *start, char *s2);
-void				put_menu(t_component *self, t_doom *doom, t_menu *menu);
-void				menu_deroulant(t_component *self, int i, t_texture *f, t_doom *doom);
 void				display_comp(t_doom *doom, t_gui *self);
 
 t_select_items		*create_select_items_array(int capacity);

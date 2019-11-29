@@ -6,14 +6,13 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/12 15:51:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/25 14:55:11 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/29 22:20:32 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include <maths.h>
 #include <stdlib.h>
-#include "polygon.h"
 #include "render.h"
 #include "maths/mat4.h"
 #include "arrays.h"
@@ -72,7 +71,7 @@ static t_bool	snip(t_4dvertices *vertices, int u, int j, int w, int n, int *v)
 	return (TRUE);
 }
 
-t_bool	ear_clip2(int *filters, int filters_count, int vertices_count, t_4dvertices *vertices, t_faces **faces, int face_type, int face_material)
+t_bool	ear_clip2(int *filters, int filters_count, t_4dvertices *vertices, t_faces **faces, int face_type, int face_material)
 {
 	int		*v;
 
@@ -136,19 +135,6 @@ t_bool	ear_clip2(int *filters, int filters_count, int vertices_count, t_4dvertic
 	return (TRUE);
 }
 
-static t_bool	ear_clip_polygon(t_renderable *r)
-{
-	int		*filter;
-	int		i;
-
-	if (!(filter = malloc(r->vertices->len * sizeof(int))))
-		return (FALSE);
-	i = -1;
-	while (++i < r->vertices->len)
-		filter[i] = i;
-	return (ear_clip2(filter, r->vertices->len, r->vertices->len, r->vertices, &r->faces, 0, 0));
-}
-
 t_bool	compute_change_of_basis(t_vec3 n, t_mat4 *p_inv, t_mat4 *reverse)
 {
 	const t_vec3	up = (t_vec3){0, 0, 1};
@@ -166,29 +152,4 @@ t_bool	compute_change_of_basis(t_vec3 n, t_mat4 *p_inv, t_mat4 *reverse)
 		0, 0, 0, 1
 	};
 	return (mat4_inverse(*reverse, p_inv));
-}
-
-t_bool	triangulate_polygon(t_renderable *r)
-{
-	t_mat4			p_inv;
-	t_mat4			reverse;
-	int				i;
-	const t_vec3	n = get_triangle_normal(
-		vec4_to_3(r->vertices->vertices[0]),
-		vec4_to_3(r->vertices->vertices[1]),
-		vec4_to_3(r->vertices->vertices[2]));
-
-	if (!compute_change_of_basis(n, &p_inv, &reverse))
-		return (FALSE);
-	i = -1;
-	while (++i < r->vertices->len)
-		r->vertices->vertices[i] = mat4_mulv4(p_inv,
-			r->vertices->vertices[i]);
-	ear_clip_polygon(r);
-	uv_mapping(r->vertices, r->vertex);
-	i = -1;
-	while (++i < r->vertices->len)
-		r->vertices->vertices[i] = mat4_mulv4(reverse,
-			r->vertices->vertices[i]);
-	return (TRUE);
 }

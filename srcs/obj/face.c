@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/25 19:30:54 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/26 18:24:04 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/29 23:05:40 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,4 +101,23 @@ t_bool		face_formatter(t_obj *obj, t_reader *reader, t_renderable *r)
 	face.has_collision = TRUE;
 	append_faces_array(&r->faces, face);
 	return (TRUE);
+}
+
+
+t_face		create_face(int32_t indexes[3], int material_index, int normal_type)
+{
+	t_face	face;
+
+	ft_bzero(&face, sizeof(t_face));
+	ft_memcpy(face.normals_index, indexes, sizeof(int32_t) * 3);
+	ft_memcpy(face.vertex_index, indexes, sizeof(int32_t) * 3);
+	ft_memcpy(face.vertices_index, indexes, sizeof(int32_t) * 3);
+	face.has_collision = TRUE;
+	face.normal_type = normal_type;
+	face.double_sided = normal_type == 2;
+	face.normals_set = TRUE;
+	face.vertex_set = TRUE;
+	face.mtl_index = material_index;
+	
+	return (face);
 }

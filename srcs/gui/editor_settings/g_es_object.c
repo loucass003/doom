@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 22:55:54 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/29 19:18:50 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/29 21:59:20 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static t_bool			action_performed(t_component *cmp, t_doom *doom)
 		if (object->type != ((t_select *)cmp)->items->values[((t_select *)cmp)->selected_item].value)
 		{
 			free_object(object);
-			object->of.entity = NULL;
+			object->of.entity = -1;
 			object->type = ((t_select *)cmp)->items->values[((t_select *)cmp)->selected_item].value;
 			if (object->type != OBJECT_NONE)
 			{

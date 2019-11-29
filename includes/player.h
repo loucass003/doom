@@ -4,7 +4,6 @@
 #include "libft.h"
 #include "maths/vec4.h"
 #include "collision.h"
-#include "polygon.h"
 #include "entity.h"
 #include "camera.h"
 #include "item.h"

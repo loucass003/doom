@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 15:55:03 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/29 19:06:27 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/29 22:15:55 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ t_bool	triangulate_floor_ceil(t_renderable *r, t_vec3 n, int *filter, int filter
 	while (++i < filter_len)
 		r->vertices->vertices[filter[i]] = mat4_mulv4(p_inv,
 			r->vertices->vertices[filter[i]]);
-	ear_clip2(filter, filter_len, r->vertices->len, r->vertices, &r->faces, 0, mtl);
-	uv_mapping(r->vertices, r->vertex);
+	ear_clip2(filter, filter_len, r->vertices, &r->faces, 0, mtl);
+	uv_mapping(r->vertices, r->vertex, filter, filter_len);
 	i = -1;
 	while (++i < filter_len)
 		r->vertices->vertices[filter[i]] = mat4_mulv4(reverse,
@@ -38,21 +38,31 @@ t_bool	triangulate_floor_ceil(t_renderable *r, t_vec3 n, int *filter, int filter
 	return (TRUE);
 }
 
+t_vec3		editor_to_world(t_vec3 pos)
+{
+	float	ratio = 1. / 5.;
+
+	pos.x *= ratio;
+	pos.z *= ratio;
+	return (pos);
+}
+
 t_bool		create_room_mesh(t_renderable *r, t_editor *editor, t_room *room)
 {
 	int		i;
 	t_wall	*wall;
-	t_vec2	point;
+	t_vec3	point;
 
 	i = -1;
 	while (++i < room->walls->len)
 	{
 		wall = &room->walls->values[i];
-		point = ft_vec2_div_s(editor->points->vertices[wall->indice], 5);
-		append_4dvertices_array(&r->vertices, (t_vec4){ point.x, 0, point.y, 1 });
+		t_vec2 v = editor->points->vertices[wall->indice];
+		point = editor_to_world((t_vec3){ v.x, 0, v.y });
+		append_4dvertices_array(&r->vertices, (t_vec4){ point.x, 0, point.z, 1 });
 		append_3dvertices_array(&r->normals, (t_vec3){ 0, 1, 0 });
 		append_2dvertices_array(&r->vertex, (t_vec2){ 0, 0 });
-		append_4dvertices_array(&r->vertices, (t_vec4){ point.x, 10, point.y, 1 });
+		append_4dvertices_array(&r->vertices, (t_vec4){ point.x, 10, point.z, 1 });
 		append_3dvertices_array(&r->normals, (t_vec3){ 0, -1, 0 });
 		append_2dvertices_array(&r->vertex, (t_vec2){ 0, 0 });
 	}
@@ -76,7 +86,6 @@ t_bool		create_room_mesh(t_renderable *r, t_editor *editor, t_room *room)
 		t_vec4 p0 = r->vertices->vertices[i * 2];
 		t_vec4 p1 = r->vertices->vertices[next * 2];
 		t_vec4 p2 = r->vertices->vertices[next * 2 + 1];
-		t_vec4 p3 = r->vertices->vertices[i * 2 + 1];
 		t_vec3 face_normal = get_triangle_normal(vec4_to_3(p0), vec4_to_3(p1), vec4_to_3(p2));
 
 		if (wall->normal_type == 0)
@@ -206,7 +215,7 @@ t_bool		editor_setmap(t_editor *editor)
 			continue ;
 		if (object->type == OBJECT_PLAYER)
 		{
-			editor->player_pos = ft_vec3_div_s(object->pos, 5);
+			editor->player_pos = editor_to_world(object->pos);
 			editor->player_pos.y += editor->doom->player.entity.radius.y;
 		}
 		else if (object->type == OBJECT_ITEMSTACK)
@@ -215,8 +224,8 @@ t_bool		editor_setmap(t_editor *editor)
 			t_itemstack		*itemstack = object->of.itemstack;
 			
 			create_itemstack_renderable(&r, itemstack->of, itemstack->amount);
-			r.position = ft_vec3_div_s(object->pos, 5);
-			r.position.y += r.scale.y;
+			r.position = editor_to_world(object->pos);
+			r.position.y += r.scale.y * 0.5;
 			if (!append_renderables_array(&editor->doom->renderables, r))
 				return (FALSE);
 		}
@@ -226,7 +235,7 @@ t_bool		editor_setmap(t_editor *editor)
 			
 			if (!create_sprite_renderable(&r, object->of.sprite))
 				return (FALSE);
-			r.position = ft_vec3_div_s(object->pos, 5);
+			r.position = editor_to_world(object->pos);
 			if (!append_renderables_array(&editor->doom->renderables, r))
 				return (FALSE);
 		}
@@ -237,7 +246,7 @@ t_bool		editor_setmap(t_editor *editor)
 				create_enemy_renderable(editor->doom, &r);
 			else if (object->of.entity == ENTITY_BOSS)
 				create_boss_renderable(editor->doom, &r);
-			r.of.data.entity->position = ft_vec3_div_s(object->pos, 5);
+			r.of.data.entity->position = editor_to_world(object->pos);
 			r.of.data.entity->position.y += r.of.data.entity->radius.y;
 		//	r.show_hitbox = TRUE;
 			if (!append_renderables_array(&editor->doom->renderables, r))
@@ -264,7 +273,7 @@ t_bool		editor_setmap(t_editor *editor)
 			r.dirty = TRUE;
 			transform_renderable(&r);
 			r.octree = create_octree(editor->doom, &r);
-			r.position = ft_vec3_div_s(object->pos, 5);
+			r.position = editor_to_world(object->pos);
 			r.position.y += r.scale.y;
 			if (!append_renderables_array(&editor->doom->renderables, r))
 				return (FALSE);

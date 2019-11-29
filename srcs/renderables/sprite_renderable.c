@@ -6,13 +6,13 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/28 16:17:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/24 00:57:03 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/29 23:12:01 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "polygon.h"
 #include "sprite.h"
 #include "render.h"
+#include "obj.h"
 
 void		compute_sprite_hitbox(t_renderable *r)
 {
@@ -83,14 +83,18 @@ t_bool	create_sprite_renderable(t_renderable *r, t_sprite *sprite)
 	if (!append_mtllist(&r->materials, (t_mtl){ .texture_map = sprite->texture->data.texture, .texture_map_set = TRUE }))
 		return (free_renderable(&r, FALSE));
 	add_point(r, (t_vec4){ -0.5, -0.5, 0, 1 }, (t_vec2){ 1, 0 });
-	add_point(r, (t_vec4){ 0.5, -0.5, 0, 1 }, (t_vec2){ 1, 1 });
+	add_point(r, (t_vec4){ 0.5, -0.5, 0, 1 }, (t_vec2){ 0, 0 });
 	add_point(r, (t_vec4){ 0.5, 0.5, 0, 1 }, (t_vec2){ 0, 1 });
-	add_point(r, (t_vec4){ -0.5, 0.5, 0, 1 }, (t_vec2){ 0, 0 });
+	add_point(r, (t_vec4){ -0.5, 0.5, 0, 1 }, (t_vec2){ 1, 1 });
 	if (!(r->pp_vertices = (t_vec4 *)malloc(sizeof(t_vec4) * r->vertices->len)))
 		return (FALSE);
 	if (!(r->pp_normals = (t_vec3 *)malloc(sizeof(t_vec3) * r->normals->len)))
 		return (FALSE);
-	triangulate_polygon(r);
+	if (!append_faces_array(&r->faces, create_face((int [3]){ 3, 4, 1 }, 0, 1)))
+		return (FALSE);
+	if (!append_faces_array(&r->faces, create_face((int [3]){ 2, 3, 1 }, 0, 1)))
+		return (FALSE);
+//	triangulate_polygon(r);
 	r->dirty = TRUE;
 	r->fixed = FALSE;
 	r->scale = (t_vec3){ 1, 1, 1 };
