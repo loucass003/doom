@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 10:19:30 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/26 15:09:03 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/29 19:18:30 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,4 +100,5 @@ t_bool			read_model(t_ressource_manager *r, struct s_renderable **m);
 
 t_ressource		*get_next_ressource(t_ressource_manager *r, t_ressource *res, t_ressource_type type);
 t_ressource		*get_prev_ressource(t_ressource_manager *r, t_ressource *res, t_ressource_type type);
+t_ressource		*get_ressource(t_ressource_manager *r, t_ressource_type type);
 #endif

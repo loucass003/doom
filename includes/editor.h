@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 14:35:33 by lloncham          #+#    #+#             */
-/*   Updated: 2019/11/26 15:26:32 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/29 15:17:13 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,7 @@ typedef struct		s_editor
 	t_bool				object_grab;
 	t_editor_settings	settings;
 	t_doom				*doom;
+	t_vec3				player_pos;
 	
 	
 	int					icone;

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 22:55:54 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/26 16:29:05 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/29 19:18:50 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void			set_object_default(t_doom *doom, t_object *object)
 	else if (object->type == OBJECT_SPRITE)
 		object->of.sprite = create_sprite((t_vec2){ 1, 1 }, get_default_texture(&doom->res_manager, TRUE));
 	else if (object->type == OBJECT_MODEL)
-		object->of.model = get_next_ressource(&doom->res_manager, NULL, RESSOURCE_MODEL);
+		object->of.model = get_ressource(&doom->res_manager, RESSOURCE_MODEL);
 }
 
 void			free_object(t_object *object)
@@ -84,6 +84,8 @@ void			g_es_object_enter(t_gui *self, t_doom *doom)
 	((t_select *)self->components->values[0])->selected_item = select_items_indexof(((t_select *)self->components->values[0])->items, object->type);
 
 	append_components_array(&self->components, create_checkbox(doom, (t_vec2){ x + 10, y + 60}, "No Light"));
+	self->components->values[1]->perform_action = action_performed;
+	((t_checkbox *)self->components->values[1])->value = object->no_light;
 
 	doom->editor.settings.guis_object[OBJECT_PLAYER] = (t_gui){ .render = g_es_obj_player_render, .on_enter = g_es_obj_player_enter };
 	doom->editor.settings.guis_object[OBJECT_ITEMSTACK] = (t_gui){ .render = g_es_obj_itemstack_render, .on_enter = g_es_obj_itemstack_enter };

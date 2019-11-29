@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:01:13 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/25 22:34:05 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/29 19:23:14 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,12 +98,15 @@ void			game_loop(t_doom *doom)
 		set_gui(doom, GUI_RESSOURCES);
 	else
 		set_gui(doom, GUI_MAIN_MENU);
+	
+	
 	init_player(doom);
 	init_gameover(doom);
-	 
+	
 	int  i = 0;
 	load_all(doom);
 	init_openal(doom);
+
 	enter_gui(doom, doom->guis, GUI_EDITOR_SETTINGS);
 	while (doom->running)
 	{

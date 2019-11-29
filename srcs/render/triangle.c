@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 01:17:41 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/28 03:34:12 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/29 17:29:08 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,8 +177,8 @@ void	draw_triangle(t_render_context *ctx, t_render_data data)
 		// if (c != 0xFFFF0000)
 		// 	return ;
 		t_triangle triangle = data.triangle;
-		draw_line(ctx->image, (t_pixel){triangle.a.pos.x, triangle.a.pos.y, c}, (t_pixel){triangle.b.pos.x, triangle.b.pos.y});
-		draw_line(ctx->image, (t_pixel){triangle.b.pos.x, triangle.b.pos.y, c}, (t_pixel){triangle.c.pos.x, triangle.c.pos.y});
-		draw_line(ctx->image, (t_pixel){triangle.c.pos.x, triangle.c.pos.y, c}, (t_pixel){triangle.a.pos.x, triangle.a.pos.y});
+		draw_line_zbuff(ctx, triangle.a.pos, triangle.b.pos, c);
+		draw_line_zbuff(ctx, triangle.b.pos, triangle.c.pos, c);
+		draw_line_zbuff(ctx, triangle.c.pos, triangle.a.pos, c);
 	}
 }

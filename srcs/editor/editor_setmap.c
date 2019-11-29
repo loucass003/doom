@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 15:55:03 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/28 22:10:25 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/29 19:06:27 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,8 +206,8 @@ t_bool		editor_setmap(t_editor *editor)
 			continue ;
 		if (object->type == OBJECT_PLAYER)
 		{
-			editor->doom->player.entity.position = ft_vec3_div_s(object->pos, 5);
-			editor->doom->player.entity.position.y += 50;
+			editor->player_pos = ft_vec3_div_s(object->pos, 5);
+			editor->player_pos.y += editor->doom->player.entity.radius.y;
 		}
 		else if (object->type == OBJECT_ITEMSTACK)
 		{
@@ -239,7 +239,7 @@ t_bool		editor_setmap(t_editor *editor)
 				create_boss_renderable(editor->doom, &r);
 			r.of.data.entity->position = ft_vec3_div_s(object->pos, 5);
 			r.of.data.entity->position.y += r.of.data.entity->radius.y;
-			r.show_hitbox = TRUE;
+		//	r.show_hitbox = TRUE;
 			if (!append_renderables_array(&editor->doom->renderables, r))
 				return (FALSE);
 		}
@@ -270,5 +270,6 @@ t_bool		editor_setmap(t_editor *editor)
 				return (FALSE);
 		}
 	}
+	spawn_player(editor->doom);
 	return (TRUE);
 }

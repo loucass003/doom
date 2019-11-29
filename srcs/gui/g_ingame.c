@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/28 21:56:35 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/29 18:40:48 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,12 @@ void	g_ingame_on_enter(t_gui *self, t_doom *doom)
 	((t_progress *)self->components->values[0])->value = 50;
 	((t_progress *)self->components->values[0])->bg_color = 0xFFFF0000;
 	((t_progress *)self->components->values[0])->fg_color = 0xFF00FF00;
+	self->components->values[0]->visible = doom->main_context.type == CTX_NORMAL;
+}
+
+void	g_ingame_on_leave(t_gui *self, t_doom *doom)
+{
+	SDL_SetRelativeMouseMode(SDL_FALSE);
 }
 
 
@@ -46,6 +52,17 @@ void	g_ingame_render(t_gui *self, t_doom *doom)
 		doom->renderables->values[doom->skybox_index].dirty = TRUE;
 	}
 	//printf("START FAME ------------\n");
+	if (doom->main_context.type == CTX_EDITOR)
+	{
+		t_renderable *sphere = &doom->sphere_primitive;
+		sphere->position = doom->editor.player_pos;
+		sphere->scale = doom->player.entity.radius;
+		sphere->wireframe = TRUE;
+		sphere->wireframe_color = 0xFF5C5C5C;
+		sphere->dirty = TRUE;
+	//	sphere->double_faced = FALSE;
+		render_renderable(&doom->main_context, sphere);
+	}
 	for (int i = 0; i < doom->renderables->len; i++)
 	{
 		t_renderable	*r = doom->renderables->values + i;
@@ -87,55 +104,58 @@ void	g_ingame_render(t_gui *self, t_doom *doom)
 
 
 	doom->main_context.image = &doom->screen;
-	int i = -1;
-	while (++i < PLAYER_INV_SIZE)
+	if (doom->main_context.type == CTX_NORMAL)
 	{
-		t_itemstack		*is = &doom->player.item[i];
-		if (i == doom->player.selected_slot)
-			fill_rect(doom->main_context.image, (SDL_Rect){ 8, 48 + i * 60, 54, 54 }, 0xFFFFFF00);
-		fill_rect(doom->main_context.image, (SDL_Rect){ 10, 50 + i * 60, 50, 50 }, 0xFFFF0000);
-		if (is->of)
+		int i = -1;
+		while (++i < PLAYER_INV_SIZE)
 		{
-			apply_image_blended(doom->main_context.image, is->of->image->data.texture, is->of->bounds, (SDL_Rect){ 10, 50 + i * 60, 50, 50 });
-			if (is->amount <= 1)
-				continue;
-			const SDL_Color	color = {255, 255, 255, 0};
-			SDL_Surface		*text;
-
-			text = TTF_RenderText_Blended(doom->fonts.helvetica,
-				ft_int_to_str(is->amount).str, color);
-			apply_surface_blended(&doom->screen, text, (SDL_Rect){0, 0, text->w, text->h},
-				(SDL_Rect){ 40, 50 + i * 60, 20, 20 });
-			SDL_FreeSurface(text);
-		}
-	}
-
-	ticks += doom->stats.delta * 30.;
-
-	t_itemstack	*is = &doom->player.item[doom->player.selected_slot]; 
-
-	if (is->of && is->of->type == ITEM_WEAPON)
-	{
-		t_weapon	*weapon = &is->of->data.weapon;
-		if (ticks > 1 && weapon->fireing)
-		{
-			ticks = 0;
-			weapon->current_step++;
-			if (weapon->current_step == weapon->steps_count)
+			t_itemstack		*is = &doom->player.item[i];
+			if (i == doom->player.selected_slot)
+				fill_rect(doom->main_context.image, (SDL_Rect){ 8, 48 + i * 60, 54, 54 }, 0xFFFFFF00);
+			fill_rect(doom->main_context.image, (SDL_Rect){ 10, 50 + i * 60, 50, 50 }, 0xFFFF0000);
+			if (is->of)
 			{
-				weapon->current_step = (SDL_GetMouseState(NULL, NULL) & SDL_BUTTON(SDL_BUTTON_LEFT) ? 0 : weapon->idle_step);
-				weapon->fireing = FALSE;
-			}
-			set_current_animation_step(weapon, weapon->animation_seq[weapon->current_step]);
-		}
-		apply_image_blended(doom->main_context.image, weapon->animation->data.texture, weapon->curr_image, (SDL_Rect){ S_WIDTH_2 - 80 / 2, S_HEIGHT - 300, 300, 300 });
-	}
+				apply_image_blended(doom->main_context.image, is->of->image->data.texture, is->of->bounds, (SDL_Rect){ 10, 50 + i * 60, 50, 50 });
+				if (is->amount <= 1)
+					continue;
+				const SDL_Color	color = {255, 255, 255, 0};
+				SDL_Surface		*text;
 
-	((t_progress *)self->components->values[0])->value = doom->player.entity.life * (1 / doom->player.entity.max_life) * 100;
-	if (doom->player.entity.life <= 0)
-	{
-		set_gui(doom, GUI_GAMEOVER);
-		return ;
+				text = TTF_RenderText_Blended(doom->fonts.helvetica,
+					ft_int_to_str(is->amount).str, color);
+				apply_surface_blended(&doom->screen, text, (SDL_Rect){0, 0, text->w, text->h},
+					(SDL_Rect){ 40, 50 + i * 60, 20, 20 });
+				SDL_FreeSurface(text);
+			}
+		}
+
+		ticks += doom->stats.delta * 30.;
+
+		t_itemstack	*is = &doom->player.item[doom->player.selected_slot]; 
+
+		if (is->of && is->of->type == ITEM_WEAPON)
+		{
+			t_weapon	*weapon = &is->of->data.weapon;
+			if (ticks > 1 && weapon->fireing)
+			{
+				ticks = 0;
+				weapon->current_step++;
+				if (weapon->current_step == weapon->steps_count)
+				{
+					weapon->current_step = (SDL_GetMouseState(NULL, NULL) & SDL_BUTTON(SDL_BUTTON_LEFT) ? 0 : weapon->idle_step);
+					weapon->fireing = FALSE;
+				}
+				set_current_animation_step(weapon, weapon->animation_seq[weapon->current_step]);
+			}
+			apply_image_blended(doom->main_context.image, weapon->animation->data.texture, weapon->curr_image, (SDL_Rect){ S_WIDTH_2 - 80 / 2, S_HEIGHT - 300, 300, 300 });
+		}
+
+		((t_progress *)self->components->values[0])->value = doom->player.entity.life * (1 / doom->player.entity.max_life) * 100;
+		if (doom->player.entity.life <= 0)
+		{
+			set_gui(doom, GUI_GAMEOVER);
+			return ;
+		}
 	}
 	render_components(doom, self);
 	doom->guis[GUI_EDITOR_SETTINGS].render(&doom->guis[GUI_EDITOR_SETTINGS], doom);

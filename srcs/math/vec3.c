@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/27 18:52:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/26 23:54:49 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/29 17:11:59 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,4 +79,10 @@ t_vec3			vec3_rotate(t_vec3 v, t_vec3 rot)
 	v = vec3_rotate_y(v, rot.y);
 	v = vec3_rotate_z(v, rot.z);
 	return (v);
+}
+
+
+t_vec3	ft_vec3_interpolate(t_vec3 a, t_vec3 b, float alpha)
+{
+	return (ft_vec3_add(a, ft_vec3_mul_s(ft_vec3_sub(b, a), alpha)));
 }

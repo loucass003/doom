@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 15:28:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/29 04:08:21 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/29 18:51:52 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,25 +166,25 @@ t_bool		obj_test(t_doom *doom)
 	r.fixed = TRUE;
 	doom->skybox_index = doom->renderables->len;
 	 append_renderables_array(&doom->renderables, r);
-	// set_obj_working_dir(doom, "assets/obj/de_dust");
-	// lol = create_obj(doom, &r, "de_dust2.obj");
-	// r.position = (t_vec3){0, 0, 0};
-	// r.rotation = (t_vec3){0, 0, 0};
-	// r.scale = (t_vec3){0.05, 0.05, 0.05};
-	// //r.wireframe = TRUE;
-	// r.wireframe_color = 0xFFFF0000;
-	// r.fixed = TRUE;
-	// append_renderables_array(&doom->renderables, r);
-	set_obj_working_dir(doom, "assets/obj/winter");
-	lol = create_obj(doom, &r, "winter.obj");
-	r.position = (t_vec3){0, 0, -3};
+	set_obj_working_dir(doom, "assets/obj/de_dust");
+	lol = create_obj(doom, &r, "de_dust2.obj");
+	r.position = (t_vec3){0, 0, 0};
 	r.rotation = (t_vec3){0, 0, 0};
-//	r.scale = (t_vec3){0.05, 0.05, 0.05};
-	r.scale = (t_vec3){20, 20, 20};
+	r.scale = (t_vec3){0.05, 0.05, 0.05};
 	//r.wireframe = TRUE;
 	r.wireframe_color = 0xFFFF0000;
 	r.fixed = TRUE;
 	append_renderables_array(&doom->renderables, r);
+// 	set_obj_working_dir(doom, "assets/obj/winter");
+// 	lol = create_obj(doom, &r, "winter.obj");
+// 	r.position = (t_vec3){0, 0, -3};
+// 	r.rotation = (t_vec3){0, 0, 0};
+// //	r.scale = (t_vec3){0.05, 0.05, 0.05};
+// 	r.scale = (t_vec3){20, 20, 20};
+// 	//r.wireframe = TRUE;
+// 	r.wireframe_color = 0xFFFF0000;
+// 	r.fixed = TRUE;
+// 	append_renderables_array(&doom->renderables, r);
 // 	set_obj_working_dir(doom, "assets/obj");
 // 	lol = create_obj(doom, &r, "polarbear.obj");
 // 	r.position = (t_vec3){0, 0, 0};

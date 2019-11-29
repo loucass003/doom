@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:43:35 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/28 21:44:12 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/29 19:04:47 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void				init_player(t_doom *doom)
 	player = &doom->player;
 	player->camera.projection = projection_matrix();
 	// player->entity.position = (t_vec3){ 0, 2.512500, 45.176151 };
-	player->entity.position = (t_vec3){ 0, 50, 5 };
+	//player->entity.position = (t_vec3){ 50, 50, 50 };
 	player->entity.velocity = (t_vec3){ 0, 0, 0 };
 	player->entity.radius = (t_vec3){ 1, 2.5f, 1 };
 	player->entity.packet.doom = doom;
@@ -49,4 +49,10 @@ void				init_player(t_doom *doom)
 	player->entity.max_life = 2;
 	doom->main_context.camera = &player->camera;
 	update_player_camera(&doom->player);
+}
+
+
+void				spawn_player(t_doom *doom)
+{
+	doom->player.entity.position = doom->editor.player_pos;
 }

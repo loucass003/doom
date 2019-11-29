@@ -3,21 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   g_mainmenu.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:56:05 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/28 14:33:14 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/11/29 19:23:02 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "gui.h"
 #include "doom.h"
+#include "player.h"
 
 static t_bool		action_performed(t_component *cmp, t_doom *doom)
 {
 	if (cmp == doom->guis[doom->current_gui].components->values[0])
 	{
-		//init_bsp(doom);
+		
+		spawn_player(doom);
+		if (doom->main_context.type == CTX_NORMAL)
+		{
+			obj_test(doom);
+			init_bsp(doom);
+		}
 		doom->main_context.type = CTX_NORMAL;
 		set_gui(doom, GUI_INGAME);
 		return (FALSE);
@@ -37,6 +44,7 @@ static t_bool		action_performed(t_component *cmp, t_doom *doom)
 
 void	g_mainmenu_on_enter(t_gui *self, t_doom *doom)
 {
+
 	int		i;
 
 	append_components_array(&self->components, create_button((SDL_Rect){ (S_WIDTH - 250) / 2, (S_HEIGHT - 150) / 2, 250, 50 }, NULL, "PLAY"));

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 18:54:05 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/29 05:18:01 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/29 15:56:14 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_wall			init_wall(t_editor *editor, int indice)
 		return (t_wall){ .indice = indice };
 	return  (t_wall){ 
 		.indice = indice, 
-		.normal_type = 0, 
+		.normal_type = 1, 
 		.texture = get_default_texture(&editor->doom->res_manager, TRUE), 
 		.collisions = TRUE 
 	};
@@ -71,7 +71,8 @@ t_bool		editor_render_wall(t_doom *doom, t_editor *editor, t_room *room, int j)
 	int	color = editor->current_room != -1 && room
 		== &editor->rooms->values[editor->current_room] ? 0xFFFFF0F0 : 0xFFFF9090;
 	
-	if (point_in_room(editor, room, editor->grid_cell))
+	int test_room = point_in_rooms(editor, editor->grid_cell);
+	if (test_room != -1 && room == &editor->rooms->values[test_room])
 		color = 0xFF00FF00;
 
 	p0 = editor->points->vertices[room->walls->values[j].indice];
