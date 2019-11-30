@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 18:26:47 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/29 21:50:21 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/30 22:38:44 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,14 @@ t_bool		editor_render_objects(t_editor *editor)
 	return (TRUE);
 }
 
-t_object	init_object(t_vec2 pos)
+t_object	init_object(t_editor *editor, t_vec2 pos)
 {
-	return (t_object){ .pos = (t_vec3){ pos.x, 0, pos.y } };
+	t_object		object;
+	float			y;
+
+	int room = point_in_rooms(editor, (t_vec2){ pos.x, pos.y });
+	y = 0;
+	if (room != -1)
+		y = room_height_range(editor, &editor->rooms->values[room]).x;
+	return (t_object){ .pos = (t_vec3){ pos.x, y, pos.y } };
 }

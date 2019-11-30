@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 17:24:14 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/30 00:30:19 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/30 22:37:19 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void			editor_tool_objects_move(t_editor *editor)
 		object = &editor->objects->values[editor->current_object];
 		object->pos.x = editor->grid_cell.x;
 		object->pos.z = editor->grid_cell.y;
+		
 	}
 }
 
@@ -35,7 +36,7 @@ void			editor_tool_objects(t_editor *editor, SDL_Event *event)
 {
 	if (editor->current_object == -1 && editor->grid_cell_grab != GG_OBJECT && editor->grid_cell_grab != GG_OUTSIDE)
 	{
-		if (!append_objects_array(&editor->objects, init_object(editor->grid_cell)))
+		if (!append_objects_array(&editor->objects, init_object(editor, editor->grid_cell)))
 			return ;
 		editor->current_object = -1;
 	}

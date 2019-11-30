@@ -6,12 +6,13 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 18:37:59 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/29 15:56:26 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/30 21:51:56 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "editor.h"
 #include "doom.h"
+#include <limits.h>
 
 int			get_close_room(t_editor *editor)
 {
@@ -127,6 +128,23 @@ t_bool			point_in_room(t_editor *editor, t_room *room, t_vec2 point)
 		}
 	}
 	return (inside);
+}
+
+t_vec2			room_height_range(t_editor *editor, t_room *room)
+{
+	int			i;
+	t_vec2		range;
+	t_wall		wall;
+
+	range = (t_vec2){ INT_MIN, INT_MAX };
+	i = -1;
+	while (++i < room->walls->len)
+	{
+		wall = room->walls->values[i];
+		range.x = fmax(wall.floor_height, range.x);
+		range.y = fmin(wall.ceiling_height, range.y);
+	}
+	return (range);
 }
 
 int				point_in_rooms(t_editor *editor, t_vec2 point)

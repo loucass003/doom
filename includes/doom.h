@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/29 22:18:49 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/30 20:52:08 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,7 @@ typedef struct		s_doom
 	int					wheredel;
 	t_ressource_manager	res_manager;
 	t_gameover			gameover;
+	t_entity			*closer_boss;
 	//at_thpool_t			*thpool;
 	//pthread_mutex_t		mutex;
 	// t_ray_collide		*rays;

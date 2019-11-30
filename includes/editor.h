@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 14:35:33 by lloncham          #+#    #+#             */
-/*   Updated: 2019/11/29 15:17:13 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/30 22:36:03 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ typedef struct		s_wall
 	uint8_t				normal_type;
 	t_bool				invisible;
 	t_bool				collisions;
+	float				floor_height;
+	float				ceiling_height;
 }					t_wall;
 
 typedef struct		s_walls
@@ -168,6 +170,7 @@ t_objects			*copy_objects_array(t_objects *src,
 int					get_close_room(t_editor *editor);
 void				remove_room(t_editor *editor, int index);
 t_bool				room_intersect(t_editor *editor, t_room *room, t_room *room2, t_bool strict);
+t_vec2				room_height_range(t_editor *editor, t_room *room);
 void				remove_point(t_editor *editor, int index);
 void				insert_point(t_editor *editor, t_vec2 seg, int point_index);
 t_vec2				get_close_point(t_editor *editor, t_vec2 pos);
@@ -192,7 +195,7 @@ t_bool				get_close_object(t_editor *editor, t_vec2 *pos);
 int					get_object(t_editor *editor, t_vec2 pos);
 t_bool				editor_render_objects(t_editor *editor);
 t_bool				is_in_range(t_vec2 pos, t_vec2 test);
-t_object			init_object(t_vec2 pos);
+t_object			init_object(t_editor *editor, t_vec2 pos);
 t_wall				*get_current_wall(t_editor *editor);
 void				set_gui_settings(t_editor *editor, int id);
 void				free_object(t_object *object);

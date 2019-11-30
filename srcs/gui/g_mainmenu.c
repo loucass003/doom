@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:56:05 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/29 19:23:02 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/30 22:44:17 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ static t_bool		action_performed(t_component *cmp, t_doom *doom)
 		{
 			obj_test(doom);
 			init_bsp(doom);
+			doom->player.entity.position = (t_vec3){ 0, 50, 0 };
 		}
 		doom->main_context.type = CTX_NORMAL;
 		set_gui(doom, GUI_INGAME);

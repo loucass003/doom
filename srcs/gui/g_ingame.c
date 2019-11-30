@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/29 18:40:48 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/30 22:50:16 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,10 @@ void	g_ingame_on_enter(t_gui *self, t_doom *doom)
 	((t_progress *)self->components->values[0])->value = 50;
 	((t_progress *)self->components->values[0])->bg_color = 0xFFFF0000;
 	((t_progress *)self->components->values[0])->fg_color = 0xFF00FF00;
-	self->components->values[0]->visible = doom->main_context.type == CTX_NORMAL;
+	append_components_array(&self->components, create_progress((SDL_Rect){ S_WIDTH_2 - 200, 5, 400, 20 }));
+	((t_progress *)self->components->values[1])->value = 50;
+	((t_progress *)self->components->values[1])->bg_color = 0xFFFF0000;
+	((t_progress *)self->components->values[1])->fg_color = 0xFF00FF00;
 }
 
 void	g_ingame_on_leave(t_gui *self, t_doom *doom)
@@ -63,11 +66,16 @@ void	g_ingame_render(t_gui *self, t_doom *doom)
 	//	sphere->double_faced = FALSE;
 		render_renderable(&doom->main_context, sphere);
 	}
+	doom->closer_boss = NULL;
 	for (int i = 0; i < doom->renderables->len; i++)
 	{
 		t_renderable	*r = doom->renderables->values + i;
 		if (r->of.type == RENDERABLE_ENTITY)
+		{
 			entity_update(doom, r->of.data.entity, doom->stats.delta);
+			if (r->of.data.entity->type == ENTITY_BOSS && ft_vec3_len(ft_vec3_sub(doom->player.entity.position, r->of.data.entity->position)) <= 50)
+				doom->closer_boss = r->of.data.entity;
+		}
 		if (r->has_hitbox)
 			update_hitbox(r);
 		render_renderable(&doom->main_context, r);
@@ -80,7 +88,6 @@ void	g_ingame_render(t_gui *self, t_doom *doom)
 			sphere->wireframe = TRUE;
 			sphere->wireframe_color = 0xFFFF0000;
 			sphere->dirty = TRUE;
-		//	sphere->double_faced = FALSE;
 			render_renderable(&doom->main_context, sphere);
 		}
 	}
@@ -157,6 +164,14 @@ void	g_ingame_render(t_gui *self, t_doom *doom)
 			return ;
 		}
 	}
+
+	self->components->values[0]->visible = doom->main_context.type == CTX_NORMAL;
+	self->components->values[1]->visible = doom->main_context.type == CTX_NORMAL && !!doom->closer_boss;
+	if (doom->closer_boss)
+	{
+		((t_progress *)self->components->values[1])->value = doom->closer_boss->life * (1 / doom->closer_boss->max_life) * 100;
+	}
+
 	render_components(doom, self);
 	doom->guis[GUI_EDITOR_SETTINGS].render(&doom->guis[GUI_EDITOR_SETTINGS], doom);
 }
