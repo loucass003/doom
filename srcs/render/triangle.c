@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 01:17:41 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/29 17:29:08 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/30 00:25:19 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,8 @@ typedef union ut_color {
 		uint8_t r;
 		uint8_t g;
 		uint8_t b;
-        uint8_t a;
+		uint8_t a;
 	} argb;
-	t_color	color_t;
 } ur_color;
 
 void scanline2(t_render_context *ctx, t_mtl *mtl, t_pixel p, float t, t_vertex start, t_vertex end)
