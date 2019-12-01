@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/14 17:23:29 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/05 19:45:21 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/01 01:46:13 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,14 @@
 
 t_collision		ray_hit_triangle(t_ray *ray, t_collide_triangle *collidable)
 {
-	t_vec3 pvec = ft_vec3_cross(ray->direction, collidable->v0v2);
-	float det = ft_vec3_dot(collidable->v0v1, pvec);
-
+	const t_vec3 pvec = ft_vec3_cross(ray->direction, collidable->v0v2);
+	const float det = ft_vec3_dot(collidable->v0v1, pvec);
+	const float invDet = 1.0 / det;
+	
+	if (ft_vec3_dot(collidable->normal, ray->direction) <= 0)
+		return ((t_collision) { .collide = FALSE, .dist = -1.0 });
 	if (fabs(det) < 0)
 		return ((t_collision) { .collide = FALSE, .dist = -1.0 });
-	float invDet = 1.0 / det;
 	t_vec3 tvec = ft_vec3_sub(ray->origin, collidable->points[0]);
 	float u = ft_vec3_dot(tvec, pvec) * invDet;
 	if (u < 0.0 || u > 1.0)

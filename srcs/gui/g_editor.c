@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 15:50:09 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/24 01:11:35 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/01 01:15:26 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,10 @@ static t_bool		tools_action_performed(t_component *cmp, t_doom *doom)
 
 static t_bool			action_performed(t_component *cmp, t_doom *doom)
 {
-	if (cmp == doom->guis[doom->current_gui].components->values[4])
+	if (cmp == doom->guis[doom->current_gui].components->values[5])
 	{
 		doom->editor.settings.open = !doom->editor.settings.open;
-		((t_button *)doom->guis[doom->current_gui].components->values[4])->selected = doom->editor.settings.open;
+		((t_button *)doom->guis[doom->current_gui].components->values[5])->selected = doom->editor.settings.open;
 	}
 	return (TRUE);
 } 
@@ -93,6 +93,7 @@ void			g_editor_on_leave(t_gui *self, t_doom *doom)
 
 void			g_editor_on_event(t_gui *self, SDL_Event *event, t_doom *doom)
 {
+	printf("EVENT\n");
 	g_editor_settings_on_event(&doom->guis[GUI_EDITOR_SETTINGS], event, doom);
 	if (event->type == SDL_MOUSEMOTION)
 	{

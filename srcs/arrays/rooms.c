@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/22 14:29:19 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/29 19:51:51 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/01 01:05:44 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,4 +70,18 @@ t_rooms	*copy_rooms_array(t_rooms *src, t_rooms **dst)
 	ft_memcpy(*dst, src,
 		sizeof(t_rooms) + (src->capacity * sizeof(t_room)));
 	return (*dst);
+}
+
+
+int		rooms_indexof(t_rooms *arr, t_room *elem)
+{
+	int	i;
+
+	i = -1;
+	while (++i < arr->len)
+	{
+		if (arr->values + i == elem)
+			return (i);
+	}
+	return (-1);
 }

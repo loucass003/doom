@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 15:55:03 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/29 22:15:55 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/01 01:51:40 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,7 @@ t_bool		create_room_mesh(t_renderable *r, t_editor *editor, t_room *room)
 		face.vertices_index[1] = next * 2 + 1 + 1;
 		face.vertices_index[2] = i * 2 + 1 + 1;
 		face.mtl_index = i + 2;
+		face.wall_index = i;
 		append_faces_array(&r->faces, face);
 		
 		ft_bzero(&face, sizeof(t_face));
@@ -143,6 +144,7 @@ t_bool		create_room_mesh(t_renderable *r, t_editor *editor, t_room *room)
 		face.vertices_index[1] = next * 2 + 1;
 		face.vertices_index[2] = next * 2 + 1 + 1;
 		face.mtl_index = i + 2;
+		face.wall_index = i;
 		append_faces_array(&r->faces, face);
 	}
 	if (!r->pp_vertices && !(r->pp_vertices = malloc(sizeof(t_vec4) * r->vertices->len)))
@@ -168,8 +170,10 @@ t_bool		create_room_mesh(t_renderable *r, t_editor *editor, t_room *room)
 
 t_bool		create_room_renderable(t_renderable *r, t_editor *editor, t_room *room)
 {
-	if (!create_renderable(r, RENDERABLE_UNKNOWN))  
+	if (!create_renderable(r, RENDERABLE_ROOM))  
 		return (FALSE);
+	r->of.data.room = room;
+	room->r = r;
 	if(!(r->materials = create_mtllist(room->walls->len + 2)))
 		return (free_renderable(&r, FALSE));
 	if (!append_mtllist(&r->materials, (t_mtl){ 

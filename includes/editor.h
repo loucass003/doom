@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 14:35:33 by lloncham          #+#    #+#             */
-/*   Updated: 2019/11/30 22:36:03 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/01 01:51:02 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ typedef struct		s_room
 	struct s_ressource	*floor_texture;
 	struct s_ressource	*ceiling_texture;
 	t_bool				closed;
+	t_renderable		*r;
 }					t_room;
 
 typedef struct		s_rooms

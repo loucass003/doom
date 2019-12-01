@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 16:49:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/28 18:22:15 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/01 00:55:06 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,8 @@ void	render_face(int face_index, void *p)
 		return;
 	
 	faces_count++;
+	if (r->no_collision)
+		face->has_collision = FALSE;
 	if (r->double_faced)
 		face->double_sided = TRUE;
 	if (r->wireframe)

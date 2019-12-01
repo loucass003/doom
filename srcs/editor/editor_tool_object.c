@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 17:24:14 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/30 22:37:19 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/30 23:04:15 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void			editor_tool_objects_move(t_editor *editor)
 		object = &editor->objects->values[editor->current_object];
 		object->pos.x = editor->grid_cell.x;
 		object->pos.z = editor->grid_cell.y;
-		
 	}
 }
 

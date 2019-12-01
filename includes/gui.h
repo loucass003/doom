@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 01:42:00 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/29 23:13:42 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/11/30 23:38:00 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,6 +164,7 @@ typedef struct		s_gui
 void				g_ingame_render(t_gui *self, t_doom *doom);
 void				g_ingame_on_enter(t_gui *self, t_doom *doom);
 void				g_ingame_on_leave(t_gui *self, t_doom *doom);
+void				g_ingame_on_events(t_gui *self, SDL_Event *event, t_doom *doom);
 void				g_mainmenu_render(t_gui *self, t_doom *doom);
 void				g_mainmenu_on_enter(t_gui *self, t_doom *doom);
 void				g_mainmenu_on_leave(t_gui *self, t_doom *doom);

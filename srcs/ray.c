@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/14 16:37:29 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/28 15:00:36 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/11/30 23:14:57 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,6 @@ t_vec3	point_to_local(t_vec3 point, t_vec3 position, t_vec3 rotation, t_vec3 sca
 t_ray			create_shoot_ray(t_player player, t_vec3 direction)
 {
 	t_vec3 d = vec3_rotate(direction, (t_vec3){-player.entity.rotation.x, player.entity.rotation.y, 0});
-	// if (d.x == 0. && d.y == 0. && d.z == 0.)
-	// 	d = direction;
-	//printf("DIR %f %f %f\n", d.x, d.y, d.x);
 	return ((t_ray){
 		.origin = player.camera.pos,
 		.direction = d

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:16:19 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/27 03:53:55 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/01 01:31:54 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct		s_face
 	char			normal_type;
 	int				group;
 	t_bool			rendered;
+	int				wall_index;
 }					t_face;
 
 typedef struct		s_faces
@@ -83,6 +84,7 @@ typedef struct		s_renderable
 	struct s_sprite			*sprite;
 	t_vec3					position;
 	t_vec3					rotation;
+	t_bool					no_collision;
 	t_vec3					scale;
 	t_bool					visible;
 	t_bool					dirty;
