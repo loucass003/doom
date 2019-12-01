@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_gameover.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/15 20:19:09 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/20 13:37:38 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/12/01 22:15:01 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	g_gameover_on_enter(t_gui *self, t_doom *doom)
 {
 	// if (!alloc_components(self, 1))
 	// 	return ;
-	SDL_SetRelativeMouseMode(SDL_FALSE);
+	doom->mouse_focus = FALSE;
 //	printf("init %d\n", self->component_count);
 
 	append_components_array(&self->components, create_button((SDL_Rect){ (S_WIDTH - 250) / 2, (S_HEIGHT - 150) / 2, 250, 50 }, NULL, "MAIN MENU"));

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/05 00:02:57 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/17 01:34:49 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/01 21:53:05 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ t_bool		create_renderable(t_renderable	*r, t_renderable_type type)
 {
 	ft_bzero(r, sizeof(t_renderable));
 	r->of.type = type;
+	r->object_index = -1;
 	if(!(r->vertices = create_4dvertices_array(4)))
 		return (free_renderable(&r, FALSE));
 	if(!(r->vertex = create_2dvertices_array(4)))

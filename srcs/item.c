@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   item.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 20:16:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/28 15:52:39 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/12/01 21:53:53 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,6 +217,7 @@ t_bool	create_itemstack_renderable(t_renderable *r, t_item *item, int amount)
 	r->vertex->vertices[2] = sprite->uv_max;
 	r->vertex->vertices[3] = (t_vec2){ sprite->uv_min.x, sprite->uv_max.y };
 	r->scale = (t_vec3){ 1.5, 1.5, 1.5 };
+	r->object_index = -1;
 	sprite->hitbox_radius = ft_vec3_mul_s(r->scale, 0.5);
 	//r->show_hitbox = TRUE;
 	compute_sprite_hitbox(r);

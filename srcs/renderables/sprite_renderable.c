@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/28 16:17:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/29 23:12:01 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/01 21:53:20 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,9 @@ t_sprite	*create_sprite(t_vec2 cells_count, t_ressource *texture)
 t_bool	create_sprite_renderable(t_renderable *r, t_sprite *sprite)
 {
 	ft_bzero(r, sizeof(t_renderable));
-	r->of.type = RENDERABLE_UNKNOWN;
+	r->of.type = 46;
 	r->sprite = sprite;
+	r->object_index = -1;
 	if(!(r->vertices = create_4dvertices_array(4)))
 		return (free_renderable(&r, FALSE));
 	if(!(r->vertex = create_2dvertices_array(4)))
@@ -86,14 +87,22 @@ t_bool	create_sprite_renderable(t_renderable *r, t_sprite *sprite)
 	add_point(r, (t_vec4){ 0.5, -0.5, 0, 1 }, (t_vec2){ 0, 0 });
 	add_point(r, (t_vec4){ 0.5, 0.5, 0, 1 }, (t_vec2){ 0, 1 });
 	add_point(r, (t_vec4){ -0.5, 0.5, 0, 1 }, (t_vec2){ 1, 1 });
+	if (!append_faces_array(&r->faces, create_face((int [3]){ 1, 4, 3 }, 0, 1)))
+		return (FALSE);
+	if (!append_faces_array(&r->faces, create_face((int [3]){ 1, 3, 2 }, 0, 1)))
+		return (FALSE);
 	if (!(r->pp_vertices = (t_vec4 *)malloc(sizeof(t_vec4) * r->vertices->len)))
 		return (FALSE);
 	if (!(r->pp_normals = (t_vec3 *)malloc(sizeof(t_vec3) * r->normals->len)))
 		return (FALSE);
-	if (!append_faces_array(&r->faces, create_face((int [3]){ 3, 4, 1 }, 0, 1)))
-		return (FALSE);
-	if (!append_faces_array(&r->faces, create_face((int [3]){ 2, 3, 1 }, 0, 1)))
-		return (FALSE);
+	// transform_renderable(r)
+	int i = -1;
+	t_face	*face;
+	while (++i < r->faces->len)
+	{
+		face = &r->faces->values[i];
+		face->collidable = face_collidable(r, i, r->vertices->vertices);
+	}
 //	triangulate_polygon(r);
 	r->dirty = TRUE;
 	r->fixed = FALSE;

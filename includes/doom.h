@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/30 20:52:08 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/01 22:14:30 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,37 +109,26 @@ typedef struct		s_doom
 	t_fonts				fonts;
 	t_lights			*lights;
 	t_renderables		*renderables;
-	// t_polygons			*polygons;
 	t_render_context	main_context;
 	t_renderable		sphere_primitive;
 	t_renderable		grenada_primitive;
 	t_player			player;
-	t_vec2				mouse;
 	t_textures			textures;
 	t_gui				guis[GUI_COUNT];
 	int					current_gui;
 	t_editor			editor;
 	char				*obj_working_dir;
-	// t_objs				*objects;
-	t_bool				collision;
-	int					menu;
-	t_wall				linetodel;
 	t_texture			*wall;
 	t_texture			*obj;
 	t_texture			*icons;
-	int					open;
 	t_audio				audio;
 	SDL_Surface 		*background;
 	t_gdata				gdata;
 	int					skybox_index;
-	int 				indextodel;
-	int					wheredel;
 	t_ressource_manager	res_manager;
 	t_gameover			gameover;
 	t_entity			*closer_boss;
-	//at_thpool_t			*thpool;
-	//pthread_mutex_t		mutex;
-	// t_ray_collide		*rays;
+	t_bool				mouse_focus;
 }					t_doom;
 
 float				clamp(float min, float max, float v);

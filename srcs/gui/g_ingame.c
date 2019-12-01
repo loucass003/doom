@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/01 01:50:57 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/01 22:27:47 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void static	action_performed(t_component *cmp, t_doom *doom)
 void	g_ingame_on_enter(t_gui *self, t_doom *doom)
 {
 	doom->screen.secure = FALSE;
-	SDL_SetRelativeMouseMode(SDL_TRUE);
+	doom->mouse_focus = TRUE;
 	append_components_array(&self->components, create_progress((SDL_Rect){ 5, 5, 200, 30 }));
 	((t_progress *)self->components->values[0])->value = 50;
 	((t_progress *)self->components->values[0])->bg_color = 0xFFFF0000;
@@ -39,18 +39,20 @@ void	g_ingame_on_enter(t_gui *self, t_doom *doom)
 
 void	g_ingame_on_leave(t_gui *self, t_doom *doom)
 {
-	SDL_SetRelativeMouseMode(SDL_FALSE);
+	doom->mouse_focus = FALSE;
 }
 
 void	g_ingame_on_events(t_gui *self, SDL_Event *event, t_doom *doom)
 {
 	const SDL_Scancode	key = event->key.keysym.scancode;
 
-	if (event->type == SDL_KEYDOWN && (key == SDL_SCANCODE_SEMICOLON))
-		SDL_SetRelativeMouseMode(!SDL_GetRelativeMouseMode());
+	
 	
 	if (doom->main_context.type == CTX_NORMAL)
 	{
+		if (event->type == SDL_KEYDOWN && (key == SDL_SCANCODE_SEMICOLON))
+			doom->mouse_focus = !doom->mouse_focus;
+
 		if (event->type == SDL_MOUSEBUTTONDOWN)
 		{
 			t_itemstack	*is = &doom->player.item[doom->player.selected_slot];
@@ -104,12 +106,23 @@ void	g_ingame_on_events(t_gui *self, SDL_Event *event, t_doom *doom)
 	}
 	else if (doom->main_context.type == CTX_EDITOR)
 	{
+		const Uint8		*s = SDL_GetKeyboardState(NULL);
+		if (s[SDL_SCANCODE_LCTRL] && is_settings_open(&doom->editor))
+		{
+			doom->mouse_focus = FALSE;
+			g_editor_settings_on_event(&doom->guis[GUI_EDITOR_SETTINGS], event, doom);
+			return ;
+		}
+		else
+			doom->mouse_focus = TRUE;
+
 		if (event->type == SDL_MOUSEBUTTONDOWN && event->button.button == SDL_BUTTON_LEFT)
 		{
 			t_ray ray = create_shoot_ray(doom->player, (t_vec3){0, 0, 1});
 			t_collision hit = ray_hit_world(doom, doom->renderables, ray);
 			if (hit.collide)
 			{
+				select_room(&doom->editor, -1);
 				if (hit.renderable->of.type == RENDERABLE_ROOM)
 				{
 					t_face face = hit.renderable->faces->values[hit.who.data.triangle.face];
@@ -122,7 +135,18 @@ void	g_ingame_on_events(t_gui *self, SDL_Event *event, t_doom *doom)
 					}
 					select_room(&doom->editor, rooms_indexof(doom->editor.rooms, hit.renderable->of.data.room));
 				}
+				else if (hit.renderable->object_index != -1)
+				{
+					printf("CALL\n");
+					doom->editor.current_object = hit.renderable->object_index;
+					editor_settings_update(&doom->editor);
+				}
 			}
+		}
+		else if (event->type == SDL_MOUSEBUTTONDOWN && event->button.button == SDL_BUTTON_RIGHT)
+		{
+			doom->editor.current_object = -1;
+			select_room(&doom->editor, -1);
 		}
 	}
 }
@@ -180,15 +204,19 @@ void	update_controls(t_doom *doom)
 		doom->player.entity.rotation.y += 0.01 * (s[SDL_SCANCODE_J] ? 1 : -1) * ms;
 	if (s[SDL_SCANCODE_I] || s[SDL_SCANCODE_K])
 		doom->player.entity.rotation.x += 0.01 * (s[SDL_SCANCODE_I] ? 1 : -1) * ms;
-	int m_x, m_y;
-	SDL_GetRelativeMouseState(&m_x, &m_y);
-	if (m_x != 0)
-		doom->player.entity.rotation.y -= m_x * ms * 0.0001;
-	if (m_y != 0)
+
+	if (doom->mouse_focus)
 	{
-		float rot = m_y * ms * 0.0001;
-		if (doom->player.entity.rotation.x - rot < M_PI_2 && doom->player.entity.rotation.x - rot > -M_PI_2 )
-			doom->player.entity.rotation.x -= rot;
+		int m_x, m_y;
+		SDL_GetRelativeMouseState(&m_x, &m_y);
+		if (m_x != 0)
+			doom->player.entity.rotation.y -= m_x * ms * 0.0001;
+		if (m_y != 0)
+		{
+			float rot = m_y * ms * 0.0001;
+			if (doom->player.entity.rotation.x - rot < M_PI_2 && doom->player.entity.rotation.x - rot > -M_PI_2 )
+				doom->player.entity.rotation.x -= rot;
+		}
 	}
 	update_player_camera(&doom->player);
 }

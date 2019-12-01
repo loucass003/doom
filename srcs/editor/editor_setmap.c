@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 15:55:03 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/01 01:51:40 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/01 22:02:07 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,6 +215,9 @@ t_bool		editor_setmap(t_editor *editor)
 	while (++i < editor->objects->len)
 	{
 		t_object		*object = &editor->objects->values[i];
+		t_renderable	r;
+
+	
 		if (object->type == OBJECT_NONE)
 			continue ;
 		if (object->type == OBJECT_PLAYER)
@@ -224,55 +227,55 @@ t_bool		editor_setmap(t_editor *editor)
 		}
 		else if (object->type == OBJECT_ITEMSTACK)
 		{
-			t_renderable r;
 			t_itemstack		*itemstack = object->of.itemstack;
 			
 			create_itemstack_renderable(&r, itemstack->of, itemstack->amount);
 			r.position = editor_to_world(object->pos);
 			r.position.y += r.scale.y * 0.5;
+			r.object_index = i;
 			if (!append_renderables_array(&editor->doom->renderables, r))
 				return (FALSE);
 		}
 		else if (object->type == OBJECT_SPRITE)
 		{
-			t_renderable 	r;
 			
 			if (!create_sprite_renderable(&r, object->of.sprite))
 				return (FALSE);
 			r.position = editor_to_world(object->pos);
+			r.object_index = i;
 			if (!append_renderables_array(&editor->doom->renderables, r))
 				return (FALSE);
 		}
 		else if (object->type == OBJECT_ENTITY)
 		{
-			t_renderable r;
 			if (object->of.entity == ENTITY_ENEMY)
 				create_enemy_renderable(editor->doom, &r);
 			else if (object->of.entity == ENTITY_BOSS)
 				create_boss_renderable(editor->doom, &r);
 			r.of.data.entity->position = editor_to_world(object->pos);
 			r.of.data.entity->position.y += r.of.data.entity->radius.y;
+			r.object_index = i;
 		//	r.show_hitbox = TRUE;
 			if (!append_renderables_array(&editor->doom->renderables, r))
 				return (FALSE);
 		}
 		else if (object->type == OBJECT_MODEL)
 		{
-			t_renderable r;
-			int		i;
+			int		j;
 			t_face *face;
 
 			r = *object->of.model->data.model;
+			r.object_index = i;
 			r.scale = (t_vec3){ 1, 1, 1 };
 			if (!r.pp_vertices && !(r.pp_vertices = malloc(sizeof(t_vec4) * r.vertices->len)))
 				return (FALSE);
 			if (!r.pp_normals && !(r.pp_normals = malloc(sizeof(t_vec3) * r.normals->len)))
 				return (FALSE);
-			i = -1;
-			while (++i < r.faces->len)
+			j = -1;
+			while (++j < r.faces->len)
 			{
-				face = &r.faces->values[i];
-				face->collidable = face_collidable(&r, i, r.vertices->vertices);
+				face = &r.faces->values[j];
+				face->collidable = face_collidable(&r, j, r.vertices->vertices);
 			}
 			r.dirty = TRUE;
 			transform_renderable(&r);
@@ -282,6 +285,7 @@ t_bool		editor_setmap(t_editor *editor)
 			if (!append_renderables_array(&editor->doom->renderables, r))
 				return (FALSE);
 		}
+		object->r = &editor->doom->renderables->values[editor->doom->renderables->len - 1];
 	}
 	spawn_player(editor->doom);
 	return (TRUE);

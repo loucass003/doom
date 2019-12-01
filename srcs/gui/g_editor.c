@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 15:50:09 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/01 01:15:26 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/01 22:26:14 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ void			g_editor_on_leave(t_gui *self, t_doom *doom)
 
 void			g_editor_on_event(t_gui *self, SDL_Event *event, t_doom *doom)
 {
+	doom->mouse_focus = FALSE;
 	printf("EVENT\n");
 	g_editor_settings_on_event(&doom->guis[GUI_EDITOR_SETTINGS], event, doom);
 	if (event->type == SDL_MOUSEMOTION)

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:56:05 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/30 22:44:17 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/01 22:27:22 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ static t_bool		action_performed(t_component *cmp, t_doom *doom)
 
 void	g_mainmenu_on_enter(t_gui *self, t_doom *doom)
 {
-
+	printf("MAINMENU ENTER\n");
+	doom->mouse_focus = FALSE;
 	int		i;
 
 	append_components_array(&self->components, create_button((SDL_Rect){ (S_WIDTH - 250) / 2, (S_HEIGHT - 150) / 2, 250, 50 }, NULL, "PLAY"));
