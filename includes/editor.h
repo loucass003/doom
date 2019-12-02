@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 14:35:33 by lloncham          #+#    #+#             */
-/*   Updated: 2019/12/01 21:57:22 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/02 18:18:42 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,16 +31,15 @@
 # define ES_GUI_WALL (1)
 # define ES_GUI_OBJECT (2)
 
-# define ES_OBJ_GUIS_COUNT (5)
+# define ES_OBJ_GUIS_COUNT (4)
 
 typedef enum		e_object_type
 {
 	OBJECT_NONE = -1,
-	OBJECT_PLAYER = 0,
-	OBJECT_ITEMSTACK = 1,
-	OBJECT_SPRITE = 2,
-	OBJECT_ENTITY = 3,
-	OBJECT_MODEL = 4
+	OBJECT_ITEMSTACK = 0,
+	OBJECT_SPRITE = 1,
+	OBJECT_ENTITY = 2,
+	OBJECT_MODEL = 3
 }					t_object_type;
 
 typedef union		u_object_of
@@ -168,6 +167,7 @@ t_objects			*splice_objects_array(t_objects *arr,
 						int index, int n);
 t_objects			*copy_objects_array(t_objects *src,
 						t_objects **dst);
+int					objects_indexof(t_objects *arr, t_object *elem);
 
 int					get_close_room(t_editor *editor);
 void				remove_room(t_editor *editor, int index);
@@ -201,5 +201,6 @@ t_object			init_object(t_editor *editor, t_vec2 pos);
 t_wall				*get_current_wall(t_editor *editor);
 void				set_gui_settings(t_editor *editor, int id);
 void				free_object(t_object *object);
+t_bool				create_object_renderable(t_editor *editor, int object_index, t_renderable *r);
 
 #endif

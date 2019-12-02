@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/09 21:56:55 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/01 21:53:30 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/02 12:56:15 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <math.h>
 #include "render.h"
 #include "ellipsoid.h"
+#include "doom.h"
 
 static t_bool		create_ellipsoid_faces(t_renderable *r, t_vec2 res)
 {
@@ -73,7 +74,7 @@ static t_bool		gen_ellipsoid_mesh(t_renderable *r, t_vec2 res, t_vec3 radius)
 	return (create_ellipsoid_faces(r, res));
 }
 
-t_bool	create_ellipsoid(t_renderable *r, int color, t_vec2 res, t_vec3 radius)
+t_bool	create_ellipsoid(t_doom *doom, t_renderable *r, t_vec2 res, t_vec3 radius)
 {
 	ft_bzero(r, sizeof(t_renderable));
 	r->of.type = RENDERABLE_ELLIPSOID;
@@ -89,13 +90,10 @@ t_bool	create_ellipsoid(t_renderable *r, int color, t_vec2 res, t_vec3 radius)
 	if(!(r->materials = create_mtllist(1)))
 		return (free_renderable(&r, FALSE));
 	if (!append_mtllist(&r->materials, (t_mtl){ 
-			.material_color_set = TRUE, .material_color = color }))
+			.material_color_set = TRUE, .material_color = 0xFFFF0000 }))
 		return (free_renderable(&r, FALSE));
 	gen_ellipsoid_mesh(r, res, radius);
-	if (!(r->pp_vertices = (t_vec4 *)malloc(sizeof(t_vec4) * r->vertices->len)))
-		return (FALSE);
-	if (!(r->pp_normals = (t_vec3 *)malloc(sizeof(t_vec3) * r->normals->len)))
-		return (FALSE);
+	post_process_renderable(doom, r, TRUE);
 	r->dirty = TRUE;
 	r->fixed = FALSE; 
 	r->scale = (t_vec3){ 1, 1, 1 };

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 22:55:54 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/29 19:12:38 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/02 15:36:38 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ static t_bool			action_performed(t_component *cmp, t_doom *doom)
 		sprite->texture = get_next_ressource(&doom->res_manager, sprite->texture, RESSOURCE_TEXTURE);
 	if (cmp == editor->settings.guis_object[OBJECT_SPRITE].components->values[2])
 		sprite->always_facing_player = ((t_checkbox *)cmp)->value;
+	if (object->r)
+			create_object_renderable(&doom->editor, doom->editor.current_object, object->r);
 	return (TRUE);
 }
 
@@ -40,7 +42,7 @@ void			g_es_obj_sprite_enter(t_gui *self, t_doom *doom)
 
 	t_object	*object = &doom->editor.objects->values[doom->editor.current_object];
 
-	append_components_array(&self->components, create_checkbox(doom, (t_vec2){ x + 10, y + 60}, "Facing player"));
+	append_components_array(&self->components, create_checkbox(doom, (t_vec2){ x + 10, y + 70}, "Facing player"));
 	((t_checkbox *)self->components->values[2])->value = object->of.sprite->always_facing_player;
 
 	i = -1;

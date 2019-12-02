@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/14 17:23:29 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/01 21:05:17 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/02 15:33:31 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_collision		ray_hit_triangle(t_ray *ray, t_collide_triangle *collidable)
 	const float det = ft_vec3_dot(collidable->v0v1, pvec);
 	const float invDet = 1.0 / det;
 	
-	if (ft_vec3_dot(collidable->normal, ray->direction) <= 0)
+	if (!collidable->double_sided && ft_vec3_dot(collidable->normal, ray->direction) <= 0)
 		return ((t_collision) { .collide = FALSE, .dist = -1.0 });
 	if (fabs(det) < 0)
 		return ((t_collision) { .collide = FALSE, .dist = -1.0 });

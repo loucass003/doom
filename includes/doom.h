@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/01 22:14:30 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/02 12:17:26 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,6 @@ t_bool				obj_test(t_doom *doom);
 
 
 void				load_all(t_doom *doom);
-t_bool				post_process_map(t_doom *doom);
 
 t_bool				init_openal(t_doom *doom);
 void            	quit_openal();

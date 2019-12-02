@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/22 14:02:50 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/29 19:51:46 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/02 14:47:16 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,4 +70,17 @@ t_objects	*copy_objects_array(t_objects *src, t_objects **dst)
 	ft_memcpy(*dst, src,
 		sizeof(t_objects) + (src->capacity * sizeof(t_object)));
 	return (*dst);
+}
+
+int		objects_indexof(t_objects *arr, t_object *elem)
+{
+	int	i;
+
+	i = -1;
+	while (++i < arr->len)
+	{
+		if (arr->values + i == elem)
+			return (i);
+	}
+	return (-1);
 }

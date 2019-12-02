@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/28 16:17:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/01 21:53:20 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/02 15:35:35 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,20 +67,10 @@ t_sprite	*create_sprite(t_vec2 cells_count, t_ressource *texture)
 
 t_bool	create_sprite_renderable(t_renderable *r, t_sprite *sprite)
 {
-	ft_bzero(r, sizeof(t_renderable));
-	r->of.type = 46;
-	r->sprite = sprite;
+	if (!create_renderable(r, RENDERABLE_UNKNOWN))
+		return (FALSE);
 	r->object_index = -1;
-	if(!(r->vertices = create_4dvertices_array(4)))
-		return (free_renderable(&r, FALSE));
-	if(!(r->vertex = create_2dvertices_array(4)))
-		return (free_renderable(&r, FALSE));
-	if(!(r->normals = create_3dvertices_array(4)))
-		return (free_renderable(&r, FALSE));
-	if(!(r->faces = create_faces_array(2)))
-		return (free_renderable(&r, FALSE));
-	if(!(r->materials = create_mtllist(1)))
-		return (free_renderable(&r, FALSE));
+	r->sprite = sprite;
 	if (!append_mtllist(&r->materials, (t_mtl){ .texture_map = sprite->texture->data.texture, .texture_map_set = TRUE }))
 		return (free_renderable(&r, FALSE));
 	add_point(r, (t_vec4){ -0.5, -0.5, 0, 1 }, (t_vec2){ 1, 0 });
@@ -91,22 +81,10 @@ t_bool	create_sprite_renderable(t_renderable *r, t_sprite *sprite)
 		return (FALSE);
 	if (!append_faces_array(&r->faces, create_face((int [3]){ 1, 3, 2 }, 0, 1)))
 		return (FALSE);
-	if (!(r->pp_vertices = (t_vec4 *)malloc(sizeof(t_vec4) * r->vertices->len)))
-		return (FALSE);
-	if (!(r->pp_normals = (t_vec3 *)malloc(sizeof(t_vec3) * r->normals->len)))
-		return (FALSE);
-	// transform_renderable(r)
-	int i = -1;
-	t_face	*face;
-	while (++i < r->faces->len)
-	{
-		face = &r->faces->values[i];
-		face->collidable = face_collidable(r, i, r->vertices->vertices);
-	}
-//	triangulate_polygon(r);
+	r->double_faced = TRUE;
 	r->dirty = TRUE;
 	r->fixed = FALSE;
 	r->scale = (t_vec3){ 1, 1, 1 };
-	r->double_faced = TRUE;
+	post_process_renderable(NULL, r, FALSE);
 	return (TRUE);
 }

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 01:15:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/17 01:11:56 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/02 15:30:24 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ typedef struct		s_collide_triangle
 	t_vec3					v0v1;
 	t_vec3					v0v2;
 	int						face;
+	t_bool					double_sided;
 }					t_collide_triangle;
 
 typedef union 		u_collidable_data

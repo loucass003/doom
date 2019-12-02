@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/09 14:00:21 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/17 00:56:53 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/02 15:35:14 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_collidable	face_collidable(t_renderable *r, int face_index, t_vec4 *vertices)
 	tri.points[2] = vec4_to_3(vertices[face->vertices_index[2] - 1]);
 
 	t_vec3 n = get_triangle_normal(tri.points[0], tri.points[1], tri.points[2]);
-	
+	tri.double_sided = face->double_sided || r->double_faced;
 	if (face->normal_type == 1)
 		tri.normal = ft_vec3_inv(n);
 	else

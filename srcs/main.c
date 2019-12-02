@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/30 23:14:49 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/02 15:03:07 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@
 void	init_bsp(t_doom *doom)
 {
 	t_renderable ellipsoid;
-	create_ellipsoid(&ellipsoid, 0xFFFF0000, (t_vec2){ 30, 30 }, (t_vec3){ 1, 1, 1 });
+	create_ellipsoid(doom, &ellipsoid, (t_vec2){ 30, 30 }, (t_vec3){ 1, 1, 1 });
+	ellipsoid.materials->values[0].material_color = 0xFFFF0000;
 	ellipsoid.position = (t_vec3){ 5, 0.5, 5 };
 	ellipsoid.scale = (t_vec3){ 1, 1, 1 };
 	ellipsoid.wireframe_color = 0xFFFF0000;
-	post_process_obj(doom, &ellipsoid);
 	append_renderables_array(&doom->renderables, ellipsoid);
 	
 
@@ -50,7 +50,7 @@ void	init_bsp(t_doom *doom)
 	itemstack.position = (t_vec3){ -19, 1.5, 58 };
 	append_renderables_array(&doom->renderables, itemstack);
 
-	post_process_map(doom);
+//	post_process_map(doom);
 }
 
 t_bool	init_map(t_doom *doom)
@@ -98,10 +98,8 @@ int		main(int argc, char **argv)
 	if (!(doom.main_context.buffer = (float *)malloc((int)(S_WIDTH * S_HEIGHT) * sizeof(float))))
 		return (-1);
 	
-	if (!create_ellipsoid(&doom.sphere_primitive, 0xFFFF0000, (t_vec2){ 12, 12 }, (t_vec3){ 1, 1, 1 }))
+	if (!create_ellipsoid(&doom, &doom.sphere_primitive, (t_vec2){ 12, 12 }, (t_vec3){ 1, 1, 1 }))
 		return (-1);
-	
-	post_process_obj(&doom, &doom.sphere_primitive);
 	init_sdl(&doom);
 	init_lightning(&doom);
 	game_loop(&doom);

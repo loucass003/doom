@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 22:55:54 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/26 15:01:03 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/02 18:31:08 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ static t_bool			action_performed(t_component *cmp, t_doom *doom)
 			editor->settings.guis_object[OBJECT_ITEMSTACK].components->values[2]->enabled = object->of.itemstack->of->type == ITEM_WEAPON;
 			if (object->of.itemstack->of->type == ITEM_WEAPON)
 				((t_select *)editor->settings.guis_object[OBJECT_ITEMSTACK].components->values[2])->selected_item = select_items_indexof(((t_select *)editor->settings.guis_object[OBJECT_ITEMSTACK].components->values[2])->items, object->of.itemstack->of->data.weapon.type);
+			if (object->r)
+				create_object_renderable(&doom->editor, doom->editor.current_object, object->r);
 		}
 	}
 	else if (cmp == editor->settings.guis_object[OBJECT_ITEMSTACK].components->values[1])
@@ -41,6 +43,8 @@ static t_bool			action_performed(t_component *cmp, t_doom *doom)
 		object->of.itemstack->amount = 1;
 		if (!((t_textfield *)cmp)->error)
 			object->of.itemstack->amount = ((t_textfield *)cmp)->value;
+		if (object->r)
+				create_object_renderable(&doom->editor, doom->editor.current_object, object->r);
 	}
 	else if (cmp == editor->settings.guis_object[OBJECT_ITEMSTACK].components->values[2])
 	{
@@ -54,6 +58,8 @@ static t_bool			action_performed(t_component *cmp, t_doom *doom)
 			ft_memcpy(((t_textfield *)editor->settings.guis_object[OBJECT_ITEMSTACK].components->values[1])->text, istr.str, istr.len);
 			ft_memset(((t_textfield *)editor->settings.guis_object[OBJECT_ITEMSTACK].components->values[1])->text + istr.len, 0, 255 - istr.len);
 			((t_textfield *)editor->settings.guis_object[OBJECT_ITEMSTACK].components->values[1])->text_len = istr.len;
+			if (object->r)
+				create_object_renderable(&doom->editor, doom->editor.current_object, object->r);
 		}
 	}
 	return (TRUE);

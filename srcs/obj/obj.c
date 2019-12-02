@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 15:28:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/30 22:47:16 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/02 13:07:16 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,10 +135,7 @@ t_bool	create_obj(t_doom *doom, t_renderable *r, char *file)
 	}
 	if (r->normals->len == 0)
 		return (FALSE);
-	if (!(r->pp_vertices = (t_vec4 *)malloc(sizeof(t_vec4) * r->vertices->len)))
-		return (free_renderable(&r, FALSE));
-	if (!(r->pp_normals = (t_vec3 *)malloc(sizeof(t_vec3) * r->normals->len)))
-		return (free_renderable(&r, FALSE));
+	post_process_renderable(doom, r, TRUE);
 	r->scale = (t_vec3){ 1, 1, 1 };
 	r->dirty = TRUE;
 	return (TRUE);
@@ -166,25 +163,25 @@ t_bool		obj_test(t_doom *doom)
 	r.fixed = TRUE;
 	doom->skybox_index = doom->renderables->len;
 	 append_renderables_array(&doom->renderables, r);
-	// set_obj_working_dir(doom, "assets/obj/de_dust");
-	// lol = create_obj(doom, &r, "de_dust2.obj");
-	// r.position = (t_vec3){0, 0, 0};
-	// r.rotation = (t_vec3){0, 0, 0};
-	// r.scale = (t_vec3){0.05, 0.05, 0.05};
-	// //r.wireframe = TRUE;
-	// r.wireframe_color = 0xFFFF0000;
-	// r.fixed = TRUE;
-	// append_renderables_array(&doom->renderables, r);
-	set_obj_working_dir(doom, "assets/obj/winter");
-	lol = create_obj(doom, &r, "winter.obj");
-	r.position = (t_vec3){0, 0, -3};
+	set_obj_working_dir(doom, "assets/obj/de_dust");
+	lol = create_obj(doom, &r, "de_dust2.obj");
+	r.position = (t_vec3){0, 0, 0};
 	r.rotation = (t_vec3){0, 0, 0};
-//	r.scale = (t_vec3){0.05, 0.05, 0.05};
-	r.scale = (t_vec3){5, 5, 5};
+	r.scale = (t_vec3){0.05, 0.05, 0.05};
 	//r.wireframe = TRUE;
 	r.wireframe_color = 0xFFFF0000;
 	r.fixed = TRUE;
 	append_renderables_array(&doom->renderables, r);
+// 	set_obj_working_dir(doom, "assets/obj/winter");
+// 	lol = create_obj(doom, &r, "winter.obj");
+// 	r.position = (t_vec3){0, 0, -3};
+// 	r.rotation = (t_vec3){0, 0, 0};
+// //	r.scale = (t_vec3){0.05, 0.05, 0.05};
+// 	r.scale = (t_vec3){5, 5, 5};
+// 	//r.wireframe = TRUE;
+// 	r.wireframe_color = 0xFFFF0000;
+// 	r.fixed = TRUE;
+// 	append_renderables_array(&doom->renderables, r);
 // 	set_obj_working_dir(doom, "assets/obj");
 // 	lol = create_obj(doom, &r, "polarbear.obj");
 // 	r.position = (t_vec3){0, 0, 0};

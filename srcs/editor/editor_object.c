@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 18:26:47 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/30 22:38:44 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/02 18:33:58 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,5 +75,7 @@ t_object	init_object(t_editor *editor, t_vec2 pos)
 	y = 0;
 	if (room != -1)
 		y = room_height_range(editor, &editor->rooms->values[room]).x;
-	return (t_object){ .pos = (t_vec3){ pos.x, y, pos.y } };
+	object = (t_object){ .pos = (t_vec3){ pos.x, y, pos.y } };
+	set_object_default(editor->doom, &object);
+	return object;
 }

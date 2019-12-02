@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/26 15:00:53 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/26 15:30:10 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/02 15:20:22 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,10 @@ static t_bool			action_performed(t_component *cmp, t_doom *doom)
 	if (cmp == editor->settings.guis_object[OBJECT_MODEL].components->values[1])
 	{
 		object->of.model = get_next_ressource(&doom->res_manager, object->of.model, RESSOURCE_MODEL);
+	
 	}
+	if (object->r)
+		create_object_renderable(&doom->editor, doom->editor.current_object, object->r);
 	return (TRUE);
 }
 

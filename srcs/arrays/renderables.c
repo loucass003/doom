@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/05 00:11:08 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/05 00:16:00 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/02 18:13:18 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,3 +71,17 @@ t_renderables	*copy_renderables_array(t_renderables *src, t_renderables **dst)
 		sizeof(t_renderables) + (src->capacity * sizeof(t_renderable)));
 	return (*dst);
 }
+
+int		renderables_indexof(t_renderables *arr, t_renderable *elem)
+{
+	int	i;
+
+	i = -1;
+	while (++i < arr->len)
+	{
+		if (arr->values + i == elem)
+			return (i);
+	}
+	return (-1);
+}
+

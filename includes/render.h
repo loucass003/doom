@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:16:19 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/01 21:52:35 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/02 18:13:15 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,12 +117,14 @@ t_renderables		*splice_renderables_array(t_renderables *arr,
 						int index, int n);
 t_renderables		*copy_renderables_array(t_renderables *src,
 						t_renderables **dst);
+int					renderables_indexof(t_renderables *arr, t_renderable *elem);
 
 t_bool				free_renderable(t_renderable **r, t_bool res);
 void				draw_triangle(t_render_context *ctx, t_render_data data);
 void				process_triangle(t_render_context *ctx, t_mtl *mtl, t_triangle triangle);
 void				post_process_triangle(t_render_context *ctx, t_mtl *mtl, t_triangle triangle);
 void				transform_renderable(t_renderable *r);
+t_bool				post_process_renderable(struct s_doom *doom, t_renderable *r, t_bool octree);
 // void				render_polygon(t_render_context *ctx, t_polygon *poly);
 // void				render_obj(t_render_context *ctx, t_obj *obj);
 

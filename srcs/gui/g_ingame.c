@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/01 22:27:47 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/02 16:26:47 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void static	action_performed(t_component *cmp, t_doom *doom)
 
 void	g_ingame_on_enter(t_gui *self, t_doom *doom)
 {
+	enter_gui(doom, doom->guis, GUI_EDITOR_SETTINGS);
 	doom->screen.secure = FALSE;
 	doom->mouse_focus = TRUE;
 	append_components_array(&self->components, create_progress((SDL_Rect){ 5, 5, 200, 30 }));
@@ -39,6 +40,7 @@ void	g_ingame_on_enter(t_gui *self, t_doom *doom)
 
 void	g_ingame_on_leave(t_gui *self, t_doom *doom)
 {
+	leave_gui(doom, doom->guis, GUI_EDITOR_SETTINGS);
 	doom->mouse_focus = FALSE;
 }
 
@@ -47,7 +49,7 @@ void	g_ingame_on_events(t_gui *self, SDL_Event *event, t_doom *doom)
 	const SDL_Scancode	key = event->key.keysym.scancode;
 
 	
-	
+	components_events(doom, doom->guis, event, GUI_EDITOR_SETTINGS);
 	if (doom->main_context.type == CTX_NORMAL)
 	{
 		if (event->type == SDL_KEYDOWN && (key == SDL_SCANCODE_SEMICOLON))
@@ -62,6 +64,7 @@ void	g_ingame_on_events(t_gui *self, SDL_Event *event, t_doom *doom)
 
 		if (event->type == SDL_KEYDOWN && (key == SDL_SCANCODE_P))
 		{
+			
 			t_ray ray = create_shoot_ray(doom->player, (t_vec3){0, 0, 1});
 			t_collision hit = ray_hit_world(doom, doom->renderables, ray);
 			if (hit.collide)
@@ -69,6 +72,7 @@ void	g_ingame_on_events(t_gui *self, SDL_Event *event, t_doom *doom)
 				t_renderable *r = hit.renderable;
 				if (r && r->of.type != RENDERABLE_ENTITY)
 				{
+					printf("CALL\n");
 					t_renderable enemy;
 					
 					create_enemy_renderable(doom, &enemy);
@@ -120,8 +124,11 @@ void	g_ingame_on_events(t_gui *self, SDL_Event *event, t_doom *doom)
 		{
 			t_ray ray = create_shoot_ray(doom->player, (t_vec3){0, 0, 1});
 			t_collision hit = ray_hit_world(doom, doom->renderables, ray);
+			
 			if (hit.collide)
 			{
+				if (doom->editor.current_object != -1)
+					doom->editor.objects->values[doom->editor.current_object].r->show_hitbox = FALSE;
 				select_room(&doom->editor, -1);
 				if (hit.renderable->of.type == RENDERABLE_ROOM)
 				{
@@ -137,14 +144,17 @@ void	g_ingame_on_events(t_gui *self, SDL_Event *event, t_doom *doom)
 				}
 				else if (hit.renderable->object_index != -1)
 				{
-					printf("CALL\n");
 					doom->editor.current_object = hit.renderable->object_index;
+					doom->editor.objects->values[doom->editor.current_object].r->show_hitbox = TRUE;
 					editor_settings_update(&doom->editor);
 				}
+
 			}
 		}
 		else if (event->type == SDL_MOUSEBUTTONDOWN && event->button.button == SDL_BUTTON_RIGHT)
 		{
+			if (doom->editor.current_object != -1)
+				doom->editor.objects->values[doom->editor.current_object].r->show_hitbox = FALSE;
 			doom->editor.current_object = -1;
 			select_room(&doom->editor, -1);
 		}
@@ -225,7 +235,7 @@ void	g_ingame_render(t_gui *self, t_doom *doom)
 {
 	static float ticks = 0;
 	
-
+	
 	update_controls(doom);
 	doom->main_context.image = &doom->screen;
 	for (int i = 0; i < S_WIDTH * S_HEIGHT; i++)

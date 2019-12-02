@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 15:50:09 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/01 22:26:14 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/02 18:06:41 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void			g_editor_button(t_gui *self, t_doom *doom)
 
 void			g_editor_on_enter(t_gui *self, t_doom *doom)
 {
-	
+	enter_gui(doom, doom->guis, GUI_EDITOR_SETTINGS);
 	doom->editor.line_start_cell = (t_vec2){ -1, -1 };
 	doom->editor.current_point = -1;
 	doom->editor.current_object = -1;
@@ -88,13 +88,13 @@ void			g_editor_on_enter(t_gui *self, t_doom *doom)
 
 void			g_editor_on_leave(t_gui *self, t_doom *doom)
 {
-
+	leave_gui(doom, doom->guis, GUI_EDITOR_SETTINGS);
 }
 
 void			g_editor_on_event(t_gui *self, SDL_Event *event, t_doom *doom)
 {
 	doom->mouse_focus = FALSE;
-	printf("EVENT\n");
+	components_events(doom, doom->guis, event, GUI_EDITOR_SETTINGS);
 	g_editor_settings_on_event(&doom->guis[GUI_EDITOR_SETTINGS], event, doom);
 	if (event->type == SDL_MOUSEMOTION)
 	{
