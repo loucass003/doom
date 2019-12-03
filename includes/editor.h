@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 14:35:33 by lloncham          #+#    #+#             */
-/*   Updated: 2019/12/02 18:18:42 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/03 16:50:26 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # define TOOL_POINT (2)
 # define TOOL_SELECT (3)
 # define TOOL_OBJECTS (4)
+# define TOOL_PLAYER (5)
 # define CELLS_SPACING (10)
 
 # define ES_GUIS_COUNT (3)
@@ -107,6 +108,7 @@ typedef enum		e_grid_grab
 	GG_POINT,
 	GG_LINE,
 	GG_OBJECT,
+	GG_PLAYER,
 	GG_OUTSIDE
 }					t_grid_grab;
 
@@ -120,13 +122,14 @@ typedef struct		s_editor_settings
 	int				current_gui_object;
 }					t_editor_settings;
 
+
+
 typedef struct		s_editor
 {
 	t_vec2				grid_cell;
 	t_grid_grab			grid_cell_grab;
 	t_vec2				close_seg;
 	int					close_object;
-	t_vec2				current_seg;
 	int					selected_tool;
 	t_vec2				line_start_cell;
 	t_rooms				*rooms;
@@ -134,11 +137,15 @@ typedef struct		s_editor
 	t_objects			*objects;
 	int					current_room;
 	int					current_point;
+	t_vec2				current_seg;
 	int					current_object;
 	t_bool				object_grab;
 	t_editor_settings	settings;
 	t_doom				*doom;
+	
+	t_bool				player_set;
 	t_vec3				player_pos;
+	t_bool				player_grab;
 	
 	
 	int					icone;
@@ -187,6 +194,7 @@ void				editor_tool_point_move(t_editor *editor);
 void				editor_tool_point_release(t_editor *editor);
 void				editor_tool_room(t_editor *editor, SDL_Event *event);
 void				editor_tool_objects(t_editor *editor, SDL_Event *event);
+void				editor_tool_player(t_editor *editor, SDL_Event *event);
 void				editor_delete_action(t_editor *editor);
 void				select_room(t_editor *editor, int index);
 t_vec2				get_close_seg(t_editor *editor, t_room *room, t_vec2 pos);
@@ -202,5 +210,6 @@ t_wall				*get_current_wall(t_editor *editor);
 void				set_gui_settings(t_editor *editor, int id);
 void				free_object(t_object *object);
 t_bool				create_object_renderable(t_editor *editor, int object_index, t_renderable *r);
+t_vec3				editor_to_world(t_vec3 pos);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/25 05:41:51 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/25 15:36:36 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/03 17:07:41 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,12 @@ typedef struct		s_wr_mtl
 	t_bool			wireframe;
 	int				material_color;
 }					t_wr_mtl;
+
+typedef struct		s_wr_player
+{
+	t_bool			set;
+	t_vec3			pos;
+}					t_wr_player;
 
 typedef struct		s_wr_data
 {

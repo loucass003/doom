@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 15:55:03 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/02 18:15:25 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/03 17:47:20 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,16 +183,6 @@ t_bool		create_object_renderable(t_editor *editor, int object_index, t_renderabl
 {
 	t_object	*object = &editor->objects->values[object_index];
 
-	// if (object->type == OBJECT_PLAYER)
-	// {
-	// 	editor->player_pos = editor_to_world(object->pos);
-	// 	editor->player_pos.y += editor->doom->player.entity.radius.y;
-	// 	if (object->r)
-	// 	{
-	// 		splice_renderables_array(editor->doom->renderables, renderables_indexof(editor->doom->renderables, object->r), 1);
-	// 		object->r = NULL;
-	// 	}
-	// }
 	if (object->type == OBJECT_ITEMSTACK)
 	{
 		ft_bzero(r, sizeof(t_renderable));
@@ -228,6 +218,8 @@ t_bool		create_object_renderable(t_editor *editor, int object_index, t_renderabl
 		r->position = editor_to_world(object->pos);
 		r->position.y += r->scale.y;
 	}
+	// if (object->r && object->r->show_hitbox)
+		r->show_hitbox = TRUE;
 	r->object_index = object_index;
 	r->no_light = object->no_light;
 

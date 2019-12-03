@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:43:35 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/30 22:56:18 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/03 16:58:38 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void				update_player_camera(t_player *player)
 
 	camera = &player->camera;
 	camera->pos = player->entity.position;
-	//camera->pos.y += 1;
 	camera->rotation = player->entity.rotation;
 	camera_update_maxtrix(&player->camera);
 
@@ -54,5 +53,6 @@ void				init_player(t_doom *doom)
 
 void				spawn_player(t_doom *doom)
 {
-	doom->player.entity.position = doom->editor.player_pos;
+	doom->player.entity.position = editor_to_world(doom->editor.player_pos);
+	doom->player.entity.position.y += doom->player.entity.radius.y;
 }

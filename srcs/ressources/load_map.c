@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 01:53:42 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/26 16:37:30 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/03 17:10:31 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,6 +214,17 @@ t_bool		read_objects(t_ressource_manager *r)
 	return (TRUE);
 }
 
+t_bool		read_player(t_ressource_manager *r)
+{
+	t_wr_player wr_player;
+
+	if (!io_memcpy(&r->reader, &wr_player, sizeof(t_wr_player)))
+		return (FALSE);
+	r->doom->editor.player_set = wr_player.set;
+	r->doom->editor.player_pos = wr_player.pos;
+	return (TRUE);
+}
+
 t_bool		read_map(t_ressource_manager *r)
 {
 	if (!read_points(r))
@@ -221,6 +232,8 @@ t_bool		read_map(t_ressource_manager *r)
 	if (!read_rooms(r))
 		return (FALSE);
 	if (!read_objects(r))
+		return (FALSE);
+	if (!read_player(r))
 		return (FALSE);
 	return (TRUE);
 }

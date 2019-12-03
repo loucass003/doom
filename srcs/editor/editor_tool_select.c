@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 20:13:35 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/17 23:12:35 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/03 17:17:00 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,4 +66,6 @@ void			editor_tool_select(t_editor *editor, SDL_Event *event)
 	}
 	if (editor->grid_cell_grab == GG_OBJECT || (editor->current_object != -1 && (editor->grid_cell_grab == GG_NONE || editor->grid_cell_grab == GG_OUTSIDE)))
 		editor_tool_objects(editor, event);
+	if (editor->grid_cell_grab == GG_PLAYER)
+		editor_tool_player(editor, event);
 }

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 18:46:30 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/17 23:10:33 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/03 14:14:59 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,12 @@ t_vec2			get_close_point(t_editor *editor, t_vec2 pos)
 		p = point_on_room(editor, room2, pos, &found);
 		if (found)
 			return (p);
+	}
+	if (editor->player_set
+		&& is_in_range((t_vec2){editor->player_pos.x, editor->player_pos.z}, p))
+	{
+		editor->grid_cell_grab = GG_PLAYER;
+		return ((t_vec2){editor->player_pos.x, editor->player_pos.z});
 	}
 	editor->grid_cell_grab = GG_NONE;
 	if (!in_bounds((SDL_Rect){ 10, 70, S_WIDTH - 20, S_HEIGHT - 80 }, pos) 

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 18:26:47 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/02 18:33:58 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/03 13:48:39 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ t_object	init_object(t_editor *editor, t_vec2 pos)
 	t_object		object;
 	float			y;
 
-	int room = point_in_rooms(editor, (t_vec2){ pos.x, pos.y });
+	int room = point_in_rooms(editor, pos);
 	y = 0;
 	if (room != -1)
 		y = room_height_range(editor, &editor->rooms->values[room]).x;

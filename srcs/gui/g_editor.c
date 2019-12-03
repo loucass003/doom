@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 15:50:09 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/02 18:06:41 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/03 17:14:55 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static t_bool		tools_action_performed(t_component *cmp, t_doom *doom)
 
 	btn = cmp;
 	i = -1;
-	while (++i < 5)
+	while (++i < 6)
 	{
 		btn = doom->guis[doom->current_gui].components->values[i];
 		if (cmp == btn)
@@ -39,8 +39,18 @@ static t_bool		tools_action_performed(t_component *cmp, t_doom *doom)
 		select_room(&doom->editor, -1);
 		doom->editor.line_start_cell = (t_vec2){ -1, -1 };
 	}
+	if (doom->editor.current_object != -1)
+	{
+		doom->editor.current_object = -1;
+		editor_settings_update(&doom->editor);
+	}
 	if (doom->editor.selected_tool == 0)
 	{
+		if (!doom->editor.player_set)
+		{
+			
+			return (TRUE);
+		}
 		doom->editor.selected_tool = -1;
 		editor_setmap(&doom->editor);
 		set_gui(doom, GUI_INGAME);
@@ -66,8 +76,9 @@ void			g_editor_button(t_gui *self, t_doom *doom)
 	append_components_array(&self->components, create_button((SDL_Rect){112, 9, 50, 50}, "icons/point.png", NULL));
 	append_components_array(&self->components, create_button((SDL_Rect){164, 9, 50, 50}, "icons/curseur3.png", NULL));
 	append_components_array(&self->components, create_button((SDL_Rect){216, 9, 50, 50}, "icons/objects.png", NULL));
+	append_components_array(&self->components, create_button((SDL_Rect){268, 9, 50, 50}, "icons/pin.png", NULL));
 	int i = 0;
-	while (i < 5)
+	while (i < 6)
 		self->components->values[i++]->perform_action = tools_action_performed;
 	append_components_array(&self->components, create_button((SDL_Rect){S_WIDTH - 57, 9, 50, 50}, "icons/settings.png", NULL));
 	self->components->values[self->components->len - 1]->perform_action = action_performed;
@@ -111,6 +122,11 @@ void			g_editor_on_event(t_gui *self, SDL_Event *event, t_doom *doom)
 			editor_tool_point_move(&doom->editor);
 		if (doom->editor.current_object != -1 && doom->editor.object_grab)
 			editor_tool_objects_move(&doom->editor);
+		if (doom->editor.player_grab)
+			editor_tool_player_move(&doom->editor);
+		
+		// if (doom->editor.player_selected && doom->editor.player_grab)
+		// 	editor_tool_objects_move(&doom->editor);
 	}
 	else if (event->type == SDL_MOUSEBUTTONDOWN)
 	{
@@ -122,6 +138,8 @@ void			g_editor_on_event(t_gui *self, SDL_Event *event, t_doom *doom)
 			editor_tool_select(&doom->editor, event);
 		else if (doom->editor.selected_tool == TOOL_OBJECTS)
 			editor_tool_objects(&doom->editor, event);
+		else if (doom->editor.selected_tool == TOOL_PLAYER)
+			editor_tool_player(&doom->editor, event);
 	}
 	else if (event->type == SDL_MOUSEBUTTONUP)
 	{
@@ -129,6 +147,8 @@ void			g_editor_on_event(t_gui *self, SDL_Event *event, t_doom *doom)
 			editor_tool_point_release(&doom->editor);
 		if (doom->editor.selected_tool == TOOL_SELECT || doom->editor.selected_tool == TOOL_OBJECTS)
 			editor_tool_objects_release(&doom->editor);
+		if (doom->editor.selected_tool == TOOL_SELECT || doom->editor.selected_tool == TOOL_PLAYER)
+			editor_tool_player_release(&doom->editor);
 	}
 	else if (event->type == SDL_KEYDOWN)
 	{
@@ -147,9 +167,11 @@ void			g_editor_render(t_gui *self, t_doom *doom)
 
 	editor_grid_render(self, doom, &doom->editor);
 	editor_render_rooms(self, doom, &doom->editor);
+	editor_render_player(doom, &doom->editor);
 	editor_render_objects(&doom->editor);
 	draw_rect(&doom->screen, (SDL_Rect){ 5, 5, S_WIDTH - 10, 57 }, 0xFFFFFFFF);
 	render_components(doom, self);
 	doom->guis[GUI_EDITOR_SETTINGS].render(&doom->guis[GUI_EDITOR_SETTINGS], doom);
+	((t_button *)doom->guis[doom->current_gui].components->values[5])->color_default = !doom->editor.player_set ? 0xFFFF0000 : 0xFF505050;
 	// show_new_components(doom);
 }

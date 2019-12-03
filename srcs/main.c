@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/02 15:03:07 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/03 14:02:04 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ t_bool	init_map(t_doom *doom)
 		return (FALSE);
 	if (!(doom->renderables = create_renderables_array(50)))
 		return (FALSE);
+	doom->editor.player_set = FALSE;
 	return (TRUE);
 }
 

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/02 16:26:47 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/03 17:34:00 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	g_ingame_on_events(t_gui *self, SDL_Event *event, t_doom *doom)
 	const SDL_Scancode	key = event->key.keysym.scancode;
 
 	
-	components_events(doom, doom->guis, event, GUI_EDITOR_SETTINGS);
+	
 	if (doom->main_context.type == CTX_NORMAL)
 	{
 		if (event->type == SDL_KEYDOWN && (key == SDL_SCANCODE_SEMICOLON))
@@ -110,16 +110,14 @@ void	g_ingame_on_events(t_gui *self, SDL_Event *event, t_doom *doom)
 	}
 	else if (doom->main_context.type == CTX_EDITOR)
 	{
-		const Uint8		*s = SDL_GetKeyboardState(NULL);
-		if (s[SDL_SCANCODE_LCTRL] && is_settings_open(&doom->editor))
+		if (event->type == SDL_KEYDOWN && (key == SDL_SCANCODE_TAB))
+			doom->mouse_focus = !doom->mouse_focus;
+		if (!doom->mouse_focus && is_settings_open(&doom->editor))
 		{
-			doom->mouse_focus = FALSE;
 			g_editor_settings_on_event(&doom->guis[GUI_EDITOR_SETTINGS], event, doom);
 			return ;
 		}
-		else
-			doom->mouse_focus = TRUE;
-
+		
 		if (event->type == SDL_MOUSEBUTTONDOWN && event->button.button == SDL_BUTTON_LEFT)
 		{
 			t_ray ray = create_shoot_ray(doom->player, (t_vec3){0, 0, 1});
@@ -159,6 +157,7 @@ void	g_ingame_on_events(t_gui *self, SDL_Event *event, t_doom *doom)
 			select_room(&doom->editor, -1);
 		}
 	}
+	components_events(doom, doom->guis, event, GUI_EDITOR_SETTINGS);
 }
 
 void	update_controls(t_doom *doom)
@@ -168,6 +167,8 @@ void	update_controls(t_doom *doom)
 
 	float dt = 1.0 / 60.;
 	float move_speed;
+	if (!doom->mouse_focus && is_settings_open(&doom->editor))
+		return ;
 	//long start = getMicrotime();
 	entity_update(doom, &doom->player.entity, doom->stats.delta);
 	//printf("delay %luus\n", getMicrotime() - start);
