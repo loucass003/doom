@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 15:55:03 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/03 17:47:20 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/04 15:26:31 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,57 @@ t_vec3		editor_to_world(t_vec3 pos)
 	return (pos);
 }
 
+t_bool		update_wall(t_room *room, int wall_index)
+{
+	t_renderable	*r;
+	t_face			*f1;
+	t_face			*f2;
+	t_wall			*wall;
+
+	if (!(r = room->r))
+		return (FALSE);
+	wall = &room->walls->values[wall_index];
+	f1 = &r->faces->values[room->walls_start + wall_index * 2];
+	f2 = &r->faces->values[room->walls_start + wall_index * 2 + 1];
+
+	t_vec3 face_normal = get_triangle_normal(
+		vec4_to_3(r->pp_vertices[f1->vertices_index[0] - 1]),
+		vec4_to_3(r->pp_vertices[f1->vertices_index[1] - 1]),
+		vec4_to_3(r->pp_vertices[f1->vertices_index[2] - 1])
+	);
+
+	if (wall->normal_type == 0)
+		face_normal = ft_vec3_inv(face_normal);
+
+	f1->hidden = wall->invisible;
+	f1->has_collision = wall->collisions;
+	f1->face_normal = face_normal;
+	f1->normal_type = wall->normal_type;
+	f1->double_sided = wall->normal_type == 2;
+
+	f2->hidden = wall->invisible;
+	f2->has_collision = wall->collisions;
+	f2->face_normal = face_normal;
+	f2->normal_type = wall->normal_type;
+	f2->double_sided = wall->normal_type == 2;
+
+	r->materials->values[wall_index + 2].texture_map = wall->texture->data.texture;
+	return (TRUE);
+}
+
+t_bool		update_floor(t_room *room, t_bool floor)
+{
+	t_renderable	*r;
+
+	if (!(r = room->r))
+		return (FALSE);
+	if (floor)
+		r->materials->values[0].texture_map = room->floor_texture->data.texture;
+	else
+		r->materials->values[1].texture_map = room->ceiling_texture->data.texture;
+	return (TRUE);
+}
+
 t_bool		create_room_mesh(t_renderable *r, t_editor *editor, t_room *room)
 {
 	int		i;
@@ -76,12 +127,13 @@ t_bool		create_room_mesh(t_renderable *r, t_editor *editor, t_room *room)
 	while (++i < room->walls->len)
 		filter[i] = (i * 2) + 1;
 	triangulate_floor_ceil(r, (t_vec3){ 0, 1, 0 }, filter, room->walls->len, 1);
+	room->walls_start = r->faces->len;
 	i = -1;
 	while (++i < room->walls->len)
 	{
 		t_wall	*wall = &room->walls->values[i];
-		if (!wall->collisions && wall->invisible)
-			continue;
+		// if (!wall->collisions && wall->invisible)
+		// 	continue;
 		int	next = (i + 1) % room->walls->len;
 		t_vec4 p0 = r->vertices->vertices[i * 2];
 		t_vec4 p1 = r->vertices->vertices[next * 2];
@@ -218,11 +270,11 @@ t_bool		create_object_renderable(t_editor *editor, int object_index, t_renderabl
 		r->position = editor_to_world(object->pos);
 		r->position.y += r->scale.y;
 	}
-	// if (object->r && object->r->show_hitbox)
+	if (r->has_hitbox)
 		r->show_hitbox = TRUE;
 	r->object_index = object_index;
 	r->no_light = object->no_light;
-
+	object->r = r;
 	return (TRUE);
 }
 
@@ -246,6 +298,7 @@ t_bool		editor_setmap(t_editor *editor)
 			return (FALSE);
 		if (!append_renderables_array(&editor->doom->renderables, r))
 			return (FALSE);
+		room->r = &editor->doom->renderables->values[editor->doom->renderables->len - 1];
 	}
 	i = -1;
 	while (++i < editor->objects->len)
@@ -260,6 +313,8 @@ t_bool		editor_setmap(t_editor *editor)
 		if (!append_renderables_array(&editor->doom->renderables, r))
 			return (FALSE);
 		object->r = &editor->doom->renderables->values[editor->doom->renderables->len - 1];
+		if (object->r->has_hitbox)
+			object->r->show_hitbox = FALSE;
 	}
 	spawn_player(editor->doom);
 	return (TRUE);
