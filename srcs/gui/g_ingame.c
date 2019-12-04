@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_ingame.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/04 15:35:35 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/04 16:25:00 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void	g_ingame_on_events(t_gui *self, SDL_Event *event, t_doom *doom)
 		if (event->type == SDL_KEYDOWN && key == SDL_SCANCODE_G)
 		{
 			t_renderable grenada;
-			grenada = doom->grenada_primitive;
+			grenada = *doom->res_manager.ressources->values[7]->data.model;
 			create_grenada(&grenada, doom);
 			grenada.of.data.entity->position = doom->player.entity.position;
 			t_vec3 forward = vec3_rotate((t_vec3){ 0, 0, 1 }, (t_vec3){-doom->player.entity.rotation.x, doom->player.entity.rotation.y, 0});

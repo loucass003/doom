@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 14:37:12 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/28 14:23:41 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/12/04 16:19:24 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ t_bool			init_ressources_registry(t_doom *doom)
 	error |= a(doom, "AXE_ANNIMATION", RESSOURCE_TEXTURE, TRUE);
 	error |= a(doom, "ENEMY_SPRITESHEET", RESSOURCE_TEXTURE, TRUE);
 	error |= a(doom, "BOSS_SPRITESHEET", RESSOURCE_TEXTURE, TRUE);
+	error |= a(doom, "GRENADE_MODEL", RESSOURCE_MODEL, TRUE);
+	error |= a(doom, "ROCKET_MODEL", RESSOURCE_MODEL, TRUE);
 	return (error);
 }
 
