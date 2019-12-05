@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 22:00:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/02 12:58:01 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/05 15:56:15 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ void		check_collision(t_entity *entity, t_collide_aabb area)
 	while (++i < entity->packet.doom->renderables->len)
 	{
 		r = entity->packet.doom->renderables->values[i];
+		entity->packet.r = NULL;
 		if (r.of.data.entity == entity 
 			|| (r.of.type == RENDERABLE_ENTITY 
 			&& (r.of.data.entity->type == ENTITY_GRENADA 

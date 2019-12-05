@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/05 00:02:57 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/01 21:53:05 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/05 13:50:09 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,17 +25,17 @@ void		transform_renderable(t_renderable *r)
 	int		i;
 
 	const	t_mat4 rot = ft_mat4_rotation(r->rotation);
-	const	t_mat4 m = ft_mat4_mul(
+	r->matrix = ft_mat4_mul(
 		ft_mat4_mul(
 			ft_mat4_translation(r->position),
 			rot
 		),
 		ft_mat4_scale(r->scale)
-	); 
+	);
 
 	i = -1;
 	while (++i < r->vertices->len)
-		r->pp_vertices[i] = mat4_mulv4(m, r->vertices->vertices[i]);
+		r->pp_vertices[i] = mat4_mulv4(r->matrix, r->vertices->vertices[i]);
 	i = -1;
 	while (++i < r->normals->len)
 		r->pp_normals[i] = ft_mat4_mulv(rot, r->normals->vertices[i]);
@@ -71,5 +71,16 @@ t_bool		create_renderable(t_renderable	*r, t_renderable_type type)
 		return (free_renderable(&r, FALSE));
 	if(!(r->materials = create_mtllist(1)))
 		return (free_renderable(&r, FALSE));
+	return (TRUE);
+}
+
+
+t_bool		copy_renderable(t_renderable *src, t_renderable *dest)
+{
+	ft_memcpy(dest, src, sizeof(t_renderable));
+	if (!(dest->pp_vertices = malloc(sizeof(t_vec4) * src->vertices->len)))
+		return (FALSE);
+	if (!(dest->pp_normals = malloc(sizeof(t_vec3) * src->normals->len)))
+		return (FALSE);
 	return (TRUE);
 }

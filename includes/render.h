@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:16:19 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/02 18:13:15 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/05 18:20:11 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,7 @@ typedef struct		s_face
 	t_vec3			face_normal;
 	int				mtl_index;
 	t_collidable	collidable;
-	t_bool			selected;
 	t_bool			hidden;
-	t_bool			already_collided;
 	t_bool			double_sided;
 	t_bool			has_collision;
 	char			normal_type;
@@ -82,22 +80,23 @@ typedef struct		s_renderable
 	t_3dvertices			*normals;
 	t_mtllist				*materials;
 	struct s_sprite			*sprite;
+	struct s_octree_node	*octree;
 	t_vec3					position;
 	t_vec3					rotation;
 	t_bool					no_collision;
 	t_vec3					scale;
+	t_mat4					matrix;
 	t_bool					visible;
 	t_bool					dirty;
 	t_bool					fixed;
 	t_bool					double_faced;
 	t_bool					no_light;
 	t_bool					show_hitbox;
-	t_bool					wireframe;
-	int						wireframe_color;
 	t_bool					has_hitbox;
 	t_collidable			hitbox;
 	t_vec3					hitbox_offset;
-	struct s_octree_node	*octree;
+	t_bool					wireframe;
+	int						wireframe_color;
 	int						object_index;
 }					t_renderable;
 
@@ -134,5 +133,6 @@ void				compute_ellipsoid_hitbox(t_renderable *r, t_vec3 pos, t_vec3 radius);
 void				update_hitbox(t_renderable *r);
 t_collision			ray_hit_world(struct s_doom *doom, t_renderables *renderables, t_ray ray);
 t_bool				create_renderable(t_renderable	*r, t_renderable_type type);
+t_bool				create_cube(struct s_doom *doom, t_renderable *r, t_bool inside);
 
 #endif

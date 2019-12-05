@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 16:49:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/01 00:55:06 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/05 13:35:16 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,7 +204,7 @@ void	render_renderable(t_render_context *ctx, t_renderable *r)
 	{
 		frustum_to_local(ctx->camera, r);
 		frustum_intersect_octree(r->octree, ctx->camera->frustum, render_face, &face_data);
-	//	printf("OCTREE %d %d/%d\n", r->of.type, faces_count, r->faces->len);
+		// printf("\nOCTREE %d %d/%d\n\n", r->of.type, faces_count, r->faces->len);
 	}
 	else
 	{

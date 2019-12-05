@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_ingame.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/04 16:25:00 by lloncham         ###   ########.fr       */
+/*   Updated: 2019/12/05 19:49:42 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,17 @@ void	g_ingame_on_enter(t_gui *self, t_doom *doom)
 
 void	g_ingame_on_leave(t_gui *self, t_doom *doom)
 {
+	
 	leave_gui(doom, doom->guis, GUI_EDITOR_SETTINGS);
 	doom->mouse_focus = FALSE;
+}
+
+void	unselect_all(t_doom *doom)
+{
+	if (doom->editor.current_object != -1)
+				doom->editor.objects->values[doom->editor.current_object].r->show_hitbox = FALSE;
+	doom->editor.current_object = -1;
+	select_room(&doom->editor, -1);
 }
 
 void	g_ingame_on_events(t_gui *self, SDL_Event *event, t_doom *doom)
@@ -127,6 +136,7 @@ void	g_ingame_on_events(t_gui *self, SDL_Event *event, t_doom *doom)
 			{
 				if (doom->editor.current_object != -1)
 					doom->editor.objects->values[doom->editor.current_object].r->show_hitbox = FALSE;
+				select_floor_ceil(&doom->editor, NULL, FALSE);
 				select_room(&doom->editor, -1);
 				if (hit.renderable->of.type == RENDERABLE_ROOM)
 				{
@@ -139,6 +149,11 @@ void	g_ingame_on_events(t_gui *self, SDL_Event *event, t_doom *doom)
 						doom->editor.current_seg.y = hit.renderable->of.data.room->walls->values[(face.wall_index + 1) % hit.renderable->of.data.room->walls->len].indice;
 					}
 					select_room(&doom->editor, rooms_indexof(doom->editor.rooms, hit.renderable->of.data.room));
+					const Uint8		*s = SDL_GetKeyboardState(NULL);
+					if (s[SDL_SCANCODE_LCTRL] && hit.who.data.triangle.face < hit.renderable->of.data.room->walls_start)
+					{
+						select_floor_ceil(&doom->editor, hit.renderable->of.data.room, hit.who.data.triangle.face < hit.renderable->of.data.room->ceilling_start);
+					}				
 				}
 				else if (hit.renderable->object_index != -1)
 				{
@@ -150,12 +165,7 @@ void	g_ingame_on_events(t_gui *self, SDL_Event *event, t_doom *doom)
 			}
 		}
 		else if (event->type == SDL_MOUSEBUTTONDOWN && event->button.button == SDL_BUTTON_RIGHT)
-		{
-			if (doom->editor.current_object != -1)
-				doom->editor.objects->values[doom->editor.current_object].r->show_hitbox = FALSE;
-			doom->editor.current_object = -1;
-			select_room(&doom->editor, -1);
-		}
+			unselect_all(doom);
 	}
 	components_events(doom, doom->guis, event, GUI_EDITOR_SETTINGS);
 }
@@ -258,6 +268,11 @@ void	g_ingame_render(t_gui *self, t_doom *doom)
 		sphere->dirty = TRUE;
 	//	sphere->double_faced = FALSE;
 		render_renderable(&doom->main_context, sphere);
+		if (doom->editor.current_room != -1 && doom->editor.current_seg.x != -1)
+		{
+			int wall_index = wall_indexof_by_indice(doom->editor.rooms->values[doom->editor.current_room].walls, doom->editor.current_seg.x);
+			printf("WALL INDEX %d\n", wall_index);
+		}
 	}
 	doom->closer_boss = NULL;
 	for (int i = 0; i < doom->renderables->len; i++)

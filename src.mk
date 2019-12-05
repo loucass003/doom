@@ -97,6 +97,7 @@ SRC+=ray.c
 SRC+=render/camera.c
 SRC+=render/triangle.c
 SRC+=render.c
+SRC+=renderables/cube_renderable.c
 SRC+=renderables/ellipsoid_renderable.c
 SRC+=renderables/post_processing.c
 SRC+=renderables/renderable.c

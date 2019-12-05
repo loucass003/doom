@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/28 16:17:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/02 15:35:35 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/05 15:17:03 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,9 +77,9 @@ t_bool	create_sprite_renderable(t_renderable *r, t_sprite *sprite)
 	add_point(r, (t_vec4){ 0.5, -0.5, 0, 1 }, (t_vec2){ 0, 0 });
 	add_point(r, (t_vec4){ 0.5, 0.5, 0, 1 }, (t_vec2){ 0, 1 });
 	add_point(r, (t_vec4){ -0.5, 0.5, 0, 1 }, (t_vec2){ 1, 1 });
-	if (!append_faces_array(&r->faces, create_face((int [3]){ 1, 4, 3 }, 0, 1)))
+	if (!append_faces_array(&r->faces, create_face((int [3][3]){ {1, 4, 3}, {1, 4, 3}, {1, 4, 3} }, 0, 1)))
 		return (FALSE);
-	if (!append_faces_array(&r->faces, create_face((int [3]){ 1, 3, 2 }, 0, 1)))
+	if (!append_faces_array(&r->faces, create_face((int [3][3]){ {1, 3, 2}, {1, 3, 2}, {1, 3, 2} }, 0, 1)))
 		return (FALSE);
 	r->double_faced = TRUE;
 	r->dirty = TRUE;

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 15:55:03 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/04 15:26:31 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/05 19:43:34 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,7 @@ t_bool		create_room_mesh(t_renderable *r, t_editor *editor, t_room *room)
 	while (++i < room->walls->len)
 		filter[i] = i * 2;
 	triangulate_floor_ceil(r, (t_vec3){ 0, -1, 0 }, filter, room->walls->len, 0);
+	room->ceilling_start = r->faces->len;
 	i = -1;
 	while (++i < room->walls->len)
 		filter[i] = (i * 2) + 1;
@@ -217,10 +218,10 @@ t_bool		create_room_renderable(t_renderable *r, t_editor *editor, t_room *room)
 	if(!(r->materials = create_mtllist(room->walls->len + 2)))
 		return (free_renderable(&r, FALSE));
 	if (!append_mtllist(&r->materials, (t_mtl){ 
-			.texture_map_set = TRUE, .texture_map = room->floor_texture->data.texture }))
+			.texture_map_set = TRUE, .texture_map = room->floor_texture->data.texture, .material_color_set = TRUE, .material_color = 0xFFFF0000 }))
 		return (free_renderable(&r, FALSE));
 	if (!append_mtllist(&r->materials, (t_mtl){ 
-			.texture_map_set = TRUE, .texture_map = room->ceiling_texture->data.texture }))
+			.texture_map_set = TRUE, .texture_map = room->ceiling_texture->data.texture, .material_color_set = TRUE, .material_color = 0xFFFF0000 }))
 		return (free_renderable(&r, FALSE));
 	int i = -1;
 	while (++i < room->walls->len)
@@ -264,7 +265,8 @@ t_bool		create_object_renderable(t_editor *editor, int object_index, t_renderabl
 	else if (object->type == OBJECT_MODEL)
 	{
 		ft_bzero(r, sizeof(t_renderable));
-		ft_memcpy(r, object->of.model->data.model, sizeof(t_renderable));
+		// ft_memcpy(r, object->of.model->data.model, sizeof(t_renderable));
+		copy_renderable(object->of.model->data.model, r);
 		r->scale = (t_vec3){ 1, 1, 1 };
 		r->dirty = TRUE;
 		r->position = editor_to_world(object->pos);

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 20:40:10 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/04 15:04:26 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/05 17:11:54 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static t_bool			action_performed(t_component *cmp, t_doom *doom)
 		wall->invisible = ((t_checkbox *)cmp)->value;
 		
 	}
-	update_wall(&doom->editor.rooms->values[doom->editor.current_room], wall_indexof_by_indice(doom->editor.rooms->values[doom->editor.current_room].walls, editor->current_seg.x));
+	update_wall(&editor->rooms->values[editor->current_room], wall_indexof_by_indice(editor->rooms->values[editor->current_room].walls, editor->current_seg.x));
 	return (TRUE);
 }
 

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 14:35:33 by lloncham          #+#    #+#             */
-/*   Updated: 2019/12/04 14:53:22 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/05 19:05:20 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ typedef struct		s_room
 	struct s_ressource	*ceiling_texture;
 	t_bool				closed;
 	t_renderable		*r;
+	int					ceilling_start;
 	int					walls_start;
 }					t_room;
 
@@ -140,6 +141,7 @@ typedef struct		s_editor
 	int					current_point;
 	t_vec2				current_seg;
 	int					current_object;
+	int					selected_floor_ceil;
 	t_bool				object_grab;
 	t_editor_settings	settings;
 	t_doom				*doom;

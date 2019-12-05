@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 18:37:59 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/30 21:51:56 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/05 19:47:32 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,23 @@ void			editor_render_rooms(t_gui *self, t_doom *doom, t_editor *editor)
 	}
 }
 
+
+void			select_floor_ceil(t_editor *editor, t_room *room, t_bool floor)
+{
+	t_room		*prev_room;
+
+	if (editor->current_room != -1 && editor->selected_floor_ceil != -1)
+	{
+		prev_room = &editor->rooms->values[editor->current_room];
+		if (prev_room->r)
+			prev_room->r->materials->values[editor->selected_floor_ceil].texture_map_set = TRUE;
+	}
+
+	if (!room || !room->r)
+		return ;
+	editor->selected_floor_ceil = floor ? 0 : 1;
+	room->r->materials->values[editor->selected_floor_ceil].texture_map_set = FALSE;
+}
 
 void			select_room(t_editor *editor, int index)
 {
