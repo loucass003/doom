@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/05 19:49:42 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/07 19:26:36 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,20 @@ void	unselect_all(t_doom *doom)
 	doom->editor.current_object = -1;
 	select_room(&doom->editor, -1);
 }
+
+char		get_side_thin(t_line partition, t_vec2 v, t_vec2 n)
+{
+	const float		side = (v.x - partition.a.x) * n.x
+		+ (v.y - partition.a.y) * n.y;
+	if (side < 0)
+		return (-1);
+	else if (side > 0)
+		return (1);
+	else 
+		return (0);
+}
+
+
 
 void	g_ingame_on_events(t_gui *self, SDL_Event *event, t_doom *doom)
 {
@@ -166,13 +180,77 @@ void	g_ingame_on_events(t_gui *self, SDL_Event *event, t_doom *doom)
 		}
 		else if (event->type == SDL_MOUSEBUTTONDOWN && event->button.button == SDL_BUTTON_RIGHT)
 			unselect_all(doom);
+
+		if (event->type == SDL_KEYDOWN && doom->editor.selected_floor_ceil != -1 && doom->editor.current_room != -1)
+		{
+			t_room	*room = &doom->editor.rooms->values[doom->editor.current_room];
+
+			if (key == SDL_SCANCODE_KP_4 || key == SDL_SCANCODE_KP_6 || key == SDL_SCANCODE_KP_8 || key == SDL_SCANCODE_KP_5)
+			{
+				int axis = 0;
+
+				if (key == SDL_SCANCODE_KP_4 || key == SDL_SCANCODE_KP_6)
+					axis = key == SDL_SCANCODE_KP_4 ? 2 : -2;
+				if (key == SDL_SCANCODE_KP_8 || key == SDL_SCANCODE_KP_5)
+					axis = key == SDL_SCANCODE_KP_8 ? 1 : -1;
+				
+				t_vec3 center = room_center(&doom->editor, room);
+				const t_vec2		dir[2] = { 
+					{ cos(0), sin(0) }, 
+					{ cos(M_PI_2), sin(M_PI_2) }
+				};
+				t_line				part = (t_line){ 
+					.a = {center.x, center.z}, 
+					.b = {center.x + dir[ft_abs(axis) - 1].x, center.z + dir[ft_abs(axis) - 1].y}
+				};
+				t_vec2 l_normal = line_normal(part);
+				// t_plane plane = plane_new(center, (t_vec3){l_normal.x, 0, l_normal.y});
+
+				printf("CALL\n");
+				
+				t_vec2 range = room_height_range(&doom->editor, room);
+				int i = -1;
+				while (++i < room->walls->len)
+				{
+					t_wall	*wall = &room->walls->values[i];
+					int point_index = i * 2 + doom->editor.selected_floor_ceil;
+					if (!room->r)
+						return ;
+					t_vec4 point = room->r->vertices->vertices[point_index];
+
+					char front = get_side_thin(part, (t_vec2){point.x, point.z}, line_normal(part));
+					point.y += line_get_distance(part, (t_vec2){point.x, point.z}) * (axis > 0 ? 1 : -1) * 0.05 * front;
+					room->r->vertices->vertices[point_index].y = point.y;
+					// float incr = 0.1 * (key == SDL_SCANCODE_KP_8 ? 1 : -1);
+					
+					// // if ((doom->editor.selected_floor_ceil == 0 && wall->floor_height + incr >= range.y) 
+					// // 	|| (doom->editor.selected_floor_ceil == 1 && wall->ceiling_height + incr <= range.x))
+					// // 	break;
+					// t_vec4 p = mat4_mulv4(m_rot, room->r->vertices->vertices[point_index]);
+					// room->r->vertices->vertices[point_index].y = p.y;
+					// // room->r->vertices->vertices[point_index].y += incr;
+					// if (doom->editor.selected_floor_ceil == 0)
+					// 	wall->floor_height = room->r->vertices->vertices[point_index].y;
+					// else
+					// 	wall->ceiling_height = room->r->vertices->vertices[point_index].y;
+				}
+				room->r->dirty = TRUE;
+				// if (doom->editor.selected_floor_ceil == 0)
+					// room->floor_rot = rot;
+				// else
+					// room->ceil_rot = rot;
+			}
+
+			
+
+		}
 	}
 	components_events(doom, doom->guis, event, GUI_EDITOR_SETTINGS);
 }
 
 void	update_controls(t_doom *doom)
 {
-	const double	ms = doom->stats.delta * 200.;
+	const double	ms = doom->stats.delta * 2.;
 	const Uint8		*s = SDL_GetKeyboardState(NULL);
 
 	float dt = 1.0 / 60.;
@@ -222,19 +300,19 @@ void	update_controls(t_doom *doom)
 		}
 	}
 	if (s[SDL_SCANCODE_J] || s[SDL_SCANCODE_L])
-		doom->player.entity.rotation.y += 0.01 * (s[SDL_SCANCODE_J] ? 1 : -1) * ms;
+		doom->player.entity.rotation.y += (s[SDL_SCANCODE_J] ? 1 : -1) * ms;
 	if (s[SDL_SCANCODE_I] || s[SDL_SCANCODE_K])
-		doom->player.entity.rotation.x += 0.01 * (s[SDL_SCANCODE_I] ? 1 : -1) * ms;
+		doom->player.entity.rotation.x += (s[SDL_SCANCODE_I] ? 1 : -1) * ms;
 
 	if (doom->mouse_focus)
 	{
 		int m_x, m_y;
 		SDL_GetRelativeMouseState(&m_x, &m_y);
 		if (m_x != 0)
-			doom->player.entity.rotation.y -= m_x * ms * 0.0001;
+			doom->player.entity.rotation.y -= m_x * ms * 0.01;
 		if (m_y != 0)
 		{
-			float rot = m_y * ms * 0.0001;
+			float rot = m_y * ms * 0.01;
 			if (doom->player.entity.rotation.x - rot < M_PI_2 && doom->player.entity.rotation.x - rot > -M_PI_2 )
 				doom->player.entity.rotation.x -= rot;
 		}
@@ -268,11 +346,6 @@ void	g_ingame_render(t_gui *self, t_doom *doom)
 		sphere->dirty = TRUE;
 	//	sphere->double_faced = FALSE;
 		render_renderable(&doom->main_context, sphere);
-		if (doom->editor.current_room != -1 && doom->editor.current_seg.x != -1)
-		{
-			int wall_index = wall_indexof_by_indice(doom->editor.rooms->values[doom->editor.current_room].walls, doom->editor.current_seg.x);
-			printf("WALL INDEX %d\n", wall_index);
-		}
 	}
 	doom->closer_boss = NULL;
 	for (int i = 0; i < doom->renderables->len; i++)

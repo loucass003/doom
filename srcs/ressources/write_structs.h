@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/25 05:41:51 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/03 17:07:41 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/07 16:26:01 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ typedef struct		s_wr_wall
 	uint8_t			normal_type;
 	t_bool			invisible;
 	t_bool			collisions;
+	float			floor_height;
+	float			ceiling_height;
 }					t_wr_wall;
 
 typedef struct		s_wr_img

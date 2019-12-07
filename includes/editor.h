@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 14:35:33 by lloncham          #+#    #+#             */
-/*   Updated: 2019/12/05 19:05:20 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/07 18:47:14 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,8 @@ typedef struct		s_room
 	struct s_ressource	*ceiling_texture;
 	t_bool				closed;
 	t_renderable		*r;
+	t_vec3				floor_rot;
+	t_vec3				ceil_rot;
 	int					ceilling_start;
 	int					walls_start;
 }					t_room;
@@ -183,6 +185,7 @@ int					get_close_room(t_editor *editor);
 void				remove_room(t_editor *editor, int index);
 t_bool				room_intersect(t_editor *editor, t_room *room, t_room *room2, t_bool strict);
 t_vec2				room_height_range(t_editor *editor, t_room *room);
+t_vec3				room_center(t_editor *editor, t_room *room);
 void				remove_point(t_editor *editor, int index);
 void				insert_point(t_editor *editor, t_vec2 seg, int point_index);
 t_vec2				get_close_point(t_editor *editor, t_vec2 pos);

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 01:53:42 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/03 17:10:31 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/07 16:28:42 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,9 @@ t_bool		read_wall(t_ressource_manager *r, t_walls *walls)
 		.texture = r->ressources->values[wr_wall.resource_index],
 		.normal_type = wr_wall.normal_type,
 		.invisible = wr_wall.invisible,
-		.collisions = wr_wall.collisions
+		.collisions = wr_wall.collisions,
+		.floor_height = wr_wall.floor_height,
+		.ceiling_height = wr_wall.ceiling_height
 	};
 	if (!append_walls_array(&walls, wall))
 		return (FALSE);

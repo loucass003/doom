@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 18:37:59 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/05 19:47:32 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/07 17:56:47 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ void			select_floor_ceil(t_editor *editor, t_room *room, t_bool floor)
 		prev_room = &editor->rooms->values[editor->current_room];
 		if (prev_room->r)
 			prev_room->r->materials->values[editor->selected_floor_ceil].texture_map_set = TRUE;
+		editor->selected_floor_ceil = -1;
 	}
 
 	if (!room || !room->r)
@@ -116,6 +117,7 @@ void			select_floor_ceil(t_editor *editor, t_room *room, t_bool floor)
 void			select_room(t_editor *editor, int index)
 {
 	editor->current_object = -1;
+	editor->selected_floor_ceil = -1;
 	editor->current_room = index;
 	editor_settings_update(editor);
 }
@@ -162,6 +164,34 @@ t_vec2			room_height_range(t_editor *editor, t_room *room)
 		range.y = fmin(wall.ceiling_height, range.y);
 	}
 	return (range);
+}
+
+t_vec3			room_center(t_editor *editor, t_room *room)
+{
+	int			i;
+	t_vec3		min;
+	t_vec3		max;
+	t_wall		wall;
+	t_vec2		point;
+
+	min = (t_vec3){ INT_MAX, INT_MAX, INT_MAX };
+	max = (t_vec3){ INT_MIN, INT_MIN, INT_MIN };
+	i = -1;
+	while (++i < room->walls->len)
+	{
+		wall = room->walls->values[i];
+		point = editor->points->vertices[wall.indice];
+		min.x = fmin(point.x, min.x);
+		min.y = fmin(wall.floor_height, min.y);
+		min.z = fmin(point.y, min.z);
+		max.x = fmax(point.x, max.x);
+		max.y = fmax(wall.floor_height, max.y);
+		max.z = fmax(point.y, max.z);
+	}
+
+	t_vec3 pos = ft_vec3_add(min, ft_vec3_div_s(ft_vec3_sub(max, min), 2));
+	printf("%f %f %f\n", pos.x, pos.y, pos.z);
+	return (ft_vec3_add(min, ft_vec3_div_s(ft_vec3_sub(max, min), 2)));
 }
 
 int				point_in_rooms(t_editor *editor, t_vec2 point)

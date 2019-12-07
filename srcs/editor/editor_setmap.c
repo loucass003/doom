@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 15:55:03 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/05 19:43:34 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/07 16:21:21 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,10 +110,10 @@ t_bool		create_room_mesh(t_renderable *r, t_editor *editor, t_room *room)
 		wall = &room->walls->values[i];
 		t_vec2 v = editor->points->vertices[wall->indice];
 		point = editor_to_world((t_vec3){ v.x, 0, v.y });
-		append_4dvertices_array(&r->vertices, (t_vec4){ point.x, 0, point.z, 1 });
+		append_4dvertices_array(&r->vertices, (t_vec4){ point.x, wall->floor_height, point.z, 1 });
 		append_3dvertices_array(&r->normals, (t_vec3){ 0, 1, 0 });
 		append_2dvertices_array(&r->vertex, (t_vec2){ 0, 0 });
-		append_4dvertices_array(&r->vertices, (t_vec4){ point.x, 10, point.z, 1 });
+		append_4dvertices_array(&r->vertices, (t_vec4){ point.x, wall->ceiling_height, point.z, 1 });
 		append_3dvertices_array(&r->normals, (t_vec3){ 0, -1, 0 });
 		append_2dvertices_array(&r->vertex, (t_vec2){ 0, 0 });
 	}
@@ -128,6 +128,7 @@ t_bool		create_room_mesh(t_renderable *r, t_editor *editor, t_room *room)
 	while (++i < room->walls->len)
 		filter[i] = (i * 2) + 1;
 	triangulate_floor_ceil(r, (t_vec3){ 0, 1, 0 }, filter, room->walls->len, 1);
+	free(filter);
 	room->walls_start = r->faces->len;
 	i = -1;
 	while (++i < room->walls->len)
