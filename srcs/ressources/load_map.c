@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 01:53:42 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/07 16:28:42 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/08 00:32:46 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,10 @@ t_bool		read_room(t_ressource_manager *r)
 		return (FALSE);
 	room = (t_room) { .closed = wr_room.closed, .walls = walls, 
 		.floor_texture = r->ressources->values[wr_room.floor_res_index],
-		.ceiling_texture = r->ressources->values[wr_room.ceiling_res_index] };
+		.ceiling_texture = r->ressources->values[wr_room.ceiling_res_index],
+		.floor_rot = wr_room.floor_rot,
+		.ceil_rot = wr_room.ceil_rot
+	};
 	i = -1;
 	while (++i < wr_room.walls_count)
 		if (!read_wall(r, walls))

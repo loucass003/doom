@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/07 19:26:36 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/08 00:29:38 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,61 +184,42 @@ void	g_ingame_on_events(t_gui *self, SDL_Event *event, t_doom *doom)
 		if (event->type == SDL_KEYDOWN && doom->editor.selected_floor_ceil != -1 && doom->editor.current_room != -1)
 		{
 			t_room	*room = &doom->editor.rooms->values[doom->editor.current_room];
-
+			if (!room->r)
+				return ;
 			if (key == SDL_SCANCODE_KP_4 || key == SDL_SCANCODE_KP_6 || key == SDL_SCANCODE_KP_8 || key == SDL_SCANCODE_KP_5)
 			{
-				int axis = 0;
+				t_vec3	rot = doom->editor.selected_floor_ceil == 0 ? room->floor_rot : room->ceil_rot;
 
 				if (key == SDL_SCANCODE_KP_4 || key == SDL_SCANCODE_KP_6)
-					axis = key == SDL_SCANCODE_KP_4 ? 2 : -2;
+					rot.x += 0.01 * (key == SDL_SCANCODE_KP_4 ? 1 : -1);
 				if (key == SDL_SCANCODE_KP_8 || key == SDL_SCANCODE_KP_5)
-					axis = key == SDL_SCANCODE_KP_8 ? 1 : -1;
-				
-				t_vec3 center = room_center(&doom->editor, room);
-				const t_vec2		dir[2] = { 
-					{ cos(0), sin(0) }, 
-					{ cos(M_PI_2), sin(M_PI_2) }
-				};
-				t_line				part = (t_line){ 
-					.a = {center.x, center.z}, 
-					.b = {center.x + dir[ft_abs(axis) - 1].x, center.z + dir[ft_abs(axis) - 1].y}
-				};
-				t_vec2 l_normal = line_normal(part);
-				// t_plane plane = plane_new(center, (t_vec3){l_normal.x, 0, l_normal.y});
-
-				printf("CALL\n");
-				
-				t_vec2 range = room_height_range(&doom->editor, room);
+					rot.z += 0.01 * (key == SDL_SCANCODE_KP_8 ? 1 : -1);
+				rot.x = clamp(-M_PI / 4, M_PI / 4, rot.x);
+				rot.z = clamp(-M_PI / 4, M_PI / 4, rot.z);
+				t_mat4 m_rot = ft_mat4_mul(ft_mat4_translation(ft_vec3_inv(room_center(&doom->editor, room))), ft_mat4_rotation(rot));
 				int i = -1;
 				while (++i < room->walls->len)
 				{
 					t_wall	*wall = &room->walls->values[i];
 					int point_index = i * 2 + doom->editor.selected_floor_ceil;
-					if (!room->r)
-						return ;
-					t_vec4 point = room->r->vertices->vertices[point_index];
-
-					char front = get_side_thin(part, (t_vec2){point.x, point.z}, line_normal(part));
-					point.y += line_get_distance(part, (t_vec2){point.x, point.z}) * (axis > 0 ? 1 : -1) * 0.05 * front;
+					t_vec2 v = doom->editor.points->vertices[wall->indice];
+					t_vec3 point = ft_mat4_mulv(m_rot, editor_to_world((t_vec3){ v.x, 0, v.y }));
 					room->r->vertices->vertices[point_index].y = point.y;
-					// float incr = 0.1 * (key == SDL_SCANCODE_KP_8 ? 1 : -1);
-					
-					// // if ((doom->editor.selected_floor_ceil == 0 && wall->floor_height + incr >= range.y) 
-					// // 	|| (doom->editor.selected_floor_ceil == 1 && wall->ceiling_height + incr <= range.x))
-					// // 	break;
-					// t_vec4 p = mat4_mulv4(m_rot, room->r->vertices->vertices[point_index]);
-					// room->r->vertices->vertices[point_index].y = p.y;
-					// // room->r->vertices->vertices[point_index].y += incr;
-					// if (doom->editor.selected_floor_ceil == 0)
-					// 	wall->floor_height = room->r->vertices->vertices[point_index].y;
-					// else
-					// 	wall->ceiling_height = room->r->vertices->vertices[point_index].y;
+					if (doom->editor.selected_floor_ceil == 0)
+						wall->floor_height = point.y;
+					else
+						wall->ceiling_height = point.y;
 				}
+				if (doom->editor.selected_floor_ceil == 0)
+					room->floor_rot = rot;
+				else
+					room->ceil_rot = rot;
+
+				transform_renderable(room->r);
+				compute_collidables(room->r);
 				room->r->dirty = TRUE;
-				// if (doom->editor.selected_floor_ceil == 0)
-					// room->floor_rot = rot;
-				// else
-					// room->ceil_rot = rot;
+				//TODO: free old octree
+				room->r->octree = create_octree(doom, room->r);
 			}
 
 			

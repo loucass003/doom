@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 01:20:07 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/07 16:27:48 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/08 00:32:45 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_bool		write_wall(t_ressource_manager *r, t_wall *wall)
 		.invisible = wall->invisible,
 		.collisions = wall->collisions,
 		.floor_height = wall->floor_height,
-		.ceiling_height = wall->ceiling_height
+		.ceiling_height = wall->ceiling_height,
 	};
 
 	dp_write(r, &wr_wall, sizeof(t_wr_wall));
@@ -40,7 +40,9 @@ t_bool		write_room(t_ressource_manager *r, t_room *room)
 		.closed = room->closed,
 		.walls_count = room->walls->len,
 		.floor_res_index = ressources_indexof(r->ressources, room->floor_texture),
-		.ceiling_res_index = ressources_indexof(r->ressources, room->ceiling_texture)
+		.ceiling_res_index = ressources_indexof(r->ressources, room->ceiling_texture),
+		.floor_rot = room->floor_rot,
+		.ceil_rot = room->ceil_rot
 	};
 
 	dp_write(r, &wr_room, sizeof(t_wr_room));

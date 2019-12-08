@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:16:19 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/05 18:20:11 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/08 00:26:37 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,8 +124,6 @@ void				process_triangle(t_render_context *ctx, t_mtl *mtl, t_triangle triangle)
 void				post_process_triangle(t_render_context *ctx, t_mtl *mtl, t_triangle triangle);
 void				transform_renderable(t_renderable *r);
 t_bool				post_process_renderable(struct s_doom *doom, t_renderable *r, t_bool octree);
-// void				render_polygon(t_render_context *ctx, t_polygon *poly);
-// void				render_obj(t_render_context *ctx, t_obj *obj);
 
 t_collidable		compute_collidable(t_renderable *r, int face_index, t_vec4 *vertices);
 t_collidable		face_collidable(t_renderable *r, int face_index, t_vec4 *vertices);
@@ -134,5 +132,6 @@ void				update_hitbox(t_renderable *r);
 t_collision			ray_hit_world(struct s_doom *doom, t_renderables *renderables, t_ray ray);
 t_bool				create_renderable(t_renderable	*r, t_renderable_type type);
 t_bool				create_cube(struct s_doom *doom, t_renderable *r, t_bool inside);
+void				compute_collidables(t_renderable *r);
 
 #endif

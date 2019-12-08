@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/25 05:41:51 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/07 16:26:01 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/08 00:32:43 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ typedef struct		s_wr_room
 	int				walls_count;
 	int				floor_res_index;
 	int				ceiling_res_index;
+	t_vec3			floor_rot;
+	t_vec3			ceil_rot;
 }					t_wr_room;
 
 typedef struct		s_wr_sprite

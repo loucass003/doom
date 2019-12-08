@@ -6,17 +6,12 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:14:55 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/02 15:05:49 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/07 23:37:32 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <SDL.h>
 #include <libft.h>
-#include "collision.h"
-#include "player.h"
-#include <limits.h>
-#include "octree.h"
-#include "sprite.h"
 #include "doom.h"
 #include "gui.h"
 
