@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 15:50:09 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/03 17:14:55 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/08 17:52:43 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,8 @@ void			g_editor_on_event(t_gui *self, SDL_Event *event, t_doom *doom)
 	{
 		if (event->key.keysym.scancode == SDL_SCANCODE_DELETE)
 			editor_delete_action(&doom->editor);
-		
+		if (event->key.keysym.scancode == SDL_SCANCODE_SLASH && doom->editor.rooms->len >= 2)
+			get_room_gaps(&doom->editor, &doom->editor.rooms->values[0]);
 	}
 }
 

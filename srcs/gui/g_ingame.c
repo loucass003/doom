@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/08 00:29:38 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/08 14:38:32 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,7 +196,8 @@ void	g_ingame_on_events(t_gui *self, SDL_Event *event, t_doom *doom)
 					rot.z += 0.01 * (key == SDL_SCANCODE_KP_8 ? 1 : -1);
 				rot.x = clamp(-M_PI / 4, M_PI / 4, rot.x);
 				rot.z = clamp(-M_PI / 4, M_PI / 4, rot.z);
-				t_mat4 m_rot = ft_mat4_mul(ft_mat4_translation(ft_vec3_inv(room_center(&doom->editor, room))), ft_mat4_rotation(rot));
+				t_vec2 first_point = doom->editor.points->vertices[room->walls->values[0].indice];
+				t_mat4 m_rot = ft_mat4_mul(ft_mat4_translation(ft_vec3_inv((t_vec3){ first_point.x, 0, first_point.y })), ft_mat4_rotation(rot));
 				int i = -1;
 				while (++i < room->walls->len)
 				{
@@ -215,15 +216,35 @@ void	g_ingame_on_events(t_gui *self, SDL_Event *event, t_doom *doom)
 				else
 					room->ceil_rot = rot;
 
-				transform_renderable(room->r);
-				compute_collidables(room->r);
 				room->r->dirty = TRUE;
 				//TODO: free old octree
+				transform_renderable(room->r);
+				compute_collidables(room->r);
 				room->r->octree = create_octree(doom, room->r);
 			}
+			else if (key == SDL_SCANCODE_KP_PLUS || key == SDL_SCANCODE_KP_MINUS)
+			{
+				int		i;
 
-			
-
+				i = -1;
+				while (++i < room->walls->len)
+				{
+					t_wall	*wall = &room->walls->values[i];
+					int point_index = i * 2 + doom->editor.selected_floor_ceil;
+					t_vec4 point = room->r->vertices->vertices[point_index];
+					point.y += 0.1 * (key == SDL_SCANCODE_KP_PLUS ? -1 : 1);					
+					room->r->vertices->vertices[point_index].y = point.y;
+					if (doom->editor.selected_floor_ceil == 0)
+						wall->floor_height = point.y;
+					else
+						wall->ceiling_height = point.y;
+				}
+				room->r->dirty = TRUE;
+				//TODO: free old octree
+				transform_renderable(room->r);
+				compute_collidables(room->r);
+				room->r->octree = create_octree(doom, room->r);
+			}
 		}
 	}
 	components_events(doom, doom->guis, event, GUI_EDITOR_SETTINGS);

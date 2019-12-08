@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 01:17:41 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/05 16:26:30 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/08 17:27:23 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void scanline2(t_render_context *ctx, t_mtl *mtl, t_pixel p, float t, t_vertex s
 	 	float lt_color = (1.0f - t) * start.light_color + t * end.light_color;
 		ur_color c;
 		float a = ft_max(AMBIANT_LIGHT, lt_color) / 255.0;
-		if (mtl->lightmap || mtl->texture_map_set)
+		if (mtl->texture_map_set)
 		{
 			float w = 1. / vert.pos.w;
 			vert.tex.x = (1.0f - t) * start.tex.x + t * end.tex.x ;

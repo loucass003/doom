@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 15:28:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/05 16:31:06 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/08 17:17:20 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,15 +163,15 @@ t_bool		obj_test(t_doom *doom)
 	r.fixed = TRUE;
 	doom->skybox_index = doom->renderables->len;
 	append_renderables_array(&doom->renderables, r);
-	set_obj_working_dir(doom, "assets/obj/de_dust");
-	lol = create_obj(doom, &r, "de_dust2.obj");
-	r.position = (t_vec3){0, 0, 0};
-	r.rotation = (t_vec3){0, 0, 0};
-	r.scale = (t_vec3){0.05, 0.05, 0.05};
-	//r.wireframe = TRUE;
-	r.wireframe_color = 0xFFFF0000;
-	r.fixed = TRUE;
-	append_renderables_array(&doom->renderables, r);
+	// set_obj_working_dir(doom, "assets/obj/de_dust");
+	// lol = create_obj(doom, &r, "de_dust2.obj");
+	// r.position = (t_vec3){0, 0, 0};
+	// r.rotation = (t_vec3){0, 0, 0};
+	// r.scale = (t_vec3){0.05, 0.05, 0.05};
+	// //r.wireframe = TRUE;
+	// r.wireframe_color = 0xFFFF0000;
+	// r.fixed = TRUE;
+	// append_renderables_array(&doom->renderables, r);
 // 	set_obj_working_dir(doom, "assets/obj/winter");
 // 	lol = create_obj(doom, &r, "winter.obj");
 // 	r.position = (t_vec3){0, 0, -3};
@@ -202,18 +202,18 @@ t_bool		obj_test(t_doom *doom)
 	//r.wireframe = TRUE;
 	//r.wireframe_color = 0xFFFF0000;
 	//r.fixed = TRUE;
-	// set_obj_working_dir(doom, "assets/obj/cs_italy");
-	// lol = create_obj(doom, &r, "cs_italy.obj");
-	// r.position = (t_vec3){0, 0, 0};
-	// r.scale = (t_vec3){0.06, 0.06, 0.06};
-	// r.fixed = TRUE;
-	// append_renderables_array(&doom->renderables, r);
-	// set_obj_working_dir(doom, "assets/obj");
-	// lol = create_obj(doom, &r, "House2.obj");
-	// r.position = (t_vec3){-10, 0, 0};
-	// r.scale = (t_vec3){0.03, 0.03, 0.03};
-	// r.fixed = TRUE;
-	// append_renderables_array(&doom->renderables, r);
+	set_obj_working_dir(doom, "assets/obj/cs_italy");
+	lol = create_obj(doom, &r, "cs_italy.obj");
+	r.position = (t_vec3){0, 0, 0};
+	r.scale = (t_vec3){0.06, 0.06, 0.06};
+	r.fixed = TRUE;
+	append_renderables_array(&doom->renderables, r);
+	set_obj_working_dir(doom, "assets/obj");
+	lol = create_obj(doom, &r, "House2.obj");
+	r.position = (t_vec3){-10, 0, 0};
+	r.scale = (t_vec3){0.03, 0.03, 0.03};
+	r.fixed = TRUE;
+	append_renderables_array(&doom->renderables, r);
 	
 	// lol = create_obj(doom, &r, "skybox.obj");
 	// r.position = (t_vec3){0, 0, 0};

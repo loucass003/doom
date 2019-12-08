@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 18:37:59 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/07 17:56:47 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/08 18:37:45 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,9 @@ void			remove_room(t_editor *editor, int index)
 
 	room = &editor->rooms->values[index];
 	i = -1;
-	while (++i < room->walls->len && !(j = -1))
+	while (++i < room->walls->len && !!(j = -1))
 	{
+		
 		indice = room->walls->values[i].indice;
 		contain_point = FALSE;
 		while (++j < editor->rooms->len)
@@ -66,7 +67,7 @@ void			remove_room(t_editor *editor, int index)
 				contain_point = TRUE;
 		}
 		splice_walls_array(room->walls, i--, 1);
-		if (!contain_point && !(i = -1))
+		if (!contain_point && !!(i = -1))
 			remove_point(editor, indice);
 	}
 	splice_rooms_array(editor->rooms, index, 1);
@@ -174,18 +175,20 @@ t_vec3			room_center(t_editor *editor, t_room *room)
 	t_wall		wall;
 	t_vec2		point;
 
-	min = (t_vec3){ INT_MAX, INT_MAX, INT_MAX };
-	max = (t_vec3){ INT_MIN, INT_MIN, INT_MIN };
+	min = (t_vec3){ INT_MAX, 0, INT_MAX };
+	max = (t_vec3){ INT_MIN, 0, INT_MIN };
 	i = -1;
 	while (++i < room->walls->len)
 	{
 		wall = room->walls->values[i];
 		point = editor->points->vertices[wall.indice];
 		min.x = fmin(point.x, min.x);
-		min.y = fmin(wall.floor_height, min.y);
+		// min.y = fmin(wall.floor_height, min.y);
+		// min.y = fmin(wall.ceiling_height, min.y);
 		min.z = fmin(point.y, min.z);
 		max.x = fmax(point.x, max.x);
-		max.y = fmax(wall.floor_height, max.y);
+		// max.y = fmax(wall.floor_height, max.y);
+		// max.y = fmax(wall.ceiling_height, max.y);
 		max.z = fmax(point.y, max.z);
 	}
 
@@ -209,4 +212,36 @@ int				point_in_rooms(t_editor *editor, t_vec2 point)
 			index = i;
 	}
 	return (index);
+}
+
+
+void			get_room_gaps(t_editor *editor, t_room *room)
+{
+	int			i;
+	int			j;
+	t_wall		wall0;
+
+	printf("CALL\n");
+	i = -1;
+	while (++i < room->walls->len)
+	{
+		j = -1;
+		wall0 = room->walls->values[i];
+		while (++j < editor->rooms->len)
+		{
+			if (room == &editor->rooms->values[j])
+				continue;
+			int w_index = wall_indexof_by_indice(editor->rooms->values[j].walls, wall0.indice);
+			if (w_index == -1)
+				continue;
+			t_wall wall1 = editor->rooms->values[j].walls->values[w_index];
+			printf("ROOM %d SHARE POINT %d\n", j, room->walls->values[i].indice);
+			if (wall0.floor_height == wall1.floor_height && wall0.ceiling_height == wall1.ceiling_height)
+				continue;
+			if (wall0.floor_height < wall1.floor_height)
+				printf("FLOOR GAP (%f %f)\n", wall0.floor_height, wall1.floor_height);
+			if (wall0.ceiling_height > wall1.ceiling_height)
+				printf("CEILING GAP (%f %f)\n", wall0.ceiling_height, wall1.ceiling_height);
+		}
+	}
 }
