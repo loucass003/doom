@@ -6,12 +6,12 @@
 #    By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/07 14:49:27 by llelievr          #+#    #+#              #
-#    Updated: 2019/11/23 10:38:06 by llelievr         ###   ########.fr        #
+#    Updated: 2019/12/09 15:15:40 by llelievr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME=doom-nukem
-CFLAGS=-Wall -Wextra -flto -O3
+CFLAGS=-Wall -Wextra -flto -O3 -march=native -ffast-math
 LIBS=-lm -lft
 CC=clang
 
@@ -59,7 +59,7 @@ $(OBJDIR)%.o: $(SRCDIR)%.c
 	@$(POSTCOMPILE)
 
 make_ft: 
-	make -j4 -C $(FT)
+	make -C $(FT)
 
 $(FT_LIB): make_ft
 

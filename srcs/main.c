@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/05 15:45:32 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/09 13:54:18 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,8 @@ int		main(int argc, char **argv)
 		.current_gui = -1,
 		.skybox_index = -1
 	};
+
+	test_gaps();
 
 	if (argc != 2)
 	{
