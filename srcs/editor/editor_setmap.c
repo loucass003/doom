@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 15:55:03 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/09 19:30:36 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/10 02:22:47 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,7 +206,7 @@ t_bool		create_room_mesh(t_renderable *r, t_editor *editor, t_room *room)
 		filter[i] = (i * 2) + 1;
 	triangulate_floor_ceil(r, (t_vec3){ 0, 1, 0 }, filter, room->walls->len, 1);
 	free(filter);
-	
+	//get_room_gaps(editor, room);
 	room->walls_start = r->faces->len;
 	i = -1;
 	while (++i < room->walls->len)
@@ -231,7 +231,34 @@ t_bool		create_room_mesh(t_renderable *r, t_editor *editor, t_room *room)
 				t_vec2	r1 = w0.start_rooms_range->vertices[i];
 				if (start < r0.x && startb < r1.x)
 				{
-					printf("gap (%f %f) (%f %f)\n", start, r0.x, startb, r1.x);
+					int vertices_index[4] = (int [4]){ i * 2, next * 2, next * 2 + 1, i * 2 + 1 };
+					if (start != w0.ceiling_height)
+					{
+						t_vec2 v = editor->points->vertices[w0.indice];
+						append_4dvertices_array(&r->vertices, vec3_to_4(editor_to_world((t_vec3){ v.x, start, v.y})));
+						vertices_index[1] = r->vertices->len - 1;
+					}
+					if (startb != w1.ceiling_height)
+					{
+						t_vec2 v = editor->points->vertices[w1.indice];
+						append_4dvertices_array(&r->vertices, vec3_to_4(editor_to_world((t_vec3){ v.x, startb, v.y})));
+						vertices_index[2] = r->vertices->len - 1;
+					}
+
+					if (r0.x != w0.floor_height)
+					{
+						t_vec2 v = editor->points->vertices[w0.indice];
+						append_4dvertices_array(&r->vertices, vec3_to_4(editor_to_world((t_vec3){ v.x, r0.x, v.y})));
+						vertices_index[0] = r->vertices->len - 1;
+					}
+					if (r1.x != w1.floor_height)
+					{
+						t_vec2 v = editor->points->vertices[w1.indice];
+						append_4dvertices_array(&r->vertices, vec3_to_4(editor_to_world((t_vec3){ v.x, r1.x, v.y})));
+						vertices_index[3] = r->vertices->len - 1;
+					}
+					printf("gap (%f %f) (%f %f)\n", start, r0.y, startb, r1.y);
+					create_wall(r, room, i, vertices_index);
 					start = r0.y;
 					startb = r1.y;
 				}
@@ -242,9 +269,24 @@ t_bool		create_room_mesh(t_renderable *r, t_editor *editor, t_room *room)
 				}
 			}
 			if (start < w0.ceiling_height && start != w0.floor_height && startb < w1.ceiling_height && startb != w1.floor_height)
-				printf("gap (%f %f) (%f %f)\n", start, w0.ceiling_height, startb, w1.ceiling_height);
+			{
+				int vertices_index[4] = (int [4]){ i * 2, next * 2, next * 2 + 1, i * 2 + 1 };
+				
+				t_vec2 v = editor->points->vertices[w0.indice];
+				append_4dvertices_array(&r->vertices, vec3_to_4(editor_to_world((t_vec3){ v.x, start, v.y})));
+				vertices_index[0] = r->vertices->len - 1;
+			
+				v = editor->points->vertices[w1.indice];
+				append_4dvertices_array(&r->vertices, vec3_to_4(editor_to_world((t_vec3){ v.x, startb, v.y})));
+				vertices_index[1] = r->vertices->len - 1;
+
+				create_wall(r, room, i, vertices_index);
+					// printf("gap (%f %f) (%f %f)\n", start, r0.y, startb, r1.y);
+				printf("gap LAST (%f %f) (%f %f)\n", start, w0.ceiling_height, startb, w1.ceiling_height);
+			}
 		}
-		
+		else
+			create_wall(r, room, i, (int [4]){ i * 2, next * 2, next * 2 + 1, i * 2 + 1 });
 	
 		// if (start < gaps.bounds.y && start != gaps.bounds.x)
 		// 	printf("gap (%f %f)\n", start, gaps.bounds.y);

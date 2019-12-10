@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 18:37:59 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/09 19:16:23 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/10 01:07:24 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -237,24 +237,27 @@ void			get_room_gaps(t_editor *editor, t_room *room)
 			int index0 = wall_indexof_by_indice(curr_room->walls, wall0->indice);
 			int index1 = wall_indexof_by_indice(curr_room->walls, wall1->indice);
 			// int w_index = wall_indexof_by_indice(editor->rooms->values[j].walls, wall0.indice);
+			printf("-- %d %d\n", index0, index1);
 			if (index0 == -1 || index1 == -1)
 				continue;
 			t_wall wall2 = editor->rooms->values[j].walls->values[index0];
 			t_wall wall3 = editor->rooms->values[j].walls->values[index1];
 			printf("ROOM %d\n", j);
+			printf("WALL0 %f %f\n", wall2.floor_height, wall2.ceiling_height);
+			printf("WALL1 %f %f\n", wall3.floor_height, wall3.ceiling_height);
 			if (wall2.floor_height != wall0->floor_height || wall2.ceiling_height != wall0->ceiling_height)
 			{
 				if (!wall0->start_rooms_range && !(wall0->start_rooms_range = create_2dvertices_array(5)))
 					return ;
 				append_2dvertices_array(&wall0->start_rooms_range, (t_vec2){ wall2.floor_height, wall2.ceiling_height });
-				printf("WALL0 %f %f\n", wall2.floor_height, wall2.ceiling_height);
+			//	printf("WALL0 %f %f\n", wall2.floor_height, wall2.ceiling_height);
 			}
 			if (wall3.floor_height != wall1->floor_height && wall3.ceiling_height != wall1->ceiling_height)
 			{
 				if (!wall1->end_rooms_range && !(wall1->end_rooms_range = create_2dvertices_array(5)))
 					return ;
 				append_2dvertices_array(&wall1->end_rooms_range, (t_vec2){ wall3.floor_height, wall3.ceiling_height });
-				printf("WALL1 %f %f\n", wall3.floor_height, wall3.ceiling_height);
+				// printf("WALL1 %f %f\n", wall3.floor_height, wall3.ceiling_height);
 			}
 		}
 		if (wall0->start_rooms_range)
