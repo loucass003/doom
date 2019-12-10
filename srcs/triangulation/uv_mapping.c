@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 18:02:59 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/30 01:36:15 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/10 14:36:49 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,9 @@ void				uv_mapping(t_4dvertices *vertices, t_2dvertices *vertex, int *filter, in
 	t_vec4			v;
 	// t_vec2			dir;
 	t_vec2			sub;
+
+	if (filter_len < 3)
+		return ;
 
 	sub = ft_vec2_sub(
 		(t_vec2){vertices->vertices[filter[1]].x, vertices->vertices[filter[1]].y},

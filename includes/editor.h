@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 14:35:33 by lloncham          #+#    #+#             */
-/*   Updated: 2019/12/09 16:55:18 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/10 17:57:51 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,8 @@ typedef struct		s_wall
 	t_bool				collisions;
 	float				floor_height;
 	float				ceiling_height;
-	t_2dvertices		*start_rooms_range;
-	t_2dvertices		*end_rooms_range;
+	t_4dvertices		*start_rooms_range;
+	t_4dvertices		*end_rooms_range;
 }					t_wall;
 
 typedef struct		s_walls
@@ -97,6 +97,8 @@ typedef struct		s_room
 	t_renderable		*r;
 	t_vec3				floor_rot;
 	t_vec3				ceil_rot;
+	int					room_vertices_start;
+	int					floor_start;
 	int					ceilling_start;
 	int					walls_start;
 		

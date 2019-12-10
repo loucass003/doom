@@ -24,6 +24,7 @@ SRC+=components/c_progress.c
 SRC+=components/c_select.c
 SRC+=components/c_textfield.c
 SRC+=components/component.c
+SRC+=editor/editor_create_map.c
 SRC+=editor/editor_delete.c
 SRC+=editor/editor_grid.c
 SRC+=editor/editor_intersect.c
