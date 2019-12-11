@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/10 13:41:47 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/11 01:01:30 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/11 17:34:07 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,49 +110,49 @@ t_bool	create_walls(t_editor *editor, t_renderable *r)
 				printf("CALL WALL\n");
 				float start = w0.floor_height;
 				float startb = w1.floor_height;
-				int lr_0 = 0;
-				int lr_1 = 0;
+				t_vec4 lr_0;
+				t_vec4 lr_1;
 				t_vec4	r0;
 				t_vec4	r1;
+				int vertices_index[4] = (int [4]){ room->room_vertices_start + j * 2, room->room_vertices_start + next * 2, room->room_vertices_start + next * 2 + 1, room->room_vertices_start + (j * 2 + 1) };
 				for (int k = 0; k < w0.start_rooms_range->len; k++)
 				{
 					r0 = w0.start_rooms_range->vertices[k];
 					r1 = w1.end_rooms_range->vertices[k];
-					int vertices_index[4] = (int [4]){ room->room_vertices_start + j * 2, room->room_vertices_start + next * 2, room->room_vertices_start + next * 2 + 1, room->room_vertices_start + (j * 2 + 1) };
-					if (start < r0.x && startb < r1.x)
+					
+					if (start < r0.x && startb < r1.x && start < w0.ceiling_height && startb < w1.ceiling_height)
 					{
+						// //if (start != w0.floor_height)
+						// {
+							vertices_index[3] = editor->rooms->values[(int)r0.z].room_vertices_start + ((int)r0.w * 2);
+						// }
+
+						// //if (startb != w1.floor_height)
+						// {
+							vertices_index[2] = editor->rooms->values[(int)r1.z].room_vertices_start + ((int)r1.w * 2);
+						// }
+
 						//if (start != w0.floor_height)
 						{
-							vertices_index[3] = editor->rooms->values[(int)r0.z].room_vertices_start + ((int)r0.w * 2);
+						 	vertices_index[0] = editor->rooms->values[(int)lr_0.z].room_vertices_start + (int)lr_0.w * 2 + 1;
 						}
 
 						//if (startb != w1.floor_height)
 						{
-							vertices_index[2] = editor->rooms->values[(int)r1.z].room_vertices_start + ((int)r1.w * 2);
+						 	vertices_index[1] = editor->rooms->values[(int)lr_1.z].room_vertices_start + (int)lr_1.w * 2 + 1;
 						}
-
-						if (start != w0.floor_height)
-						{
-							vertices_index[0] = editor->rooms->values[(int)r0.z].room_vertices_start + (int)r0.w * 2 + 1;
-						}
-
-						if (startb != w1.floor_height)
-						{
-							vertices_index[1] = editor->rooms->values[(int)r1.z].room_vertices_start + (int)r1.w * 2 + 1;
-						}
-						printf("gap (%f %f - %f) (%f %f - %f)\n", start, r0.x, r0.z, startb, r1.x, r1.z);
+						
+						// if (r0.y > w0.ceiling_height || r1.y > w1.ceiling_height )
+						// 	break;
+						printf("gap (%d - %d // %f %f), (%d - %d // %f %f)\n", (int)lr_0.z, (int)lr_1.z,  lr_0.w, lr_1.w, (int)r0.z, (int)r1.z, r0.w, r1.w);
 						create_wall(r, room, j, vertices_index);
-						start = r0.y;
-						startb = r1.y;
-						lr_0 = k;
-						lr_1 = k;
+						
+						
 					}
-					// else if (r0.x < w0.ceiling_height && r1.x < w1.ceiling_height)
-					// {
-					// 	printf("ENTER\n");
-					// 	start = r0.x;
-					// 	startb = r1.x;
-					// }
+					start = r0.y;
+					startb = r1.y;
+					lr_0 = r0;
+					lr_1 = r1;
 				}
 				if (start < w0.ceiling_height && start != w0.floor_height && startb < w1.ceiling_height && startb != w1.floor_height)
 				{

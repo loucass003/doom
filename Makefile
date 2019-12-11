@@ -6,7 +6,7 @@
 #    By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/07 14:49:27 by llelievr          #+#    #+#              #
-#    Updated: 2019/12/10 01:08:59 by llelievr         ###   ########.fr        #
+#    Updated: 2019/12/11 12:07:49 by llelievr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,7 @@ POSTCOMPILE = sleep 0
 
 all: make_ft | $(NAME)
 
-DEBUG ?= 1
+DEBUG ?= 0
 ifeq ($(DEBUG), 1)
 	CFLAGS = $(GFLAGS) -g
 endif
