@@ -6,12 +6,14 @@
 #    By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/07 14:49:27 by llelievr          #+#    #+#              #
-#    Updated: 2019/12/09 15:15:40 by llelievr         ###   ########.fr        #
+#    Updated: 2019/12/10 01:08:59 by llelievr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME=doom-nukem
-CFLAGS=-Wall -Wextra -flto -O3 -march=native -ffast-math
+GFLAGS=-Wall -Wextra
+OPTI_FLAGS=-flto -O3 -march=native -ffast-math
+CFLAGS=$(GFLAGS) $(OPTI_FLAGS)
 LIBS=-lm -lft
 CC=clang
 
@@ -24,7 +26,6 @@ FT		=./libft/
 FT_LIB	=$(addprefix $(FT), libft.a)
 FT_INC	=-I ./libft/includes
 FT_LNK	=-L ./libft
-FT_TASK =
 
 SRCDIR	=./srcs/
 INCDIR	=./includes/
@@ -37,6 +38,13 @@ LIBS += $(shell pkg-config --libs sdl2 SDL2_image SDL2_ttf openal SDL2_mixer)
 PRECOMPILE = mkdir -p $(dir $@)
 POSTCOMPILE = sleep 0
 
+all: make_ft | $(NAME)
+
+DEBUG ?= 1
+ifeq ($(DEBUG), 1)
+	CFLAGS = $(GFLAGS) -g
+endif
+
 ifndef NODEPS
 
 PRECOMPILE += ;mkdir -p $(dir $(DEPSDIR)$*)
@@ -44,12 +52,6 @@ CFLAGS += -MT $@ -MMD -MP -MF $(DEPSDIR)$*.Td
 POSTCOMPILE += ;mv -f $(DEPSDIR)$*.Td $(DEPSDIR)$*.d && touch $@
 
 endif
-
-all: make_ft | $(NAME)
-
-dev: CFLAGS +=-g
-dev: FT_TASK = dev 
-dev: re
 
 $(OBJS): Makefile
 

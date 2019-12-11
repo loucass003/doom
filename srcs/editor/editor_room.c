@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 18:37:59 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/10 18:34:40 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/11 00:08:24 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -264,6 +264,10 @@ void			get_room_gaps(t_editor *editor, t_room *room)
 			sort_ranges(wall0->start_rooms_range);
 		if (wall0->end_rooms_range)
 			sort_ranges(wall0->end_rooms_range);
+		if (wall1->start_rooms_range)
+			sort_ranges(wall1->start_rooms_range);
+		if (wall1->end_rooms_range)
+			sort_ranges(wall1->end_rooms_range);
 	}
 	
 }
