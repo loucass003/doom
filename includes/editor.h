@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 14:35:33 by lloncham          #+#    #+#             */
-/*   Updated: 2019/12/10 17:57:51 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/12 16:35:19 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,22 @@ typedef struct		s_objects
 	t_object		values[];
 }					t_objects;
 
+typedef struct		s_wall_section
+{
+	t_bool				invisible;
+	t_bool				collisions;
+	struct s_ressource	*texture;
+	uint8_t				normal_type;
+	int					vertices_index[4];
+}					t_wall_section;
+
+typedef struct		s_wall_sections
+{
+	int				len;
+	int				capacity;
+	t_wall_section	values[];
+}					t_wall_sections;
+
 typedef struct		s_wall
 {
 	int					indice;
@@ -79,6 +95,7 @@ typedef struct		s_wall
 	float				ceiling_height;
 	t_4dvertices		*start_rooms_range;
 	t_4dvertices		*end_rooms_range;
+	t_wall_sections		*wall_sections;
 }					t_wall;
 
 typedef struct		s_walls
@@ -130,8 +147,6 @@ typedef struct		s_editor_settings
 	int				current_gui;
 	int				current_gui_object;
 }					t_editor_settings;
-
-
 
 typedef struct		s_editor
 {
@@ -185,6 +200,14 @@ t_objects			*splice_objects_array(t_objects *arr,
 t_objects			*copy_objects_array(t_objects *src,
 						t_objects **dst);
 int					objects_indexof(t_objects *arr, t_object *elem);
+
+t_wall_sections		*create_wall_sections_array(int capacity);
+t_wall_sections		*append_wall_sections_array(t_wall_sections **arr, t_wall_section i);
+t_wall_sections		*splice_wall_sections_array(t_wall_sections *arr,
+						int index, int n);
+t_wall_sections		*copy_wall_sections_array(t_wall_sections *src,
+						t_wall_sections **dst);
+int					wall_sections_indexof(t_wall_sections *arr, t_wall_section *elem);
 
 int					get_close_room(t_editor *editor);
 void				remove_room(t_editor *editor, int index);

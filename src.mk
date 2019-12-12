@@ -11,6 +11,7 @@ SRC+=arrays/renderables.c
 SRC+=arrays/ressources.c
 SRC+=arrays/rooms.c
 SRC+=arrays/select_items.c
+SRC+=arrays/wall_sections.c
 SRC+=arrays/walls.c
 SRC+=audio.c
 SRC+=colisions/aabb.c

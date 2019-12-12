@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 18:37:59 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/11 00:08:24 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/12 13:50:08 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -245,14 +245,16 @@ void			get_room_gaps(t_editor *editor, t_room *room)
 			// printf("ROOM %d\n", j);
 			// printf("WALL0 %f %f\n", wall2.floor_height, wall2.ceiling_height);
 			// printf("WALL1 %f %f\n", wall3.floor_height, wall3.ceiling_height);
-			if (wall2.floor_height != wall0->floor_height || wall2.ceiling_height != wall0->ceiling_height)
+			if ((wall2.floor_height > wall0->floor_height && wall2.floor_height < wall0->ceiling_height) 
+				|| (wall2.ceiling_height > wall0->floor_height && wall2.ceiling_height < wall0->ceiling_height))
 			{
 				if (!wall0->start_rooms_range && !(wall0->start_rooms_range = create_4dvertices_array(5)))
 					return ;
 				append_4dvertices_array(&wall0->start_rooms_range, (t_vec4){ wall2.floor_height, wall2.ceiling_height, j, index0 });
 			//	printf("WALL0 %f %f\n", wall2.floor_height, wall2.ceiling_height);
 			}
-			if (wall3.floor_height != wall1->floor_height && wall3.ceiling_height != wall1->ceiling_height)
+			if ((wall3.floor_height > wall1->floor_height && wall3.floor_height < wall1->ceiling_height) 
+				|| (wall3.ceiling_height > wall1->floor_height && wall3.ceiling_height < wall1->ceiling_height))
 			{
 				if (!wall1->end_rooms_range && !(wall1->end_rooms_range = create_4dvertices_array(5)))
 					return ;
@@ -264,10 +266,7 @@ void			get_room_gaps(t_editor *editor, t_room *room)
 			sort_ranges(wall0->start_rooms_range);
 		if (wall0->end_rooms_range)
 			sort_ranges(wall0->end_rooms_range);
-		if (wall1->start_rooms_range)
-			sort_ranges(wall1->start_rooms_range);
-		if (wall1->end_rooms_range)
-			sort_ranges(wall1->end_rooms_range);
+	
 	}
 	
 }
