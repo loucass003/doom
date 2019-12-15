@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 20:09:08 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/08 16:53:52 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/15 16:41:33 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void		editor_tool_room(t_editor *editor, SDL_Event *event)
 			editor->grid_cell_grab = GG_NONE;
 			editor->line_start_cell = (t_vec2){ -1, -1 };
 			printf("CLOSE %d\n", curr_room->walls->len);
+			update_rooms_gaps(editor);
 			return ;
 		}
 	}
@@ -82,6 +83,7 @@ void		editor_tool_room(t_editor *editor, SDL_Event *event)
 				editor->line_start_cell = editor->grid_cell;
 			insert_point(editor, editor->close_seg, index);
 		}
+		update_rooms_gaps(editor);
 	}
 	else if (editor->grid_cell_grab == GG_POINT && index != -1)
 	{
@@ -92,5 +94,6 @@ void		editor_tool_room(t_editor *editor, SDL_Event *event)
 		}
 		else
 			editor->line_start_cell = editor->grid_cell;
+		update_rooms_gaps(editor);
 	}
 }

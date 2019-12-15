@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 20:10:29 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/10 21:56:43 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/15 16:45:46 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,13 @@ void		editor_tool_point(t_editor *editor)
 		append_2dvertices_array(&editor->points, editor->grid_cell);
 		insert_point(editor, editor->close_seg,
 			editor->points->len - 1);
+		
 	}
 	else if (editor->grid_cell_grab == GG_POINT)
 	{
 		index = vertices2d_indexof(editor->points, editor->grid_cell);
 		if (index != -1)
 			editor->current_point = index;
+		update_rooms_gaps(editor);
 	}
 }

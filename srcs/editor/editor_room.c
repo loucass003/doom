@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 18:37:59 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/15 01:21:12 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/15 16:42:59 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ void			remove_room(t_editor *editor, int index)
 			remove_point(editor, indice);
 	}
 	splice_rooms_array(editor->rooms, index, 1);
+	update_rooms_gaps(editor);
 }
 
 void			editor_render_rooms(t_gui *self, t_doom *doom, t_editor *editor)
@@ -213,4 +214,3 @@ int				point_in_rooms(t_editor *editor, t_vec2 point)
 	}
 	return (index);
 }
-

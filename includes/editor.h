@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 14:35:33 by lloncham          #+#    #+#             */
-/*   Updated: 2019/12/15 02:14:29 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/15 16:41:04 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -256,6 +256,8 @@ void				set_gui_settings(t_editor *editor, int id);
 void				free_object(t_object *object);
 t_bool				create_object_renderable(t_editor *editor, int object_index, t_renderable *r);
 t_vec3				editor_to_world(t_vec3 pos);
+t_bool				get_room_gaps(t_editor *editor, t_room *room);
+t_bool				update_rooms_gaps(t_editor *editor);
 
 t_wall_section		create_simple_wall_section(t_editor *editor, t_room *room, int wall);
 t_wall_section		create_last_wall_section(t_editor *editor, t_room *room, int wall, t_gap_filler_packet p);

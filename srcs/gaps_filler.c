@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/09 13:36:42 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/15 04:41:25 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/15 17:09:12 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,53 +45,6 @@ void		sort_ranges(t_4dvertices *range)
 	}
 }
 
-void			get_room_gaps(t_editor *editor, t_room *room)
-{
-	int			i;
-	int			j;
-	t_wall		*wall0;
-	t_wall		*wall1;
-
-	i = -1;
-	while (++i < room->walls->len)
-	{
-		j = -1;
-		wall0 = &room->walls->values[i];
-		wall1 = &room->walls->values[(i + 1) % room->walls->len];
-		while (++j < editor->rooms->len)
-		{
-			if (room == &editor->rooms->values[j])
-				continue;
-			t_room *curr_room = &editor->rooms->values[j];
-			int index0 = wall_indexof_by_indice(curr_room->walls, wall0->indice);
-			int index1 = wall_indexof_by_indice(curr_room->walls, wall1->indice);
-			if (index0 == -1 || index1 == -1)
-				continue;
-			t_wall wall2 = editor->rooms->values[j].walls->values[index0];
-			t_wall wall3 = editor->rooms->values[j].walls->values[index1];
-			if ((wall2.floor_height > wall0->floor_height && wall2.floor_height < wall0->ceiling_height) 
-				|| (wall2.ceiling_height > wall0->floor_height && wall2.ceiling_height < wall0->ceiling_height))
-			{
-				if (!wall0->start_rooms_range && !(wall0->start_rooms_range = create_4dvertices_array(5)))
-					return ;
-				append_4dvertices_array(&wall0->start_rooms_range, (t_vec4){ wall2.floor_height, wall2.ceiling_height, j, index0 });
-			}
-			if ((wall3.floor_height > wall1->floor_height && wall3.floor_height < wall1->ceiling_height) 
-				|| (wall3.ceiling_height > wall1->floor_height && wall3.ceiling_height < wall1->ceiling_height))
-			{
-				if (!wall1->end_rooms_range && !(wall1->end_rooms_range = create_4dvertices_array(5)))
-					return ;
-				append_4dvertices_array(&wall1->end_rooms_range, (t_vec4){ wall3.floor_height, wall3.ceiling_height, j, index1 });
-			}
-		}
-		if (wall0->start_rooms_range)
-			sort_ranges(wall0->start_rooms_range);
-		if (wall0->end_rooms_range)
-			sort_ranges(wall0->end_rooms_range);
-	}
-	
-}
-
 t_bool			update_walls_sections(t_editor *editor, t_room *room)
 {
 	int					j;
@@ -114,7 +67,7 @@ t_bool			update_walls_sections(t_editor *editor, t_room *room)
 			&& w0->start_rooms_range->len != w1->end_rooms_range->len)
 		{
 			printf("PROBLEM !\n");
-			return (FALSE);
+			continue;
 		}
 		if (w0->start_rooms_range && w1->end_rooms_range)
 		{
@@ -165,5 +118,70 @@ t_bool			update_walls_sections(t_editor *editor, t_room *room)
 		else
 			w0->wall_sections = wall_sections;
 	}
+	return (TRUE);
+}
+
+t_bool			update_rooms_gaps(t_editor *editor)
+{
+	int			i;
+
+	i = -1;
+	while (++i < editor->rooms->len)
+		if (!get_room_gaps(editor, editor->rooms->values + i))
+			return (FALSE);
+	return (TRUE);
+}
+
+t_bool			get_room_gaps(t_editor *editor, t_room *room)
+{
+	int			i;
+	int			j;
+	t_wall		*wall0;
+	t_wall		*wall1;
+
+	if (!room->closed)
+		return (TRUE);
+	i = -1;
+	while (++i < room->walls->len)
+	{
+		j = -1;
+		wall0 = &room->walls->values[i];
+		wall1 = &room->walls->values[(i + 1) % room->walls->len];
+		if (wall0->start_rooms_range)
+			wall0->start_rooms_range->len = 0;
+		if (wall1->end_rooms_range)
+			wall1->end_rooms_range->len = 0;
+		while (++j < editor->rooms->len)
+		{
+			if (room == &editor->rooms->values[j])
+				continue;
+			t_room *curr_room = &editor->rooms->values[j];
+			int index0 = wall_indexof_by_indice(curr_room->walls, wall0->indice);
+			int index1 = wall_indexof_by_indice(curr_room->walls, wall1->indice);
+			if (index0 == -1 || index1 == -1)
+				continue;
+			t_wall wall2 = editor->rooms->values[j].walls->values[index0];
+			t_wall wall3 = editor->rooms->values[j].walls->values[index1];
+			if ((wall2.floor_height > wall0->floor_height && wall2.floor_height < wall0->ceiling_height) 
+				|| (wall2.ceiling_height > wall0->floor_height && wall2.ceiling_height < wall0->ceiling_height))
+			{
+				if (!wall0->start_rooms_range && !(wall0->start_rooms_range = create_4dvertices_array(5)))
+					return (FALSE);
+				append_4dvertices_array(&wall0->start_rooms_range, (t_vec4){ wall2.floor_height, wall2.ceiling_height, j, index0 });
+			}
+			if ((wall3.floor_height > wall1->floor_height && wall3.floor_height < wall1->ceiling_height) 
+				|| (wall3.ceiling_height > wall1->floor_height && wall3.ceiling_height < wall1->ceiling_height))
+			{
+				if (!wall1->end_rooms_range && !(wall1->end_rooms_range = create_4dvertices_array(5)))
+					return (FALSE);
+				append_4dvertices_array(&wall1->end_rooms_range, (t_vec4){ wall3.floor_height, wall3.ceiling_height, j, index1 });
+			}
+		}
+		if (wall0->start_rooms_range)
+			sort_ranges(wall0->start_rooms_range);
+		if (wall0->end_rooms_range)
+			sort_ranges(wall0->end_rooms_range);
+	}
+	update_walls_sections(editor, room);
 	return (TRUE);
 }
