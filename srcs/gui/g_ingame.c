@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/08 14:38:32 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/15 18:14:21 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,33 +148,33 @@ void	g_ingame_on_events(t_gui *self, SDL_Event *event, t_doom *doom)
 			
 			if (hit.collide)
 			{
-				if (doom->editor.current_object != -1)
-					doom->editor.objects->values[doom->editor.current_object].r->show_hitbox = FALSE;
-				select_floor_ceil(&doom->editor, NULL, FALSE);
-				select_room(&doom->editor, -1);
-				if (hit.renderable->of.type == RENDERABLE_ROOM)
-				{
-					t_face face = hit.renderable->faces->values[hit.who.data.triangle.face];
-					if (face.wall_index == -1)
-						doom->editor.current_seg.x = -1;
-					else
-					{
-						doom->editor.current_seg.x = hit.renderable->of.data.room->walls->values[face.wall_index].indice;
-						doom->editor.current_seg.y = hit.renderable->of.data.room->walls->values[(face.wall_index + 1) % hit.renderable->of.data.room->walls->len].indice;
-					}
-					select_room(&doom->editor, rooms_indexof(doom->editor.rooms, hit.renderable->of.data.room));
-					const Uint8		*s = SDL_GetKeyboardState(NULL);
-					if (s[SDL_SCANCODE_LCTRL] && hit.who.data.triangle.face < hit.renderable->of.data.room->walls_start)
-					{
-						select_floor_ceil(&doom->editor, hit.renderable->of.data.room, hit.who.data.triangle.face < hit.renderable->of.data.room->ceilling_start);
-					}				
-				}
-				else if (hit.renderable->object_index != -1)
-				{
-					doom->editor.current_object = hit.renderable->object_index;
-					doom->editor.objects->values[doom->editor.current_object].r->show_hitbox = TRUE;
-					editor_settings_update(&doom->editor);
-				}
+				// if (doom->editor.current_object != -1)
+				// 	doom->editor.objects->values[doom->editor.current_object].r->show_hitbox = FALSE;
+				// select_floor_ceil(&doom->editor, NULL, FALSE);
+				// select_room(&doom->editor, -1);
+				// if (hit.renderable->of.type == RENDERABLE_ROOM)
+				// {
+				// 	t_face face = hit.renderable->faces->values[hit.who.data.triangle.face];
+				// 	if (face.wall_index == -1)
+				// 		doom->editor.current_seg.x = -1;
+				// 	else
+				// 	{
+				// 		doom->editor.current_seg.x = hit.renderable->of.data.room->walls->values[face.wall_index].indice;
+				// 		doom->editor.current_seg.y = hit.renderable->of.data.room->walls->values[(face.wall_index + 1) % hit.renderable->of.data.room->walls->len].indice;
+				// 	}
+				// 	select_room(&doom->editor, rooms_indexof(doom->editor.rooms, hit.renderable->of.data.room));
+				// 	const Uint8		*s = SDL_GetKeyboardState(NULL);
+				// 	if (s[SDL_SCANCODE_LCTRL] && hit.who.data.triangle.face < hit.renderable->of.data.room->walls_start)
+				// 	{
+				// 		select_floor_ceil(&doom->editor, hit.renderable->of.data.room, hit.who.data.triangle.face < hit.renderable->of.data.room->ceilling_start);
+				// 	}				
+				// }
+				// else if (hit.renderable->object_index != -1)
+				// {
+				// 	doom->editor.current_object = hit.renderable->object_index;
+				// 	doom->editor.objects->values[doom->editor.current_object].r->show_hitbox = TRUE;
+				// 	editor_settings_update(&doom->editor);
+				// }
 
 			}
 		}

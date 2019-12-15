@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 15:55:03 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/10 18:29:49 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/15 18:17:21 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,26 +98,26 @@ t_bool		update_floor(t_room *room, t_bool floor)
 	return (TRUE);
 }
 
-t_bool		create_room_points(t_renderable *r, t_editor *editor, t_room *room)
-{
-	int		i;
-	t_wall	*wall;
-	t_vec3	point;
+// t_bool		create_room_points(t_renderable *r, t_editor *editor, t_room *room)
+// {
+// 	int		i;
+// 	t_wall	*wall;
+// 	t_vec3	point;
 
-	i = -1;
-	while (++i < room->walls->len)
-	{
-		wall = &room->walls->values[i];
-		t_vec2 v = editor->points->vertices[wall->indice];
-		point = editor_to_world((t_vec3){ v.x, 0, v.y });
-		append_4dvertices_array(&r->vertices, (t_vec4){ point.x, wall->floor_height, point.z, 1 });
-		append_3dvertices_array(&r->normals, (t_vec3){ 0, 1, 0 });
-		append_2dvertices_array(&r->vertex, (t_vec2){ 0, 0 });
-		append_4dvertices_array(&r->vertices, (t_vec4){ point.x, wall->ceiling_height, point.z, 1 });
-		append_3dvertices_array(&r->normals, (t_vec3){ 0, -1, 0 });
-		append_2dvertices_array(&r->vertex, (t_vec2){ 0, 0 });
-	}
-}
+// 	i = -1;
+// 	while (++i < room->walls->len)
+// 	{
+// 		wall = &room->walls->values[i];
+// 		t_vec2 v = editor->points->vertices[wall->indice];
+// 		point = editor_to_world((t_vec3){ v.x, 0, v.y });
+// 		append_4dvertices_array(&r->vertices, (t_vec4){ point.x, wall->floor_height, point.z, 1 });
+// 		append_3dvertices_array(&r->normals, (t_vec3){ 0, 1, 0 });
+// 		append_2dvertices_array(&r->vertex, (t_vec2){ 0, 0 });
+// 		append_4dvertices_array(&r->vertices, (t_vec4){ point.x, wall->ceiling_height, point.z, 1 });
+// 		append_3dvertices_array(&r->normals, (t_vec3){ 0, -1, 0 });
+// 		append_2dvertices_array(&r->vertex, (t_vec2){ 0, 0 });
+// 	}
+// }
 
 t_bool		create_wall(t_renderable *r, t_room *room, int wall_index, int vertice_index[4])
 {
@@ -301,29 +301,29 @@ t_bool		create_wall(t_renderable *r, t_room *room, int wall_index, int vertice_i
 // 	return (TRUE);
 // }
 
-t_bool		create_room_renderable(t_renderable *r, t_editor *editor, t_room *room)
-{
-	if (!create_renderable(r, RENDERABLE_ROOM))  
-		return (FALSE);
-	r->of.data.room = room;
-	room->r = r;
-	if(!(r->materials = create_mtllist(room->walls->len + 2)))
-		return (free_renderable(&r, FALSE));
-	if (!append_mtllist(&r->materials, (t_mtl){ 
-			.texture_map_set = TRUE, .texture_map = room->floor_texture->data.texture, .material_color_set = TRUE, .material_color = 0xFFFF0000 }))
-		return (free_renderable(&r, FALSE));
-	if (!append_mtllist(&r->materials, (t_mtl){ 
-			.texture_map_set = TRUE, .texture_map = room->ceiling_texture->data.texture, .material_color_set = TRUE, .material_color = 0xFFFF0000 }))
-		return (free_renderable(&r, FALSE));
-	int i = -1;
-	while (++i < room->walls->len)
-		if (!append_mtllist(&r->materials, (t_mtl){ 
-			.texture_map_set = TRUE, .texture_map = room->walls->values[i].texture->data.texture }))
-			return (free_renderable(&r, FALSE));
-	//create_room_mesh(r, editor, room);
+// t_bool		create_room_renderable(t_renderable *r, t_editor *editor, t_room *room)
+// {
+// 	if (!create_renderable(r, RENDERABLE_MAP))  
+// 		return (FALSE);
+// 	r->of.data.room = room;
+// 	room->r = r;
+// 	if(!(r->materials = create_mtllist(room->walls->len + 2)))
+// 		return (free_renderable(&r, FALSE));
+// 	if (!append_mtllist(&r->materials, (t_mtl){ 
+// 			.texture_map_set = TRUE, .texture_map = room->floor_texture->data.texture, .material_color_set = TRUE, .material_color = 0xFFFF0000 }))
+// 		return (free_renderable(&r, FALSE));
+// 	if (!append_mtllist(&r->materials, (t_mtl){ 
+// 			.texture_map_set = TRUE, .texture_map = room->ceiling_texture->data.texture, .material_color_set = TRUE, .material_color = 0xFFFF0000 }))
+// 		return (free_renderable(&r, FALSE));
+// 	int i = -1;
+// 	while (++i < room->walls->len)
+// 		if (!append_mtllist(&r->materials, (t_mtl){ 
+// 			.texture_map_set = TRUE, .texture_map = room->walls->values[i].texture->data.texture }))
+// 			return (free_renderable(&r, FALSE));
+// 	//create_room_mesh(r, editor, room);
 	
-	return (TRUE);
-}
+// 	return (TRUE);
+// }
 
 t_bool		create_object_renderable(t_editor *editor, int object_index, t_renderable *r)
 {

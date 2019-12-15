@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/05 17:25:21 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/01 00:47:12 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/15 18:16:07 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ typedef enum		e_renderable_type
 {
 	RENDERABLE_UNKNOWN,
 	RENDERABLE_OBJ,
-	RENDERABLE_ROOM,
+	RENDERABLE_MAP,
 	RENDERABLE_ENTITY,
 	RENDERABLE_ITEMSTACK,
 	RENDERABLE_ELLIPSOID
@@ -25,7 +25,6 @@ typedef enum		e_renderable_type
 
 typedef union		u_renderable_of_data
 {
-	struct s_room			*room;
 	struct s_obj			*obj;
 	struct s_entity			*entity;
 	struct s_ellipsoid		*ellipsoid;

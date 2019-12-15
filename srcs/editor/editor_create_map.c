@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/10 13:41:47 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/15 15:34:16 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/15 18:16:35 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ t_bool	create_map(t_editor *editor)
 {
 	t_renderable	r;
 
-	if (!create_renderable(&r, RENDERABLE_ROOM))  
+	if (!create_renderable(&r, RENDERABLE_MAP))  
 		return (FALSE);
 	if(!(r.materials = create_mtllist(editor->rooms->len * 20)))
 		return (free_renderable(&r, FALSE));
