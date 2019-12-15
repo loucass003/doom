@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 14:35:33 by lloncham          #+#    #+#             */
-/*   Updated: 2019/12/12 16:35:19 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/15 02:14:29 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,16 @@ typedef struct		s_wall_section
 	uint8_t				normal_type;
 	int					vertices_index[4];
 }					t_wall_section;
+
+typedef struct		s_gap_filler_packet
+{
+	float			start_a;
+	float			start_b;
+	t_vec4			range_a;
+	t_vec4			range_b;
+	t_vec4			last_range_a;
+	t_vec4			last_range_b;
+}					t_gap_filler_packet;
 
 typedef struct		s_wall_sections
 {
@@ -218,6 +228,7 @@ void				remove_point(t_editor *editor, int index);
 void				insert_point(t_editor *editor, t_vec2 seg, int point_index);
 t_vec2				get_close_point(t_editor *editor, t_vec2 pos);
 t_wall				init_wall(t_editor *editor, int indice);
+t_wall_section		init_wall_section(t_editor *editor);
 void				editor_grid_render(t_gui *self, t_doom *doom, t_editor *editor);
 void				editor_render_rooms(t_gui *self, t_doom *doom, t_editor *editor);
 t_bool				editor_render_wall(t_doom *doom, t_editor *editor, t_room *room, int j);
@@ -245,5 +256,11 @@ void				set_gui_settings(t_editor *editor, int id);
 void				free_object(t_object *object);
 t_bool				create_object_renderable(t_editor *editor, int object_index, t_renderable *r);
 t_vec3				editor_to_world(t_vec3 pos);
+
+t_wall_section		create_simple_wall_section(t_editor *editor, t_room *room, int wall);
+t_wall_section		create_last_wall_section(t_editor *editor, t_room *room, int wall, t_gap_filler_packet p);
+t_wall_section		create_gap_wall_section(t_editor *editor, t_room *room, int wall, t_gap_filler_packet p);
+t_wall_section		create_between_gaps_wall_section(t_editor *editor, t_room *room, int wall, t_gap_filler_packet p);
+
 
 #endif

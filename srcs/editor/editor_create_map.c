@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/10 13:41:47 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/12 14:06:27 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/15 01:36:34 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,18 +121,7 @@ t_bool	create_walls(t_editor *editor, t_renderable *r)
 					r0 = w0.start_rooms_range->vertices[k];
 					r1 = w1.end_rooms_range->vertices[k];
 
-					{
-						int vertices_index[4] = (int [4]){ room->room_vertices_start + j * 2, room->room_vertices_start + next * 2, room->room_vertices_start + next * 2 + 1, room->room_vertices_start + (j * 2 + 1) };
-						if (r0.y < w0.ceiling_height)
-							vertices_index[3] = editor->rooms->values[(int)r0.z].room_vertices_start + ((int)r0.w * 2) + 1;
-						if (r1.y < w1.ceiling_height)
-							vertices_index[2] = editor->rooms->values[(int)r1.z].room_vertices_start + ((int)r1.w * 2) + 1;
-						if (r0.x > w0.floor_height)
-							vertices_index[0] = editor->rooms->values[(int)r0.z].room_vertices_start + (int)r0.w * 2;
-						if (r1.x > w1.floor_height)
-							vertices_index[1] = editor->rooms->values[(int)r1.z].room_vertices_start + (int)r1.w * 2;
-						create_wall(r, room, j, vertices_index);
-					}
+					
 					int vertices_index[4] = (int [4]){ room->room_vertices_start + j * 2, room->room_vertices_start + next * 2, room->room_vertices_start + next * 2 + 1, room->room_vertices_start + (j * 2 + 1) };
 					if (start < r0.x && startb < r1.x && start < w0.ceiling_height && startb < w1.ceiling_height)
 					{
@@ -169,6 +158,18 @@ t_bool	create_walls(t_editor *editor, t_renderable *r)
 						create_wall(r, room, j, vertices_index);
 						
 						
+					}
+					{
+						int vertices_index[4] = (int [4]){ room->room_vertices_start + j * 2, room->room_vertices_start + next * 2, room->room_vertices_start + next * 2 + 1, room->room_vertices_start + (j * 2 + 1) };
+						if (r0.y < w0.ceiling_height)
+							vertices_index[3] = editor->rooms->values[(int)r0.z].room_vertices_start + ((int)r0.w * 2) + 1;
+						if (r1.y < w1.ceiling_height)
+							vertices_index[2] = editor->rooms->values[(int)r1.z].room_vertices_start + ((int)r1.w * 2) + 1;
+						if (r0.x > w0.floor_height)
+							vertices_index[0] = editor->rooms->values[(int)r0.z].room_vertices_start + (int)r0.w * 2;
+						if (r1.x > w1.floor_height)
+							vertices_index[1] = editor->rooms->values[(int)r1.z].room_vertices_start + (int)r1.w * 2;
+						create_wall(r, room, j, vertices_index);
 					}
 					start = r0.y;
 					startb = r1.y;
