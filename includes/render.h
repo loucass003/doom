@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:16:19 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/08 00:26:37 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/15 20:51:40 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,10 @@ typedef struct		s_face
 	char			normal_type;
 	int				group;
 	t_bool			rendered;
+
 	int				wall_index;
+	int				wall_section;
+	int				room_index;	
 }					t_face;
 
 typedef struct		s_faces

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/10 13:41:47 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/15 18:16:35 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/15 22:57:11 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ t_bool	create_walls(t_editor *editor, t_renderable *r)
 		t_room *room = &editor->rooms->values[i];
 		if (!room->closed)
 			continue;
+		room->walls_start = r->faces->len;
 		get_room_gaps(editor, room);
 		j = -1;
 		while (++j < room->walls->len)
@@ -93,10 +94,7 @@ t_bool	create_walls(t_editor *editor, t_renderable *r)
 
 			k = -1;
 			while (++k < w0.wall_sections->len)
-			{
-				t_wall_section	*ws = &w0.wall_sections->values[k];		
-				create_wall(r, room, j, ws->vertices_index);
-			}
+				create_wall(r, editor, i, j, k);
 		}
 	}
 	return (TRUE);
@@ -104,21 +102,22 @@ t_bool	create_walls(t_editor *editor, t_renderable *r)
 
 t_bool	create_map(t_editor *editor)
 {
-	t_renderable	r;
+	t_renderable	*r;
 
-	if (!create_renderable(&r, RENDERABLE_MAP))  
+	if (!create_renderable(editor->map_renderable, RENDERABLE_MAP))  
 		return (FALSE);
-	if(!(r.materials = create_mtllist(editor->rooms->len * 20)))
+	r = editor->map_renderable;
+	if(!(r->materials = create_mtllist(editor->rooms->len * 20)))
 		return (free_renderable(&r, FALSE));
 	create_map_points_and_floor(editor, &r);
 	create_walls(editor, &r);
 	post_process_renderable(editor->doom, &r, TRUE);
-	r.scale = (t_vec3){ 1, 1, 1 };
-	r.dirty = TRUE; 
-	r.visible = TRUE;
+	r->scale = (t_vec3){ 1, 1, 1 };
+	r->dirty = TRUE; 
+	r->visible = TRUE;
 	//r->wireframe = TRUE;
-	r.wireframe_color = 0xFFFF0000;
-	if (!append_renderables_array(&editor->doom->renderables, r))  
+	r->wireframe_color = 0xFFFF0000;
+	if (!append_renderables_array(&editor->doom->renderables, *r))  
 		return (FALSE);
 	return (TRUE);
 }

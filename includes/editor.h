@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 14:35:33 by lloncham          #+#    #+#             */
-/*   Updated: 2019/12/15 16:41:04 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/15 22:56:08 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,6 @@ typedef struct		s_room
 	struct s_ressource	*floor_texture;
 	struct s_ressource	*ceiling_texture;
 	t_bool				closed;
-	t_renderable		*r;
 	t_vec3				floor_rot;
 	t_vec3				ceil_rot;
 	int					room_vertices_start;
@@ -177,6 +176,7 @@ typedef struct		s_editor
 	t_bool				object_grab;
 	t_editor_settings	settings;
 	t_doom				*doom;
+	struct s_renderable	*map_renderable;
 	
 	t_bool				player_set;
 	t_vec3				player_pos;
