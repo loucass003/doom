@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 14:35:33 by lloncham          #+#    #+#             */
-/*   Updated: 2019/12/16 14:58:46 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/16 17:36:54 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,6 +173,7 @@ typedef struct		s_editor
 	t_vec2				current_seg;
 	int					current_object;
 	int					selected_floor_ceil;
+	int					wall_section;
 	t_bool				object_grab;
 	t_editor_settings	settings;
 	t_doom				*doom;

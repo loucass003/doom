@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 15:55:03 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/16 16:53:11 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/16 17:36:16 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,15 @@ t_vec3		editor_to_world(t_vec3 pos)
 	return (pos);
 }
 
-t_bool		update_wall(t_room *room, int wall_index)
+t_bool		update_wall(t_editor *editor, int room_index, int wall_index, int wall_section)
 {
 	// t_renderable	*r;
 	// t_face			*f1;
 	// t_face			*f2;
 	// t_wall			*wall;
+
+	if (editor->doom->main_context.type != CTX_EDITOR)
+		return (TRUE);
 
 	// if (!(r = room->r))
 	// 	return (FALSE);
@@ -88,6 +91,9 @@ t_bool		update_wall(t_room *room, int wall_index)
 t_bool		update_floor(t_editor *editor, int room_index, t_bool floor)
 {
 	t_room	*room;
+
+	if (editor->doom->main_context.type != CTX_EDITOR)
+		return (TRUE);
 
 	room = &editor->rooms->values[room_index];
 	if (floor)

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 18:37:59 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/16 16:27:20 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/16 17:37:33 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,7 @@ void			select_room(t_editor *editor, int index)
 	editor->current_object = -1;
 	editor->selected_floor_ceil = -1;
 	editor->current_room = index;
+	editor->wall_section = -1;
 	editor_settings_update(editor);
 }
 

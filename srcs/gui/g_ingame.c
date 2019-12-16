@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/16 16:47:04 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/16 17:42:28 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ void	unselect_all(t_doom *doom)
 	if (doom->editor.current_object != -1)
 				doom->editor.objects->values[doom->editor.current_object].r->show_hitbox = FALSE;
 	doom->editor.current_object = -1;
+	doom->editor.wall_section = -1;
 	select_room(&doom->editor, -1);
 }
 
@@ -156,11 +157,15 @@ void	g_ingame_on_events(t_gui *self, SDL_Event *event, t_doom *doom)
 					t_room *room = &doom->editor.rooms->values[face.room_index];
 					
 					if (face.wall_index == -1)
+					{
+						doom->editor.wall_section = -1;
 						doom->editor.current_seg.x = -1;
+					}
 					else
 					{
 						doom->editor.current_seg.x = room->walls->values[face.wall_index].indice;
 						doom->editor.current_seg.y = room->walls->values[(face.wall_index + 1) % room->walls->len].indice;
+						doom->editor.wall_section = face.wall_section;
 					}
 					select_room(&doom->editor, face.room_index);
 					const Uint8		*s = SDL_GetKeyboardState(NULL);

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/25 05:41:51 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/08 00:32:43 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/16 17:57:37 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,18 @@ typedef struct		s_wr_object
 typedef struct		s_wr_wall
 {
 	int				indice;
+	float			floor_height;
+	float			ceiling_height;
+	int				wall_sections_count;
+}					t_wr_wall;
+
+typedef struct		s_wr_wall_section
+{
 	int				resource_index;
 	uint8_t			normal_type;
 	t_bool			invisible;
 	t_bool			collisions;
-	float			floor_height;
-	float			ceiling_height;
-}					t_wr_wall;
+}					t_wr_wall_section;
 
 typedef struct		s_wr_img
 {

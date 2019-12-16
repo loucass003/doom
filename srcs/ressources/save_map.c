@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 01:20:07 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/10 15:34:35 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/16 17:58:45 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,38 @@
 #include "sprite.h"
 #include "write_structs.h"
 
+t_bool		write_wall_sections(t_ressource_manager *r, t_wall_section *ws)
+{
+	const t_wr_wall_section	wr_ws = (t_wr_wall_section) {
+		.resource_index = ressources_indexof(r->ressources, ws->texture),
+		.normal_type = ws->normal_type,
+		.invisible = ws->invisible,
+		.collisions = ws->collisions
+	};
+
+	dp_write(r, &wr_ws, sizeof(t_wr_wall_section));
+	return (TRUE);
+}
+
 t_bool		write_wall(t_ressource_manager *r, t_wall *wall)
 {
 	const t_wr_wall	wr_wall = (t_wr_wall) {
 		.indice = wall->indice,
-		.resource_index = ressources_indexof(r->ressources, wall->texture),
-		.normal_type = wall->normal_type,
-		.invisible = wall->invisible,
-		.collisions = wall->collisions,
+		// .resource_index = ressources_indexof(r->ressources, wall->texture),
+		// .normal_type = wall->normal_type,
+		// .invisible = wall->invisible,
+		// .collisions = wall->collisions,
 		.floor_height = wall->floor_height,
 		.ceiling_height = wall->ceiling_height,
+		.wall_sections_count = wall->wall_sections ? wall->wall_sections->len : 0
 	};
+	int				i;
 
 	dp_write(r, &wr_wall, sizeof(t_wr_wall));
+	i = -1;
+	while (++i < wr_wall.wall_sections_count)
+		if (!write_wall_sections(r, &wall->wall_sections->values[i]))
+			return (FALSE);
 	return (TRUE);
 }
 

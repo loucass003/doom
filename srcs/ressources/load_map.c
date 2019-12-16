@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 01:53:42 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/10 15:35:49 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/16 17:52:56 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,17 +24,17 @@ t_bool		read_wall(t_ressource_manager *r, t_walls *walls)
 
 	if (!io_memcpy(&r->reader, &wr_wall, sizeof(t_wr_wall)))
 		return (FALSE);
-	if (wr_wall.resource_index < 0 || wr_wall.resource_index >= r->ressources->len)
-		return (FALSE);
-	texture = r->ressources->values[wr_wall.resource_index];
-	if (texture->type != RESSOURCE_TEXTURE)
-		return (FALSE);
+	// if (wr_wall.resource_index < 0 || wr_wall.resource_index >= r->ressources->len)
+	// 	return (FALSE);
+	// texture = r->ressources->values[wr_wall.resource_index];
+	// if (texture->type != RESSOURCE_TEXTURE)
+	// 	return (FALSE);
 	wall = (t_wall) {
 		.indice = wr_wall.indice,
-		.texture = r->ressources->values[wr_wall.resource_index],
-		.normal_type = wr_wall.normal_type,
-		.invisible = wr_wall.invisible,
-		.collisions = wr_wall.collisions,
+		// .texture = r->ressources->values[wr_wall.resource_index],
+		// .normal_type = wr_wall.normal_type,
+		// .invisible = wr_wall.invisible,
+		// .collisions = wr_wall.collisions,
 		.floor_height = wr_wall.floor_height,
 		.ceiling_height = wr_wall.ceiling_height
 	};
