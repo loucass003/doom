@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 20:40:10 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/04 15:27:55 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/16 16:54:12 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,25 +21,25 @@ t_bool			action_performed(t_component *cmp, t_doom *doom)
 	{
 		t_room	*room = &editor->rooms->values[editor->current_room];
 		room->floor_texture = get_prev_ressource(&doom->res_manager, room->floor_texture, RESSOURCE_TEXTURE);
-		update_floor(room, TRUE);
+		update_floor(editor, editor->current_room, TRUE);
 	}
 	if (cmp == editor->settings.guis[ES_GUI_ROOM].components->values[1])
 	{
 		t_room	*room = &editor->rooms->values[editor->current_room];
 		room->floor_texture = get_next_ressource(&doom->res_manager, room->floor_texture, RESSOURCE_TEXTURE);
-		update_floor(room, TRUE);
+		update_floor(editor, editor->current_room, TRUE);
 	}
 	if (cmp == editor->settings.guis[ES_GUI_ROOM].components->values[2])
 	{
 		t_room	*room = &editor->rooms->values[editor->current_room];
 		room->ceiling_texture = get_prev_ressource(&doom->res_manager, room->ceiling_texture, RESSOURCE_TEXTURE);
-		update_floor(room, FALSE);
+		update_floor(editor, editor->current_room, FALSE);
 	}
 	if (cmp == editor->settings.guis[ES_GUI_ROOM].components->values[3])
 	{
 		t_room	*room = &editor->rooms->values[editor->current_room];
 		room->ceiling_texture = get_next_ressource(&doom->res_manager, room->ceiling_texture, RESSOURCE_TEXTURE);
-		update_floor(room, FALSE);
+		update_floor(editor, editor->current_room, FALSE);
 	}
 	
 	return (TRUE);

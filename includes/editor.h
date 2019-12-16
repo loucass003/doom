@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 14:35:33 by lloncham          #+#    #+#             */
-/*   Updated: 2019/12/15 22:56:08 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/16 14:58:46 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,7 +176,7 @@ typedef struct		s_editor
 	t_bool				object_grab;
 	t_editor_settings	settings;
 	t_doom				*doom;
-	struct s_renderable	*map_renderable;
+	struct s_renderable	map_renderable;
 	
 	t_bool				player_set;
 	t_vec3				player_pos;

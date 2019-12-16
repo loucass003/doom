@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 15:55:03 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/15 22:42:07 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/16 16:53:11 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include "octree.h"
 #include "sprite.h"
 
-t_bool	triangulate_floor_ceil(t_renderable *r, t_vec3 n, int *filter, int filter_len, int mtl)
+t_bool	triangulate_floor_ceil(t_renderable *r, t_vec3 n, int *filter, int filter_len, int mtl, int room_index)
 {
 	t_mat4			p_inv;
 	t_mat4			reverse;
@@ -29,7 +29,7 @@ t_bool	triangulate_floor_ceil(t_renderable *r, t_vec3 n, int *filter, int filter
 	while (++i < filter_len)
 		r->vertices->vertices[filter[i]] = mat4_mulv4(p_inv,
 			r->vertices->vertices[filter[i]]);
-	ear_clip2(filter, filter_len, r->vertices, &r->faces, 0, mtl);
+	ear_clip2(filter, filter_len, r->vertices, &r->faces, 0, mtl, room_index);
 	uv_mapping(r->vertices, r->vertex, filter, filter_len);
 	i = -1;
 	while (++i < filter_len)
@@ -85,16 +85,15 @@ t_bool		update_wall(t_room *room, int wall_index)
 	return (TRUE);
 }
 
-t_bool		update_floor(t_room *room, t_bool floor)
+t_bool		update_floor(t_editor *editor, int room_index, t_bool floor)
 {
-	t_renderable	*r;
+	t_room	*room;
 
-	// if (!(r = room->r))
-	// 	return (FALSE);
-	// if (floor)
-	// 	r->materials->values[0].texture_map = room->floor_texture->data.texture;
-	// else
-	// 	r->materials->values[1].texture_map = room->ceiling_texture->data.texture;
+	room = &editor->rooms->values[room_index];
+	if (floor)
+		editor->map_renderable.materials->values[room_index * 2].texture_map = room->floor_texture->data.texture;
+	else
+	 	editor->map_renderable.materials->values[room_index * 2 + 1].texture_map = room->ceiling_texture->data.texture;
 	return (TRUE);
 }
 
@@ -128,6 +127,11 @@ t_bool		create_wall(t_renderable *r, t_editor *editor, int room_index, int wall_
 	// if (!wall->collisions && wall->invisible)
 	// 	continue;
 	// int	next = (i + 1) % room->walls->len;
+
+	if (!append_mtllist(&r->materials, (t_mtl){ 
+		.texture_map_set = TRUE, .texture_map = ws.texture->data.texture, .material_color_set = TRUE, .material_color = 0xFFFF0000 }))
+	return (FALSE);
+
 	t_vec4 p0 = r->vertices->vertices[ws.vertices_index[0]];
 	t_vec4 p1 = r->vertices->vertices[ws.vertices_index[1]];
 	t_vec4 p2 = r->vertices->vertices[ws.vertices_index[2]];
@@ -168,7 +172,7 @@ t_bool		create_wall(t_renderable *r, t_editor *editor, int room_index, int wall_
 	face.vertices_index[0] = ws.vertices_index[0] + 1;
 	face.vertices_index[1] = ws.vertices_index[2] + 1;
 	face.vertices_index[2] = ws.vertices_index[3] + 1;
-	face.mtl_index = /*wall_index + 2*/0;
+	face.mtl_index = r->materials->len - 1;
 	face.wall_index = wall_index;
 	face.wall_section = wall_section;
 	face.room_index = room_index;
@@ -190,7 +194,7 @@ t_bool		create_wall(t_renderable *r, t_editor *editor, int room_index, int wall_
 	face.vertices_index[0] = ws.vertices_index[0] + 1;
 	face.vertices_index[1] = ws.vertices_index[1] + 1;
 	face.vertices_index[2] = ws.vertices_index[2] + 1;
-	face.mtl_index = /*wall_index + 2*/0;
+	face.mtl_index = r->materials->len - 1;
 	face.wall_index = wall_index;
 	face.wall_section = wall_section;
 	face.room_index = room_index;

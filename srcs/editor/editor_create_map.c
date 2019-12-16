@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/10 13:41:47 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/15 22:57:11 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/16 16:18:54 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,12 +62,12 @@ t_bool	create_map_points_and_floor(t_editor *editor, t_renderable *r)
 		int j = -1;
 		while (++j < room->walls->len)
 			filter[j] = room->room_vertices_start + j * 2;
-		triangulate_floor_ceil(r, (t_vec3){ 0, -1, 0 }, filter, room->walls->len, 0);
+		triangulate_floor_ceil(r, (t_vec3){ 0, -1, 0 }, filter, room->walls->len, (i * 2), i);
 		room->ceilling_start = r->faces->len;
 		j = -1;
 		while (++j < room->walls->len)
 			filter[j] = room->room_vertices_start + (j * 2) + 1;
-		triangulate_floor_ceil(r, (t_vec3){ 0, 1, 0 }, filter, room->walls->len, 1);
+		triangulate_floor_ceil(r, (t_vec3){ 0, 1, 0 }, filter, room->walls->len, (i * 2) + 1, i);
 		free(filter);
 	}
 	return (TRUE);
@@ -104,14 +104,14 @@ t_bool	create_map(t_editor *editor)
 {
 	t_renderable	*r;
 
-	if (!create_renderable(editor->map_renderable, RENDERABLE_MAP))  
+	if (!create_renderable(&editor->map_renderable, RENDERABLE_MAP))  
 		return (FALSE);
-	r = editor->map_renderable;
+	r = &editor->map_renderable;
 	if(!(r->materials = create_mtllist(editor->rooms->len * 20)))
 		return (free_renderable(&r, FALSE));
-	create_map_points_and_floor(editor, &r);
-	create_walls(editor, &r);
-	post_process_renderable(editor->doom, &r, TRUE);
+	create_map_points_and_floor(editor, r);
+	create_walls(editor, r);
+	post_process_renderable(editor->doom, r, TRUE);
 	r->scale = (t_vec3){ 1, 1, 1 };
 	r->dirty = TRUE; 
 	r->visible = TRUE;

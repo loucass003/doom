@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/15 22:45:34 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/16 16:47:04 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,11 +148,10 @@ void	g_ingame_on_events(t_gui *self, SDL_Event *event, t_doom *doom)
 			{
 				if (doom->editor.current_object != -1)
 					doom->editor.objects->values[doom->editor.current_object].r->show_hitbox = FALSE;
-				select_floor_ceil(&doom->editor, NULL, FALSE);
+				select_floor_ceil(&doom->editor, -1, FALSE);
 				select_room(&doom->editor, -1);
 				if (hit.renderable->of.type == RENDERABLE_MAP)
 				{
-					
 					t_face face = hit.renderable->faces->values[hit.who.data.triangle.face];
 					t_room *room = &doom->editor.rooms->values[face.room_index];
 					
@@ -165,10 +164,10 @@ void	g_ingame_on_events(t_gui *self, SDL_Event *event, t_doom *doom)
 					}
 					select_room(&doom->editor, face.room_index);
 					const Uint8		*s = SDL_GetKeyboardState(NULL);
-					if (s[SDL_SCANCODE_LCTRL] && hit.who.data.triangle.face < room->walls_start)
+					if (s[SDL_SCANCODE_LCTRL] && hit.who.data.triangle.face >= room->floor_start && hit.who.data.triangle.face < room->walls_start)
 					{
-						printf("CALL\n");
-						select_floor_ceil(&doom->editor, room, hit.who.data.triangle.face < room->ceilling_start);
+						// printf("CALL\n");
+						select_floor_ceil(&doom->editor, face.room_index, hit.who.data.triangle.face < room->ceilling_start);
 					}
 				}
 				else if (hit.renderable->object_index != -1)
