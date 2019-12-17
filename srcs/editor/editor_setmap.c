@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 15:55:03 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/16 17:36:16 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/17 12:16:11 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,7 @@ t_bool		create_wall(t_renderable *r, t_editor *editor, int room_index, int wall_
 	t_vec4 p2 = r->vertices->vertices[ws.vertices_index[2]];
 	t_vec3 face_normal = get_triangle_normal(vec4_to_3(p0), vec4_to_3(p1), vec4_to_3(p2));
 
-	if (wall->normal_type == 0)
+	if (ws.normal_type == 0)
 		face_normal = ft_vec3_inv(face_normal);
 	
 	int	n_start = r->normals->len;
@@ -163,10 +163,10 @@ t_bool		create_wall(t_renderable *r, t_editor *editor, int room_index, int wall_
 	
 	ft_bzero(&face, sizeof(t_face));
 	//face.hidden = wall->invisible;
-	face.has_collision = wall->collisions;
+	face.has_collision = ws.collisions;
 	face.face_normal = face_normal;
-	face.normal_type = wall->normal_type;
-	face.double_sided = wall->normal_type == 2;
+	face.normal_type = ws.normal_type;
+	face.double_sided = ws.normal_type == 2;
 	face.normals_set = TRUE;
 	face.normals_index[0] = n_start + 1;
 	face.normals_index[1] = n_start + 2 + 1;
@@ -186,9 +186,9 @@ t_bool		create_wall(t_renderable *r, t_editor *editor, int room_index, int wall_
 	
 	ft_bzero(&face, sizeof(t_face));
 	//face.hidden = wall->invisible;
-	face.has_collision = wall->collisions;
-	face.normal_type = wall->normal_type;
-	face.double_sided = wall->normal_type == 2;
+	face.has_collision = ws.collisions;
+	face.normal_type = ws.normal_type;
+	face.double_sided = ws.normal_type == 2;
 	face.normals_set = TRUE;
 	face.normals_index[0] = n_start + 1;
 	face.normals_index[1] = n_start + 1 + 1;

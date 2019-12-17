@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 01:20:07 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/16 17:58:45 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/17 12:14:18 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,6 @@ t_bool		write_wall(t_ressource_manager *r, t_wall *wall)
 {
 	const t_wr_wall	wr_wall = (t_wr_wall) {
 		.indice = wall->indice,
-		// .resource_index = ressources_indexof(r->ressources, wall->texture),
-		// .normal_type = wall->normal_type,
-		// .invisible = wall->invisible,
-		// .collisions = wall->collisions,
 		.floor_height = wall->floor_height,
 		.ceiling_height = wall->ceiling_height,
 		.wall_sections_count = wall->wall_sections ? wall->wall_sections->len : 0

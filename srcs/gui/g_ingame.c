@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/16 17:42:28 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/17 12:34:01 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,6 +166,7 @@ void	g_ingame_on_events(t_gui *self, SDL_Event *event, t_doom *doom)
 						doom->editor.current_seg.x = room->walls->values[face.wall_index].indice;
 						doom->editor.current_seg.y = room->walls->values[(face.wall_index + 1) % room->walls->len].indice;
 						doom->editor.wall_section = face.wall_section;
+						printf("%d section\n", face.wall_section);
 					}
 					select_room(&doom->editor, face.room_index);
 					const Uint8		*s = SDL_GetKeyboardState(NULL);

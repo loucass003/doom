@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 14:35:33 by lloncham          #+#    #+#             */
-/*   Updated: 2019/12/16 17:36:54 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/17 12:14:59 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,10 +97,6 @@ typedef struct		s_wall_sections
 typedef struct		s_wall
 {
 	int					indice;
-	struct s_ressource	*texture;
-	uint8_t				normal_type;
-	t_bool				invisible;
-	t_bool				collisions;
 	float				floor_height;
 	float				ceiling_height;
 	t_4dvertices		*start_rooms_range;

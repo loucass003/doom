@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 20:13:35 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/03 17:17:00 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/17 12:17:03 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ static	void	swap_normal(t_editor *editor)
 	printf("index0 == %d %d\n", index0, curr_room->walls->len);
 	if (index0 != -1)
 	{
-		if (++curr_room->walls->values[index0].normal_type == 3)
-			curr_room->walls->values[index0].normal_type = 0;
+		// if (++curr_room->walls->values[index0].normal_type == 3)
+		// 	curr_room->walls->values[index0].normal_type = 0;
 	}
 }
 

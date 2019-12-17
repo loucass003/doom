@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 18:54:05 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/15 01:29:48 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/17 12:18:40 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,7 @@ t_wall			init_wall(t_editor *editor, int indice)
 	if (indice < 0)
 		return (t_wall){ .indice = indice };
 	return  (t_wall){ 
-		.indice = indice, 
-		.normal_type = 1, 
-		.texture = get_default_texture(&editor->doom->res_manager, TRUE), 
-		.collisions = TRUE,
+		.indice = indice,
 		.floor_height = 0,
 		.ceiling_height = 10
 	};
@@ -42,28 +39,28 @@ int			wall_indexof_by_indice(t_walls *walls, int indice)
 
 void		editor_render_wall_nornal(t_doom *doom, t_room *room, t_line l, int j)
 {
-	const int		color = doom->editor.current_room != -1 && room
-		== &doom->editor.rooms->values[doom->editor.current_room]
-			? 0xFFFFF0F0 : 0xFFFF9090;
-	const t_vec2	dir = ft_vec2_norm(ft_vec2_sub(l.a, l.b));
-	const t_vec2	c = ft_vec2_add(l.a, 
-		ft_vec2_mul_s(ft_vec2_sub(l.b, l.a), 0.5));
-	t_vec2			n;
+	// const int		color = doom->editor.current_room != -1 && room
+	// 	== &doom->editor.rooms->values[doom->editor.current_room]
+	// 		? 0xFFFFF0F0 : 0xFFFF9090;
+	// const t_vec2	dir = ft_vec2_norm(ft_vec2_sub(l.a, l.b));
+	// const t_vec2	c = ft_vec2_add(l.a, 
+	// 	ft_vec2_mul_s(ft_vec2_sub(l.b, l.a), 0.5));
+	// t_vec2			n;
 	
-	n = (t_vec2){ -dir.y, dir.x };
-	if (room->walls->values[j].normal_type == 2 
-		|| room->walls->values[j].normal_type == 0)
-	{
-		draw_line(&doom->screen, (t_pixel){ c.x, c.y, color},
-			(t_pixel){ c.x + n.x * 10, c.y + n.y * 10, 0 });
-	}
-	if (room->walls->values[j].normal_type == 1 
-		|| room->walls->values[j].normal_type == 2)
-	{
-		n = ft_vec2_inv(n);
-		draw_line(&doom->screen, (t_pixel){ c.x, c.y, color},
-			(t_pixel){ c.x + n.x * 10, c.y + n.y * 10, 0 });
-	}
+	// n = (t_vec2){ -dir.y, dir.x };
+	// if (room->walls->values[j].normal_type == 2 
+	// 	|| room->walls->values[j].normal_type == 0)
+	// {
+	// 	draw_line(&doom->screen, (t_pixel){ c.x, c.y, color},
+	// 		(t_pixel){ c.x + n.x * 10, c.y + n.y * 10, 0 });
+	// }
+	// if (room->walls->values[j].normal_type == 1 
+	// 	|| room->walls->values[j].normal_type == 2)
+	// {
+	// 	n = ft_vec2_inv(n);
+	// 	draw_line(&doom->screen, (t_pixel){ c.x, c.y, color},
+	// 		(t_pixel){ c.x + n.x * 10, c.y + n.y * 10, 0 });
+	// }
 }
 
 t_bool		editor_render_wall(t_doom *doom, t_editor *editor, t_room *room, int j)

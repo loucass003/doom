@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 01:53:42 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/16 17:52:56 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/17 12:14:46 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,28 +16,51 @@
 #include "write_structs.h"
 #include "sprite.h"
 
+t_bool		read_wall_section(t_ressource_manager *r, t_wall_sections *sections)
+{
+	t_wr_wall_section	wr_ws;
+	t_ressource			*texture;
+	t_wall_section		ws;
+
+	if (!io_memcpy(&r->reader, &wr_ws, sizeof(t_wr_wall_section)))
+		return (FALSE);
+	if (wr_ws.resource_index < 0 || wr_ws.resource_index >= r->ressources->len)
+		return (FALSE);
+	texture = r->ressources->values[wr_ws.resource_index];
+	if (texture->type != RESSOURCE_TEXTURE)
+		return (FALSE);
+	ws = (t_wall_section) {
+		.texture = r->ressources->values[wr_ws.resource_index],
+		.normal_type = wr_ws.normal_type,
+		.invisible = wr_ws.invisible,
+		.collisions = wr_ws.collisions
+	};
+	if (!append_wall_sections_array(&sections, ws))
+		return (FALSE);
+	return (TRUE);
+}
+
 t_bool		read_wall(t_ressource_manager *r, t_walls *walls)
 {
 	t_wr_wall		wr_wall;
 	t_wall			wall;
-	t_ressource	*texture;
-
+	int				i;
+	
 	if (!io_memcpy(&r->reader, &wr_wall, sizeof(t_wr_wall)))
 		return (FALSE);
-	// if (wr_wall.resource_index < 0 || wr_wall.resource_index >= r->ressources->len)
-	// 	return (FALSE);
-	// texture = r->ressources->values[wr_wall.resource_index];
-	// if (texture->type != RESSOURCE_TEXTURE)
-	// 	return (FALSE);
 	wall = (t_wall) {
 		.indice = wr_wall.indice,
-		// .texture = r->ressources->values[wr_wall.resource_index],
-		// .normal_type = wr_wall.normal_type,
-		// .invisible = wr_wall.invisible,
-		// .collisions = wr_wall.collisions,
 		.floor_height = wr_wall.floor_height,
 		.ceiling_height = wr_wall.ceiling_height
 	};
+	if (wr_wall.wall_sections_count < 0)
+		return (FALSE);
+	if (!(wall.wall_sections = create_wall_sections_array(wr_wall.wall_sections_count + 5)))
+		return (FALSE);
+	i = -1;
+	while (++i < wr_wall.wall_sections_count)
+		if (!read_wall_section(r, wall.wall_sections))
+			return (FALSE);
 	if (!append_walls_array(&walls, wall))
 		return (FALSE);
 	return (TRUE);
