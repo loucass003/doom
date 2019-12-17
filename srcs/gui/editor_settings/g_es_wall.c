@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 20:40:10 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/17 13:36:05 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/17 18:33:21 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static t_bool			action_performed(t_component *cmp, t_doom *doom)
 		ws->collisions = ((t_checkbox *)cmp)->value;
 	if (cmp == editor->settings.guis[ES_GUI_WALL].components->values[5])
 		ws->invisible = ((t_checkbox *)cmp)->value;
-	update_wall(&editor->rooms->values[editor->current_room], wall_indexof_by_indice(editor->rooms->values[editor->current_room].walls, editor->current_seg.x));
+	update_wall(editor, editor->current_room, wall_indexof_by_indice(editor->rooms->values[editor->current_room].walls, editor->current_seg.x), doom->editor.wall_section);
 	return (TRUE);
 }
 
@@ -49,16 +49,17 @@ void			g_es_wall_enter(t_gui *self, t_doom *doom)
 	int			y = 75;
 
 	t_wall *wall = get_current_wall(&doom->editor);
-	if (!wall)
+	if (!wall || doom->editor.wall_section == -1)
 		return ;
+	t_wall_section *ws = &wall->wall_sections->values[doom->editor.wall_section];
 	append_components_array(&self->components, create_button((SDL_Rect){ x + 10, y + 10, 40, 40 }, NULL, "<"));
 	append_components_array(&self->components, create_button((SDL_Rect){ x + 270, y + 10, 40, 40 }, NULL, ">"));
 	append_components_array(&self->components, create_button((SDL_Rect){ x + 10, y + 70, 40, 40 }, NULL, "<"));
 	append_components_array(&self->components, create_button((SDL_Rect){ x + 270, y + 70, 40, 40 }, NULL, ">"));
 	append_components_array(&self->components, create_checkbox(doom, (t_vec2){ x + 10, y + 130 }, "COLLISIONS"));
-	// ((t_checkbox *)self->components->values[2])->value = wall->collisions;
+	((t_checkbox *)self->components->values[4])->value = ws->collisions;
 	append_components_array(&self->components, create_checkbox(doom, (t_vec2){ x + 170, y + 130 }, "INVISIBLE"));
-	// ((t_checkbox *)self->components->values[3])->value = wall->invisible;
+	((t_checkbox *)self->components->values[5])->value = ws->invisible;
 	int i = -1;
 	while (++i < 6)
 		self->components->values[i]->perform_action = action_performed;
@@ -68,7 +69,7 @@ void			g_es_wall_render(t_gui *self, t_doom *doom)
 {
 	draw_line(&doom->screen, (t_pixel){ S_WIDTH - 335 + 160, 195, 0xFFFFFFFF }, (t_pixel){ S_WIDTH - 335 + 160, 235, 0 });
 	t_wall	*wall = get_current_wall(&doom->editor);
-	if (!wall)
+	if (!wall || doom->editor.wall_section == -1)
 		return ;
 	t_wall_section *ws = &wall->wall_sections->values[doom->editor.wall_section];
 	SDL_Surface *text = TTF_RenderText_Blended(doom->fonts.helvetica, "Section :", (SDL_Color){255, 0, 0, 0});

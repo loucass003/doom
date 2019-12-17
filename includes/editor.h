@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 14:35:33 by lloncham          #+#    #+#             */
-/*   Updated: 2019/12/17 12:14:59 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/17 19:05:56 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ typedef struct		s_wall_section
 	struct s_ressource	*texture;
 	uint8_t				normal_type;
 	int					vertices_index[4];
+	int					material_index;
 }					t_wall_section;
 
 typedef struct		s_gap_filler_packet
@@ -102,6 +103,7 @@ typedef struct		s_wall
 	t_4dvertices		*start_rooms_range;
 	t_4dvertices		*end_rooms_range;
 	t_wall_sections		*wall_sections;
+	int					materials_start;
 }					t_wall;
 
 typedef struct		s_walls
@@ -255,6 +257,7 @@ t_bool				create_object_renderable(t_editor *editor, int object_index, t_rendera
 t_vec3				editor_to_world(t_vec3 pos);
 t_bool				get_room_gaps(t_editor *editor, t_room *room);
 t_bool				update_rooms_gaps(t_editor *editor);
+t_bool				update_wall(t_editor *editor, int room_index, int wall_index, int wall_section);
 
 t_wall_section		create_simple_wall_section(t_editor *editor, t_room *room, int wall);
 t_wall_section		create_last_wall_section(t_editor *editor, t_room *room, int wall, t_gap_filler_packet p);

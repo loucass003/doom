@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/10 13:41:47 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/16 16:18:54 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/17 18:56:47 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,11 +89,12 @@ t_bool	create_walls(t_editor *editor, t_renderable *r)
 		j = -1;
 		while (++j < room->walls->len)
 		{
-			t_wall w0 = room->walls->values[j];
+			t_wall *w0 = &room->walls->values[j];
+			w0->start_rooms_range = r->materials->len;
 			int k;
 
 			k = -1;
-			while (++k < w0.wall_sections->len)
+			while (++k < w0->wall_sections->len)
 				create_wall(r, editor, i, j, k);
 		}
 	}
