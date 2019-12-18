@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/09 21:56:55 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/02 12:56:15 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/18 19:41:05 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ t_bool	create_ellipsoid(t_doom *doom, t_renderable *r, t_vec2 res, t_vec3 radius
 			.material_color_set = TRUE, .material_color = 0xFFFF0000 }))
 		return (free_renderable(&r, FALSE));
 	gen_ellipsoid_mesh(r, res, radius);
-	post_process_renderable(doom, r, TRUE);
+	post_process_renderable(doom, r, TRUE, FALSE);
 	r->dirty = TRUE;
 	r->fixed = FALSE; 
 	r->scale = (t_vec3){ 1, 1, 1 };

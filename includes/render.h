@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:16:19 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/15 20:51:40 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/18 19:40:36 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ void				draw_triangle(t_render_context *ctx, t_render_data data);
 void				process_triangle(t_render_context *ctx, t_mtl *mtl, t_triangle triangle);
 void				post_process_triangle(t_render_context *ctx, t_mtl *mtl, t_triangle triangle);
 void				transform_renderable(t_renderable *r);
-t_bool				post_process_renderable(struct s_doom *doom, t_renderable *r, t_bool octree);
+t_bool				post_process_renderable(struct s_doom *doom, t_renderable *r, t_bool octree, t_bool replace);
 
 t_collidable		compute_collidable(t_renderable *r, int face_index, t_vec4 *vertices);
 t_collidable		face_collidable(t_renderable *r, int face_index, t_vec4 *vertices);

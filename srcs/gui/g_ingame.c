@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/17 12:34:01 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/18 20:06:34 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "octree.h"
 #include <math.h>
 #include "render.h"
+#include "editor.h"
 
 void static	action_performed(t_component *cmp, t_doom *doom)
 {
@@ -193,65 +194,54 @@ void	g_ingame_on_events(t_gui *self, SDL_Event *event, t_doom *doom)
 			t_room	*room = &doom->editor.rooms->values[doom->editor.current_room];
 			// if (!room->r)
 			// 	return ;
-			// if (key == SDL_SCANCODE_KP_4 || key == SDL_SCANCODE_KP_6 || key == SDL_SCANCODE_KP_8 || key == SDL_SCANCODE_KP_5)
-			// {
-			// 	t_vec3	rot = doom->editor.selected_floor_ceil == 0 ? room->floor_rot : room->ceil_rot;
+			if (key == SDL_SCANCODE_KP_4 || key == SDL_SCANCODE_KP_6 || key == SDL_SCANCODE_KP_8 || key == SDL_SCANCODE_KP_5)
+			{
+				t_vec3	rot = doom->editor.selected_floor_ceil == 0 ? room->floor_rot : room->ceil_rot;
 
-			// 	if (key == SDL_SCANCODE_KP_4 || key == SDL_SCANCODE_KP_6)
-			// 		rot.x += 0.01 * (key == SDL_SCANCODE_KP_4 ? 1 : -1);
-			// 	if (key == SDL_SCANCODE_KP_8 || key == SDL_SCANCODE_KP_5)
-			// 		rot.z += 0.01 * (key == SDL_SCANCODE_KP_8 ? 1 : -1);
-			// 	rot.x = clamp(-M_PI / 4, M_PI / 4, rot.x);
-			// 	rot.z = clamp(-M_PI / 4, M_PI / 4, rot.z);
-			// 	t_vec2 first_point = doom->editor.points->vertices[room->walls->values[0].indice];
-			// 	t_mat4 m_rot = ft_mat4_mul(ft_mat4_translation(ft_vec3_inv((t_vec3){ first_point.x, 0, first_point.y })), ft_mat4_rotation(rot));
-			// 	int i = -1;
-			// 	while (++i < room->walls->len)
-			// 	{
-			// 		t_wall	*wall = &room->walls->values[i];
-			// 		int point_index = i * 2 + doom->editor.selected_floor_ceil;
-			// 		t_vec2 v = doom->editor.points->vertices[wall->indice];
-			// 		t_vec3 point = ft_mat4_mulv(m_rot, editor_to_world((t_vec3){ v.x, 0, v.y }));
-			// 		room->r->vertices->vertices[point_index].y = point.y;
-			// 		if (doom->editor.selected_floor_ceil == 0)
-			// 			wall->floor_height = point.y;
-			// 		else
-			// 			wall->ceiling_height = point.y;
-			// 	}
-			// 	if (doom->editor.selected_floor_ceil == 0)
-			// 		room->floor_rot = rot;
-			// 	else
-			// 		room->ceil_rot = rot;
+				if (key == SDL_SCANCODE_KP_4 || key == SDL_SCANCODE_KP_6)
+					rot.x += 0.01 * (key == SDL_SCANCODE_KP_4 ? 1 : -1);
+				if (key == SDL_SCANCODE_KP_8 || key == SDL_SCANCODE_KP_5)
+					rot.z += 0.01 * (key == SDL_SCANCODE_KP_8 ? 1 : -1);
+				rot.x = clamp(-M_PI / 4, M_PI / 4, rot.x);
+				rot.z = clamp(-M_PI / 4, M_PI / 4, rot.z);
+				t_vec2 first_point = doom->editor.points->vertices[room->walls->values[0].indice];
+				t_mat4 m_rot = ft_mat4_mul(ft_mat4_translation(ft_vec3_inv((t_vec3){ first_point.x, 0, first_point.y })), ft_mat4_rotation(rot));
+				int i = -1;
+				while (++i < room->walls->len)
+				{
+					t_wall	*wall = &room->walls->values[i];
+					int point_index = i * 2 + doom->editor.selected_floor_ceil;
+					t_vec2 v = doom->editor.points->vertices[wall->indice];
+					t_vec3 point = ft_mat4_mulv(m_rot, editor_to_world((t_vec3){ v.x, 0, v.y }));
+					// doom->editor.map_renderable.vertices->vertices[room->room_vertices_start + point_index].y = point.y;
+					if (doom->editor.selected_floor_ceil == 0)
+						wall->floor_height = point.y;
+					else
+						wall->ceiling_height = point.y;
+				}
+				if (doom->editor.selected_floor_ceil == 0)
+					room->floor_rot = rot;
+				else
+					room->ceil_rot = rot;
+				create_map(&doom->renderables->values[doom->editor.map_renderable], &doom->editor);
+			}
+			else if (key == SDL_SCANCODE_KP_PLUS || key == SDL_SCANCODE_KP_MINUS)
+			{
+				int		i;
 
-			// 	room->r->dirty = TRUE;
-			// 	//TODO: free old octree
-			// 	transform_renderable(room->r);
-			// 	compute_collidables(room->r);
-			// 	room->r->octree = create_octree(doom, room->r);
-			// }
-			// else if (key == SDL_SCANCODE_KP_PLUS || key == SDL_SCANCODE_KP_MINUS)
-			// {
-			// 	int		i;
-
-			// 	i = -1;
-			// 	while (++i < room->walls->len)
-			// 	{
-			// 		t_wall	*wall = &room->walls->values[i];
-			// 		int point_index = i * 2 + doom->editor.selected_floor_ceil;
-			// 		t_vec4 point = room->r->vertices->vertices[point_index];
-			// 		point.y += 0.1 * (key == SDL_SCANCODE_KP_PLUS ? -1 : 1);					
-			// 		room->r->vertices->vertices[point_index].y = point.y;
-			// 		if (doom->editor.selected_floor_ceil == 0)
-			// 			wall->floor_height = point.y;
-			// 		else
-			// 			wall->ceiling_height = point.y;
-			// 	}
-			// 	room->r->dirty = TRUE;
-			// 	//TODO: free old octree
-			// 	transform_renderable(room->r);
-			// 	compute_collidables(room->r);
-			// 	room->r->octree = create_octree(doom, room->r);
-			// }
+				i = -1;
+				while (++i < room->walls->len)
+				{
+					t_wall	*wall = &room->walls->values[i];
+					float add = 0.1 * (key == SDL_SCANCODE_KP_PLUS ? -1 : 1);					
+					// room->r->vertices->vertices[point_index].y = point.y;
+					if (doom->editor.selected_floor_ceil == 0)
+						wall->floor_height += add;
+					else
+						wall->ceiling_height += add;
+				}
+				create_map(&doom->renderables->values[doom->editor.map_renderable], &doom->editor);
+			}
 		}
 	}
 	components_events(doom, doom->guis, event, GUI_EDITOR_SETTINGS);

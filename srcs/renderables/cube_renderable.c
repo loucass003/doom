@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/05 14:34:42 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/05 15:46:30 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/18 19:41:01 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ t_bool	create_cube(t_doom *doom, t_renderable *r, t_bool inside)
 			.material_color_set = TRUE, .material_color = 0xFFFF0000 }))
 		return (free_renderable(&r, FALSE));
 	gen_cube_mesh(r, inside);
-	post_process_renderable(doom, r, TRUE);
+	post_process_renderable(doom, r, TRUE, FALSE);
 	r->dirty = TRUE;
 	r->fixed = FALSE; 
 	r->scale = (t_vec3){ 1, 1, 1 };

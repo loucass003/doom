@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 14:35:33 by lloncham          #+#    #+#             */
-/*   Updated: 2019/12/17 19:05:56 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/18 20:11:10 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ typedef struct		s_wall
 	t_4dvertices		*end_rooms_range;
 	t_wall_sections		*wall_sections;
 	int					materials_start;
+	int					faces_start;
 }					t_wall;
 
 typedef struct		s_walls
@@ -175,7 +176,8 @@ typedef struct		s_editor
 	t_bool				object_grab;
 	t_editor_settings	settings;
 	t_doom				*doom;
-	struct s_renderable	map_renderable;
+	int					map_renderable;
+	int					walls_faces_start;
 	
 	t_bool				player_set;
 	t_vec3				player_pos;
@@ -258,6 +260,10 @@ t_vec3				editor_to_world(t_vec3 pos);
 t_bool				get_room_gaps(t_editor *editor, t_room *room);
 t_bool				update_rooms_gaps(t_editor *editor);
 t_bool				update_wall(t_editor *editor, int room_index, int wall_index, int wall_section);
+t_bool				post_process_map(t_editor *editor, t_renderable *r, t_bool replace);
+t_bool				create_walls(t_editor *editor, t_renderable *r);
+t_renderable		*get_map(t_editor *editor);
+t_bool				create_map(t_renderable	*r, t_editor *editor);
 
 t_wall_section		create_simple_wall_section(t_editor *editor, t_room *room, int wall);
 t_wall_section		create_last_wall_section(t_editor *editor, t_room *room, int wall, t_gap_filler_packet p);

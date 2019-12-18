@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 18:37:59 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/17 12:34:27 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/18 19:57:51 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ void			select_floor_ceil(t_editor *editor, int room_index, t_bool floor)
 	{
 		room = &editor->rooms->values[editor->current_room];
 		material_index = editor->current_room * 2 + editor->selected_floor_ceil;
-		editor->map_renderable.materials->values[material_index].texture_map_set = TRUE;
+		get_map(editor)->materials->values[material_index].texture_map_set = TRUE;
 		editor->selected_floor_ceil = -1;
 	}
 
@@ -116,21 +116,7 @@ void			select_floor_ceil(t_editor *editor, int room_index, t_bool floor)
 	room = &editor->rooms->values[room_index];
 	material_index = room_index * 2 + !floor;
 	editor->selected_floor_ceil = floor ? 0 : 1;
-	editor->map_renderable.materials->values[material_index].texture_map_set = FALSE;
-	// t_room		*prev_room;
-
-	// if (editor->current_room != -1 && editor->selected_floor_ceil != -1)
-	// {
-	// 	prev_room = &editor->rooms->values[editor->current_room];
-	// 	if (prev_room->r)
-	// 		prev_room->r->materials->values[editor->selected_floor_ceil].texture_map_set = TRUE;
-	// 	editor->selected_floor_ceil = -1;
-	// }
-
-	// if (!room || !room->r)
-	// 	return ;
-	// editor->selected_floor_ceil = floor ? 0 : 1;
-	// room->r->materials->values[editor->selected_floor_ceil].texture_map_set = FALSE;
+	get_map(editor)->materials->values[material_index].texture_map_set = FALSE;
 }
 
 void			select_room(t_editor *editor, int index)

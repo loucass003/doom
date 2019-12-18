@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/28 16:17:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/05 15:17:03 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/18 19:41:10 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,6 @@ t_bool	create_sprite_renderable(t_renderable *r, t_sprite *sprite)
 	r->dirty = TRUE;
 	r->fixed = FALSE;
 	r->scale = (t_vec3){ 1, 1, 1 };
-	post_process_renderable(NULL, r, FALSE);
+	post_process_renderable(NULL, r, FALSE, FALSE);
 	return (TRUE);
 }

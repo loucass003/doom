@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 15:55:03 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/17 19:11:35 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/18 20:06:08 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ t_vec3		editor_to_world(t_vec3 pos)
 t_bool		update_wall(t_editor *editor, int room_index, int wall_index, int wall_section)
 {
 	// t_renderable	*r;
-	// t_face			*f1;
-	// t_face			*f2;
+	t_face			*f1;
+	t_face			*f2;
 	t_room			*room;
 	t_wall			*wall;
 	t_wall_section	*ws;
@@ -64,31 +64,31 @@ t_bool		update_wall(t_editor *editor, int room_index, int wall_index, int wall_s
 	room = &editor->rooms->values[room_index];
 	wall = &room->walls->values[wall_index];
 	ws = &wall->wall_sections->values[wall_section];
-	// f1 = &r->faces->values[room->walls_start + wall_index * 2];
-	// f2 = &r->faces->values[room->walls_start + wall_index * 2 + 1];
+	f1 = &get_map(editor)->faces->values[wall->faces_start + (wall_section * 2)];
+	f2 = &get_map(editor)->faces->values[wall->faces_start + (wall_section * 2) + 1];
 
-	// t_vec3 face_normal = get_triangle_normal(
-	// 	vec4_to_3(r->pp_vertices[f1->vertices_index[0] - 1]),
-	// 	vec4_to_3(r->pp_vertices[f1->vertices_index[1] - 1]),
-	// 	vec4_to_3(r->pp_vertices[f1->vertices_index[2] - 1])
-	// );
+	t_vec3 face_normal = get_triangle_normal(
+		vec4_to_3(get_map(editor)->pp_vertices[f1->vertices_index[0] - 1]),
+		vec4_to_3(get_map(editor)->pp_vertices[f1->vertices_index[1] - 1]),
+		vec4_to_3(get_map(editor)->pp_vertices[f1->vertices_index[2] - 1])
+	);
 
-	// if (wall->normal_type == 0)
-	// 	face_normal = ft_vec3_inv(face_normal);
+	if (ws->normal_type == 0)
+		face_normal = ft_vec3_inv(face_normal);
 
-	// f1->hidden = wall->invisible;
-	// f1->has_collision = wall->collisions;
-	// f1->face_normal = face_normal;
-	// f1->normal_type = wall->normal_type;
-	// f1->double_sided = wall->normal_type == 2;
+	f1->hidden = ws->invisible;
+	f1->has_collision = ws->collisions;
+	f1->face_normal = face_normal;
+	f1->normal_type = ws->normal_type;
+	f1->double_sided = ws->normal_type == 2;
 
-	// f2->hidden = wall->invisible;
-	// f2->has_collision = wall->collisions;
-	// f2->face_normal = face_normal;
-	// f2->normal_type = wall->normal_type;
-	// f2->double_sided = wall->normal_type == 2;
+	f2->hidden = ws->invisible;
+	f2->has_collision = ws->collisions;
+	f2->face_normal = face_normal;
+	f2->normal_type = ws->normal_type;
+	f2->double_sided = ws->normal_type == 2;
 
-	editor->map_renderable.materials->values[ws->material_index].texture_map = ws->texture->data.texture;
+	get_map(editor)->materials->values[ws->material_index].texture_map = ws->texture->data.texture;
 	return (TRUE);
 }
 
@@ -101,32 +101,11 @@ t_bool		update_floor(t_editor *editor, int room_index, t_bool floor)
 
 	room = &editor->rooms->values[room_index];
 	if (floor)
-		editor->map_renderable.materials->values[room_index * 2].texture_map = room->floor_texture->data.texture;
+		get_map(editor)->materials->values[room_index * 2].texture_map = room->floor_texture->data.texture;
 	else
-	 	editor->map_renderable.materials->values[room_index * 2 + 1].texture_map = room->ceiling_texture->data.texture;
+	 	get_map(editor)->materials->values[room_index * 2 + 1].texture_map = room->ceiling_texture->data.texture;
 	return (TRUE);
 }
-
-// t_bool		create_room_points(t_renderable *r, t_editor *editor, t_room *room)
-// {
-// 	int		i;
-// 	t_wall	*wall;
-// 	t_vec3	point;
-
-// 	i = -1;
-// 	while (++i < room->walls->len)
-// 	{
-// 		wall = &room->walls->values[i];
-// 		t_vec2 v = editor->points->vertices[wall->indice];
-// 		point = editor_to_world((t_vec3){ v.x, 0, v.y });
-// 		append_4dvertices_array(&r->vertices, (t_vec4){ point.x, wall->floor_height, point.z, 1 });
-// 		append_3dvertices_array(&r->normals, (t_vec3){ 0, 1, 0 });
-// 		append_2dvertices_array(&r->vertex, (t_vec2){ 0, 0 });
-// 		append_4dvertices_array(&r->vertices, (t_vec4){ point.x, wall->ceiling_height, point.z, 1 });
-// 		append_3dvertices_array(&r->normals, (t_vec3){ 0, -1, 0 });
-// 		append_2dvertices_array(&r->vertex, (t_vec2){ 0, 0 });
-// 	}
-// }
 
 t_bool		create_wall(t_renderable *r, t_editor *editor, int room_index, int wall_index, int wall_section)
 {
@@ -211,141 +190,6 @@ t_bool		create_wall(t_renderable *r, t_editor *editor, int room_index, int wall_
 	append_faces_array(&r->faces, face);
 }
 
-// t_bool		create_room_mesh(t_renderable *r, t_editor *editor, t_room *room)
-// {
-// 	int		i;
-
-// 	create_room_points(r, editor, room);
-// 	int	*filter = malloc(room->walls->len * sizeof(int));
-// 	i = -1;
-// 	while (++i < room->walls->len)
-// 		filter[i] = i * 2;
-// 	triangulate_floor_ceil(r, (t_vec3){ 0, -1, 0 }, filter, room->walls->len, 0);
-// 	room->ceilling_start = r->faces->len;
-// 	i = -1;
-// 	while (++i < room->walls->len)
-// 		filter[i] = (i * 2) + 1;
-// 	triangulate_floor_ceil(r, (t_vec3){ 0, 1, 0 }, filter, room->walls->len, 1);
-// 	free(filter);
-// 	//get_room_gaps(editor, room);
-// 	room->walls_start = r->faces->len;
-// 	i = -1;
-// 	while (++i < room->walls->len)
-// 	{
-// 		int	next = (i + 1) % room->walls->len;
-		
-// 		t_wall w0 = room->walls->values[i];
-// 		t_wall w1 = room->walls->values[next];
-
-// 		float start = w0.floor_height;
-// 		float startb = w1.floor_height;
-// 		if (w0.start_rooms_range && w1.end_rooms_range && w0.start_rooms_range->len != w1.end_rooms_range->len)
-// 		{
-// 			printf("PROBLEM !\n");
-// 			continue; 
-// 		}
-// 		if (w0.start_rooms_range && w1.end_rooms_range)
-// 		{
-// 			for (int i = 0; i < w0.start_rooms_range->len; i++)
-// 			{
-// 				t_vec2	r0 = w0.start_rooms_range->vertices[i];
-// 				t_vec2	r1 = w0.start_rooms_range->vertices[i];
-// 				if (start < r0.x && startb < r1.x)
-// 				{
-// 					int vertices_index[4] = (int [4]){ i * 2, next * 2, next * 2 + 1, i * 2 + 1 };
-// 					if (start != w0.ceiling_height)
-// 					{
-// 						t_vec2 v = editor->points->vertices[w0.indice];
-// 						append_4dvertices_array(&r->vertices, vec3_to_4(editor_to_world((t_vec3){ v.x, start, v.y})));
-// 						vertices_index[1] = r->vertices->len - 1;
-// 					}
-// 					if (startb != w1.ceiling_height)
-// 					{
-// 						t_vec2 v = editor->points->vertices[w1.indice];
-// 						append_4dvertices_array(&r->vertices, vec3_to_4(editor_to_world((t_vec3){ v.x, startb, v.y})));
-// 						vertices_index[2] = r->vertices->len - 1;
-// 					}
-
-// 					if (r0.x != w0.floor_height)
-// 					{
-// 						t_vec2 v = editor->points->vertices[w0.indice];
-// 						append_4dvertices_array(&r->vertices, vec3_to_4(editor_to_world((t_vec3){ v.x, r0.x, v.y})));
-// 						vertices_index[0] = r->vertices->len - 1;
-// 					}
-// 					if (r1.x != w1.floor_height)
-// 					{
-// 						t_vec2 v = editor->points->vertices[w1.indice];
-// 						append_4dvertices_array(&r->vertices, vec3_to_4(editor_to_world((t_vec3){ v.x, r1.x, v.y})));
-// 						vertices_index[3] = r->vertices->len - 1;
-// 					}
-// 					printf("gap (%f %f) (%f %f)\n", start, r0.y, startb, r1.y);
-// 					create_wall(r, room, i, vertices_index);
-// 					start = r0.y;
-// 					startb = r1.y;
-// 				}
-// 				else if (r0.x >= w0.ceiling_height && r1.x >= w1.ceiling_height)
-// 				{
-// 					start = r0.x;
-// 					startb = r1.x;
-// 				}
-// 			}
-// 			if (start < w0.ceiling_height && start != w0.floor_height && startb < w1.ceiling_height && startb != w1.floor_height)
-// 			{
-// 				int vertices_index[4] = (int [4]){ i * 2, next * 2, next * 2 + 1, i * 2 + 1 };
-				
-// 				t_vec2 v = editor->points->vertices[w0.indice];
-// 				append_4dvertices_array(&r->vertices, vec3_to_4(editor_to_world((t_vec3){ v.x, start, v.y})));
-// 				vertices_index[0] = r->vertices->len - 1;
-			
-// 				v = editor->points->vertices[w1.indice];
-// 				append_4dvertices_array(&r->vertices, vec3_to_4(editor_to_world((t_vec3){ v.x, startb, v.y})));
-// 				vertices_index[1] = r->vertices->len - 1;
-
-// 				create_wall(r, room, i, vertices_index);
-// 					// printf("gap (%f %f) (%f %f)\n", start, r0.y, startb, r1.y);
-// 				printf("gap LAST (%f %f) (%f %f)\n", start, w0.ceiling_height, startb, w1.ceiling_height);
-// 			}
-// 		}
-// 		else
-// 			create_wall(r, room, i, (int [4]){ i * 2, next * 2, next * 2 + 1, i * 2 + 1 });
-	
-// 		// if (start < gaps.bounds.y && start != gaps.bounds.x)
-// 		// 	printf("gap (%f %f)\n", start, gaps.bounds.y);
-// 		// create_wall(r, room, i, (int [4]){ i * 2, next * 2, next * 2 + 1, i * 2 + 1 });
-// 	}
-// 	post_process_renderable(editor->doom, r, TRUE);
-// 	r->scale = (t_vec3){ 1, 1, 1 };
-// 	r->dirty = TRUE; 
-// 	r->visible = TRUE;
-// 	//r->wireframe = TRUE;
-// 	r->wireframe_color = 0xFFFF0000;
-// 	return (TRUE);
-// }
-
-// t_bool		create_room_renderable(t_renderable *r, t_editor *editor, t_room *room)
-// {
-// 	if (!create_renderable(r, RENDERABLE_MAP))  
-// 		return (FALSE);
-// 	r->of.data.room = room;
-// 	room->r = r;
-// 	if(!(r->materials = create_mtllist(room->walls->len + 2)))
-// 		return (free_renderable(&r, FALSE));
-// 	if (!append_mtllist(&r->materials, (t_mtl){ 
-// 			.texture_map_set = TRUE, .texture_map = room->floor_texture->data.texture, .material_color_set = TRUE, .material_color = 0xFFFF0000 }))
-// 		return (free_renderable(&r, FALSE));
-// 	if (!append_mtllist(&r->materials, (t_mtl){ 
-// 			.texture_map_set = TRUE, .texture_map = room->ceiling_texture->data.texture, .material_color_set = TRUE, .material_color = 0xFFFF0000 }))
-// 		return (free_renderable(&r, FALSE));
-// 	int i = -1;
-// 	while (++i < room->walls->len)
-// 		if (!append_mtllist(&r->materials, (t_mtl){ 
-// 			.texture_map_set = TRUE, .texture_map = room->walls->values[i].texture->data.texture }))
-// 			return (free_renderable(&r, FALSE));
-// 	//create_room_mesh(r, editor, room);
-	
-// 	return (TRUE);
-// }
-
 t_bool		create_object_renderable(t_editor *editor, int object_index, t_renderable *r)
 {
 	t_object	*object = &editor->objects->values[object_index];
@@ -401,7 +245,11 @@ t_bool		editor_setmap(t_editor *editor)
 	editor->doom->main_context.type = CTX_EDITOR;
 	editor->doom->renderables->len = 0;
 	editor->doom->skybox_index = -1;
-	create_map(editor);
+	editor->map_renderable = editor->doom->renderables->len;
+	t_renderable r;
+	create_map(&r, editor);
+	if (!append_renderables_array(&editor->doom->renderables, r))
+		return (FALSE);
 	// i = -1;
 	// while (++i < editor->rooms->len)
 	// {

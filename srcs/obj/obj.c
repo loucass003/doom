@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 15:28:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/09 17:09:48 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/18 19:44:05 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ t_bool	create_obj(t_doom *doom, t_renderable *r, char *file)
 	}
 	if (r->normals->len == 0)
 		return (FALSE);
-	post_process_renderable(doom, r, TRUE);
+	post_process_renderable(doom, r, TRUE, FALSE);
 	r->scale = (t_vec3){ 1, 1, 1 };
 	r->dirty = TRUE;
 	return (TRUE);

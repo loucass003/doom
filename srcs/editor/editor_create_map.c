@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/10 13:41:47 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/17 18:56:47 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/18 20:11:04 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ t_bool	create_map_points_and_floor(t_editor *editor, t_renderable *r)
 		triangulate_floor_ceil(r, (t_vec3){ 0, 1, 0 }, filter, room->walls->len, (i * 2) + 1, i);
 		free(filter);
 	}
+	editor->walls_faces_start = r->faces->len;
 	return (TRUE);
 }
 
@@ -77,11 +78,16 @@ t_bool	create_walls(t_editor *editor, t_renderable *r)
 {
 	int		i;
 	int		j;
+	int		k;
+	t_room	*room;
+	t_wall	*w0;
 
+	// r->materials->len = editor->rooms->len * 2;
+	// r->faces->len = editor->walls_faces_start;
 	i = -1;
 	while (++i < editor->rooms->len)
 	{
-		t_room *room = &editor->rooms->values[i];
+		room = &editor->rooms->values[i];
 		if (!room->closed)
 			continue;
 		room->walls_start = r->faces->len;
@@ -89,10 +95,9 @@ t_bool	create_walls(t_editor *editor, t_renderable *r)
 		j = -1;
 		while (++j < room->walls->len)
 		{
-			t_wall *w0 = &room->walls->values[j];
-			w0->start_rooms_range = r->materials->len;
-			int k;
-
+			w0 = &room->walls->values[j];
+			w0->materials_start = r->materials->len;
+			w0->faces_start = r->faces->len;
 			k = -1;
 			while (++k < w0->wall_sections->len)
 				create_wall(r, editor, i, j, k);
@@ -101,24 +106,32 @@ t_bool	create_walls(t_editor *editor, t_renderable *r)
 	return (TRUE);
 }
 
-t_bool	create_map(t_editor *editor)
+t_bool	post_process_map(t_editor *editor, t_renderable *r, t_bool replace)
 {
-	t_renderable	*r;
-
-	if (!create_renderable(&editor->map_renderable, RENDERABLE_MAP))  
-		return (FALSE);
-	r = &editor->map_renderable;
-	if(!(r->materials = create_mtllist(editor->rooms->len * 20)))
-		return (free_renderable(&r, FALSE));
-	create_map_points_and_floor(editor, r);
-	create_walls(editor, r);
-	post_process_renderable(editor->doom, r, TRUE);
+	post_process_renderable(editor->doom, r, TRUE, replace);
 	r->scale = (t_vec3){ 1, 1, 1 };
 	r->dirty = TRUE; 
 	r->visible = TRUE;
-	//r->wireframe = TRUE;
 	r->wireframe_color = 0xFFFF0000;
-	if (!append_renderables_array(&editor->doom->renderables, *r))  
+}
+
+t_bool	create_map(t_renderable	*r, t_editor *editor)
+{
+
+	if (!create_renderable(r, RENDERABLE_MAP))  
 		return (FALSE);
+	if(!(r->materials = create_mtllist(editor->rooms->len * 20)))
+		return (FALSE);
+	create_map_points_and_floor(editor, r);
+	create_walls(editor, r);
+	post_process_map(editor, r, FALSE);
+	
 	return (TRUE);
+}
+
+t_renderable	*get_map(t_editor *editor)
+{
+	if (editor->map_renderable == -1)
+		return (NULL);
+	return &editor->doom->renderables->values[editor->map_renderable];
 }

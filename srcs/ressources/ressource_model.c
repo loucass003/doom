@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/25 10:50:33 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/02 14:06:28 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/18 19:41:14 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ t_bool		read_model(t_ressource_manager *r, t_renderable **m)
 	}
 	model->fixed = TRUE;
 	model->scale = (t_vec3){ 1, 1, 1 };
-	post_process_renderable(r->doom, model, TRUE);
+	post_process_renderable(r->doom, model, TRUE, FALSE);
 	*m = model;
 	return (TRUE);
 }
