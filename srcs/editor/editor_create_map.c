@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/10 13:41:47 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/18 20:11:04 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/19 02:08:54 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ t_bool	add_room_points(t_editor *editor, t_room *room, t_renderable *r)
 		point = editor_to_world((t_vec3){ 
 			editor->points->vertices[wall.indice].x, 0, 
 			editor->points->vertices[wall.indice].y });
-		
 		append_4dvertices_array(&r->vertices, (t_vec4){ point.x, wall.floor_height, point.z, 1 });
 		append_3dvertices_array(&r->normals, (t_vec3){ 0, 1, 0 });
 		append_2dvertices_array(&r->vertex, (t_vec2){ 0, 0 });
@@ -43,6 +42,7 @@ t_bool	create_map_points_and_floor(t_editor *editor, t_renderable *r)
 	int		i;
 	t_room	*room;
 
+	printf("MATERIALS %d\n", r->materials->len);
 	i = -1;
 	while (++i < editor->rooms->len)
 	{
@@ -55,6 +55,7 @@ t_bool	create_map_points_and_floor(t_editor *editor, t_renderable *r)
 		if (!append_mtllist(&r->materials, (t_mtl){ 
 				.texture_map_set = TRUE, .texture_map = room->ceiling_texture->data.texture, .material_color_set = TRUE, .material_color = 0xFFFF0000 }))
 			return (free_renderable(&r, FALSE));
+		
 		room->room_vertices_start = r->vertices->len;
 		add_room_points(editor, room, r);
 		int	*filter = malloc(room->walls->len * sizeof(int));
@@ -120,7 +121,7 @@ t_bool	create_map(t_renderable	*r, t_editor *editor)
 
 	if (!create_renderable(r, RENDERABLE_MAP))  
 		return (FALSE);
-	if(!(r->materials = create_mtllist(editor->rooms->len * 20)))
+	if(!(r->materials = create_mtllist(80)))
 		return (FALSE);
 	create_map_points_and_floor(editor, r);
 	create_walls(editor, r);

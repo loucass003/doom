@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/18 20:06:34 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/19 01:09:48 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,6 +224,7 @@ void	g_ingame_on_events(t_gui *self, SDL_Event *event, t_doom *doom)
 				else
 					room->ceil_rot = rot;
 				create_map(&doom->renderables->values[doom->editor.map_renderable], &doom->editor);
+			//	select_floor_ceil(&doom->editor, doom->editor.current_room, doom->editor.selected_floor_ceil == 0);
 			}
 			else if (key == SDL_SCANCODE_KP_PLUS || key == SDL_SCANCODE_KP_MINUS)
 			{
@@ -241,6 +242,7 @@ void	g_ingame_on_events(t_gui *self, SDL_Event *event, t_doom *doom)
 						wall->ceiling_height += add;
 				}
 				create_map(&doom->renderables->values[doom->editor.map_renderable], &doom->editor);
+				//select_floor_ceil(&doom->editor, doom->editor.current_room, doom->editor.selected_floor_ceil == 0);
 			}
 		}
 	}

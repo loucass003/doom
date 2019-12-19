@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 20:13:35 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/17 12:17:03 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/19 02:36:25 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,10 @@ void			editor_tool_select(t_editor *editor, SDL_Event *event)
 	if (editor->grid_cell_grab != GG_OUTSIDE)
 	{
 		if (editor->current_room != -1 && editor->grid_cell_grab == GG_LINE)
+		{
+			editor->wall_section = 0;	
 			editor->current_seg = get_close_seg(editor, &editor->rooms->values[editor->current_room], editor->grid_cell);
+		}
 		else
 			editor->current_seg = (t_vec2){ -1, -1 };
 		select_room(editor, get_close_room(editor));

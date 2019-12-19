@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 10:19:30 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/29 19:18:30 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/19 01:34:25 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ t_bool			read_ressource(t_ressource_manager *rm, t_ressource *r);
 t_bool			read_map(t_ressource_manager *r);
 t_bool			read_rooms(t_ressource_manager *r);
 t_bool			read_room(t_ressource_manager *r);
-t_bool			read_wall(t_ressource_manager *r, struct s_walls *walls);
+t_bool			read_wall(t_ressource_manager *r, struct s_walls **walls);
 t_bool			read_model(t_ressource_manager *r, struct s_renderable **m);
 
 t_ressource		*get_next_ressource(t_ressource_manager *r, t_ressource *res, t_ressource_type type);

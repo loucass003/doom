@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/12 15:51:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/16 16:07:40 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/19 01:31:50 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ t_bool	ear_clip2(int *filters, int filters_count, t_4dvertices *vertices, t_face
 			t_face face;
 
 			ft_bzero(&face, sizeof(t_face));
+			face.hidden = 0;
 			face.normal_type = 1;
 			face.has_collision = TRUE;
 			face.vertices_index[0] = v[u] + 1;

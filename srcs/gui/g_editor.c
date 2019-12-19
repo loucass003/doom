@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 15:50:09 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/10 18:28:12 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/19 02:31:33 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ void			g_editor_on_enter(t_gui *self, t_doom *doom)
 	doom->editor.line_start_cell = (t_vec2){ -1, -1 };
 	doom->editor.current_point = -1;
 	doom->editor.current_object = -1;
+	doom->editor.wall_section = -1;
 	select_room(&doom->editor, -1);
 	doom->editor.settings.open = TRUE;
 

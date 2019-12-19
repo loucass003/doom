@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/11 18:01:41 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/19 00:46:23 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/19 02:35:47 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ void	set_gui_settings(t_editor *editor, int id)
 void	editor_settings_update(t_editor *editor)
 {
 	editor->settings.visible = TRUE;
-	if (editor->current_room != -1 && editor->current_seg.x == -1)
+	if (editor->current_room != -1 && editor->current_seg.x == -1 && editor->rooms->values[editor->current_room].closed)
 		set_gui_settings(editor, ES_GUI_ROOM);
-	else if (editor->current_room != -1 && editor->current_seg.x != -1)
+	else if (editor->current_room != -1 && editor->current_seg.x != -1 && editor->rooms->values[editor->current_room].closed)
 		set_gui_settings(editor, ES_GUI_WALL);
 	else if (editor->current_object != -1)
 		set_gui_settings(editor, ES_GUI_OBJECT);

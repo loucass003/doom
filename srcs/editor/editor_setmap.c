@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 15:55:03 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/18 20:06:08 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/19 02:14:55 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ t_bool	triangulate_floor_ceil(t_renderable *r, t_vec3 n, int *filter, int filter
 	while (++i < filter_len)
 		r->vertices->vertices[filter[i]] = mat4_mulv4(p_inv,
 			r->vertices->vertices[filter[i]]);
-	ear_clip2(filter, filter_len, r->vertices, &r->faces, 0, mtl, room_index);
+	if (!ear_clip2(filter, filter_len, r->vertices, &r->faces, 0, mtl, room_index))
+		return (FALSE);
 	uv_mapping(r->vertices, r->vertex, filter, filter_len);
 	i = -1;
 	while (++i < filter_len)
@@ -81,6 +82,7 @@ t_bool		update_wall(t_editor *editor, int room_index, int wall_index, int wall_s
 	f1->face_normal = face_normal;
 	f1->normal_type = ws->normal_type;
 	f1->double_sided = ws->normal_type == 2;
+	
 
 	f2->hidden = ws->invisible;
 	f2->has_collision = ws->collisions;
@@ -145,7 +147,7 @@ t_bool		create_wall(t_renderable *r, t_editor *editor, int room_index, int wall_
 	t_face face;
 	
 	ft_bzero(&face, sizeof(t_face));
-	//face.hidden = wall->invisible;
+	face.hidden = ws->invisible;
 	face.has_collision = ws->collisions;
 	face.face_normal = face_normal;
 	face.normal_type = ws->normal_type;
@@ -161,14 +163,14 @@ t_bool		create_wall(t_renderable *r, t_editor *editor, int room_index, int wall_
 	face.vertices_index[0] = ws->vertices_index[0] + 1;
 	face.vertices_index[1] = ws->vertices_index[2] + 1;
 	face.vertices_index[2] = ws->vertices_index[3] + 1;
-	face.mtl_index = r->materials->len - 1;
+	face.mtl_index = ws->material_index;
 	face.wall_index = wall_index;
 	face.wall_section = wall_section;
 	face.room_index = room_index;
 	append_faces_array(&r->faces, face);
 	
 	ft_bzero(&face, sizeof(t_face));
-	//face.hidden = wall->invisible;
+	face.hidden = ws->invisible;
 	face.has_collision = ws->collisions;
 	face.normal_type = ws->normal_type;
 	face.double_sided = ws->normal_type == 2;
@@ -183,7 +185,7 @@ t_bool		create_wall(t_renderable *r, t_editor *editor, int room_index, int wall_
 	face.vertices_index[0] = ws->vertices_index[0] + 1;
 	face.vertices_index[1] = ws->vertices_index[1] + 1;
 	face.vertices_index[2] = ws->vertices_index[2] + 1;
-	face.mtl_index = r->materials->len - 1;
+	face.mtl_index = ws->material_index;
 	face.wall_index = wall_index;
 	face.wall_section = wall_section;
 	face.room_index = room_index;

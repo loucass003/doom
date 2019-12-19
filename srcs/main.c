@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/15 02:20:15 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/19 02:23:25 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,8 @@ int		main(int argc, char **argv)
 			.camera = NULL
 		},
 		.current_gui = -1,
-		.skybox_index = -1
+		.skybox_index = -1,
+		.editor = { .map_renderable = -1 }
 	};
 
 

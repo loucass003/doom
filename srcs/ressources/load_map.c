@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 01:53:42 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/17 12:14:46 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/19 01:34:02 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include "write_structs.h"
 #include "sprite.h"
 
-t_bool		read_wall_section(t_ressource_manager *r, t_wall_sections *sections)
+t_bool		read_wall_section(t_ressource_manager *r, t_wall_sections **sections)
 {
 	t_wr_wall_section	wr_ws;
 	t_ressource			*texture;
@@ -35,12 +35,12 @@ t_bool		read_wall_section(t_ressource_manager *r, t_wall_sections *sections)
 		.invisible = wr_ws.invisible,
 		.collisions = wr_ws.collisions
 	};
-	if (!append_wall_sections_array(&sections, ws))
+	if (!append_wall_sections_array(&*sections, ws))
 		return (FALSE);
 	return (TRUE);
 }
 
-t_bool		read_wall(t_ressource_manager *r, t_walls *walls)
+t_bool		read_wall(t_ressource_manager *r, t_walls **walls)
 {
 	t_wr_wall		wr_wall;
 	t_wall			wall;
@@ -59,9 +59,9 @@ t_bool		read_wall(t_ressource_manager *r, t_walls *walls)
 		return (FALSE);
 	i = -1;
 	while (++i < wr_wall.wall_sections_count)
-		if (!read_wall_section(r, wall.wall_sections))
+		if (!read_wall_section(r, &wall.wall_sections))
 			return (FALSE);
-	if (!append_walls_array(&walls, wall))
+	if (!append_walls_array(&*walls, wall))
 		return (FALSE);
 	return (TRUE);
 }
@@ -91,7 +91,7 @@ t_bool		read_room(t_ressource_manager *r)
 	};
 	i = -1;
 	while (++i < wr_room.walls_count)
-		if (!read_wall(r, walls))
+		if (!read_wall(r, &walls))
 			return (FALSE);
 	if (!append_rooms_array(&r->doom->editor.rooms, room))
 		return (FALSE);

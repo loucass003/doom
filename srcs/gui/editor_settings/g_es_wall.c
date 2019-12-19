@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 20:40:10 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/17 18:33:21 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/19 01:41:53 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ static t_bool			action_performed(t_component *cmp, t_doom *doom)
 		editor->wall_section--;
 		if (editor->wall_section < 0)
 			editor->wall_section = wall->wall_sections->len - 1;
+		
 	}
 	if (cmp == editor->settings.guis[ES_GUI_WALL].components->values[1])
 	{
@@ -40,6 +41,7 @@ static t_bool			action_performed(t_component *cmp, t_doom *doom)
 	if (cmp == editor->settings.guis[ES_GUI_WALL].components->values[5])
 		ws->invisible = ((t_checkbox *)cmp)->value;
 	update_wall(editor, editor->current_room, wall_indexof_by_indice(editor->rooms->values[editor->current_room].walls, editor->current_seg.x), doom->editor.wall_section);
+	editor_settings_update(&doom->editor);
 	return (TRUE);
 }
 
