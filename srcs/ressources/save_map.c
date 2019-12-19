@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 01:20:07 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/17 12:14:18 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/19 16:20:06 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ t_bool		write_room(t_ressource_manager *r, t_room *room)
 {
 	int				i;
 	const t_wr_room	wr_room = (t_wr_room) {
-		.closed = room->closed,
+		.closed = room->closed && room->walls->len >= 3,
 		.walls_count = room->walls->len,
 		.floor_res_index = ressources_indexof(r->ressources, room->floor_texture),
 		.ceiling_res_index = ressources_indexof(r->ressources, room->ceiling_texture),

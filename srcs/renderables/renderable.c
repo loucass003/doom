@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/05 00:02:57 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/05 13:50:09 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/19 16:10:51 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ t_bool		create_renderable(t_renderable	*r, t_renderable_type type)
 		return (free_renderable(&r, FALSE));
 	if(!(r->faces = create_faces_array(2)))
 		return (free_renderable(&r, FALSE));
-	if(!(r->materials = create_mtllist(1)))
+	if(!(r->materials = create_mtllist(4)))
 		return (free_renderable(&r, FALSE));
 	return (TRUE);
 }

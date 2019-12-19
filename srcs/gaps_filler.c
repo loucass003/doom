@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/09 13:36:42 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/19 02:17:38 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/19 18:58:51 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ t_bool			update_walls_sections(t_editor *editor, t_room *room)
 		}
 		if (w0->start_rooms_range && w1->end_rooms_range && w0->start_rooms_range->len > 0 && w1->end_rooms_range->len > 0)
 		{
-			// printf ("-- ENTER\n");
 			t_gap_filler_packet p = (t_gap_filler_packet){
 				.start_a = w0->floor_height, .start_b = w1->floor_height };
 			for (int k = 0; k < w0->start_rooms_range->len; k++)
@@ -106,7 +105,6 @@ t_bool			update_walls_sections(t_editor *editor, t_room *room)
 
 			w0->wall_sections->len = 0;
 			i = -1;
-			// printf("LEN (%d) %d %d\n", j, wall_sections->len, len);
 			while (++i < wall_sections->len)
 			{
 				if (i >= len)

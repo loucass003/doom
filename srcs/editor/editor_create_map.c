@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/10 13:41:47 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/19 02:08:54 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/19 18:58:37 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ t_bool	create_map_points_and_floor(t_editor *editor, t_renderable *r)
 	int		i;
 	t_room	*room;
 
-	printf("MATERIALS %d\n", r->materials->len);
 	i = -1;
 	while (++i < editor->rooms->len)
 	{
@@ -83,8 +82,6 @@ t_bool	create_walls(t_editor *editor, t_renderable *r)
 	t_room	*room;
 	t_wall	*w0;
 
-	// r->materials->len = editor->rooms->len * 2;
-	// r->faces->len = editor->walls_faces_start;
 	i = -1;
 	while (++i < editor->rooms->len)
 	{
@@ -114,6 +111,7 @@ t_bool	post_process_map(t_editor *editor, t_renderable *r, t_bool replace)
 	r->dirty = TRUE; 
 	r->visible = TRUE;
 	r->wireframe_color = 0xFFFF0000;
+	return (TRUE);
 }
 
 t_bool	create_map(t_renderable	*r, t_editor *editor)
@@ -121,11 +119,9 @@ t_bool	create_map(t_renderable	*r, t_editor *editor)
 
 	if (!create_renderable(r, RENDERABLE_MAP))  
 		return (FALSE);
-	if(!(r->materials = create_mtllist(80)))
-		return (FALSE);
 	create_map_points_and_floor(editor, r);
 	create_walls(editor, r);
-	post_process_map(editor, r, FALSE);
+	post_process_map(editor, r, TRUE);
 	
 	return (TRUE);
 }

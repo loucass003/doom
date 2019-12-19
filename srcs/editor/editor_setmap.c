@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 15:55:03 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/19 02:14:55 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/19 18:57:56 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,7 @@ t_bool		create_wall(t_renderable *r, t_editor *editor, int room_index, int wall_
 	// if (!wall->collisions && wall->invisible)
 	// 	continue;
 	// int	next = (i + 1) % room->walls->len;
+//	printf("MATERIAL %d\n", r->materials->len);
 	ws->material_index = r->materials->len;
 	if (!append_mtllist(&r->materials, (t_mtl){ 
 		.texture_map_set = TRUE, .texture_map = ws->texture->data.texture, .material_color_set = TRUE, .material_color = 0xFFFF0000 }))

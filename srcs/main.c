@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/19 02:23:25 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/19 17:29:15 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,12 @@ void	init_bsp(t_doom *doom)
 	ellipsoid.wireframe_color = 0xFFFF0000;
 	append_renderables_array(&doom->renderables, ellipsoid);
 	
-	t_renderable cube;
-	create_cube(doom, &cube, FALSE);
-	cube.materials->values[0].material_color = 0xFF00FF00;
-	cube.position = (t_vec3){ 5, 0.5, 20 };
-	cube.scale = (t_vec3){ 1, 1, 1 };
-	append_renderables_array(&doom->renderables, cube);
+	// t_renderable cube;
+	// create_cube(doom, &cube, FALSE);
+	// cube.materials->values[0].material_color = 0xFF00FF00;
+	// cube.position = (t_vec3){ 5, 0.5, 20 };
+	// cube.scale = (t_vec3){ 1, 1, 1 };
+	// append_renderables_array(&doom->renderables, cube);
 
 
 	t_renderable itemstack;
