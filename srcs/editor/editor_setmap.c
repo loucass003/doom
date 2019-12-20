@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 15:55:03 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/19 18:57:56 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/20 16:29:14 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,15 @@ t_bool	triangulate_floor_ceil(t_renderable *r, t_vec3 n, int *filter, int filter
 t_vec3		editor_to_world(t_vec3 pos)
 {
 	float	ratio = 1. / 5.;
+
+	pos.x *= ratio;
+	pos.z *= ratio;
+	return (pos);
+}
+
+t_vec3		world_to_editor(t_vec3 pos)
+{
+	float	ratio = 5;
 
 	pos.x *= ratio;
 	pos.z *= ratio;

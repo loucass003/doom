@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/19 18:59:07 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/20 16:37:50 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ void	g_ingame_on_enter(t_gui *self, t_doom *doom)
 
 void	g_ingame_on_leave(t_gui *self, t_doom *doom)
 {
-	
 	leave_gui(doom, doom->guis, GUI_EDITOR_SETTINGS);
 	doom->mouse_focus = FALSE;
 }
@@ -49,25 +48,33 @@ void	g_ingame_on_leave(t_gui *self, t_doom *doom)
 void	unselect_all(t_doom *doom)
 {
 	if (doom->editor.current_object != -1)
-				doom->editor.objects->values[doom->editor.current_object].r->show_hitbox = FALSE;
+		doom->editor.objects->values[doom->editor.current_object].r->show_hitbox = FALSE;
+	doom->editor.object_transform_mode = OT_MODE_TRANSLATION;
 	doom->editor.current_object = -1;
 	doom->editor.wall_section = -1;
 	select_room(&doom->editor, -1);
 }
 
-char		get_side_thin(t_line partition, t_vec2 v, t_vec2 n)
+void	transform_object(t_object *object, t_vec3 add)
 {
-	const float		side = (v.x - partition.a.x) * n.x
-		+ (v.y - partition.a.y) * n.y;
-	if (side < 0)
-		return (-1);
-	else if (side > 0)
-		return (1);
-	else 
-		return (0);
+	object->pos = ft_vec3_add(object->pos, add);
+	if (object->r)
+	{
+		object->r->position = editor_to_world(object->pos);
+		if (object->type == OBJECT_ENTITY)
+		{
+			object->r->of.data.entity->position = editor_to_world(object->pos);
+			object->r->of.data.entity->position.y += add.y;
+			object->r->of.data.entity->position.y += object->r->of.data.entity->radius.y;
+		}
+		else if (object->type == OBJECT_ITEMSTACK)
+			object->r->position.y += object->r->scale.y * 0.5;
+		else if (object->type == OBJECT_ITEMSTACK)
+			object->r->position.y += object->r->scale.y;
+		object->r->position.y += add.y;
+		object->r->dirty = TRUE;
+	}
 }
-
-
 
 void	g_ingame_on_events(t_gui *self, SDL_Event *event, t_doom *doom)
 {
@@ -243,6 +250,23 @@ void	g_ingame_on_events(t_gui *self, SDL_Event *event, t_doom *doom)
 				}
 				create_map(&doom->renderables->values[doom->editor.map_renderable], &doom->editor);
 				select_floor_ceil(&doom->editor, doom->editor.current_room, doom->editor.selected_floor_ceil == 0);
+			}
+		}
+
+		if (event->type == SDL_KEYDOWN && doom->editor.current_object != -1)
+		{
+			if (doom->editor.object_transform_mode == OT_MODE_TRANSLATION)
+			{
+				t_vec3 add = (t_vec3){ 0, 0, 0 };
+				t_object *object = &doom->editor.objects->values[doom->editor.current_object];
+				if (key == SDL_SCANCODE_KP_PLUS || key == SDL_SCANCODE_KP_MINUS)
+					add.y = 0.1 * (key == SDL_SCANCODE_KP_PLUS ? 1 : -1);
+				if (key == SDL_SCANCODE_LEFT || key == SDL_SCANCODE_RIGHT)
+					add.x = 0.1 * (key == SDL_SCANCODE_RIGHT ? 1 : -1);
+				if (key == SDL_SCANCODE_UP || key == SDL_SCANCODE_DOWN)
+					add.z = 0.1 * (key == SDL_SCANCODE_UP ? 1 : -1);
+				if (add.x != 0 || add.y != 0 || add.z != 0)
+					transform_object(object, add);
 			}
 		}
 	}

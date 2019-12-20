@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 01:17:41 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/15 20:46:49 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/20 13:21:42 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,12 +78,12 @@ void scanline2(t_render_context *ctx, t_mtl *mtl, t_pixel p, float t, t_vertex s
 		}
 		else if (mtl->material_color_set)
 			c.color = mtl->material_color;
-		// if (!mtl->transparent)
-		// {
-		// 	c.argb.r *= a;
-		// 	c.argb.g *= a;
-		// 	c.argb.b *= a;
-		// }	
+		if (!mtl->transparent)
+		{
+			c.argb.r *= a;
+			c.argb.g *= a;
+			c.argb.b *= a;
+		}	
 		ctx->image->pixels[p.y * (int)S_WIDTH + p.x] = c.color;
 		*buff = vert.pos.w;
 	}

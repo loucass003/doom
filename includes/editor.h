@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 14:35:33 by lloncham          #+#    #+#             */
-/*   Updated: 2019/12/18 20:11:10 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/20 16:37:10 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,13 @@ typedef enum		e_object_type
 	OBJECT_ENTITY = 2,
 	OBJECT_MODEL = 3
 }					t_object_type;
+
+typedef enum		e_object_transform_mode
+{
+	OT_MODE_TRANSLATION = 0,
+	OT_MODE_ROTATION = 1,
+	OT_MODE_SCALE = 2
+}					t_object_transform_mode;
 
 typedef union		u_object_of
 {
@@ -158,35 +165,36 @@ typedef struct		s_editor_settings
 
 typedef struct		s_editor
 {
-	t_vec2				grid_cell;
-	t_grid_grab			grid_cell_grab;
-	t_vec2				close_seg;
-	int					close_object;
-	int					selected_tool;
-	t_vec2				line_start_cell;
-	t_rooms				*rooms;
-	t_2dvertices		*points;
-	t_objects			*objects;
-	int					current_room;
-	int					current_point;
-	t_vec2				current_seg;
-	int					current_object;
-	int					selected_floor_ceil;
-	int					wall_section;
-	t_bool				object_grab;
-	t_editor_settings	settings;
-	t_doom				*doom;
-	int					map_renderable;
-	int					walls_faces_start;
+	t_vec2					grid_cell;
+	t_grid_grab				grid_cell_grab;
+	t_vec2					close_seg;
+	int						close_object;
+	int						selected_tool;
+	t_vec2					line_start_cell;
+	t_rooms					*rooms;
+	t_2dvertices			*points;
+	t_objects				*objects;
+	int						current_room;
+	int						current_point;
+	t_vec2					current_seg;
+	int						current_object;
+	int						selected_floor_ceil;
+	int						wall_section;
+	t_bool					object_grab;
+	t_editor_settings		settings;
+	t_doom					*doom;
+	int						map_renderable;
+	int						walls_faces_start;
+	t_object_transform_mode	object_transform_mode;
 	
-	t_bool				player_set;
-	t_vec3				player_pos;
-	t_bool				player_grab;
+	t_bool					player_set;
+	t_vec3					player_pos;
+	t_bool					player_grab;
 	
 	
-	int					icone;
-	SDL_Surface			*objet;
-	SDL_Surface			*texture;
+	int						icone;
+	SDL_Surface				*objet;
+	SDL_Surface				*texture;
 }					t_editor;
 
 
@@ -264,6 +272,7 @@ t_bool				post_process_map(t_editor *editor, t_renderable *r, t_bool replace);
 t_bool				create_walls(t_editor *editor, t_renderable *r);
 t_renderable		*get_map(t_editor *editor);
 t_bool				create_map(t_renderable	*r, t_editor *editor);
+t_vec3				world_to_editor(t_vec3 pos);
 
 t_wall_section		create_simple_wall_section(t_editor *editor, t_room *room, int wall);
 t_wall_section		create_last_wall_section(t_editor *editor, t_room *room, int wall, t_gap_filler_packet p);

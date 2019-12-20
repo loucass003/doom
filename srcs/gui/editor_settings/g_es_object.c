@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 22:55:54 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/02 18:22:41 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/20 16:24:25 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,9 @@ void	 set_es_object_gui(t_editor *editor, int id)
 void			set_object_default(t_doom *doom, t_object *object)
 {
 	if (object->type == OBJECT_ITEMSTACK)
+	{
 		object->of.itemstack = create_itemstack_from_type(doom, ITEM_AMMO, -1);
+	}
 	else if (object->type == OBJECT_ENTITY)
 		object->of.entity = ENTITY_ENEMY;
 	else if (object->type == OBJECT_SPRITE)
@@ -34,9 +36,7 @@ void			set_object_default(t_doom *doom, t_object *object)
 	else if (object->type == OBJECT_MODEL)
 		object->of.model = get_ressource(&doom->res_manager, RESSOURCE_MODEL);
 	if (object->r)
-	{
 		create_object_renderable(&doom->editor, objects_indexof(doom->editor.objects, object), object->r);
-	}
 }
 
 void			free_object(t_object *object)
