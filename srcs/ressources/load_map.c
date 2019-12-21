@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 01:53:42 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/19 16:22:01 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/21 01:48:40 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,6 @@ t_bool		read_room(t_ressource_manager *r)
 		.floor_rot = wr_room.floor_rot,
 		.ceil_rot = wr_room.ceil_rot
 	};
-	// if (!room.closed)
-	// 	return (TRUE);
 	i = -1;
 	while (++i < wr_room.walls_count)
 		if (!read_wall(r, &walls))
@@ -213,7 +211,8 @@ t_bool		read_object(t_ressource_manager *r, t_object *object)
 	if (!io_memcpy(&r->reader, &wr_object, sizeof(t_wr_object)))
 		return (FALSE);
 	*object = (t_object) { .type = wr_object.type, .pos = wr_object.pos,
-		.scale = wr_object.scale, .no_light = wr_object.no_light };
+		.scale = wr_object.scale, .no_light = wr_object.no_light,
+		.rotation = wr_object.rotation };
 	if (wr_object.type == OBJECT_ITEMSTACK && !read_itemstack(r, &object->of.itemstack))
 		return (FALSE);
 	else if (wr_object.type == OBJECT_SPRITE && !read_sprite(r, &object->of.sprite))

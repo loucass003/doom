@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 15:55:03 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/20 16:29:14 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/21 01:44:14 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -244,6 +244,14 @@ t_bool		create_object_renderable(t_editor *editor, int object_index, t_renderabl
 	}
 	if (r->has_hitbox)
 		r->show_hitbox = TRUE;
+	if (object->scale.x == 0 && object->scale.y == 0 && object->scale.z == 0)
+		object->scale = r->scale;
+	else
+		r->scale = object->scale;
+	if (object->rotation.x == 0 && object->rotation.y == 0 && object->rotation.z == 0)
+		object->rotation = r->rotation;
+	else
+		r->rotation = object->rotation;
 	r->object_index = object_index;
 	r->no_light = object->no_light;
 	object->r = r;

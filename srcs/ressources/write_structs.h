@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/25 05:41:51 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/16 17:57:37 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/21 01:47:12 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct		s_wr_object
 	t_object_type	type;
 	t_vec3			pos;
 	t_vec3			scale;
+	t_vec3			rotation;
 	t_bool			no_light;
 }					t_wr_object;
 

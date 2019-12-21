@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 01:20:07 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/19 16:20:06 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/21 01:47:04 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,7 @@ t_bool		write_object(t_ressource_manager *r, t_object *object)
 		.type = object->type,
 		.pos = object->pos,
 		.scale = object->scale,
+		.rotation = object->rotation,
 		.no_light = object->no_light
 	};
 

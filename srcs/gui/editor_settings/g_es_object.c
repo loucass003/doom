@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 22:55:54 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/20 16:24:25 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/21 01:42:03 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ void			set_object_default(t_doom *doom, t_object *object)
 		object->of.sprite = create_sprite((t_vec2){ 1, 1 }, get_default_texture(&doom->res_manager, TRUE));
 	else if (object->type == OBJECT_MODEL)
 		object->of.model = get_ressource(&doom->res_manager, RESSOURCE_MODEL);
+	object->scale = (t_vec3){0, 0, 0};
+	object->rotation = (t_vec3){0, 0, 0};
 	if (object->r)
 		create_object_renderable(&doom->editor, objects_indexof(doom->editor.objects, object), object->r);
 }

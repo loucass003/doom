@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:43:35 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/03 16:58:38 by llelievr         ###   ########.fr       */
+/*   Updated: 2019/12/20 23:36:04 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,157 @@ void				spawn_player(t_doom *doom)
 {
 	doom->player.entity.position = editor_to_world(doom->editor.player_pos);
 	doom->player.entity.position.y += doom->player.entity.radius.y;
+}
+
+void				player_inventory_event(t_doom *doom, SDL_Event *event)
+{
+	const SDL_Scancode	key = event->key.keysym.scancode;
+
+	if (event->type == SDL_MOUSEBUTTONDOWN)
+	{
+		t_itemstack	*is = &doom->player.item[doom->player.selected_slot];
+		if (is->of && is->of->on_use)
+			is->of->on_use(doom, is);
+	}
+
+	if (event->type == SDL_KEYDOWN && (key == SDL_SCANCODE_UP || key == SDL_SCANCODE_DOWN))
+	{
+		doom->player.selected_slot += (key == SDL_SCANCODE_DOWN ? 1 : -1);
+		if (doom->player.selected_slot < 0)
+			doom->player.selected_slot = 7;
+		if (doom->player.selected_slot > 7)
+			doom->player.selected_slot = 0;
+	}
+}
+
+
+void				draw_player_inventory(t_doom *doom, t_gui *self)
+{
+	static float	ticks = 0;
+
+	if (doom->main_context.type == CTX_NORMAL)
+	{
+		int i = -1;
+		while (++i < PLAYER_INV_SIZE)
+		{
+			t_itemstack		*is = &doom->player.item[i];
+			if (i == doom->player.selected_slot)
+				fill_rect(doom->main_context.image, (SDL_Rect){ 8, 48 + i * 60, 54, 54 }, 0xFFFFFF00);
+			fill_rect(doom->main_context.image, (SDL_Rect){ 10, 50 + i * 60, 50, 50 }, 0xFFFF0000);
+			if (is->of)
+			{
+				apply_image_blended(doom->main_context.image, is->of->image->data.texture, is->of->bounds, (SDL_Rect){ 10, 50 + i * 60, 50, 50 });
+				if (is->amount <= 1)
+					continue;
+				const SDL_Color	color = {255, 255, 255, 0};
+				SDL_Surface		*text;
+
+				text = TTF_RenderText_Blended(doom->fonts.helvetica,
+					ft_int_to_str(is->amount).str, color);
+				apply_surface_blended(&doom->screen, text, (SDL_Rect){0, 0, text->w, text->h},
+					(SDL_Rect){ 40, 50 + i * 60, 20, 20 });
+				SDL_FreeSurface(text);
+			}
+		}
+
+		ticks += doom->stats.delta * 30.;
+
+		t_itemstack	*is = &doom->player.item[doom->player.selected_slot]; 
+
+		if (is->of && is->of->type == ITEM_WEAPON)
+		{
+			t_weapon	*weapon = &is->of->data.weapon;
+			if (ticks > 1 && weapon->fireing)
+			{
+				ticks = 0;
+				weapon->current_step++;
+				if (weapon->current_step == weapon->steps_count)
+				{
+					weapon->current_step = (SDL_GetMouseState(NULL, NULL) & SDL_BUTTON(SDL_BUTTON_LEFT) ? 0 : weapon->idle_step);
+					weapon->fireing = FALSE;
+				}
+				set_current_animation_step(weapon, weapon->animation_seq[weapon->current_step]);
+			}
+			apply_image_blended(doom->main_context.image, weapon->animation->data.texture, weapon->curr_image, (SDL_Rect){ S_WIDTH_2 - 80 / 2, S_HEIGHT - 300, 300, 300 });
+		}
+
+		((t_progress *)self->components->values[0])->value = doom->player.entity.life * (1 / doom->player.entity.max_life) * 100;
+		if (doom->player.entity.life <= 0)
+		{
+			set_gui(doom, GUI_GAMEOVER);
+			return ;
+		}
+	}
+}
+
+void	update_controls(t_doom *doom)
+{
+	const double	ms = doom->stats.delta * 2.;
+	const Uint8		*s = SDL_GetKeyboardState(NULL);
+
+	float dt = 1.0 / 60.;
+	float move_speed;
+	if (!doom->mouse_focus && is_settings_open(&doom->editor))
+		return ;
+	//long start = getMicrotime();
+	entity_update(doom, &doom->player.entity, doom->stats.delta);
+	//printf("delay %luus\n", getMicrotime() - start);
+	if (doom->main_context.type == CTX_EDITOR)
+		move_speed = 10;
+	else
+		move_speed = !doom->player.entity.grounded ? 1.2 : 10;
+	if (s[SDL_SCANCODE_W] || s[SDL_SCANCODE_S])
+	{
+		doom->player.entity.velocity.x += sinf(doom->player.entity.rotation.y) * (s[SDL_SCANCODE_W] ? 1 : -1) * move_speed;
+		doom->player.entity.velocity.z += cosf(doom->player.entity.rotation.y) * (s[SDL_SCANCODE_W] ? 1 : -1) * move_speed;
+	}
+	if (s[SDL_SCANCODE_A] || s[SDL_SCANCODE_D])
+	{
+		doom->player.entity.velocity.x += -cosf(doom->player.entity.rotation.y) * (s[SDL_SCANCODE_D] ? 1 : -1) * move_speed;
+		doom->player.entity.velocity.z += sinf(doom->player.entity.rotation.y) * (s[SDL_SCANCODE_D] ? 1 : -1) * move_speed;
+	}
+	if (doom->main_context.type == CTX_NORMAL)
+	{
+		if (s[SDL_SCANCODE_SPACE] && !doom->player.entity.jump && doom->player.entity.grounded)
+		{ 
+			doom->player.entity.jump = TRUE;
+			//doom->player.entity.velocity.y += 50;
+		}
+		if (s[SDL_SCANCODE_LSHIFT])
+		{ 
+			doom->player.entity.grounded = FALSE;
+			doom->player.entity.velocity.y -= 50;
+		}
+	}
+
+	if (doom->main_context.type == CTX_EDITOR)
+	{
+		if (s[SDL_SCANCODE_SPACE] )
+		{ 
+			doom->player.entity.velocity.y += 8;
+		}
+		if (s[SDL_SCANCODE_LSHIFT])
+		{ 
+			doom->player.entity.velocity.y -= 8;
+		}
+	}
+	if (s[SDL_SCANCODE_J] || s[SDL_SCANCODE_L])
+		doom->player.entity.rotation.y += (s[SDL_SCANCODE_J] ? 1 : -1) * ms;
+	if (s[SDL_SCANCODE_I] || s[SDL_SCANCODE_K])
+		doom->player.entity.rotation.x += (s[SDL_SCANCODE_I] ? 1 : -1) * ms;
+
+	if (doom->mouse_focus)
+	{
+		int m_x, m_y;
+		SDL_GetRelativeMouseState(&m_x, &m_y);
+		if (m_x != 0)
+			doom->player.entity.rotation.y -= m_x * ms * 0.01;
+		if (m_y != 0)
+		{
+			float rot = m_y * ms * 0.01;
+			if (doom->player.entity.rotation.x - rot < M_PI_2 && doom->player.entity.rotation.x - rot > -M_PI_2 )
+				doom->player.entity.rotation.x -= rot;
+		}
+	}
+	update_player_camera(&doom->player);
 }
