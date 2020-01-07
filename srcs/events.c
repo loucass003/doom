@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:14:55 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/18 19:25:31 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/07 13:10:56 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	hook_events(t_doom *doom)
 {
 	SDL_Event		event;
 
-//	SDL_SetRelativeMouseMode(doom->mouse_focus);
+	SDL_SetRelativeMouseMode(doom->mouse_focus);
 	while (SDL_PollEvent(&event))
 		events_window(doom, &event);
 	SDL_PumpEvents();

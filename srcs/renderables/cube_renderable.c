@@ -6,14 +6,33 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/05 14:34:42 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/18 19:41:01 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/07 14:24:28 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom.h"
 #include "render.h"
 
-t_bool	gen_cube_mesh(t_renderable *r, t_bool inside)
+static t_bool	vertex(t_renderable *r)
+{
+	append_2dvertices_array(&r->vertex, (t_vec2){ 0.749957, 0.749957 });
+	append_2dvertices_array(&r->vertex, (t_vec2){ 0.500000, 0.500000 });
+	append_2dvertices_array(&r->vertex, (t_vec2){ 0.500000, 0.749957 });
+	append_2dvertices_array(&r->vertex, (t_vec2){ 0.250043, 0.250043 });
+	append_2dvertices_array(&r->vertex, (t_vec2){ 0.500000, 0.000087 });
+	append_2dvertices_array(&r->vertex, (t_vec2){ 0.250044, 0.000087 });
+	append_2dvertices_array(&r->vertex, (t_vec2){ 0.250043, 0.500000 });
+	append_2dvertices_array(&r->vertex, (t_vec2){ 0.500000, 0.250043 });
+	append_2dvertices_array(&r->vertex, (t_vec2){ 0.000087, 0.500000 });
+	append_2dvertices_array(&r->vertex, (t_vec2){ 0.240043, 0.749957 });
+	append_2dvertices_array(&r->vertex, (t_vec2){ 0.240043, 0.999913 });
+	append_2dvertices_array(&r->vertex, (t_vec2){ 0.749957, 0.500000 });
+	append_2dvertices_array(&r->vertex, (t_vec2){ 0.000087, 0.749957 });
+	append_2dvertices_array(&r->vertex, (t_vec2){ 0.500000, 0.999913 });
+	return (TRUE);
+}
+
+static t_bool	vertices(t_renderable *r)
 {
 	append_4dvertices_array(&r->vertices, (t_vec4){ 0.5, 0.5, -0.5, 1 });
 	append_4dvertices_array(&r->vertices, (t_vec4){ 0.5, -0.5, -0.5, 1 });
@@ -23,24 +42,23 @@ t_bool	gen_cube_mesh(t_renderable *r, t_bool inside)
 	append_4dvertices_array(&r->vertices, (t_vec4){ -0.5, -0.5, -0.5, 1 });
 	append_4dvertices_array(&r->vertices, (t_vec4){ -0.5, 0.5, 0.5, 1 });
 	append_4dvertices_array(&r->vertices, (t_vec4){ -0.5, -0.5, 0.5, 1 });
+	return (TRUE);
+}
 
-	append_2dvertices_array(&r->vertex, (t_vec2){ 0.749957, 0.749957 });
-	append_2dvertices_array(&r->vertex, (t_vec2){ 0.500000, 0.500000 });
-	append_2dvertices_array(&r->vertex, (t_vec2){ 0.500000, 0.749957 });
-	append_2dvertices_array(&r->vertex, (t_vec2){ 0.250043, 0.250043 });
-	append_2dvertices_array(&r->vertex, (t_vec2){ 0.500000, 0.000087 });
-	append_2dvertices_array(&r->vertex, (t_vec2){ 0.250044, 0.000087 });
-	append_2dvertices_array(&r->vertex, (t_vec2){ 0.250043, 0.500000 });
-	append_2dvertices_array(&r->vertex, (t_vec2){ 0.500000, 0.250043 });
-
+static t_bool	normals(t_renderable *r)
+{
 	append_3dvertices_array(&r->normals, (t_vec3){ 0, 1, 0 });
 	append_3dvertices_array(&r->normals, (t_vec3){ 0, 0, 1 });
 	append_3dvertices_array(&r->normals, (t_vec3){ -1, 0, 0 });
 	append_3dvertices_array(&r->normals, (t_vec3){ 0, -1, 0 });
 	append_3dvertices_array(&r->normals, (t_vec3){ 1, 0, 0 });
 	append_3dvertices_array(&r->normals, (t_vec3){ 0, 0, -1 });
+	return (TRUE);
+}
 
-	int     faces[12][3][3] = {
+t_bool	gen_cube_mesh(t_renderable *r, t_bool inside)
+{
+	const int     faces[12][3][3] = {
 		{{ 3, 5, 1 }, { 1, 2, 3 }, { 1, 1, 1 }},
 		{{ 8, 3, 4 }, { 4, 5, 6 }, { 2, 2, 2 }},
 		{{ 6, 7, 8 }, { 7, 8, 4 }, { 3, 3, 3 }},
@@ -54,12 +72,13 @@ t_bool	gen_cube_mesh(t_renderable *r, t_bool inside)
 		{{ 4, 3, 1 }, { 11, 14, 3 }, { 5, 5, 5 }},
 		{{ 2, 1, 5 }, { 10, 3, 2 }, { 6, 6, 6 }},
 	};
-	
 	int     i;
 
+	if (!vertices(r) || !vertex(r) || !normals(r))
+		return (FALSE);
 	i = -1;
 	while (++i < 12)
-		if (!append_faces_array(&r->faces, create_face(faces[i], 0, inside ? 1 : 0)))
+		if (!append_faces_array(&r->faces, create_face((int **)faces[i], 0, inside ? 1 : 0)))
 			return (FALSE);
 	return (TRUE);
 }
