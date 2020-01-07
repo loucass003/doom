@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   renderable.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/05 00:02:57 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/19 16:10:51 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/07 16:02:08 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ t_bool		create_renderable(t_renderable	*r, t_renderable_type type)
 	ft_bzero(r, sizeof(t_renderable));
 	r->of.type = type;
 	r->object_index = -1;
+	r->visible = TRUE;
 	if(!(r->vertices = create_4dvertices_array(4)))
 		return (free_renderable(&r, FALSE));
 	if(!(r->vertex = create_2dvertices_array(4)))

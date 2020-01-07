@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   editor_setmap.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 15:55:03 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/21 01:44:14 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/07 16:19:48 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -258,6 +258,20 @@ t_bool		create_object_renderable(t_editor *editor, int object_index, t_renderabl
 	return (TRUE);
 }
 
+void			default_renderables(t_doom *doom)
+{
+	t_renderable skybox;
+	create_cube(doom, &skybox, TRUE);
+	skybox.materials->values[0].texture_map_set = TRUE;
+	skybox.materials->values[0].texture_map = doom->res_manager.ressources->values[9]->data.texture;
+	skybox.scale = (t_vec3){FAR_CULL, FAR_CULL, FAR_CULL};
+	skybox.no_light = TRUE;
+	skybox.no_collision = TRUE;
+	doom->skybox_index = doom->renderables->len;
+	append_renderables_array(&doom->renderables, skybox);
+	printf("SKYBOX %d\n", doom->skybox_index);
+}
+
 t_bool		editor_setmap(t_editor *editor) 
 {
 	int		i;
@@ -266,7 +280,10 @@ t_bool		editor_setmap(t_editor *editor)
 	editor->doom->renderables->len = 0;
 	editor->doom->skybox_index = -1;
 	editor->map_renderable = editor->doom->renderables->len;
+	editor->settings.open = FALSE;
+	// set_gui_settings(editor, ES_GUI_GLOBAL);
 	t_renderable r;
+	default_renderables(editor->doom);
 	create_map(&r, editor);
 	if (!append_renderables_array(&editor->doom->renderables, r))
 		return (FALSE);

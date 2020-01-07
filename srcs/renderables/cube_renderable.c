@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cube_renderable.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/05 14:34:42 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/07 14:24:28 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/07 14:50:04 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ static t_bool	vertex(t_renderable *r)
 	append_2dvertices_array(&r->vertex, (t_vec2){ 0.250043, 0.500000 });
 	append_2dvertices_array(&r->vertex, (t_vec2){ 0.500000, 0.250043 });
 	append_2dvertices_array(&r->vertex, (t_vec2){ 0.000087, 0.500000 });
-	append_2dvertices_array(&r->vertex, (t_vec2){ 0.240043, 0.749957 });
-	append_2dvertices_array(&r->vertex, (t_vec2){ 0.240043, 0.999913 });
+	append_2dvertices_array(&r->vertex, (t_vec2){ 0.250043, 0.749957 });
+	append_2dvertices_array(&r->vertex, (t_vec2){ 0.250043, 0.999913 });
 	append_2dvertices_array(&r->vertex, (t_vec2){ 0.749957, 0.500000 });
 	append_2dvertices_array(&r->vertex, (t_vec2){ 0.000087, 0.749957 });
 	append_2dvertices_array(&r->vertex, (t_vec2){ 0.500000, 0.999913 });

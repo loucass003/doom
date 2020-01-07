@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_ingame.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/21 01:54:18 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/07 15:56:44 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -308,11 +308,11 @@ void	g_ingame_render(t_gui *self, t_doom *doom)
 	doom->main_context.image = &doom->screen;
 	for (int i = 0; i < S_WIDTH * S_HEIGHT; i++)
 		doom->main_context.buffer[i] = 0;
-	if (doom->skybox_index != -1)
-	{
-		doom->renderables->values[doom->skybox_index].position = doom->main_context.camera->pos;
-		doom->renderables->values[doom->skybox_index].dirty = TRUE;
-	}
+	
+	doom->renderables->values[doom->skybox_index].visible = doom->skybox_enabled;
+	doom->renderables->values[doom->skybox_index].position = doom->main_context.camera->pos;
+	doom->renderables->values[doom->skybox_index].dirty = TRUE;
+
 	//printf("START FAME ------------\n");
 	if (doom->main_context.type == CTX_EDITOR)
 	{
@@ -371,7 +371,8 @@ void	g_ingame_render(t_gui *self, t_doom *doom)
 
 
 	doom->main_context.image = &doom->screen;
-	draw_player_inventory(doom, self);
+	if (!draw_player_inventory(doom, self))
+		return ;
 	draw_object_transform_type(&doom->editor, self);
 
 	self->components->values[0]->visible = doom->main_context.type == CTX_NORMAL;

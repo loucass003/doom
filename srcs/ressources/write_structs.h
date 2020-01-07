@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   write_structs.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/25 05:41:51 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/21 01:47:12 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/07 16:35:08 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,11 @@ typedef struct		s_wr_player
 	t_bool			set;
 	t_vec3			pos;
 }					t_wr_player;
+
+typedef struct		s_wr_globals
+{
+	t_bool			skybox;
+}					t_wr_globals;
 
 typedef struct		s_wr_data
 {

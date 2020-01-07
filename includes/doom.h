@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   doom.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/02 12:17:26 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/07 14:55:13 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,7 @@ typedef struct		s_doom
 	SDL_Surface 		*background;
 	t_gdata				gdata;
 	int					skybox_index;
+	t_bool				skybox_enabled;
 	t_ressource_manager	res_manager;
 	t_gameover			gameover;
 	t_entity			*closer_boss;

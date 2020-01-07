@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/07 14:07:47 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/07 15:00:48 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,7 @@ void	init_bsp(t_doom *doom)
 	ellipsoid.wireframe_color = 0xFFFF0000;
 	append_renderables_array(&doom->renderables, ellipsoid);
 	
-	t_renderable cube;
-	create_cube(doom, &cube, FALSE);
-	cube.materials->values[0].material_color = 0xFF00FF00;
-	cube.position = (t_vec3){ 5, 0.5, 20 };
-	cube.scale = (t_vec3){ 1, 1, 1 };
-	append_renderables_array(&doom->renderables, cube);
+
 
 
 	t_renderable itemstack;
@@ -56,6 +51,26 @@ void	init_bsp(t_doom *doom)
 	create_itemstack_renderable(&itemstack, axe, 1);
 	itemstack.position = (t_vec3){ -19, 1.5, 58 };
 	append_renderables_array(&doom->renderables, itemstack);
+
+	t_renderable r;
+
+	set_obj_working_dir(doom, "assets/obj/winter");
+	create_obj(doom, &r, "winter.obj");
+	r.position = (t_vec3){0, 0, -3};
+	r.rotation = (t_vec3){0, 0, 0};
+//	r.scale = (t_vec3){0.05, 0.05, 0.05};
+	r.scale = (t_vec3){5, 5, 5};
+	//r.wireframe = TRUE;
+	r.wireframe_color = 0xFFFF0000;
+	r.fixed = TRUE;
+	append_renderables_array(&doom->renderables, r);
+
+	set_obj_working_dir(doom, "assets/obj");
+	create_obj(doom, &r, "House2.obj");
+	r.position = (t_vec3){-10, 0, 0};
+	r.scale = (t_vec3){0.03, 0.03, 0.03};
+	r.fixed = TRUE;
+	append_renderables_array(&doom->renderables, r);
 
 //	post_process_map(doom);
 }
@@ -84,6 +99,7 @@ int		main(int argc, char **argv)
 		},
 		.current_gui = -1,
 		.skybox_index = -1,
+		.skybox_enabled = TRUE,
 		.editor = { .map_renderable = -1 }
 	};
 
@@ -104,6 +120,8 @@ int		main(int argc, char **argv)
 
 	doom.main_context.doom = &doom;
 	doom.editor.doom = &doom;
+
+
 
 	if (!(doom.main_context.buffer = (float *)malloc((int)(S_WIDTH * S_HEIGHT) * sizeof(float))))
 		return (-1);

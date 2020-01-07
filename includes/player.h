@@ -23,6 +23,6 @@ void				init_player(struct s_doom *doom);
 void				spawn_player(struct s_doom *doom);
 void				update_controls(struct s_doom *doom);
 void				player_inventory_event(struct s_doom *doom, SDL_Event *event);
-void				draw_player_inventory(struct s_doom *doom, t_gui *self);
+t_bool				draw_player_inventory(struct s_doom *doom, t_gui *self);
 
 #endif

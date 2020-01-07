@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:43:35 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/20 23:36:04 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/07 16:12:47 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void				player_inventory_event(t_doom *doom, SDL_Event *event)
 }
 
 
-void				draw_player_inventory(t_doom *doom, t_gui *self)
+t_bool				draw_player_inventory(t_doom *doom, t_gui *self)
 {
 	static float	ticks = 0;
 
@@ -130,12 +130,14 @@ void				draw_player_inventory(t_doom *doom, t_gui *self)
 		}
 
 		((t_progress *)self->components->values[0])->value = doom->player.entity.life * (1 / doom->player.entity.max_life) * 100;
+		
 		if (doom->player.entity.life <= 0)
 		{
 			set_gui(doom, GUI_GAMEOVER);
-			return ;
+			return (FALSE);
 		}
 	}
+	return (TRUE);
 }
 
 void	update_controls(t_doom *doom)

@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/30 16:36:08 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/28 14:16:11 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/07 16:24:54 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ void		entity_update_enemy(t_doom *doom, t_entity *entity, double dt)
 			enemy->animation_step = 5;
 			if (++enemy->diying_step == 4){
 				enemy->died = TRUE;
-				doom->gameover.kill += 1;
+				
 			}
 				
 		}

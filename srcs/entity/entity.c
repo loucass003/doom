@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   entity.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 22:00:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/05 15:56:15 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/07 16:17:50 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -261,6 +261,8 @@ void		entity_update(t_doom *doom, t_entity *entity, double dt)
 {
 	ALint status;
 
+	if (entity->position.y < -100)		
+		entity->life = 0;
 	if (doom->main_context.type == CTX_NORMAL)
 	{
 		if (entity->type == ENTITY_BOSS)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:01:13 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/02 15:02:27 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/07 15:04:36 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,8 @@ void			init_gameover(t_doom *doom)
 	gameover->totaldamage = 0;
 }
 
+
+
 void			game_loop(t_doom *doom)
 {
 	register_guis(doom);
@@ -99,7 +101,8 @@ void			game_loop(t_doom *doom)
 	else
 		set_gui(doom, GUI_MAIN_MENU);
 	
-	
+//	default_renderables(doom);
+
 	init_player(doom);
 	init_gameover(doom);
 	

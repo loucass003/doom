@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 16:49:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/18 20:15:50 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/07 15:56:03 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,6 +149,7 @@ void	render_renderable(t_render_context *ctx, t_renderable *r)
 	// t_face	*face;
 	// t_mtl	*mtl;
 
+
 	if (r->of.type == RENDERABLE_ENTITY)
 	{
 		t_entity *entity = r->of.data.entity;
@@ -192,6 +193,8 @@ void	render_renderable(t_render_context *ctx, t_renderable *r)
 	}
 	
 	
+	if (!r->visible)
+		return ;
 	t_face_data face_data = (t_face_data){ .ctx = ctx, .r = r };
 
 	i = -1;

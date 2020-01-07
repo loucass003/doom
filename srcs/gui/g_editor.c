@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_editor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 15:50:09 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/19 02:31:33 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/07 15:09:25 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,10 @@ static t_bool		tools_action_performed(t_component *cmp, t_doom *doom)
 
 static t_bool			action_performed(t_component *cmp, t_doom *doom)
 {
-	if (cmp == doom->guis[doom->current_gui].components->values[5])
+	if (cmp == doom->guis[doom->current_gui].components->values[6])
 	{
 		doom->editor.settings.open = !doom->editor.settings.open;
-		((t_button *)doom->guis[doom->current_gui].components->values[5])->selected = doom->editor.settings.open;
+		((t_button *)doom->guis[doom->current_gui].components->values[6])->selected = doom->editor.settings.open;
 	}
 	return (TRUE);
 } 

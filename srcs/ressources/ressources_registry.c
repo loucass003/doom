@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 14:37:12 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/04 16:19:24 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/07 14:44:19 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ t_bool			init_ressources_registry(t_doom *doom)
 	error |= a(doom, "BOSS_SPRITESHEET", RESSOURCE_TEXTURE, TRUE);
 	error |= a(doom, "GRENADE_MODEL", RESSOURCE_MODEL, TRUE);
 	error |= a(doom, "ROCKET_MODEL", RESSOURCE_MODEL, TRUE);
+	error |= a(doom, "SKYBOX_TEXTURE", RESSOURCE_TEXTURE, TRUE);
 	return (error);
 }
 

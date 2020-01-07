@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   save_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 01:20:07 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/21 01:47:04 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/07 16:42:17 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,8 +174,19 @@ t_bool		write_player(t_ressource_manager *r)
 	return (TRUE);
 }
 
+t_bool		write_globals(t_ressource_manager *r)
+{
+	const t_wr_globals	wr_globals = (t_wr_globals){
+		.skybox = r->doom->skybox_enabled
+	};
+
+	dp_write(r, &wr_globals, sizeof(t_wr_globals));
+	return (TRUE);
+}	
+
 t_bool		write_map(t_ressource_manager *r)
 {
+	write_globals(r);
 	write_points(r);
 	write_rooms(r);
 	write_objects(r);

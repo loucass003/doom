@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_editor_settings.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/11 00:11:31 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/20 16:27:03 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/07 15:42:10 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void			g_editor_settings_on_event(t_gui *self, SDL_Event *event,
 
 void			g_editor_settings_render(t_gui *self, t_doom *doom)
 {
-	if (!doom->editor.settings.open || !doom->editor.settings.visible)
+	if (!doom->editor.settings.open)
 		return ;
 	fill_rect(&doom->screen, (SDL_Rect){ S_WIDTH - 335, 75, 320, 550 }, 0xFF303030);
 	draw_rect(&doom->screen, (SDL_Rect){ S_WIDTH - 335, 75, 320, 550 }, 0xFFFFFFFF);

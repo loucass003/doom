@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   item.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 20:16:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/01 21:53:53 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/07 16:25:46 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ void	on_use_weapon(t_doom *doom, t_itemstack *is)
 		doom->gameover.totaldamage += weapon->damage;
 		hit.renderable->of.data.entity->life -= weapon->damage;
 		hit.renderable->of.data.entity->of.enemy.focus = TRUE;
+		if (hit.renderable->of.data.entity->life <= 0)
+			doom->gameover.kill += 1;
 	}
 }
 
@@ -90,6 +92,8 @@ void	on_use_axe(t_doom *doom, t_itemstack *is)
 		doom->gameover.totaldamage += weapon->damage;
 		hit.renderable->of.data.entity->life -= weapon->damage;
 		hit.renderable->of.data.entity->of.enemy.focus = TRUE;
+		if (hit.renderable->of.data.entity->life <= 0)
+			doom->gameover.kill += 1;
 	}
 }
 

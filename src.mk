@@ -53,6 +53,7 @@ SRC+=frustum.c
 SRC+=game.c
 SRC+=gaps_filler.c
 SRC+=get_file_name.c
+SRC+=gui/editor_settings/g_es_global.c
 SRC+=gui/editor_settings/g_es_object.c
 SRC+=gui/editor_settings/g_es_room.c
 SRC+=gui/editor_settings/g_es_wall.c

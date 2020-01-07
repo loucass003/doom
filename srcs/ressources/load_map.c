@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   load_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 01:53:42 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/21 01:48:40 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/07 16:41:42 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -254,8 +254,20 @@ t_bool		read_player(t_ressource_manager *r)
 	return (TRUE);
 }
 
+t_bool		read_globals(t_ressource_manager *r)
+{
+	t_wr_globals wr_globals;
+
+	if (!io_memcpy(&r->reader, &wr_globals, sizeof(t_wr_globals)))
+		return (FALSE);
+	r->doom->skybox_enabled = wr_globals.skybox;
+	return (TRUE);
+}
+
 t_bool		read_map(t_ressource_manager *r)
 {
+	if (!read_globals(r))
+		return (FALSE);
 	if (!read_points(r))
 		return (FALSE);
 	if (!read_rooms(r))
