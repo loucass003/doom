@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   editor_setmap.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 15:55:03 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/07 16:19:48 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/07 17:31:11 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -283,10 +283,12 @@ t_bool		editor_setmap(t_editor *editor)
 	editor->settings.open = FALSE;
 	// set_gui_settings(editor, ES_GUI_GLOBAL);
 	t_renderable r;
-	default_renderables(editor->doom);
+	
 	create_map(&r, editor);
 	if (!append_renderables_array(&editor->doom->renderables, r))
 		return (FALSE);
+
+	default_renderables(editor->doom);
 	// i = -1;
 	// while (++i < editor->rooms->len)
 	// {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_ingame.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/07 15:56:44 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/07 17:34:35 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,6 +162,11 @@ void	g_ingame_on_events(t_gui *self, SDL_Event *event, t_doom *doom)
 						// printf("CALL\n");
 						select_floor_ceil(&doom->editor, face.room_index, hit.who.data.triangle.face < room->ceilling_start);
 					}
+				}
+				else if (renderables_indexof(doom->renderables, hit.renderable) == doom->skybox_index)
+				{
+					editor_settings_update(&doom->editor);
+					printf("CALL\n");
 				}
 				else if (hit.renderable->object_index != -1)
 				{

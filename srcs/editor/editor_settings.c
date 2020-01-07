@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   editor_settings.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/11 18:01:41 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/07 15:21:39 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/07 17:35:24 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	set_gui_settings(t_editor *editor, int id)
 
 void	editor_settings_update(t_editor *editor)
 {
+	editor->settings.open = TRUE;
 	if (editor->current_room != -1 && editor->current_seg.x == -1 && editor->rooms->values[editor->current_room].closed)
 		set_gui_settings(editor, ES_GUI_ROOM);
 	else if (editor->current_room != -1 && editor->current_seg.x != -1 && editor->rooms->values[editor->current_room].closed)
@@ -49,4 +50,3 @@ void	editor_settings_update(t_editor *editor)
 	else
 		set_gui_settings(editor, ES_GUI_GLOBAL);
 }
-
