@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:56:05 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/08 12:48:50 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/08 13:24:56 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@ static t_bool		action_performed(t_component *cmp, t_doom *doom)
 	{
 		
 		spawn_player(doom);
-		// if (doom->main_context.type == CTX_NORMAL)
-		// {
-		// 	obj_test(doom);
-		// 	init_bsp(doom);
-		// 	doom->player.entity.position = (t_vec3){ 0, 50, 0 };
-		// }
-		// else
+		if (doom->main_context.type == CTX_NORMAL)
+		{
+			obj_test(doom);
+			init_bsp(doom);
+			doom->player.entity.position = (t_vec3){ 0, 50, 0 };
+		}
+		else
 			unselect_all(doom);
 		doom->main_context.type = CTX_NORMAL;
 		set_gui(doom, GUI_INGAME);
