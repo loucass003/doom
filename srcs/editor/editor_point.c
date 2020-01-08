@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 18:46:30 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/15 16:43:57 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/08 18:06:39 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void			insert_point(t_editor *editor, t_vec2 seg, int point_index)
 		int		index0 = wall_indexof_by_indice(room0->walls, seg.x);
 		int		index1 = wall_indexof_by_indice(room0->walls, seg.y);
 		
-		if (index0 > index1 && index1 != 0)
+		if (index0 > index1)
 		{
 			int tmp = index0;
 			index0 = index1;
@@ -56,10 +56,14 @@ void			insert_point(t_editor *editor, t_vec2 seg, int point_index)
 			append_walls_array(&room0->walls, init_wall(editor, -20));
 			float floor_h = room0->walls->values[index1].floor_height;
 			float ceil_h = room0->walls->values[index1].ceiling_height;
-			ft_memmove(room0->walls->values + index1 + 1, room0->walls->values + index1, (room0->walls->len - (index1 + 1)) * sizeof(t_wall));
-			room0->walls->values[index1] = init_wall(editor, point_index);
-			room0->walls->values[index1].floor_height = floor_h;
-			room0->walls->values[index1].ceiling_height = ceil_h;
+			int index = index1;
+			if (index1 == room0->walls->len - 2 && index0 == 0)
+				index = room0->walls->len - 1;
+			else
+				ft_memmove(room0->walls->values + index1 + 1, room0->walls->values + index1, (room0->walls->len - (index1)) * sizeof(t_wall));
+			room0->walls->values[index] = init_wall(editor, point_index);
+			room0->walls->values[index].floor_height = floor_h;
+			room0->walls->values[index].ceiling_height = ceil_h;
 		}
 	}
 	update_rooms_gaps(editor);
