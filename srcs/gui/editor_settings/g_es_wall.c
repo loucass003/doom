@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 20:40:10 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/19 01:41:53 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/08 14:12:38 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ static t_bool			action_performed(t_component *cmp, t_doom *doom)
 		ws->collisions = ((t_checkbox *)cmp)->value;
 	if (cmp == editor->settings.guis[ES_GUI_WALL].components->values[5])
 		ws->invisible = ((t_checkbox *)cmp)->value;
+	if (cmp == editor->settings.guis[ES_GUI_WALL].components->values[6])
+		ws->normal_type = ((t_select *)cmp)->items->values[((t_select *)cmp)->selected_item].value;
 	update_wall(editor, editor->current_room, wall_indexof_by_indice(editor->rooms->values[editor->current_room].walls, editor->current_seg.x), doom->editor.wall_section);
 	editor_settings_update(&doom->editor);
 	return (TRUE);
@@ -62,14 +64,21 @@ void			g_es_wall_enter(t_gui *self, t_doom *doom)
 	((t_checkbox *)self->components->values[4])->value = ws->collisions;
 	append_components_array(&self->components, create_checkbox(doom, (t_vec2){ x + 170, y + 130 }, "INVISIBLE"));
 	((t_checkbox *)self->components->values[5])->value = ws->invisible;
+	append_components_array(&self->components, create_select((SDL_Rect){x + 10, y + 150, 300, 30}, "NORMAL TYPE"));
+	((t_select *)self->components->values[6])->items = create_select_items_array(3);
+	self->components->values[6]->perform_action = action_performed;
+	append_select_items_array(&((t_select *)self->components->values[6])->items, (t_select_item){ .name = "FRONT", .value = 0 });
+	append_select_items_array(&((t_select *)self->components->values[6])->items, (t_select_item){ .name = "BACK", .value = 1 });
+	append_select_items_array(&((t_select *)self->components->values[6])->items, (t_select_item){ .name = "DOUBLE SIDED", .value = 2 });
+	((t_select *)self->components->values[6])->selected_item = select_items_indexof(((t_select *)self->components->values[6])->items, ws->normal_type);
 	int i = -1;
-	while (++i < 6)
+	while (++i < 7)
 		self->components->values[i]->perform_action = action_performed;
 }
 
 void			g_es_wall_render(t_gui *self, t_doom *doom)
 {
-	draw_line(&doom->screen, (t_pixel){ S_WIDTH - 335 + 160, 195, 0xFFFFFFFF }, (t_pixel){ S_WIDTH - 335 + 160, 235, 0 });
+	draw_line(&doom->screen, (t_pixel){ S_WIDTH - 335 + 160, 195, 0xFFFFFFFF }, (t_pixel){ S_WIDTH - 335 + 160, 215, 0 });
 	t_wall	*wall = get_current_wall(&doom->editor);
 	if (!wall || doom->editor.wall_section == -1)
 		return ;

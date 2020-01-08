@@ -216,7 +216,7 @@ void	render_page(t_gui *self, t_doom *doom)
 	{
 		if (i < (doom->res_manager.ressources->len - (doom->res_manager.page * PAGE_SIZE)))
 		{
-			res = doom->res_manager.ressources->values[i];
+			res = doom->res_manager.ressources->values[doom->res_manager.page * PAGE_SIZE + i];
 			int color = res->loaded ? 0xFF00FF00 : 0xFFFF0000;
 			if (in_bounds((SDL_Rect){ S_WIDTH_2 - 356, 53 + i * 30, 584, 28 }, pos))
 				color = 0xFFFFFFFF;
