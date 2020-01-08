@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:43:35 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/07 16:12:47 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/08 16:47:04 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,8 +130,7 @@ t_bool				draw_player_inventory(t_doom *doom, t_gui *self)
 		}
 
 		((t_progress *)self->components->values[0])->value = doom->player.entity.life * (1 / doom->player.entity.max_life) * 100;
-		
-		if (doom->player.entity.life <= 0)
+		if (doom->player.entity.life <= 0 || (doom->closer_boss && doom->closer_boss->of.boss.dead))
 		{
 			set_gui(doom, GUI_GAMEOVER);
 			return (FALSE);

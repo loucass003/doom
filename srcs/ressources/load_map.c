@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 01:53:42 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/07 16:41:42 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/08 15:31:56 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,9 @@ t_bool		read_room(t_ressource_manager *r)
 		.floor_texture = r->ressources->values[wr_room.floor_res_index],
 		.ceiling_texture = r->ressources->values[wr_room.ceiling_res_index],
 		.floor_rot = wr_room.floor_rot,
-		.ceil_rot = wr_room.ceil_rot
+		.ceil_rot = wr_room.ceil_rot,
+		.floor_visible = wr_room.floor_visible,
+		.ceil_visible = wr_room.ceil_visible
 	};
 	i = -1;
 	while (++i < wr_room.walls_count)

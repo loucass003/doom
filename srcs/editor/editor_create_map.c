@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   editor_create_map.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/10 13:41:47 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/19 18:58:37 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/08 15:49:28 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ t_bool	create_map_points_and_floor(t_editor *editor, t_renderable *r)
 		free(filter);
 	}
 	editor->walls_faces_start = r->faces->len;
+	
 	return (TRUE);
 }
 
@@ -89,6 +90,7 @@ t_bool	create_walls(t_editor *editor, t_renderable *r)
 		if (!room->closed)
 			continue;
 		room->walls_start = r->faces->len;
+		floor_visibility(editor, r, i);
 		get_room_gaps(editor, room);
 		j = -1;
 		while (++j < room->walls->len)

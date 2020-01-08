@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 14:35:33 by lloncham          #+#    #+#             */
-/*   Updated: 2020/01/07 15:50:33 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/08 15:15:26 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,8 @@ typedef struct		s_room
 	int					floor_start;
 	int					ceilling_start;
 	int					walls_start;
-		
+	t_bool				floor_visible;
+	t_bool				ceil_visible;
 }					t_room;
 
 typedef struct		s_rooms

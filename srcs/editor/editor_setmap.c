@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 15:55:03 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/08 12:48:21 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/08 15:49:02 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,21 @@ t_bool		update_wall(t_editor *editor, int room_index, int wall_index, int wall_s
 	return (TRUE);
 }
 
+t_bool		floor_visibility(t_editor *editor, t_renderable *r, int room_index)
+{
+	int		i;
+	t_room	*room;
+
+	room = &editor->rooms->values[room_index];
+	i = room->floor_start - 1;
+	while (++i < room->ceilling_start)
+		r->faces->values[i].hidden = room->floor_visible;
+	i = room->ceilling_start - 1;
+	while (++i < room->walls_start)
+		r->faces->values[i].hidden = room->ceil_visible;
+	return (TRUE);
+}
+
 t_bool		update_floor(t_editor *editor, int room_index, t_bool floor)
 {
 	t_room	*room;
@@ -115,6 +130,7 @@ t_bool		update_floor(t_editor *editor, int room_index, t_bool floor)
 		get_map(editor)->materials->values[room_index * 2].texture_map = room->floor_texture->data.texture;
 	else
 	 	get_map(editor)->materials->values[room_index * 2 + 1].texture_map = room->ceiling_texture->data.texture;
+	floor_visibility(editor, get_map(editor), room_index);
 	return (TRUE);
 }
 

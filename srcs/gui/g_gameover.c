@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/15 20:19:09 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/07 16:21:23 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/08 16:31:02 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,14 @@ void	g_gameover_render(t_gui *self, t_doom *doom)
 	float			totalscore;
 	const SDL_Color	color = {255, 255, 255, 0};
 	
-	background = doom->res_manager.ressources->values[1]->data.texture;
+	if (doom->player.entity.life <= 0)
+		background = doom->res_manager.ressources->values[1]->data.texture;
+	else
+	{
+		printf("TEXT FIN YOUWIN\n");
+		background = doom->res_manager.ressources->values[10]->data.texture;
+	}
+	
 	apply_image_to_image(&doom->screen, background, (SDL_Rect) {0, 0, background->width, background->height}, (SDL_Rect) {0, 0, S_WIDTH, S_HEIGHT});
 	
 	text = TTF_RenderText_Blended(doom->fonts.helvetica, ft_int_to_str(doom->gameover.kill).str, color);

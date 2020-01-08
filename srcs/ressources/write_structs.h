@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/25 05:41:51 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/07 16:35:08 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/08 15:30:38 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ typedef struct		s_wr_room
 	int				ceiling_res_index;
 	t_vec3			floor_rot;
 	t_vec3			ceil_rot;
+	t_bool			floor_visible;
+	t_bool			ceil_visible;
 }					t_wr_room;
 
 typedef struct		s_wr_sprite

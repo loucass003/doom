@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   editor_tool_room.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 20:09:08 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/15 16:41:33 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/08 15:37:12 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,9 @@ void		editor_tool_room(t_editor *editor, SDL_Event *event)
 		append_rooms_array(&editor->rooms, (t_room){
 			.walls = create_walls_array(15), 
 			.floor_texture = get_default_texture(&editor->doom->res_manager, TRUE), 
-			.ceiling_texture = get_default_texture(&editor->doom->res_manager, TRUE) 
+			.ceiling_texture = get_default_texture(&editor->doom->res_manager, TRUE),
+			.floor_visible = FALSE,
+			.ceil_visible = FALSE
 		});
 		select_room(editor, editor->rooms->len - 1);
 	}
