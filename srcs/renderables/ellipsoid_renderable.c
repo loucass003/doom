@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ellipsoid_renderable.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/09 21:56:55 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/18 19:41:05 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/07 17:11:03 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ t_bool	create_ellipsoid(t_doom *doom, t_renderable *r, t_vec2 res, t_vec3 radius
 	r->fixed = FALSE; 
 	r->scale = (t_vec3){ 1, 1, 1 };
 	r->object_index = -1;
+	r->visible = TRUE;
 	//r->double_faced = TRUE;
 	return (TRUE);
 }

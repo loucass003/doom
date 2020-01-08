@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   editor_setmap.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 15:55:03 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/07 17:31:11 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/08 12:48:21 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -281,7 +281,7 @@ t_bool		editor_setmap(t_editor *editor)
 	editor->doom->skybox_index = -1;
 	editor->map_renderable = editor->doom->renderables->len;
 	editor->settings.open = FALSE;
-	// set_gui_settings(editor, ES_GUI_GLOBAL);
+	// set_gui_settings(editor, -1);
 	t_renderable r;
 	
 	create_map(&r, editor);

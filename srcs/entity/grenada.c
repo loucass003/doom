@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   grenada.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 14:02:33 by rle-ru            #+#    #+#             */
-/*   Updated: 2019/11/24 01:47:57 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/07 17:12:06 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ t_bool	create_grenada(t_renderable *r, t_doom *doom)
 		return (FALSE);
 	r->of.data.entity->type = ENTITY_GRENADA;
 	r->of.data.entity->packet.doom = doom;
+	r->visible = TRUE;
 	grenada = &r->of.data.entity->of.grenada;
 	grenada->damage = 5;
 	grenada->delay = 5000;

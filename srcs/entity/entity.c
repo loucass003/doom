@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 22:00:26 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/07 16:17:50 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/07 17:22:17 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -316,7 +316,7 @@ void		entity_update(t_doom *doom, t_entity *entity, double dt)
 			entity->jump = FALSE;
 		entity->position = entity->packet.r3_posision;
 		if (entity->type == ENTITY_GRENADA)
-			entity->velocity = ft_vec3_mul_s(entity->velocity, 0.999);
+			entity->velocity = ft_vec3_mul_s(entity->velocity, !entity->packet.found_colision ? 0.999 : 0.8);
 		else if (entity->type == ENTITY_ENEMY)
 			entity->velocity = (t_vec3){ 0, 0, 0 };
 		else

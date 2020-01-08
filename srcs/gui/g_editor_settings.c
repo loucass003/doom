@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/11 00:11:31 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/07 15:42:10 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/08 13:11:38 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ static t_bool			action_performed(t_component *cmp, t_doom *doom)
 void			g_editor_settings_on_enter(t_gui *self, t_doom *doom)
 {
 	editor_settings_guis(&doom->editor);
+	editor_settings_update(&doom->editor);
 }
 
 void			g_editor_settings_on_leave(t_gui *self, t_doom *doom)
