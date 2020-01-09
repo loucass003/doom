@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_gameover.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/15 20:19:09 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/08 16:31:02 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/09 12:56:19 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,7 @@ void	g_gameover_render(t_gui *self, t_doom *doom)
 	if (doom->player.entity.life <= 0)
 		background = doom->res_manager.ressources->values[1]->data.texture;
 	else
-	{
-		printf("TEXT FIN YOUWIN\n");
 		background = doom->res_manager.ressources->values[10]->data.texture;
-	}
 	
 	apply_image_to_image(&doom->screen, background, (SDL_Rect) {0, 0, background->width, background->height}, (SDL_Rect) {0, 0, S_WIDTH, S_HEIGHT});
 	

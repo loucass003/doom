@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   boss.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 14:15:25 by lloncham          #+#    #+#             */
-/*   Updated: 2020/01/08 16:42:42 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/09 14:45:01 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ void		entity_update_boss(t_doom *doom, t_entity *entity, double dt)
 						boss->animation_step = 4;
 						boss->shooting = FALSE;
 					}
+					doom->player.entity.life -= 0.01;
 				}
 				else
 					boss->animation_step = 4;

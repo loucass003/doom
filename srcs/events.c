@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   events.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:14:55 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/07 13:10:56 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/09 12:41:27 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void	events_window(t_doom *doom, SDL_Event *event)
 	if (event->type == SDL_QUIT 
 		|| (event->type == SDL_KEYDOWN && key == SDL_SCANCODE_ESCAPE))
 		doom->running = FALSE;
-	if (event->type == SDL_KEYDOWN && (key == SDL_SCANCODE_HOME))
+	if (event->type == SDL_KEYDOWN && ((key == SDL_SCANCODE_HOME) || (key == SDL_SCANCODE_H)))
 		set_gui(doom, GUI_MAIN_MENU);
 }
 
