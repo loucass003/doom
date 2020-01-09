@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   write_structs.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/25 05:41:51 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/08 15:30:38 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/09 04:35:53 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,8 @@ typedef struct		s_wr_mtl
 typedef struct		s_wr_player
 {
 	t_bool			set;
-	t_vec3			pos;
+	t_vec3			position;
+	t_vec3			rotation;
 }					t_wr_player;
 
 typedef struct		s_wr_globals

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   editor.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 14:35:33 by lloncham          #+#    #+#             */
-/*   Updated: 2020/01/08 15:15:26 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/09 04:14:10 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,12 @@
 # define TOOL_PLAYER (5)
 # define CELLS_SPACING (10)
 
-# define ES_GUIS_COUNT (4)
+# define ES_GUIS_COUNT (5)
 # define ES_GUI_ROOM (0)
 # define ES_GUI_WALL (1)
 # define ES_GUI_OBJECT (2)
 # define ES_GUI_GLOBAL (3)
+# define ES_GUI_PLAYER (4)
 
 # define ES_OBJ_GUIS_COUNT (4)
 
@@ -191,7 +192,6 @@ typedef struct		s_editor
 	t_object_transform_mode	object_transform_mode;
 	
 	t_bool					player_set;
-	t_vec3					player_pos;
 	t_bool					player_grab;
 	
 	

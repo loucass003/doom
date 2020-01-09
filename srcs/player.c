@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:43:35 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/08 16:47:04 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/09 04:34:23 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,9 @@ void				init_player(t_doom *doom)
 
 void				spawn_player(t_doom *doom)
 {
-	doom->player.entity.position = editor_to_world(doom->editor.player_pos);
+	doom->player.entity.position = editor_to_world(doom->player.spawn_data.position);
 	doom->player.entity.position.y += doom->player.entity.radius.y;
+	doom->player.entity.rotation = doom->player.spawn_data.rotation;
 }
 
 void				player_inventory_event(t_doom *doom, SDL_Event *event)

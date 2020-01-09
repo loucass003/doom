@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   save_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 01:20:07 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/08 15:31:18 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/09 04:36:24 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,7 +169,8 @@ t_bool		write_player(t_ressource_manager *r)
 {
 	const t_wr_player	wr_player = (t_wr_player){
 		.set = r->doom->editor.player_set,
-		.pos = r->doom->editor.player_pos
+		.position = r->doom->player.spawn_data.position,
+		.rotation = r->doom->player.spawn_data.rotation
 	};
 
 	dp_write(r, &wr_player, sizeof(t_wr_player));

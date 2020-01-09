@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 20:13:35 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/09 01:54:28 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/09 03:00:51 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ t_bool			seg_in_room(t_room *room, t_vec2 seg)
 	{
 		wall0 = room->walls->values[i].indice;
 		wall1 = room->walls->values[(i + 1) % room->walls->len].indice;
-
 		if (seg.x == wall0 && seg.y == wall1)
 			return (TRUE);
 	}
@@ -34,20 +33,10 @@ void			editor_tool_select(t_editor *editor, SDL_Event *event)
 {
 	const Uint8	*state = SDL_GetKeyboardState(NULL);
 	int			index;
+	t_vec2		seg;
 
 	if (editor->grid_cell_grab != GG_OUTSIDE)
 	{
-		// if (editor->current_room != -1 && editor->grid_cell_grab == GG_LINE && editor->current_seg.x != -1)
-		// {
-		// 	editor->wall_section = 0;
-		// 	editor->current_seg = get_close_seg(editor, &editor->rooms->values[editor->current_room], editor->grid_cell);
-		// 	select_room(editor, editor->current_room);
-		// }
-		// else
-		// {
-		// 	editor->current_seg = (t_vec2){ -1, -1 };
-		// 	select_room(editor, get_close_room(editor));
-		// }
 		if (editor->current_room == -1)
 		{
 			editor->current_seg = (t_vec2){ -1, -1 };
@@ -56,7 +45,7 @@ void			editor_tool_select(t_editor *editor, SDL_Event *event)
 		else if (editor->current_room != -1 && editor->grid_cell_grab == GG_LINE)
 		{
 			editor->wall_section = 0;
-			t_vec2 seg = get_close_seg(editor, &editor->rooms->values[editor->current_room], editor->grid_cell);
+			seg = get_close_seg(editor, &editor->rooms->values[editor->current_room], editor->grid_cell);
 			editor->current_seg = seg;
 			if (seg_in_room(&editor->rooms->values[editor->current_room], seg))
 				select_room(editor, editor->current_room);

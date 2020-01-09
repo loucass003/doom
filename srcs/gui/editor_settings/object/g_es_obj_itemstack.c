@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 22:55:54 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/02 18:31:08 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/09 04:20:08 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,9 +86,7 @@ void			g_es_obj_itemstack_enter(t_gui *self, t_doom *doom)
 	((t_select *)self->components->values[0])->selected_item = select_items_indexof(((t_select *)self->components->values[0])->items, is->of->type);
 	append_components_array(&self->components, create_textfield((SDL_Rect){x + 10, y + 50, 300, 30}, "AMOUNT", TRUE));
 	t_int_str istr = ft_int_to_str(is->amount);
-	ft_memcpy(((t_textfield *)self->components->values[1])->text, istr.str, istr.len);
-	ft_memset(((t_textfield *)self->components->values[1])->text + istr.len, 0, 255 - istr.len);
-	((t_textfield *)self->components->values[1])->text_len = istr.len;
+	set_text_value((t_textfield *)self->components->values[1], istr.str, istr.len);
 	self->components->values[1]->perform_action = action_performed;
 
 	append_components_array(&self->components, create_select((SDL_Rect){x + 10, y + 90, 300, 30}, "WEAPON TYPE"));

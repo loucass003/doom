@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_editor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 15:50:09 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/07 15:09:25 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/09 04:05:38 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,11 @@ static t_bool		tools_action_performed(t_component *cmp, t_doom *doom)
 {
 	int			i;
 	t_button	*btn;
+	int			last_select;
 
 	btn = cmp;
 	i = -1;
+	last_select = doom->editor.selected_tool;
 	while (++i < 6)
 	{
 		btn = doom->guis[doom->current_gui].components->values[i];
@@ -44,6 +46,10 @@ static t_bool		tools_action_performed(t_component *cmp, t_doom *doom)
 		doom->editor.current_object = -1;
 		editor_settings_update(&doom->editor);
 	}
+	if (doom->editor.selected_tool == TOOL_PLAYER 
+		|| (last_select == TOOL_PLAYER 
+			&& last_select != doom->editor.selected_tool))
+		editor_settings_update(&doom->editor);
 	if (doom->editor.selected_tool == 0)
 	{
 		if (!doom->editor.player_set)

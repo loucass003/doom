@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 18:46:30 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/08 18:06:39 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/09 04:22:51 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,10 +152,10 @@ t_vec2			get_close_point(t_editor *editor, t_vec2 pos)
 			return (p);
 	}
 	if (editor->player_set
-		&& is_in_range((t_vec2){editor->player_pos.x, editor->player_pos.z}, p))
+		&& is_in_range((t_vec2){editor->doom->player.spawn_data.position.x, editor->doom->player.spawn_data.position.z}, p))
 	{
 		editor->grid_cell_grab = GG_PLAYER;
-		return ((t_vec2){editor->player_pos.x, editor->player_pos.z});
+		return ((t_vec2){editor->doom->player.spawn_data.position.x, editor->doom->player.spawn_data.position.z});
 	}
 	editor->grid_cell_grab = GG_NONE;
 	if (!in_bounds((SDL_Rect){ 10, 70, S_WIDTH - 20, S_HEIGHT - 80 }, pos) 

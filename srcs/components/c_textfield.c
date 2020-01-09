@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/21 03:16:01 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/03 17:42:07 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/09 04:18:54 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,13 @@ void		c_textfield_render(t_doom *doom, t_component *self, t_img *image)
 	}
 	else if (tf->bar && tf->focus)
 		draw_line(image, (t_pixel){ self->bounds.x + 2, self->bounds.y + self->bounds.h - 5, 0xFFFFFFFF},  (t_pixel){ self->bounds.x + 12, self->bounds.y + self->bounds.h - 5, 0});
+}
+
+void		set_text_value(t_textfield *tf, char *text, int len)
+{
+	ft_memcpy(tf->text, text, len);
+	ft_memset(tf->text + len, 0, 255 - len);
+	tf->text_len = len;
 }
 
 t_component	 *create_textfield(SDL_Rect bounds, char *placeholder, t_bool number)

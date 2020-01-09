@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/09 00:45:30 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/09 04:23:57 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -322,7 +322,7 @@ void	g_ingame_render(t_gui *self, t_doom *doom)
 	if (doom->main_context.type == CTX_EDITOR)
 	{
 		t_renderable *sphere = &doom->sphere_primitive;
-		sphere->position = editor_to_world(doom->editor.player_pos);
+		sphere->position = editor_to_world(doom->player.spawn_data.position);
 		sphere->position.y += doom->player.entity.radius.y;
 		sphere->scale = doom->player.entity.radius;
 		sphere->wireframe = TRUE;

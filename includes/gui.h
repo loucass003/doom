@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gui.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 01:42:00 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/07 15:15:58 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/09 04:19:09 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,8 +191,8 @@ void				g_es_object_render(t_gui *self, t_doom *doom);
 void				g_es_object_enter(t_gui *self, t_doom *doom);
 void				g_es_object_leave(t_gui *self, t_doom *doom);
 void				g_es_object_on_event(t_gui *self, SDL_Event *event, t_doom *doom);
-void				g_es_obj_player_enter(t_gui *self, t_doom *doom);
-void				g_es_obj_player_render(t_gui *self, t_doom *doom);
+void				g_es_player_enter(t_gui *self, t_doom *doom);
+void				g_es_player_render(t_gui *self, t_doom *doom);
 void				g_es_obj_itemstack_enter(t_gui *self, t_doom *doom);
 void				g_es_obj_itemstack_render(t_gui *self, t_doom *doom);
 void				g_es_obj_sprite_enter(t_gui *self, t_doom *doom);
@@ -237,6 +237,7 @@ int					components_indexof(t_components *arr, t_component *elem);
 t_component			*create_select(SDL_Rect bounds, char *text);
 t_component			*create_textfield(SDL_Rect bounds, char *placeholder, t_bool number);
 void				c_textfield_render(t_doom *doom, t_component *self, t_img *image);
+void				set_text_value(t_textfield *tf, char *text, int len);
 
 t_component			*create_checkbox(t_doom *doom, t_vec2 pos, char *text);
 
