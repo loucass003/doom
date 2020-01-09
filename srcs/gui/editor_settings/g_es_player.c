@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 22:55:54 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/09 04:33:04 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/09 04:44:09 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,15 +45,15 @@ void			g_es_player_enter(t_gui *self, t_doom *doom)
 	int			y = 85;
 	t_int_str 	istr;
 
-	append_components_array(&self->components, create_textfield((SDL_Rect){x + 10, y, 95, 30}, "ROTATION X", TRUE));
+	append_components_array(&self->components, create_textfield((SDL_Rect){x + 10, y + 30, 95, 30}, "ROTATION X", TRUE));
 	istr = ft_int_to_str(doom->player.spawn_data.rotation.x * (180. / M_PI));
 	set_text_value((t_textfield *)self->components->values[0], istr.str, istr.len);
 	self->components->values[0]->perform_action = action_performed;
-	append_components_array(&self->components, create_textfield((SDL_Rect){x + 110, y, 95, 30}, "ROTATION Y", TRUE));
+	append_components_array(&self->components, create_textfield((SDL_Rect){x + 110, y + 30, 95, 30}, "ROTATION Y", TRUE));
 	istr = ft_int_to_str(doom->player.spawn_data.rotation.y * (180. / M_PI));
 	set_text_value((t_textfield *)self->components->values[1], istr.str, istr.len);
 	self->components->values[1]->perform_action = action_performed;
-	append_components_array(&self->components, create_textfield((SDL_Rect){x + 210, y, 95, 30}, "ROTATION Z", TRUE));
+	append_components_array(&self->components, create_textfield((SDL_Rect){x + 210, y + 30, 95, 30}, "ROTATION Z", TRUE));
 	istr = ft_int_to_str(doom->player.spawn_data.rotation.z * (180. / M_PI));
 	set_text_value((t_textfield *)self->components->values[2], istr.str, istr.len);
 	self->components->values[2]->perform_action = action_performed;
@@ -62,5 +62,8 @@ void			g_es_player_enter(t_gui *self, t_doom *doom)
 void			g_es_player_render(t_gui *self, t_doom *doom)
 {
 	//  draw_line(&doom->screen, (t_pixel){ S_WIDTH - 335 + 160, 235, 0xFFFFFF00 }, (t_pixel){ S_WIDTH - 335 + 160, 335, 0 });
-	
+	SDL_Surface *text = TTF_RenderText_Blended(doom->fonts.helvetica, "PLAYER ROTATION", (SDL_Color){255, 255, 255, 0});
+	apply_surface_blended(&doom->screen, text, (SDL_Rect){0, 0, text->w, text->h},
+		(SDL_Rect){S_WIDTH - 335 + 50, 85, 220, 20});
+	SDL_FreeSurface(text);
 }
