@@ -6,7 +6,11 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 20:13:35 by llelievr          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2020/01/09 03:00:51 by llelievr         ###   ########.fr       */
+=======
+/*   Updated: 2020/01/09 01:54:28 by llelievr         ###   ########.fr       */
+>>>>>>> 6f65c90baa069eeb84a17671f4ba4b1449421e66
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +27,10 @@ t_bool			seg_in_room(t_room *room, t_vec2 seg)
 	{
 		wall0 = room->walls->values[i].indice;
 		wall1 = room->walls->values[(i + 1) % room->walls->len].indice;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 6f65c90baa069eeb84a17671f4ba4b1449421e66
 		if (seg.x == wall0 && seg.y == wall1)
 			return (TRUE);
 	}
