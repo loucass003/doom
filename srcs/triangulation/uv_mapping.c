@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 18:02:59 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/10 14:36:49 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/09 00:55:41 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,27 +47,24 @@
 
 void				uv_mapping(t_4dvertices *vertices, t_2dvertices *vertex, int *filter, int filter_len)
 {
-	// const t_vec4	bounds = compute_bounds(vertices, filter, filter_len);
 	int				i;
 	t_vec4			v;
-	// t_vec2			dir;
 	t_vec2			sub;
 
 	if (filter_len < 3)
 		return ;
 
-	sub = ft_vec2_sub(
+	sub = ft_vec2_norm(ft_vec2_sub(
 		(t_vec2){vertices->vertices[filter[1]].x, vertices->vertices[filter[1]].y},
 		(t_vec2){vertices->vertices[filter[0]].x, vertices->vertices[filter[0]].y}
-	);
-	// dir = (t_vec2){sign(sub.x), sign(sub.y)};
+	));
 	i = -1;
 	while (++i < filter_len)
 	{
 		v = vertices->vertices[filter[i]];
 		t_vec2 u = (t_vec2) {
-			.y = v.y / sub.y,
-			.x = v.x / sub.y
+			.y = v.y * 0.5,
+			.x = v.x * 0.5
 		};
 	//	printf("U %f %f\n", u.x, u.y);
 		vertex->vertices[filter[i]] = u;
