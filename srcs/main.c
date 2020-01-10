@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/07 15:00:48 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/09 18:31:59 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,9 @@ void	init_bsp(t_doom *doom)
 	r.fixed = TRUE;
 	append_renderables_array(&doom->renderables, r);
 
+
+	
+
 //	post_process_map(doom);
 }
 
@@ -103,6 +106,18 @@ int		main(int argc, char **argv)
 		.editor = { .map_renderable = -1 }
 	};
 
+
+	t_vec3 pointa = (t_vec3){ 0, 0, 5 };
+	t_vec3 pointb = (t_vec3){ 0, 2, 5 };
+	t_vec3 pos = (t_vec3){ 0, 0, 10 };
+	t_vec3 normala = (t_vec3){ 0.5, 0, 0.5 };
+	t_vec3 normalb = (t_vec3){ 0, 0.5, 0.5 };
+	for (float i = 0; i < 1; i += 0.01)
+	{
+		float a = ft_vec3_dot(vec4_to_3(ft_vec4_interpolate(vec3_to_4(normala), vec3_to_4(normalb), ((float)i))), ft_vec3_norm(ft_vec3_sub(pos, vec4_to_3(ft_vec4_interpolate(vec3_to_4(pointa), vec3_to_4(pointb), (float)(i)))))) * 255;
+		float b = 127.5 + (71.028534 - 127.5) * ((float)i);
+		printf("%f %f %f\n", i, a, b);
+	}
 
 	if (argc != 2)
 	{

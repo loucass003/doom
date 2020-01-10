@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 21:05:41 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/27 15:55:02 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/09 17:35:54 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@
 # define GUI_RESSOURCES (4)
 # define GUI_EDITOR_SETTINGS (5)
 
-# define AMBIANT_LIGHT (100)
+# define AMBIANT_LIGHT (50)
 
 # define MAX_SOUNDS (20)
 # define CHAR_SHOOTING (MAX_SOUNDS - 1)

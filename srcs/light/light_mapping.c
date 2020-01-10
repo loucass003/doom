@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 14:22:33 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/16 22:25:54 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/10 01:48:15 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,19 +28,19 @@
 	// 	.rotation = ((t_vec3){ M_PI - -M_PI_4,  M_PI, 0 })
 	// });
 	append_lights_array(&doom->lights,(t_light) {
-		.position = { 1.3, 0.5, 2.0 },
-		.rotation = ((t_vec3){ 0, 0, 0 })
+		.position = { 20, 0, 70 },
+		.dir = ((t_vec3){ -1, 0, 0 })
 	});
 }
 
-t_ray			create_ray(t_light *light, t_vec3 direction)
-{
-	t_vec3 d = vec3_rotate(direction, (t_vec3){-light->rotation.x, light->rotation.y, -light->rotation.z});
-	return ((t_ray){
-		.origin = light->position,
-		.direction = d
-	});
-}
+// t_ray			create_ray(t_light *light, t_vec3 direction)
+// {
+// 	t_vec3 d = vec3_rotate(direction, (t_vec3){-light->rotation.x, light->rotation.y, -light->rotation.z});
+// 	return ((t_ray){
+// 		.origin = light->position,
+// 		.direction = d
+// 	});
+// }
 
 // t_collision		hit_scene(t_doom *doom, t_ray *ray) 
 // {

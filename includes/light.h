@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/30 04:25:19 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/19 01:03:48 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/10 01:32:22 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 typedef struct		s_light
 {
 	t_vec3				position;
-	t_vec3				rotation;
+	t_vec3				dir;
 	t_render_context	context;
 }					t_light;
 

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/09 04:43:12 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/10 01:48:11 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -304,11 +304,16 @@ void	draw_object_transform_type(t_editor *editor, t_gui *self)
 	SDL_FreeSurface(text);
 }
 
+float t = 0;
+
 void	g_ingame_render(t_gui *self, t_doom *doom)
 {
-	
-	
-	
+	t += 0.05;
+
+	//doom->lights->values[0].dir.z = 1;
+	doom->lights->values[0].position.y = 1;
+	doom->lights->values[0].position.z = 25 + (50) * ((sin(t) + 1) / 2);
+
 	update_controls(doom);
 	doom->main_context.image = &doom->screen;
 	for (int i = 0; i < S_WIDTH * S_HEIGHT; i++)
@@ -359,6 +364,7 @@ void	g_ingame_render(t_gui *self, t_doom *doom)
 
 	for (int i = 0; i < doom->lights->len; i++)
 	{
+		{
 		t_renderable	*sphere = &doom->sphere_primitive;
 		t_light			*light = &doom->lights->values[i];
 		sphere->position = light->position;
@@ -368,6 +374,18 @@ void	g_ingame_render(t_gui *self, t_doom *doom)
 		sphere->dirty = TRUE;
 		//sphere->double_faced = FALSE;
 		render_renderable(&doom->main_context, sphere);
+		}
+		{
+			t_renderable	*sphere = &doom->sphere_primitive;
+			t_light			*light = &doom->lights->values[i];
+			sphere->position = ft_vec3_mul_s(ft_vec3_add(light->position, light->dir), 1);
+			sphere->scale = (t_vec3){ 0.2, 0.2, 0.2 };
+			sphere->wireframe = TRUE;
+			sphere->wireframe_color = 0xFFFFFF00;
+			sphere->dirty = TRUE;
+			//sphere->double_faced = FALSE;
+			render_renderable(&doom->main_context, sphere);
+		}
 	}
 
 	doom->main_context.image->pixels[(doom->main_context.image->height / 2) * doom->main_context.image->width + doom->main_context.image->width / 2 ] = 0xFF00FF00;

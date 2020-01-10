@@ -1,7 +1,6 @@
 SRC+=obj/mtl_formaters.c
 SRC+=obj/mtllist.c
 SRC+=obj/obj.c
-SRC+=obj/render_obj.c
 SRC+=obj/formatters.c
 SRC+=obj/mtl.c
 SRC+=obj/face.c

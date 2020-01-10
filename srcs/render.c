@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 16:49:48 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/07 15:56:03 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/10 01:47:46 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,15 @@ static float	get_light_intensity(t_render_context *ctx, t_renderable *r, t_vec3 
 		//float d = ft_vec3_dot(normal, ft_vec3_sub(light->position, vec4_to_3(point)));
 		// if (d > 5)
 		// 	continue;
-		valid++;
-		light->rotation.y -=light->rotation.y;
-		sum += ft_max(AMBIANT_LIGHT, fmin(1, fmax(0, ft_vec3_dot(normal, ft_vec3_sub(light->rotation, light->position)))) * 255);
+		t_vec3 dir = ft_vec3_norm(ft_vec3_sub(light->position, vec4_to_3(point)));
+		if (ft_vec3_dot(dir, light->dir) >= cosf(M_PI / 10))
+		{
+			valid++;
+			sum += ft_max(AMBIANT_LIGHT, ft_vec3_dot(normal, dir) * 255);
+		}
 	}
 	if (valid == 0)
-		return 25;
+		return AMBIANT_LIGHT;
 	return sum / (float)valid;
 }
 
