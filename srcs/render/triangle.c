@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   triangle.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 01:17:41 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/08 13:22:22 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/10 04:12:03 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,14 @@ void scanline2(t_render_context *ctx, t_mtl *mtl, t_pixel p, float t, t_vertex s
 	//pthread_mutex_unlock(&ctx->doom->mutex);
 	if (vert.pos.w <= *buff)
 	{
-	 	float lt_color = (1.0f - t) * start.light_color + t * end.light_color;
-		ur_color c;
+		// vert.normal.x = (1.0f - t) * start.normal.x + t * end.normal.x;
+		// vert.normal.y = (1.0f - t) * start.normal.y + t * end.normal.y;
+		// vert.normal.z = (1.0f - t) * start.normal.z + t * end.normal.z;
+		// vert.pos.x =  (1.0f - t) * start.pos.x + t * end.pos.x;
+		// vert.pos.y =  (1.0f - t) * start.pos.y + t * end.pos.y;
+		// vert.pos.z =  (1.0f - t) * start.pos.z + t * end.pos.z;
+		float lt_color = (1.0f - t) * start.light_color + t * end.light_color;
+		 ur_color c;
 		float a = ft_max(AMBIANT_LIGHT, lt_color) / 255.0;
 		if (mtl->texture_map_set)
 		{
@@ -73,7 +79,7 @@ void scanline2(t_render_context *ctx, t_mtl *mtl, t_pixel p, float t, t_vertex s
 			//	a = mtl->lightmap[y * (mtl->texture_map->width) + x] / 255.0;
 			if (mtl->texture_map_set)
 				c.color = mtl->texture_map->pixels[(y * mtl->texture_map->width) + x];
-			if (c.argb.a == 0) //TODO we need to know this is a sprite
+			if (c.argb.a == 0)
 				return ;
 		}
 		else if (mtl->material_color_set)
@@ -84,6 +90,10 @@ void scanline2(t_render_context *ctx, t_mtl *mtl, t_pixel p, float t, t_vertex s
 			c.argb.g *= a;
 			c.argb.b *= a;
 		}	
+		// c.argb.a = 255;
+		// c.argb.r = vert.normal.x * 255;
+		// c.argb.g = vert.normal.y * 255;
+		// c.argb.b = vert.normal.z * 255;
 		ctx->image->pixels[p.y * (int)S_WIDTH + p.x] = c.color;
 		*buff = vert.pos.w;
 	}

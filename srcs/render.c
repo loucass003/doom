@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 16:49:48 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/10 02:46:06 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/10 03:58:31 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,9 @@ static t_vec4	mat43_mulv4(t_mat4 m, t_vec4 p)
 	return (r);
 }
 
-static float	get_light_intensity(t_render_context *ctx, t_renderable *r, t_vec3 normal, t_vec4 point)
+float	get_light_intensity(t_render_context *ctx, t_renderable *r, t_vec3 normal, t_vec4 point)
 {
-	if (!ctx->doom->lights || r->no_light)
+	if (!ctx->doom->lights || (r && r->no_light))
 		return (255);
 
 	int		i;
