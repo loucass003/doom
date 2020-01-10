@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:01:13 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/07 15:04:36 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/10 02:35:44 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,9 +121,10 @@ void			game_loop(t_doom *doom)
 		clear_image(&doom->screen);
 	//	clear_image(&doom->screen_transparency);
 		//fill_color(&doom->screen, 0xFF);
+		hook_events(doom);
 		render(doom);
 		//DO RENDERING HERE !
-		hook_events(doom);
+	
 		render_debug(doom);
 		update_image(&doom->screen);
 		apply_image(&doom->screen, NULL);

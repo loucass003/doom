@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:43:35 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/09 04:34:23 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/10 02:55:49 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,9 @@ void				update_player_camera(t_player *player)
 	camera = &player->camera;
 	camera->pos = player->entity.position;
 	camera->rotation = player->entity.rotation;
-	camera_update_maxtrix(&player->camera);
-
-	t_vec3	forward = ft_mat4_mulv(ft_mat4_rotation(player->camera.rotation), (t_vec3){ 0, 0, 1 });
+	camera_update_maxtrix(&player->camera);	
 	alListener3f(AL_POSITION, player->camera.pos.x, player->camera.pos.y, player->camera.pos.z);
-	alListenerfv(AL_ORIENTATION, (ALfloat[6]){forward.x, forward.y, forward.z, 0.f, 1.f, 0.f});
+	alListenerfv(AL_ORIENTATION, (ALfloat[6]){camera->forward.x, camera->forward.y, camera->forward.z, 0.f, 1.f, 0.f});
 	// ALenum error = alGetError();
 	// 	printf("alGenBuffers : %s\n", alGetString(error)); 
 }

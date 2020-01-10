@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 23:57:39 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/28 21:09:52 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/10 02:55:45 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	camera_update_maxtrix(t_camera *camera)
 		ft_mat4_rotation((t_vec3){camera->rotation.x, -camera->rotation.y, camera->rotation.z}),
 		ft_mat4_translation(ft_vec3_inv(camera->pos))
 	);
+	camera->forward = (t_vec3){ camera->matrix.a[2][0], camera->matrix.a[2][1], camera->matrix.a[2][2] };
 	camera->frustum_matrix = ft_mat4_mul(
 		camera->projection,
 		ft_mat4_mul(

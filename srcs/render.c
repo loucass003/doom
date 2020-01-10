@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 16:49:48 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/10 02:26:56 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/10 02:46:06 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,11 @@ static float	get_light_intensity(t_render_context *ctx, t_renderable *r, t_vec3 
 		//float d = ft_vec3_dot(normal, ft_vec3_sub(light->position, vec4_to_3(point)));
 		// if (d > 5)
 		// 	continue;
-		t_vec3 dir = ft_vec3_norm(ft_vec3_sub(light->position, vec4_to_3(point)));
+		t_vec3 dir = ft_vec3_norm(ft_vec3_sub(vec4_to_3(point), light->position));
 		if (ft_vec3_dot(dir, light->dir) >= cosf(M_PI / 10))
 		{
 			valid++;
-			sum += ft_max(AMBIANT_LIGHT, clamp(0, 1, ft_vec3_dot(normal, dir) * (15 / ft_vec3_len(ft_vec3_sub(vec4_to_3(point), light->position)))) * 255);
+			sum += ft_max(AMBIANT_LIGHT, clamp(0, 1, ft_vec3_dot(dir, ft_vec3_inv(normal)) * (15 / ft_vec3_len(ft_vec3_sub(vec4_to_3(point), light->position)))) * 255);
 		}
 	}
 	if (valid == 0)
