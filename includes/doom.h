@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   doom.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/07 14:55:13 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/10 14:13:12 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,21 +75,6 @@ typedef struct		s_audio
 
 }					t_audio;
 
-typedef struct		s_gdata
-{
-	int				todo_triangles;
-	int				finished_triangles;
-	t_bool			all_called;
-}					t_gdata;
-
-typedef struct		s_tdata
-{
-	t_gdata				*gdata;
-	t_render_context	*ctx;
-	t_render_data		data;
-}					t_tdata;
-
-
 typedef struct		s_gameover
 {
 	int				kill;
@@ -123,7 +108,6 @@ typedef struct		s_doom
 	t_texture			*icons;
 	t_audio				audio;
 	SDL_Surface 		*background;
-	t_gdata				gdata;
 	int					skybox_index;
 	t_bool				skybox_enabled;
 	t_ressource_manager	res_manager;

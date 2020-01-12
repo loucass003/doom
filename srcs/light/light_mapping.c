@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 14:22:33 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/10 02:30:52 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/10 18:58:12 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,14 @@
 	// });
 	append_lights_array(&doom->lights,(t_light) {
 		.position = { 0, 0, 0 },
-		.dir = ((t_vec3){ -1, 0, 0 })
+		.dir = ((t_vec3){ -1, 0, 0 }),
+		.type = LIGHT_SPOT
 	});
-	append_lights_array(&doom->lights,(t_light) {
-		.position = { 20, 0, 35 },
-		.dir = ((t_vec3){ -1, 0, 0 })
-	});
+	// append_lights_array(&doom->lights,(t_light) {
+	// 	.position = { 20, 0, 35 },
+	// 	.dir = ((t_vec3){ -1, 0, 0 }),
+	// 	.type = LIGHT_SPOT
+	// });
 }
 
 // t_ray			create_ray(t_light *light, t_vec3 direction)

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/02 00:28:50 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/29 18:14:27 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/10 15:01:38 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,10 @@ void	draw_line_zbuff(t_render_context *ctx, t_vec4 v0, t_vec4 v1, int color)
 			&& p.y >= 0 && p.y < (int)ctx->image->height
 			&& ctx->buffer[(int)p.y * ctx->image->width + (int)p.x] >= z)
 		{
-			ctx->buffer[(int)p.y * ctx->image->width + (int)p.x] = z;
-            ctx->image->pixels[(int)p.y * ctx->image->width + (int)p.x] = color;
+			if (ctx->mode == RM_DEPTHBUFFER)
+				ctx->buffer[(int)p.y * ctx->image->width + (int)p.x] = z;
+			if (ctx->mode == RM_DIFFUSE)
+				ctx->image->pixels[(int)p.y * ctx->image->width + (int)p.x] = color;
 		}
 		error2 += derror2; 
         if (error2 > dx)

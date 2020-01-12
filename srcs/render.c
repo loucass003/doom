@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 16:49:48 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/10 03:58:31 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/10 19:47:31 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static t_vec4	mat43_mulv4(t_mat4 m, t_vec4 p)
 
 float	get_light_intensity(t_render_context *ctx, t_renderable *r, t_vec3 normal, t_vec4 point)
 {
-	if (!ctx->doom->lights || (r && r->no_light))
+	if (!ctx->doom->lights || (r && (r->no_light)))
 		return (255);
 
 	int		i;
@@ -57,11 +57,17 @@ float	get_light_intensity(t_render_context *ctx, t_renderable *r, t_vec3 normal,
 		// if (d > 5)
 		// 	continue;
 		t_vec3 dir = ft_vec3_norm(ft_vec3_sub(vec4_to_3(point), light->position));
-		if (ft_vec3_dot(dir, light->dir) >= cosf(M_PI / 10))
-		{
-			valid++;
-			sum += ft_max(AMBIANT_LIGHT, clamp(0, 1, ft_vec3_dot(dir, ft_vec3_inv(normal)) * (15 / ft_vec3_len(ft_vec3_sub(vec4_to_3(point), light->position)))) * 255);
-		}
+		float intensity = (ft_vec3_dot(dir, light->dir) + 1) / 2 * ft_vec3_dot(dir, ft_vec3_inv(normal));
+		if (light->type == LIGHT_SPOT)
+		 	intensity = 1.0 / ((1.0 - ((ft_vec3_dot(dir, light->dir) + 1.0) / 2.0)) * 10.0);
+
+		valid++;
+		sum += ft_max(
+			AMBIANT_LIGHT, 
+			clamp(0, 1, 
+				 (intensity) * 0.2 * ((1 / ft_vec3_len(ft_vec3_sub(vec4_to_3(point), light->position))) * 4)
+			) * 255
+		);
 	}
 	if (valid == 0)
 		return AMBIANT_LIGHT;
@@ -119,14 +125,16 @@ void	render_face(int face_index, void *p)
 	t_vec4 v1 = mat43_mulv4(ctx->camera->matrix, r->pp_vertices[face->vertices_index[1] - 1]);
 	t_vec4 v2 = mat43_mulv4(ctx->camera->matrix, r->pp_vertices[face->vertices_index[2] - 1]);
 
-	v0 = mat4_mulv4(ctx->camera->projection, v0);
-	v1 = mat4_mulv4(ctx->camera->projection, v1);
-	v2 = mat4_mulv4(ctx->camera->projection, v2);
+	
 
 	float it0 = get_light_intensity(ctx, r, r->pp_normals[face->normals_index[0] - 1], r->pp_vertices[face->vertices_index[0] - 1]);
 	float it1 = get_light_intensity(ctx, r, r->pp_normals[face->normals_index[1] - 1], r->pp_vertices[face->vertices_index[1] - 1]);
 	float it2 = get_light_intensity(ctx, r, r->pp_normals[face->normals_index[2] - 1], r->pp_vertices[face->vertices_index[2] - 1]);
 	
+	v0 = mat4_mulv4(ctx->camera->projection, v0);
+	v1 = mat4_mulv4(ctx->camera->projection, v1);
+	v2 = mat4_mulv4(ctx->camera->projection, v2);
+
 	t_vec2 vertex0 = vertex;
 	t_vec2 vertex1 = vertex;
 	t_vec2 vertex2 = vertex;
@@ -139,9 +147,9 @@ void	render_face(int face_index, void *p)
 	}
 
 	process_triangle(ctx, mtl, (t_triangle) {
-		{ .pos = v0, .tex = vertex0, .normal = r->pp_normals[face->normals_index[0] - 1], .light_color = it0 },
-		{ .pos = v1, .tex = vertex1, .normal = r->pp_normals[face->normals_index[1] - 1], .light_color = it1 },
-		{ .pos = v2, .tex = vertex2, .normal = r->pp_normals[face->normals_index[2] - 1], .light_color = it2 }
+		{ .posw = r->pp_vertices[face->vertices_index[0] - 1], .pos = v0, .tex = vertex0, .normal = r->pp_normals[face->normals_index[0] - 1], .light_color = it0 },
+		{ .posw = r->pp_vertices[face->vertices_index[1] - 1], .pos = v1, .tex = vertex1, .normal = r->pp_normals[face->normals_index[1] - 1], .light_color = it1 },
+		{ .posw = r->pp_vertices[face->vertices_index[2] - 1], .pos = v2, .tex = vertex2, .normal = r->pp_normals[face->normals_index[2] - 1], .light_color = it2 }
 	});
 }
 

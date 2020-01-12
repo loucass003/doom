@@ -7,6 +7,7 @@
 typedef struct		s_vertex
 {
 	t_vec4			pos;
+	t_vec4			posw;
 	t_vec3			normal;
 	float			light_color;
 	t_vec2			tex;

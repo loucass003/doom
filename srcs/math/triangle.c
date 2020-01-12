@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   triangle.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 01:06:40 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/08 13:20:49 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/10 17:29:26 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,11 @@
 static t_vertex	transform(t_vertex v)
 {
 	const float	z_inv = -1. / v.pos.z;
-	const float w_inv = 1 / v.pos.w;
+	const float w_inv = 1. / v.pos.w;
 
-	v.pos.x = (v.pos.x * z_inv + 1) * S_WIDTH_2;
-	v.pos.y = (v.pos.y * z_inv + 1) * S_HEIGHT_2;
+	//v.posw = v.pos;
+	v.pos.x = (v.pos.x * z_inv + 1.) * S_WIDTH_2 - 0.5;
+	v.pos.y = (v.pos.y * z_inv + 1.) * S_HEIGHT_2 - 0.5;
 	v.tex = ft_vec2_div_s(v.tex, v.pos.w);
 	v.pos.w = w_inv;
 	return v;
@@ -90,21 +91,6 @@ void	process_triangle(t_render_context *ctx, t_mtl *mtl, t_triangle t)
 	}
 }
 
-void	task(void *p)
-{
-	t_tdata	*t;
-	
-	t = (t_tdata*)p;
-//	printf("ENTER\n");
-	t->gdata->todo_triangles++;
-	draw_triangle(t->ctx, t->data);
-	t->gdata->finished_triangles++;
-//	printf("done = %d/%d\n", t->gdata->finished_triangles, t->gdata->todo_triangles);
-	//free(p);
-	
-}
-
-
 void	post_process_triangle(t_render_context *ctx, t_mtl *mtl, t_triangle t)
 {
 	t.a = transform(t.a);
@@ -115,21 +101,8 @@ void	post_process_triangle(t_render_context *ctx, t_mtl *mtl, t_triangle t)
 		.mtl = mtl,
 		.triangle = t
 	};
-
-	// t_tdata *d;
-	// if(!(d = malloc(sizeof(t_tdata))))
-	// 	return ;
-	// *d = (t_tdata){
-	// 	.gdata = &ctx->doom->gdata,
-	// 	.ctx = ctx,
-	// 	.data = data
-	// };
-
-	draw_triangle(ctx, data);
-	// task(d);
-	//tpool_add_work(ctx->doom->thpool, task, d);
-	
-	// at_thpool_newtask(ctx->doom->thpool, task, d);
+	append_render_datas_array(&ctx->datas, data);
+	//draw_triangle(ctx, data);
 }
 
 t_vec3	get_triangle_normal(t_vec3 p0, t_vec3 p1, t_vec3 p2)

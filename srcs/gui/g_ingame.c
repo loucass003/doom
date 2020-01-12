@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/10 02:57:39 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/10 17:13:52 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -311,13 +311,14 @@ void	g_ingame_render(t_gui *self, t_doom *doom)
 	t += 0.05;
 
 	//doom->lights->values[0].dir.z = 1;
-	doom->lights->values[1].position.y = 1;
-	doom->lights->values[1].position.z = 25 + (50) * ((sin(t) + 1) / 2);
+	// doom->lights->values[1].position.y = 1;
+	// doom->lights->values[1].position.z = 25 + (50) * ((sin(t) + 1) / 2);
 
 
 	// doom->lights->values[1].
 	update_controls(doom);
 	doom->main_context.image = &doom->screen;
+	doom->main_context.datas->len = 0;
 	for (int i = 0; i < S_WIDTH * S_HEIGHT; i++)
 		doom->main_context.buffer[i] = 0;
 	
@@ -392,6 +393,14 @@ void	g_ingame_render(t_gui *self, t_doom *doom)
 		// 	render_renderable(&doom->main_context, sphere);
 		// }
 	}
+
+	doom->main_context.mode = RM_DEPTHBUFFER;
+	for (int i = 0; i < doom->main_context.datas->len; i++)
+		draw_triangle(&doom->main_context, &doom->main_context.datas->values[i]);
+	doom->main_context.mode = RM_DIFFUSE;
+	for (int i = 0; i < doom->main_context.datas->len; i++)
+		draw_triangle(&doom->main_context, &doom->main_context.datas->values[i]);
+//	printf("%d %d\n", doom->main_context.datas->len, doom->main_context.datas->capacity);
 
 	doom->main_context.image->pixels[(doom->main_context.image->height / 2) * doom->main_context.image->width + doom->main_context.image->width / 2 ] = 0xFF00FF00;
 	draw_circle(doom->main_context.image, (t_pixel){ S_WIDTH_2, S_HEIGHT_2, 0xFF00FF00 }, 10);

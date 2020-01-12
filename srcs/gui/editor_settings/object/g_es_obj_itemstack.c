@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 22:55:54 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/09 04:20:08 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/10 20:19:15 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static t_bool			action_performed(t_component *cmp, t_doom *doom)
 		if (!((t_textfield *)cmp)->error)
 			object->of.itemstack->amount = ((t_textfield *)cmp)->value;
 		if (object->r)
-				create_object_renderable(&doom->editor, doom->editor.current_object, object->r);
+			create_object_renderable(&doom->editor, doom->editor.current_object, object->r);
 	}
 	else if (cmp == editor->settings.guis_object[OBJECT_ITEMSTACK].components->values[2])
 	{

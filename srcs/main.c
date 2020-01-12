@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/09 18:31:59 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/10 19:39:25 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,14 +54,14 @@ void	init_bsp(t_doom *doom)
 
 	t_renderable r;
 
-	set_obj_working_dir(doom, "assets/obj/winter");
-	create_obj(doom, &r, "winter.obj");
+	set_obj_working_dir(doom, "assets/obj/de_dust");
+	create_obj(doom, &r, "de_dust22.obj");
 	r.position = (t_vec3){0, 0, -3};
 	r.rotation = (t_vec3){0, 0, 0};
-//	r.scale = (t_vec3){0.05, 0.05, 0.05};
-	r.scale = (t_vec3){5, 5, 5};
+	r.scale = (t_vec3){0.05, 0.05, 0.05};
+//	r.scale = (t_vec3){5, 5, 5};
 	//r.wireframe = TRUE;
-	r.wireframe_color = 0xFFFF0000;
+	r.wireframe_color = 0xFFFFFF00;
 	r.fixed = TRUE;
 	append_renderables_array(&doom->renderables, r);
 
@@ -98,6 +98,7 @@ int		main(int argc, char **argv)
 		.running = TRUE,
 		.main_context = {
 			.type = CTX_NORMAL,
+			.mode = RM_DEPTHBUFFER,
 			.camera = NULL
 		},
 		.current_gui = -1,
@@ -140,7 +141,8 @@ int		main(int argc, char **argv)
 
 	if (!(doom.main_context.buffer = (float *)malloc((int)(S_WIDTH * S_HEIGHT) * sizeof(float))))
 		return (-1);
-	
+	if (!(doom.main_context.datas = create_render_datas_array(16384)))
+		return (-1);
 	if (!create_ellipsoid(&doom, &doom.sphere_primitive, (t_vec2){ 12, 12 }, (t_vec3){ 1, 1, 1 }))
 		return (-1);
 	

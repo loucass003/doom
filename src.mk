@@ -16,6 +16,7 @@ SRC+=arrays/objs.c
 SRC+=arrays/walls.c
 SRC+=arrays/3dvertices.c
 SRC+=arrays/4dvertices.c
+SRC+=arrays/render_datas.c
 SRC+=arrays/renderables.c
 SRC+=arrays/2dvertices.c
 SRC+=arrays/select_items.c
