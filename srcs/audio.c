@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   audio.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/22 13:41:15 by lloncham          #+#    #+#             */
-/*   Updated: 2019/11/23 19:48:30 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/13 17:36:50 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ void			init_SDL_mixer(t_doom *doom)
 		printf("Merde\n");
 	if ((doom->audio.music[9] = Mix_LoadWAV("song/step24.wav")) == NULL)
 		printf("Merde\n");
-	Mix_CloseAudio();
+//	Mix_CloseAudio();
 }
 
 t_bool			init_openal(t_doom *doom)

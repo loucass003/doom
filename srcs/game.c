@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:01:13 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/10 02:35:44 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/13 17:36:18 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ void			game_loop(t_doom *doom)
 	
 	int  i = 0;
 	load_all(doom);
-	init_openal(doom);
+	// init_openal(doom);
 
 	
 	while (doom->running)

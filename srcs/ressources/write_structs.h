@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   write_structs.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/25 05:41:51 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/09 04:35:53 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/13 17:39:38 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,12 @@
 
 # include <libft.h>
 # include "ressource.h"
+# include "editor.h"
+
+typedef struct		s_wr_songs
+{
+	Uint32 			alen;
+}					t_wr_songs;
 
 typedef struct		s_wr_ressource
 {

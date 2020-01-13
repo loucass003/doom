@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/09 18:31:59 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/13 17:35:44 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,7 @@ int		main(int argc, char **argv)
 		ft_putendl("Usage: ./doom-nukem <datapack>");
 		return (0);
 	}
+	init_openal(&doom);
 	init_ressources_registry(&doom);
 	init_map(&doom);
 

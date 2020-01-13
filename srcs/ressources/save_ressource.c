@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   save_ressource.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 01:08:20 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/25 12:47:21 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/13 18:06:04 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ t_bool		write_ressource(t_ressource_manager *rm, t_ressource *r)
 		return (write_texture(rm, r->data.texture));
 	else if (r->type == RESSOURCE_MODEL)
 		return (write_model(rm, r->data.model));
+	else if (r->type == RESSOURCE_SOUND)
+		return (write_sound(rm , r->data.sound));
 	return (TRUE);
 }
 
