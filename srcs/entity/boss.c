@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   boss.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 14:15:25 by lloncham          #+#    #+#             */
-/*   Updated: 2020/01/09 14:45:01 by Lisa             ###   ########.fr       */
+/*   Updated: 2020/01/13 15:27:57 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,97 @@
 #include "render.h"
 #include "sprite.h"
 #include "entity.h"
+#include <math.h>
 #include <stdlib.h>
 
+t_bool	create_rocket(t_renderable *r, t_doom *doom)
+{
+	t_entity_rocket	*rocket;
+	
+	r->of.type = RENDERABLE_ENTITY;
+	if (!(r->of.data.entity = ft_memalloc(sizeof(t_entity))))
+		return (FALSE);
+	r->of.data.entity->type = ENTITY_ROCKET;
+	r->of.data.entity->packet.doom = doom;
+	r->visible = TRUE;
+	rocket = &r->of.data.entity->of.rocket;
+	rocket->damage = 5;
+	// rocket->delay = 5000;
+	rocket->range = 10;
+	r->scale = (t_vec3){ 0.01, 0.01, 0.01 };
+	r->of.data.entity->radius = (t_vec3){ 0.5, 0.5, 0.5 };
+	r->show_hitbox = TRUE;
+	compute_ellipsoid_hitbox(r, r->of.data.entity->position, r->of.data.entity->radius);
+	return (TRUE);
+}
+
+/*
+Vec3f rotationMatrixToEulerAngles(Mat &R)
+{
+ 
+    assert(isRotationMatrix(R));
+     
+    float sy = sqrt(R.at<double>(0,0) * R.at<double>(0,0) +  R.at<double>(1,0) * R.at<double>(1,0) );
+ 
+    bool singular = sy < 1e-6; // If
+ 
+    float x, y, z;
+    if (!singular)
+    {
+        x = atan2(R.at<double>(2,1) , R.at<double>(2,2));
+        y = atan2(-R.at<double>(2,0), sy);
+        z = atan2(R.at<double>(1,0), R.at<double>(0,0));
+    }
+    else
+    {
+        x = atan2(-R.at<double>(1,2), R.at<double>(1,1));
+        y = atan2(-R.at<double>(2,0), sy);
+        z = 0;
+    }
+    return Vec3f(x, y, z);
+     
+     
+     
+}
+*/
+
+t_vec3	rotation_matrix_to_euler(t_mat4 m)
+{
+	float sy = sqrtf(m.a[0][0] * m.a[0][0] + m.a[0][1] * m.a[0][1]);
+	t_bool singlular = sy < 1e-6;
+	t_vec3 out;
+
+	if (!singlular)
+	{
+		out.x = atan2(m.a[1][2], m.a[2][2]);
+		out.y = atan2(-m.a[0][2], sy);
+		out.z = atan2(m.a[0][1], m.a[0][0]);
+	}
+	else
+	{
+		out.x = atan2(-m.a[2][1], m.a[1][1]);
+		out.y = atan2(-m.a[0][2], sy);
+		out.z = 0;
+	}
+	return (out);	
+}
+
+t_bool	renderable_rocket(t_doom *doom, t_vec3 from, t_vec3 to)
+{
+	t_renderable rocket;
+	
+	rocket = *doom->res_manager.ressources->values[8]->data.model;
+	create_rocket(&rocket, doom);
+	rocket.of.data.entity->position = from;
+	//t_vec3 forward = vec3_rotate((t_vec3){ 0, 0, 1 }, (t_vec3){-doom->player.entity.rotation.x, doom->player.entity.rotation.y, 0});
+	//printf("%f %f %f\n", forward.x, forward.y, forward.z);
+	// forward.y *= 20;
+	rocket.of.data.entity->velocity = ft_vec3_mul_s(ft_vec3_norm(ft_vec3_sub(to, from)), 8);
+	//t_vec3 rot = (t_vec3){0, 0, M_PI_2};
+	rocket.of.data.entity->rotation = rotation_matrix_to_euler(look_at(to, from));
+	append_renderables_array(&doom->renderables, rocket);
+	return (TRUE);
+}
 
 t_bool		create_boss_renderable(t_doom *doom, t_renderable *r)
 {
@@ -108,12 +197,28 @@ void		entity_update_boss(t_doom *doom, t_entity *entity, double dt)
 				if (boss->shooting)
 				{
 					boss->animation_step++;
+					boss->shoot++;
 					if (boss->animation_step >= 7)
 					{
 						boss->animation_step = 4;
 						boss->shooting = FALSE;
 					}
-					doom->player.entity.life -= 0.01;
+					t_vec3 pos = entity->position;
+					t_mat4 rot = ft_mat4_rotation(entity->rotation);
+					if (boss->shoot % 2 == 0)
+					{
+						t_vec3 p_left;
+						p_left = ft_mat4_mulv(rot, (t_vec3){ 0, 0, 0.4 * 5 }); 
+						p_left = ft_vec3_add(p_left, pos);
+						renderable_rocket(doom, p_left, doom->player.camera.pos);
+					}
+					else
+					{
+						t_vec3 p_right;
+						p_right =  ft_mat4_mulv(rot, (t_vec3){ 0, 0, -0.4 * 5 }); 
+						p_right = ft_vec3_add(p_right, pos);
+						renderable_rocket(doom, p_right, doom->player.camera.pos);
+					}
 				}
 				else
 					boss->animation_step = 4;

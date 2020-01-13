@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   camera.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/01 23:57:39 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/13 13:28:44 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/13 14:28:15 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ t_mat4	look_at(t_vec3 from, t_vec3 to)
 	mat.a[3][0] = from.x;
 	mat.a[3][1] = from.y;
 	mat.a[3][2] = from.z;
+	return (mat);
 }
 
 t_mat4	projection_matrix()

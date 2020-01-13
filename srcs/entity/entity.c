@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 22:00:26 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/07 17:22:17 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/13 14:41:35 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,8 @@ void		check_collision(t_entity *entity, t_collide_aabb area)
 			&& (r.of.data.entity->type == ENTITY_GRENADA 
 				|| (r.of.data.entity->type == ENTITY_ENEMY && r.of.data.entity->of.enemy.died) 
 				|| (r.of.data.entity->type == ENTITY_BOSS && r.of.data.entity->of.boss.dead))))
+			continue;
+		if (entity->type == ENTITY_ROCKET && r.of.type == RENDERABLE_ENTITY && r.of.data.entity->type == ENTITY_BOSS)
 			continue;
 		new_area = area;
 		t_physics_data data = entity->packet;
@@ -291,6 +293,10 @@ void		entity_update(t_doom *doom, t_entity *entity, double dt)
 			entity->velocity.y -= 0.9;
 			entity->velocity.y = fmax(-4, entity->velocity.y);
 		}
+		else if (entity->type == ENTITY_ROCKET)
+		{
+			entity->velocity.y = 0;
+		}
 		else
 		{	
 			if (entity->grounded && entity->jump && entity->velocity.y < 0)
@@ -319,6 +325,8 @@ void		entity_update(t_doom *doom, t_entity *entity, double dt)
 			entity->velocity = ft_vec3_mul_s(entity->velocity, !entity->packet.found_colision ? 0.999 : 0.8);
 		else if (entity->type == ENTITY_ENEMY)
 			entity->velocity = (t_vec3){ 0, 0, 0 };
+		else if (entity->type == ENTITY_ROCKET)
+			;
 		else
 		{
 			entity->velocity.x *= !entity->grounded && !entity->packet.found_colision ? 0.99 : 0.5;

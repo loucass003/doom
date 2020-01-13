@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 00:01:14 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/28 15:38:09 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/13 15:18:40 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ typedef enum		e_entity_type
 	ENTITY_PLAYER,
 	ENTITY_ENEMY,
 	ENTITY_GRENADA,
-	ENTITY_BOSS
+	ENTITY_BOSS,
+	ENTITY_ROCKET
 }					t_entity_type;
 
 typedef struct		s_entity_grenada
@@ -32,6 +33,12 @@ typedef struct		s_entity_grenada
 	float			range;
 	long			delay;
 }					t_entity_grenada;
+
+typedef struct		s_entity_rocket
+{
+	float			damage;
+	float			range;
+}					t_entity_rocket;
 
 typedef struct		s_entity_enemy
 {
@@ -58,6 +65,7 @@ typedef struct		s_entity_boss
 	int				animation_step;
 	int				phase;
 	ALuint			sources[3];
+	int				shoot;
 }					t_entity_boss;
 
 typedef union		u_entity_of
@@ -65,6 +73,7 @@ typedef union		u_entity_of
 	t_entity_grenada	grenada;
 	t_entity_enemy		enemy;
 	t_entity_boss		boss;
+	t_entity_rocket		rocket;
 }					t_entity_of;
 
 typedef struct		s_entity
@@ -91,5 +100,9 @@ t_bool		create_grenada(t_renderable *r, struct s_doom *doom);
 void		compute_entity_hitbox(t_renderable *r);
 void		entity_update_boss(struct s_doom *doom, t_entity *entity, double dt);
 void		entity_update_enemy(struct s_doom *doom, t_entity *entity, double dt);
+
+t_bool	renderable_rocket(struct s_doom *doom, t_vec3 from, t_vec3 to);
+t_bool	create_rocket(t_renderable *r, struct s_doom *doom);
+
 
 #endif

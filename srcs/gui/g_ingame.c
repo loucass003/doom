@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_ingame.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/10 02:57:39 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/13 14:36:01 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,15 @@ void	g_ingame_on_events(t_gui *self, SDL_Event *event, t_doom *doom)
 			forward.z *= 14;
 			grenada.of.data.entity->velocity = forward;
 			append_renderables_array(&doom->renderables, grenada);
+		}
+		if (event->type == SDL_KEYDOWN && key == SDL_SCANCODE_R)
+		{
+			if (!doom->closer_boss)
+				return ;
+			t_vec3 pos = doom->closer_boss->position;
+			// t_vec3 dir = ft_vec3_norm(ft_vec3_sub(doom->player.entity.position, pos));
+			// pos = ft_vec3_add(pos, ft_vec3_add(dir, (t_vec3){ doom->closer_boss->radius.x, 0, doom->closer_boss->radius.z }));
+			renderable_rocket(doom, pos, doom->player.camera.pos);
 		}
 		player_inventory_event(doom, event);
 	}

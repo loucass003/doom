@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/14 16:37:29 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/01 21:04:06 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/13 15:01:09 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,10 @@ t_collision		ray_hit_world(t_doom *doom, t_renderables *renderables, t_ray ray)
 	{
 		r = &renderables->values[i];
 		
-		if (r->of.type == RENDERABLE_ENTITY && ((r->of.data.entity->type == ENTITY_ENEMY && r->of.data.entity->of.enemy.died) || (r->of.data.entity->type == ENTITY_BOSS && r->of.data.entity->of.boss.dead)))
+		if (r->of.type == RENDERABLE_ENTITY 
+			&& ((r->of.data.entity->type == ENTITY_ENEMY && r->of.data.entity->of.enemy.died) 
+				|| (r->of.data.entity->type == ENTITY_BOSS && r->of.data.entity->of.boss.dead)
+				|| (r->of.data.entity->type == ENTITY_ROCKET)))
 			continue;
 		if (r->has_hitbox && r->hitbox.type == COLLIDE_ELLIPSOID)
 		{
