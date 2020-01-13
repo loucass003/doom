@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/04 22:13:55 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/16 22:23:54 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/12 13:32:13 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ typedef struct	s_mtl
 	char		name[MATERIAL_NAME_LEN];
 	t_bool		texture_map_set;
 	t_img		*texture_map;
-	uint8_t		*lightmap;
 	t_bool		material_color_set;
 	t_bool		transparent;
 	int			material_color;

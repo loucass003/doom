@@ -6,14 +6,13 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/30 04:25:19 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/12 02:59:47 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/12 14:00:14 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIGHT_H
 # define LIGHT_H
 
-#include "render.h"
 #include <libft.h>
 
 typedef enum		s_light_type
@@ -28,8 +27,16 @@ typedef struct		s_light
 	t_light_type		type;
 	t_vec3				position;
 	t_vec3				dir;
-	t_render_context	context;
+	t_bool				fixed;
 }					t_light;
+
+typedef struct		s_lightmap
+{
+	size_t			width;
+	size_t			height;
+	int				common_hit;
+	char			*map;
+}					t_lightmap;
 
 typedef struct		s_lights
 {

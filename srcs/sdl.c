@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sdl.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 20:10:35 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/20 14:36:41 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/12 13:51:24 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ t_bool			init_sdl(t_doom *doom)
 	if (!create_image(doom->renderer, S_WIDTH, S_HEIGHT, &doom->screen))
 		return (sdl_quit(doom));
 	if (!create_image(doom->renderer, S_WIDTH, S_HEIGHT, &doom->screen_transparency))
+		return (sdl_quit(doom));
+	if (!create_image(doom->renderer, 400, 400, &doom->light_view))
 		return (sdl_quit(doom));
 	doom->main_context.image = &doom->screen;
 	if (!load_fonts(doom))

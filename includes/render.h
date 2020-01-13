@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:16:19 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/10 03:11:26 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/12 13:59:30 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include "arrays.h"
 # include "renderable_of.h"
 # include "collision.h"
+# include "light.h"
 
 
 typedef struct		s_face
@@ -38,6 +39,7 @@ typedef struct		s_face
 	char			normal_type;
 	int				group;
 	t_bool			rendered;
+	t_lightmap		lightmap;
 
 	int				wall_index;
 	int				wall_section;

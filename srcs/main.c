@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/09 18:31:59 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/12 13:45:04 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,6 @@ int		main(int argc, char **argv)
 		return (-1);
 	
 	init_sdl(&doom);
-	init_lightning(&doom);
 	game_loop(&doom);
 	save_datapack(&doom);
 	sdl_quit(&doom);

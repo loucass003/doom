@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_mainmenu.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:56:05 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/08 13:24:56 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/12 14:28:53 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static t_bool		action_performed(t_component *cmp, t_doom *doom)
 {
 	if (cmp == doom->guis[doom->current_gui].components->values[0])
 	{
-		
+	
 		spawn_player(doom);
 		if (doom->main_context.type == CTX_NORMAL)
 		{
@@ -29,6 +29,7 @@ static t_bool		action_performed(t_component *cmp, t_doom *doom)
 		else
 			unselect_all(doom);
 		doom->main_context.type = CTX_NORMAL;
+		init_lightning(doom);
 		set_gui(doom, GUI_INGAME);
 		return (FALSE);
 	}

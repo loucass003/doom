@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   doom.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/07 14:55:13 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/12 13:50:52 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ typedef struct		s_doom
 	SDL_Renderer		*renderer;
 	t_img				screen;
 	t_img				screen_transparency;
+	t_img				light_view;//TODO: DEBUG
 	t_bool				running;
 	t_stats				stats;
 	t_fonts				fonts;

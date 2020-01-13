@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/10 02:57:39 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/12 14:23:44 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -369,9 +369,9 @@ void	g_ingame_render(t_gui *self, t_doom *doom)
 	doom->lights->values[0].position = doom->player.camera.pos;
 	for (int i = 0; i < doom->lights->len; i++)
 	{
+		t_light			*light = &doom->lights->values[i];
 		{
 			t_renderable	*sphere = &doom->sphere_primitive;
-			t_light			*light = &doom->lights->values[i];
 			sphere->position = light->position;
 			sphere->scale = (t_vec3){ 0.2, 0.2, 0.2 };
 			sphere->wireframe = TRUE;
@@ -380,17 +380,18 @@ void	g_ingame_render(t_gui *self, t_doom *doom)
 			//sphere->double_faced = FALSE;
 			render_renderable(&doom->main_context, sphere);
 		}
-		// {
-		// 	t_renderable	*sphere = &doom->sphere_primitive;
-		// 	t_light			*light = &doom->lights->values[i];
-		// 	sphere->position = ft_vec3_mul_s(ft_vec3_add(light->position, light->dir), 1);
-		// 	sphere->scale = (t_vec3){ 0.2, 0.2, 0.2 };
-		// 	sphere->wireframe = TRUE;
-		// 	sphere->wireframe_color = 0xFFFFFF00;
-		// 	sphere->dirty = TRUE;
-		// 	//sphere->double_faced = FALSE;
-		// 	render_renderable(&doom->main_context, sphere);
-		// }
+		if (light->type == LIGHT_SPOT)
+		{
+			t_renderable	*sphere = &doom->sphere_primitive;
+		
+			sphere->position = ft_vec3_mul_s(ft_vec3_add(light->position, light->dir), 1);
+			sphere->scale = (t_vec3){ 0.2, 0.2, 0.2 };
+			sphere->wireframe = TRUE;
+			sphere->wireframe_color = 0xFFFFFF00;
+			sphere->dirty = TRUE;
+			//sphere->double_faced = FALSE;
+			render_renderable(&doom->main_context, sphere);
+		}
 	}
 
 	doom->main_context.image->pixels[(doom->main_context.image->height / 2) * doom->main_context.image->width + doom->main_context.image->width / 2 ] = 0xFF00FF00;
@@ -399,6 +400,7 @@ void	g_ingame_render(t_gui *self, t_doom *doom)
 
 
 	doom->main_context.image = &doom->screen;
+	
 	if (!draw_player_inventory(doom, self))
 		return ;
 	draw_object_transform_type(&doom->editor, self);
@@ -412,4 +414,7 @@ void	g_ingame_render(t_gui *self, t_doom *doom)
 
 	render_components(doom, self);
 	doom->guis[GUI_EDITOR_SETTINGS].render(&doom->guis[GUI_EDITOR_SETTINGS], doom);
+
+
+	apply_image_to_image(doom->main_context.image, &doom->light_view, (SDL_Rect){0, 0, 400, 400}, (SDL_Rect){ S_WIDTH - 400, S_HEIGHT - 400, 400, 400 });
 }

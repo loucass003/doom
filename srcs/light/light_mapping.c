@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 14:22:33 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/12 03:03:33 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/12 14:42:17 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,19 +23,24 @@
 {
 	if (!(doom->lights = create_lights_array(2)))
 		return ;
-	// append_lights_array(&doom->lights, (t_light) {
-	// 	.position = { 2, 1.499, 8 },
-	// 	.rotation = ((t_vec3){ M_PI - -M_PI_4,  M_PI, 0 })
-	// });
+	doom->lights->len = 0;
 	append_lights_array(&doom->lights,(t_light) {
 		.position = { 0, 0, 0 },
-		.dir = ((t_vec3){ -1, 0, 0 }),
-		.type = LIGHT_POINT
+		.type = LIGHT_POINT,
+		.fixed = FALSE
 	});
 	append_lights_array(&doom->lights,(t_light) {
 		.position = { 20, 0, 35 },
 		.dir = ((t_vec3){ -1, 0, 0 }),
-		.type = LIGHT_SPOT
+		.type = LIGHT_SPOT,
+		.fixed = FALSE
+	});
+
+	append_lights_array(&doom->lights,(t_light) {
+		.position = { 20, 0, 20 },
+		.dir = vec3_rotate((t_vec3){0, 0, -1}, (t_vec3){0, 0, 0}),
+		.type = LIGHT_SPOT,
+		.fixed = TRUE
 	});
 }
 
@@ -188,6 +193,17 @@
 // }
 
 
+typedef union ut_color {
+	uint32_t color;
+	struct argbTag
+	{
+		uint8_t r;
+		uint8_t g;
+		uint8_t b;
+		uint8_t a;
+	} argb;
+} ur_color;
+
 void		init_lightning(t_doom *doom)
 {
 	int		i;
@@ -195,25 +211,52 @@ void		init_lightning(t_doom *doom)
 
 	printf("INIT_LIGHTS\n");
 	create_lights(doom);
-	// float width = 400;
-	// float height = 400;
-	// i = -1;
-	// while (++i < doom->lights->len)
-	// {
-	// 	light = &doom->lights->lights[i];
-	// 	for (int y = 0; y < height; y++)
-	// 	{
-	// 		for (int x = 0; x < width; x++)
-	// 		{
-	// 			if((x - 200)*(x - 200) +  (y - 200) * (y - 200) > 200*200)
-	// 			 	continue ;
-	// 			float x_inv = width - x;
-	// 			float y_inv = y;
-	// 			t_ray ray = create_ray(light, ft_vec3_norm((t_vec3){ 
-	// 				((x_inv + 0.5) / width - 0.5),
-	// 				((y_inv + 0.5) / height - 0.5) * (height / width),
-	// 				1
-	// 			}));
+	clear_image(&doom->light_view);
+	float width = 400;
+	float height = 400;
+	i = -1;
+	while (++i < doom->lights->len)
+	{
+		light = &doom->lights->values[i];
+		if (!light->fixed)
+			continue;
+		printf("TEST LIGHT %d\n", i);
+		for (int y = 0; y < height; y++)
+		{
+			for (int x = 0; x < width; x++)
+			{
+				if((x - 200) * (x - 200) + (y - 200) * (y - 200) > 200*200)
+				 	continue ;
+				float x_inv = width - x;
+				float y_inv = y;
+				t_ray ray = (t_ray){
+					.origin = light->position,
+					.direction =
+						ft_vec3_norm(ft_vec3_mul(
+							light->dir,
+							ft_vec3_norm((t_vec3){ 
+								((x_inv + 0.5) / width - 0.5),
+								((y_inv + 0.5) / height - 0.5) * (height / width),
+								1
+							})
+						))
+					
+				};
+				t_collision hit = ray_hit_world(doom, doom->renderables, ray);
+				if (hit.collide)
+				{
+					ur_color c;
+
+					c.argb.a = 255;
+					c.argb.r = hit.uv.x * 255;
+					c.argb.g = hit.uv.y * 255;
+					c.argb.b = hit.uv.x * hit.uv.y * 255;
+					doom->light_view.pixels[x + (400 * y)] = c.color;
+					//printf("HIT\n");
+				}
+			}
+		}
+	}
 	// 			t_collision hit = hit_scene(doom, &ray);
 	// 			// if (hit.collide && hit.who.type == COLLIDE_AABB)
 	// 			// {

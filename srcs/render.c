@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 16:49:48 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/12 03:15:08 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/12 03:27:00 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ float	get_light_intensity(t_render_context *ctx, t_renderable *r, t_vec3 normal,
 		t_vec3 dir = ft_vec3_norm(ft_vec3_sub(vec4_to_3(point), light->position));
 		float intensity = ft_vec3_dot(dir, ft_vec3_inv(normal));
 		if (light->type == LIGHT_SPOT)
-		 	intensity = 1.0 / ((1.0 - ((ft_vec3_dot(dir, light->dir) + 1.0) / 2.0)) * 10.0) * 0.2; 
+		 	intensity = 1.0 / ((1.0 - ((ft_vec3_dot(dir, light->dir) + 1.0) / 2.0)) * 10.0) * 0.2;
 
 		valid++;
 		sum += ft_max(
