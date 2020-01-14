@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_ingame.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/14 16:43:17 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/14 18:03:04 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -330,9 +330,12 @@ void	g_ingame_render(t_gui *self, t_doom *doom)
 	for (int i = 0; i < S_WIDTH * S_HEIGHT; i++)
 		doom->main_context.buffer[i] = 0;
 	
-	doom->renderables->values[doom->skybox_index].visible = doom->skybox_enabled;
-	doom->renderables->values[doom->skybox_index].position = doom->main_context.camera->pos;
-	doom->renderables->values[doom->skybox_index].dirty = TRUE;
+	if (doom->skybox_index != -1)
+	{
+		doom->renderables->values[doom->skybox_index].visible = doom->skybox_enabled;
+		doom->renderables->values[doom->skybox_index].position = doom->main_context.camera->pos;
+		doom->renderables->values[doom->skybox_index].dirty = TRUE;
+	}
 
 	//printf("START FAME ------------\n");
 	if (doom->main_context.type == CTX_EDITOR)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   entity.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 22:00:26 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/14 16:46:12 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/14 18:02:58 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -305,7 +305,7 @@ t_bool		entity_update(t_doom *doom, t_entity *entity, double dt)
 					// && entity->velocity.y == 0)
 				alGetSourcei(entity->sources[2], AL_SOURCE_STATE, &status);
 				if (status != AL_PLAYING)
-					entity_sound(entity, 9, 2, 1);
+					entity_sound(entity, 2, 2, 1);
 			}
 				// play_music(&doom->audio, entity->position, 9, TRUE);
 		}
@@ -313,7 +313,7 @@ t_bool		entity_update(t_doom *doom, t_entity *entity, double dt)
 				&& (entity->velocity.x || entity->velocity.z)
 				&& entity->grounded
 				&& doom->audio.source_status[CHAR_FOOTSTEP] == 0)
-			player_sound(&doom->audio, CHAR_FOOTSTEP, 9, 1);
+			player_sound(&doom->audio, CHAR_FOOTSTEP, 2, 1);
 		if (entity->type == ENTITY_GRENADA)
 		{
 			entity->velocity.y -= 0.9;

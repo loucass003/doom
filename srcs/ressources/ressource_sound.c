@@ -6,7 +6,7 @@
 /*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 16:55:56 by louali            #+#    #+#             */
-/*   Updated: 2020/01/13 18:09:24 by louali           ###   ########.fr       */
+/*   Updated: 2020/01/14 17:49:18 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,11 @@ t_bool		load_sound(t_doom *doom, t_ressource *r, char *path)
 
    
 	if ((mix_chunk = Mix_LoadWAV(path)) == NULL)
+	{
 		printf("Unable to load sound %s\n", Mix_GetError());
-     if (!(r->data.sound = malloc(sizeof(t_sound) + mix_chunk->alen)))
+		return (FALSE);
+	}
+	if (!(r->data.sound = malloc(sizeof(t_sound) + mix_chunk->alen)))
 		return (FALSE);
     ft_memcpy(r->data.sound->abuf, mix_chunk->abuf, mix_chunk->alen);
     r->data.sound->alen = mix_chunk->alen;
@@ -56,8 +59,9 @@ t_bool		read_songs(t_ressource_manager *r, t_sound **sound)
 
 	if (!io_memcpy(&r->reader, &wr_songs, sizeof(t_wr_songs)))
 		return (FALSE);
-    if (!(s = malloc(sizeof(t_sound))))
+    if (!(s = malloc(sizeof(t_sound) + wr_songs.alen)))
 		return (FALSE);
+	s->alen = wr_songs.alen;
     if (!io_memcpy(&r->reader, s->abuf, wr_songs.alen))
 		return (FALSE);
     gen_audio_buffer(s);

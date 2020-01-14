@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sdl.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 20:10:35 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/20 14:36:41 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/14 17:53:26 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ t_bool			init_sdl(t_doom *doom)
 		return (sdl_quit(doom));
 	if (!load_textures(doom))
 		return (sdl_quit(doom));
+	
 	return (TRUE);
 }
 
