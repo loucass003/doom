@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/13 14:36:01 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/14 16:43:17 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -356,7 +356,9 @@ void	g_ingame_render(t_gui *self, t_doom *doom)
 		t_renderable	*r = doom->renderables->values + i;
 		if (r->of.type == RENDERABLE_ENTITY)
 		{
-			entity_update(doom, r->of.data.entity, doom->stats.delta);
+			r->of.data.entity->r = r;
+			if (!entity_update(doom, r->of.data.entity, doom->stats.delta))
+				continue;
 			if (r->of.data.entity->type == ENTITY_BOSS && ft_vec3_len(ft_vec3_sub(doom->player.entity.position, r->of.data.entity->position)) <= 50)
 				doom->closer_boss = r->of.data.entity;
 		}

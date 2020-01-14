@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 00:01:14 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/13 15:18:40 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/14 16:43:36 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,22 +78,23 @@ typedef union		u_entity_of
 
 typedef struct		s_entity
 {
-	t_entity_type	type;
-	t_entity_of		of;
-	t_vec3			position;
-	t_vec3			velocity;
-	t_vec3			rotation;
-	t_vec3			scale;
-	t_vec3			radius;
-	t_bool			grounded;
-	t_bool			jump;
-	t_physics_data	packet;
-	float			life;
-	float			max_life;
-	ALuint			*sources;
+	t_entity_type		type;
+	t_entity_of			of;
+	t_vec3				position;
+	t_vec3				velocity;
+	t_vec3				rotation;
+	t_vec3				scale;
+	t_vec3				radius;
+	t_bool				grounded;
+	t_bool				jump;
+	t_physics_data		packet;
+	float				life;
+	float				max_life;
+	ALuint				*sources;
+	struct s_renderable	*r;
 }					t_entity;
 
-void		entity_update(struct s_doom *doom, t_entity *entity, double dt);
+t_bool		entity_update(struct s_doom *doom, t_entity *entity, double dt);
 t_bool		create_enemy_renderable(struct s_doom *doom, t_renderable *r);
 t_bool		create_boss_renderable(struct s_doom *doom, t_renderable *r);
 t_bool		create_grenada(t_renderable *r, struct s_doom *doom);
