@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 16:49:48 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/15 19:31:18 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/15 21:07:35 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ float	get_light_intensity(t_render_context *ctx, t_renderable *r, t_vec3 normal,
 	float	sum;
 	t_light	*light;
 	
-	if (face->room_index != -1)
+	if (r->of.type == RENDERABLE_MAP && face->room_index != -1)
 		ambiant = ctx->doom->editor.rooms->values[face->room_index].ambiant_light;
 
 	i = -1;
