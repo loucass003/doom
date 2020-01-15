@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/14 10:24:25 by lloncham          #+#    #+#             */
-/*   Updated: 2020/01/14 16:27:04 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/15 16:41:20 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_bool	create_rocket(t_renderable *r, t_doom *doom)
 	
 	r->visible = TRUE;
 	rocket = &r->of.data.entity->of.rocket;
-	rocket->damage = 5;
+	rocket->damage = 0.5;
 	rocket->range = 10;
 	r->scale = (t_vec3){ 0.01, 0.01, 0.01 };
 	r->of.data.entity->radius = (t_vec3){ 0.5, 0.5, 0.5 };
@@ -72,8 +72,3 @@ t_bool	renderable_rocket(t_doom *doom, t_vec3 from, t_vec3 to)
 	append_renderables_array(&doom->renderables, rocket);
 	return (TRUE);
 }
-
-// t_bool  entity_hit_rocket(t_entity *entity, t_renderable r)
-// {
-    
-// }

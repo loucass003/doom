@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 14:15:25 by lloncham          #+#    #+#             */
-/*   Updated: 2020/01/14 16:17:10 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/15 15:41:39 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,7 +161,5 @@ void		entity_update_boss(t_doom *doom, t_entity *entity, double dt)
 				boss->animation_step = 6;
 			}
 		}
-		
-		
 	}
 }

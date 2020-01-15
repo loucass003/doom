@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   doom.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/14 17:10:49 by louali           ###   ########.fr       */
+/*   Updated: 2020/01/15 16:35:25 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,13 @@ typedef struct		s_gameover
 	float			totaldamage;
 }					t_gameover;
 
+typedef enum		e_difficulty
+{
+	D_EASY,
+	D_MEDIUM,
+	D_HARD
+}					t_difficulty;
+
 typedef struct		s_doom
 {
 	SDL_Window			*win;
@@ -129,6 +136,7 @@ typedef struct		s_doom
 	t_gameover			gameover;
 	t_entity			*closer_boss;
 	t_bool				mouse_focus;
+	t_difficulty		difficulty;
 }					t_doom;
 
 float				clamp(float min, float max, float v);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   entity.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 22:00:26 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/14 18:02:58 by louali           ###   ########.fr       */
+/*   Updated: 2020/01/15 16:21:44 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,28 +129,29 @@ t_bool		check_collision(t_entity *entity, t_collide_aabb area)
 			while (++j < r.faces->len)
 				collide_with_face(j, &(struct s_entity_collision_check){ .entity = entity, .r = &r });
 		}
-		// if (entity->packet.r && entity->packet.r->of.type == RENDERABLE_ITEMSTACK)
-		// {
-		// 	if (entity_hit_itemstack(entity, entity->packet.r->of.data.itemstack))
-		// 	{
-		// 		printf("AMOUNT %d\n", entity->packet.r->of.data.itemstack->amount);
-		// 		if (entity->packet.r->of.data.itemstack->amount <= 0)
-		// 		{
-		// 			splice_renderables_array(entity->packet.doom->renderables, i, 1);
-		// 			i--;
-		// 		}
-		// 		entity->packet = data;
-		// 	}
-		// }
+		if (entity->packet.r && entity->packet.r->of.type == RENDERABLE_ITEMSTACK)
+		{
+			if (entity_hit_itemstack(entity, entity->packet.r->of.data.itemstack))
+			{
+				printf("AMOUNT %d\n", entity->packet.r->of.data.itemstack->amount);
+				if (entity->packet.r->of.data.itemstack->amount <= 0)
+				{
+					splice_renderables_array(entity->packet.doom->renderables, i, 1);
+					i--;
+				}
+				entity->packet = data;
+			}
+		}
 	
 		if (entity->type == ENTITY_ROCKET && entity->packet.found_colision)
 		{
 			if (entity->packet.r && entity->packet.r->of.type == RENDERABLE_ENTITY && entity->packet.r->of.data.entity->type == ENTITY_PLAYER)
 			{
+				entity->packet.r->of.data.entity->life -= entity->of.rocket.damage;
 				printf("HIT PLAYER\n");
 			}
+			//TODO SON EXLOSION
 			splice_renderables_array(entity->packet.doom->renderables, renderables_indexof(entity->packet.doom->renderables, entity->r), 1);
-			
 			return (FALSE);
 		}
 
