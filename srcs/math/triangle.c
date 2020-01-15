@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   triangle.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 01:06:40 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/08 13:20:49 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/15 03:53:06 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,40 +27,29 @@ static t_vertex	transform(t_vertex v)
 	return v;
 }
 
-static void 	clip_2(t_render_context *ctx, t_mtl *mtl, t_triangle t)
+static void 	clip_2(t_render_context *ctx, t_triangle t)
 {
 	const float	alpha_a = (NEAR_CLIP - t.a.pos.z) / (t.c.pos.z - t.a.pos.z);
 	const float	alpha_b = (NEAR_CLIP - t.b.pos.z) / (t.c.pos.z - t.b.pos.z);
 	const t_vertex v_a = vertex_interpolate(t.a, t.c, alpha_a);
 	const t_vertex v_b = vertex_interpolate(t.b, t.c, alpha_b);
 
-	post_process_triangle(ctx, mtl, (t_triangle){ v_a, v_b, t.c });
+	post_process_triangle(ctx, (t_triangle){ v_a, v_b, t.c, t.face_index, t.r });
 }
 
-static void 	clip_1(t_render_context *ctx, t_mtl *mtl, t_triangle t)
+static void 	clip_1(t_render_context *ctx, t_triangle t)
 {
 	const float	alpha_a = (NEAR_CLIP - t.a.pos.z) / (t.b.pos.z - t.a.pos.z);
 	const float	alpha_b = (NEAR_CLIP - t.a.pos.z) / (t.c.pos.z - t.a.pos.z);
 	const t_vertex v_a = vertex_interpolate(t.a, t.b, alpha_a);
 	const t_vertex v_b = vertex_interpolate(t.a, t.c, alpha_b);
 	
-	post_process_triangle(ctx, mtl, (t_triangle){ v_a, t.b, t.c });
-	post_process_triangle(ctx, mtl, (t_triangle){ v_b, v_a, t.c });
+	post_process_triangle(ctx, (t_triangle){ v_a, t.b, t.c, t.face_index, t.r });
+	post_process_triangle(ctx, (t_triangle){ v_b, v_a, t.c, t.face_index, t.r });
 }
 
-void	process_triangle(t_render_context *ctx, t_mtl *mtl, t_triangle t)
+void	process_triangle(t_render_context *ctx, t_triangle t)
 {
-	// t.a.pos = mat4_mulv4(ctx->camera->projection, t.a.pos);
-	// t.b.pos = mat4_mulv4(ctx->camera->projection, t.b.pos);
-	// t.c.pos = mat4_mulv4(ctx->camera->projection, t.c.pos);
-	// if (t.a.pos.y < t.a.pos.w && t.b.pos.y < t.b.pos.w && t.c.pos.y < t.c.pos.w)
-	// 	return;
-	// if (t.a.pos.y > -t.a.pos.w && t.b.pos.y > -t.b.pos.w && t.c.pos.y > -t.c.pos.w)
-	// 	return;
-	// if (t.a.pos.x < t.a.pos.w && t.b.pos.x < t.b.pos.w && t.c.pos.x < t.c.pos.w)
-	// 	return;
-	// if (t.a.pos.x > -t.a.pos.w && t.b.pos.x > -t.b.pos.w && t.c.pos.x > -t.c.pos.w)
-	// 	return;
 	if (t.a.pos.z > FAR_CULL && t.b.pos.z > FAR_CULL && t.c.pos.z > FAR_CULL)
 		return;
 	if (t.a.pos.z < NEAR_CLIP && t.b.pos.z < NEAR_CLIP && t.c.pos.z < NEAR_CLIP)
@@ -69,67 +58,35 @@ void	process_triangle(t_render_context *ctx, t_mtl *mtl, t_triangle t)
 	if (t.a.pos.z < NEAR_CLIP)
 	{
 		if (t.b.pos.z < NEAR_CLIP)
-			clip_2(ctx, mtl, t);
+			clip_2(ctx, t);
 		else if (t.c.pos.z < NEAR_CLIP)
-			clip_2(ctx, mtl, (t_triangle){t.a, t.c, t.b});
+			clip_2(ctx, (t_triangle){t.a, t.c, t.b, t.face_index, t.r});
 		else
-			clip_1(ctx, mtl, t);
+			clip_1(ctx, t);
 	}
 	else if (t.b.pos.z < NEAR_CLIP)
 	{
 		if (t.c.pos.z < NEAR_CLIP)
-			clip_2(ctx, mtl, (t_triangle){t.b, t.c, t.a});
+			clip_2(ctx, (t_triangle){t.b, t.c, t.a, t.face_index, t.r});
 		else
-			clip_1(ctx, mtl, (t_triangle){t.b, t.a, t.c});
+			clip_1(ctx, (t_triangle){t.b, t.a, t.c, t.face_index, t.r});
 	}
 	else if (t.c.pos.z < NEAR_CLIP)
-		clip_1(ctx, mtl, (t_triangle){t.c, t.a, t.b});
+		clip_1(ctx, (t_triangle){t.c, t.a, t.b, t.face_index, t.r});
 	else
 	{
-		post_process_triangle(ctx, mtl, t);
+		post_process_triangle(ctx, t);
 	}
 }
 
-void	task(void *p)
-{
-	t_tdata	*t;
-	
-	t = (t_tdata*)p;
-//	printf("ENTER\n");
-	t->gdata->todo_triangles++;
-	draw_triangle(t->ctx, t->data);
-	t->gdata->finished_triangles++;
-//	printf("done = %d/%d\n", t->gdata->finished_triangles, t->gdata->todo_triangles);
-	//free(p);
-	
-}
 
-
-void	post_process_triangle(t_render_context *ctx, t_mtl *mtl, t_triangle t)
+void	post_process_triangle(t_render_context *ctx, t_triangle t)
 {
 	t.a = transform(t.a);
 	t.b = transform(t.b);
 	t.c = transform(t.c);
 
-	t_render_data data = (t_render_data) {
-		.mtl = mtl,
-		.triangle = t
-	};
-
-	// t_tdata *d;
-	// if(!(d = malloc(sizeof(t_tdata))))
-	// 	return ;
-	// *d = (t_tdata){
-	// 	.gdata = &ctx->doom->gdata,
-	// 	.ctx = ctx,
-	// 	.data = data
-	// };
-
-	draw_triangle(ctx, data);
-	// task(d);
-	//tpool_add_work(ctx->doom->thpool, task, d);
-	
-	// at_thpool_newtask(ctx->doom->thpool, task, d);
+	draw_triangle(ctx, t);
 }
 
 t_vec3	get_triangle_normal(t_vec3 p0, t_vec3 p1, t_vec3 p2)

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 01:15:48 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/12 14:00:36 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/15 05:57:41 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ typedef struct		s_collision
 	t_bool				collide;
 	float				dist;
 	t_vec2				uv;
+	t_vec2				uv2;
 	t_collidable		who;
 	t_ray				ray;
 	t_vec3				point;

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 16:49:48 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/12 03:27:00 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/15 05:42:10 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,10 +143,12 @@ void	render_face(int face_index, void *p)
 		vertex2 = r->vertex->vertices[face->vertex_index[2] - 1];
 	}
 
-	process_triangle(ctx, mtl, (t_triangle) {
-		{ .pos = v0, .tex = vertex0, .normal = r->pp_normals[face->normals_index[0] - 1], .light_color = it0 },
-		{ .pos = v1, .tex = vertex1, .normal = r->pp_normals[face->normals_index[1] - 1], .light_color = it1 },
-		{ .pos = v2, .tex = vertex2, .normal = r->pp_normals[face->normals_index[2] - 1], .light_color = it2 }
+	process_triangle(ctx, (t_triangle) {
+		{ .pos = v0, .tex = vertex0, .tex_lm = (t_vec2){ 0, 0 }, .normal = r->pp_normals[face->normals_index[0] - 1], .light_color = it0 },
+		{ .pos = v1, .tex = vertex1, .tex_lm = (t_vec2){ 0, 1 }, .normal = r->pp_normals[face->normals_index[1] - 1], .light_color = it1 },
+		{ .pos = v2, .tex = vertex2, .tex_lm = (t_vec2){ 1, 1 }, .normal = r->pp_normals[face->normals_index[2] - 1], .light_color = it2 },
+		face_index,
+		r
 	});
 }
 

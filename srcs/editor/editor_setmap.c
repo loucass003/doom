@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   editor_setmap.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 15:55:03 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/14 16:20:53 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/15 05:28:34 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -339,5 +339,6 @@ t_bool		editor_setmap(t_editor *editor)
 			object->r->show_hitbox = FALSE;
 	}
 	spawn_player(editor->doom);
+		init_lightning(editor->doom);
 	return (TRUE);
 }

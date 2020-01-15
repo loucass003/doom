@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 14:22:33 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/12 14:42:17 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/15 15:45:42 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,6 +215,7 @@ void		init_lightning(t_doom *doom)
 	float width = 400;
 	float height = 400;
 	i = -1;
+	//i = 20;
 	while (++i < doom->lights->len)
 	{
 		light = &doom->lights->values[i];
@@ -225,34 +226,71 @@ void		init_lightning(t_doom *doom)
 		{
 			for (int x = 0; x < width; x++)
 			{
-				if((x - 200) * (x - 200) + (y - 200) * (y - 200) > 200*200)
+				if((x - 200) * (x - 200) + (y - 200) * (y - 200) > 200 * 200)
 				 	continue ;
 				float x_inv = width - x;
-				float y_inv = y;
+				float y_inv = height - y;
 				t_ray ray = (t_ray){
 					.origin = light->position,
-					.direction =
-						ft_vec3_norm(ft_vec3_mul(
-							light->dir,
-							ft_vec3_norm((t_vec3){ 
-								((x_inv + 0.5) / width - 0.5),
-								((y_inv + 0.5) / height - 0.5) * (height / width),
-								1
-							})
-						))
-					
+					.direction = ft_mat4_mulv(
+						ft_mat4_rotation(rotation_matrix_to_euler(look_at(ft_vec3_add(light->position, light->dir), light->position))),
+						(t_vec3){
+							((x_inv + 0.5) / width - 0.5),
+							((y_inv + 0.5) / height - 0.5) * (height / width),
+							1
+						}
+					)
 				};
 				t_collision hit = ray_hit_world(doom, doom->renderables, ray);
-				if (hit.collide)
+				if (hit.collide && hit.who.type == COLLIDE_TRIANGLE && hit.renderable)
 				{
-					ur_color c;
 
-					c.argb.a = 255;
-					c.argb.r = hit.uv.x * 255;
-					c.argb.g = hit.uv.y * 255;
-					c.argb.b = hit.uv.x * hit.uv.y * 255;
-					doom->light_view.pixels[x + (400 * y)] = c.color;
-					//printf("HIT\n");
+					t_collide_triangle tri = (t_collide_triangle)hit.who.data.triangle;
+
+
+					ur_color c;
+					t_vec2 uv = hit.uv;
+					t_vec2 uv2 = hit.uv2;
+					t_face *face = &hit.renderable->faces->values[tri.face];
+					t_mtl *mtl = &hit.renderable->materials->values[face->mtl_index];
+					t_lightmap *lm = &face->lightmap;
+
+					if (mtl->texture_map_set)
+					{
+
+						int t_w = mtl->texture_map->width;
+						int t_h = mtl->texture_map->height;
+
+						if (!lm->map)
+						{
+							if (!(lm->map = malloc(t_w * t_h)))
+								break;
+							ft_memset(lm->map, AMBIANT_LIGHT, t_w * t_h);
+						}
+						// int x0 = (float)(t_w - 1) * (uv.x);
+						// int y0 = (float)(t_h - 1) * (1 - uv.y);
+						float lt = fmin(1, fmax(AMBIANT_LIGHT / 255, ft_vec3_dot(ray.direction, tri.normal) ));
+						
+					
+						// int x0 = (float)(mtl->texture_map->width - 1) * (uv2.x);
+						// int y0 = (float)(mtl->texture_map->height - 1) * (1 - uv2.y);
+
+						int x1 = fabs((int)((uv.x) * mtl->texture_map->width) % mtl->texture_map->width);
+						int y1 = (mtl->texture_map->height - 1) - fabs((int)((uv.y) * mtl->texture_map->height) % mtl->texture_map->height);
+						lm->map[(y1 * t_w) + x1] = lt * 255;
+						c.color = mtl->texture_map->pixels[y1 * (mtl->texture_map->width) + x1];
+						
+						float lt2 = lm->map[(y1 * t_w) + x1] / 255.0;
+						c.argb.r *= lt2;
+						c.argb.g *= lt2;
+						c.argb.b *= lt2;
+						// c.argb.a = 255;
+						// c.argb.r = uv.x * 255;
+						// c.argb.g = uv.y * 255;
+						// c.argb.b = uv.x * uv.y * 255;
+						doom->light_view.pixels[x + (400 * y)] = c.color;
+						//printf("HIT\n");
+					}
 				}
 			}
 		}

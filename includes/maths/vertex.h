@@ -10,6 +10,7 @@ typedef struct		s_vertex
 	t_vec3			normal;
 	float			light_color;
 	t_vec2			tex;
+	t_vec2			tex_lm;
 }					t_vertex;
 
 t_vertex			vertex_add(t_vertex a, t_vertex b);

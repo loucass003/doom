@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/15 01:36:41 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/15 05:26:39 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -320,8 +320,8 @@ void	g_ingame_render(t_gui *self, t_doom *doom)
 	t += 0.05;
 
 	//doom->lights->values[0].dir.z = 1;
-	doom->lights->values[1].position.y = 1;
-	doom->lights->values[1].position.z = 25 + (50) * ((sin(t) + 1) / 2);
+	// doom->lights->values[1].position.y = 1;
+	// doom->lights->values[1].position.z = 25 + (50) * ((sin(t) + 1) / 2);
 
 
 	// doom->lights->values[1].
@@ -351,8 +351,8 @@ void	g_ingame_render(t_gui *self, t_doom *doom)
 		render_renderable(&doom->main_context, sphere);
 	}
 
-	doom->lights->values[0].position = doom->player.camera.pos;
-	doom->lights->values[0].dir = doom->player.camera.forward;
+	// doom->lights->values[0].position = doom->player.camera.pos;
+	// doom->lights->values[0].dir = doom->player.camera.forward;
 	doom->closer_boss = NULL;
 	for (int i = 0; i < doom->renderables->len; i++)
 	{

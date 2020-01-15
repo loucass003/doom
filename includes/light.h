@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/30 04:25:19 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/12 14:00:14 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/15 05:34:30 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ typedef struct		s_lightmap
 	size_t			width;
 	size_t			height;
 	int				common_hit;
-	char			*map;
+	uint8_t			*map;
 }					t_lightmap;
 
 typedef struct		s_lights

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:16:19 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/12 13:59:30 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/15 03:48:17 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,6 @@ typedef enum		s_render_type
 	CTX_EDITOR
 }					t_render_type;
 
-typedef struct		s_render_data
-{
-	t_triangle		triangle;
-	t_mtl			*mtl;
-}					t_render_data;
-
 typedef struct		s_render_context
 {
 	t_render_type	type;
@@ -112,6 +106,15 @@ typedef struct		s_renderables
 	t_renderable	values[];
 }					t_renderables;
 
+typedef struct		s_triangle
+{
+	t_vertex			a;
+	t_vertex			b;
+	t_vertex			c;
+	int					face_index;
+	t_renderable		*r;
+}					t_triangle;
+
 t_faces				*create_faces_array(int capacity);
 t_faces				*append_faces_array(t_faces **arr, t_face i);
 
@@ -124,9 +127,9 @@ t_renderables		*copy_renderables_array(t_renderables *src,
 int					renderables_indexof(t_renderables *arr, t_renderable *elem);
 
 t_bool				free_renderable(t_renderable **r, t_bool res);
-void				draw_triangle(t_render_context *ctx, t_render_data data);
-void				process_triangle(t_render_context *ctx, t_mtl *mtl, t_triangle triangle);
-void				post_process_triangle(t_render_context *ctx, t_mtl *mtl, t_triangle triangle);
+void				draw_triangle(t_render_context *ctx, t_triangle triangle);
+void				process_triangle(t_render_context *ctx, t_triangle triangle);
+void				post_process_triangle(t_render_context *ctx, t_triangle triangle);
 void				transform_renderable(t_renderable *r);
 t_bool				post_process_renderable(struct s_doom *doom, t_renderable *r, t_bool octree, t_bool replace);
 

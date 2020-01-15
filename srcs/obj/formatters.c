@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 14:34:00 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/26 02:05:58 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/15 15:14:00 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ t_bool			vertex_formatter(t_obj *obj, t_reader *reader, t_renderable *r)
 	}
 	if (i != 2)
 		return (FALSE);
+	
 	append_2dvertices_array(&r->vertex, vertex.v);
 //	printf("VERTEX %f %f\n", vertex.v.x, vertex.v.y);
 	return (TRUE);
