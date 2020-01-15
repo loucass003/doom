@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   item.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 20:16:48 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/07 16:25:46 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/14 17:15:36 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	on_use_weapon(t_doom *doom, t_itemstack *is)
 	{
 		weapon->fireing = TRUE;
 		// play_music(&doom->audio, (t_vec3){0, 0, 0}, 7, TRUE);
-		player_sound(&doom->audio, CHAR_SHOOTING, 7, 1.5);
+		player_sound(&doom->audio, CHAR_SHOOTING, 1, 1.5);
 		inv_is->amount--;
 		doom->gameover.bullets += 1;
 	}
@@ -289,7 +289,7 @@ t_bool				entity_hit_itemstack(t_entity *entity, t_itemstack *is)
 			entity->packet.doom->gameover.weapon += ft_min(i, is->amount);
 		inv_is->amount += ft_min(i, is->amount);
 		is->amount -= ft_min(i, is->amount);
-		player_sound(&entity->packet.doom->audio, ITEM_PICK, 8, 2);
+		player_sound(&entity->packet.doom->audio, ITEM_PICK, 3, 2);
 	}
 	return (TRUE);
 }

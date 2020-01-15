@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ressource.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 10:19:30 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/19 01:34:25 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/13 18:05:04 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <libft.h>
 # include "gui.h"
 # include "io.h"
+# include <al.h>
 
 typedef enum	e_ressource_type
 {
@@ -25,10 +26,18 @@ typedef enum	e_ressource_type
 	RESSOURCE_SOUND = 3
 }				t_ressource_type;
 
+typedef struct	s_sound
+{
+    Uint32 		alen;
+	ALuint		buffer_id;
+	Uint8		abuf[];
+}				t_sound;
+
 typedef union	u_ressource_data
 {
 	struct s_img		*texture;
 	struct s_renderable	*model;
+	t_sound				*sound;
 }				t_ressource_data;
 
 typedef struct	s_ressource
@@ -97,6 +106,10 @@ t_bool			read_rooms(t_ressource_manager *r);
 t_bool			read_room(t_ressource_manager *r);
 t_bool			read_wall(t_ressource_manager *r, struct s_walls **walls);
 t_bool			read_model(t_ressource_manager *r, struct s_renderable **m);
+
+t_bool			write_sound(t_ressource_manager *r, struct s_sound *sound);
+t_bool			read_sounds(t_ressource_manager *r, struct s_sound **sound);
+t_bool			load_sound(t_doom *doom, t_ressource *r, char *path);
 
 t_ressource		*get_next_ressource(t_ressource_manager *r, t_ressource *res, t_ressource_type type);
 t_ressource		*get_prev_ressource(t_ressource_manager *r, t_ressource *res, t_ressource_type type);

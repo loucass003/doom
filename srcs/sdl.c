@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 20:10:35 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/12 13:51:24 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/15 01:36:44 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ t_bool			init_sdl(t_doom *doom)
 		return (sdl_quit(doom));
 	if (!load_textures(doom))
 		return (sdl_quit(doom));
+	
 	return (TRUE);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ressources_registry.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 14:37:12 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/08 16:46:46 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/14 17:20:45 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,10 @@ t_bool			init_ressources_registry(t_doom *doom)
 	error |= a(doom, "ROCKET_MODEL", RESSOURCE_MODEL, TRUE);
 	error |= a(doom, "SKYBOX_TEXTURE", RESSOURCE_TEXTURE, TRUE);
 	error |= a(doom, "YOUWIN_TEXTURE", RESSOURCE_TEXTURE, TRUE);
+	error |= a(doom, "SOUND_WILHELM", RESSOURCE_SOUND, TRUE);
+	error |= a(doom, "SOUND_GUN", RESSOURCE_SOUND, TRUE);
+	error |= a(doom, "SOUND_FOOTSTEP", RESSOURCE_SOUND, TRUE);
+	error |= a(doom, "SOUND_PICKITEM", RESSOURCE_SOUND, TRUE);
 	return (error);
 }
 
@@ -75,5 +79,6 @@ t_bool			check_ressources_errors(t_doom *doom)
 		if (ressource_error(r))
 			return (TRUE);
 	}
+	set_default_sounds(doom);
 	return (FALSE);
 }

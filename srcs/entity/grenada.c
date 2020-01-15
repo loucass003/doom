@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 14:02:33 by rle-ru            #+#    #+#             */
-/*   Updated: 2020/01/07 17:12:06 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/14 15:34:22 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ t_bool	create_grenada(t_renderable *r, t_doom *doom)
 	grenada->damage = 5;
 	grenada->delay = 5000;
 	grenada->range = 10;
+	
 	r->scale = (t_vec3){ 0.10, 0.10, 0.10 };
 	r->of.data.entity->radius = (t_vec3){ 0.5, 0.5, 0.5 };
 	//r->show_hitbox = TRUE;

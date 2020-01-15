@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 15:55:03 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/08 15:49:02 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/14 16:20:53 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -299,6 +299,9 @@ t_bool		editor_setmap(t_editor *editor)
 	editor->settings.open = FALSE;
 	// set_gui_settings(editor, -1);
 	t_renderable r;
+
+	create_player(&r, editor->doom);
+	append_renderables_array(&editor->doom->renderables, r);
 	
 	create_map(&r, editor);
 	if (!append_renderables_array(&editor->doom->renderables, r))

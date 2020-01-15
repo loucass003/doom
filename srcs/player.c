@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:43:35 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/10 02:55:49 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/14 16:21:22 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,18 @@ void				update_player_camera(t_player *player)
 }
 
 
+t_bool	create_player(t_renderable *r, t_doom *doom)
+{
+	if (!create_renderable(r, RENDERABLE_ENTITY))
+		return (FALSE);
+	r->of.data.entity = &doom->player.entity;
+	r->of.data.entity->type = ENTITY_PLAYER;
+	r->of.data.entity->packet.doom = doom;
+	r->visible = FALSE;
+	compute_ellipsoid_hitbox(r, r->of.data.entity->position, r->of.data.entity->radius);
+	return (TRUE);
+}
+
 void				init_player(t_doom *doom)
 {
 	t_player		*player;
@@ -46,13 +58,15 @@ void				init_player(t_doom *doom)
 	player->entity.max_life = 2;
 	doom->main_context.camera = &player->camera;
 	update_player_camera(&doom->player);
+
 }
+
 
 
 void				spawn_player(t_doom *doom)
 {
 	doom->player.entity.position = editor_to_world(doom->player.spawn_data.position);
-	doom->player.entity.position.y += doom->player.entity.radius.y;
+	doom->player.entity.position.y += doom->player.entity.radius.y + 50;
 	doom->player.entity.rotation = doom->player.spawn_data.rotation;
 }
 
@@ -148,7 +162,7 @@ void	update_controls(t_doom *doom)
 	if (!doom->mouse_focus && is_settings_open(&doom->editor))
 		return ;
 	//long start = getMicrotime();
-	entity_update(doom, &doom->player.entity, doom->stats.delta);
+	//entity_update(doom, &doom->player.entity, doom->stats.delta);
 	//printf("delay %luus\n", getMicrotime() - start);
 	if (doom->main_context.type == CTX_EDITOR)
 		move_speed = 10;

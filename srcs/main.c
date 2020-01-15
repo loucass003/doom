@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/12 13:45:04 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/15 01:36:45 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,7 @@ int		main(int argc, char **argv)
 		ft_putendl("Usage: ./doom-nukem <datapack>");
 		return (0);
 	}
+	init_openal(&doom);
 	init_ressources_registry(&doom);
 	init_map(&doom);
 

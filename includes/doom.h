@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/12 13:50:52 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/15 01:36:46 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ typedef struct		s_textures
 
 typedef struct		s_audio
 {
-	Mix_Chunk		*music[10];
 	ALuint			buffer[10];
 	ALuint			source[MAX_SOUNDS];
 	t_bool			source_status[MAX_SOUNDS];

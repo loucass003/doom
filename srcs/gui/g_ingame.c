@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/12 14:23:44 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/15 01:36:41 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,15 @@ void	g_ingame_on_events(t_gui *self, SDL_Event *event, t_doom *doom)
 			forward.z *= 14;
 			grenada.of.data.entity->velocity = forward;
 			append_renderables_array(&doom->renderables, grenada);
+		}
+		if (event->type == SDL_KEYDOWN && key == SDL_SCANCODE_R)
+		{
+			if (!doom->closer_boss)
+				return ;
+			t_vec3 pos = doom->closer_boss->position;
+			// t_vec3 dir = ft_vec3_norm(ft_vec3_sub(doom->player.entity.position, pos));
+			// pos = ft_vec3_add(pos, ft_vec3_add(dir, (t_vec3){ doom->closer_boss->radius.x, 0, doom->closer_boss->radius.z }));
+			renderable_rocket(doom, pos, doom->player.camera.pos);
 		}
 		player_inventory_event(doom, event);
 	}
@@ -321,9 +330,12 @@ void	g_ingame_render(t_gui *self, t_doom *doom)
 	for (int i = 0; i < S_WIDTH * S_HEIGHT; i++)
 		doom->main_context.buffer[i] = 0;
 	
-	doom->renderables->values[doom->skybox_index].visible = doom->skybox_enabled;
-	doom->renderables->values[doom->skybox_index].position = doom->main_context.camera->pos;
-	doom->renderables->values[doom->skybox_index].dirty = TRUE;
+	if (doom->skybox_index != -1)
+	{
+		doom->renderables->values[doom->skybox_index].visible = doom->skybox_enabled;
+		doom->renderables->values[doom->skybox_index].position = doom->main_context.camera->pos;
+		doom->renderables->values[doom->skybox_index].dirty = TRUE;
+	}
 
 	//printf("START FAME ------------\n");
 	if (doom->main_context.type == CTX_EDITOR)
@@ -347,7 +359,9 @@ void	g_ingame_render(t_gui *self, t_doom *doom)
 		t_renderable	*r = doom->renderables->values + i;
 		if (r->of.type == RENDERABLE_ENTITY)
 		{
-			entity_update(doom, r->of.data.entity, doom->stats.delta);
+			r->of.data.entity->r = r;
+			if (!entity_update(doom, r->of.data.entity, doom->stats.delta))
+				continue;
 			if (r->of.data.entity->type == ENTITY_BOSS && ft_vec3_len(ft_vec3_sub(doom->player.entity.position, r->of.data.entity->position)) <= 50)
 				doom->closer_boss = r->of.data.entity;
 		}

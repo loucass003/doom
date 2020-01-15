@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   boss.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 14:15:25 by lloncham          #+#    #+#             */
-/*   Updated: 2020/01/09 14:45:01 by Lisa             ###   ########.fr       */
+/*   Updated: 2020/01/14 16:17:10 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 #include "render.h"
 #include "sprite.h"
 #include "entity.h"
+#include <math.h>
 #include <stdlib.h>
-
 
 t_bool		create_boss_renderable(t_doom *doom, t_renderable *r)
 {
@@ -98,7 +98,7 @@ void		entity_update_boss(t_doom *doom, t_entity *entity, double dt)
 				if (boss->shooting)
 					boss->t1 = 0;
 				boss->t1++;
-				if (boss->t1 >= 5 && !boss->shooting)
+				if (boss->t1 >= 7 && !boss->shooting)
 				{
 					boss->shooting = TRUE;
 					boss->t1 = 0;
@@ -108,12 +108,28 @@ void		entity_update_boss(t_doom *doom, t_entity *entity, double dt)
 				if (boss->shooting)
 				{
 					boss->animation_step++;
+					boss->shoot++;
 					if (boss->animation_step >= 7)
 					{
 						boss->animation_step = 4;
 						boss->shooting = FALSE;
 					}
-					doom->player.entity.life -= 0.01;
+					t_vec3 pos = entity->position;
+					t_mat4 rot = ft_mat4_rotation(entity->rotation);
+					if (boss->shoot % 2 == 0)
+					{
+						t_vec3 p_left;
+						p_left = ft_mat4_mulv(rot, (t_vec3){ 0, 0, 0.4 * 5 }); 
+						p_left = ft_vec3_add(p_left, pos);
+						renderable_rocket(doom, p_left, doom->player.camera.pos);
+					}
+					else
+					{
+						t_vec3 p_right;
+						p_right =  ft_mat4_mulv(rot, (t_vec3){ 0, 0, -0.4 * 5 }); 
+						p_right = ft_vec3_add(p_right, pos);
+						renderable_rocket(doom, p_right, doom->player.camera.pos);
+					}
 				}
 				else
 					boss->animation_step = 4;
