@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 14:35:33 by lloncham          #+#    #+#             */
-/*   Updated: 2020/01/09 04:14:10 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/15 19:30:45 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,7 @@ typedef struct		s_room
 	int					walls_start;
 	t_bool				floor_visible;
 	t_bool				ceil_visible;
+	uint8_t				ambiant_light;
 }					t_room;
 
 typedef struct		s_rooms

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   editor_tool_room.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 20:09:08 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/08 15:37:12 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/15 20:26:02 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ void		editor_tool_room(t_editor *editor, SDL_Event *event)
 			.floor_texture = get_default_texture(&editor->doom->res_manager, TRUE), 
 			.ceiling_texture = get_default_texture(&editor->doom->res_manager, TRUE),
 			.floor_visible = FALSE,
-			.ceil_visible = FALSE
+			.ceil_visible = FALSE,
+			.ambiant_light = AMBIANT_LIGHT
 		});
 		select_room(editor, editor->rooms->len - 1);
 	}

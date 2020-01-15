@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 01:20:07 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/09 04:36:24 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/15 20:16:37 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,8 @@ t_bool		write_room(t_ressource_manager *r, t_room *room)
 		.floor_rot = room->floor_rot,
 		.ceil_rot = room->ceil_rot,
 		.floor_visible = room->floor_visible,
-		.ceil_visible = room->ceil_visible
+		.ceil_visible = room->ceil_visible,
+		.ambiant_light = room->ambiant_light
 	};
 
 	dp_write(r, &wr_room, sizeof(t_wr_room));

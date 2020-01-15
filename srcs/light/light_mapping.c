@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 14:22:33 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/12 03:03:33 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/15 19:53:02 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@
 	});
 	append_lights_array(&doom->lights,(t_light) {
 		.position = { 20, 0, 35 },
-		.dir = ((t_vec3){ -1, 0, 0 }),
+		.dir = ((t_vec3){ 1, 0, 0 }),
 		.type = LIGHT_SPOT
 	});
 }
@@ -264,4 +264,3 @@ void		init_lightning(t_doom *doom)
 	// 	}
 	// }
 }
-

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_es_room.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 20:40:10 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/08 15:24:38 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/15 19:29:52 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,14 @@ t_bool			action_performed(t_component *cmp, t_doom *doom)
 		room->ceil_visible = ((t_checkbox *)cmp)->value;
 		update_floor(editor, editor->current_room, FALSE);
 	}
+	if (cmp == editor->settings.guis[ES_GUI_ROOM].components->values[6])
+	{
+		room->ambiant_light = AMBIANT_LIGHT;
+		if (((t_textfield *)cmp)->value > 255 || ((t_textfield *)cmp)->value < 0)
+			((t_textfield *)cmp)->error = TRUE;
+		if (!((t_textfield *)cmp)->error)
+			room->ambiant_light = ((t_textfield *)cmp)->value;
+	}
  	return (TRUE);
 }
 
@@ -70,8 +78,11 @@ void			g_es_room_enter(t_gui *self, t_doom *doom)
 	((t_checkbox *)self->components->values[4])->value = room->floor_visible; //floor_visible
 	append_components_array(&self->components, create_checkbox(doom, (t_vec2){ x + 10, y + 205 }, "INVISIBLE"));
 	((t_checkbox *)self->components->values[5])->value = room->ceil_visible; //ceiling_visible
+	append_components_array(&self->components, create_textfield((SDL_Rect){x + 10, y + 235, 300, 30}, "AMBIANT LIGHT", TRUE));
+	t_int_str istr = ft_int_to_str(room->ambiant_light);
+	set_text_value((t_textfield *)self->components->values[6], istr.str, istr.len);
 	int i = -1;
-	while (++i < 6)
+	while (++i < 7)
 		self->components->values[i]->perform_action = action_performed;
 }
 

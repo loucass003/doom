@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   editor_setmap.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 15:55:03 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/14 16:20:53 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/15 20:38:09 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -295,7 +295,7 @@ t_bool		editor_setmap(t_editor *editor)
 	editor->doom->main_context.type = CTX_EDITOR;
 	editor->doom->renderables->len = 0;
 	editor->doom->skybox_index = -1;
-	editor->map_renderable = editor->doom->renderables->len;
+	
 	editor->settings.open = FALSE;
 	// set_gui_settings(editor, -1);
 	t_renderable r;
@@ -303,6 +303,7 @@ t_bool		editor_setmap(t_editor *editor)
 	create_player(&r, editor->doom);
 	append_renderables_array(&editor->doom->renderables, r);
 	
+	editor->map_renderable = editor->doom->renderables->len;
 	create_map(&r, editor);
 	if (!append_renderables_array(&editor->doom->renderables, r))
 		return (FALSE);

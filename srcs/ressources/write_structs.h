@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   write_structs.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/25 05:41:51 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/13 17:39:38 by louali           ###   ########.fr       */
+/*   Updated: 2020/01/15 20:16:10 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct		s_wr_room
 	t_vec3			ceil_rot;
 	t_bool			floor_visible;
 	t_bool			ceil_visible;
+	uint8_t			ambiant_light;
 }					t_wr_room;
 
 typedef struct		s_wr_sprite

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   editor_create_map.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/10 13:41:47 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/08 15:49:28 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/15 20:36:51 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ t_bool	create_map(t_renderable	*r, t_editor *editor)
 	create_map_points_and_floor(editor, r);
 	create_walls(editor, r);
 	post_process_map(editor, r, TRUE);
-	
+	r->dirty = TRUE;
 	return (TRUE);
 }
 

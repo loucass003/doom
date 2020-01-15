@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/14 17:53:33 by louali           ###   ########.fr       */
+/*   Updated: 2020/01/15 19:56:54 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,11 @@
 
 void	init_bsp(t_doom *doom)
 {
+	t_renderable r;
+
+	create_player(&r, doom);
+	append_renderables_array(&doom->renderables, r);
+
 	t_renderable ellipsoid;
 	create_ellipsoid(doom, &ellipsoid, (t_vec2){ 30, 30 }, (t_vec3){ 1, 1, 1 });
 	ellipsoid.materials->values[0].material_color = 0xFFFF0000;
@@ -52,7 +57,6 @@ void	init_bsp(t_doom *doom)
 	itemstack.position = (t_vec3){ -19, 1.5, 58 };
 	append_renderables_array(&doom->renderables, itemstack);
 
-	t_renderable r;
 
 	set_obj_working_dir(doom, "assets/obj/winter");
 	create_obj(doom, &r, "winter.obj");

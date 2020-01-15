@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 16:49:48 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/12 03:15:08 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/15 19:31:18 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,19 +37,21 @@ static t_vec4	mat43_mulv4(t_mat4 m, t_vec4 p)
 	return (r);
 }
 
-float	get_light_intensity(t_render_context *ctx, t_renderable *r, t_vec3 normal, t_vec4 point)
+float	get_light_intensity(t_render_context *ctx, t_renderable *r, t_vec3 normal, t_vec4 point, t_face *face)
 {
 	if (!ctx->doom->lights || (r && (r->no_light)))
 		return (255);
 
+	uint8_t	ambiant = AMBIANT_LIGHT;
 	int		i;
 	float	sum;
-	int		valid;
 	t_light	*light;
 	
+	if (face->room_index != -1)
+		ambiant = ctx->doom->editor.rooms->values[face->room_index].ambiant_light;
+
 	i = -1;
 	sum = 0;
-	valid = 0;
 	while (++i < ctx->doom->lights->len)
 	{
 		light = &ctx->doom->lights->values[i];
@@ -57,18 +59,9 @@ float	get_light_intensity(t_render_context *ctx, t_renderable *r, t_vec3 normal,
 		float intensity = ft_vec3_dot(dir, ft_vec3_inv(normal));
 		if (light->type == LIGHT_SPOT)
 		 	intensity = 1.0 / ((1.0 - ((ft_vec3_dot(dir, light->dir) + 1.0) / 2.0)) * 10.0) * 0.2; 
-
-		valid++;
-		sum += ft_max(
-			AMBIANT_LIGHT, 
-			clamp(0, 1, 
-				 (intensity) * (15 / ft_vec3_len(ft_vec3_sub(vec4_to_3(point), light->position)))
-			) * 255
-		);
+		sum += (intensity) * (15 / ft_vec3_len(ft_vec3_sub(vec4_to_3(point), light->position))) * 255;
 	}
-	if (valid == 0)
-		return AMBIANT_LIGHT;
-	return sum / (float)valid;
+	return clamp(ambiant, 255, sum);
 }
 
 typedef struct	s_face_data
@@ -124,9 +117,9 @@ void	render_face(int face_index, void *p)
 
 	
 
-	float it0 = get_light_intensity(ctx, r, r->pp_normals[face->normals_index[0] - 1], r->pp_vertices[face->vertices_index[0] - 1]);
-	float it1 = get_light_intensity(ctx, r, r->pp_normals[face->normals_index[1] - 1], r->pp_vertices[face->vertices_index[1] - 1]);
-	float it2 = get_light_intensity(ctx, r, r->pp_normals[face->normals_index[2] - 1], r->pp_vertices[face->vertices_index[2] - 1]);
+	float it0 = get_light_intensity(ctx, r, r->pp_normals[face->normals_index[0] - 1], r->pp_vertices[face->vertices_index[0] - 1], face);
+	float it1 = get_light_intensity(ctx, r, r->pp_normals[face->normals_index[1] - 1], r->pp_vertices[face->vertices_index[1] - 1], face);
+	float it2 = get_light_intensity(ctx, r, r->pp_normals[face->normals_index[2] - 1], r->pp_vertices[face->vertices_index[2] - 1], face);
 	
 	v0 = mat4_mulv4(ctx->camera->projection, v0);
 	v1 = mat4_mulv4(ctx->camera->projection, v1);

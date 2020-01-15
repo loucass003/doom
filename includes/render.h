@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:16:19 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/10 03:11:26 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/15 19:23:34 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ void				post_process_triangle(t_render_context *ctx, t_mtl *mtl, t_triangle tria
 void				transform_renderable(t_renderable *r);
 t_bool				post_process_renderable(struct s_doom *doom, t_renderable *r, t_bool octree, t_bool replace);
 
-float				get_light_intensity(t_render_context *ctx, t_renderable *r, t_vec3 normal, t_vec4 point);
+float				get_light_intensity(t_render_context *ctx, t_renderable *r, t_vec3 normal, t_vec4 point, t_face *face);
 
 t_collidable		compute_collidable(t_renderable *r, int face_index, t_vec4 *vertices);
 t_collidable		face_collidable(t_renderable *r, int face_index, t_vec4 *vertices);
