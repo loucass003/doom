@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_ingame.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/15 19:09:13 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/16 15:25:14 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ void	g_ingame_on_events(t_gui *self, SDL_Event *event, t_doom *doom)
 			// pos = ft_vec3_add(pos, ft_vec3_add(dir, (t_vec3){ doom->closer_boss->radius.x, 0, doom->closer_boss->radius.z }));
 			renderable_rocket(doom, pos, doom->player.camera.pos);
 		}
-		player_inventory_event(doom, event);
+	
 	}
 	else if (doom->main_context.type == CTX_EDITOR)
 	{
@@ -296,6 +296,7 @@ void	g_ingame_on_events(t_gui *self, SDL_Event *event, t_doom *doom)
 			}
 		}
 	}
+	player_inventory_event(doom, event);
 	components_events(doom, doom->guis, event, GUI_EDITOR_SETTINGS);
 }
 

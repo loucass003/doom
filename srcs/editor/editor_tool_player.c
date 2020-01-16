@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   editor_tool_player.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/03 13:21:08 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/09 04:23:29 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/16 15:12:26 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void			editor_tool_player(t_editor *editor, SDL_Event *event)
 	{
 		int room = point_in_rooms(editor, editor->grid_cell);
 		y = 0;
-		if (room != -1)
+		if (room != -1 && !editor->player_set)
 			y = room_height_range(editor, &editor->rooms->values[room]).x;
 		editor->doom->player.spawn_data.position = (t_vec3){editor->grid_cell.x, y, editor->grid_cell.y};
 		editor->player_set = TRUE;

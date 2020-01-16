@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:43:35 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/16 14:40:54 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/16 15:27:18 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,20 +74,32 @@ void				player_inventory_event(t_doom *doom, SDL_Event *event)
 {
 	const SDL_Scancode	key = event->key.keysym.scancode;
 
-	if (event->type == SDL_MOUSEBUTTONDOWN)
+	if (doom->main_context.type == CTX_NORMAL)
 	{
-		t_itemstack	*is = &doom->player.item[doom->player.selected_slot];
-		if (is->of && is->of->on_use)
-			is->of->on_use(doom, is);
-	}
+		if (event->type == SDL_MOUSEBUTTONDOWN)
+		{
+			t_itemstack	*is = &doom->player.item[doom->player.selected_slot];
+			if (is->of && is->of->on_use)
+				is->of->on_use(doom, is);
+		}
 
-	if (event->type == SDL_KEYDOWN && (key == SDL_SCANCODE_UP || key == SDL_SCANCODE_DOWN))
+		if (event->type == SDL_KEYDOWN && (key == SDL_SCANCODE_UP || key == SDL_SCANCODE_DOWN))
+		{
+			doom->player.selected_slot += (key == SDL_SCANCODE_DOWN ? 1 : -1);
+			if (doom->player.selected_slot < 0)
+				doom->player.selected_slot = 7;
+			if (doom->player.selected_slot > 7)
+				doom->player.selected_slot = 0;
+		}
+	}
+	if (doom->main_context.type == CTX_EDITOR)
 	{
-		doom->player.selected_slot += (key == SDL_SCANCODE_DOWN ? 1 : -1);
-		if (doom->player.selected_slot < 0)
-			doom->player.selected_slot = 7;
-		if (doom->player.selected_slot > 7)
-			doom->player.selected_slot = 0;
+		if (event->type == SDL_KEYDOWN && (key == SDL_SCANCODE_END))
+		{
+			doom->player.spawn_data.position = world_to_editor(doom->player.entity.position);
+			doom->player.spawn_data.position.y -= doom->player.entity.radius.y;
+			doom->player.spawn_data.rotation = doom->player.entity.rotation;
+		}
 	}
 }
 
