@@ -6,11 +6,11 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 01:54:26 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/31 01:54:52 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/16 15:44:34 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <libft.h>
 
 t_vec2		vec2_add_s(t_vec2 v, float s)
 {

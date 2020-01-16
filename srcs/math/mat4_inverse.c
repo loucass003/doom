@@ -6,11 +6,11 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/04 02:12:21 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/10 19:37:39 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/16 15:44:34 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <libft.h>
 
 static void		cofactor(float A[4][4], float temp[4][4], int v[3]) 
 {

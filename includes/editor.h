@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 14:35:33 by lloncham          #+#    #+#             */
-/*   Updated: 2020/01/15 19:30:45 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/16 15:44:38 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@
 # define ES_GUI_GLOBAL (3)
 # define ES_GUI_PLAYER (4)
 
-# define ES_OBJ_GUIS_COUNT (4)
+# define ES_OBJ_GUIS_COUNT (5)
 
 typedef enum		e_object_type
 {
@@ -42,7 +42,8 @@ typedef enum		e_object_type
 	OBJECT_ITEMSTACK = 0,
 	OBJECT_SPRITE = 1,
 	OBJECT_ENTITY = 2,
-	OBJECT_MODEL = 3
+	OBJECT_MODEL = 3,
+	OBJECT_LIGHT = 4
 }					t_object_type;
 
 typedef enum		e_object_transform_mode
@@ -58,6 +59,7 @@ typedef union		u_object_of
 	struct s_sprite		*sprite;
 	t_entity_type		entity;
 	struct s_ressource	*model;
+	int					light_index;
 }					t_object_of;
 
 typedef struct		s_object

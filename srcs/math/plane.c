@@ -6,11 +6,11 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 22:09:35 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/27 15:07:38 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/16 15:44:34 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <libft.h>
 #include "maths/triangle.h"
 #include "maths/plane.h"
 

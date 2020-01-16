@@ -1,7 +1,7 @@
 #ifndef PLAYER_H
 # define PLAYER_H
 
-#include "libft.h"
+#include <libft.h>
 #include <SDL.h>
 #include "entity.h"
 #include "camera.h"

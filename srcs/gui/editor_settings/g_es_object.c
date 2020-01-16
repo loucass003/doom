@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 22:55:54 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/21 01:42:03 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/16 13:02:21 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ void			g_es_object_enter(t_gui *self, t_doom *doom)
 	append_select_items_array(&((t_select *)self->components->values[0])->items, (t_select_item){ .name = "ENTITY", .value = OBJECT_ENTITY });
 	if (!!get_ressource(&doom->res_manager, RESSOURCE_MODEL))
 		append_select_items_array(&((t_select *)self->components->values[0])->items, (t_select_item){ .name = "MODEL", .value = OBJECT_MODEL });
+	append_select_items_array(&((t_select *)self->components->values[0])->items, (t_select_item){ .name = "LIGHT", .value = OBJECT_LIGHT });
 	t_object	*object = &doom->editor.objects->values[doom->editor.current_object];
 	((t_select *)self->components->values[0])->selected_item = select_items_indexof(((t_select *)self->components->values[0])->items, object->type);
 
@@ -101,6 +102,7 @@ void			g_es_object_enter(t_gui *self, t_doom *doom)
 	doom->editor.settings.guis_object[OBJECT_SPRITE] = (t_gui){ .render = g_es_obj_sprite_render, .on_enter = g_es_obj_sprite_enter };
 	doom->editor.settings.guis_object[OBJECT_ENTITY] = (t_gui){ .render = g_es_obj_entity_render, .on_enter = g_es_obj_entity_enter };
 	doom->editor.settings.guis_object[OBJECT_MODEL] = (t_gui){ .render = g_es_obj_model_render, .on_enter = g_es_obj_model_enter };
+	doom->editor.settings.guis_object[OBJECT_LIGHT] = (t_gui){ .render = g_es_obj_light_render, .on_enter = g_es_obj_light_enter };
 
 	if (object->type != OBJECT_NONE)
 		set_es_object_gui(&doom->editor, object->type);

@@ -6,14 +6,14 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 22:08:31 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/17 23:21:39 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/16 15:44:34 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PLANE_H
 # define PLANE_H
 
-#include "libft.h"
+#include <libft.h>
 
 typedef struct	s_plane 
 {

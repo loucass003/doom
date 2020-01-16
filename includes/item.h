@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 20:30:43 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/22 17:59:53 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/16 15:43:51 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 # define ITEM_H
 
 # include <SDL.h>
-# include "ressource.h"
 # include <libft.h>
+# include "ressource.h"
 
 typedef enum		e_weapon_type
 {

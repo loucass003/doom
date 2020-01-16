@@ -6,11 +6,11 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 13:06:49 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/27 02:44:07 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/16 15:44:34 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <libft.h>
 #include "image.h"
 
 static inline void	put_cpixel(t_img *img, t_pixel p)

@@ -6,12 +6,12 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/14 17:23:29 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/02 15:33:31 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/16 15:44:34 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <math.h>
-#include "libft.h"
+#include <libft.h>
 #include "collision.h"
 #include "maths/vec4.h"
 #include "maths/triangle.h"
@@ -51,4 +51,3 @@ t_collision		ray_hit_triangle(t_ray *ray, t_collide_triangle *collidable)
 		}
 	});
 }
-

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gui.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 01:42:00 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/15 16:50:12 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/16 15:43:07 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define GUI_H
 
 # include <SDL.h>
-# include "libft.h"
+# include <libft.h>
 # include <dirent.h>
 # include "image.h"
 
@@ -201,6 +201,8 @@ void				g_es_obj_entity_enter(t_gui *self, t_doom *doom);
 void				g_es_obj_entity_render(t_gui *self, t_doom *doom);
 void				g_es_obj_model_enter(t_gui *self, t_doom *doom);
 void				g_es_obj_model_render(t_gui *self, t_doom *doom);
+void				g_es_obj_light_enter(t_gui *self, t_doom *doom);
+void				g_es_obj_light_render(t_gui *self, t_doom *doom);
 void				g_es_global_enter(t_gui *self, t_doom *doom);
 void				g_es_global_render(t_gui *self, t_doom *doom);
 void				g_level_render(t_gui *self, t_doom *doom);

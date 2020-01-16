@@ -6,14 +6,14 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:40:59 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/13 13:29:17 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/16 15:44:27 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CAMERA_H
 # define CAMERA_H
 
-#include "libft.h"
+#include <libft.h>
 #include "collision.h"
 
 typedef struct		s_camera
