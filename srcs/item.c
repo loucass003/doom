@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   item.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 20:16:48 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/14 17:15:36 by louali           ###   ########.fr       */
+/*   Updated: 2020/01/16 14:17:56 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,11 +69,8 @@ void	on_use_weapon(t_doom *doom, t_itemstack *is)
 	hit = ray_hit_world(doom, doom->renderables, create_shoot_ray(doom->player, (t_vec3){0, 0, 1}));
 	if (hit.collide && hit.renderable->of.type == RENDERABLE_ENTITY && (hit.renderable->of.data.entity->type == ENTITY_ENEMY || hit.renderable->of.data.entity->type == ENTITY_BOSS))
 	{
-		doom->gameover.totaldamage += weapon->damage;
-		hit.renderable->of.data.entity->life -= weapon->damage;
+		give_damage(&doom->player.entity, hit.renderable->of.data.entity, doom, weapon->damage);
 		hit.renderable->of.data.entity->of.enemy.focus = TRUE;
-		if (hit.renderable->of.data.entity->life <= 0)
-			doom->gameover.kill += 1;
 	}
 }
 
@@ -89,11 +86,8 @@ void	on_use_axe(t_doom *doom, t_itemstack *is)
 	hit = ray_hit_world(doom, doom->renderables, create_shoot_ray(doom->player, (t_vec3){0, 0, 1}));
 	if (hit.collide && hit.dist < 2 && hit.renderable->of.type == RENDERABLE_ENTITY && (hit.renderable->of.data.entity->type == ENTITY_ENEMY || hit.renderable->of.data.entity->type == ENTITY_BOSS))
 	{
-		doom->gameover.totaldamage += weapon->damage;
-		hit.renderable->of.data.entity->life -= weapon->damage;
+		give_damage(&doom->player.entity, hit.renderable->of.data.entity, doom, weapon->damage);
 		hit.renderable->of.data.entity->of.enemy.focus = TRUE;
-		if (hit.renderable->of.data.entity->life <= 0)
-			doom->gameover.kill += 1;
 	}
 }
 
@@ -266,7 +260,7 @@ t_bool				entity_hit_itemstack(t_entity *entity, t_itemstack *is)
 	if (is->of && is->of->type == ITEM_HEAL)
 	{
 		is->amount--;
-		entity->life = fmin(entity->max_life, entity->life + 0.5);
+		entity->life = fmin(entity->max_life, entity->life + (0.5 * entity->packet.doom->level.coeff_regen));
 		return (TRUE);
 	}
 	s = get_slot(&entity->packet.doom->player, is);

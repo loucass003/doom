@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/15 16:27:20 by lloncham          #+#    #+#             */
-/*   Updated: 2020/01/15 17:01:47 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/16 14:25:17 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 void                play_game(t_doom *doom)
 {
+	init_player(doom);
     spawn_player(doom);
     if (doom->main_context.type == CTX_NORMAL)
     {
@@ -32,19 +33,31 @@ static t_bool		action_performed(t_component *cmp, t_doom *doom)
 {
 	if (cmp == doom->guis[doom->current_gui].components->values[0])
 	{
-        doom->difficulty = D_EASY;
+        doom->level.difficulty = D_EASY;
+		doom->level.max_life = 4;
+		doom->level.coeff_damage = 1.5;
+		doom->level.coeff_regen = 1.5;
+		doom->level.coeff_speed = 0.5;
         play_game(doom);
 		return (FALSE);
 	}
     if (cmp == doom->guis[doom->current_gui].components->values[1])
 	{
-        doom->difficulty = D_MEDIUM;
+        doom->level.difficulty = D_MEDIUM;
+		doom->level.max_life = 2;
+		doom->level.coeff_damage = 1;
+		doom->level.coeff_regen = 1;
+		doom->level.coeff_speed = 1;
         play_game(doom);
 		return (FALSE);
 	}
     if (cmp == doom->guis[doom->current_gui].components->values[2])
 	{
-        doom->difficulty = D_HARD;
+        doom->level.difficulty = D_HARD;
+		doom->level.max_life = 1;
+		doom->level.coeff_damage =  0.5;
+		doom->level.coeff_regen = 0.5;
+		doom->level.coeff_speed = 1.5;
         play_game(doom);
 		return (FALSE);
 	}

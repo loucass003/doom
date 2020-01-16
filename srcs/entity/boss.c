@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 14:15:25 by lloncham          #+#    #+#             */
-/*   Updated: 2020/01/15 15:41:39 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/16 14:15:07 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void		entity_update_boss(t_doom *doom, t_entity *entity, double dt)
 	}
 	entity->rotation.y = doom->player.camera.rotation.y + M_PI_2;
 	if (boss->hit_data.dist > 20 && boss->phase <= 1)
-		entity->velocity = ft_vec3_add(entity->velocity, ft_vec3_mul_s(norm_dir, 5));
+		entity->velocity = ft_vec3_add(entity->velocity, ft_vec3_mul_s(norm_dir, 5 * doom->level.coeff_speed));
 	boss->t0 += 5 * dt;
 	if (boss->focus && boss->t0 > 1)
 	{

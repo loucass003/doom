@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:43:35 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/15 16:38:55 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/16 14:40:54 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void				init_player(t_doom *doom)
 
 	player = &doom->player;
 	player->camera.projection = projection_matrix();
+	ft_bzero(player->item, sizeof(t_itemstack) * 8);
 	// player->entity.position = (t_vec3){ 0, 2.512500, 45.176151 };
 	player->entity.position = (t_vec3){ 0, 50, 0 };
 	player->entity.velocity = (t_vec3){ 0, 0, 0 };
@@ -54,11 +55,10 @@ void				init_player(t_doom *doom)
 	player->entity.rotation.y = 0;
 	player->entity.rotation.x = 0;
 	player->entity.rotation.z = 0;
-	player->entity.life = 1.5;
-	player->entity.max_life = 2;
+	player->entity.life = doom->level.max_life;
+	player->entity.max_life = doom->level.max_life;
 	doom->main_context.camera = &player->camera;
 	update_player_camera(&doom->player);
-
 }
 
 

@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/15 16:35:25 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/16 14:17:02 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,15 @@ typedef enum		e_difficulty
 	D_HARD
 }					t_difficulty;
 
+typedef	struct 		s_level
+{
+	t_difficulty	difficulty;
+	float			max_life;
+	float			coeff_damage;
+	float			coeff_regen;
+	float			coeff_speed;
+}					t_level;
+
 typedef struct		s_doom
 {
 	SDL_Window			*win;
@@ -136,7 +145,7 @@ typedef struct		s_doom
 	t_gameover			gameover;
 	t_entity			*closer_boss;
 	t_bool				mouse_focus;
-	t_difficulty		difficulty;
+	t_level				level;
 }					t_doom;
 
 float				clamp(float min, float max, float v);
@@ -159,4 +168,7 @@ void				entity_sound(t_entity *s, int buffer, int source, int peach);
 void				player_sound(t_audio *s, int source, int buffer, float peach);
 
 t_img				*surface_to_image(t_doom *doom, SDL_Surface *s); //TODO: NEED TO BE REMOVE 
+
+void				give_damage(t_entity *from, t_entity *to, t_doom *doom, float damage);
+
 #endif

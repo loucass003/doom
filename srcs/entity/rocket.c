@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/14 10:24:25 by lloncham          #+#    #+#             */
-/*   Updated: 2020/01/15 16:41:20 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/16 14:15:22 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ t_bool	renderable_rocket(t_doom *doom, t_vec3 from, t_vec3 to)
 	rocket = *doom->res_manager.ressources->values[8]->data.model;
 	create_rocket(&rocket, doom);
 	rocket.of.data.entity->position = from;
-	rocket.of.data.entity->velocity = ft_vec3_mul_s(ft_vec3_norm(ft_vec3_sub(to, from)), 8);
+	rocket.of.data.entity->velocity = ft_vec3_mul_s(ft_vec3_norm(ft_vec3_sub(to, from)), 8 * doom->level.coeff_speed);
 	rocket.of.data.entity->rotation = rotation_matrix_to_euler(look_at(to, from));
 	append_renderables_array(&doom->renderables, rocket);
 	return (TRUE);

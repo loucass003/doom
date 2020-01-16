@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   enemy.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/30 16:36:08 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/14 18:03:05 by louali           ###   ########.fr       */
+/*   Updated: 2020/01/16 14:15:15 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void		entity_update_enemy(t_doom *doom, t_entity *entity, double dt)
 	{
 		entity->rotation.y = doom->player.camera.rotation.y + M_PI_2;
 		if (!enemy->diying && enemy->hit_data.dist > 20)
-			entity->velocity = ft_vec3_add(entity->velocity, ft_vec3_mul_s(norm_dir, 10));
+			entity->velocity = ft_vec3_add(entity->velocity, ft_vec3_mul_s(norm_dir, 10 * doom->level.coeff_speed));
 	}
 	if (enemy->t0 > 1)
 	{

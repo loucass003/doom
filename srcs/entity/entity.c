@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 22:00:26 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/15 16:21:44 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/16 14:30:00 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,18 +145,31 @@ t_bool		check_collision(t_entity *entity, t_collide_aabb area)
 	
 		if (entity->type == ENTITY_ROCKET && entity->packet.found_colision)
 		{
-			if (entity->packet.r && entity->packet.r->of.type == RENDERABLE_ENTITY && entity->packet.r->of.data.entity->type == ENTITY_PLAYER)
-			{
-				entity->packet.r->of.data.entity->life -= entity->of.rocket.damage;
-				printf("HIT PLAYER\n");
-			}
 			//TODO SON EXLOSION
+			if (entity->packet.r && entity->packet.r->of.type == RENDERABLE_ENTITY)
+				give_damage(entity, entity->packet.r->of.data.entity, entity->packet.doom, entity->of.rocket.damage);
 			splice_renderables_array(entity->packet.doom->renderables, renderables_indexof(entity->packet.doom->renderables, entity->r), 1);
 			return (FALSE);
 		}
 
 	}
 	return (TRUE);
+}
+
+void		give_damage(t_entity *from, t_entity *to, t_doom *doom, float damage)
+{
+	float d;
+
+	d = damage;
+	if (from && from->type == ENTITY_PLAYER)
+		d = damage * doom->level.coeff_damage;
+	to->life -= d;
+	if (from && from->type == ENTITY_PLAYER && to->type != ENTITY_PLAYER)
+	{
+		doom->gameover.totaldamage += d;
+		if (to->life <= 0)
+			doom->gameover.kill += 1;
+	}
 }
 
 void		check_grounded(t_entity *entity)
