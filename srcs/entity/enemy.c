@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   enemy.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/30 16:36:08 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/17 14:37:43 by louali           ###   ########.fr       */
+/*   Updated: 2020/01/17 15:58:53 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,11 @@ void		entity_update_enemy(t_doom *doom, t_entity *entity, double dt)
 
 
 	enemy = &entity->of.enemy;
-	if (enemy->died)
+	if (entity->dead)
 		return ;
-	if (entity->life <= 0 && !enemy->diying)
+	if (entity->life <= 0 && !entity->diying)
 	{
-		enemy->diying = TRUE;
+		entity->diying = TRUE;
 		enemy->animation_step = 5;
 		// play_music(&doom->audio, entity->position, 5, FALSE);
 		entity_sound(entity, 0, 0, 2);
@@ -78,10 +78,10 @@ void		entity_update_enemy(t_doom *doom, t_entity *entity, double dt)
 		enemy->animation_step = 0;
 	}
 
-	if (enemy->focus || enemy->diying)
+	if (enemy->focus || entity->diying)
 	{
 		entity->rotation.y = doom->player.camera.rotation.y + M_PI_2;
-		if (!enemy->diying && enemy->hit_data.dist > 20)
+		if (!entity->diying && enemy->hit_data.dist > 20)
 			entity->velocity = ft_vec3_add(entity->velocity, ft_vec3_mul_s(norm_dir, 10 * doom->level.coeff_speed));
 	}
 	if (enemy->t0 > 1)
@@ -102,7 +102,7 @@ void		entity_update_enemy(t_doom *doom, t_entity *entity, double dt)
 			if (!walking)
 				enemy->animation_step = 6;
 			enemy->t1++;
-			if (enemy->t1 >= 5 && !walking && !enemy->diying)
+			if (enemy->t1 >= 5 && !walking && !entity->diying)
 			{
 				enemy->shooting = TRUE;
 				enemy->t1 = 0;
@@ -113,11 +113,11 @@ void		entity_update_enemy(t_doom *doom, t_entity *entity, double dt)
 					doom->player.entity.life -= 0.1;
 			}
 		}
-		if (enemy->diying)
+		if (entity->diying)
 		{
 			enemy->animation_step = 5;
 			if (++enemy->diying_step == 4){
-				enemy->died = TRUE;
+				entity->dead = TRUE;
 				
 			}
 				

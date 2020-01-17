@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   entity.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 00:01:14 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/17 14:37:56 by louali           ###   ########.fr       */
+/*   Updated: 2020/01/17 15:58:41 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,6 @@ typedef struct		s_entity_enemy
 {
 	float			t0;
 	float			t1;
-	t_bool			diying;
-	t_bool			died;
 	int				animation_step;
 	int				diying_step;
 	t_bool			focus;
@@ -58,8 +56,6 @@ typedef struct		s_entity_boss
 {
 	float			t0;
 	float			t1;
-	float			t2;
-	t_bool			dead;
 	t_bool			shooting;
 	t_collision		hit_data;
 	t_bool			focus;
@@ -88,6 +84,8 @@ typedef struct		s_entity
 	t_vec3				radius;
 	t_bool				grounded;
 	t_bool				jump;
+	t_bool				dead;
+	t_bool				diying;
 	t_physics_data		packet;
 	float				life;
 	float				max_life;

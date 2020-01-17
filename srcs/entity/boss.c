@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   boss.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 14:15:25 by lloncham          #+#    #+#             */
-/*   Updated: 2020/01/17 15:18:26 by louali           ###   ########.fr       */
+/*   Updated: 2020/01/17 15:58:47 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void		entity_update_boss(t_doom *doom, t_entity *entity, double dt)
 	t_entity_boss	*boss;
 
 	boss = &entity->of.boss;
-	if (boss->dead)
+	if (entity->dead)
 		return ;
 	if (boss->phase == 0 && entity->life < entity->max_life / 2)
 	{
@@ -165,10 +165,11 @@ void		entity_update_boss(t_doom *doom, t_entity *entity, double dt)
 		}
 		if (boss->phase == 2)
 		{
+			entity->diying = TRUE;
 			boss->animation_step++;
 			if (boss->animation_step >= 7)
 			{
-				boss->dead = TRUE;
+				entity->dead = TRUE;
 				boss->animation_step = 6;
 			}
 		}

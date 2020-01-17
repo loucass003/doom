@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   entity.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 22:00:26 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/17 15:26:41 by louali           ###   ########.fr       */
+/*   Updated: 2020/01/17 15:58:57 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,7 +165,7 @@ void		give_damage(t_entity *from, t_entity *to, t_doom *doom, float damage)
 	if (from && from->type == ENTITY_PLAYER)
 		d = damage * doom->level.coeff_damage;
 	to->life -= d;
-	if (from && from->type == ENTITY_PLAYER && to->type != ENTITY_PLAYER)
+	if (from && from->type == ENTITY_PLAYER && to->type != ENTITY_PLAYER && !to->diying && !to->dead)
 	{
 		doom->gameover.totaldamage += d;
 		if (to->life <= 0)

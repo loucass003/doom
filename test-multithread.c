@@ -1,5 +1,5 @@
 #include <pthread.h>
-#include "libft.h"
+#include <libft.h>
 #include <stdio.h>
 
 #define THREADS 6

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/14 16:37:29 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/14 15:21:00 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/17 15:33:12 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,7 @@ t_collision		ray_hit_world(t_doom *doom, t_renderables *renderables, t_ray ray)
 		r = &renderables->values[i];
 		
 		if (r->of.type == RENDERABLE_ENTITY 
-			&& ((r->of.data.entity->type == ENTITY_ENEMY && r->of.data.entity->of.enemy.died) 
-				|| (r->of.data.entity->type == ENTITY_BOSS && r->of.data.entity->of.boss.dead)
+			&& (r->of.data.entity->dead
 				|| (r->of.data.entity->type == ENTITY_ROCKET)
 				|| (r->of.data.entity->type == ENTITY_PLAYER)))
 			continue;
