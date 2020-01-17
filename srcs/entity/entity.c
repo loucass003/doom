@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   entity.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 22:00:26 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/17 15:58:57 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/17 16:03:49 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,7 @@ t_bool		check_collision(t_entity *entity, t_collide_aabb area)
 		if (r.of.data.entity == entity 
 			|| (r.of.type == RENDERABLE_ENTITY 
 			&& (r.of.data.entity->type == ENTITY_GRENADA 
-				|| (r.of.data.entity->type == ENTITY_ENEMY && r.of.data.entity->of.enemy.died) 
-				|| (r.of.data.entity->type == ENTITY_BOSS && r.of.data.entity->of.boss.dead))))
+				|| (r.of.data.entity->dead))))
 			continue;
 		if (entity->type == ENTITY_ROCKET && r.of.type == RENDERABLE_ENTITY && r.of.data.entity->type == ENTITY_BOSS)
 			continue;

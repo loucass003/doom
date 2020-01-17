@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 16:49:48 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/17 14:46:22 by louali           ###   ########.fr       */
+/*   Updated: 2020/01/17 16:03:09 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,7 +168,7 @@ void	render_renderable(t_render_context *ctx, t_renderable *r)
 			int texture = f;
 			if (enemy->animation_step == 6)
 				texture = enemy->shooting ? 2 : 1;
-			if (enemy->diying)
+			if (entity->diying)
 				texture = enemy->diying_step;
 			set_current_cell(r, texture, enemy->animation_step);
 		}

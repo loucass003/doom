@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_es_object.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 22:55:54 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/17 15:23:01 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/17 16:05:31 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ void			set_object_default(t_doom *doom, t_object *object)
 		object->of.sprite = create_sprite((t_vec2){ 1, 1 }, get_default_texture(&doom->res_manager, TRUE));
 	else if (object->type == OBJECT_MODEL)
 		object->of.model = get_ressource(&doom->res_manager, RESSOURCE_MODEL);
-	else if (object->type == OBJECT_LIGHT)
-		object->of.light_index = create_default_light(doom);
+	// else if (object->type == OBJECT_LIGHT)
+	// 	object->of.light_index = create_default_light(doom);
 	object->scale = (t_vec3){0, 0, 0};
 	object->rotation = (t_vec3){0, 0, 0};
 	if (object->r)

@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:43:35 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/16 15:27:18 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/17 16:13:09 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ void				init_player(t_doom *doom)
 	player = &doom->player;
 	player->camera.projection = projection_matrix();
 	ft_bzero(player->item, sizeof(t_itemstack) * 8);
+	ft_bzero(&doom->gameover, sizeof(t_gameover));
 	// player->entity.position = (t_vec3){ 0, 2.512500, 45.176151 };
 	player->entity.position = (t_vec3){ 0, 50, 0 };
 	player->entity.velocity = (t_vec3){ 0, 0, 0 };
@@ -155,7 +156,7 @@ t_bool				draw_player_inventory(t_doom *doom, t_gui *self)
 		}
 
 		((t_progress *)self->components->values[0])->value = doom->player.entity.life * (1 / doom->player.entity.max_life) * 100;
-		if (doom->player.entity.life <= 0 || (doom->closer_boss && doom->closer_boss->of.boss.dead))
+		if (doom->player.entity.life <= 0 || (doom->closer_boss && doom->closer_boss->dead))
 		{
 			set_gui(doom, GUI_GAMEOVER);
 			return (FALSE);
