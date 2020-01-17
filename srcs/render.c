@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 16:49:48 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/17 16:03:09 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/17 18:11:05 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ float	get_light_intensity(t_render_context *ctx, t_renderable *r, t_vec3 normal,
 		float intensity = ft_vec3_dot(dir, ft_vec3_inv(normal));
 		if (light->type == LIGHT_SPOT)
 		 	intensity = 1.0 / ((1.0 - ((ft_vec3_dot(dir, light->dir) + 1.0) / 2.0)) * 10.0) * 0.2; 
-		sum += (intensity) * (15 / ft_vec3_len(ft_vec3_sub(vec4_to_3(point), light->position))) * 255;
+		sum += (intensity) * (15 / ft_vec3_len(ft_vec3_sub(vec4_to_3(point), light->position))) * light->intensity;
 	}
 	return clamp(ambiant, 255, sum);
 }

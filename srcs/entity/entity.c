@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   entity.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 22:00:26 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/17 16:03:49 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/17 18:24:36 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -334,11 +334,11 @@ t_bool		entity_update(t_doom *doom, t_entity *entity, double dt)
 			}
 				// play_music(&doom->audio, entity->position, 9, TRUE);
 		}
-		// if (entity->type == ENTITY_PLAYER
-		// 		&& (entity->velocity.x || entity->velocity.z)
-		// 		&& entity->grounded
-		// 		&& doom->audio.source_status[CHAR_FOOTSTEP] == 0)
-		// 	player_sound(&doom->audio, CHAR_FOOTSTEP, 2, 1);
+		if (entity->type == ENTITY_PLAYER
+				&& (entity->velocity.x || entity->velocity.z)
+				&& entity->grounded
+				&& doom->audio.source_status[CHAR_FOOTSTEP] == 0)
+			player_sound(&doom->audio, CHAR_FOOTSTEP, 2, 0.5);
 		if (entity->type == ENTITY_GRENADA)
 		{
 			entity->velocity.y -= 0.9;

@@ -1,26 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ellipsoid.h                                        :+:      :+:    :+:   */
+/*   light.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/09 22:02:47 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/17 17:39:53 by llelievr         ###   ########.fr       */
+/*   Created: 2020/01/17 17:12:46 by llelievr          #+#    #+#             */
+/*   Updated: 2020/01/17 17:55:01 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ELLIPSOID_H
-# define ELLIPSOID_H
+#include "doom.h"
+#include "light.h"
 
-# include <libft.h>
-# include "render.h"
-
-typedef struct	s_ellipsoid
+int		create_default_light(t_doom *doom)
 {
-	t_vec3	radius;
-}				t_ellipsoid;
+	const t_light	light = (t_light){
+		.type = LIGHT_POINT,
+		.position = (t_vec3){ 0, 0, 0 },
+		.intensity = 255,
+		.model_visible = TRUE,
+	};
 
-t_bool	create_ellipsoid(struct s_doom *doom, t_renderable *r, t_vec2 res, t_vec3 radius);
-
-#endif
+	if (!(append_lights_array(&doom->lights, light)))
+		return (-1);
+	return (doom->lights->len - 1);
+}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_es_object.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 22:55:54 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/17 16:05:31 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/17 18:08:54 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,11 @@ void			set_object_default(t_doom *doom, t_object *object)
 		object->of.sprite = create_sprite((t_vec2){ 1, 1 }, get_default_texture(&doom->res_manager, TRUE));
 	else if (object->type == OBJECT_MODEL)
 		object->of.model = get_ressource(&doom->res_manager, RESSOURCE_MODEL);
-	// else if (object->type == OBJECT_LIGHT)
-	// 	object->of.light_index = create_default_light(doom);
+	else if (object->type == OBJECT_LIGHT)
+	{
+		object->of.light_index = create_default_light(doom);
+		object->no_light = TRUE;
+	}
 	object->scale = (t_vec3){0, 0, 0};
 	object->rotation = (t_vec3){0, 0, 0};
 	if (object->r)
@@ -63,6 +66,7 @@ static t_bool			action_performed(t_component *cmp, t_doom *doom)
 			{
 				set_object_default(doom, object);
 				set_es_object_gui(&doom->editor, object->type);
+				((t_checkbox *)editor->settings.guis[ES_GUI_OBJECT].components->values[1])->value = object->no_light;
 			}
 		}
 	}

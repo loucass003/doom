@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 15:55:03 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/15 20:38:09 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/17 17:53:42 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "render.h"
 #include "octree.h"
 #include "sprite.h"
+#include "ellipsoid.h"
 
 t_bool	triangulate_floor_ceil(t_renderable *r, t_vec3 n, int *filter, int filter_len, int mtl, int room_index)
 {
@@ -216,6 +217,7 @@ t_bool		create_wall(t_renderable *r, t_editor *editor, int room_index, int wall_
 	face.wall_section = wall_section;
 	face.room_index = room_index;
 	append_faces_array(&r->faces, face);
+	return (TRUE);
 }
 
 t_bool		create_object_renderable(t_editor *editor, int object_index, t_renderable *r)
@@ -251,12 +253,27 @@ t_bool		create_object_renderable(t_editor *editor, int object_index, t_renderabl
 	else if (object->type == OBJECT_MODEL)
 	{
 		ft_bzero(r, sizeof(t_renderable));
-		// ft_memcpy(r, object->of.model->data.model, sizeof(t_renderable));
 		copy_renderable(object->of.model->data.model, r);
 		r->scale = (t_vec3){ 1, 1, 1 };
 		r->dirty = TRUE;
 		r->position = editor_to_world(object->pos);
 		r->position.y += r->scale.y;
+	}
+	else if (object->type == OBJECT_LIGHT)
+	{
+		t_light		*light = &editor->doom->lights->values[object->of.light_index];
+
+		light->position = editor_to_world(object->pos);
+		light->dir = object->rotation;
+		ft_bzero(r, sizeof(t_renderable));
+		create_ellipsoid(editor->doom, r, (t_vec2){ 12, 12 }, (t_vec3){ 1, 1, 1 });
+		r->materials->values[0].material_color = 0xFFF0E68C;
+		r->position = light->position;
+		object->scale = (t_vec3){ 0.2, 0.2, 0.2 };
+		r->visible = light->model_visible;
+		r->no_light = TRUE;
+		r->no_collision = TRUE;
+		r->scale = object->scale;
 	}
 	if (r->has_hitbox)
 		r->show_hitbox = TRUE;

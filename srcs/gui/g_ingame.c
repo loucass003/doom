@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_ingame.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/16 15:25:14 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/17 17:45:43 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	unselect_all(t_doom *doom)
 	select_room(&doom->editor, -1);
 }
 
-void	transform_object(t_object *object, t_vec3 add)
+void	transform_object(t_doom *doom, t_object *object, t_vec3 add)
 {
 	object->pos = ft_vec3_add(object->pos, add);
 	if (object->r)
@@ -72,6 +72,12 @@ void	transform_object(t_object *object, t_vec3 add)
 		else if (object->type == OBJECT_MODEL)
 			object->r->position.y += object->r->scale.y;
 		object->r->position.y += add.y;
+		if (object->type == OBJECT_LIGHT)
+		{
+			t_light *light = &doom->lights->values[object->of.light_index];
+			light->position = object->r->position;
+			light->dir = object->rotation;
+		}
 		object->r->dirty = TRUE;
 	}
 }
@@ -272,7 +278,7 @@ void	g_ingame_on_events(t_gui *self, SDL_Event *event, t_doom *doom)
 			{
 				t_object *object = &doom->editor.objects->values[doom->editor.current_object];
 				if (add.x != 0 || add.y != 0 || add.z != 0)
-					transform_object(object, add);
+					transform_object(doom, object, add);
 			}
 			else if (doom->editor.object_transform_mode == OT_MODE_ROTATION)
 			{

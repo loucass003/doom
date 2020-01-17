@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/30 04:25:19 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/16 15:43:56 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/17 17:48:12 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@ typedef enum		s_light_type
 	LIGHT_SPOT,
 }					t_light_type;
 
-
 typedef struct		s_light
 {
 	t_light_type		type;
 	t_vec3				position;
 	t_vec3				dir;
-	t_render_context	context;
+	uint8_t				intensity;
+	t_bool				model_visible;
 }					t_light;
 
 typedef struct		s_lights
@@ -44,5 +44,7 @@ t_lights		*splice_lights_array(t_lights *arr,
 						int index, int n);
 t_lights		*copy_lights_array(t_lights *src,
 						t_lights **dst);
+
+int				create_default_light(struct s_doom *doom);
 
 #endif

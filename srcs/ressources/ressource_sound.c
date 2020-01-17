@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ressource_sound.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 16:55:56 by louali            #+#    #+#             */
-/*   Updated: 2020/01/17 14:04:53 by louali           ###   ########.fr       */
+/*   Updated: 2020/01/17 18:31:43 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_bool      gen_audio_buffer(t_sound *s)
 {
 
     alGenBuffers(1, &s->buffer_id);
-	alBufferData(s->buffer_id, AL_FORMAT_STEREO16, s->abuf, s->alen, 44100);
+	alBufferData(s->buffer_id, AL_FORMAT_MONO16, s->abuf, s->alen, 44100);
     return (TRUE);
 }
 
