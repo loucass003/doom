@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gui.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 01:42:00 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/16 15:43:07 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/17 14:26:03 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -247,5 +247,9 @@ void				c_textfield_render(t_doom *doom, t_component *self, t_img *image);
 void				set_text_value(t_textfield *tf, char *text, int len);
 
 t_component			*create_checkbox(t_doom *doom, t_vec2 pos, char *text);
+
+void				apply_btn_image(t_doom *doom, t_component *self, t_button *btn);
+void				apply_text(t_doom *doom, t_component *self, t_button *btn);
+void				apply_textfield(t_doom *doom, char *str, t_component *self, t_textfield *tf);
 
 #endif

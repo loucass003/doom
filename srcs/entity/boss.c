@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   boss.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 14:15:25 by lloncham          #+#    #+#             */
-/*   Updated: 2020/01/16 14:15:07 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/17 15:18:26 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ t_bool		create_boss_renderable(t_doom *doom, t_renderable *r)
 	boss->life = 8;
 	boss->max_life = 8;
 	boss->sources = boss->of.boss.sources;
-	alGenSources(3, boss->sources);
+	alGenSources(4, boss->sources);
 	r->of.data.entity = boss;
 	r->scale = boss->scale;
 	compute_entity_hitbox(r);
@@ -61,6 +61,7 @@ void		entity_update_boss(t_doom *doom, t_entity *entity, double dt)
 	{
 		boss->animation_step = 0;
 		boss->phase = 2;
+		entity_sound(entity, 6, 0, 1);
 	}
 	t_vec3 dir = ft_vec3_sub(doom->player.entity.position, entity->position);
  	t_vec3 norm_dir = ft_vec3_norm(dir);
@@ -79,7 +80,7 @@ void		entity_update_boss(t_doom *doom, t_entity *entity, double dt)
 	}
 	entity->rotation.y = doom->player.camera.rotation.y + M_PI_2;
 	if (boss->hit_data.dist > 20 && boss->phase <= 1)
-		entity->velocity = ft_vec3_add(entity->velocity, ft_vec3_mul_s(norm_dir, 5 * doom->level.coeff_speed));
+		entity->velocity = ft_vec3_add(entity->velocity, ft_vec3_mul_s(norm_dir, 4 * doom->level.coeff_speed));
 	boss->t0 += 5 * dt;
 	if (boss->focus && boss->t0 > 1)
 	{
@@ -98,7 +99,7 @@ void		entity_update_boss(t_doom *doom, t_entity *entity, double dt)
 				if (boss->shooting)
 					boss->t1 = 0;
 				boss->t1++;
-				if (boss->t1 >= 7 && !boss->shooting)
+				if (boss->t1 >= 5 && !boss->shooting)
 				{
 					boss->shooting = TRUE;
 					boss->t1 = 0;
@@ -107,28 +108,38 @@ void		entity_update_boss(t_doom *doom, t_entity *entity, double dt)
 
 				if (boss->shooting)
 				{
-					boss->animation_step++;
-					boss->shoot++;
-					if (boss->animation_step >= 7)
+					boss->t2++;
+					if (boss->t2 >= 3)
 					{
-						boss->animation_step = 4;
-						boss->shooting = FALSE;
-					}
-					t_vec3 pos = entity->position;
-					t_mat4 rot = ft_mat4_rotation(entity->rotation);
-					if (boss->shoot % 2 == 0)
-					{
-						t_vec3 p_left;
-						p_left = ft_mat4_mulv(rot, (t_vec3){ 0, 0, 0.4 * 5 }); 
-						p_left = ft_vec3_add(p_left, pos);
-						renderable_rocket(doom, p_left, doom->player.camera.pos);
-					}
-					else
-					{
-						t_vec3 p_right;
-						p_right =  ft_mat4_mulv(rot, (t_vec3){ 0, 0, -0.4 * 5 }); 
-						p_right = ft_vec3_add(p_right, pos);
-						renderable_rocket(doom, p_right, doom->player.camera.pos);
+						boss->t2 = 0;
+						boss->animation_step++;
+						boss->shoot++;
+						if (boss->animation_step >= 7)
+						{
+							
+							boss->shoot = 0;
+							boss->animation_step = 4;
+							boss->shooting = FALSE;
+						}
+						
+						entity_sound(entity, 5, 1, 1);
+						t_vec3 pos = entity->position;
+						t_mat4 rot = ft_mat4_rotation(entity->rotation);
+						if (boss->shoot % 2 == 0)
+						{
+							
+							t_vec3 p_left;
+							p_left = ft_mat4_mulv(rot, (t_vec3){ 0, 0, 0.4 * 5 }); 
+							p_left = ft_vec3_add(p_left, pos);
+							renderable_rocket(doom, p_left, doom->player.camera.pos);
+						}
+						else
+						{
+							t_vec3 p_right;
+							p_right =  ft_mat4_mulv(rot, (t_vec3){ 0, 0, -0.4 * 5 }); 
+							p_right = ft_vec3_add(p_right, pos);
+							renderable_rocket(doom, p_right, doom->player.camera.pos);
+						}
 					}
 				}
 				else

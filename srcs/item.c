@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   item.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 20:16:48 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/16 14:17:56 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/17 14:47:44 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -283,7 +283,7 @@ t_bool				entity_hit_itemstack(t_entity *entity, t_itemstack *is)
 			entity->packet.doom->gameover.weapon += ft_min(i, is->amount);
 		inv_is->amount += ft_min(i, is->amount);
 		is->amount -= ft_min(i, is->amount);
-		player_sound(&entity->packet.doom->audio, ITEM_PICK, 3, 2);
+		player_sound(&entity->packet.doom->audio, ITEM_PICK, 3, 1);
 	}
 	return (TRUE);
 }

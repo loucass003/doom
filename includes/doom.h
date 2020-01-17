@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   doom.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/16 14:17:02 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/17 14:42:04 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ typedef struct		s_textures
 
 typedef struct		s_audio
 {
-	ALuint			buffer[10];
+	ALuint			buffer[12];
 	ALuint			source[MAX_SOUNDS];
 	t_bool			source_status[MAX_SOUNDS];
 	ALCdevice 		*device;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 16:49:48 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/16 12:48:41 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/17 14:46:22 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,6 +212,6 @@ void	render_renderable(t_render_context *ctx, t_renderable *r)
 		i = -1;
 		while (++i < r->faces->len)
 			render_face(i, &face_data);
-		printf("NORMAL %d %d/%d\n", r->of.type, faces_count, r->faces->len);
+		//printf("NORMAL %d %d/%d\n", r->of.type, faces_count, r->faces->len);
 	}
 }

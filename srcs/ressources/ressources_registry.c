@@ -6,7 +6,7 @@
 /*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 14:37:12 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/14 17:20:45 by louali           ###   ########.fr       */
+/*   Updated: 2020/01/17 14:40:25 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,21 +44,25 @@ t_bool			init_ressources_registry(t_doom *doom)
 	if (!init_ressources_select_items(&doom->res_manager))
 		return (FALSE);
 	error = FALSE;
-	error |= a(doom, "MAIN_MENU_BACKGROUND", RESSOURCE_TEXTURE, TRUE);
-	error |= a(doom, "GAMEOVER_BACKGROUND", RESSOURCE_TEXTURE, TRUE);
-	error |= a(doom, "ITEMS_ICONS", RESSOURCE_TEXTURE, TRUE);
-	error |= a(doom, "GUN_ANNIMATION", RESSOURCE_TEXTURE, TRUE);
-	error |= a(doom, "AXE_ANNIMATION", RESSOURCE_TEXTURE, TRUE);
-	error |= a(doom, "ENEMY_SPRITESHEET", RESSOURCE_TEXTURE, TRUE);
-	error |= a(doom, "BOSS_SPRITESHEET", RESSOURCE_TEXTURE, TRUE);
-	error |= a(doom, "GRENADE_MODEL", RESSOURCE_MODEL, TRUE);
-	error |= a(doom, "ROCKET_MODEL", RESSOURCE_MODEL, TRUE);
-	error |= a(doom, "SKYBOX_TEXTURE", RESSOURCE_TEXTURE, TRUE);
-	error |= a(doom, "YOUWIN_TEXTURE", RESSOURCE_TEXTURE, TRUE);
-	error |= a(doom, "SOUND_WILHELM", RESSOURCE_SOUND, TRUE);
-	error |= a(doom, "SOUND_GUN", RESSOURCE_SOUND, TRUE);
-	error |= a(doom, "SOUND_FOOTSTEP", RESSOURCE_SOUND, TRUE);
-	error |= a(doom, "SOUND_PICKITEM", RESSOURCE_SOUND, TRUE);
+	error |= a(doom, "MAIN MENU BACKGROUND", RESSOURCE_TEXTURE, TRUE);
+	error |= a(doom, "GAMEOVER BACKGROUND", RESSOURCE_TEXTURE, TRUE);
+	error |= a(doom, "ITEMS ICONS", RESSOURCE_TEXTURE, TRUE);
+	error |= a(doom, "GUN ANNIMATION", RESSOURCE_TEXTURE, TRUE);
+	error |= a(doom, "AXE ANNIMATION", RESSOURCE_TEXTURE, TRUE);
+	error |= a(doom, "ENEMY SPRITESHEET", RESSOURCE_TEXTURE, TRUE);
+	error |= a(doom, "BOSS SPRITESHEET", RESSOURCE_TEXTURE, TRUE);
+	error |= a(doom, "GRENADE MODEL", RESSOURCE_MODEL, TRUE);
+	error |= a(doom, "ROCKET MODEL", RESSOURCE_MODEL, TRUE);
+	error |= a(doom, "SKYBOX TEXTURE", RESSOURCE_TEXTURE, TRUE);
+	error |= a(doom, "YOUWIN TEXTURE", RESSOURCE_TEXTURE, TRUE);
+	error |= a(doom, "SOUND WILHELM", RESSOURCE_SOUND, TRUE);
+	error |= a(doom, "SOUND GUN", RESSOURCE_SOUND, TRUE);
+	error |= a(doom, "SOUND FOOTSTEP", RESSOURCE_SOUND, TRUE);
+	error |= a(doom, "SOUND PICKITEM", RESSOURCE_SOUND, TRUE);
+	error |= a(doom, "SOUND BOSS FOOTSTEP", RESSOURCE_SOUND, TRUE);
+	error |= a(doom, "SOUND BOSS GUN", RESSOURCE_SOUND, TRUE);
+	error |= a(doom, "SOUND BOSS DIE", RESSOURCE_SOUND, TRUE);
+	error |= a(doom, "SOUND BOSS HIT", RESSOURCE_SOUND, TRUE);
 	return (error);
 }
 

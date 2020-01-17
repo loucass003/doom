@@ -6,7 +6,7 @@
 /*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/22 13:41:15 by lloncham          #+#    #+#             */
-/*   Updated: 2020/01/14 17:27:43 by louali           ###   ########.fr       */
+/*   Updated: 2020/01/17 14:41:59 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,10 @@ t_bool			set_default_sounds(t_doom *doom)
 	doom->audio.buffer[1] = doom->res_manager.ressources->values[12]->data.sound->buffer_id;
 	doom->audio.buffer[2] = doom->res_manager.ressources->values[13]->data.sound->buffer_id;
 	doom->audio.buffer[3] = doom->res_manager.ressources->values[14]->data.sound->buffer_id;
+	doom->audio.buffer[4] = doom->res_manager.ressources->values[15]->data.sound->buffer_id;
+	doom->audio.buffer[5] = doom->res_manager.ressources->values[16]->data.sound->buffer_id;
+	doom->audio.buffer[6] = doom->res_manager.ressources->values[17]->data.sound->buffer_id;
+	doom->audio.buffer[7] = doom->res_manager.ressources->values[18]->data.sound->buffer_id;
 }
 
 void            quit_openal()
