@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/30 16:36:08 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/17 15:58:53 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/18 16:39:22 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,13 @@ void		entity_update_enemy(t_doom *doom, t_entity *entity, double dt)
 			}
 				
 		}
+	}
+	ALint status;
+	if ((entity->velocity.x || entity->velocity.z) && entity->grounded)
+	{
+		alGetSourcei(entity->sources[2], AL_SOURCE_STATE, &status);
+		if (status != AL_PLAYING)
+			entity_sound(entity, 2, 2, 1);
 	}
 	//entity->velocity.y = 15;
 }

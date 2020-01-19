@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   doom.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/17 14:42:04 by louali           ###   ########.fr       */
+/*   Updated: 2020/01/19 03:11:34 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,6 @@
 
 # include <SDL.h>
 # include <SDL_ttf.h>
-# include <SDL_mixer.h>
-# include <al.h>
-# include <alc.h>
 
 # include "libft.h"
 # include "constants.h"
@@ -33,6 +30,7 @@
 # include "player.h"
 # include "render.h"
 # include "ressource.h"
+# include "audio.h"
 
 typedef struct		s_stats
 {
@@ -57,22 +55,6 @@ typedef struct		s_textures
 	SDL_Surface		*ammo1;
 	SDL_Surface		*axe;
 }					t_textures;
-
-// typedef struct		s_ray_collide
-// {
-// 	t_ray			ray;
-// 	t_collision		collision;
-// }					t_ray_collide;
-
-typedef struct		s_audio
-{
-	ALuint			buffer[12];
-	ALuint			source[MAX_SOUNDS];
-	t_bool			source_status[MAX_SOUNDS];
-	ALCdevice 		*device;
-	ALCcontext 		*context;
-
-}					t_audio;
 
 typedef struct		s_gdata
 {
@@ -161,11 +143,7 @@ t_bool				obj_test(t_doom *doom);
 
 void				load_all(t_doom *doom);
 
-t_bool				init_openal(t_doom *doom);
-void            	quit_openal();
 
-void				entity_sound(t_entity *s, int buffer, int source, int peach);
-void				player_sound(t_audio *s, int source, int buffer, float peach);
 
 t_img				*surface_to_image(t_doom *doom, SDL_Surface *s); //TODO: NEED TO BE REMOVE 
 

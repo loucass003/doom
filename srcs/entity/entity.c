@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 22:00:26 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/17 18:24:36 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/18 16:40:47 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -305,40 +305,19 @@ t_bool		collide_and_slide(t_entity *entity)
 
 t_bool		entity_update(t_doom *doom, t_entity *entity, double dt)
 {
-	ALint status;
-
 	if (entity->position.y < -100)		
 		entity->life = 0;
 	if (doom->main_context.type == CTX_NORMAL)
 	{
 		if (entity->type == ENTITY_BOSS)
-		{
 			entity_update_boss(doom, entity, dt);
-			if ((entity->velocity.x || entity->velocity.z) && entity->grounded)
-			{
-					// && entity->velocity.y == 0)
-				alGetSourcei(entity->sources[2], AL_SOURCE_STATE, &status);
-				if (status != AL_PLAYING)
-					entity_sound(entity, 4, 2, 1);
-			}
-		}
 		if (entity->type == ENTITY_ENEMY)
-		{
 			entity_update_enemy(doom, entity, dt);
-			if ((entity->velocity.x || entity->velocity.z) && entity->grounded)
-			{
-					// && entity->velocity.y == 0)
-				alGetSourcei(entity->sources[2], AL_SOURCE_STATE, &status);
-				if (status != AL_PLAYING)
-					entity_sound(entity, 2, 2, 1);
-			}
-				// play_music(&doom->audio, entity->position, 9, TRUE);
-		}
 		if (entity->type == ENTITY_PLAYER
 				&& (entity->velocity.x || entity->velocity.z)
 				&& entity->grounded
 				&& doom->audio.source_status[CHAR_FOOTSTEP] == 0)
-			player_sound(&doom->audio, CHAR_FOOTSTEP, 2, 0.5);
+			player_sound(&doom->audio, CHAR_FOOTSTEP, 2, 0.25);
 		if (entity->type == ENTITY_GRENADA)
 		{
 			entity->velocity.y -= 0.9;
@@ -375,7 +354,7 @@ t_bool		entity_update(t_doom *doom, t_entity *entity, double dt)
 		entity->position = entity->packet.r3_posision;
 		if (entity->type == ENTITY_GRENADA)
 			entity->velocity = ft_vec3_mul_s(entity->velocity, !entity->packet.found_colision ? 0.999 : 0.8);
-		else if (entity->type == ENTITY_ENEMY)
+		else if (entity->type == ENTITY_ENEMY || entity->type == ENTITY_BOSS)
 			entity->velocity = (t_vec3){ 0, 0, 0 };
 		else if (entity->type == ENTITY_ROCKET)
 		{
@@ -399,7 +378,6 @@ t_bool		entity_update(t_doom *doom, t_entity *entity, double dt)
 		entity->velocity = ft_vec3_mul_s(entity->velocity, 0.5);
 	}
 	return (TRUE);
-//	entity->grounded = entity->packet.grounded;
 }
 
 void		compute_entity_hitbox(t_renderable *r)

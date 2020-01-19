@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 10:06:09 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/26 16:24:15 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/19 01:26:23 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <libft.h>
 # define READ_BUFFER (4096)
+# define ERR_INV_READ_SIZE ("Invalid read size")
 
 typedef struct	s_reader
 {

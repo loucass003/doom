@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/22 13:41:15 by lloncham          #+#    #+#             */
-/*   Updated: 2020/01/17 18:46:15 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/19 03:10:09 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void			entity_sound(t_entity *s, int buffer, int source, int peach)
 {
 	alSourcei(s->sources[source], AL_BUFFER, s->packet.doom->audio.buffer[buffer]);
 	alSourcei(s->sources[source], AL_SOURCE_RELATIVE, 0);
-	alSourcef(s->sources[source], AL_PITCH, peach * 2); //RAPIDITÉ
+	alSourcef(s->sources[source], AL_PITCH, peach * 2.0); //RAPIDITÉ
 	alSourcef(s->sources[source], AL_GAIN, 7);
 	alSourcei(s->sources[source], AL_DISTANCE_MODEL, AL_LINEAR_DISTANCE_CLAMPED);
 	alSource3f(s->sources[source], AL_POSITION, s->position.x, s->position.y, s->position.z);
@@ -42,7 +42,7 @@ void			player_sound(t_audio *s, int source, int buffer, float peach)
 {
 	alSourcei(s->source[source], AL_BUFFER, s->buffer[buffer]);
 	alSourcei(s->source[source], AL_SOURCE_RELATIVE, 1);
-	alSourcef(s->source[source], AL_PITCH, peach * 2); //RAPIDITÉ
+	alSourcef(s->source[source], AL_PITCH, peach * 2.0); //RAPIDITÉ
 	alSourcef(s->source[source], AL_GAIN, 1);
 	alSource3f(s->source[source], AL_POSITION, 0, 0, 0);
 	alSourcei(s->source[source], AL_LOOPING, AL_FALSE);
@@ -75,8 +75,8 @@ t_bool			init_openal(t_doom *doom)
 		printf("context error\n");
 	if (!alcMakeContextCurrent(doom->audio.context))
 		printf("context current error\n");
-	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 1, 1024) == -1)
-		printf("%s\n", Mix_GetError());
+	// if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024) == -1)
+	// 	printf("%s\n", Mix_GetError());
 	alGenSources(MAX_SOUNDS, doom->audio.source);
 	return (TRUE);
 }
@@ -91,6 +91,7 @@ t_bool			set_default_sounds(t_doom *doom)
 	doom->audio.buffer[5] = doom->res_manager.ressources->values[16]->data.sound->buffer_id;
 	doom->audio.buffer[6] = doom->res_manager.ressources->values[17]->data.sound->buffer_id;
 	doom->audio.buffer[7] = doom->res_manager.ressources->values[18]->data.sound->buffer_id;
+	return (TRUE);
 }
 
 void            quit_openal()

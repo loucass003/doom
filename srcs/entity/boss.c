@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 14:15:25 by lloncham          #+#    #+#             */
-/*   Updated: 2020/01/17 15:58:47 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/18 16:39:18 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,5 +173,12 @@ void		entity_update_boss(t_doom *doom, t_entity *entity, double dt)
 				boss->animation_step = 6;
 			}
 		}
+	}
+	ALint status;
+	if ((entity->velocity.x || entity->velocity.z) && entity->grounded)
+	{
+		alGetSourcei(entity->sources[2], AL_SOURCE_STATE, &status);
+		if (status != AL_PLAYING)
+			entity_sound(entity, 4, 2, 1);
 	}
 }

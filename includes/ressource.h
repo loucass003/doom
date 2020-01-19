@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ressource.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 10:19:30 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/13 18:05:04 by louali           ###   ########.fr       */
+/*   Updated: 2020/01/19 01:18:38 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include <libft.h>
 # include "gui.h"
 # include "io.h"
-# include <al.h>
+# include "audio.h"
 
 typedef enum	e_ressource_type
 {
@@ -26,12 +26,6 @@ typedef enum	e_ressource_type
 	RESSOURCE_SOUND = 3
 }				t_ressource_type;
 
-typedef struct	s_sound
-{
-    Uint32 		alen;
-	ALuint		buffer_id;
-	Uint8		abuf[];
-}				t_sound;
 
 typedef union	u_ressource_data
 {

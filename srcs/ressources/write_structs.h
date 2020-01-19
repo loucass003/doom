@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/25 05:41:51 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/15 20:16:10 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/19 03:30:52 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@
 
 typedef struct		s_wr_songs
 {
-	Uint32 			alen;
+	uint32_t	sample_rate;
+	uint16_t	bits_per_sample;
+	uint32_t	buffer_size;
 }					t_wr_songs;
 
 typedef struct		s_wr_ressource

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 16:55:56 by louali            #+#    #+#             */
-/*   Updated: 2020/01/17 18:31:43 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/19 03:37:19 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,41 +15,45 @@
 #include <al.h>
 #include "write_structs.h"
 
-t_bool      gen_audio_buffer(t_sound *s)
+t_bool		gen_audio_buffer(t_sound *s)
 {
+	ALenum	format;
 
-    alGenBuffers(1, &s->buffer_id);
-	alBufferData(s->buffer_id, AL_FORMAT_MONO16, s->abuf, s->alen, 44100);
-    return (TRUE);
+	alGenBuffers(1, &s->buffer_id);
+	format = AL_FORMAT_MONO16;
+	if (s->bits_per_sample == 8)
+		format = AL_FORMAT_MONO8;
+	alBufferData(s->buffer_id, format, s->buffer, s->buffer_size, s->sample_rate);
+	return (TRUE);
 }
 
 t_bool		load_sound(t_doom *doom, t_ressource *r, char *path)
 {
-    Mix_Chunk   *mix_chunk;
+	t_wav_format	wav;
 
-   
-	if ((mix_chunk = Mix_LoadWAV(path)) == NULL)
-	{
-		printf("Unable to load sound %s\n", Mix_GetError());
+	if (!load_wav(path, &wav))
 		return (FALSE);
-	}
-	if (!(r->data.sound = malloc(sizeof(t_sound) + mix_chunk->alen)))
+	if (!(r->data.sound = malloc(sizeof(t_sound) + wav.buffer_size)))
 		return (FALSE);
-    ft_memcpy(r->data.sound->abuf, mix_chunk->abuf, mix_chunk->alen);
-    r->data.sound->alen = mix_chunk->alen;
-    gen_audio_buffer(r->data.sound);
-    r->loaded = TRUE;
+	ft_memcpy(r->data.sound->buffer, wav.buffer, wav.buffer_size);
+	r->data.sound->buffer_size = wav.buffer_size;
+	r->data.sound->sample_rate = wav.fmt.sample_rate;
+	r->data.sound->bits_per_sample = wav.fmt.bits_per_sample;
+	gen_audio_buffer(r->data.sound);
+	r->loaded = TRUE;
 	return (TRUE);
 }
 
 t_bool		write_sound(t_ressource_manager *rm, t_sound *sound)
 {
 	const t_wr_songs	wr_song = (t_wr_songs){ 
-		.alen = sound->alen
+		.buffer_size = sound->buffer_size,
+		.sample_rate = sound->sample_rate,
+		.bits_per_sample = sound->bits_per_sample
 	};
 
 	dp_write(rm, &wr_song, sizeof(t_wr_songs));
-	dp_write(rm, sound->abuf, sound->alen);
+	dp_write(rm, sound->buffer, sound->buffer_size);
     return (TRUE);
 }
 
@@ -60,10 +64,12 @@ t_bool		read_songs(t_ressource_manager *r, t_sound **sound)
 
 	if (!io_memcpy(&r->reader, &wr_songs, sizeof(t_wr_songs)))
 		return (FALSE);
-    if (!(s = malloc(sizeof(t_sound) + wr_songs.alen)))
+    if (!(s = malloc(sizeof(t_sound) + wr_songs.buffer_size)))
 		return (FALSE);
-	s->alen = wr_songs.alen;
-    if (!io_memcpy(&r->reader, s->abuf, wr_songs.alen))
+	s->buffer_size = wr_songs.buffer_size;
+	s->sample_rate = wr_songs.sample_rate;
+	s->bits_per_sample = wr_songs.bits_per_sample;
+    if (!io_memcpy(&r->reader, s->buffer, wr_songs.buffer_size))
 		return (FALSE);
     gen_audio_buffer(s);
     *sound = s;
