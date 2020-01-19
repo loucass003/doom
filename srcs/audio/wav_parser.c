@@ -6,12 +6,13 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/18 16:42:15 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/19 02:54:21 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/19 18:43:22 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 #include <fcntl.h>
+#include <unistd.h>
 #include "io.h"
 #include "audio.h"
 
@@ -67,6 +68,7 @@ t_bool		load_wav(char *path, t_wav_format *wav)
 		free_wav(&wav);
 		return (wav_return_error("Invalid data chunk"));
 	}
+	close(r.fd);
 	return (TRUE);
 }
 

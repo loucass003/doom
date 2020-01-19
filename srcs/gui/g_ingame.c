@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/17 19:02:34 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/19 18:30:40 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -292,7 +292,7 @@ void	g_ingame_on_events(t_gui *self, SDL_Event *event, t_doom *doom)
 			else if (doom->editor.object_transform_mode == OT_MODE_SCALE)
 			{
 				t_object *object = &doom->editor.objects->values[doom->editor.current_object];
-				object->scale = ft_vec3_add(object->scale, add);
+				object->scale = ft_vec3_add(object->scale, ft_vec3_mul_s(add, 0.1));
 				if (object->r)
 				{
 					object->r->scale = object->scale;

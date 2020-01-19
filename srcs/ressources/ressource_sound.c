@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 16:55:56 by louali            #+#    #+#             */
-/*   Updated: 2020/01/19 03:37:19 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/19 03:43:04 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@ t_bool		write_sound(t_ressource_manager *rm, t_sound *sound)
 
 t_bool		read_songs(t_ressource_manager *r, t_sound **sound)
 {
-	t_wr_songs wr_songs;
-    t_sound    *s;
+	t_wr_songs	wr_songs;
+	t_sound		*s;
 
 	if (!io_memcpy(&r->reader, &wr_songs, sizeof(t_wr_songs)))
 		return (FALSE);
@@ -71,7 +71,7 @@ t_bool		read_songs(t_ressource_manager *r, t_sound **sound)
 	s->bits_per_sample = wr_songs.bits_per_sample;
     if (!io_memcpy(&r->reader, s->buffer, wr_songs.buffer_size))
 		return (FALSE);
-    gen_audio_buffer(s);
-    *sound = s;
+	gen_audio_buffer(s);
+	*sound = s;
 	return (TRUE);
 }

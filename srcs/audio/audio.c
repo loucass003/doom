@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/22 13:41:15 by lloncham          #+#    #+#             */
-/*   Updated: 2020/01/19 03:10:09 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/19 03:45:00 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,6 @@ t_bool			init_openal(t_doom *doom)
 		printf("context error\n");
 	if (!alcMakeContextCurrent(doom->audio.context))
 		printf("context current error\n");
-	// if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024) == -1)
-	// 	printf("%s\n", Mix_GetError());
 	alGenSources(MAX_SOUNDS, doom->audio.source);
 	return (TRUE);
 }
