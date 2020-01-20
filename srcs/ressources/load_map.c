@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 01:53:42 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/15 20:25:11 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/20 15:08:06 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,6 +207,18 @@ t_bool		read_object_model(t_ressource_manager *r, t_ressource **model)
 	return (TRUE);
 }
 
+t_bool		read_object_light(t_ressource_manager *r, int *light_index)
+{
+	t_light	wr_light;
+
+	if (!io_memcpy(&r->reader, &wr_light, sizeof(t_light)))
+		return (FALSE);
+	*light_index = r->doom->lights->len;
+	if (!append_lights_array(&r->doom->lights, wr_light))
+		return (FALSE); 
+	return (TRUE);
+}
+
 t_bool		read_object(t_ressource_manager *r, t_object *object)
 {
 	t_wr_object	wr_object;
@@ -223,6 +235,8 @@ t_bool		read_object(t_ressource_manager *r, t_object *object)
 	else if (wr_object.type == OBJECT_ENTITY && !read_entity(r, &object->of.entity))
 		return (FALSE);
 	else if (wr_object.type == OBJECT_MODEL && !read_object_model(r, &object->of.model))
+		return (FALSE);
+	else if (wr_object.type == OBJECT_LIGHT && !read_object_light(r, &object->of.light_index))
 		return (FALSE);
 	return (TRUE);
 }

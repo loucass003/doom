@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/26 15:00:53 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/17 18:05:48 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/20 14:54:47 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,13 @@ static t_bool			action_performed(t_component *cmp, t_doom *doom)
 		if (object->r)
 			create_object_renderable(&doom->editor, doom->editor.current_object, object->r);
 	}
+	if (cmp == editor->settings.guis_object[OBJECT_LIGHT].components->values[3])
+	{
+		t_collision hit = ray_hit_world(doom, doom->renderables, create_shoot_ray(doom->player, (t_vec3){0, 0, 1}));
+		if (hit.collide)
+			light->dir = ft_vec3_norm(ft_vec3_sub(hit.point, light->position));
+	}
+	editor->settings.guis_object[OBJECT_LIGHT].components->values[3]->visible = light->type == LIGHT_SPOT;
 	return (TRUE);
 }
 
@@ -62,8 +69,10 @@ void			g_es_obj_light_enter(t_gui *self, t_doom *doom)
 	set_text_value((t_textfield *)self->components->values[1], istr.str, istr.len);
 	append_components_array(&self->components, create_checkbox(doom, (t_vec2){ x + 10, y + 130}, "Model Visible"));
 	((t_checkbox *)self->components->values[2])->value = light->model_visible;
+	append_components_array(&self->components, create_button((SDL_Rect){x + 10, y + 160, 300, 30}, NULL, "SET LIGHT DIRECTION"));
+	self->components->values[3]->visible = light->type == LIGHT_SPOT;
 	i = -1;
-	while (++i < 3)
+	while (++i < 4)
 		self->components->values[i]->perform_action = action_performed;
 }
 

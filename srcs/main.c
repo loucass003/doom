@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/19 03:09:17 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/20 15:13:50 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ t_bool	init_map(t_doom *doom)
 		return (FALSE);
 	if (!(doom->renderables = create_renderables_array(50)))
 		return (FALSE);
+	init_lightning(doom);
 	doom->editor.player_set = FALSE;
 	return (TRUE);
 }
@@ -135,7 +136,7 @@ int		main(int argc, char **argv)
 		return (-1);
 	
 	init_sdl(&doom);
-	init_lightning(&doom);
+
 	game_loop(&doom);
 	save_datapack(&doom);
 	sdl_quit(&doom);

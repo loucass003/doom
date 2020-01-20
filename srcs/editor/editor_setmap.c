@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 15:55:03 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/17 19:02:08 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/20 15:17:20 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -264,7 +264,6 @@ t_bool		create_object_renderable(t_editor *editor, int object_index, t_renderabl
 		t_light		*light = &editor->doom->lights->values[object->of.light_index];
 
 		light->position = editor_to_world(object->pos);
-		light->dir = object->rotation;
 		ft_bzero(r, sizeof(t_renderable));
 		create_ellipsoid(editor->doom, r, (t_vec2){ 12, 12 }, (t_vec3){ 1, 1, 1 });
 		r->materials->values[0].material_color = 0xFFF0E68C;
