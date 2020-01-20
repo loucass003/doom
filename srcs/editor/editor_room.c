@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 18:37:59 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/19 18:57:29 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/20 16:14:43 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,13 @@ int			get_close_room(t_editor *editor)
 		}
 		else if (editor->grid_cell_grab == GG_LINE)
 		{
-			if (wall_indexof_by_indice(room->walls, editor->close_seg.x) != -1
-				&& wall_indexof_by_indice(room->walls,
-					editor->close_seg.y) != -1)
+			int index1 = wall_indexof_by_indice(room->walls, editor->close_seg.x);
+			int index2 = wall_indexof_by_indice(room->walls, editor->close_seg.y);
+			if (index1 != -1 && index2 != -1 
+				&& ((index2 == index1 + 1 || index2 == index1 - 1) 
+					|| ((index1 == 0 && index2 == room->walls->len - 1) 
+					|| (index2 == 0 && index1 == room->walls->len - 1)))
+			)
 				return (i);
 		}
 	}
