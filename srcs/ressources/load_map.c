@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 01:53:42 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/20 15:08:06 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/20 19:00:39 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,11 @@ t_bool		read_room(t_ressource_manager *r)
 		.ceil_rot = wr_room.ceil_rot,
 		.floor_visible = wr_room.floor_visible,
 		.ceil_visible = wr_room.ceil_visible,
-		.ambiant_light = wr_room.ambiant_light
+		.floor_collision = wr_room.floor_collision,
+		.ceil_collision = wr_room.ceil_collision,
+		.floor_normal = wr_room.floor_normal,
+		.ceil_normal = wr_room.ceil_normal,
+		.ambiant_light = wr_room.ambiant_light,
 	};
 	i = -1;
 	while (++i < wr_room.walls_count)
