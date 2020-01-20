@@ -6,12 +6,17 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/15 16:45:12 by lloncham          #+#    #+#             */
-/*   Updated: 2020/01/15 16:51:40 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/20 15:10:22 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom.h"
 #include "gui.h"
+
+void	g_esc_on_enter(t_gui *self, t_doom *doom)
+{
+
+}
 
 void	g_esc_render(t_gui *self, t_doom *doom)
 {

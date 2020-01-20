@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   item.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 20:16:48 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/17 14:47:44 by louali           ###   ########.fr       */
+/*   Updated: 2020/01/20 17:25:03 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,15 @@ t_item	*create_item_weapon(t_ressource *image, SDL_Rect bounds, t_weapon_type ty
 	return (weapon);
 }
 
+t_item	*create_item_jetpack(t_ressource *image)
+{
+	t_item	*jetpack;
+	
+	if (!(jetpack = create_item(ITEM_JETPACK, image, (SDL_Rect){ 1, 1, 256, 256 }, 75)))
+		return (NULL);
+	return (jetpack);
+}
+
 t_item	*create_item_ammo(t_ressource *image)
 {
 	t_item	*ammo;
@@ -180,6 +189,8 @@ t_item			*create_item_from_type(t_doom *doom, t_item_type type, t_weapon_type we
 		return (create_item_ammo(doom->res_manager.ressources->values[2]));
 	else if (type == ITEM_HEAL)
 		return (create_item_heal(doom->res_manager.ressources->values[2]));
+	else if (type == ITEM_JETPACK)
+		return (create_item_jetpack(doom->res_manager.ressources->values[2]));
 	else if (type == ITEM_WEAPON)
 		return (create_item_weapon_from_type(doom, weapon_type));
 	return (NULL);
@@ -261,6 +272,13 @@ t_bool				entity_hit_itemstack(t_entity *entity, t_itemstack *is)
 	{
 		is->amount--;
 		entity->life = fmin(entity->max_life, entity->life + (0.5 * entity->packet.doom->level.coeff_regen));
+		return (TRUE);
+	}
+	if (is->of && is->of->type == ITEM_JETPACK)
+	{
+		is->amount--;
+		entity->packet.doom->temps_pre = SDL_GetTicks();
+		printf("TEMPS %d\n", entity->packet.doom->temps_pre);
 		return (TRUE);
 	}
 	s = get_slot(&entity->packet.doom->player, is);

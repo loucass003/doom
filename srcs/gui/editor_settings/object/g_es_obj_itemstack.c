@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_es_obj_itemstack.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 22:55:54 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/09 04:20:08 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/20 16:15:08 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ void			g_es_obj_itemstack_enter(t_gui *self, t_doom *doom)
 	append_select_items_array(&((t_select *)self->components->values[0])->items, (t_select_item){ .name = "WEAPON", .value = ITEM_WEAPON });
 	append_select_items_array(&((t_select *)self->components->values[0])->items, (t_select_item){ .name = "AMMO", .value = ITEM_AMMO });
 	append_select_items_array(&((t_select *)self->components->values[0])->items, (t_select_item){ .name = "HEAL", .value = ITEM_HEAL });
+	append_select_items_array(&((t_select *)self->components->values[0])->items, (t_select_item){ .name = "JETPACK", .value = ITEM_JETPACK });
 	t_object	*object = &doom->editor.objects->values[doom->editor.current_object];
 	t_itemstack	*is = object->of.itemstack;
 	if (!is)
