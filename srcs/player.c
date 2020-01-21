@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:43:35 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/17 16:13:09 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/21 15:13:07 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,12 +123,12 @@ t_bool				draw_player_inventory(t_doom *doom, t_gui *self)
 				apply_image_blended(doom->main_context.image, is->of->image->data.texture, is->of->bounds, (SDL_Rect){ 10, 50 + i * 60, 50, 50 });
 				if (is->amount <= 1)
 					continue;
-				const SDL_Color	color = {255, 255, 255, 0};
+				const SDL_Color	color = {255, 255, 0, 0};
 				SDL_Surface		*text;
 
 				text = TTF_RenderText_Blended(doom->fonts.helvetica,
 					ft_int_to_str(is->amount).str, color);
-				apply_surface_blended(&doom->screen, text, (SDL_Rect){0, 0, text->w, text->h},
+				apply_surface_blended(doom->main_context.image, text, (SDL_Rect){0, 0, text->w, text->h},
 					(SDL_Rect){ 40, 50 + i * 60, 20, 20 });
 				SDL_FreeSurface(text);
 			}
@@ -154,7 +154,6 @@ t_bool				draw_player_inventory(t_doom *doom, t_gui *self)
 			}
 			apply_image_blended(doom->main_context.image, weapon->animation->data.texture, weapon->curr_image, (SDL_Rect){ S_WIDTH_2 - 80 / 2, S_HEIGHT - 300, 300, 300 });
 		}
-
 		((t_progress *)self->components->values[0])->value = doom->player.entity.life * (1 / doom->player.entity.max_life) * 100;
 		if (doom->player.entity.life <= 0 || (doom->closer_boss && doom->closer_boss->dead))
 		{
@@ -179,6 +178,8 @@ void	update_controls(t_doom *doom)
 	//printf("delay %luus\n", getMicrotime() - start);
 	if (doom->main_context.type == CTX_EDITOR)
 		move_speed = 10;
+	else if (doom->player.entity.jetpack)
+		move_speed = 15;
 	else
 		move_speed = !doom->player.entity.grounded ? 1.2 : 10;
 	if (s[SDL_SCANCODE_W] || s[SDL_SCANCODE_S])
@@ -193,15 +194,14 @@ void	update_controls(t_doom *doom)
 	}
 	if (doom->main_context.type == CTX_NORMAL)
 	{
-		if (s[SDL_SCANCODE_SPACE] && !doom->player.entity.jump && doom->player.entity.grounded)
+		if (s[SDL_SCANCODE_SPACE] && !doom->player.entity.jump && (doom->player.entity.grounded || doom->player.entity.jetpack))
 		{ 
 			doom->player.entity.jump = TRUE;
-			//doom->player.entity.velocity.y += 50;
 		}
-		if (s[SDL_SCANCODE_LSHIFT])
+		if (s[SDL_SCANCODE_LSHIFT] && doom->player.entity.jetpack)
 		{ 
 			doom->player.entity.grounded = FALSE;
-			doom->player.entity.velocity.y -= 50;
+			doom->player.entity.velocity.y -= 8;
 		}
 	}
 

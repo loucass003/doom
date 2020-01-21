@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   entity.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 22:00:26 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/21 14:21:10 by louali           ###   ########.fr       */
+/*   Updated: 2020/01/21 15:16:09 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ t_bool		check_collision(t_entity *entity, t_collide_aabb area)
 	t_renderable	r;
 	t_face			f;
 	t_collide_aabb	new_area;
-		//printf("TEST\n");
+
 	i = -1;
 	while (++i < entity->packet.doom->renderables->len)
 	{
@@ -204,21 +204,6 @@ void		give_damage(t_entity *from, t_entity *to, t_doom *doom, float damage)
 	}
 }
 
-void		check_grounded(t_entity *entity)
-{
-	// t_plane	plane;
-	// float	f;
-
-	// if (!entity->packet.found_colision)
-	// 	return ;
-	// f = ft_vec3_dot(entity->packet.plane.normal, (t_vec3){0, 1, 0});
-	// if (f >= 0.8 && entity->velocity.y <= 0 && entity->packet.intersect_point.y <= entity->position.y)
-	// 	entity->grounded = TRUE;
-	// else
-	// 	entity->grounded = FALSE;
-}
-
-
 t_vec3		ft_vec3_trim(t_vec3 v, float max_len)
 {
 	float len = ft_vec3_len(v);
@@ -257,7 +242,6 @@ t_vec3		collide_with_world(t_entity *entity, t_vec3 e_position, t_vec3 e_velocit
 		t_vec3 dest_point = ft_vec3_add(e_position, e_velocity);
 		return dest_point;
 	}
-	check_grounded(entity);
 
 	t_vec3 dest_point = ft_vec3_add(e_position, e_velocity);
 	if (entity->packet.found_colision == FALSE)
@@ -288,7 +272,6 @@ t_vec3		collide_with_world(t_entity *entity, t_vec3 e_position, t_vec3 e_velocit
 			entity->grounded = TRUE;
 			return new_base_point;
 	}
-	// entity->grounded = FALSE;
 	t_vec3 new_dest_point = ft_vec3_sub(dest_point, ft_vec3_mul_s(slide_plane_normal, slide_factor));
 	t_vec3 new_velocity = ft_vec3_sub(new_dest_point, entity->packet.intersect_point);
 	if (ft_vec3_len(new_velocity) < very_close_dist)
@@ -337,10 +320,24 @@ t_bool		entity_update(t_doom *doom, t_entity *entity, double dt)
 		entity->life = 0;
 	if (doom->main_context.type == CTX_NORMAL)
 	{
+		
 		if (entity->type == ENTITY_BOSS)
 			entity_update_boss(doom, entity, dt);
 		if (entity->type == ENTITY_ENEMY)
 			entity_update_enemy(doom, entity, dt);
+		entity->jetpack = FALSE;
+		int slot = get_slot_of(&doom->player, ITEM_JETPACK);
+		if (slot != -1)
+		{
+			t_itemstack	*is = &doom->player.item[slot]; 
+			if (entity->type == ENTITY_PLAYER && is->of && is->of->type == ITEM_JETPACK && !entity->grounded)
+			{
+				is->amount--;
+				if (is->amount <= 0)
+					is->of = NULL;
+				entity->jetpack = TRUE;
+			}
+		}
 		if (entity->type == ENTITY_PLAYER
 				&& (entity->velocity.x || entity->velocity.z)
 				&& entity->grounded
@@ -357,17 +354,28 @@ t_bool		entity_update(t_doom *doom, t_entity *entity, double dt)
 		}
 		else
 		{	
-			if (entity->grounded && entity->jump && entity->velocity.y < 0)
-				entity->velocity.y = fmax(0, entity->velocity.y);
-			if (entity->jump && entity->velocity.y <= 10 && !entity->packet.found_colision)
-				entity->velocity.y += 1.5;
-			if (entity->jump && entity->velocity.y >= 10)
-				entity->jump = FALSE;
-			if (!entity->jump)
-			{
-				entity->velocity.y -= !entity->grounded ? 8 : 40;
-				entity->velocity.y = fmax(-40, entity->velocity.y);
-			}
+				
+				if (entity->jetpack)
+				{
+					if (entity->jump)
+						entity->velocity.y += 1.5;
+					entity->jump = FALSE;
+					entity->velocity.y *= 0.9;
+				}
+				else
+				{
+					if (entity->grounded && entity->jump && entity->velocity.y < 0)
+						entity->velocity.y = fmax(0, entity->velocity.y);
+					if (entity->jump && entity->velocity.y <= 10 && !entity->packet.found_colision)
+						entity->velocity.y += 1.5;
+					if (entity->jump && entity->velocity.y >= 10)
+						entity->jump = FALSE;
+					if (!entity->jump)
+					{
+						entity->velocity.y -= !entity->grounded ? 8 : 40;
+						entity->velocity.y = fmax(-40, entity->velocity.y);
+					}
+				}
 		}
 		entity->packet.r3_posision = entity->position;
 		entity->packet.r3_velocity = entity->velocity;
@@ -390,8 +398,8 @@ t_bool		entity_update(t_doom *doom, t_entity *entity, double dt)
 		}
 		else
 		{
-			entity->velocity.x *= !entity->grounded && !entity->packet.found_colision ? 0.99 : 0.5;
-			entity->velocity.z *= !entity->grounded && !entity->packet.found_colision ? 0.99 : 0.5;
+			entity->velocity.x *= !entity->grounded && !entity->packet.found_colision && !entity->jetpack ? 0.99 : 0.5;
+			entity->velocity.z *= !entity->grounded && !entity->packet.found_colision && !entity->jetpack ? 0.99 : 0.5;
 			if (entity->velocity.x < 1 && entity->velocity.x > -1)
 				entity->velocity.x = 0;
 			if (entity->velocity.z < 1 && entity->velocity.z > -1)

@@ -6,17 +6,19 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 20:16:48 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/20 17:25:03 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/21 14:32:25 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
+#include <limits.h>
 #include "render.h"
 #include "renderable_of.h"
 #include "sprite.h"
 #include "entity.h"
 #include "doom.h"
 #include "item.h"
+
 
 t_item	*create_item(t_item_type type, t_ressource *image, SDL_Rect bounds, int max_stack_size)
 {
@@ -140,7 +142,7 @@ t_item	*create_item_jetpack(t_ressource *image)
 {
 	t_item	*jetpack;
 	
-	if (!(jetpack = create_item(ITEM_JETPACK, image, (SDL_Rect){ 1, 1, 256, 256 }, 75)))
+	if (!(jetpack = create_item(ITEM_JETPACK, image, (SDL_Rect){ 257, 257, 146, 103 }, INT_MAX)))
 		return (NULL);
 	return (jetpack);
 }
@@ -272,13 +274,6 @@ t_bool				entity_hit_itemstack(t_entity *entity, t_itemstack *is)
 	{
 		is->amount--;
 		entity->life = fmin(entity->max_life, entity->life + (0.5 * entity->packet.doom->level.coeff_regen));
-		return (TRUE);
-	}
-	if (is->of && is->of->type == ITEM_JETPACK)
-	{
-		is->amount--;
-		entity->packet.doom->temps_pre = SDL_GetTicks();
-		printf("TEMPS %d\n", entity->packet.doom->temps_pre);
 		return (TRUE);
 	}
 	s = get_slot(&entity->packet.doom->player, is);

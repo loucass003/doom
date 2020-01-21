@@ -6,7 +6,11 @@
 /*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 00:01:14 by llelievr          #+#    #+#             */
+<<<<<<< Updated upstream
 /*   Updated: 2020/01/20 14:43:19 by louali           ###   ########.fr       */
+=======
+/*   Updated: 2020/01/21 15:05:31 by lloncham         ###   ########.fr       */
+>>>>>>> Stashed changes
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +96,7 @@ typedef struct		s_entity
 	float				life;
 	float				max_life;
 	ALuint				*sources;
+	t_bool				jetpack;
 	struct s_renderable	*r;
 }					t_entity;
 

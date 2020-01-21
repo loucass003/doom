@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 20:30:43 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/20 16:46:10 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/21 13:42:04 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,7 @@ typedef enum		e_item_type
 
 typedef	struct 		s_jetpack
 {
-	int				tempsactuel;
-	int				tempsprecedent;
+	int				amount;
 }					t_jetpack;
 
 typedef union		u_item_data

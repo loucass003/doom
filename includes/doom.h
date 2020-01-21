@@ -6,7 +6,11 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
+<<<<<<< Updated upstream
 /*   Updated: 2020/01/21 15:15:24 by lloncham         ###   ########.fr       */
+=======
+/*   Updated: 2020/01/21 11:57:40 by lloncham         ###   ########.fr       */
+>>>>>>> Stashed changes
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,8 +132,6 @@ typedef struct		s_doom
 	t_entity			*closer_boss;
 	t_bool				mouse_focus;
 	t_level				level;
-	int					temps_actuel;
-	int					temps_pre;
 }					t_doom;
 
 float				clamp(float min, float max, float v);
