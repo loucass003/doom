@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   constants.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 21:05:41 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/15 16:52:52 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/21 15:18:46 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@
 # define FAR_CULL (500)
 # define FAR (500)
 
-# define GUI_COUNT (8)
+# define GUI_COUNT (9)
 # define GUI_INGAME (0)
 # define GUI_MAIN_MENU (1)
 # define GUI_EDITOR (2)
@@ -57,6 +57,7 @@
 # define GUI_EDITOR_SETTINGS (5)
 # define GUI_LEVEL (6)
 # define GUI_ESC (7)
+# define GUI_LEADERBOARD (8)
 
 # define AMBIANT_LIGHT (50)
 

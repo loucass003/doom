@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_mainmenu.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:56:05 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/16 13:23:03 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/21 14:48:46 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,11 @@ static t_bool		action_performed(t_component *cmp, t_doom *doom)
 		set_gui(doom, GUI_RESSOURCES);
 		return (FALSE);
 	}
+	else if (cmp == doom->guis[doom->current_gui].components->values[3])
+	{
+		set_gui(doom, GUI_LEADERBOARD);
+		return (FALSE);
+	}
 	return (TRUE);
 }
 
@@ -43,6 +48,7 @@ void	g_mainmenu_on_enter(t_gui *self, t_doom *doom)
 	append_components_array(&self->components, create_button((SDL_Rect){ (S_WIDTH - 250) / 2, (S_HEIGHT - 150) / 2, 250, 50 }, NULL, "PLAY"));
 	append_components_array(&self->components, create_button((SDL_Rect){ (S_WIDTH - 250) / 2, (S_HEIGHT - 20) / 2, 250, 50 }, NULL, "MAP EDITOR"));
 	append_components_array(&self->components, create_button((SDL_Rect){ (S_WIDTH - 250) / 2, (S_HEIGHT + 110) / 2, 250, 50 }, NULL, "RESSOURCES MANAGER"));
+	append_components_array(&self->components, create_button((SDL_Rect){ (S_WIDTH - 250) / 2, (S_HEIGHT + 250) / 2, 250, 50 }, NULL, "Leaderboard"));
 	
 	i = -1;
 	while (++i < self->components->len)

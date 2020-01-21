@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   triangle.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 01:17:41 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/10 04:12:03 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/21 17:05:17 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void scanline2(t_render_context *ctx, t_mtl *mtl, t_pixel p, float t, t_vertex s
 		 ur_color c;
 		float a = ft_max(AMBIANT_LIGHT, lt_color) / 255.0;
 		if (mtl->texture_map_set)
-		{
+		{ 
 			float w = 1. / vert.pos.w;
 			vert.tex.x = (1.0f - t) * start.tex.x + t * end.tex.x ;
 			vert.tex.y = (1.0f - t) * start.tex.y + t * end.tex.y;

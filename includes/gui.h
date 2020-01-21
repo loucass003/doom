@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gui.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 01:42:00 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/20 14:41:28 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/21 17:18:51 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,6 +210,13 @@ void				g_level_on_enter(t_gui *self, t_doom *doom);
 void				g_level_on_leave(t_gui *self, t_doom *doom);
 void				g_esc_render(t_gui *self, t_doom *doom);
 void				g_esc_on_event(t_gui *self, SDL_Event *event, t_doom *doom);
+
+
+void				g_leaderboard_on_enter(t_gui *self, t_doom *doom);
+void				g_leaderboard_on_leave(t_gui *self, t_doom *doom);
+void				g_leaderboard_on_event(t_gui *self, SDL_Event *event, t_doom *doom);
+void				g_leaderboard_render(t_gui *self, t_doom *doom);
+
 
 
 

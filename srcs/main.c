@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/20 15:13:50 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/21 15:49:10 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,8 @@ t_bool	init_map(t_doom *doom)
 	if (!(doom->editor.objects = create_objects_array(15)))
 		return (FALSE);
 	if (!(doom->renderables = create_renderables_array(50)))
+		return (FALSE);
+	if (!(doom->scores = create_scores_array(15)))
 		return (FALSE);
 	init_lightning(doom);
 	doom->editor.player_set = FALSE;

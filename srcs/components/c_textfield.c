@@ -6,7 +6,7 @@
 /*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/21 03:16:01 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/17 09:46:24 by louali           ###   ########.fr       */
+/*   Updated: 2020/01/21 16:25:58 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ t_component	*create_textfield(SDL_Rect bounds, char *placeholder, t_bool number)
 	tf->super = (t_component) { .enabled = TRUE, .visible = TRUE,
 		.bounds = bounds, .type = C_TEXTFIELD,
 		.render = c_textfield_render, .on_event = c_textfield_on_event };
-	if (!(tf->text = ft_memalloc(sizeof(char) * 255)))
+	if (!(tf->text = ft_memalloc(sizeof(char) * 256)))
 		return (NULL);
 	tf->number = number;
 	tf->placeholder = placeholder;
