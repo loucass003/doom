@@ -6,7 +6,7 @@
 /*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/14 10:24:25 by lloncham          #+#    #+#             */
-/*   Updated: 2020/01/17 14:57:48 by louali           ###   ########.fr       */
+/*   Updated: 2020/01/20 14:48:00 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ t_bool	create_rocket(t_renderable *r, t_doom *doom)
 	rocket->range = 10;
 	r->scale = (t_vec3){ 0.01, 0.01, 0.01 };
 	r->of.data.entity->radius = (t_vec3){ 0.5, 0.5, 0.5 };
+	r->of.data.entity->sources = rocket->sources;
+	alGenSources(1, rocket->sources);
 	//r->show_hitbox = TRUE;
 	compute_ellipsoid_hitbox(r, r->of.data.entity->position, r->of.data.entity->radius);
 	return (TRUE);

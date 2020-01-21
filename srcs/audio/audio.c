@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   audio.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/22 13:41:15 by lloncham          #+#    #+#             */
-/*   Updated: 2020/01/19 03:45:00 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/20 12:59:38 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ t_bool			set_default_sounds(t_doom *doom)
 	doom->audio.buffer[5] = doom->res_manager.ressources->values[16]->data.sound->buffer_id;
 	doom->audio.buffer[6] = doom->res_manager.ressources->values[17]->data.sound->buffer_id;
 	doom->audio.buffer[7] = doom->res_manager.ressources->values[18]->data.sound->buffer_id;
+	doom->audio.buffer[8] = doom->res_manager.ressources->values[19]->data.sound->buffer_id;
 	return (TRUE);
 }
 

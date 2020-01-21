@@ -6,7 +6,7 @@
 /*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 14:37:12 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/17 14:40:25 by louali           ###   ########.fr       */
+/*   Updated: 2020/01/20 13:00:04 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ t_bool			init_ressources_registry(t_doom *doom)
 	error |= a(doom, "SOUND BOSS GUN", RESSOURCE_SOUND, TRUE);
 	error |= a(doom, "SOUND BOSS DIE", RESSOURCE_SOUND, TRUE);
 	error |= a(doom, "SOUND BOSS HIT", RESSOURCE_SOUND, TRUE);
+	error |= a(doom, "SOUND EXPLOSION", RESSOURCE_SOUND, TRUE);
 	return (error);
 }
 

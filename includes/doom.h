@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   doom.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/19 03:11:34 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/21 13:16:13 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,5 +148,6 @@ void				load_all(t_doom *doom);
 t_img				*surface_to_image(t_doom *doom, SDL_Surface *s); //TODO: NEED TO BE REMOVE 
 
 void				give_damage(t_entity *from, t_entity *to, t_doom *doom, float damage);
+void 				damage_explo(t_entity *from, t_doom *doom, float damage);
 
 #endif
