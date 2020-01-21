@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/20 17:19:43 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/21 15:15:24 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,5 +150,6 @@ void				load_all(t_doom *doom);
 t_img				*surface_to_image(t_doom *doom, SDL_Surface *s); //TODO: NEED TO BE REMOVE 
 
 void				give_damage(t_entity *from, t_entity *to, t_doom *doom, float damage);
+void 				damage_explo(t_entity *from, t_doom *doom, float damage);
 
 #endif

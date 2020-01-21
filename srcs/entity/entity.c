@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   entity.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 22:00:26 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/18 16:40:47 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/21 14:21:10 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,15 +145,43 @@ t_bool		check_collision(t_entity *entity, t_collide_aabb area)
 		if (entity->type == ENTITY_ROCKET && entity->packet.found_colision)
 		{
 			//TODO SON EXLOSION
-			if (entity->packet.r && entity->packet.r->of.type == RENDERABLE_ENTITY)
-				give_damage(entity, entity->packet.r->of.data.entity, entity->packet.doom, entity->of.rocket.damage);
+			entity_sound(entity, 8, 0, 1);
+			// if (entity->packet.r && entity->packet.r->of.type == RENDERABLE_ENTITY)
+			damage_explo(entity, entity->packet.doom, entity->of.rocket.damage);
 			splice_renderables_array(entity->packet.doom->renderables, renderables_indexof(entity->packet.doom->renderables, entity->r), 1);
 			entity->packet = data;
 			return (FALSE);
 		}
-
 	}
 	return (TRUE);
+}
+
+void 		damage_explo(t_entity *from, t_doom *doom, float damage)
+{
+	t_renderables	*renderables;
+	float			dist;
+	int				i;
+
+	i = -1;
+	renderables = doom->renderables;
+	while (++i < renderables->len)
+	{
+		t_renderable *r = &renderables->values[i];
+		if (r->of.type == RENDERABLE_ENTITY)
+		{
+			t_entity *e = r->of.data.entity;
+			if (from == e)
+				continue;
+			dist = ft_vec3_len(ft_vec3_sub(e->position, from->position));
+			if (dist < 10)
+			{
+				damage = from->of.rocket.damage;
+				if (dist != 0)
+					damage /= dist;
+				give_damage(from, e, doom, damage);
+			}
+		}
+	}
 }
 
 void		give_damage(t_entity *from, t_entity *to, t_doom *doom, float damage)
