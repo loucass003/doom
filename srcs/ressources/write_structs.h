@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/25 05:41:51 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/19 03:30:52 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/20 18:58:11 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,10 @@ typedef struct		s_wr_room
 	t_vec3			ceil_rot;
 	t_bool			floor_visible;
 	t_bool			ceil_visible;
+	t_bool			floor_collision;
+	t_bool			ceil_collision;
+	uint8_t			floor_normal;
+	uint8_t			ceil_normal;
 	uint8_t			ambiant_light;
 }					t_wr_room;
 

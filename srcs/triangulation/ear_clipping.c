@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/12 15:51:26 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/16 15:44:34 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/20 19:07:09 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static t_bool	snip(t_4dvertices *vertices, int u, int j, int w, int n, int *v)
 	return (TRUE);
 }
 
-t_bool	ear_clip2(int *filters, int filters_count, t_4dvertices *vertices, t_faces **faces, int face_type, int face_material, int room_index)
+t_bool	ear_clip2(int *filters, int filters_count, t_4dvertices *vertices, t_faces **faces, int normal_type, int face_material, int room_index)
 {
 	int		*v;
 
@@ -111,7 +111,8 @@ t_bool	ear_clip2(int *filters, int filters_count, t_4dvertices *vertices, t_face
 
 			ft_bzero(&face, sizeof(t_face));
 			face.hidden = 0;
-			face.normal_type = 1;
+			face.normal_type = normal_type;
+			face.double_sided = normal_type == 2;
 			face.has_collision = TRUE;
 			face.vertices_index[0] = v[u] + 1;
 			face.vertices_index[1] = v[j] + 1;

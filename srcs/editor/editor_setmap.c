@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 15:55:03 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/17 19:02:08 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/20 19:08:06 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include "sprite.h"
 #include "ellipsoid.h"
 
-t_bool	triangulate_floor_ceil(t_renderable *r, t_vec3 n, int *filter, int filter_len, int mtl, int room_index)
+t_bool	triangulate_floor_ceil(t_renderable *r, t_vec3 n, int *filter, int filter_len, int normal_type, int mtl, int room_index)
 {
 	t_mat4			p_inv;
 	t_mat4			reverse;
@@ -30,7 +30,7 @@ t_bool	triangulate_floor_ceil(t_renderable *r, t_vec3 n, int *filter, int filter
 	while (++i < filter_len)
 		r->vertices->vertices[filter[i]] = mat4_mulv4(p_inv,
 			r->vertices->vertices[filter[i]]);
-	if (!ear_clip2(filter, filter_len, r->vertices, &r->faces, 0, mtl, room_index))
+	if (!ear_clip2(filter, filter_len, r->vertices, &r->faces, normal_type, mtl, room_index))
 		return (FALSE);
 	uv_mapping(r->vertices, r->vertex, filter, filter_len);
 	i = -1;
@@ -112,10 +112,22 @@ t_bool		floor_visibility(t_editor *editor, t_renderable *r, int room_index)
 	room = &editor->rooms->values[room_index];
 	i = room->floor_start - 1;
 	while (++i < room->ceilling_start)
+	{
 		r->faces->values[i].hidden = room->floor_visible;
+		r->faces->values[i].normal_type = room->floor_normal;
+		r->faces->values[i].double_sided = room->floor_normal == 2;
+		r->faces->values[i].has_collision = room->floor_collision;
+	}
 	i = room->ceilling_start - 1;
 	while (++i < room->walls_start)
+	{
 		r->faces->values[i].hidden = room->ceil_visible;
+		r->faces->values[i].normal_type = room->ceil_normal;
+		r->faces->values[i].double_sided = room->ceil_normal == 2;
+		r->faces->values[i].has_collision = room->ceil_collision;
+	}
+	r->dirty = TRUE;
+	compute_collidables(r);
 	return (TRUE);
 }
 
@@ -264,7 +276,6 @@ t_bool		create_object_renderable(t_editor *editor, int object_index, t_renderabl
 		t_light		*light = &editor->doom->lights->values[object->of.light_index];
 
 		light->position = editor_to_world(object->pos);
-		light->dir = object->rotation;
 		ft_bzero(r, sizeof(t_renderable));
 		create_ellipsoid(editor->doom, r, (t_vec2){ 12, 12 }, (t_vec3){ 1, 1, 1 });
 		r->materials->values[0].material_color = 0xFFF0E68C;

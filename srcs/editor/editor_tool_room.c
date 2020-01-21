@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 20:09:08 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/15 20:26:02 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/20 18:48:52 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,11 @@ void		editor_tool_room(t_editor *editor, SDL_Event *event)
 			.ceiling_texture = get_default_texture(&editor->doom->res_manager, TRUE),
 			.floor_visible = FALSE,
 			.ceil_visible = FALSE,
-			.ambiant_light = AMBIANT_LIGHT
+			.ambiant_light = AMBIANT_LIGHT,
+			.floor_collision = TRUE,
+			.ceil_collision = TRUE,
+			.floor_normal = 1,
+			.ceil_normal = 1,
 		});
 		select_room(editor, editor->rooms->len - 1);
 	}
