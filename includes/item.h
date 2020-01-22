@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   item.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 20:30:43 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/22 13:47:04 by louali           ###   ########.fr       */
+/*   Updated: 2020/01/22 14:46:41 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ t_item				*create_item_weapon(t_ressource *image, SDL_Rect bounds, t_weapon_type
 t_item				*create_item_weapon_gun(t_ressource *image, t_ressource *animation);
 t_item				*create_item_ammo(t_ressource *image);
 t_item				*create_item_heal(t_ressource *image);
+t_item				*create_item_jetpack(t_ressource *image);
 t_bool				entity_hit_itemstack(struct s_entity *entity, t_itemstack *is);
 t_item				*create_item_weapon_axe(t_ressource *image, t_ressource *animation);
 t_itemstack			*create_itemstack(t_item *item, int amount);
