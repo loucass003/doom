@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/22 03:03:10 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/22 07:23:22 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/22 08:10:17 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,7 +224,7 @@ t_bool		load_tga(char *path, SDL_Surface **surface)
 					{
 						int index = ((*surface)->h - 1 - y) * (*surface)->w + x;
 						int index2 = y * (*surface)->w + x;
-						((uint32_t *)(*surface)->pixels)[index] = (uint32_t *)tga.data[index];
+						((uint32_t *)(*surface)->pixels)[index] = ((uint32_t *)tga.data)[index2];
 					}
 					else
 					{

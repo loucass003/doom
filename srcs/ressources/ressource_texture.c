@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/12 17:27:40 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/22 07:30:20 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/22 08:08:10 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,22 @@
 #include "ressource.h"
 #include "write_structs.h"
 
+static t_bool	is_tga_ext(char *path)
+{
+	char	*start;
+	
+	start = ft_strrchr(path, '.') + 1;
+	return (ft_memcmp(start, "tga", 3) == 0);
+}
+
 t_bool		load_texture_file(t_doom *doom, t_ressource *r, char *path)
 {
 	SDL_Surface	*s;
 	t_img		*img;
 
-	// if (!load_tga(path, &s))
-	// 	return (FALSE);
-	if (!(s = IMG_Load(path)))
+	if (is_tga_ext(path) && !load_tga(path, &s))
+		return (FALSE);
+	else if (!(s = IMG_Load(path)))
 		return (FALSE);
 	if (!(s = SDL_ConvertSurfaceFormat(s, SDL_PIXELFORMAT_ARGB8888, 0)))
 		return (FALSE);
