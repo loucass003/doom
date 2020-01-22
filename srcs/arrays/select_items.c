@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   select_items.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 23:06:40 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/21 03:36:23 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/22 14:44:03 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,10 @@
 
 t_select_items	*create_select_items_array(int capacity)
 {
-	const size_t	size = sizeof(t_select_items) + (capacity * sizeof(t_select_item));
+	size_t			size;
 	t_select_items	*arr;
 
+	size = sizeof(t_select_items) + (capacity * sizeof(t_select_item));
 	if (capacity <= 0)
 		return (NULL);
 	if (!(arr = (t_select_items*)malloc(size)))
@@ -28,14 +29,16 @@ t_select_items	*create_select_items_array(int capacity)
 	return (arr);
 }
 
-t_select_items	*append_select_items_array(t_select_items **arr, t_select_item v)
+t_select_items	*append_select_items_array(t_select_items **arr,
+	t_select_item v)
 {
 	t_select_items	*new;
 	size_t			old_size;
 
 	if ((*arr)->len == (*arr)->capacity)
 	{
-		old_size = sizeof(t_select_items) + ((*arr)->capacity * sizeof(t_select_item));
+		old_size = sizeof(t_select_items)
+			+ ((*arr)->capacity * sizeof(t_select_item));
 		(*arr)->capacity *= 2;
 		if (!(new = create_select_items_array((*arr)->capacity)))
 			return (NULL);
@@ -47,11 +50,12 @@ t_select_items	*append_select_items_array(t_select_items **arr, t_select_item v)
 	return (*arr);
 }
 
-t_select_items	*splice_select_items_array(t_select_items *arr, int index, int n)
+t_select_items	*splice_select_items_array(t_select_items *arr,
+	int index, int n)
 {
 	if (index < 0)
 		index = index + arr->len - 1;
-	if (n <= 0 || index >= arr->len || index + n > arr->len) //same as obj
+	if (n <= 0 || index >= arr->len || index + n > arr->len)
 		return (NULL);
 	ft_memcpy(arr->values + index, arr->values + index + n,
 		(arr->len - (index + n)) * sizeof(t_select_item));
@@ -59,7 +63,8 @@ t_select_items	*splice_select_items_array(t_select_items *arr, int index, int n)
 	return (arr);
 }
 
-t_select_items	*copy_select_items_array(t_select_items *src, t_select_items **dst)
+t_select_items	*copy_select_items_array(t_select_items *src,
+	t_select_items **dst)
 {
 	if ((*dst)->capacity < src->capacity)
 	{
@@ -72,7 +77,7 @@ t_select_items	*copy_select_items_array(t_select_items *src, t_select_items **ds
 	return (*dst);
 }
 
-int		select_items_indexof(t_select_items *arr, int item_value)
+int				select_items_indexof(t_select_items *arr, int item_value)
 {
 	int	i;
 

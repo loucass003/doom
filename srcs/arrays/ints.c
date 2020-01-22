@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ints.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/12 19:55:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/30 17:40:37 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/22 14:33:53 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,10 @@
 
 t_ints	*create_ints_array(int capacity)
 {
-	const size_t	size = sizeof(t_ints) + (capacity * sizeof(int));
+	size_t			size;
 	t_ints			*arr;
 
+	size = sizeof(t_ints) + (capacity * sizeof(int));
 	if (capacity <= 0)
 		return (NULL);
 	if (!(arr = (t_ints*)malloc(size)))
@@ -75,7 +76,7 @@ t_ints	*copy_ints_array(t_ints *src, t_ints **dst)
 int		ints_indexof(t_ints *arr, int i)
 {
 	int		j;
-	
+
 	j = -1;
 	while (++j < arr->len)
 		if (arr->values[j] == i)

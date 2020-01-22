@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   components.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 23:06:40 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/26 03:45:22 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/22 14:32:38 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,10 @@
 
 t_components	*create_components_array(int capacity)
 {
-	const size_t	size = sizeof(t_components) + (capacity * sizeof(t_component *));
 	t_components	*arr;
+	size_t			size;
 
+	size = sizeof(t_components) + (capacity * sizeof(t_component *));
 	if (capacity <= 0)
 		return (NULL);
 	if (!(arr = (t_components*)malloc(size)))
@@ -37,7 +38,8 @@ t_components	*append_components_array(t_components **arr, t_component *v)
 		return (NULL);
 	if ((*arr)->len == (*arr)->capacity)
 	{
-		old_size = sizeof(t_components) + ((*arr)->capacity * sizeof(t_component *));
+		old_size = sizeof(t_components)
+			+ ((*arr)->capacity * sizeof(t_component *));
 		(*arr)->capacity *= 2;
 		if (!(new = create_components_array((*arr)->capacity)))
 			return (NULL);
@@ -74,7 +76,7 @@ t_components	*copy_components_array(t_components *src, t_components **dst)
 	return (*dst);
 }
 
-int		components_indexof(t_components *arr, t_component *elem)
+int				components_indexof(t_components *arr, t_component *elem)
 {
 	int	i;
 

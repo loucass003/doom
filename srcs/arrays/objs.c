@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   objs.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/03 13:59:46 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/03 14:00:40 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/22 14:37:24 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 t_objs	*create_objs_array(int capacity)
 {
 	const size_t	size = sizeof(t_objs) + (capacity * sizeof(t_obj));
-	t_objs	*arr;
+	t_objs			*arr;
 
 	if (capacity <= 0)
 		return (NULL);
@@ -30,7 +30,7 @@ t_objs	*create_objs_array(int capacity)
 
 t_objs	*append_objs_array(t_objs **arr, t_obj p)
 {
-	t_objs	*new;
+	t_objs			*new;
 	size_t			old_size;
 
 	if ((*arr)->len == (*arr)->capacity)

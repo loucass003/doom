@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   objects.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/22 14:02:50 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/02 14:47:16 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/22 14:37:00 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 t_objects	*create_objects_array(int capacity)
 {
 	const size_t	size = sizeof(t_objects) + (capacity * sizeof(t_object));
-	t_objects	*arr;
+	t_objects		*arr;
 
 	if (capacity <= 0)
 		return (NULL);
@@ -30,7 +30,7 @@ t_objects	*create_objects_array(int capacity)
 
 t_objects	*append_objects_array(t_objects **arr, t_object v)
 {
-	t_objects	*new;
+	t_objects		*new;
 	size_t			old_size;
 
 	if ((*arr)->len == (*arr)->capacity)
@@ -72,7 +72,7 @@ t_objects	*copy_objects_array(t_objects *src, t_objects **dst)
 	return (*dst);
 }
 
-int		objects_indexof(t_objects *arr, t_object *elem)
+int			objects_indexof(t_objects *arr, t_object *elem)
 {
 	int	i;
 

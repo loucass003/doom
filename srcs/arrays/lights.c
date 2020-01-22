@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lights.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/11 21:38:16 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/19 01:04:04 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/22 14:36:02 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 t_lights	*create_lights_array(int capacity)
 {
 	const size_t	size = sizeof(t_lights) + (capacity * sizeof(t_light));
-	t_lights	*arr;
+	t_lights		*arr;
 
 	if (capacity <= 0)
 		return (NULL);
@@ -30,7 +30,7 @@ t_lights	*create_lights_array(int capacity)
 
 t_lights	*append_lights_array(t_lights **arr, t_light p)
 {
-	t_lights	*new;
+	t_lights		*new;
 	size_t			old_size;
 
 	if ((*arr)->len == (*arr)->capacity)

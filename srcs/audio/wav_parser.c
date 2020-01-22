@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wav_parser.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/18 16:42:15 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/22 04:05:58 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/22 14:19:01 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static t_bool		read_data_chunk(t_reader *r, t_wav_format *wav)
 	return (TRUE);
 }
 
-t_bool		load_wav(char *path, t_wav_format *wav)
+t_bool				load_wav(char *path, t_wav_format *wav)
 {
 	t_reader		r;
 
@@ -72,7 +72,7 @@ t_bool		load_wav(char *path, t_wav_format *wav)
 	return (TRUE);
 }
 
-t_bool		free_wav(t_wav_format **wav)
+t_bool				free_wav(t_wav_format **wav)
 {
 	if ((*wav)->buffer)
 		ft_memdel((void **)&(*wav)->buffer);

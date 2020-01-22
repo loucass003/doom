@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   walls.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/22 14:02:50 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/29 19:51:54 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/22 14:46:19 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 t_walls	*create_walls_array(int capacity)
 {
 	const size_t	size = sizeof(t_walls) + (capacity * sizeof(t_wall));
-	t_walls	*arr;
+	t_walls			*arr;
 
 	if (capacity <= 0)
 		return (NULL);
@@ -30,7 +30,7 @@ t_walls	*create_walls_array(int capacity)
 
 t_walls	*append_walls_array(t_walls **arr, t_wall v)
 {
-	t_walls	*new;
+	t_walls			*new;
 	size_t			old_size;
 
 	if ((*arr)->len == (*arr)->capacity)
@@ -51,7 +51,7 @@ t_walls	*splice_walls_array(t_walls *arr, int index, int n)
 {
 	if (index < 0)
 		index = index + arr->len - 1;
-	if (n <= 0 || index >= arr->len || index + n > arr->len) //same as obj
+	if (n <= 0 || index >= arr->len || index + n > arr->len)
 		return (NULL);
 	ft_memcpy(arr->values + index, arr->values + index + n,
 		(arr->len - (index + n)) * sizeof(t_wall));

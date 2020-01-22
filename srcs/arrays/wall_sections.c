@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wall_sections.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/12 16:31:36 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/12 16:33:00 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/22 14:45:30 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@
 
 t_wall_sections	*create_wall_sections_array(int capacity)
 {
-	const size_t	size = sizeof(t_wall_sections) 
-		+ (capacity * sizeof(t_wall_section));
+	size_t			size;
 	t_wall_sections	*arr;
 
+	size = sizeof(t_wall_sections) + (capacity * sizeof(t_wall_section));
 	if (capacity <= 0)
 		return (NULL);
 	if (!(arr = (t_wall_sections*)malloc(size)))
@@ -29,14 +29,15 @@ t_wall_sections	*create_wall_sections_array(int capacity)
 	return (arr);
 }
 
-t_wall_sections	*append_wall_sections_array(t_wall_sections **arr, t_wall_section v)
+t_wall_sections	*append_wall_sections_array(t_wall_sections **arr,
+	t_wall_section v)
 {
 	t_wall_sections	*new;
 	size_t			old_size;
 
 	if ((*arr)->len == (*arr)->capacity)
 	{
-		old_size = sizeof(t_wall_sections) 
+		old_size = sizeof(t_wall_sections)
 			+ ((*arr)->capacity * sizeof(t_wall_section));
 		(*arr)->capacity *= 2;
 		if (!(new = create_wall_sections_array((*arr)->capacity)))
@@ -49,7 +50,8 @@ t_wall_sections	*append_wall_sections_array(t_wall_sections **arr, t_wall_sectio
 	return (*arr);
 }
 
-t_wall_sections	*splice_wall_sections_array(t_wall_sections *arr, int index, int n)
+t_wall_sections	*splice_wall_sections_array(t_wall_sections *arr,
+	int index, int n)
 {
 	if (index < 0)
 		index = index + arr->len - 1;
@@ -61,7 +63,8 @@ t_wall_sections	*splice_wall_sections_array(t_wall_sections *arr, int index, int
 	return (arr);
 }
 
-t_wall_sections	*copy_wall_sections_array(t_wall_sections *src, t_wall_sections **dst)
+t_wall_sections	*copy_wall_sections_array(t_wall_sections *src,
+	t_wall_sections **dst)
 {
 	if ((*dst)->capacity < src->capacity)
 	{
@@ -74,7 +77,8 @@ t_wall_sections	*copy_wall_sections_array(t_wall_sections *src, t_wall_sections 
 	return (*dst);
 }
 
-int		wall_sections_indexof(t_wall_sections *arr, t_wall_section *elem)
+int				wall_sections_indexof(t_wall_sections *arr,
+	t_wall_section *elem)
 {
 	int	i;
 

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   3dvertices.c                                       :+:      :+:    :+:   */
+/*   two_dvertices.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/08 13:54:28 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/29 19:50:11 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/22 14:22:16 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,30 +14,30 @@
 #include <stdlib.h>
 #include "arrays.h"
 
-t_3dvertices	*create_3dvertices_array(int capacity)
+t_2dvertices	*create_2dvertices_array(int capacity)
 {
-	const size_t	size = sizeof(t_3dvertices) + (capacity * sizeof(t_vec3));
-	t_3dvertices	*arr;
+	const size_t	size = sizeof(t_2dvertices) + (capacity * sizeof(t_vec2));
+	t_2dvertices	*arr;
 
 	if (capacity <= 0)
 		return (NULL);
-	if (!(arr = (t_3dvertices*)malloc(size)))
+	if (!(arr = (t_2dvertices*)malloc(size)))
 		return (NULL);
 	ft_bzero(arr, size);
 	arr->capacity = capacity;
 	return (arr);
 }
 
-t_3dvertices	*append_3dvertices_array(t_3dvertices **arr, t_vec3 v)
+t_2dvertices	*append_2dvertices_array(t_2dvertices **arr, t_vec2 v)
 {
-	t_3dvertices	*new;
+	t_2dvertices	*new;
 	size_t			old_size;
 
 	if ((*arr)->len == (*arr)->capacity)
 	{
-		old_size = sizeof(t_3dvertices) + ((*arr)->capacity * sizeof(t_vec3));
+		old_size = sizeof(t_2dvertices) + ((*arr)->capacity * sizeof(t_vec2));
 		(*arr)->capacity *= 2;
-		if (!(new = create_3dvertices_array((*arr)->capacity)))
+		if (!(new = create_2dvertices_array((*arr)->capacity)))
 			return (NULL);
 		ft_memcpy(new, *arr, old_size);
 		free(*arr);
@@ -47,27 +47,42 @@ t_3dvertices	*append_3dvertices_array(t_3dvertices **arr, t_vec3 v)
 	return (*arr);
 }
 
-t_3dvertices	*splice_3dvertices_array(t_3dvertices *arr, int index, int n)
+t_2dvertices	*splice_2dvertices_array(t_2dvertices *arr, int index, int n)
 {
 	if (index < 0)
 		index = index + arr->len - 1;
-	if (n <= 0 || index > arr->len || index + n > arr->len)
+	if (n <= 0 || index >= arr->len || index + n > arr->len)
 		return (NULL);
 	ft_memcpy(arr->vertices + index, arr->vertices + index + n,
-		(arr->len - (index + n)) * sizeof(t_vec3));
+		(arr->len - (index + n)) * sizeof(t_vec2));
 	arr->len -= n;
 	return (arr);
 }
 
-t_3dvertices	*copy_3dvertices_array(t_3dvertices *src, t_3dvertices **dst)
+t_2dvertices	*copy_2dvertices_array(t_2dvertices *src, t_2dvertices **dst)
 {
 	if ((*dst)->capacity < src->capacity)
 	{
 		free(*dst);
-		if (!(*dst = create_3dvertices_array(src->capacity)))
+		if (!(*dst = create_2dvertices_array(src->capacity)))
 			return (NULL);
 	}
 	ft_memcpy(*dst, src,
-		sizeof(t_3dvertices) + (src->capacity * sizeof(t_vec3)));
+		sizeof(t_2dvertices) + (src->capacity * sizeof(t_vec2)));
 	return (*dst);
+}
+
+int				vertices2d_indexof(t_2dvertices *arr, t_vec2 v)
+{
+	int		i;
+	t_vec2	vi;
+
+	i = -1;
+	while (++i < arr->len)
+	{
+		vi = arr->vertices[i];
+		if (vi.x == v.x && vi.y == v.y)
+			return (i);
+	}
+	return (-1);
 }

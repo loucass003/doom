@@ -6,7 +6,7 @@
 /*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/21 15:40:05 by louali            #+#    #+#             */
-/*   Updated: 2020/01/21 15:41:29 by louali           ###   ########.fr       */
+/*   Updated: 2020/01/22 14:42:40 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 t_scores	*create_scores_array(int capacity)
 {
 	const size_t	size = sizeof(t_scores) + (capacity * sizeof(t_scores));
-	t_scores	*arr;
+	t_scores		*arr;
 
 	if (capacity <= 0)
 		return (NULL);
@@ -30,7 +30,7 @@ t_scores	*create_scores_array(int capacity)
 
 t_scores	*append_scores_array(t_scores **arr, t_score v)
 {
-	t_scores	*new;
+	t_scores		*new;
 	size_t			old_size;
 
 	if ((*arr)->len == (*arr)->capacity)
@@ -51,7 +51,7 @@ t_scores	*splice_scores_array(t_scores *arr, int index, int n)
 {
 	if (index < 0)
 		index = index + arr->len - 1;
-	if (n <= 0 || index >= arr->len || index + n > arr->len) //same as obj
+	if (n <= 0 || index >= arr->len || index + n > arr->len)
 		return (NULL);
 	ft_memcpy(arr->values + index, arr->values + index + n,
 		(arr->len - (index + n)) * sizeof(t_score));
@@ -72,7 +72,7 @@ t_scores	*copy_scores_array(t_scores *src, t_scores **dst)
 	return (*dst);
 }
 
-int		scores_indexof(t_scores *arr, t_score *elem)
+int			scores_indexof(t_scores *arr, t_score *elem)
 {
 	int	i;
 

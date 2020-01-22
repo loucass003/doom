@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ptrs.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/04 17:20:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/09/04 17:25:13 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/22 14:37:48 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 t_ptrs	*create_ptrs_array(int capacity)
 {
 	const size_t	size = sizeof(t_ptrs) + (capacity * sizeof(void *));
-	t_ptrs	*arr;
+	t_ptrs			*arr;
 
 	if (capacity <= 0)
 		return (NULL);
@@ -30,7 +30,7 @@ t_ptrs	*create_ptrs_array(int capacity)
 
 t_ptrs	*append_ptrs_array(t_ptrs **arr, void *p)
 {
-	t_ptrs	*new;
+	t_ptrs			*new;
 	size_t			old_size;
 
 	if ((*arr)->len == (*arr)->capacity)

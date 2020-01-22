@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rooms.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/22 14:29:19 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/01 01:05:44 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/22 14:41:41 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_rooms	*create_rooms_array(int capacity)
 
 t_rooms	*append_rooms_array(t_rooms **arr, t_room v)
 {
-	t_rooms	*new;
+	t_rooms			*new;
 	size_t			old_size;
 
 	if ((*arr)->len == (*arr)->capacity)
@@ -71,7 +71,6 @@ t_rooms	*copy_rooms_array(t_rooms *src, t_rooms **dst)
 		sizeof(t_rooms) + (src->capacity * sizeof(t_room)));
 	return (*dst);
 }
-
 
 int		rooms_indexof(t_rooms *arr, t_room *elem)
 {

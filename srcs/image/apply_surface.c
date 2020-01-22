@@ -3,21 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   apply_surface.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:28:48 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/17 01:29:13 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/22 15:03:33 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "image.h"
 
-inline Uint32			get_surface_pixel(SDL_Surface *surface, int x, int y)
-{
-	return (*(Uint32 *)(surface->pixels + y * surface->pitch + x * 4));
-}
-
-inline t_bool			put_pixel(t_img *img, uint32_t x, uint32_t y, int color)
+inline t_bool		put_pixel(t_img *img, uint32_t x, uint32_t y, int color)
 {
 	if (img->secure && (x < 0 || x >= img->width || y < 0 || y >= img->height))
 		return (FALSE);
@@ -25,8 +20,8 @@ inline t_bool			put_pixel(t_img *img, uint32_t x, uint32_t y, int color)
 	return (TRUE);
 }
 
-void			apply_surface_blended(t_img *img, SDL_Surface *s, SDL_Rect src,
-	SDL_Rect dst)
+void				apply_surface_blended(t_img *img, SDL_Surface *s,
+	SDL_Rect src, SDL_Rect dst)
 {
 	int				i;
 	int				j;
@@ -44,12 +39,12 @@ void			apply_surface_blended(t_img *img, SDL_Surface *s, SDL_Rect src,
 					(uint32_t)(i * s_h) + src.y)),
 				ft_i_color(img->pixels[
 						((dst.y + i) * img->width) + (dst.x + j)])))))
-				break;
+				break ;
 		}
 	}
 }
 
-void			apply_surface(t_img *img, SDL_Surface *s,
+void				apply_surface(t_img *img, SDL_Surface *s,
 		SDL_Rect src, SDL_Rect dst)
 {
 	int				i;
@@ -72,15 +67,14 @@ void			apply_surface(t_img *img, SDL_Surface *s,
 		j = dst.x - 1;
 		while (++j < s_p.x)
 		{
-			if (!put_pixel(img, j, i, get_surface_pixel(s,
-			(int)((j - d2.x) * s_v.x) + src.x,
-			(int)((i - d2.y) * s_v.y) + src.y)))
-				break;
+			if (!put_pixel(img, j, i, get_surface_pixel(s, (int)((j - d2.x)
+				* s_v.x) + src.x, (int)((i - d2.y) * s_v.y) + src.y)))
+				break ;
 		}
 	}
 }
 
-void			apply_image_to_image(t_img *img, t_img *s,
+void				apply_image_to_image(t_img *img, t_img *s,
 		SDL_Rect src, SDL_Rect dst)
 {
 	int				i;
@@ -103,12 +97,14 @@ void			apply_image_to_image(t_img *img, t_img *s,
 		j = dst.x - 1;
 		while (++j < s_p.x)
 		{
-			img->pixels[((i * img->width) + j)] = s->pixels[(((int)((i - d2.y) * s_v.y) + src.y) * s->width) + ((int)((j - d2.x) * s_v.x) + src.x)];
+			img->pixels[((i * img->width) + j)] = s->pixels[(((int)((i - d2.y)
+				* s_v.y) + src.y) * s->width)
+				+ ((int)((j - d2.x) * s_v.x) + src.x)];
 		}
 	}
 }
 
-void			apply_image_blended(t_img *img, t_img *s, SDL_Rect src,
+void				apply_image_blended(t_img *img, t_img *s, SDL_Rect src,
 	SDL_Rect dst)
 {
 	int				i;
@@ -123,10 +119,11 @@ void			apply_image_blended(t_img *img, t_img *s, SDL_Rect src,
 		while (++j < dst.w)
 		{
 			if (!put_pixel(img, dst.x + j, dst.y + i, ft_color_i(ft_alpha_blend(
-				ft_i_color(s->pixels[((uint32_t)(j * s_w) + src.x) + ((uint32_t)(i * s_h) + src.y) * s->width]),
+				ft_i_color(s->pixels[((uint32_t)(j * s_w) + src.x)
+					+ ((uint32_t)(i * s_h) + src.y) * s->width]),
 				ft_i_color(img->pixels[
 						((dst.y + i) * img->width) + (dst.x + j)])))))
-				break;
+				break ;
 		}
 	}
 }

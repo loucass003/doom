@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   renderables.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/05 00:11:08 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/02 18:13:18 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/22 14:39:12 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,10 @@
 
 t_renderables	*create_renderables_array(int capacity)
 {
-	const size_t	size = sizeof(t_renderables) + (capacity * sizeof(t_renderable));
+	size_t			size;
 	t_renderables	*arr;
 
+	size = sizeof(t_renderables) + (capacity * sizeof(t_renderable));
 	if (capacity <= 0)
 		return (NULL);
 	if (!(arr = (t_renderables*)malloc(size)))
@@ -35,7 +36,8 @@ t_renderables	*append_renderables_array(t_renderables **arr, t_renderable p)
 
 	if ((*arr)->len == (*arr)->capacity)
 	{
-		old_size = sizeof(t_renderables) + ((*arr)->capacity * sizeof(t_renderable));
+		old_size = sizeof(t_renderables)
+			+ ((*arr)->capacity * sizeof(t_renderable));
 		(*arr)->capacity *= 2;
 		if (!(new = create_renderables_array((*arr)->capacity)))
 			return (NULL);
@@ -72,7 +74,7 @@ t_renderables	*copy_renderables_array(t_renderables *src, t_renderables **dst)
 	return (*dst);
 }
 
-int		renderables_indexof(t_renderables *arr, t_renderable *elem)
+int				renderables_indexof(t_renderables *arr, t_renderable *elem)
 {
 	int	i;
 
@@ -84,4 +86,3 @@ int		renderables_indexof(t_renderables *arr, t_renderable *elem)
 	}
 	return (-1);
 }
-
