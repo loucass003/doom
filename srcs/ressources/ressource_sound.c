@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ressource_sound.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 16:55:56 by louali            #+#    #+#             */
-/*   Updated: 2020/01/19 03:43:04 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/22 11:06:22 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_bool		gen_audio_buffer(t_sound *s)
 	return (TRUE);
 }
 
-t_bool		load_sound(t_doom *doom, t_ressource *r, char *path)
+t_bool		load_sound(t_ressource *r, char *path)
 {
 	t_wav_format	wav;
 

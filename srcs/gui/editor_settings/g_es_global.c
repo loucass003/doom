@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_es_global.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 20:40:10 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/07 15:57:47 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/22 11:49:48 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,5 +42,6 @@ void			g_es_global_enter(t_gui *self, t_doom *doom)
 
 void			g_es_global_render(t_gui *self, t_doom *doom)
 {
-	
+	(void)self;
+	(void)doom;	
 }

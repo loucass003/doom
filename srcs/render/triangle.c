@@ -6,7 +6,7 @@
 /*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 01:17:41 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/21 17:05:17 by louali           ###   ########.fr       */
+/*   Updated: 2020/01/22 13:29:36 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,20 +48,8 @@ void scanline2(t_render_context *ctx, t_mtl *mtl, t_pixel p, float t, t_vertex s
 
 	vert.pos.w = (1.0f - t) * start.pos.w + t * end.pos.w;
 	buff = ctx->buffer + p.y * (int)S_WIDTH + p.x;
-	// if (vert.pos.w > -25)
-	// 	return ;
-	t_bool render = FALSE;
-//	pthread_mutex_lock(&ctx->doom->mutex);
-
-	//pthread_mutex_unlock(&ctx->doom->mutex);
 	if (vert.pos.w <= *buff)
 	{
-		// vert.normal.x = (1.0f - t) * start.normal.x + t * end.normal.x;
-		// vert.normal.y = (1.0f - t) * start.normal.y + t * end.normal.y;
-		// vert.normal.z = (1.0f - t) * start.normal.z + t * end.normal.z;
-		// vert.pos.x =  (1.0f - t) * start.pos.x + t * end.pos.x;
-		// vert.pos.y =  (1.0f - t) * start.pos.y + t * end.pos.y;
-		// vert.pos.z =  (1.0f - t) * start.pos.z + t * end.pos.z;
 		float lt_color = (1.0f - t) * start.light_color + t * end.light_color;
 		 ur_color c;
 		float a = ft_max(AMBIANT_LIGHT, lt_color) / 255.0;
@@ -75,8 +63,6 @@ void scanline2(t_render_context *ctx, t_mtl *mtl, t_pixel p, float t, t_vertex s
 
 			x = vert.tex.x > 0 ? (mtl->texture_map->width - 1) - x : x;
 			y = vert.tex.y < 0 ? (mtl->texture_map->height - 1) - y : y;
-			// if (mtl->lightmap)
-			//	a = mtl->lightmap[y * (mtl->texture_map->width) + x] / 255.0;
 			if (mtl->texture_map_set)
 				c.color = mtl->texture_map->pixels[(y * mtl->texture_map->width) + x];
 			if (c.argb.a == 0)

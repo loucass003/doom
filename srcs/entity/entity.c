@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   entity.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 22:00:26 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/21 15:16:09 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/22 13:28:05 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,6 @@ t_bool		check_collision(t_entity *entity, t_collide_aabb area)
 	int				i;
 	int				j;
 	t_renderable	r;
-	t_face			f;
 	t_collide_aabb	new_area;
 
 	i = -1;

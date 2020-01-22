@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   boss.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 14:15:25 by lloncham          #+#    #+#             */
-/*   Updated: 2020/01/18 16:39:18 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/22 13:28:00 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ void		entity_update_boss(t_doom *doom, t_entity *entity, double dt)
 	t_ray ray = (t_ray){ .origin = doom->player.entity.position, .direction = ft_vec3_inv(norm_dir) };
 	t_vec3 view = ft_vec3_sub(doom->player.entity.position, entity->position);
 	view = vec3_rotate(view, (t_vec3){ 0, -entity->rotation.y, 0 });
-	float a = atan2(view.z, view.x);
 	boss->hit_data.collide = FALSE;
 	boss->hit_data = ray_hit_world(doom, doom->renderables, ray);
 	if (boss->hit_data.collide && boss->hit_data.renderable && boss->hit_data.renderable->of.data.entity == entity && boss->hit_data.dist < 50)

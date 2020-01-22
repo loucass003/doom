@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   editor_tool_player.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/03 13:21:08 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/16 15:12:26 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/22 12:28:07 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,8 @@ void			editor_tool_player_release(t_editor *editor)
 		editor->player_grab = FALSE; 
 }
 
-void			editor_tool_player(t_editor *editor, SDL_Event *event)
+void			editor_tool_player(t_editor *editor)
 {
-	int			room;
 	float		y;
 
 	if ((!editor->player_set || editor->grid_cell_grab == GG_NONE) && editor->grid_cell_grab != GG_OUTSIDE)
@@ -39,7 +38,7 @@ void			editor_tool_player(t_editor *editor, SDL_Event *event)
 		int room = point_in_rooms(editor, editor->grid_cell);
 		y = 0;
 		if (room != -1 && !editor->player_set)
-			y = room_height_range(editor, &editor->rooms->values[room]).x;
+			y = room_height_range(&editor->rooms->values[room]).x;
 		editor->doom->player.spawn_data.position = (t_vec3){editor->grid_cell.x, y, editor->grid_cell.y};
 		editor->player_set = TRUE;
 		editor_settings_update(editor);

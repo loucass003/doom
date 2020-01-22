@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   octree.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/05 17:31:15 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/19 17:27:43 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/22 13:31:18 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ t_octree_node	*create_node(t_collidable box)
 	return (node);
 }
 
-void			compute_boxes(t_doom *doom, t_collide_aabb p, t_octree_node *n)
+void			compute_boxes(t_collide_aabb p, t_octree_node *n)
 {
 	int		i;
 	int		j;
@@ -78,11 +78,11 @@ void			compute_boxes(t_doom *doom, t_collide_aabb p, t_octree_node *n)
 	}
 }
 
-t_bool			subdivide(t_doom *doom, t_octree_node *n)
+t_bool			subdivide(t_octree_node *n)
 {
 	if (!n || !(n->childs = ft_memalloc(sizeof(t_octree_node) * 8)))
 		return (FALSE);
-	compute_boxes(doom, n->box.data.aabb, n);
+	compute_boxes(n->box.data.aabb, n);
 	return (TRUE);
 }
 
@@ -98,7 +98,7 @@ t_bool			insert_octree(t_octree_node *n, t_doom *doom, t_renderable *r, int face
 			return (FALSE);
 		if (n->faces_index->len > 100)
 		{
-			if (!subdivide(doom, n))
+			if (!subdivide(n))
 				return (FALSE);
 			i = -1;
 			while (++i < n->faces_index->len)

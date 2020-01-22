@@ -6,7 +6,7 @@
 /*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/21 14:40:41 by louali            #+#    #+#             */
-/*   Updated: 2020/01/21 16:24:30 by louali           ###   ########.fr       */
+/*   Updated: 2020/01/22 11:55:10 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,14 @@ static t_bool			action_performed(t_component *cmp, t_doom *doom)
 		set_gui(doom, GUI_MAIN_MENU);
 		return (FALSE);
 	}
+	return (TRUE);
 } 
-
-// void			g_editor_button(t_gui *self, t_doom *doom)
-// {
-// }
 
 void			g_leaderboard_on_enter(t_gui *self, t_doom *doom)
 {
 	doom->mouse_focus = FALSE;
 	int		i;
 
-	// enter_gui(doom, doom->guis, GUI_LEADERBOARD);
 	append_components_array(&self->components, create_button((SDL_Rect){ (S_WIDTH - 250) / 2, (S_HEIGHT - 150) / 2, 250, 50 }, NULL, "Main Menu"));
 
 	i = -1;
@@ -46,10 +42,15 @@ void			g_leaderboard_on_enter(t_gui *self, t_doom *doom)
 
 void			g_leaderboard_on_leave(t_gui *self, t_doom *doom)
 {
+	(void)self;
+	(void)doom;
 }
 
 void			g_leaderboard_on_event(t_gui *self, SDL_Event *event, t_doom *doom)
 {
+	(void)event;
+	(void)self;
+	(void)doom;
 }
 
 void			g_leaderboard_render(t_gui *self, t_doom *doom)

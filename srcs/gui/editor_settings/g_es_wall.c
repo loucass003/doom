@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_es_wall.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 20:40:10 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/08 14:12:38 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/22 13:22:18 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ void			g_es_wall_enter(t_gui *self, t_doom *doom)
 
 void			g_es_wall_render(t_gui *self, t_doom *doom)
 {
+	(void)self;
 	draw_line(&doom->screen, (t_pixel){ S_WIDTH - 335 + 160, 195, 0xFFFFFFFF }, (t_pixel){ S_WIDTH - 335 + 160, 215, 0 });
 	t_wall	*wall = get_current_wall(&doom->editor);
 	if (!wall || doom->editor.wall_section == -1)

@@ -3,28 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   editor_grid.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 18:56:08 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/08 18:02:43 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/22 12:30:59 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "editor.h"
 #include "doom.h"
 
-void	editor_grid_render(t_gui *self, t_doom *doom, t_editor *editor)
+void	editor_grid_render(t_doom *doom, t_editor *editor)
 {
 	int i = -1;
 	while (++i <= (int)(doom->screen.height - 70) / CELLS_SPACING)
 		draw_line(&doom->screen, (t_pixel){ 10, i * CELLS_SPACING + 70, 
 			0xFF505050}, (t_pixel){ doom->screen.width - 10, 
-				i * CELLS_SPACING + 70 });
+				i * CELLS_SPACING + 70 , 0xFF505050});
 	i = -1;
 	while (++i <= (int)(doom->screen.width - 20) / CELLS_SPACING)
 		draw_line(&doom->screen, (t_pixel){ i * CELLS_SPACING + 10, 70, 
 			0xFF505050}, (t_pixel){ i * CELLS_SPACING + 10, 
-				doom->screen.height - 10 });
+				doom->screen.height - 10 , 0xFF505050});
 	if (editor->grid_cell.x != -1)
 	{
 		int		color = 0xFFFF00FF;

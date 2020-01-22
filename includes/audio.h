@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   audio.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/19 01:15:20 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/19 03:26:19 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/22 13:36:37 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <al.h>
 # include <alc.h>
 # include "constants.h"
+# include "entity.h"
 
 typedef struct	s_audio
 {
@@ -71,5 +72,6 @@ void				player_sound(t_audio *s, int source, int buffer, float peach);
 t_bool				wav_return_error(char *error);
 t_bool				load_wav(char *path, t_wav_format *wav);
 t_bool				free_wav(t_wav_format **wav);
+t_bool				set_default_sounds(struct s_doom *doom);
 
 #endif

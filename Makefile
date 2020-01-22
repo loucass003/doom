@@ -6,7 +6,7 @@
 #    By: louali <louali@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/07 14:49:27 by llelievr          #+#    #+#              #
-#    Updated: 2020/01/21 17:01:05 by louali           ###   ########.fr        #
+#    Updated: 2020/01/22 13:56:53 by louali           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -57,7 +57,7 @@ $(OBJS): Makefile
 
 $(OBJDIR)%.o: $(SRCDIR)%.c
 	@$(PRECOMPILE)
-	$(CC) $(CFLAGS) $(INCLUDE) $(FT_INC) -I $(INCDIR)  -o $@ -c $<
+	@$(call run_and_test, $(CC) $(CFLAGS) $(INCLUDE) $(FT_INC) -I $(INCDIR)  -o $@ -c $<)
 	@$(POSTCOMPILE)
 
 make_ft: 
@@ -87,3 +87,32 @@ get_files:
 include $(shell find $(DEPSDIR) -iname "*.d")
 
 .PHONY: clean fclean re all get_files
+
+
+COM_COLOR   = \033[36m
+OBJ_COLOR   = \033[m
+OK_COLOR    = \033[0;36m
+ERROR_COLOR = \033[0;31m
+WARN_COLOR  = \033[0;33m
+NO_COLOR    = \033[m
+
+OK_STRING    = "OK"
+ERROR_STRING = "ERROR"
+WARN_STRING  = "WARNING"
+COM_STRING   = "Compiling"
+
+define run_and_test
+	printf "%b" "$(COM_COLOR)$(COM_STRING) $(OBJ_COLOR)$(@F)$(NO_COLOR)\r"; \
+	$(1) 2> $@.log; \
+	RESULT=$$?; \
+	if [ $$RESULT -ne 0 ]; then \
+		printf "%-78b%b" "$(COM_COLOR)$(COM_STRING)$(OBJ_COLOR) $<" "[ $(ERROR_COLOR)$(ERROR_STRING)$(NO_COLOR) ]\n"; \
+	elif [ -s $@.log ]; then \
+		printf "%-78b%b" "$(COM_COLOR)$(COM_STRING)$(OBJ_COLOR) $<" "[ $(WARN_COLOR)$(WARN_STRING)$(NO_COLOR) ]\n"; \
+	else  \
+		printf "%-78b%b" "$(COM_COLOR)$(COM_STRING)$(OBJ_COLOR) $(<)" "[ $(OK_COLOR)$(OK_STRING)$(NO_COLOR) ]\n"; \
+	fi; \
+	cat $@.log; \
+	rm -f $@.log; \
+	exit $$RESULT
+endef

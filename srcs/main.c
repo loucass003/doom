@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/22 05:20:35 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/22 12:50:11 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,7 @@ int		main(int argc, char **argv)
 	game_loop(&doom);
 	save_datapack(&doom);
 	sdl_quit(&doom);
-	alDeleteSources(MAX_SOUNDS, &doom.audio.source);
+	alDeleteSources(MAX_SOUNDS, (const ALuint *)&doom.audio.source);
 	quit_openal();
 	return (0);
 }

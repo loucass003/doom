@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   item.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 20:30:43 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/21 13:42:04 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/22 13:47:04 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ t_itemstack			*create_itemstack(t_item *item, int amount);
 t_itemstack			*create_itemstack_from_type(t_doom *doom, t_item_type type, t_weapon_type weapon_type);
 t_item				*create_item_weapon_from_type(t_doom *doom, t_weapon_type type);
 t_item				*create_item_from_type(t_doom *doom, t_item_type type, t_weapon_type weapon_type);
+void				set_current_animation_step(t_weapon *weapon, int i);
 
 
 #endif

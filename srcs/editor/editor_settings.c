@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   editor_settings.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/11 18:01:41 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/09 04:01:47 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/22 10:59:42 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@ t_bool	is_settings_open(t_editor *editor)
 
 t_bool	editor_settings_guis(t_editor *editor)
 {
-	int		i;
-
 	editor->settings.guis[ES_GUI_ROOM] = (t_gui){ .render = g_es_room_render, .on_enter = g_es_room_enter };
 	editor->settings.guis[ES_GUI_OBJECT] = (t_gui){ .render = g_es_object_render, .on_enter = g_es_object_enter, .on_leave = g_es_object_leave, .on_event = g_es_object_on_event };
 	editor->settings.guis[ES_GUI_WALL] = (t_gui){ .render = g_es_wall_render, .on_enter = g_es_wall_enter };

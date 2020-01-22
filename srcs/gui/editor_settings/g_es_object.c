@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_es_object.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 22:55:54 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/17 18:08:54 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/22 13:11:21 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ void			set_object_default(t_doom *doom, t_object *object)
 
 void			free_object(t_object *object)
 {
+	(void)object;
 	//TODO: leaks
 }
 
@@ -116,17 +117,21 @@ void			g_es_object_enter(t_gui *self, t_doom *doom)
 void			g_es_object_on_event(t_gui *self, SDL_Event *event,
 	t_doom *doom)
 {
+	(void)event;
+	(void)self;
 	gui_events(doom, doom->editor.settings.guis_object, event, doom->editor.settings.current_gui_object);
 	components_events(doom, doom->editor.settings.guis_object, event, doom->editor.settings.current_gui_object);
 }
 
 void			g_es_object_leave(t_gui *self, t_doom *doom)
 {
-	
+	(void)self;
+	(void)doom;	
 }
 
 void			g_es_object_render(t_gui *self, t_doom *doom)
 {
+	(void)self;
 	//draw_line(&doom->screen, (t_pixel){ S_WIDTH - 335 + 160, 135, 0xFFFF0000 }, (t_pixel){ S_WIDTH - 335 + 160, 235, 0 });
 	if (doom->editor.settings.current_gui_object >= 0)
 	{

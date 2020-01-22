@@ -6,7 +6,7 @@
 /*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/21 17:18:40 by louali           ###   ########.fr       */
+/*   Updated: 2020/01/22 13:39:35 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,5 +150,8 @@ t_img				*surface_to_image(t_doom *doom, SDL_Surface *s); //TODO: NEED TO BE REM
 
 void				give_damage(t_entity *from, t_entity *to, t_doom *doom, float damage);
 void 				damage_explo(t_entity *from, t_doom *doom, float damage);
+
+void				init_bsp(t_doom *doom);
+void				init_lightning(t_doom *doom);
 
 #endif

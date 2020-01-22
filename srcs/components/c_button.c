@@ -6,7 +6,7 @@
 /*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:59:38 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/17 14:26:14 by louali           ###   ########.fr       */
+/*   Updated: 2020/01/22 12:54:16 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void		c_button_render(t_doom *doom, t_component *self, t_img *image)
 	int			x;
 	int			y;
 
+	(void)image;
 	if (self->type != C_BUTTON)
 		return ;
 	btn = (t_button *)self;

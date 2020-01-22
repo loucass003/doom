@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_es_obj_entity.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 22:55:54 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/02 15:24:19 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/22 11:50:37 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ void			g_es_obj_entity_enter(t_gui *self, t_doom *doom)
 {
 	int			x = S_WIDTH - 335;
 	int			y = 75 + 80;
-	int			i;
 
 	append_components_array(&self->components, create_select((SDL_Rect){x + 10, y + 10, 300, 30}, "ENTITY TYPE"));
 	((t_select *)self->components->values[0])->items = create_select_items_array(1);
@@ -46,5 +45,6 @@ void			g_es_obj_entity_enter(t_gui *self, t_doom *doom)
 
 void			g_es_obj_entity_render(t_gui *self, t_doom *doom)
 {
-
+	(void)self;
+	(void)doom;	
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   editor.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 14:35:33 by lloncham          #+#    #+#             */
-/*   Updated: 2020/01/20 17:15:13 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/22 13:41:50 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -241,24 +241,24 @@ int					wall_sections_indexof(t_wall_sections *arr, t_wall_section *elem);
 int					get_close_room(t_editor *editor);
 void				remove_room(t_editor *editor, int index);
 t_bool				room_intersect(t_editor *editor, t_room *room, t_room *room2, t_bool strict);
-t_vec2				room_height_range(t_editor *editor, t_room *room);
+t_vec2				room_height_range(t_room *room);
 t_vec3				room_center(t_editor *editor, t_room *room);
 void				remove_point(t_editor *editor, int index);
 void				insert_point(t_editor *editor, t_vec2 seg, int point_index);
 t_vec2				get_close_point(t_editor *editor, t_vec2 pos);
-t_wall				init_wall(t_editor *editor, int indice);
+t_wall				init_wall(int indice);
 t_wall_section		init_wall_section(t_editor *editor);
-void				editor_grid_render(t_gui *self, t_doom *doom, t_editor *editor);
-void				editor_render_rooms(t_gui *self, t_doom *doom, t_editor *editor);
+void				editor_grid_render(t_doom *doom, t_editor *editor);
+void				editor_render_rooms(t_doom *doom, t_editor *editor);
 t_bool				editor_render_wall(t_doom *doom, t_editor *editor, t_room *room, int j);
 int					wall_indexof_by_indice(t_walls *walls, int indice);
 void				editor_tool_point(t_editor *editor);
-void				editor_tool_select(t_editor *editor, SDL_Event *event);
+void				editor_tool_select(t_editor *editor);
 void				editor_tool_point_move(t_editor *editor);
 void				editor_tool_point_release(t_editor *editor);
 void				editor_tool_room(t_editor *editor, SDL_Event *event);
-void				editor_tool_objects(t_editor *editor, SDL_Event *event);
-void				editor_tool_player(t_editor *editor, SDL_Event *event);
+void				editor_tool_objects(t_editor *editor);
+void				editor_tool_player(t_editor *editor);
 void				editor_delete_action(t_editor *editor);
 void				select_room(t_editor *editor, int index);
 t_vec2				get_close_seg(t_editor *editor, t_room *room, t_vec2 pos);
@@ -283,6 +283,28 @@ t_bool				create_walls(t_editor *editor, t_renderable *r);
 t_renderable		*get_map(t_editor *editor);
 t_bool				create_map(t_renderable	*r, t_editor *editor);
 t_vec3				world_to_editor(t_vec3 pos);
+t_bool				editor_setmap(t_editor *editor);
+void				editor_tool_objects_move(t_editor *editor);
+void				editor_tool_player_move(t_editor *editor);
+void				editor_tool_objects_release(t_editor *editor);
+void				editor_tool_player_release(t_editor *editor);
+t_bool				editor_render_player(t_doom *doom, t_editor *editor);
+t_bool				editor_settings_guis(t_editor *editor);
+void				set_object_default(t_doom *doom, t_object *object);
+t_bool				floor_visibility(t_editor *editor, t_renderable *r, int room_index);
+void				unselect_all(t_doom *doom);
+t_bool				create_wall(t_renderable *r, t_editor *editor, int room_index, int wall_index, int wall_section);
+t_bool				update_floor(t_editor *editor, int room_index, t_bool floor);
+void				select_floor_ceil(t_editor *editor, int room_index, t_bool floor);
+int					point_in_rooms(t_editor *editor, t_vec2 point);
+
+
+
+
+
+
+
+
 
 t_wall_section		create_simple_wall_section(t_editor *editor, t_room *room, int wall);
 t_wall_section		create_last_wall_section(t_editor *editor, t_room *room, int wall, t_gap_filler_packet p);

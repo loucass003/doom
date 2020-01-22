@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   editor_tool_select.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 20:13:35 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/09 04:45:09 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/22 12:55:40 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,8 @@ t_bool			seg_in_room(t_room *room, t_vec2 seg)
 	return (FALSE);
 }
 
-void			editor_tool_select(t_editor *editor, SDL_Event *event)
+void			editor_tool_select(t_editor *editor)
 {
-	const Uint8	*state = SDL_GetKeyboardState(NULL);
 	int			index;
 	t_vec2		seg;
 
@@ -67,7 +66,7 @@ void			editor_tool_select(t_editor *editor, SDL_Event *event)
 			editor->current_point = index;
 	}
 	if (editor->grid_cell_grab == GG_OBJECT || (editor->current_object != -1 && (editor->grid_cell_grab == GG_NONE || editor->grid_cell_grab == GG_OUTSIDE)))
-		editor_tool_objects(editor, event);
+		editor_tool_objects(editor);
 	if (editor->grid_cell_grab == GG_PLAYER)
-		editor_tool_player(editor, event);
+		editor_tool_player(editor);
 }

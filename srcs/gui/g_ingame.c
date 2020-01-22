@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_ingame.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/21 14:30:32 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/22 13:24:26 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,6 @@
 #include <math.h>
 #include "render.h"
 #include "editor.h"
-
-void static	action_performed(t_component *cmp, t_doom *doom)
-{
-	
-}
 
 void	g_ingame_on_enter(t_gui *self, t_doom *doom)
 {
@@ -41,6 +36,7 @@ void	g_ingame_on_enter(t_gui *self, t_doom *doom)
 
 void	g_ingame_on_leave(t_gui *self, t_doom *doom)
 {
+	(void)self;
 	leave_gui(doom, doom->guis, GUI_EDITOR_SETTINGS);
 	doom->mouse_focus = FALSE;
 }
@@ -137,7 +133,7 @@ void	g_ingame_on_events(t_gui *self, SDL_Event *event, t_doom *doom)
 	{
 		if (!doom->mouse_focus && is_settings_open(&doom->editor))
 		{
-			g_editor_settings_on_event(&doom->guis[GUI_EDITOR_SETTINGS], event, doom);
+			g_editor_settings_on_event(self, event, doom);
 			return ;
 		}
 		
@@ -214,7 +210,6 @@ void	g_ingame_on_events(t_gui *self, SDL_Event *event, t_doom *doom)
 				while (++i < room->walls->len)
 				{
 					t_wall	*wall = &room->walls->values[i];
-					int point_index = i * 2 + doom->editor.selected_floor_ceil;
 					t_vec2 v = doom->editor.points->vertices[wall->indice];
 					t_vec3 point = ft_mat4_mulv(m_rot, editor_to_world((t_vec3){ v.x, 0, v.y }));
 					// doom->editor.map_renderable.vertices->vertices[room->room_vertices_start + point_index].y = point.y;
@@ -314,6 +309,7 @@ void	draw_object_transform_type(t_editor *editor, t_gui *self)
 {
 	const char	types[3][12] = {"TRANSLATION\0", "ROTATION\0", "SCALING\0"};
 	
+	(void)self;
 	if (editor->current_object == -1)
 		return ;
 	SDL_Surface		*text;

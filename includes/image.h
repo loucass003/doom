@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   image.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 21:21:40 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/16 22:53:13 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/22 13:35:13 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,10 @@ void				apply_surface(t_img *img, SDL_Surface *s,
 						SDL_Rect src, SDL_Rect dst);
 void				fill_rect(t_img *img, SDL_Rect bounds, int color);
 void				draw_rect(t_img *img, SDL_Rect rect, int color);
+void				apply_image_blended(t_img *img, t_img *s, SDL_Rect src, SDL_Rect dst);
+void				apply_image_to_image(t_img *img, t_img *s, SDL_Rect src, SDL_Rect dst);
+
+
 
 
 

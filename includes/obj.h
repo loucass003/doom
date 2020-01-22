@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   obj.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 15:26:39 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/05 15:04:34 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/22 13:36:09 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include "mtl.h"
 # include "render.h"
 # include "io.h"
+
 
 # define PREFIXES_COUNT 7
 # define MTL_PREFIXES_COUNT 3
@@ -46,7 +47,7 @@ typedef struct	s_objs
 typedef struct	s_obj_prefix
 {
 	char		*prefix;
-	t_bool		(*formatter)(t_obj *obj, t_reader *state, t_renderable *r);
+	t_bool		(*formatter)();
 }				t_obj_prefix;
 
 t_bool			read_face_part(t_reader *r, size_t i, t_face *face);
@@ -73,5 +74,6 @@ void			transfom_obj(t_obj *obj);
 t_bool			create_obj(struct s_doom *doom, t_renderable *r, char *file);
 t_bool			set_obj_working_dir(struct s_doom *doom, char *folder);
 t_face			create_face(int indexes[3][3], int material_index, int normal_type);
+
 
 #endif

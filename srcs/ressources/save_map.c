@@ -6,7 +6,7 @@
 /*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 01:20:07 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/21 16:48:54 by louali           ###   ########.fr       */
+/*   Updated: 2020/01/22 11:06:59 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,7 @@ t_bool		write_object_light(t_ressource_manager *r, int light_index)
 	const t_light	light	= r->doom->lights->values[light_index];
 
 	dp_write(r, &light, sizeof(t_light));
+	return (TRUE);
 }
 
 t_bool		write_object(t_ressource_manager *r, t_object *object)

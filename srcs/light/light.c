@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   light.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/17 17:12:46 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/18 16:30:15 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/22 11:09:26 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,6 @@ int		create_default_light(t_doom *doom)
 
 void		init_lightning(t_doom *doom)
 {
-	int		i;
-	t_light	*light;
-
 	printf("INIT_LIGHTS\n");
 	if (!(doom->lights = create_lights_array(2)))
 		return ;

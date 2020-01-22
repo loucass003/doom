@@ -6,7 +6,7 @@
 /*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/10 20:55:53 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/17 14:27:05 by louali           ###   ########.fr       */
+/*   Updated: 2020/01/22 12:55:00 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,14 @@
 #include "gui.h"
 #include "doom.h"
 
-void			c_progress_render(t_doom *doom, t_component *self, t_img *img)
+void			c_progress_render(t_doom *doom, t_component *self, t_img *image)
 {
 	t_progress	*progress;
 	int			x;
 	int			y;
 	int			color;
 
+	(void)image;
 	if (self->type != C_PROGRESS)
 		return ;
 	progress = (t_progress *)self;

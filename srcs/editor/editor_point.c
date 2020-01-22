@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   editor_point.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 18:46:30 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/09 04:22:51 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/22 11:42:59 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void			insert_point(t_editor *editor, t_vec2 seg, int point_index)
 
 		if (index0 != -1 && index1 != -1)
 		{
-			append_walls_array(&room0->walls, init_wall(editor, -20));
+			append_walls_array(&room0->walls, init_wall(-20));
 			float floor_h = room0->walls->values[index1].floor_height;
 			float ceil_h = room0->walls->values[index1].ceiling_height;
 			int index = index1;
@@ -61,7 +61,7 @@ void			insert_point(t_editor *editor, t_vec2 seg, int point_index)
 				index = room0->walls->len - 1;
 			else
 				ft_memmove(room0->walls->values + index1 + 1, room0->walls->values + index1, (room0->walls->len - (index1)) * sizeof(t_wall));
-			room0->walls->values[index] = init_wall(editor, point_index);
+			room0->walls->values[index] = init_wall(point_index);
 			room0->walls->values[index].floor_height = floor_h;
 			room0->walls->values[index].ceiling_height = ceil_h;
 		}

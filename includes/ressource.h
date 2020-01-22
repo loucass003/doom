@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ressource.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 10:19:30 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/19 01:18:38 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/22 13:39:13 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include "gui.h"
 # include "io.h"
 # include "audio.h"
+# include "editor.h"
 
 typedef enum	e_ressource_type
 {
@@ -80,6 +81,7 @@ t_bool			a(t_doom *doom, char *name, t_ressource_type type, t_bool fixed);
 t_bool			load_ressource(t_doom *doom, t_ressource *r, char *path);
 t_bool			load_texture_file(t_doom *doom, t_ressource *r, char *path);
 t_bool			load_model_file(t_doom *doom, t_ressource *r, char *path);
+t_bool			load_datapack(t_doom *doom, char *path);
 t_bool			close_datapack(t_doom *doom);
 t_bool			save_datapack(t_doom *doom);
 t_ressource		*get_default_texture(t_ressource_manager *rm, t_bool use);
@@ -103,9 +105,16 @@ t_bool			read_model(t_ressource_manager *r, struct s_renderable **m);
 
 t_bool			write_sound(t_ressource_manager *r, struct s_sound *sound);
 t_bool			read_sounds(t_ressource_manager *r, struct s_sound **sound);
-t_bool			load_sound(t_doom *doom, t_ressource *r, char *path);
+t_bool			load_sound(t_ressource *r, char *path);
+t_bool			read_songs(t_ressource_manager *r, t_sound **sound);
+
 
 t_ressource		*get_next_ressource(t_ressource_manager *r, t_ressource *res, t_ressource_type type);
 t_ressource		*get_prev_ressource(t_ressource_manager *r, t_ressource *res, t_ressource_type type);
 t_ressource		*get_ressource(t_ressource_manager *r, t_ressource_type type);
+t_bool			write_ressources(t_ressource_manager *rm);
+
+int				get_pages_count(t_ressource_manager *rm);
+
+
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   obj.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 15:28:48 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/07 16:46:26 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/22 12:45:12 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,8 +150,9 @@ t_bool		obj_test(t_doom *doom)
 	obj->scale = (t_vec3){0.003, 0.003, 0.003}; */
 	//append_objs_array(&doom->objects, (t_obj){ .renderable = NULL });
 	//t_bool lol = load_obj(doom, &doom->objects->objs[doom->objects->len - 1], "House2.obj");
-	 t_renderable r;
-	t_bool lol;
+	//  t_renderable r;
+	// t_bool lol;
+	(void)doom;
 	
 	
 
@@ -210,6 +211,6 @@ t_bool		obj_test(t_doom *doom)
 	// //r.fixed = TRUE;
 	// append_renderables_array(&doom->renderables, r);
 	
-	printf("ERROR %d\n", !lol);
+	// printf("ERROR %d\n", !lol);
 	return (FALSE);
 }

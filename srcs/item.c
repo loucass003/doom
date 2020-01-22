@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   item.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 20:16:48 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/21 14:32:25 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/22 11:12:18 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ void	on_use_weapon(t_doom *doom, t_itemstack *is)
 	t_itemstack	*inv_is;
 	t_collision	hit;
 	int			slot;
-	int			i;
 
 	weapon = &is->of->data.weapon;
 	if (weapon->fireing || (slot = get_slot_of(&doom->player, ITEM_AMMO)) == -1)

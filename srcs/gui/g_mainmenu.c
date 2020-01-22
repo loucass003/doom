@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_mainmenu.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:56:05 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/22 07:13:39 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/22 13:30:00 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ void	g_mainmenu_on_enter(t_gui *self, t_doom *doom)
 
 void	g_mainmenu_on_leave(t_gui *self, t_doom *doom)
 {
+	(void)self;
+	(void)doom;
 }
 
 void	g_mainmenu_render(t_gui *self, t_doom *doom)

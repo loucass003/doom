@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   editor_tool_object.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 17:24:14 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/20 16:10:41 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/22 11:00:07 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void			editor_tool_objects_release(t_editor *editor)
 		editor->object_grab = FALSE; 
 }
 
-void			editor_tool_objects(t_editor *editor, SDL_Event *event)
+void			editor_tool_objects(t_editor *editor)
 {
 	if (editor->current_object == -1 && editor->grid_cell_grab != GG_PLAYER && editor->grid_cell_grab != GG_OBJECT && editor->grid_cell_grab != GG_OUTSIDE)
 	{

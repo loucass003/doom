@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_es_room.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 20:40:10 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/20 18:41:48 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/22 13:18:29 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,56 +22,56 @@ t_bool			action_performed(t_component *cmp, t_doom *doom)
 	{
 		t_room	*room = &editor->rooms->values[editor->current_room];
 		room->floor_texture = get_prev_ressource(&doom->res_manager, room->floor_texture, RESSOURCE_TEXTURE);
-		update_floor(editor, editor->current_room, TRUE);
+		update_floor((t_editor*)editor, editor->current_room, TRUE);
 	}
 	if (cmp == editor->settings.guis[ES_GUI_ROOM].components->values[1])
 	{
 		t_room	*room = &editor->rooms->values[editor->current_room];
 		room->floor_texture = get_next_ressource(&doom->res_manager, room->floor_texture, RESSOURCE_TEXTURE);
-		update_floor(editor, editor->current_room, TRUE);
+		update_floor((t_editor*)editor, editor->current_room, TRUE);
 	}
 	if (cmp == editor->settings.guis[ES_GUI_ROOM].components->values[2])
 	{
 		room->floor_visible = ((t_checkbox *)cmp)->value;
-		update_floor(editor, editor->current_room, TRUE);
+		update_floor((t_editor*)editor, editor->current_room, TRUE);
 	}
 	if (cmp == editor->settings.guis[ES_GUI_ROOM].components->values[3])
 	{
 		room->floor_collision = ((t_checkbox *)cmp)->value;
-		update_floor(editor, editor->current_room, TRUE);
+		update_floor((t_editor*)editor, editor->current_room, TRUE);
 	}
 	if (cmp == editor->settings.guis[ES_GUI_ROOM].components->values[4])
 	{
 		room->floor_normal = ((t_select *)cmp)->items->values[((t_select *)cmp)->selected_item].value;
-		update_floor(editor, editor->current_room, TRUE);
+		update_floor((t_editor*)editor, editor->current_room, TRUE);
 	}
 	if (cmp == editor->settings.guis[ES_GUI_ROOM].components->values[5])
 	{
 		t_room	*room = &editor->rooms->values[editor->current_room];
 		room->ceiling_texture = get_prev_ressource(&doom->res_manager, room->ceiling_texture, RESSOURCE_TEXTURE);
-		update_floor(editor, editor->current_room, FALSE);
+		update_floor((t_editor*)editor, editor->current_room, FALSE);
 	}
 	if (cmp == editor->settings.guis[ES_GUI_ROOM].components->values[6])
 	{
 		t_room	*room = &editor->rooms->values[editor->current_room];
 		room->ceiling_texture = get_next_ressource(&doom->res_manager, room->ceiling_texture, RESSOURCE_TEXTURE);
-		update_floor(editor, editor->current_room, FALSE);
+		update_floor((t_editor*)editor, editor->current_room, FALSE);
 	}
 	
 	if (cmp == editor->settings.guis[ES_GUI_ROOM].components->values[7])
 	{
 		room->ceil_visible = ((t_checkbox *)cmp)->value;
-		update_floor(editor, editor->current_room, FALSE);
+		update_floor((t_editor*)editor, editor->current_room, FALSE);
 	}
 	if (cmp == editor->settings.guis[ES_GUI_ROOM].components->values[8])
 	{
 		room->ceil_collision = ((t_checkbox *)cmp)->value;
-		update_floor(editor, editor->current_room, FALSE);
+		update_floor((t_editor*)editor, editor->current_room, FALSE);
 	}
 	if (cmp == editor->settings.guis[ES_GUI_ROOM].components->values[9])
 	{
 		room->ceil_normal = ((t_select *)cmp)->items->values[((t_select *)cmp)->selected_item].value;
-		update_floor(editor, editor->current_room, FALSE);
+		update_floor((t_editor*)editor, editor->current_room, FALSE);
 	}
 	if (cmp == editor->settings.guis[ES_GUI_ROOM].components->values[10])
 	{
@@ -129,6 +129,7 @@ void			g_es_room_render(t_gui *self, t_doom *doom)
 {
 	t_room	*curr_room = &doom->editor.rooms->values[doom->editor.current_room];
 
+	(void)self;
 	SDL_Surface *text = TTF_RenderText_Blended(doom->fonts.helvetica, "TEXTURE FLOOR", (SDL_Color){255, 255, 255, 0});
 	apply_surface_blended(&doom->screen, text, (SDL_Rect){0, 0, text->w, text->h},
 		(SDL_Rect){S_WIDTH - 335 + 50, 80, 220, 20});

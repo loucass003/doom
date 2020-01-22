@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ressource_texture.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/12 17:27:40 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/22 08:08:10 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/22 14:02:48 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "doom.h"
 #include "ressource.h"
 #include "write_structs.h"
+#include "tga.h"
 
 static t_bool	is_tga_ext(char *path)
 {

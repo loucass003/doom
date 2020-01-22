@@ -6,11 +6,13 @@
 /*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/22 13:41:15 by lloncham          #+#    #+#             */
-/*   Updated: 2020/01/20 12:59:38 by louali           ###   ########.fr       */
+/*   Updated: 2020/01/22 12:19:06 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom.h"
+#include "audio.h"
+#include "entity.h"
 
 int				get_source(t_audio *s)
 {

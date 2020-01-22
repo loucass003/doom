@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:43:35 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/22 13:32:49 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/22 14:01:54 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,7 +169,6 @@ void	update_controls(t_doom *doom)
 	const double	ms = doom->stats.delta * 2.;
 	const Uint8		*s = SDL_GetKeyboardState(NULL);
 
-	float dt = 1.0 / 60.;
 	float move_speed;
 	if (!doom->mouse_focus && is_settings_open(&doom->editor))
 		return ;

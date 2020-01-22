@@ -99,6 +99,7 @@ void	g_ressources_on_event(t_gui *self, SDL_Event *event, t_doom *doom)
 {	
 	t_ressource		*r;
 
+	(void)self;
 	if (event->type == SDL_DROPFILE)
 	{
 		t_vec2	pos = get_mouse_pos(doom);
@@ -167,6 +168,7 @@ void	g_ressources_on_enter(t_gui *self, t_doom *doom)
 
 void	g_ressources_on_leave(t_gui *self, t_doom *doom)
 {
+	(void)self;
 	SDL_EventState(SDL_DROPFILE, SDL_DISABLE);
 	doom->screen.secure = FALSE;
 }
@@ -181,6 +183,7 @@ void	render_page_label(t_gui *self, t_doom *doom)
 	const SDL_Color	color = (SDL_Color){255, 255, 255, 0};
 	SDL_Surface *t;
 
+(void)self;
 	t = TTF_RenderText_Blended(doom->fonts.helvetica,
 		ft_int_to_str(doom->res_manager.page).str, color);
 	apply_surface_blended(&doom->screen, t, (SDL_Rect){0, 0, t->w, t->h},
@@ -210,7 +213,7 @@ void	render_page(t_gui *self, t_doom *doom)
 	t_ressource		*res;
 
 	//printf("%d %d\n", x - x_w, y - y_w);
-
+	(void)self;
 	i = -1;
 	while (++i < PAGE_SIZE)
 	{

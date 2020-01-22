@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_es_obj_model.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/26 15:00:53 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/02 15:20:22 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/22 13:14:25 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void			g_es_obj_model_enter(t_gui *self, t_doom *doom)
 	int			y = 75 + 80;
     int         i;
 
+	(void)doom;
     append_components_array(&self->components, create_button((SDL_Rect){ x + 10, y + 10, 40, 40 }, NULL, "<"));
 	append_components_array(&self->components, create_button((SDL_Rect){ x + 270, y + 10, 40, 40 }, NULL, ">"));
 	i = -1;
@@ -47,6 +48,7 @@ void			g_es_obj_model_enter(t_gui *self, t_doom *doom)
 
 void			g_es_obj_model_render(t_gui *self, t_doom *doom)
 {
+	(void)self;
     t_object	*object = &doom->editor.objects->values[doom->editor.current_object];
 	if (!object)
 		return ;

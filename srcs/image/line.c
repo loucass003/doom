@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   line.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/02 00:28:50 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/16 15:44:34 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/22 11:10:39 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ void	draw_line_zbuff(t_render_context *ctx, t_vec4 v0, t_vec4 v1, int color)
     int dy = v1.y-v0.y; 
     int derror2 = ft_abs(dy) * 2; 
     int error2 = 0; 
-	t_pixel s = (t_pixel){ (v0.x < v1.x ? 1 : -1), (v0.y < v1.y ? 1 : -1) };
    	v.y = v0.y;
 	v.x = v0.x - 1;
 	while (++v.x < v1.x)

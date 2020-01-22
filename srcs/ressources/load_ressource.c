@@ -6,7 +6,7 @@
 /*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/24 01:51:49 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/13 17:30:42 by louali           ###   ########.fr       */
+/*   Updated: 2020/01/22 11:06:17 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_bool		load_ressource(t_doom *doom, t_ressource *r, char *path)
 	else if (r->type == RESSOURCE_MODEL)
 		return (load_model_file(doom, r, path));
 	else if (r->type == RESSOURCE_SOUND)
-		return (load_sound(doom, r, path));
+		return (load_sound(r, path));
 	else
 		return (FALSE);
 }

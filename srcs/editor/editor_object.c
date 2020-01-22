@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   editor_object.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 18:26:47 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/03 13:48:39 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/22 12:27:47 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ t_object	init_object(t_editor *editor, t_vec2 pos)
 	int room = point_in_rooms(editor, pos);
 	y = 0;
 	if (room != -1)
-		y = room_height_range(editor, &editor->rooms->values[room]).x;
+		y = room_height_range(&editor->rooms->values[room]).x;
 	object = (t_object){ .pos = (t_vec3){ pos.x, y, pos.y } };
 	set_object_default(editor->doom, &object);
 	return object;

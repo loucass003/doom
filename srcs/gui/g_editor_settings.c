@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_editor_settings.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/11 00:11:31 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/08 13:15:52 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/22 13:19:33 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,25 +15,30 @@
 #include "editor.h"
 #include "gui.h"
 
-static t_bool			action_performed(t_component *cmp, t_doom *doom)
-{
-	
-}
+// static t_bool			action_performed(t_component *cmp, t_doom *doom)
+// {
+	// (void)cmp;
+	// (void)doom;	
+	// return(TRUE);
+// }
 
 void			g_editor_settings_on_enter(t_gui *self, t_doom *doom)
 {
+	(void)self;
 	editor_settings_guis(&doom->editor);
 	editor_settings_update(&doom->editor);
 }
 
 void			g_editor_settings_on_leave(t_gui *self, t_doom *doom)
 {
+	(void)self;
 	set_gui_settings(&doom->editor, -1);
 }
 
 void			g_editor_settings_on_event(t_gui *self, SDL_Event *event,
 	t_doom *doom)
 {
+	(void)self;
 	gui_events(doom, doom->editor.settings.guis, event, doom->editor.settings.current_gui);
 	components_events(doom, doom->editor.settings.guis, event, doom->editor.settings.current_gui);
 }

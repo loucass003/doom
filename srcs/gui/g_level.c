@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_level.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/15 16:27:20 by lloncham          #+#    #+#             */
-/*   Updated: 2020/01/16 14:25:17 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/22 12:25:08 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,8 @@ void	g_level_on_enter(t_gui *self, t_doom *doom)
 
 void	g_level_on_leave(t_gui *self, t_doom *doom)
 {
+	(void)self;
+	(void)doom;
 }
 
 void	g_level_render(t_gui *self, t_doom *doom)

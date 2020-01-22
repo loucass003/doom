@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_editor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 15:50:09 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/16 15:44:34 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/22 13:07:22 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@ static t_bool		tools_action_performed(t_component *cmp, t_doom *doom)
 	t_button	*btn;
 	int			last_select;
 
-	btn = cmp;
+	btn = (t_button*)cmp;
 	i = -1;
 	last_select = doom->editor.selected_tool;
 	while (++i < 6)
 	{
-		btn = doom->guis[doom->current_gui].components->values[i];
-		if (cmp == btn)
+		btn = (t_button*)doom->guis[doom->current_gui].components->values[i];
+		if ((t_button*)cmp == btn)
 		{
 			doom->editor.selected_tool = i;
 			btn->selected = TRUE;
@@ -106,6 +106,7 @@ void			g_editor_on_enter(t_gui *self, t_doom *doom)
 
 void			g_editor_on_leave(t_gui *self, t_doom *doom)
 {
+	(void)self;
 	leave_gui(doom, doom->guis, GUI_EDITOR_SETTINGS);
 }
 
@@ -113,7 +114,7 @@ void			g_editor_on_event(t_gui *self, SDL_Event *event, t_doom *doom)
 {
 	doom->mouse_focus = FALSE;
 	components_events(doom, doom->guis, event, GUI_EDITOR_SETTINGS);
-	g_editor_settings_on_event(&doom->guis[GUI_EDITOR_SETTINGS], event, doom);
+	g_editor_settings_on_event(self, event, doom);
 	if (event->type == SDL_MOUSEMOTION)
 	{
 		t_vec2 pos = (t_vec2){ event->motion.x, event->motion.y };
@@ -142,11 +143,11 @@ void			g_editor_on_event(t_gui *self, SDL_Event *event, t_doom *doom)
 		else if (doom->editor.selected_tool == TOOL_POINT)
 			editor_tool_point(&doom->editor);
 		else if (doom->editor.selected_tool == TOOL_SELECT)
-			editor_tool_select(&doom->editor, event);
+			editor_tool_select(&doom->editor);
 		else if (doom->editor.selected_tool == TOOL_OBJECTS)
-			editor_tool_objects(&doom->editor, event);
+			editor_tool_objects(&doom->editor);
 		else if (doom->editor.selected_tool == TOOL_PLAYER)
-			editor_tool_player(&doom->editor, event);
+			editor_tool_player(&doom->editor);
 	}
 	else if (event->type == SDL_MOUSEBUTTONUP)
 	{
@@ -170,13 +171,8 @@ void			g_editor_on_event(t_gui *self, SDL_Event *event, t_doom *doom)
 
 void			g_editor_render(t_gui *self, t_doom *doom)
 {
-	int				x;
-	int				y;
-
-	//printf("POINTS %d\n", doom->editor.points->len);
-
-	editor_grid_render(self, doom, &doom->editor);
-	editor_render_rooms(self, doom, &doom->editor);
+	editor_grid_render(doom, &doom->editor);
+	editor_render_rooms(doom, &doom->editor);
 	editor_render_player(doom, &doom->editor);
 	editor_render_objects(&doom->editor);
 	draw_rect(&doom->screen, (SDL_Rect){ 5, 5, S_WIDTH - 10, 57 }, 0xFFFFFFFF);

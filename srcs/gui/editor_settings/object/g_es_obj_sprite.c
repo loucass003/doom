@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_es_obj_sprite.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 22:55:54 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/02 15:36:38 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/22 13:11:51 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ void			g_es_obj_sprite_enter(t_gui *self, t_doom *doom)
 
 void			g_es_obj_sprite_render(t_gui *self, t_doom *doom)
 {
+	(void)self;
 	t_object	*object = &doom->editor.objects->values[doom->editor.current_object];
 	if (!object)
 		return ;

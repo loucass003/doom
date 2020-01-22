@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:16:19 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/15 19:23:34 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/22 13:41:44 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,7 @@ t_renderables		*splice_renderables_array(t_renderables *arr,
 						int index, int n);
 t_renderables		*copy_renderables_array(t_renderables *src,
 						t_renderables **dst);
+t_bool				copy_renderable(t_renderable *src, t_renderable *dest);
 int					renderables_indexof(t_renderables *arr, t_renderable *elem);
 
 t_bool				free_renderable(t_renderable **r, t_bool res);
@@ -138,5 +139,13 @@ t_collision			ray_hit_world(struct s_doom *doom, t_renderables *renderables, t_r
 t_bool				create_renderable(t_renderable	*r, t_renderable_type type);
 t_bool				create_cube(struct s_doom *doom, t_renderable *r, t_bool inside);
 void				compute_collidables(t_renderable *r);
+void				draw_line_zbuff(t_render_context *ctx, t_vec4 v0, t_vec4 v1, int color);
+void				render_renderable(t_render_context *ctx, t_renderable *r);
+t_bool				triangulate_floor_ceil(t_renderable *r, t_vec3 n, int *filter, int filter_len, int normal_type, int mtl, int room_index);
+t_bool				compute_change_of_basis(t_vec3 n, t_mat4 *p_inv, t_mat4 *reverse);
+t_bool				ear_clip2(int *filters, int filters_count, t_4dvertices *vertices, t_faces **faces, int normal_type, int face_material, int room_index);
+void				uv_mapping(t_4dvertices *vertices, t_2dvertices *vertex, int *filter, int filter_len);
+t_bool				create_player(t_renderable *r, struct s_doom *doom);
+
 
 #endif

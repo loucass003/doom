@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   editor_intersect.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 18:36:54 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/10 18:37:15 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/22 10:46:31 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int			orientation(t_vec2 p, t_vec2 q, t_vec2 r)
 	return (val > 0) ? 1: 2;
 } 
 
-t_bool		seg_intersect(t_line p, t_line q, t_bool colinear_check)
+t_bool		seg_intersect(t_line p, t_line q)
 { 
     int o1 = orientation(p.a, p.b, q.a); 
     int o2 = orientation(p.a, p.b, q.b); 
@@ -58,7 +58,6 @@ t_bool		get_line_intersection(t_line a, t_line b, t_bool strict)
 t_bool			room_intersect(t_editor *editor, t_room *room, t_room *room2, t_bool strict)
 {
 	int		i;
-	int		j;
 	int		k;
 	t_line	line1;
 	t_line	line2;

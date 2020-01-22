@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_es_obj_light.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/26 15:00:53 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/20 14:54:47 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/22 11:51:13 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,8 @@ void			g_es_obj_light_enter(t_gui *self, t_doom *doom)
 
 void			g_es_obj_light_render(t_gui *self, t_doom *doom)
 {
-    t_object	*object = &doom->editor.objects->values[doom->editor.current_object];
-	
+	(void)self;
+	(void)doom;	
+    // t_object	*object = &doom->editor.objects->values[doom->editor.current_object];
     // draw_line(&doom->screen, (t_pixel){ S_WIDTH - 335 + 160, 235, 0xFFFFFF00 }, (t_pixel){ S_WIDTH - 335 + 160, 335, 0 });
 }

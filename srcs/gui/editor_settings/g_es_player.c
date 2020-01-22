@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_es_player.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 22:55:54 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/09 04:44:09 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/22 13:15:11 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ void			g_es_player_enter(t_gui *self, t_doom *doom)
 
 void			g_es_player_render(t_gui *self, t_doom *doom)
 {
+	(void)self;
 	//  draw_line(&doom->screen, (t_pixel){ S_WIDTH - 335 + 160, 235, 0xFFFFFF00 }, (t_pixel){ S_WIDTH - 335 + 160, 335, 0 });
 	SDL_Surface *text = TTF_RenderText_Blended(doom->fonts.helvetica, "PLAYER ROTATION", (SDL_Color){255, 255, 255, 0});
 	apply_surface_blended(&doom->screen, text, (SDL_Rect){0, 0, text->w, text->h},

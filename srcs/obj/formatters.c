@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   formatters.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 14:34:00 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/26 02:05:58 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/22 12:49:09 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ t_bool			vertice_formatter(t_obj *obj, t_reader *reader, t_renderable *r)
 	t_vec4_u	vertice;
 	int			i;
 	
+	(void)obj;
 	vertice.v.w = 1;
 	i = 0;
 	while (io_peek(reader, &c) && c == ' ')
@@ -58,6 +59,7 @@ t_bool			normal_formatter(t_obj *obj, t_reader *reader, t_renderable *r)
 	t_vec3_u	normal;
 	int			i;
 	
+	(void)obj;
 	i = 0;
 	while (io_peek(reader, &c) && c == ' ')
 	{
@@ -80,6 +82,7 @@ t_bool			vertex_formatter(t_obj *obj, t_reader *reader, t_renderable *r)
 	t_vec2_u	vertex;
 	int			i;
 	
+	(void)obj;
 	i = 0;
 	while (io_peek(reader, &c) && c == ' ')
 	{

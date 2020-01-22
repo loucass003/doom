@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   editor_room.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 18:37:59 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/20 16:14:43 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/22 12:27:55 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void			remove_room(t_editor *editor, int index)
 	update_rooms_gaps(editor);
 }
 
-void			editor_render_rooms(t_gui *self, t_doom *doom, t_editor *editor)
+void			editor_render_rooms(t_doom *doom, t_editor *editor)
 {
 	int		i;
 	t_room	*room;
@@ -159,7 +159,7 @@ t_bool			point_in_room(t_editor *editor, t_room *room, t_vec2 point)
 	return (inside);
 }
 
-t_vec2			room_height_range(t_editor *editor, t_room *room)
+t_vec2			room_height_range(t_room *room)
 {
 	int			i;
 	t_vec2		range;

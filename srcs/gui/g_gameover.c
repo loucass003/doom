@@ -6,7 +6,7 @@
 /*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/15 20:19:09 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/21 17:11:27 by louali           ###   ########.fr       */
+/*   Updated: 2020/01/22 12:36:38 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,8 @@ void	g_gameover_on_enter(t_gui *self, t_doom *doom)
 
 void	g_gameover_on_leave(t_gui *self, t_doom *doom)
 {
+	(void)self;
+	(void)doom;
 }
 
 void	g_gameover_render(t_gui *self, t_doom *doom)

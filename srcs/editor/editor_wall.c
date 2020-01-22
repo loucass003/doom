@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   editor_wall.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 18:54:05 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/08 14:05:24 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/22 11:02:39 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "editor.h"
 #include "doom.h"
 
-t_wall			init_wall(t_editor *editor, int indice)
+t_wall			init_wall(int indice)
 {
 	if (indice < 0)
 		return (t_wall){ .indice = indice };
