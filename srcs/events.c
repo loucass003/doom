@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:14:55 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/15 16:52:23 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/22 12:14:53 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,18 @@ static void	events_window(t_doom *doom, SDL_Event *event)
 
 	gui_events(doom, doom->guis, event, doom->current_gui);
 	components_events(doom, doom->guis, event, doom->current_gui);
-	
-	if (event->type == SDL_QUIT 
+	if (event->type == SDL_QUIT
 		|| (event->type == SDL_KEYDOWN && key == SDL_SCANCODE_ESCAPE))
 	{
 		set_gui(doom, GUI_ESC);
 		doom->running = FALSE;
 	}
-	if (event->type == SDL_KEYDOWN && ((key == SDL_SCANCODE_HOME) || (key == SDL_SCANCODE_H)))
+	if (event->type == SDL_KEYDOWN && ((key == SDL_SCANCODE_HOME)
+		|| (key == SDL_SCANCODE_H)))
 		set_gui(doom, GUI_MAIN_MENU);
 }
 
-void	hook_events(t_doom *doom)
+void		hook_events(t_doom *doom)
 {
 	SDL_Event		event;
 

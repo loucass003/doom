@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   frustum.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/26 23:35:31 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/07 19:23:39 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/22 12:13:00 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,7 @@ t_bool		aabb_vs_frustrum(t_collide_aabb aabb, t_vec4 *planes)
 		p2.y = plane.y > 0 ? aabb.max.y : aabb.min.y;
 		p1.z = plane.z > 0 ? aabb.min.z : aabb.max.z;
 		p2.z = plane.z > 0 ? aabb.max.z : aabb.min.z;
-		
-		if (ft_vec3_dot(p1, vec4_to_3(plane)) + plane.w < 0 
+		if (ft_vec3_dot(p1, vec4_to_3(plane)) + plane.w < 0
 			&& ft_vec3_dot(p2, vec4_to_3(plane)) + plane.w < 0)
 			return (FALSE);
 	}
@@ -57,6 +56,8 @@ t_bool		aabb_vs_frustrum(t_collide_aabb aabb, t_vec4 *planes)
 
 void		frustum_to_local(t_camera *camera, t_renderable *r)
 {
-	t_mat4 m = ft_mat4_mul(camera->frustum_matrix, r->matrix);
+	t_mat4	m;
+
+	m = ft_mat4_mul(camera->frustum_matrix, r->matrix);
 	compute_frustum_planes(m, camera->frustum);
 }
