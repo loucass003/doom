@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:43:35 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/22 12:22:05 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/22 13:32:49 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,7 +180,7 @@ void	update_controls(t_doom *doom)
 		move_speed = 10;
 	else if (doom->player.entity.jetpack)
 		move_speed = 15;
-	if (s[SDL_SCANCODE_LSHIFT] && !doom->player.entity.jetpack)
+	else if (s[SDL_SCANCODE_LSHIFT] && !doom->player.entity.jetpack)
 		move_speed = 30;
 	else
 		move_speed = !doom->player.entity.grounded ? 1.2 : 10;
