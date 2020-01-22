@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 10:06:09 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/19 01:26:23 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/22 04:37:10 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ typedef struct	s_reader
 }				t_reader;
 
 t_bool			io_peek(t_reader *r, char *c);
+t_bool			io_peek2(t_reader *r, uint8_t *c);
 void			io_next(t_reader *r);
 t_bool			io_expect(t_reader *r, const char *str);
 t_bool			io_skip_until(t_reader *r, char *str);

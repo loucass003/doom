@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/18 16:42:15 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/19 18:43:22 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/22 04:05:58 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,8 @@ t_bool		load_wav(char *path, t_wav_format *wav)
 
 t_bool		free_wav(t_wav_format **wav)
 {
-	free((*wav)->buffer);
-	ft_memdel((void **)wav);
+	if ((*wav)->buffer)
+		ft_memdel((void **)&(*wav)->buffer);
+	*wav = NULL;
 	return (TRUE);
 }

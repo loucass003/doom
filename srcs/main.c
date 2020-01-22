@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/21 15:49:10 by louali           ###   ########.fr       */
+/*   Updated: 2020/01/22 05:20:35 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include "octree.h"
 #include "sprite.h"
 #include "ellipsoid.h"
-#include "audio.h"
+#include "tga.h"
 
 void	init_bsp(t_doom *doom)
 {
@@ -102,6 +102,11 @@ t_bool	init_map(t_doom *doom)
 
 int		main(int argc, char **argv)
 {
+	// SDL_Surface *surface;;
+
+	// if (!load_tga(argv[1], &surface))
+	// 	printf("ERROR TGA\n");
+
  	t_doom doom = (t_doom) {
 		.running = TRUE,
 		.main_context = {

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 16:30:11 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/26 18:05:06 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/22 04:36:56 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,21 @@ t_bool			io_peek(t_reader *r, char *c)
 		*c = r->buffer[r->pos];
 	return (TRUE);
 }
+
+t_bool			io_peek2(t_reader *r, uint8_t *c)
+{
+	if (r->pos == r->len)
+	{
+		if (io_fill(r) <= 0)
+		{
+			return (FALSE);
+		}
+	}
+	if (c)
+		*c = r->buffer[r->pos];
+	return (TRUE);
+}
+
 
 void			io_next(t_reader *r)
 {

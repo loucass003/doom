@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/19 16:55:03 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/19 18:33:09 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/22 06:44:32 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define TGA_H
 
 # include <libft.h>
+# include <stdio.h>
+# include <SDL.h> 
 
 typedef enum	s_tga_image_type
 {
@@ -23,32 +25,49 @@ typedef enum	s_tga_image_type
 	TGA_IMAGE_TYPE_MONOCHROME = 3,
 	TGA_IMAGE_TYPE_INDEXED_COMPRESS = 9,
 	TGA_IMAGE_TYPE_TRUECOLOR_COMPRESS = 10,
-	TGA_IMAGE_TYPE_MONOCHROME_COMPRESS = 11,
+	TGA_IMAGE_TYPE_MONOCHROME_COMPRESS = 11, 
 }				t_tga_image_type;
 
-typedef struct	s_tga_color_map
-{
-	uint16_t	first_entry_index;
-	uint16_t	color_map_length;
-	uint8_t		color_map_entry_size;
-}				t_tga_color_map;
 
-typedef struct	s_tga_image
+typedef struct	s_img_descriptor
 {
-	uint16_t	x_origin;
-	uint16_t	y_origin;
-	uint16_t	width;
-	uint16_t	height;
-	uint8_t		pixel_depth;
-	uint8_t		image_descriptor;
-}				t_tga_image;
+	uint8_t		meh : 3;
+	uint8_t		reserved: 1;
+	uint8_t		origin: 1;
+	uint8_t		interleaving: 2;
+}				t_img_descriptor;
+
+# pragma pack(push, 1)
 
 typedef struct	s_tga_header
 {
-	uint8_t		id_length;
-	uint8_t		color_map_type;
-	uint8_t		image_type;
-	t_tga_image	image;
+	uint8_t				id_lenght;
+	uint8_t				color_map_type;
+	uint8_t				image_type;
+	uint16_t			cm_first_entry;
+	uint16_t			cm_length;
+	uint8_t				cm_size;
+	uint16_t			x_origin;
+	uint16_t			y_origin;
+	uint16_t			width;
+	uint16_t			height;
+	uint8_t				pixel_depth;
+	t_img_descriptor	image_descriptor;
 }				t_tga_header;
+
+# pragma pack(pop)
+
+typedef struct	s_tga_format
+{
+	t_tga_header	header;
+	uint8_t			bpp;
+	int				format; 
+	uint8_t			*data;
+	uint8_t			*colormap;
+}				t_tga_format;
+
+t_bool			tga_return_error(char *error);
+t_bool			load_tga(char *path, SDL_Surface **surface);
+t_bool			free_tga(t_tga_format *tga);
 
 #endif
