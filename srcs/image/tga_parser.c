@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tga_parser.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/22 03:03:10 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/22 14:01:54 by louali           ###   ########.fr       */
+/*   Updated: 2020/01/23 01:53:49 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,7 +186,7 @@ t_bool		load_tga(char *path, SDL_Surface **surface)
 		return (tga_return_error("Unable to read tga header"));
 	if (!move_to_start(&r, &tga))
 		return (FALSE);
-	tga.bpp = tga.header.pixel_depth / 8;
+	tga.bpp = tga.header.pixel_depth == 32 ? 4 : 3;
 	if (!(tga.data = malloc(sizeof(uint8_t) * tga.header.width * tga.header.height * tga.bpp)))
 	{
 		free_tga(&tga);
@@ -207,7 +207,7 @@ t_bool		load_tga(char *path, SDL_Surface **surface)
 		0,
 		tga.header.width,
 		tga.header.height,
-		tga.header.pixel_depth,
+		tga.header.pixel_depth == 32 ? 32 : 24,
 		tga.format
 	);
 	if (*surface)
@@ -220,8 +220,8 @@ t_bool		load_tga(char *path, SDL_Surface **surface)
 				int x = -1;
 				while (++x < (*surface)->w)
 				{
-					if (tga.format == SDL_PIXELFORMAT_ARGB32)
-					{
+					if (tga.header.pixel_depth == 32)
+					{ 
 						int index = ((*surface)->h - 1 - y) * (*surface)->w + x;
 						int index2 = y * (*surface)->w + x;
 						((uint32_t *)(*surface)->pixels)[index] = ((uint32_t *)tga.data)[index2];
