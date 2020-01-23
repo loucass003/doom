@@ -6,7 +6,7 @@
 /*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 01:42:00 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/22 13:12:32 by louali           ###   ########.fr       */
+/*   Updated: 2020/01/23 13:13:46 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,9 @@ typedef struct		s_button
 	int				color_default;
 	int				color_hover;
 	t_bool			selected;
+	t_bool			hover;
 	char			*image;
+	SDL_Color		colortext;
 }					t_button;
 
 typedef struct		s_progress

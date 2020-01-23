@@ -6,7 +6,7 @@
 /*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 14:37:12 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/20 13:00:04 by louali           ###   ########.fr       */
+/*   Updated: 2020/01/23 13:06:23 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ t_bool			init_ressources_registry(t_doom *doom)
 {
 	t_bool	error;
 
-	if (!(doom->res_manager.ressources = create_ressources_array(11)))
+	if (!(doom->res_manager.ressources = create_ressources_array(20)))
 		return (FALSE);
 	if (!init_ressources_select_items(&doom->res_manager))
 		return (FALSE);
@@ -64,6 +64,7 @@ t_bool			init_ressources_registry(t_doom *doom)
 	error |= a(doom, "SOUND BOSS DIE", RESSOURCE_SOUND, TRUE);
 	error |= a(doom, "SOUND BOSS HIT", RESSOURCE_SOUND, TRUE);
 	error |= a(doom, "SOUND EXPLOSION", RESSOURCE_SOUND, TRUE);
+	error |= a(doom, "LEADERBOARD", RESSOURCE_TEXTURE, TRUE);
 	return (error);
 }
 

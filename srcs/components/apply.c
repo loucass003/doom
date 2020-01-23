@@ -6,7 +6,7 @@
 /*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/17 09:33:32 by louali            #+#    #+#             */
-/*   Updated: 2020/01/17 09:39:48 by louali           ###   ########.fr       */
+/*   Updated: 2020/01/23 13:03:29 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void		apply_text(t_doom *doom, t_component *self, t_button *btn)
 	SDL_Surface *text;
 
 	text = TTF_RenderText_Blended(doom->fonts.helvetica,
-		btn->texte, (SDL_Color){255, 255, 255, 0});
+		btn->texte, btn->colortext);
 	apply_surface_blended(&doom->screen, text,
 		(SDL_Rect){0, 0, text->w, text->h},
 		(SDL_Rect){self->bounds.x + self->bounds.w / 2 - text->w / 2,

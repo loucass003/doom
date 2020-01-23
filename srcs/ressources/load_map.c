@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   load_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 01:53:42 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/23 03:21:59 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/23 13:54:53 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -288,20 +288,8 @@ t_bool		read_globals(t_ressource_manager *r)
 
 t_bool		read_scores(t_ressource_manager *r)
 {
-	int		scores;
-	int		i;
-	t_score	s;
-
-	if (!io_memcpy(&r->reader, &scores, sizeof(int)))
+	if (!io_memcpy(&r->reader, &r->doom->scores, sizeof(t_score) * 5))
 		return (FALSE);
-	i = -1;
-	while (++i < scores)
-	{
-		if (!io_memcpy(&r->reader, &s, sizeof(t_score)))
-			return (FALSE);
-		if (!append_scores_array(&r->doom->scores, s))
-			return (FALSE); 
-	}
 	return (TRUE);
 }
 

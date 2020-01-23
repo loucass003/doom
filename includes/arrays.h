@@ -39,18 +39,7 @@ typedef struct		s_ptrs
 	void			*values[];
 }					t_ptrs;
 
-typedef struct		s_score
-{
-	char			text[256];
-	int				score;
-}					t_score;
 
-typedef struct		s_scores
-{
-	int				len;
-	int				capacity;
-	t_score			values[];
-}					t_scores;
 
 t_2dvertices		*create_2dvertices_array(int capacity);
 t_2dvertices		*append_2dvertices_array(t_2dvertices **arr, t_vec2 v);
@@ -81,15 +70,6 @@ t_ints				*splice_ints_array(t_ints *arr,
 t_ints				*copy_ints_array(t_ints *src,
 						t_ints **dst);
 int					ints_indexof(t_ints *arr, int i);
-
-t_scores				*create_scores_array(int capacity);
-t_scores				*append_scores_array(t_scores **arr, t_score i);
-t_scores				*splice_scores_array(t_scores *arr,
-						int index, int n);
-t_scores				*copy_scores_array(t_scores *src,
-						t_scores **dst);
-int						scores_indexof(t_scores *arr, t_score *elem);
-
 
 t_ptrs				*create_ptrs_array(int capacity);
 t_ptrs				*append_ptrs_array(t_ptrs **arr, void *p);

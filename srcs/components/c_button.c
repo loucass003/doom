@@ -6,7 +6,7 @@
 /*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:59:38 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/22 12:54:16 by louali           ###   ########.fr       */
+/*   Updated: 2020/01/23 13:16:25 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void		c_button_render(t_doom *doom, t_component *self, t_img *image)
 	if (self->type != C_BUTTON)
 		return ;
 	btn = (t_button *)self;
+	btn->color = btn->hover ? btn->color_hover : btn->color_default;
 	btn->color = btn->selected ? 0xFFFFFFFF : btn->color;
 	x = self->bounds.x;
 	while (x < self->bounds.x + self->bounds.w)
@@ -47,10 +48,9 @@ t_bool		c_button_on_event(t_component *self, SDL_Event *event, t_doom *doom)
 	t_button	*btn;
 
 	btn = (t_button *)self;
+	btn->hover = FALSE;
 	if (in_bounds(self->bounds, (t_vec2){event->motion.x, event->motion.y}))
-		btn->color = btn->color_hover;
-	else
-		btn->color = btn->color_default;
+		btn->hover = TRUE;
 	if (event->type == SDL_MOUSEBUTTONUP)
 	{
 		if (in_bounds(self->bounds, (t_vec2){event->motion.x, event->motion.y})
@@ -73,6 +73,7 @@ t_component	*create_button(SDL_Rect bounds, char *s, char *s2)
 		.on_event = c_button_on_event};
 	btn->color_default = 0xFF505050;
 	btn->color_hover = 0xFF606060;
+	btn->colortext = (SDL_Color) {255, 255, 255, 0};
 	btn->color = btn->color_default;
 	btn->selected = FALSE;
 	btn->image = s;

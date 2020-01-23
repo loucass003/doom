@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_gameover.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/15 20:19:09 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/23 13:19:05 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/23 15:15:29 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,26 @@ int					total_score(t_doom *doom)
 
 t_bool				add_score(char *text, int score, t_doom *doom)
 {
-	t_score	s;
+	t_score		*s;
+	char		*oldtext;
+	int			oldscore;
+	int		i;
 
-	s = (t_score){ .score = score };
-	ft_memcpy(s.text, text, ft_strlen(text));
-	if (!append_scores_array(&doom->scores, s))
-		return (FALSE);
+	i = -1;
+	while (++i < 5)
+	{
+		s = &doom->scores[i];
+		if (s->score >= score)
+			continue;
+		add_score(s->text, s->score, doom);
+		// oldscore = s->score;
+		// oldtext = s->text;
+		
+		s->score = score;
+		ft_bzero(s->text, 255);
+		ft_memcpy(s->text, text, ft_strlen(text));
+		break;
+	}
 	return (TRUE);
 }
 

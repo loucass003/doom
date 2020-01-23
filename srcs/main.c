@@ -6,7 +6,7 @@
 /*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/22 12:50:11 by louali           ###   ########.fr       */
+/*   Updated: 2020/01/23 13:54:18 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,6 @@ t_bool	init_map(t_doom *doom)
 	if (!(doom->editor.objects = create_objects_array(15)))
 		return (FALSE);
 	if (!(doom->renderables = create_renderables_array(50)))
-		return (FALSE);
-	if (!(doom->scores = create_scores_array(15)))
 		return (FALSE);
 	init_lightning(doom);
 	doom->editor.player_set = FALSE;

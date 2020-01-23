@@ -6,7 +6,7 @@
 /*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/22 13:39:35 by louali           ###   ########.fr       */
+/*   Updated: 2020/01/23 13:50:37 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,11 @@ typedef struct		s_tdata
 	t_render_data		data;
 }					t_tdata;
 
+typedef struct		s_score
+{
+	char			text[256];
+	int				score;
+}					t_score;
 
 typedef struct		s_gameover
 {
@@ -128,7 +133,7 @@ typedef struct		s_doom
 	t_entity			*closer_boss;
 	t_bool				mouse_focus;
 	t_level				level;
-	t_scores			*scores;
+	t_score				scores[5];
 }					t_doom;
 
 float				clamp(float min, float max, float v);

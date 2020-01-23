@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   save_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 01:20:07 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/23 03:19:37 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/23 13:55:12 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,8 +204,7 @@ t_bool		write_globals(t_ressource_manager *r)
 
 t_bool		write_scores(t_ressource_manager *r)
 {
-	dp_write(r, &r->doom->scores->len, sizeof(int));
-	dp_write(r, r->doom->scores->values, sizeof(t_score) * r->doom->scores->len);
+	dp_write(r, r->doom->scores, sizeof(t_score) * 5);
 	return (TRUE);
 }
 
