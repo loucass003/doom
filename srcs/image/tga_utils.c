@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/22 03:04:16 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/23 02:18:59 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/23 02:21:07 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ t_bool		tga_return_error(char *error)
 	ft_putendl(error);
 	return (FALSE);
 }
-
 
 void		flip_image(t_tga_format *tga, SDL_Surface *s)
 {

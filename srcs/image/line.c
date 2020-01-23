@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   line.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/02 00:28:50 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/22 15:43:45 by louali           ###   ########.fr       */
+/*   Updated: 2020/01/23 02:28:20 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,22 +70,22 @@ void		draw(t_render_context *ctx, t_vec4 v0, t_vec4 v1, int color,
 	}
 }
 
-t_bool		draw_line_swap(t_vec4 v0, t_vec4 v1)
+t_bool		draw_line_swap(t_vec4 *v0, t_vec4 *v1)
 {
 	t_bool		steep;
 
 	steep = FALSE;
-	if (ft_abs(v0.x - v1.x) < ft_abs(v0.y - v1.y))
+	if (ft_abs(v0->x - v1->x) < ft_abs(v0->y - v1->y))
 	{
-		ft_swap(&v0.x, &v0.y);
-		ft_swap(&v1.x, &v1.y);
+		ft_swap(&v0->x, &v0->y);
+		ft_swap(&v1->x, &v1->y);
 		steep = TRUE;
 	}
-	if (v0.x > v1.x)
+	if (v0->x > v1->x)
 	{
-		ft_swap(&v0.x, &v1.x);
-		ft_swap(&v0.y, &v1.y);
-		ft_swap(&v0.w, &v1.w);
+		ft_swap(&v0->x, &v1->x);
+		ft_swap(&v0->y, &v1->y);
+		ft_swap(&v0->w, &v1->w);
 	}
 	return (steep);
 }
@@ -99,7 +99,7 @@ void		draw_line_zbuff(t_render_context *ctx, t_vec4 v0,
 	int		derror2;
 	int		error2;
 
-	steep = draw_line_swap(v0, v1);
+	steep = draw_line_swap(&v0, &v1);
 	d.x = v1.x - v0.x;
 	d.y = v1.y - v0.y;
 	derror2 = ft_abs(d.y) * 2;
