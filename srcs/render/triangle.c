@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   triangle.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 01:17:41 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/22 13:29:36 by louali           ###   ########.fr       */
+/*   Updated: 2020/01/23 12:42:08 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static inline void	swap(t_vertex *a, t_vertex *b)
 	*b = t;
 }
 
-int		ft_max(int a, int b)
+int					ft_max(int a, int b)
 {
 	return (a > b ? a : b);
 }
@@ -41,7 +41,7 @@ typedef union ut_color {
 	} argb;
 } ur_color;
 
-void scanline2(t_render_context *ctx, t_mtl *mtl, t_pixel p, float t, t_vertex start, t_vertex end)
+void				scanline2(t_render_context *ctx, t_mtl *mtl, t_pixel p, float t, t_vertex start, t_vertex end)
 {
 	t_vertex	vert;
 	float		*buff;
@@ -95,7 +95,7 @@ void scanline2(t_render_context *ctx, t_mtl *mtl, t_pixel p, float t, t_vertex s
 // 	t_mtl		*mtl;
 // }				t_data;
 
-void TexturedTriangle2(t_render_context *ctx, t_render_data data)
+void				TexturedTriangle2(t_render_context *ctx, t_render_data data)
 {
 	if (data.triangle.b.pos.y < data.triangle.a.pos.y)
 		swap(&data.triangle.a, &data.triangle.b);
@@ -162,7 +162,7 @@ void TexturedTriangle2(t_render_context *ctx, t_render_data data)
 	}
 }
 
-void	draw_triangle(t_render_context *ctx, t_render_data data)
+void				draw_triangle(t_render_context *ctx, t_render_data data)
 {
 	if (!data.mtl->wireframe)
 		TexturedTriangle2(ctx, data);
