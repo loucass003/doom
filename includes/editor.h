@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   editor.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 14:35:33 by lloncham          #+#    #+#             */
-/*   Updated: 2020/01/22 13:41:50 by louali           ###   ########.fr       */
+/*   Updated: 2020/01/23 03:33:42 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,9 +137,10 @@ typedef struct		s_room
 	int					room_vertices_start;
 	int					floor_start;
 	int					ceilling_start;
+	int					ceilling_end;
 	int					walls_start;
-	t_bool				floor_visible;
-	t_bool				ceil_visible;
+	t_bool				floor_invisible;
+	t_bool				ceil_invisible;
 	t_bool				floor_collision;
 	t_bool				ceil_collision;
 	uint8_t				floor_normal;

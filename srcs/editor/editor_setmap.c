@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 15:55:03 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/20 19:08:06 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/23 03:34:25 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,15 +113,15 @@ t_bool		floor_visibility(t_editor *editor, t_renderable *r, int room_index)
 	i = room->floor_start - 1;
 	while (++i < room->ceilling_start)
 	{
-		r->faces->values[i].hidden = room->floor_visible;
+		r->faces->values[i].hidden = room->floor_invisible;
 		r->faces->values[i].normal_type = room->floor_normal;
 		r->faces->values[i].double_sided = room->floor_normal == 2;
 		r->faces->values[i].has_collision = room->floor_collision;
 	}
 	i = room->ceilling_start - 1;
-	while (++i < room->walls_start)
+	while (++i < room->ceilling_end)
 	{
-		r->faces->values[i].hidden = room->ceil_visible;
+		r->faces->values[i].hidden = room->ceil_invisible;
 		r->faces->values[i].normal_type = room->ceil_normal;
 		r->faces->values[i].double_sided = room->ceil_normal == 2;
 		r->faces->values[i].has_collision = room->ceil_collision;
@@ -153,6 +153,8 @@ t_bool		create_wall(t_renderable *r, t_editor *editor, int room_index, int wall_
 	t_wall	*wall = &room->walls->values[wall_index];
 	t_wall_section	*ws = &wall->wall_sections->values[wall_section];
 	
+	if (ws->invisible)
+		printf("CALL\n");
 	// if (!wall->collisions && wall->invisible)
 	// 	continue;
 	// int	next = (i + 1) % room->walls->len;
@@ -313,12 +315,17 @@ void			default_renderables(t_doom *doom)
 	skybox.no_collision = TRUE;
 	doom->skybox_index = doom->renderables->len;
 	append_renderables_array(&doom->renderables, skybox);
+	t_renderable r;
+
+	create_player(&r, doom);
+	append_renderables_array(&doom->renderables, r);
 	printf("SKYBOX %d\n", doom->skybox_index);
 }
 
 t_bool		editor_setmap(t_editor *editor) 
 {
 	int		i;
+	t_renderable r;
 
 	editor->doom->main_context.type = CTX_EDITOR;
 	editor->doom->renderables->len = 0;
@@ -326,31 +333,12 @@ t_bool		editor_setmap(t_editor *editor)
 	
 	editor->settings.open = FALSE;
 	// set_gui_settings(editor, -1);
-	t_renderable r;
-
-	create_player(&r, editor->doom);
-	append_renderables_array(&editor->doom->renderables, r);
-	
 	editor->map_renderable = editor->doom->renderables->len;
 	create_map(&r, editor);
 	if (!append_renderables_array(&editor->doom->renderables, r))
 		return (FALSE);
 
 	default_renderables(editor->doom);
-	// i = -1;
-	// while (++i < editor->rooms->len)
-	// {
-	// 	t_room			*room = &editor->rooms->values[i];
-	// 	t_renderable	r;
-
-	// 	if (!room->closed)
-	// 		continue;
-	// 	if (!create_room_renderable(&r, editor, room))
-	// 		return (FALSE);
-	// 	if (!append_renderables_array(&editor->doom->renderables, r))
-	// 		return (FALSE);
-	// 	room->r = &editor->doom->renderables->values[editor->doom->renderables->len - 1];
-	// }
 	i = -1;
 	while (++i < editor->objects->len)
 	{

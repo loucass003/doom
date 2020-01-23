@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   load_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 01:53:42 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/21 16:14:33 by louali           ###   ########.fr       */
+/*   Updated: 2020/01/23 03:21:59 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,8 @@ t_bool		read_room(t_ressource_manager *r)
 		.ceiling_texture = r->ressources->values[wr_room.ceiling_res_index],
 		.floor_rot = wr_room.floor_rot,
 		.ceil_rot = wr_room.ceil_rot,
-		.floor_visible = wr_room.floor_visible,
-		.ceil_visible = wr_room.ceil_visible,
+		.floor_invisible = wr_room.floor_invisible,
+		.ceil_invisible = wr_room.ceil_invisible,
 		.floor_collision = wr_room.floor_collision,
 		.ceil_collision = wr_room.ceil_collision,
 		.floor_normal = wr_room.floor_normal,

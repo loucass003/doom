@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   save_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 01:20:07 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/22 11:06:59 by louali           ###   ########.fr       */
+/*   Updated: 2020/01/23 03:19:37 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@ t_bool		write_room(t_ressource_manager *r, t_room *room)
 		.ceiling_res_index = ressources_indexof(r->ressources, room->ceiling_texture),
 		.floor_rot = room->floor_rot,
 		.ceil_rot = room->ceil_rot,
-		.floor_visible = room->floor_visible,
-		.ceil_visible = room->ceil_visible,
+		.floor_invisible = room->floor_invisible,
+		.ceil_invisible = room->ceil_invisible,
 		.floor_collision = room->floor_collision,
 		.ceil_collision = room->ceil_collision,
 		.floor_normal = room->floor_normal,

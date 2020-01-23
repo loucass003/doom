@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_es_room.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 20:40:10 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/22 13:18:29 by louali           ###   ########.fr       */
+/*   Updated: 2020/01/23 03:22:14 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ t_bool			action_performed(t_component *cmp, t_doom *doom)
 	}
 	if (cmp == editor->settings.guis[ES_GUI_ROOM].components->values[2])
 	{
-		room->floor_visible = ((t_checkbox *)cmp)->value;
+		room->floor_invisible = ((t_checkbox *)cmp)->value;
 		update_floor((t_editor*)editor, editor->current_room, TRUE);
 	}
 	if (cmp == editor->settings.guis[ES_GUI_ROOM].components->values[3])
@@ -60,7 +60,7 @@ t_bool			action_performed(t_component *cmp, t_doom *doom)
 	
 	if (cmp == editor->settings.guis[ES_GUI_ROOM].components->values[7])
 	{
-		room->ceil_visible = ((t_checkbox *)cmp)->value;
+		room->ceil_invisible = ((t_checkbox *)cmp)->value;
 		update_floor((t_editor*)editor, editor->current_room, FALSE);
 	}
 	if (cmp == editor->settings.guis[ES_GUI_ROOM].components->values[8])
@@ -99,7 +99,7 @@ void			g_es_room_enter(t_gui *self, t_doom *doom)
 	append_components_array(&self->components, create_button((SDL_Rect){ x + 10, y + 40, 40, 40 }, NULL, "<"));
 	append_components_array(&self->components, create_button((SDL_Rect){ x + 270, y + 40, 40, 40 }, NULL, ">"));
 	append_components_array(&self->components, create_checkbox(doom, (t_vec2){ x + 10, y + 100 }, "INVISIBLE"));
-	((t_checkbox *)self->components->values[2])->value = room->floor_visible; //floor_visible
+	((t_checkbox *)self->components->values[2])->value = room->floor_invisible; //floor_visible
 	append_components_array(&self->components, create_checkbox(doom, (t_vec2){ x + 170, y + 100 }, "COLLISIONS"));
 	((t_checkbox *)self->components->values[3])->value = room->floor_collision;
 	append_components_array(&self->components, create_select((SDL_Rect){x + 10, y + 120, 300, 30}, "NORMAL TYPE"));
@@ -109,7 +109,7 @@ void			g_es_room_enter(t_gui *self, t_doom *doom)
 	append_components_array(&self->components, create_button((SDL_Rect){ x + 10, y + 185, 40, 40 }, NULL, "<"));
 	append_components_array(&self->components, create_button((SDL_Rect){ x + 270, y + 185, 40, 40 }, NULL, ">"));
 	append_components_array(&self->components, create_checkbox(doom, (t_vec2){ x + 10, y + 245 }, "INVISIBLE"));
-	((t_checkbox *)self->components->values[7])->value = room->ceil_visible; //ceiling_visible
+	((t_checkbox *)self->components->values[7])->value = room->ceil_invisible; //ceiling_visible
 	append_components_array(&self->components, create_checkbox(doom, (t_vec2){ x + 170, y + 245 }, "COLLISIONS"));
 	((t_checkbox *)self->components->values[8])->value = room->ceil_collision;
 	append_components_array(&self->components, create_select((SDL_Rect){x + 10, y + 265, 300, 30}, "NORMAL TYPE"));

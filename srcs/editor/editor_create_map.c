@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/10 13:41:47 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/20 18:52:21 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/23 03:36:23 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ t_bool	create_map_points_and_floor(t_editor *editor, t_renderable *r)
 		while (++j < room->walls->len)
 			filter[j] = room->room_vertices_start + (j * 2) + 1;
 		triangulate_floor_ceil(r, (t_vec3){ 0, 1, 0 }, filter, room->walls->len, room->ceil_normal, (i * 2) + 1, i);
+		room->ceilling_end = r->faces->len;
 		free(filter);
 	}
 	editor->walls_faces_start = r->faces->len;

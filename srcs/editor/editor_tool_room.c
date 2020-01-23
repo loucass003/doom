@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   editor_tool_room.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 20:09:08 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/22 11:43:49 by louali           ###   ########.fr       */
+/*   Updated: 2020/01/23 03:20:45 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ void		editor_tool_room(t_editor *editor, SDL_Event *event)
 			.walls = create_walls_array(15), 
 			.floor_texture = get_default_texture(&editor->doom->res_manager, TRUE), 
 			.ceiling_texture = get_default_texture(&editor->doom->res_manager, TRUE),
-			.floor_visible = FALSE,
-			.ceil_visible = FALSE,
+			.floor_invisible = FALSE,
+			.ceil_invisible = FALSE,
 			.ambiant_light = AMBIANT_LIGHT,
 			.floor_collision = TRUE,
 			.ceil_collision = TRUE,

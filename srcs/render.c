@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 16:49:48 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/17 18:11:05 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/23 03:03:16 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,10 +81,10 @@ void	render_face(int face_index, void *p)
 	t_renderable *r = face_data->r;
 	t_render_context *ctx = face_data->ctx;
 	t_face *face = &r->faces->values[face_index];
-	t_mtl *mtl = &r->materials->values[face->mtl_index];
 	if (face->hidden || face->rendered)
 		return;
 	
+	t_mtl *mtl = &r->materials->values[face->mtl_index];
 	faces_count++;
 	if (r->no_collision)
 		face->has_collision = FALSE;
