@@ -86,6 +86,7 @@ SRC+=audio/wav_parser.c
 SRC+=triangulation/uv_mapping.c
 SRC+=triangulation/ear_clipping.c
 SRC+=ray.c
+SRC+=image/tga_read_formats.c
 SRC+=image/tga_utils.c
 SRC+=image/tga_parser.c
 SRC+=image/apply_surface.c

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/19 16:55:03 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/22 06:44:32 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/23 02:19:16 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 
 # include <libft.h>
 # include <stdio.h>
-# include <SDL.h> 
+# include <SDL.h>
+# include "io.h"
 
 typedef enum	s_tga_image_type
 {
@@ -69,5 +70,12 @@ typedef struct	s_tga_format
 t_bool			tga_return_error(char *error);
 t_bool			load_tga(char *path, SDL_Surface **surface);
 t_bool			free_tga(t_tga_format *tga);
+t_bool			tga_move_to_start(t_reader *r, t_tga_format *tga);
+void			flip_image(t_tga_format *tga, SDL_Surface *s);
+t_bool			read_tga_data(t_reader *r, t_tga_format *tga);
+t_bool			read_tga_32bits(t_reader *r, t_tga_format *tga);
+t_bool			read_tga_24bits(t_reader *r, t_tga_format *tga);
+t_bool			read_tga_16bits(t_reader *r, t_tga_format *tga);
+t_bool			read_tga_8bits(t_reader *r, t_tga_format *tga);
 
 #endif
