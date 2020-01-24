@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 01:42:00 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/24 15:25:23 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/24 15:32:58 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,12 +216,9 @@ void				g_level_on_leave(t_gui *self, t_doom *doom);
 void				g_esc_render(t_gui *self, t_doom *doom);
 void				g_esc_on_event(t_gui *self, SDL_Event *event, t_doom *doom);
 
-
 void				g_leaderboard_on_enter(t_gui *self, t_doom *doom);
 void				g_leaderboard_on_leave(t_gui *self, t_doom *doom);
-void				g_leaderboard_on_event(t_gui *self, SDL_Event *event, t_doom *doom);
 void				g_leaderboard_render(t_gui *self, t_doom *doom);
-
 
 void				g_editor_button(t_gui *self, t_doom *doom);
 void				editor_mousebuttonup(t_doom *doom);

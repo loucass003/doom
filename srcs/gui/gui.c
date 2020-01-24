@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gui.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 09:46:13 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/21 17:18:55 by louali           ###   ########.fr       */
+/*   Updated: 2020/01/24 16:24:29 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,29 @@
 
 void	register_guis(t_doom *doom)
 {
-	doom->guis[GUI_INGAME] = (t_gui){ .render = g_ingame_render, .on_enter = g_ingame_on_enter, .on_leave = g_ingame_on_leave, .on_event = g_ingame_on_events };
-	doom->guis[GUI_MAIN_MENU] = (t_gui){ .render = g_mainmenu_render, .on_enter = g_mainmenu_on_enter, .on_leave = g_mainmenu_on_leave };
-	doom->guis[GUI_EDITOR] = (t_gui) { .render = g_editor_render, .on_enter = g_editor_on_enter, .on_leave = g_editor_on_leave, .on_event = g_editor_on_event };
-	doom->guis[GUI_GAMEOVER] = (t_gui) { .render = g_gameover_render, .on_enter = g_gameover_on_enter, .on_leave = g_gameover_on_leave };
-	doom->guis[GUI_RESSOURCES] = (t_gui) { .render = g_ressources_render, .on_enter = g_ressources_on_enter, .on_leave = g_ressources_on_leave, .on_event = g_ressources_on_event };
-	doom->guis[GUI_EDITOR_SETTINGS] = (t_gui) { .render = g_editor_settings_render, .on_enter = g_editor_settings_on_enter, .on_leave = g_editor_settings_on_leave, .on_event = g_editor_settings_on_event };
-	doom->guis[GUI_LEVEL] = (t_gui) { .render = g_level_render, .on_enter = g_level_on_enter, .on_leave = g_level_on_leave };
+	doom->guis[GUI_INGAME] = (t_gui){ .render = g_ingame_render,
+		.on_enter = g_ingame_on_enter, .on_leave = g_ingame_on_leave,
+		.on_event = g_ingame_on_events };
+	doom->guis[GUI_MAIN_MENU] = (t_gui){ .render = g_mainmenu_render,
+		.on_enter = g_mainmenu_on_enter, .on_leave = g_mainmenu_on_leave };
+	doom->guis[GUI_EDITOR] = (t_gui) { .render = g_editor_render,
+		.on_enter = g_editor_on_enter, .on_leave = g_editor_on_leave,
+		.on_event = g_editor_on_event };
+	doom->guis[GUI_GAMEOVER] = (t_gui) { .render = g_gameover_render,
+		.on_enter = g_gameover_on_enter, .on_leave = g_gameover_on_leave };
+	doom->guis[GUI_RESSOURCES] = (t_gui) { .render = g_ressources_render,
+		.on_enter = g_ressources_on_enter, .on_leave = g_ressources_on_leave,
+		.on_event = g_ressources_on_event };
+	doom->guis[GUI_EDITOR_SETTINGS] = (t_gui) {
+		.render = g_editor_settings_render,
+		.on_enter = g_editor_settings_on_enter,
+		.on_leave = g_editor_settings_on_leave,
+		.on_event = g_editor_settings_on_event };
+	doom->guis[GUI_LEVEL] = (t_gui) { .render = g_level_render,
+		.on_enter = g_level_on_enter, .on_leave = g_level_on_leave };
 	doom->guis[GUI_ESC] = (t_gui) { .render = g_esc_render};
-	doom->guis[GUI_LEADERBOARD] = (t_gui){ .render = g_leaderboard_render, .on_enter = g_leaderboard_on_enter, .on_leave = g_leaderboard_on_leave, .on_event = g_leaderboard_on_event};
+	doom->guis[GUI_LEADERBOARD] = (t_gui){ .render = g_leaderboard_render,
+		.on_enter = g_leaderboard_on_enter, .on_leave = g_leaderboard_on_leave};
 }
 
 void	leave_gui(t_doom *doom, t_gui *guis, int id)
@@ -69,5 +83,4 @@ void	gui_events(t_doom *doom, t_gui *guis, SDL_Event *event, int id)
 	gui = &guis[id];
 	if (gui->on_event != NULL)
 		gui->on_event(gui, event, doom);
-	
 }

@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/24 12:20:04 by lloncham          #+#    #+#             */
-/*   Updated: 2020/01/24 13:45:47 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/24 16:27:05 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static t_bool		action_performed(t_component *cmp, t_doom *doom)
 	return (TRUE);
 }
 
-static t_bool		delete_ressource_performed(t_component *cmp, t_doom *doom)
+static t_bool		del_res_performed(t_component *cmp, t_doom *doom)
 {
 	int					i;
 	int					index;
@@ -73,22 +73,31 @@ void				g_ressources_on_enter(t_gui *self, t_doom *doom)
 	i = -1;
 	while (++i < PAGE_SIZE)
 	{
-		append_components_array(&self->components, create_select((SDL_Rect){S_WIDTH_2, 55 + i * 30, 200, 25}, "RESSOURCE TYPE"));
+		append_components_array(&self->components, create_select((SDL_Rect)
+			{S_WIDTH_2, 55 + i * 30, 200, 25}, "RESSOURCE TYPE"));
 		self->components->values[i * 3]->visible = FALSE;
-		((t_select *)self->components->values[i * 3])->items = doom->res_manager.ressources_types;
-		append_components_array(&self->components, create_textfield((SDL_Rect){S_WIDTH_2 - 353, 55 + i * 30, 350, 25}, "RESSOURCE NAME", FALSE));
+		((t_select *)self->components->values[i * 3])->items =
+			doom->res_manager.ressources_types;
+		append_components_array(&self->components, create_textfield((SDL_Rect)
+			{S_WIDTH_2 - 353, 55 + i * 30, 350, 25}, "RESSOURCE NAME", FALSE));
 		self->components->values[i * 3 + 1]->visible = FALSE;
-		append_components_array(&self->components, create_button((SDL_Rect){S_WIDTH_2 + 202, 55 + i * 30, 25, 25}, NULL, "X"));
+		append_components_array(&self->components, create_button((SDL_Rect)
+			{S_WIDTH_2 + 202, 55 + i * 30, 25, 25}, NULL, "X"));
 		self->components->values[i * 3 + 2]->visible = FALSE;
-		self->components->values[i * 3 + 2]->perform_action = delete_ressource_performed;
+		self->components->values[i * 3 + 2]->perform_action = del_res_performed;
 	}
-	append_components_array(&self->components, create_button((SDL_Rect){S_WIDTH - 210, S_HEIGHT - 50, 200, 40}, NULL, "CONTINUE"));
-	append_components_array(&self->components, create_button((SDL_Rect){S_WIDTH_2 - 140, S_HEIGHT - 50, 40, 40}, NULL, "<"));
-	append_components_array(&self->components, create_button((SDL_Rect){S_WIDTH_2 + 100, S_HEIGHT - 50, 40, 40}, NULL, ">"));
-	append_components_array(&self->components, create_button((SDL_Rect){S_WIDTH - 215, 15, 200, 40}, NULL, "ADD RESSOURCE"));
+	append_components_array(&self->components, create_button((SDL_Rect)
+		{S_WIDTH - 210, S_HEIGHT - 50, 200, 40}, NULL, "CONTINUE"));
+	append_components_array(&self->components, create_button((SDL_Rect)
+		{S_WIDTH_2 - 140, S_HEIGHT - 50, 40, 40}, NULL, "<"));
+	append_components_array(&self->components, create_button((SDL_Rect)
+		{S_WIDTH_2 + 100, S_HEIGHT - 50, 40, 40}, NULL, ">"));
+	append_components_array(&self->components, create_button((SDL_Rect)
+		{S_WIDTH - 215, 15, 200, 40}, NULL, "ADD RESSOURCE"));
 	i = -1;
 	while (++i < 4)
-		self->components->values[(PAGE_SIZE * 3) + i]->perform_action = action_performed;
+		self->components->values[(PAGE_SIZE * 3) + i]->perform_action =
+			action_performed;
 	update_selects(self, &doom->res_manager);
 }
 
