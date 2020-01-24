@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   thread_job.c                                       :+:      :+:    :+:   */
+/*   threadpool_job.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/24 02:15:03 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/24 02:25:23 by llelievr         ###   ########.fr       */
+/*   Created: 2020/01/24 15:30:00 by llelievr          #+#    #+#             */
+/*   Updated: 2020/01/24 15:33:17 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ t_bool		jobqueue_init(t_jobqueue *jobqueue_p)
 	jobqueue_p->len = 0;
 	jobqueue_p->front = NULL;
 	jobqueue_p->rear  = NULL;
-	if (!(jobqueue_p->has_jobs = malloc(sizeof(t_bsem))))
+	jobqueue_p->has_jobs = malloc(sizeof(t_bsem));
+	if (jobqueue_p->has_jobs == NULL)
 		return (FALSE);
 	pthread_mutex_init(&(jobqueue_p->rwmutex), NULL);
 	bsem_init(jobqueue_p->has_jobs, 0);
@@ -38,7 +39,6 @@ void		jobqueue_push(t_jobqueue *jobqueue_p, t_job *newjob)
 {
 	pthread_mutex_lock(&jobqueue_p->rwmutex);
 	newjob->prev = NULL;
-	
 	if (jobqueue_p->len == 0)
 	{
 		jobqueue_p->front = newjob;
@@ -60,7 +60,6 @@ t_job		*jobqueue_pull(t_jobqueue *jobqueue_p)
 
 	pthread_mutex_lock(&jobqueue_p->rwmutex);
 	job_p = jobqueue_p->front;
-
 	if (jobqueue_p->len == 0)
 		;
 	else if (jobqueue_p->len == 1)
@@ -76,7 +75,7 @@ t_job		*jobqueue_pull(t_jobqueue *jobqueue_p)
 		bsem_post(jobqueue_p->has_jobs);
 	}
 	pthread_mutex_unlock(&jobqueue_p->rwmutex);
-	return job_p;
+	return (job_p);
 }
 
 void		jobqueue_destroy(t_jobqueue *jobqueue_p)

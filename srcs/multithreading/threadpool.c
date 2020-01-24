@@ -5,78 +5,74 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/24 01:57:57 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/24 02:49:10 by llelievr         ###   ########.fr       */
+/*   Created: 2020/01/24 14:41:07 by llelievr          #+#    #+#             */
+/*   Updated: 2020/01/24 17:52:39 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "threadpool.h"
+#include "doom.h"
 
-t_threadpool	*threadpool_init(int num_threads)
+t_threadpool	*threadpool_init(t_doom *doom, int num_threads, t_threadpool_type type)
 {
 	t_threadpool	*thpool_p;
 	int				n;
-
-	threads_on_hold   = 0;
-	threads_keepalive = 1;
+	int 			j;
 
 	if (num_threads < 0)
 		num_threads = 0;
 	if (!(thpool_p = malloc(sizeof(t_threadpool))))
-	{
-		threadpool_err("threadpool_init(): Could not allocate memory for thread pool\n");
-		return NULL;
-	}
-	thpool_p->num_threads_alive   = 0;
+		return (NULL);
+	thpool_p->threads_on_hold = 0;
+	thpool_p->threads_keepalive = 1;
+	thpool_p->num_threads_alive = 0;
 	thpool_p->num_threads_working = 0;
-
+	thpool_p->type = type;
+	thpool_p->doom = doom;
 	if (!jobqueue_init(&thpool_p->jobqueue))
 	{
-		threadpool_err("threadpool_init(): Could not allocate memory for job queue\n");
 		free(thpool_p);
-		return NULL;
+		return (NULL);
 	}
 	if (!(thpool_p->threads = malloc(num_threads * sizeof(t_thread *))))
 	{
-		threadpool_err("threadpool_init(): Could not allocate memory for threads\n");
 		jobqueue_destroy(&thpool_p->jobqueue);
 		free(thpool_p);
-		return NULL;
+		return (NULL);
 	}
 	pthread_mutex_init(&(thpool_p->thcount_lock), NULL);
 	pthread_cond_init(&thpool_p->threads_all_idle, NULL);
-
 	n = -1;
 	while (++n < num_threads)
 	{
 		if (!thread_init(thpool_p, &thpool_p->threads[n], n))
 		{
-			free(thpool_p->threads);
+			jobqueue_destroy(&thpool_p->jobqueue);
+			j = -1;
+			while (++j < num_threads)
+				thread_destroy(thpool_p->threads[j]);
 			free(thpool_p);
 			return (NULL);
 		}
 	}
 	while (thpool_p->num_threads_alive != num_threads)
 		;
-	return thpool_p;
+	return (thpool_p);
 }
 
-t_bool			threadpool_add_work(t_threadpool *thpool_p, void (*function_p)(void *), void *arg_p)
+t_bool		threadpool_add_work(t_threadpool *thpool_p, void (*function_p)(t_thread *t, void*), void *arg_p)
 {
-	t_job *newjob;
-
+	t_job		*newjob;
+	
 	if (!(newjob = malloc(sizeof(t_job))))
-	{
-		threadpool_err("threadpool_add_work(): Could not allocate memory for new job\n");
 		return (FALSE);
-	}
-	newjob->function=function_p;
-	newjob->arg=arg_p;
+	newjob->function = function_p;
+	newjob->arg = arg_p;
 	jobqueue_push(&thpool_p->jobqueue, newjob);
 	return (TRUE);
 }
 
-void			threadpool_wait(t_threadpool *thpool_p)
+void		threadpool_wait(t_threadpool *thpool_p)
 {
 	pthread_mutex_lock(&thpool_p->thcount_lock);
 	while (thpool_p->jobqueue.len || thpool_p->num_threads_working)
@@ -84,24 +80,24 @@ void			threadpool_wait(t_threadpool *thpool_p)
 	pthread_mutex_unlock(&thpool_p->thcount_lock);
 }
 
-void			threadpool_destroy(t_threadpool *thpool_p)
+void		threadpool_destroy(t_threadpool *thpool_p)
 {
+	int				n;
 	volatile int	threads_total;
-	double			tpassed;
 	time_t			start;
 	time_t			end;
-	int				n;
+	double			tpassed;
 
 	if (thpool_p == NULL)
 		return ;
 	threads_total = thpool_p->num_threads_alive;
-	threads_keepalive = 0;
+	thpool_p->threads_keepalive = 0;
 	tpassed = 0.0;
 	time (&start);
 	while (tpassed < 1.0 && thpool_p->num_threads_alive)
 	{
 		bsem_post_all(thpool_p->jobqueue.has_jobs);
-		time (&end);
+		time(&end);
 		tpassed = difftime(end,start);
 	}
 	while (thpool_p->num_threads_alive)
@@ -117,11 +113,24 @@ void			threadpool_destroy(t_threadpool *thpool_p)
 	free(thpool_p);
 }
 
-void			threadpool_pause(t_threadpool *thpool_p)
-{
-	int n;
 
-	n = -1;
-	while (++n < thpool_p->num_threads_alive)
-		pthread_kill(thpool_p->threads[n]->pthread, SIGUSR1);
+void		threadpool_pause(t_threadpool *thpool_p)
+{
+	int		i;
+
+	i = -1;
+	while (++i < thpool_p->num_threads_alive)
+		pthread_kill(thpool_p->threads[i]->pthread, SIGUSR1);
+}
+
+void		threadpool_resume(t_threadpool *thpool_p)
+{
+    (void)thpool_p;
+	thpool_p->threads_on_hold = 0;
+}
+
+
+int			threadpool_num_threads_working(t_threadpool *thpool_p)
+{
+	return thpool_p->num_threads_working;
 }

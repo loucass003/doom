@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/24 01:34:28 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/24 17:52:56 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,16 @@ t_bool	init_map(t_doom *doom)
 		return (FALSE);
 	init_lightning(doom);
 	return (TRUE);
+}
+
+#include "threadpool.h"
+
+void	task_t(t_thread *t, void *p)
+{
+	ft_putstr("TOTO\n");
+	int i = *(int *)p;
+
+	sleep(1);
 }
 
 int		main(int argc, char **argv)
