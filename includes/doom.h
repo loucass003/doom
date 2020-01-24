@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   doom.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/23 13:50:37 by louali           ###   ########.fr       */
+/*   Updated: 2020/01/24 13:56:22 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,5 +158,9 @@ void 				damage_explo(t_entity *from, t_doom *doom, float damage);
 
 void				init_bsp(t_doom *doom);
 void				init_lightning(t_doom *doom);
+
+t_vec2				get_mouse_pos(t_doom *doom);
+void				update_selects(t_gui *self, t_ressource_manager *rm);
+void				apply_select_value(t_gui *self, t_doom *doom);
 
 #endif
