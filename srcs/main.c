@@ -3,21 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/23 13:54:18 by louali           ###   ########.fr       */
+/*   Updated: 2020/01/24 01:34:28 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <sys/mman.h>
-#include <errno.h>
 #include "arrays.h"
 #include "doom.h"
 #include "octree.h"
 #include "sprite.h"
 #include "ellipsoid.h"
-#include "tga.h"
 
 void	init_bsp(t_doom *doom)
 {
@@ -94,17 +91,11 @@ t_bool	init_map(t_doom *doom)
 	if (!(doom->renderables = create_renderables_array(50)))
 		return (FALSE);
 	init_lightning(doom);
-	doom->editor.player_set = FALSE;
 	return (TRUE);
 }
 
 int		main(int argc, char **argv)
 {
-	// SDL_Surface *surface;;
-
-	// if (!load_tga(argv[1], &surface))
-	// 	printf("ERROR TGA\n");
-
  	t_doom doom = (t_doom) {
 		.running = TRUE,
 		.main_context = {
@@ -114,7 +105,7 @@ int		main(int argc, char **argv)
 		.current_gui = -1,
 		.skybox_index = -1,
 		.skybox_enabled = TRUE,
-		.editor = { .map_renderable = -1 }
+		.editor = { .map_renderable = -1, .player_set = FALSE }
 	};
 
 	if (argc != 2)
