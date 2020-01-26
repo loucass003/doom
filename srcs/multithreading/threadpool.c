@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/24 14:41:07 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/24 17:52:39 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/26 02:12:14 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,16 +60,13 @@ t_threadpool	*threadpool_init(t_doom *doom, int num_threads, t_threadpool_type t
 	return (thpool_p);
 }
 
-t_bool		threadpool_add_work(t_threadpool *thpool_p, void (*function_p)(t_thread *t, void*), void *arg_p)
+t_bool		threadpool_add_work(t_threadpool *thpool_p, void (*function_p)(t_thread *t, t_render_data data), t_render_data data)
 {
-	t_job		*newjob;
+	t_job		newjob;
 	
-	if (!(newjob = malloc(sizeof(t_job))))
-		return (FALSE);
-	newjob->function = function_p;
-	newjob->arg = arg_p;
-	jobqueue_push(&thpool_p->jobqueue, newjob);
-	return (TRUE);
+	newjob.function = function_p;
+	newjob.data = data;
+	return (jobqueue_push(&thpool_p->jobqueue, newjob));
 }
 
 void		threadpool_wait(t_threadpool *thpool_p)
@@ -128,7 +125,6 @@ void		threadpool_resume(t_threadpool *thpool_p)
     (void)thpool_p;
 	thpool_p->threads_on_hold = 0;
 }
-
 
 int			threadpool_num_threads_working(t_threadpool *thpool_p)
 {

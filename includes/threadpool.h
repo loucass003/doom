@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/24 01:36:30 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/24 17:52:32 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/26 03:28:34 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,19 +46,29 @@ typedef struct	s_thread
 
 typedef struct	s_job
 {
-	struct s_job*			prev;
-	void					(*function)(t_thread *thread, void* arg);
-	void*					arg;
+	void					(*function)(t_thread *thread, t_render_data data);
+//	void*					arg;
+	t_render_data			data;
 }				t_job;
+
+// typedef struct	s_jobqueue
+// {
+// 	pthread_mutex_t			rwmutex;
+// 	t_job					*front;
+// 	t_job					*rear;
+// 	t_bsem					*has_jobs;
+// 	int						len;
+// }				t_jobqueue;
 
 typedef struct	s_jobqueue
 {
 	pthread_mutex_t			rwmutex;
-	t_job					*front;
-	t_job					*rear;
 	t_bsem					*has_jobs;
 	int						len;
+	int						capacity;
+	t_job					*values;
 }				t_jobqueue;
+ 
 
 typedef struct	s_threadpool
 {
@@ -81,8 +91,8 @@ void			thread_destroy (t_thread *thread_p);
 
 t_bool			jobqueue_init(t_jobqueue *jobqueue_p);
 void			jobqueue_clear(t_jobqueue *jobqueue_p);
-void			jobqueue_push(t_jobqueue *jobqueue_p, t_job *newjob);
-t_job			*jobqueue_pull(t_jobqueue *jobqueue_p);
+t_bool			jobqueue_push(t_jobqueue *jobqueue_p, t_job newjob);
+t_job			jobqueue_pull(t_jobqueue *jobqueue_p, t_bool *nodata);
 void			jobqueue_destroy(t_jobqueue *jobqueue_p);
 
 void			bsem_init(t_bsem *bsem_p, int value);
@@ -94,9 +104,10 @@ void			bsem_wait(t_bsem* bsem_p);
 void			threadpool_err(char *str);
 
 t_threadpool	*threadpool_init(struct s_doom *doom, int num_threads, t_threadpool_type type);
-t_bool			threadpool_add_work(t_threadpool *thpool_p, void (*function_p)(t_thread *t, void *), void *arg_p);
+t_bool			threadpool_add_work(t_threadpool *thpool_p, void (*function_p)(t_thread *t, t_render_data data), t_render_data data);
 void			threadpool_wait(t_threadpool *thpool_p);
 void			threadpool_destroy(t_threadpool *thpool_p);
 void			threadpool_pause(t_threadpool *thpool_p);
-
+t_bool			threadpool_render_reset(t_threadpool *thpool_p, t_render_context *ctx);
+t_bool			threadpool_render_merge(t_threadpool *thpool_p, t_render_context *ctx);
 #endif

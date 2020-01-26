@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/24 15:30:27 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/24 17:44:49 by llelievr         ###   ########.fr       */
+/*   Created: 2020/01/24 02:28:43 by llelievr          #+#    #+#             */
+/*   Updated: 2020/01/26 03:28:38 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ t_bool		init_render_context(t_threadpool *thpool_p, t_render_context *ctx)
 {
 	if (!(ctx->image = malloc(sizeof(t_img))))
 		return (FALSE);
+	ctx->image->ignore_texture = TRUE;
 	if (!create_image(thpool_p->doom->renderer, S_WIDTH, S_HEIGHT, ctx->image))
 		return (FALSE);
 	if ((ctx->buffer = ft_memalloc(sizeof(float) * (S_WIDTH * S_HEIGHT))))
@@ -39,7 +40,7 @@ t_bool		thread_init(t_threadpool *thpool_p, t_thread** thread_p, int id)
 
 void		*thread_do(t_thread *thread_p)
 {
-	t_job				*job_p;
+	t_job				job_p;
 	t_threadpool		*thpool_p;
 
 	thpool_p = thread_p->thpool_p;
@@ -54,10 +55,12 @@ void		*thread_do(t_thread *thread_p)
 			pthread_mutex_lock(&thpool_p->thcount_lock);
 			thpool_p->num_threads_working++;
 			pthread_mutex_unlock(&thpool_p->thcount_lock);
-			if (!!(job_p = jobqueue_pull(&thpool_p->jobqueue)))
+			t_bool nodata = FALSE;
+			job_p = jobqueue_pull(&thpool_p->jobqueue, &nodata);
+			if (!nodata)
 			{
-				job_p->function(thread_p, job_p->arg);
-				free(job_p);
+				job_p.function(thread_p, job_p.data);
+				//free(job_p);
 			}
 			pthread_mutex_lock(&thpool_p->thcount_lock);
 			thpool_p->num_threads_working--;

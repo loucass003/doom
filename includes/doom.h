@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   doom.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/23 13:50:37 by louali           ###   ########.fr       */
+/*   Updated: 2020/01/26 00:48:21 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
 # include "render.h"
 # include "ressource.h"
 # include "audio.h"
+# include "threadpool.h"
 
 typedef struct		s_stats
 {
@@ -112,6 +113,7 @@ typedef struct		s_doom
 	t_lights			*lights;
 	t_renderables		*renderables;
 	t_render_context	main_context;
+	t_threadpool		*render_thpool;
 	t_renderable		sphere_primitive;
 	t_renderable		grenada_primitive;
 	t_player			player;

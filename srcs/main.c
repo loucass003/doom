@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/24 17:52:56 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/26 03:46:43 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,8 @@ int		main(int argc, char **argv)
 	doom.main_context.doom = &doom;
 	doom.editor.doom = &doom;
 
+	if (!(doom.render_thpool = threadpool_init(&doom, 4, THPOOL_RENDER)))
+		return (-1);
 	if (!(doom.main_context.buffer = (float *)malloc((int)(S_WIDTH * S_HEIGHT) * sizeof(float))))
 		return (-1);
 	if (!create_ellipsoid(&doom, &doom.sphere_primitive, (t_vec2){ 12, 12 }, (t_vec3){ 1, 1, 1 }))
