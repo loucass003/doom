@@ -3,15 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   gui.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 01:42:00 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/23 13:13:46 by louali           ###   ########.fr       */
+/*   Updated: 2020/01/24 12:31:56 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GUI_H
 # define GUI_H
+
+#define PAGE_SIZE (17)
 
 # include <SDL.h>
 # include <libft.h>
@@ -180,6 +182,7 @@ void				g_editor_settings_on_event(t_gui *self, SDL_Event *event, t_doom *doom);
 void				g_ressources_render(t_gui *self, t_doom *doom);
 void				g_ressources_on_enter(t_gui *self, t_doom *doom);
 void				g_ressources_on_leave(t_gui *self, t_doom *doom);
+
 void				g_editor_on_enter(t_gui *self, t_doom *doom);
 void				g_editor_on_leave(t_gui *self, t_doom *doom);
 void				g_editor_render(t_gui *self, t_doom *doom);
@@ -218,6 +221,7 @@ void				g_leaderboard_on_enter(t_gui *self, t_doom *doom);
 void				g_leaderboard_on_leave(t_gui *self, t_doom *doom);
 void				g_leaderboard_on_event(t_gui *self, SDL_Event *event, t_doom *doom);
 void				g_leaderboard_render(t_gui *self, t_doom *doom);
+
 
 
 
