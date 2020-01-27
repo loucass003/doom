@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 11:16:46 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/27 16:27:35 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/27 17:28:34 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,23 +132,17 @@ t_bool		init_threads(t_threads *threads)
 	delta = ft_vec2_div_s((t_vec2){ S_WIDTH, S_HEIGHT }, THREADS_ROW);
 	while (++i < THREADS_COUNT)
 	{
-		// j = -1;
-		// while (++j < THREADS_ROW)
-		// {
-			t = &threads->threads[i];
-			t->threads = threads;
-			t->pending = FALSE;
-			// t->start = ft_vec2_mul(delta, (t_vec2){ i, j });
-			// t->end = ft_vec2_mul(delta, (t_vec2){ i + 1, j + 1 });
-			t->start.y = i * (S_HEIGHT / THREADS_COUNT);
-			t->start.x = 0;
-			t->end.y = (i + 1) * (S_HEIGHT / THREADS_COUNT);
-			t->end.x = S_WIDTH;
-			if (!(t->datas = create_render_data_array(RENDER_DATAS_CAPACITY)))
-				return (FALSE);
-			pthread_create(&t->pthread, NULL, (void *)worker, t);
-			pthread_detach(t->pthread);
-		// }
+		t = &threads->threads[i];
+		t->threads = threads;
+		t->pending = FALSE;
+		t->start.y = i * (S_HEIGHT / THREADS_COUNT);
+		t->start.x = 0;
+		t->end.y = (i + 1) * (S_HEIGHT / THREADS_COUNT);
+		t->end.x = S_WIDTH;
+		if (!(t->datas = create_render_data_array(RENDER_DATAS_CAPACITY)))
+			return (FALSE);
+		pthread_create(&t->pthread, NULL, (void *)worker, t);
+		pthread_detach(t->pthread);
 	}
 	return (TRUE);
 }

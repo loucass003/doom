@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 01:17:41 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/27 16:37:55 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/27 17:28:21 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,40 +70,20 @@ void				scanline2(t_render_data data, t_pixel p, float t, t_vertex start, t_vert
 		}
 		else if (data.mtl->material_color_set)
 			c.color = data.mtl->material_color;
-		c.argb.a = a * 255;
-		// if (!data.mtl->transparent)
-		// {
-		// 	c.argb.r *= a;
-		// 	c.argb.g *= a;
-		// 	c.argb.b *= a;
-		// }	
-		// c.argb.a = 255;
-		// c.argb.r = vert.normal.x * 255;
-		// c.argb.g = vert.normal.y * 255;
-		// c.argb.b = vert.normal.z * 255;
+		if (!data.mtl->transparent)
+		{
+			c.argb.r *= a;
+			c.argb.g *= a;
+			c.argb.b *= a;
+		}	
 		data.ctx->image->pixels[p.y * (int)S_WIDTH + p.x] = c.color;
 		*buff = vert.pos.w;
 	}
 	
 }
 
-// typedef struct s_data
-// {
-// 	int			i;
-// 	t_vertex	start;
-// 	t_vertex	end;
-// 	t_doom		*doom;
-// 	t_mtl		*mtl;
-// }				t_data;
-
 void				TexturedTriangle2(t_render_data data)
 {
-	// if (data.triangle.b.pos.y < data.triangle.a.pos.y)
-	// 	swap(&data.triangle.a, &data.triangle.b);
-	// if (data.triangle.c.pos.y < data.triangle.a.pos.y)
-	// 	swap(&data.triangle.a, &data.triangle.c);
-	// if (data.triangle.c.pos.y < data.triangle.b.pos.y)
-	// 	swap(&data.triangle.b, &data.triangle.c);
 	t_vertex	d1 = vertex_sub(data.triangle.b, data.triangle.a);
 	t_vertex	d2 = vertex_sub(data.triangle.c, data.triangle.a);
 	t_vertex	d1_step;
