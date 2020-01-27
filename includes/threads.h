@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/24 01:36:30 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/27 11:36:57 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/27 12:23:35 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ typedef struct	s_thread
 typedef struct	s_threads
 {
 	t_thread		threads[THREADS_COUNT];
-	t_bsem			*has_jobs;
-	volatile int	working;
+	t_bsem			has_work;
+	int				working;
 	pthread_mutex_t	thcount_lock;
 	pthread_cond_t	threads_all_idle;
 }				t_threads;

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/27 11:44:43 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/27 12:06:43 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,10 +102,6 @@ int		main(int argc, char **argv)
 	while (1)
 	{
 		printf("START FRAME\n");
-		pthread_mutex_lock(&threads.thcount_lock);
-		threads.working = THREADS_COUNT;
-		pthread_mutex_unlock(&threads.thcount_lock);
-		bsem_post(threads.has_jobs);
 		threads_wait(&threads);
 		printf("RENDER FRAME\n");
 	}
