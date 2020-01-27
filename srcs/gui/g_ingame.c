@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/26 03:49:58 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/27 11:39:55 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include <math.h>
 #include "render.h"
 #include "editor.h"
-#include "threadpool.h"
+#include "threads.h"
 
 void	g_ingame_on_enter(t_gui *self, t_doom *doom)
 {
@@ -328,8 +328,6 @@ void	g_ingame_render(t_gui *self, t_doom *doom)
 	for (int i = 0; i < S_WIDTH * S_HEIGHT; i++)
 		doom->main_context.buffer[i] = 0;
 	
-	threadpool_render_reset(doom->render_thpool, &doom->main_context);
-
 	if (doom->skybox_index != -1)
 	{
 		doom->renderables->values[doom->skybox_index].visible = doom->skybox_enabled;
@@ -407,9 +405,6 @@ void	g_ingame_render(t_gui *self, t_doom *doom)
 			render_renderable(&doom->main_context, sphere);
 		}
 	}
-	bsem_post(doom->render_thpool->jobqueue.has_jobs);
-	threadpool_wait(doom->render_thpool);
-	threadpool_render_merge(doom->render_thpool, &doom->main_context);
 
 	doom->main_context.image->pixels[(doom->main_context.image->height / 2) * doom->main_context.image->width + doom->main_context.image->width / 2 ] = 0xFF00FF00;
 	draw_circle(doom->main_context.image, (t_pixel){ S_WIDTH_2, S_HEIGHT_2, 0xFF00FF00 }, 10);

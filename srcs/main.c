@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/26 03:46:43 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/27 11:44:43 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,61 +94,63 @@ t_bool	init_map(t_doom *doom)
 	return (TRUE);
 }
 
-#include "threadpool.h"
-
-void	task_t(t_thread *t, void *p)
-{
-	ft_putstr("TOTO\n");
-	int i = *(int *)p;
-
-	sleep(1);
-}
-
 int		main(int argc, char **argv)
 {
- 	t_doom doom = (t_doom) {
-		.running = TRUE,
-		.main_context = {
-			.type = CTX_NORMAL,
-			.camera = NULL
-		},
-		.current_gui = -1,
-		.skybox_index = -1,
-		.skybox_enabled = TRUE,
-		.editor = { .map_renderable = -1, .player_set = FALSE }
-	};
+	t_threads	threads;
 
-	if (argc != 2)
+	init_threads(&threads);
+	while (1)
 	{
-		ft_putendl("Usage: ./doom-nukem <datapack>");
-		return (0);
-	}
-	init_openal(&doom);
-	init_ressources_registry(&doom);
-	init_map(&doom);
-
-	if (!load_datapack(&doom, argv[1]))
-	{
-		ft_putendl("Error: invalid datapack");
-		return (0);
+		printf("START FRAME\n");
+		pthread_mutex_lock(&threads.thcount_lock);
+		threads.working = THREADS_COUNT;
+		pthread_mutex_unlock(&threads.thcount_lock);
+		bsem_post(threads.has_jobs);
+		threads_wait(&threads);
+		printf("RENDER FRAME\n");
 	}
 
-	doom.main_context.doom = &doom;
-	doom.editor.doom = &doom;
+ 	// t_doom doom = (t_doom) {
+	// 	.running = TRUE,
+	// 	.main_context = {
+	// 		.type = CTX_NORMAL,
+	// 		.camera = NULL
+	// 	},
+	// 	.current_gui = -1,
+	// 	.skybox_index = -1,
+	// 	.skybox_enabled = TRUE,
+	// 	.editor = { .map_renderable = -1, .player_set = FALSE }
+	// };
 
-	if (!(doom.render_thpool = threadpool_init(&doom, 4, THPOOL_RENDER)))
-		return (-1);
-	if (!(doom.main_context.buffer = (float *)malloc((int)(S_WIDTH * S_HEIGHT) * sizeof(float))))
-		return (-1);
-	if (!create_ellipsoid(&doom, &doom.sphere_primitive, (t_vec2){ 12, 12 }, (t_vec3){ 1, 1, 1 }))
-		return (-1);
+	// if (argc != 2)
+	// {
+	// 	ft_putendl("Usage: ./doom-nukem <datapack>");
+	// 	return (0);
+	// }
+	// init_openal(&doom);
+	// init_ressources_registry(&doom);
+	// init_map(&doom);
+
+	// if (!load_datapack(&doom, argv[1]))
+	// {
+	// 	ft_putendl("Error: invalid datapack");
+	// 	return (0);
+	// }
+
+	// doom.main_context.doom = &doom;
+	// doom.editor.doom = &doom;
+
+	// if (!(doom.main_context.buffer = (float *)malloc((int)(S_WIDTH * S_HEIGHT) * sizeof(float))))
+	// 	return (-1);
+	// if (!create_ellipsoid(&doom, &doom.sphere_primitive, (t_vec2){ 12, 12 }, (t_vec3){ 1, 1, 1 }))
+	// 	return (-1);
 	
-	init_sdl(&doom);
+	// init_sdl(&doom);
 
-	game_loop(&doom);
-	save_datapack(&doom);
-	sdl_quit(&doom);
-	alDeleteSources(MAX_SOUNDS, (const ALuint *)&doom.audio.source);
-	quit_openal();
+	// game_loop(&doom);
+	// save_datapack(&doom);
+	// sdl_quit(&doom);
+	// alDeleteSources(MAX_SOUNDS, (const ALuint *)&doom.audio.source);
+	// quit_openal();
 	return (0);
 }

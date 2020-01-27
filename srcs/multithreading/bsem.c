@@ -6,11 +6,11 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/24 15:28:55 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/24 15:48:02 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/27 11:37:49 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "threadpool.h"
+#include "threads.h"
 
 void		bsem_init(t_bsem *bsem_p, int value)
 {

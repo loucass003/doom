@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 01:06:40 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/26 02:31:30 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/27 11:14:45 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,8 @@ static void 	clip_1(t_render_context *ctx, t_mtl *mtl, t_triangle t)
 	post_process_triangle(ctx, mtl, (t_triangle){ v_b, v_a, t.c });
 }
 
-void	task(t_thread *thread, t_render_data data)
+void	process_triangle(t_render_context *ctx, t_mtl *mtl, t_triangle t)
 {
-	t_triangle 	t = data.triangle;
-	t_mtl		*mtl = data.mtl;
-	t_render_context *ctx = &thread->ctx;
-
 	if (t.a.pos.z > FAR_CULL && t.b.pos.z > FAR_CULL && t.c.pos.z > FAR_CULL)
 		return;
 	if (t.a.pos.z < NEAR_CLIP && t.b.pos.z < NEAR_CLIP && t.c.pos.z < NEAR_CLIP)
@@ -81,17 +77,6 @@ void	task(t_thread *thread, t_render_data data)
 	{
 		post_process_triangle(ctx, mtl, t);
 	}
-}
-
-void	process_triangle(t_render_context *ctx, t_mtl *mtl, t_triangle t)
-{
-	t_render_data data = (t_render_data) {
-		.mtl = mtl,
-		.triangle = t
-	};
-
-	if (!threadpool_add_work(ctx->doom->render_thpool, task, data))
-		printf("ERRROOOOOORRRRR\n");
 }
 
 
