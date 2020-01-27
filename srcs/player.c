@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:43:35 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/26 01:13:33 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/27 16:47:38 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,6 @@ void				spawn_player(t_doom *doom)
 	doom->player.entity.position = editor_to_world(doom->player.spawn_data.position);
 	doom->player.entity.position.y += doom->player.entity.radius.y + 0.1;
 	doom->player.entity.rotation = doom->player.spawn_data.rotation;
-
-	doom->player.entity.position = (t_vec3){ -100, 50, 0 };
-	doom->player.entity.rotation.y = M_PI;
-	update_player_camera(&doom->player);
 }
 
 void				player_inventory_event(t_doom *doom, SDL_Event *event)

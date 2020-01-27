@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 15:55:03 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/23 03:34:25 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/27 16:24:47 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -338,7 +338,7 @@ t_bool		editor_setmap(t_editor *editor)
 	if (!append_renderables_array(&editor->doom->renderables, r))
 		return (FALSE);
 
-	default_renderables(editor->doom);
+	
 	i = -1;
 	while (++i < editor->objects->len)
 	{
@@ -355,6 +355,7 @@ t_bool		editor_setmap(t_editor *editor)
 		if (object->r->has_hitbox)
 			object->r->show_hitbox = FALSE;
 	}
+	default_renderables(editor->doom);
 	spawn_player(editor->doom);
 	return (TRUE);
 }

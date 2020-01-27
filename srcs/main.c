@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/27 12:06:43 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/27 16:55:58 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,12 @@ void	init_bsp(t_doom *doom)
 	append_renderables_array(&doom->renderables, itemstack);
 
 
-	set_obj_working_dir(doom, "assets/obj/winter");
-	create_obj(doom, &r, "winter.obj");
+	set_obj_working_dir(doom, "assets/obj/cs_italy");
+	create_obj(doom, &r, "cs_italy.obj");
 	r.position = (t_vec3){0, 0, -3};
 	r.rotation = (t_vec3){0, 0, 0};
-//	r.scale = (t_vec3){0.05, 0.05, 0.05};
-	r.scale = (t_vec3){5, 5, 5};
+	r.scale = (t_vec3){0.06, 0.06, 0.06};
+	//r.scale = (t_vec3){5, 5, 5};
 	//r.wireframe = TRUE;
 	r.wireframe_color = 0xFFFF0000;
 	r.fixed = TRUE;
@@ -96,57 +96,49 @@ t_bool	init_map(t_doom *doom)
 
 int		main(int argc, char **argv)
 {
-	t_threads	threads;
+ 	t_doom doom = (t_doom) {
+		.running = TRUE,
+		.main_context = {
+			.type = CTX_NORMAL,
+			.camera = NULL
+		},
+		.current_gui = -1,
+		.skybox_index = -1,
+		.skybox_enabled = TRUE,
+		.editor = { .map_renderable = -1, .player_set = FALSE }
+	};
 
-	init_threads(&threads);
-	while (1)
+	if (argc != 2)
 	{
-		printf("START FRAME\n");
-		threads_wait(&threads);
-		printf("RENDER FRAME\n");
+		ft_putendl("Usage: ./doom-nukem <datapack>");
+		return (0);
+	}
+	init_openal(&doom);
+	init_ressources_registry(&doom);
+	init_map(&doom);
+
+	if (!load_datapack(&doom, argv[1]))
+	{
+		ft_putendl("Error: invalid datapack");
+		return (0);
 	}
 
- 	// t_doom doom = (t_doom) {
-	// 	.running = TRUE,
-	// 	.main_context = {
-	// 		.type = CTX_NORMAL,
-	// 		.camera = NULL
-	// 	},
-	// 	.current_gui = -1,
-	// 	.skybox_index = -1,
-	// 	.skybox_enabled = TRUE,
-	// 	.editor = { .map_renderable = -1, .player_set = FALSE }
-	// };
+	doom.main_context.doom = &doom;
+	doom.editor.doom = &doom;
 
-	// if (argc != 2)
-	// {
-	// 	ft_putendl("Usage: ./doom-nukem <datapack>");
-	// 	return (0);
-	// }
-	// init_openal(&doom);
-	// init_ressources_registry(&doom);
-	// init_map(&doom);
-
-	// if (!load_datapack(&doom, argv[1]))
-	// {
-	// 	ft_putendl("Error: invalid datapack");
-	// 	return (0);
-	// }
-
-	// doom.main_context.doom = &doom;
-	// doom.editor.doom = &doom;
-
-	// if (!(doom.main_context.buffer = (float *)malloc((int)(S_WIDTH * S_HEIGHT) * sizeof(float))))
-	// 	return (-1);
-	// if (!create_ellipsoid(&doom, &doom.sphere_primitive, (t_vec2){ 12, 12 }, (t_vec3){ 1, 1, 1 }))
-	// 	return (-1);
+	if (!init_threads(&doom.threads))
+		return (-1);
+	if (!(doom.main_context.buffer = (float *)malloc((int)(S_WIDTH * S_HEIGHT) * sizeof(float))))
+		return (-1);
+	if (!create_ellipsoid(&doom, &doom.sphere_primitive, (t_vec2){ 12, 12 }, (t_vec3){ 1, 1, 1 }))
+		return (-1);
 	
-	// init_sdl(&doom);
+	init_sdl(&doom);
 
-	// game_loop(&doom);
-	// save_datapack(&doom);
-	// sdl_quit(&doom);
-	// alDeleteSources(MAX_SOUNDS, (const ALuint *)&doom.audio.source);
-	// quit_openal();
+	game_loop(&doom);
+	save_datapack(&doom);
+	sdl_quit(&doom);
+	alDeleteSources(MAX_SOUNDS, (const ALuint *)&doom.audio.source);
+	quit_openal();
 	return (0);
 }

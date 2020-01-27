@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/27 11:37:40 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/27 15:24:31 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ typedef struct		s_doom
 	t_lights			*lights;
 	t_renderables		*renderables;
 	t_render_context	main_context;
+	t_threads			threads;
 	t_renderable		sphere_primitive;
 	t_renderable		grenada_primitive;
 	t_player			player;

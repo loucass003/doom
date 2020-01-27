@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 01:06:40 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/27 11:14:45 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/27 15:27:31 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,8 @@ void	post_process_triangle(t_render_context *ctx, t_mtl *mtl, t_triangle t)
 
 	t_render_data data = (t_render_data) {
 		.mtl = mtl,
-		.triangle = t
+		.triangle = t,
+		.ctx = ctx
 	};
 
 	// // t_tdata *d;
@@ -110,7 +111,8 @@ void	post_process_triangle(t_render_context *ctx, t_mtl *mtl, t_triangle t)
 	// t_render_data *data = malloc(sizeof(t_render_data));
 	// data->mtl = mtl;
 	// data->triangle = t;
-	draw_triangle(ctx, data);
+	add_data_to_threads(&ctx->doom->threads, data);
+	// draw_triangle(data);
 	//threadpool_add_work(ctx->doom->render_thpool, task, data);
 }
 

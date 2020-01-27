@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:16:19 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/26 00:51:21 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/27 15:33:57 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,6 @@ typedef enum		s_render_type
 	CTX_EDITOR
 }					t_render_type;
 
-typedef struct		s_render_data
-{
-	t_triangle		triangle;
-	t_mtl			*mtl;
-}					t_render_data;
-
 typedef struct		s_render_context
 {
 	t_render_type	type;
@@ -71,6 +65,23 @@ typedef struct		s_render_context
 	t_img			*image;
 	struct s_doom	*doom;
 }					t_render_context;
+
+typedef struct		s_render_data
+{
+	t_triangle			triangle;
+	t_mtl				*mtl;
+	t_render_context	*ctx;
+	t_vec2				min;
+	t_vec2				max;
+}					t_render_data;
+
+typedef struct		s_render_datas
+{
+	int				len;
+	int				capacity;
+	t_render_data	values[];
+}					t_render_datas;
+
 
 typedef struct		s_renderable
 {
@@ -122,8 +133,17 @@ t_renderables		*copy_renderables_array(t_renderables *src,
 t_bool				copy_renderable(t_renderable *src, t_renderable *dest);
 int					renderables_indexof(t_renderables *arr, t_renderable *elem);
 
+
+t_render_datas		*create_render_data_array(int capacity);
+t_render_datas		*append_render_data_array(t_render_datas **arr, t_render_data r);
+t_render_datas		*splice_render_data_array(t_render_datas *arr,
+						int index, int n);
+t_render_datas		*copy_render_data_array(t_render_datas *src,
+						t_render_datas **dst);
+int					render_data_indexof(t_render_datas *arr, t_render_data *elem);
+
 t_bool				free_renderable(t_renderable **r, t_bool res);
-void				draw_triangle(t_render_context *ctx, t_render_data data);
+void				draw_triangle(t_render_data data);
 void				process_triangle(t_render_context *ctx, t_mtl *mtl, t_triangle triangle);
 void				post_process_triangle(t_render_context *ctx, t_mtl *mtl, t_triangle triangle);
 void				transform_renderable(t_renderable *r);
