@@ -6,18 +6,15 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/24 12:05:07 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/28 14:27:30 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <sys/mman.h>
-#include <errno.h>
 #include "arrays.h"
 #include "doom.h"
 #include "octree.h"
 #include "sprite.h"
 #include "ellipsoid.h"
-#include "tga.h"
 
 void	init_bsp(t_doom *doom)
 {
@@ -59,12 +56,12 @@ void	init_bsp(t_doom *doom)
 	append_renderables_array(&doom->renderables, itemstack);
 
 
-	set_obj_working_dir(doom, "assets/obj/winter");
-	create_obj(doom, &r, "winter.obj");
+	set_obj_working_dir(doom, "assets/obj/cs_italy");
+	create_obj(doom, &r, "cs_italy.obj");
 	r.position = (t_vec3){0, 0, -3};
 	r.rotation = (t_vec3){0, 0, 0};
-//	r.scale = (t_vec3){0.05, 0.05, 0.05};
-	r.scale = (t_vec3){5, 5, 5};
+	r.scale = (t_vec3){0.06, 0.06, 0.06};
+	//r.scale = (t_vec3){5, 5, 5};
 	//r.wireframe = TRUE;
 	r.wireframe_color = 0xFFFF0000;
 	r.fixed = TRUE;
@@ -94,17 +91,11 @@ t_bool	init_map(t_doom *doom)
 	if (!(doom->renderables = create_renderables_array(50)))
 		return (FALSE);
 	init_lightning(doom);
-	doom->editor.player_set = FALSE;
 	return (TRUE);
 }
 
 int		main(int argc, char **argv)
 {
-	// SDL_Surface *surface;;
-
-	// if (!load_tga(argv[1], &surface))
-	// 	printf("ERROR TGA\n");
-
  	t_doom doom = (t_doom) {
 		.running = TRUE,
 		.main_context = {
@@ -114,7 +105,7 @@ int		main(int argc, char **argv)
 		.current_gui = -1,
 		.skybox_index = -1,
 		.skybox_enabled = TRUE,
-		.editor = { .map_renderable = -1 }
+		.editor = { .map_renderable = -1, .player_set = FALSE }
 	};
 
 	if (argc != 2)
@@ -135,6 +126,8 @@ int		main(int argc, char **argv)
 	doom.main_context.doom = &doom;
 	doom.editor.doom = &doom;
 
+	if (!init_threads(&doom.threads))
+		return (-1);
 	if (!(doom.main_context.buffer = (float *)malloc((int)(S_WIDTH * S_HEIGHT) * sizeof(float))))
 		return (-1);
 	if (!create_ellipsoid(&doom, &doom.sphere_primitive, (t_vec2){ 12, 12 }, (t_vec3){ 1, 1, 1 }))

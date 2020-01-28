@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/28 14:21:17 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/28 14:27:46 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include <math.h>
 #include "render.h"
 #include "editor.h"
+#include "threads.h"
 
 void	g_ingame_on_enter(t_gui *self, t_doom *doom)
 {
@@ -125,17 +126,6 @@ void	g_ingame_on_events(t_gui *self, SDL_Event *event, t_doom *doom)
 			grenada.of.data.entity->velocity = forward;
 			append_renderables_array(&doom->renderables, grenada);
 		}
-		if (event->type == SDL_KEYDOWN && key == SDL_SCANCODE_R)
-		{
-			if (!doom->closer_boss)
-				return ;
-			t_vec3 pos;
-			pos = doom->closer_boss->position;
-			// t_vec3 dir = ft_vec3_norm(ft_vec3_sub(doom->player.entity.position, pos));
-			// pos = ft_vec3_add(pos, ft_vec3_add(dir, (t_vec3){ doom->closer_boss->radius.x, 0, doom->closer_boss->radius.z }));
-			renderable_rocket(doom, pos, doom->player.camera.pos);
-		}
-	
 	}
 	else if (doom->main_context.type == CTX_EDITOR)
 	{
@@ -372,6 +362,8 @@ void	g_ingame_render(t_gui *self, t_doom *doom)
 		doom->renderables->values[doom->skybox_index].dirty = TRUE;
 	}
 
+	threads_clear(&doom->threads);
+	
 	//printf("START FAME ------------\n");
 	if (doom->main_context.type == CTX_EDITOR)
 	{
@@ -448,6 +440,8 @@ void	g_ingame_render(t_gui *self, t_doom *doom)
 			render_renderable(&doom->main_context, sphere);
 		}
 	}
+	threads_launch(&doom->threads);
+	threads_wait(&doom->threads);
 
 	doom->main_context.image->pixels[(doom->main_context.image->height / 2) * doom->main_context.image->width + doom->main_context.image->width / 2 ] = 0xFF00FF00;
 	draw_circle(doom->main_context.image, (t_pixel){ S_WIDTH_2, S_HEIGHT_2, 0xFF00FF00 }, 10);

@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 01:42:00 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/24 15:32:58 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/28 14:27:25 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,6 +225,7 @@ void				editor_mousebuttonup(t_doom *doom);
 void				editor_mousebuttondown(SDL_Event *event, t_doom *doom);
 void				editor_keydown(SDL_Event *event, t_doom *doom);
 void				editor_mousemotion(SDL_Event *event, t_doom *doom);
+
 
 
 void				register_guis(t_doom *doom);
