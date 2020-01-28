@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 16:49:48 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/23 03:03:16 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/28 13:53:40 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,43 +144,51 @@ void	render_face(int face_index, void *p)
 }
 
 
+void	update_renderable_entity(t_render_context *ctx, t_renderable *r)
+{
+	t_entity *entity = r->of.data.entity;
+	r->position = entity->position;
+	r->rotation = entity->rotation;
+	r->dirty = TRUE;
+	if(entity->type == ENTITY_ENEMY)
+	{
+		t_sprite	*sprite;
+		t_entity_enemy	*enemy;
+
+		enemy = &entity->of.enemy;
+		sprite = r->sprite;
+		t_vec3 view = ft_vec3_sub(ctx->camera->pos, entity->position);
+		view = vec3_rotate(view, (t_vec3){ 0, -entity->rotation.y, 0 });
+		float a = atan2(view.z, view.x);
+		float f = round(a * (4 / M_PI));
+		int texture = f;
+		if (enemy->animation_step == 6)
+			texture = enemy->shooting ? 2 : 1;
+		if (entity->diying)
+			texture = enemy->diying_step;
+		set_current_cell(r, texture, enemy->animation_step);
+	}
+	else if (entity->type == ENTITY_BOSS)
+	{
+		t_entity_boss	*boss;
+
+		boss = &entity->of.boss;
+		set_current_cell(r, boss->animation_step, boss->phase);
+	}
+}
+
+void	update_renderable(t_render_context *ctx, t_renderable *r)
+{
+	if (r->of.type == RENDERABLE_ENTITY)
+		update_renderable_entity(ctx, r);
+}
+
 void	render_renderable(t_render_context *ctx, t_renderable *r)
 {
 	int		i;
 
-	if (r->of.type == RENDERABLE_ENTITY)
-	{
-		t_entity *entity = r->of.data.entity;
-		r->position = entity->position;
-		r->rotation = entity->rotation;
-		r->dirty = TRUE;
-		if(entity->type == ENTITY_ENEMY)
-		{
-			t_sprite	*sprite;
-			t_entity_enemy	*enemy;
 
-			enemy = &entity->of.enemy;
-			sprite = r->sprite;
-			t_vec3 view = ft_vec3_sub(ctx->camera->pos, entity->position);
-			view = vec3_rotate(view, (t_vec3){ 0, -entity->rotation.y, 0 });
-			float a = atan2(view.z, view.x);
-			float f = round(a * (4 / M_PI));
-			int texture = f;
-			if (enemy->animation_step == 6)
-				texture = enemy->shooting ? 2 : 1;
-			if (entity->diying)
-				texture = enemy->diying_step;
-			set_current_cell(r, texture, enemy->animation_step);
-		}
-		else if (entity->type == ENTITY_BOSS)
-		{
-			t_entity_boss	*boss;
-
-			boss = &entity->of.boss;
-			set_current_cell(r, boss->animation_step, boss->phase);
-		}
-		
-	}
+	update_renderable(ctx, r);
 
 	if (r->dirty || (r->sprite && r->sprite->always_facing_player))
 	{
@@ -188,9 +196,7 @@ void	render_renderable(t_render_context *ctx, t_renderable *r)
 			r->rotation.y = ctx->camera->rotation.y;
 		transform_renderable(r);
 		r->dirty = FALSE;
-	}
-	
-	
+	}	
 	if (!r->visible)
 		return ;
 	t_face_data face_data = (t_face_data){ .ctx = ctx, .r = r };
