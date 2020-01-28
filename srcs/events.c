@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   events.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:14:55 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/23 14:04:19 by louali           ###   ########.fr       */
+/*   Updated: 2020/01/28 14:23:40 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ static t_bool	events_window(t_doom *doom, SDL_Event *event)
 		set_gui(doom, GUI_MAIN_MENU);
 		return (FALSE);
 	}
+	
 	return (TRUE);
 }
 

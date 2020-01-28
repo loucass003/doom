@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_ingame.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/22 13:24:26 by louali           ###   ########.fr       */
+/*   Updated: 2020/01/28 14:21:17 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,13 @@ void	g_ingame_on_enter(t_gui *self, t_doom *doom)
 	enter_gui(doom, doom->guis, GUI_EDITOR_SETTINGS);
 	doom->screen.secure = FALSE;
 	doom->mouse_focus = TRUE;
-	append_components_array(&self->components, create_progress((SDL_Rect){ 5, 5, 200, 30 }));
+	append_components_array(&self->components, create_progress((SDL_Rect)
+		{ 5, 5, 200, 30 }));
 	((t_progress *)self->components->values[0])->value = 50;
 	((t_progress *)self->components->values[0])->bg_color = 0xFFFF0000;
 	((t_progress *)self->components->values[0])->fg_color = 0xFF00FF00;
-	append_components_array(&self->components, create_progress((SDL_Rect){ S_WIDTH_2 - 200, 5, 400, 20 }));
+	append_components_array(&self->components, create_progress((SDL_Rect)
+		{ S_WIDTH_2 - 200, 5, 400, 20 }));
 	((t_progress *)self->components->values[1])->value = 50;
 	((t_progress *)self->components->values[1])->bg_color = 0xFFFF0000;
 	((t_progress *)self->components->values[1])->fg_color = 0xFF00FF00;
@@ -44,7 +46,8 @@ void	g_ingame_on_leave(t_gui *self, t_doom *doom)
 void	unselect_all(t_doom *doom)
 {
 	if (doom->editor.current_object != -1)
-		doom->editor.objects->values[doom->editor.current_object].r->show_hitbox = FALSE;
+		doom->editor.objects->values[doom->editor.current_object].r
+			->show_hitbox = FALSE;
 	doom->editor.object_transform_mode = OT_MODE_TRANSLATION;
 	doom->editor.current_object = -1;
 	doom->editor.wall_section = -1;
@@ -61,7 +64,8 @@ void	transform_object(t_doom *doom, t_object *object, t_vec3 add)
 		{
 			object->r->of.data.entity->position = editor_to_world(object->pos);
 			object->r->of.data.entity->position.y += add.y;
-			object->r->of.data.entity->position.y += object->r->of.data.entity->radius.y;
+			object->r->of.data.entity->position.y += object->r->of.data.entity
+				->radius.y;
 		}
 		else if (object->type == OBJECT_ITEMSTACK)
 			object->r->position.y += object->r->scale.y * 0.5;
@@ -98,7 +102,8 @@ void	g_ingame_on_events(t_gui *self, SDL_Event *event, t_doom *doom)
 					
 					create_enemy_renderable(doom, &enemy);
 					enemy.of.data.entity->position = hit.point;
-					enemy.of.data.entity->position.y += enemy.of.data.entity->radius.y;
+					enemy.of.data.entity->position.y += enemy.of.data.entity
+						->radius.y;
 					append_renderables_array(&doom->renderables, enemy);
 				}
 			}
@@ -107,10 +112,12 @@ void	g_ingame_on_events(t_gui *self, SDL_Event *event, t_doom *doom)
 		if (event->type == SDL_KEYDOWN && key == SDL_SCANCODE_G)
 		{
 			t_renderable grenada;
+			t_vec3 forward;
 			grenada = *doom->res_manager.ressources->values[7]->data.model;
 			create_grenada(&grenada, doom);
 			grenada.of.data.entity->position = doom->player.entity.position;
-			t_vec3 forward = vec3_rotate((t_vec3){ 0, 0, 1 }, (t_vec3){-doom->player.entity.rotation.x, doom->player.entity.rotation.y, 0});
+			forward = vec3_rotate((t_vec3){ 0, 0, 1 }, (t_vec3){-doom
+				->player.entity.rotation.x, doom->player.entity.rotation.y, 0});
 			printf("%f %f %f\n", forward.x, forward.y, forward.z);
 			forward.y *= 20;
 			forward.x *= 14;
@@ -122,7 +129,8 @@ void	g_ingame_on_events(t_gui *self, SDL_Event *event, t_doom *doom)
 		{
 			if (!doom->closer_boss)
 				return ;
-			t_vec3 pos = doom->closer_boss->position;
+			t_vec3 pos;
+			pos = doom->closer_boss->position;
 			// t_vec3 dir = ft_vec3_norm(ft_vec3_sub(doom->player.entity.position, pos));
 			// pos = ft_vec3_add(pos, ft_vec3_add(dir, (t_vec3){ doom->closer_boss->radius.x, 0, doom->closer_boss->radius.z }));
 			renderable_rocket(doom, pos, doom->player.camera.pos);
@@ -137,21 +145,27 @@ void	g_ingame_on_events(t_gui *self, SDL_Event *event, t_doom *doom)
 			return ;
 		}
 		
-		if (event->type == SDL_MOUSEBUTTONDOWN && event->button.button == SDL_BUTTON_LEFT)
+		if (event->type == SDL_MOUSEBUTTONDOWN
+			&& event->button.button == SDL_BUTTON_LEFT)
 		{
-			t_ray ray = create_shoot_ray(doom->player, (t_vec3){0, 0, 1});
-			t_collision hit = ray_hit_world(doom, doom->renderables, ray);
+			t_ray ray; 
+			t_collision hit;
+			ray = create_shoot_ray(doom->player, (t_vec3){0, 0, 1});
+			hit = ray_hit_world(doom, doom->renderables, ray);
 			
 			if (hit.collide)
 			{
 				if (doom->editor.current_object != -1)
-					doom->editor.objects->values[doom->editor.current_object].r->show_hitbox = FALSE;
+					doom->editor.objects->values[doom->editor.current_object].r
+						->show_hitbox = FALSE;
 				select_floor_ceil(&doom->editor, -1, FALSE);
 				select_room(&doom->editor, -1);
 				if (hit.renderable->of.type == RENDERABLE_MAP)
 				{
-					t_face face = hit.renderable->faces->values[hit.who.data.triangle.face];
-					t_room *room = &doom->editor.rooms->values[face.room_index];
+					t_face face;
+					t_room *room;
+					room = &doom->editor.rooms->values[face.room_index];
+					face = hit.renderable->faces->values[hit.who.data.triangle.face];
 					
 					if (face.wall_index == -1)
 					{
@@ -191,12 +205,14 @@ void	g_ingame_on_events(t_gui *self, SDL_Event *event, t_doom *doom)
 
 		if (event->type == SDL_KEYDOWN && doom->editor.selected_floor_ceil != -1 && doom->editor.current_room != -1)
 		{
-			t_room	*room = &doom->editor.rooms->values[doom->editor.current_room];
+			t_room	*room;
+			room = &doom->editor.rooms->values[doom->editor.current_room];
 			// if (!room->r)
 			// 	return ;
 			if (key == SDL_SCANCODE_KP_4 || key == SDL_SCANCODE_KP_6 || key == SDL_SCANCODE_KP_8 || key == SDL_SCANCODE_KP_5)
 			{
-				t_vec3	rot = doom->editor.selected_floor_ceil == 0 ? room->floor_rot : room->ceil_rot;
+				t_vec3	rot;
+				rot = doom->editor.selected_floor_ceil == 0 ? room->floor_rot : room->ceil_rot;
 
 				if (key == SDL_SCANCODE_KP_4 || key == SDL_SCANCODE_KP_6)
 					rot.x += 0.01 * (key == SDL_SCANCODE_KP_4 ? 1 : -1);
@@ -204,14 +220,20 @@ void	g_ingame_on_events(t_gui *self, SDL_Event *event, t_doom *doom)
 					rot.z += 0.01 * (key == SDL_SCANCODE_KP_8 ? 1 : -1);
 				rot.x = clamp(-M_PI / 4, M_PI / 4, rot.x);
 				rot.z = clamp(-M_PI / 4, M_PI / 4, rot.z);
-				t_vec2 first_point = doom->editor.points->vertices[room->walls->values[0].indice];
-				t_mat4 m_rot = ft_mat4_mul(ft_mat4_translation(ft_vec3_inv((t_vec3){ first_point.x, 0, first_point.y })), ft_mat4_rotation(rot));
-				int i = -1;
+				t_vec2 first_point;
+				first_point = doom->editor.points->vertices[room->walls->values[0].indice];
+				t_mat4 m_rot;
+				m_rot = ft_mat4_mul(ft_mat4_translation(ft_vec3_inv((t_vec3){ first_point.x, 0, first_point.y })), ft_mat4_rotation(rot));
+				int i;
+				i = -1;
 				while (++i < room->walls->len)
 				{
-					t_wall	*wall = &room->walls->values[i];
-					t_vec2 v = doom->editor.points->vertices[wall->indice];
-					t_vec3 point = ft_mat4_mulv(m_rot, editor_to_world((t_vec3){ v.x, 0, v.y }));
+					t_wall	*wall;
+					wall = &room->walls->values[i];
+					t_vec2 v;
+					v = doom->editor.points->vertices[wall->indice];
+					t_vec3 point;
+					point = ft_mat4_mulv(m_rot, editor_to_world((t_vec3){ v.x, 0, v.y }));
 					// doom->editor.map_renderable.vertices->vertices[room->room_vertices_start + point_index].y = point.y;
 					if (doom->editor.selected_floor_ceil == 0)
 						wall->floor_height = point.y;
@@ -232,8 +254,10 @@ void	g_ingame_on_events(t_gui *self, SDL_Event *event, t_doom *doom)
 				i = -1;
 				while (++i < room->walls->len)
 				{
-					t_wall	*wall = &room->walls->values[i];
-					float add = 0.1 * (key == SDL_SCANCODE_KP_PLUS ? -1 : 1);					
+					t_wall	*wall;
+					wall = &room->walls->values[i];
+					float add;
+					add = 0.1 * (key == SDL_SCANCODE_KP_PLUS ? -1 : 1);					
 					// room->r->vertices->vertices[point_index].y = point.y;
 					if (doom->editor.selected_floor_ceil == 0)
 						wall->floor_height += add;
@@ -261,7 +285,8 @@ void	g_ingame_on_events(t_gui *self, SDL_Event *event, t_doom *doom)
 					doom->editor.object_transform_mode = 2;
 			}
 
-			t_vec3 add = (t_vec3){ 0, 0, 0 };
+			t_vec3 add;
+			add = (t_vec3){ 0, 0, 0 };
 			if (key == SDL_SCANCODE_KP_PLUS || key == SDL_SCANCODE_KP_MINUS)
 				add.y = 0.1 * (key == SDL_SCANCODE_KP_PLUS ? 1 : -1);
 			if (key == SDL_SCANCODE_LEFT || key == SDL_SCANCODE_RIGHT)
@@ -270,13 +295,15 @@ void	g_ingame_on_events(t_gui *self, SDL_Event *event, t_doom *doom)
 				add.z = 0.1 * (key == SDL_SCANCODE_UP ? 1 : -1);
 			if (doom->editor.object_transform_mode == OT_MODE_TRANSLATION)
 			{
-				t_object *object = &doom->editor.objects->values[doom->editor.current_object];
+				t_object *object;
+				object = &doom->editor.objects->values[doom->editor.current_object];
 				if (add.x != 0 || add.y != 0 || add.z != 0)
 					transform_object(doom, object, add);
 			}
 			else if (doom->editor.object_transform_mode == OT_MODE_ROTATION)
 			{
-				t_object *object = &doom->editor.objects->values[doom->editor.current_object];
+				t_object *object;
+				object = &doom->editor.objects->values[doom->editor.current_object];
 				object->rotation = ft_vec3_add(object->rotation, add);
 				if (object->r)
 				{
@@ -291,7 +318,8 @@ void	g_ingame_on_events(t_gui *self, SDL_Event *event, t_doom *doom)
 			}
 			else if (doom->editor.object_transform_mode == OT_MODE_SCALE)
 			{
-				t_object *object = &doom->editor.objects->values[doom->editor.current_object];
+				t_object *object;
+				object = &doom->editor.objects->values[doom->editor.current_object];
 				object->scale = ft_vec3_add(object->scale, ft_vec3_mul_s(add, 0.1));
 				if (object->r)
 				{
@@ -363,7 +391,8 @@ void	g_ingame_render(t_gui *self, t_doom *doom)
 	doom->closer_boss = NULL;
 	for (int i = 0; i < doom->renderables->len; i++)
 	{
-		t_renderable	*r = doom->renderables->values + i;
+		t_renderable	*r;
+		r = doom->renderables->values + i;
 		if (r->of.type == RENDERABLE_ENTITY)
 		{
 			r->of.data.entity->r = r;
@@ -377,8 +406,10 @@ void	g_ingame_render(t_gui *self, t_doom *doom)
 		render_renderable(&doom->main_context, r);
 		if (r->has_hitbox && r->show_hitbox && r->hitbox.type == COLLIDE_ELLIPSOID)
 		{
-			t_renderable *sphere = &doom->sphere_primitive;
-			t_collide_ellipsoid	*ellipsoid = &r->hitbox.data.ellipsoid;
+			t_renderable *sphere;
+			t_collide_ellipsoid	*ellipsoid;
+			sphere = &doom->sphere_primitive;
+			ellipsoid = &r->hitbox.data.ellipsoid;
 			sphere->position = ellipsoid->origin;
 			sphere->scale = ellipsoid->radius;
 			sphere->wireframe = TRUE;
@@ -388,7 +419,10 @@ void	g_ingame_render(t_gui *self, t_doom *doom)
 		}
 	}
 	doom->lights->values[0].position = doom->player.camera.pos;
-	for (int i = 0; i < doom->lights->len; i++)
+	int i;
+	i = -1;
+	while (++i < doom->lights->len)
+	// for (int i = 0; i < doom->lights->len; i++)
 	{
 		t_light			*light = &doom->lights->values[i];
 		if (!light->model_visible && doom->main_context.type == CTX_EDITOR)

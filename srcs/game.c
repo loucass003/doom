@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:01:13 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/22 11:04:06 by louali           ###   ########.fr       */
+/*   Updated: 2020/01/28 14:23:32 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,7 @@ void			game_loop(t_doom *doom)
 		//fill_color(&doom->screen, 0xFF);
 		hook_events(doom);
 		render(doom);
+		//if (f1 is pressed)
 		//DO RENDERING HERE !
 	
 		render_debug(doom);
