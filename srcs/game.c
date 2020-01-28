@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:01:13 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/28 14:23:32 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/28 17:00:41 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,14 @@ void			game_loop(t_doom *doom)
 		//fill_color(&doom->screen, 0xFF);
 		hook_events(doom);
 		render(doom);
-		//if (f1 is pressed)
+		if (doom->help == TRUE)
+		{
+			t_img			*help;
+			help = doom->res_manager.ressources->values[21]->data.texture;
+			apply_image_to_image(&doom->screen, help,
+				(SDL_Rect) {0, 0, help->width, help->height},
+				(SDL_Rect) {20, 20, S_WIDTH - 40, S_HEIGHT - 40});
+		}
 		//DO RENDERING HERE !
 	
 		render_debug(doom);

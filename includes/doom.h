@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/28 14:27:22 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/28 14:48:18 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,7 @@ typedef struct		s_doom
 	t_bool				mouse_focus;
 	t_level				level;
 	t_score				scores[5];
+	t_bool				help;
 }					t_doom;
 
 float				clamp(float min, float max, float v);
