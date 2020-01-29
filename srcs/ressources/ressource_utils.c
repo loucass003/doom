@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 21:58:49 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/02 15:09:04 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/29 14:49:28 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,4 +67,15 @@ t_ressource		*get_ressource(t_ressource_manager *r, t_ressource_type type)
 		if (r->ressources->values[i]->type == type)
 			return (r->ressources->values[i]);
 	return (NULL);
+}
+
+int				get_ressource_by_name(t_ressource_manager *r, t_ressource_type type, char *name)
+{
+	int			i;
+
+	i = -1;
+	while (++i < r->ressources->len)
+		if (r->ressources->values[i]->type == type && ft_strequ(r->ressources->values[i]->display_name, name))
+			return (i);
+	return (-1);
 }

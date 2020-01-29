@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_ressources.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/24 12:20:04 by lloncham          #+#    #+#             */
-/*   Updated: 2020/01/28 14:27:56 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/29 14:24:53 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,8 @@ void				g_ressources_on_enter(t_gui *self, t_doom *doom)
 		{S_WIDTH_2 + 100, S_HEIGHT - 50, 40, 40}, NULL, ">"));
 	append_components_array(&self->components, create_button((SDL_Rect)
 		{S_WIDTH - 215, 15, 200, 40}, NULL, "ADD RESSOURCE"));
+	append_components_array(&self->components, create_button((SDL_Rect)
+		{15, 15, 220, 40}, NULL, "MAPPING (JSON)"));
 	i = -1;
 	while (++i < 4)
 		self->components->values[(PAGE_SIZE * 3) + i]->perform_action =
@@ -113,15 +115,21 @@ void				g_ressources_on_event(t_gui *self,
 	{
 		pos = get_mouse_pos(doom);
 		index = ((int)(pos.y - 53) / 30) + (doom->res_manager.page * PAGE_SIZE);
-		if (index >= 0 && index < doom->res_manager.ressources->len)
+		if (index >= 0 && index < doom->res_manager.ressources->len 
+			&& pos.x >= S_WIDTH_2 - 356 && pos.x <= S_WIDTH_2 + 228)
 		{
 			r = doom->res_manager.ressources->values[index];
 			if (r->type == RESSOURCE_UNSET)
 				return ;
 			load_ressource(doom, r, event->drop.file);
-			SDL_free(event->drop.file);
 			update_selects(&doom->guis[doom->current_gui], &doom->res_manager);
 		}
+		else if (in_bounds(self->components->values[(PAGE_SIZE * 3) + 4]->bounds, pos))
+		{
+			ressource_mapper(&doom->res_manager, event->drop.file);
+			update_selects(&doom->guis[doom->current_gui], &doom->res_manager);
+		}
+		SDL_free(event->drop.file);
 	}
 }
 
