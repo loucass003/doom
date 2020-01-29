@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/29 13:50:12 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/29 15:21:56 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/29 15:50:50 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ static char			*get_file_content(char *file, int *content_len)
 	return (NULL);
 }
 
-t_bool		read_ressource_type(t_ressource_manager *r, t_json_object *val, char *name, t_ressource_type type)
+t_bool		read_ressource_type(t_ressource_manager *r, t_json_object *val,
+	char *name, t_ressource_type type)
 {
 	t_json_object	*obj;
 	t_json_member	*e;

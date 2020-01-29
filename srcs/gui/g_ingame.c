@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_ingame.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/28 14:27:46 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/29 18:13:28 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,8 +154,8 @@ void	g_ingame_on_events(t_gui *self, SDL_Event *event, t_doom *doom)
 				{
 					t_face face;
 					t_room *room;
-					room = &doom->editor.rooms->values[face.room_index];
 					face = hit.renderable->faces->values[hit.who.data.triangle.face];
+					room = &doom->editor.rooms->values[face.room_index];
 					
 					if (face.wall_index == -1)
 					{

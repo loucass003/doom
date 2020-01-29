@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/25 05:41:51 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/23 03:19:52 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/29 17:07:49 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,10 +75,11 @@ typedef struct		s_wr_wall
 
 typedef struct		s_wr_wall_section
 {
-	int				resource_index;
-	uint8_t			normal_type;
-	t_bool			invisible;
-	t_bool			collisions;
+	t_wall_section_type	type;
+	int					resource_index;
+	uint8_t				normal_type;
+	t_bool				invisible;
+	t_bool				collisions;
 }					t_wr_wall_section;
 
 typedef struct		s_wr_img

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   save_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 01:20:07 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/23 13:55:12 by louali           ###   ########.fr       */
+/*   Updated: 2020/01/29 17:13:21 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 t_bool		write_wall_sections(t_ressource_manager *r, t_wall_section *ws)
 {
 	const t_wr_wall_section	wr_ws = (t_wr_wall_section) {
+		.type = ws->type,
 		.resource_index = ressources_indexof(r->ressources, ws->texture),
 		.normal_type = ws->normal_type,
 		.invisible = ws->invisible,

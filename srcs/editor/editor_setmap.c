@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 15:55:03 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/29 01:41:26 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/29 18:47:12 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -354,12 +354,12 @@ t_bool		editor_setmap(t_editor *editor)
 	
 	editor->settings.open = FALSE;
 	// set_gui_settings(editor, -1);
+	
+	default_renderables(editor->doom);
 	editor->map_renderable = editor->doom->renderables->len;
 	create_map(&r, editor);
 	if (!append_renderables_array(&editor->doom->renderables, r))
 		return (FALSE);
-
-	
 	i = -1;
 	while (++i < editor->objects->len)
 	{
@@ -390,10 +390,12 @@ t_bool		editor_setmap(t_editor *editor)
 			while (++k < wall.wall_sections->len)
 			{
 				t_wall_section ws = wall.wall_sections->values[k];
-				t_vec2	p1 = editor->points->vertices[wall.indice];
-				t_vec2	p2 = editor->points->vertices[wall1.indice];
-				t_vec3	v1 = (t_vec3){ p1.x, wall.floor_height, p1.y};
-				t_vec3	v2 = (t_vec3){ p2.x, wall1.floor_height, p2.y};
+				if (ws.type != WS_DOOR)
+					continue;
+				t_vec3	v1 = vec4_to_3(get_map(editor)->vertices->vertices[ws.vertices_index[0]]);
+				t_vec3	v2 = vec4_to_3(get_map(editor)->vertices->vertices[ws.vertices_index[1]]);
+				t_vec3	vt1 = vec4_to_3(get_map(editor)->vertices->vertices[ws.vertices_index[2]]);
+				t_vec3	vt2 = vec4_to_3(get_map(editor)->vertices->vertices[ws.vertices_index[3]]);
 
 				t_renderable r;
 				copy_renderable(editor->doom->res_manager.ressources->values[22]->data.model, &r);
@@ -401,9 +403,9 @@ t_bool		editor_setmap(t_editor *editor)
 				r.dirty = TRUE;
 				t_vec3 right = ft_vec3_norm(ft_vec3_sub(v2, v1));
 				float len = ft_vec3_len(ft_vec3_sub(v2, v1));
-				r.scale.x = len / 5;
-				r.scale.y = (wall.ceiling_height - wall.floor_height);
-				r.position = editor_to_world(ft_vec3_add(v1, ft_vec3_mul_s(right, len / 2)));
+				r.scale.x = len;
+				r.scale.y = (vt1.y - v1.y);
+				r.position = ft_vec3_add(v1, ft_vec3_mul_s(right, len / 2));
 				r.position.y = fmin(v1.y, v2.y);
 				t_vec3 rot = rotation_matrix_to_euler2(look_at(v2, ft_vec3_add(v2, ft_vec3_cross((t_vec3){ 0, 1, 0 }, right))));
 				r.rotation = rot;
@@ -414,7 +416,7 @@ t_bool		editor_setmap(t_editor *editor)
 		}
 	}
 
-	default_renderables(editor->doom);
+	
 	spawn_player(editor->doom);
 	return (TRUE);
 }
