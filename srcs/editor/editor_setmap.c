@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 15:55:03 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/27 16:24:47 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/29 01:41:26 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -322,6 +322,27 @@ void			default_renderables(t_doom *doom)
 	printf("SKYBOX %d\n", doom->skybox_index);
 }
 
+t_vec3	rotation_matrix_to_euler2(t_mat4 m)
+{
+	float sy = sqrtf(m.a[0][0] * m.a[0][0] + m.a[0][1] * m.a[0][1]);
+	t_bool singlular = sy < 1e-6;
+	t_vec3 out;
+
+	if (!singlular)
+	{
+		out.x = atan2(m.a[1][2], m.a[2][2]);
+		out.y = atan2(-m.a[0][2], sy);
+		out.z = atan2(m.a[0][1], m.a[0][0]);
+	}
+	else
+	{
+		out.x = atan2(-m.a[2][1], m.a[1][1]);
+		out.y = atan2(-m.a[0][2], sy);
+		out.z = 0;
+	}
+	return (out);	
+}
+
 t_bool		editor_setmap(t_editor *editor) 
 {
 	int		i;
@@ -355,6 +376,44 @@ t_bool		editor_setmap(t_editor *editor)
 		if (object->r->has_hitbox)
 			object->r->show_hitbox = FALSE;
 	}
+
+	i = -1;
+	while (++i < editor->rooms->len)
+	{
+		int j = -1;
+		t_room room = editor->rooms->values[i];
+		while (++j < room.walls->len)
+		{
+			int k = -1;
+			t_wall wall = room.walls->values[j];
+			t_wall wall1 = room.walls->values[(j + 1) % room.walls->len];
+			while (++k < wall.wall_sections->len)
+			{
+				t_wall_section ws = wall.wall_sections->values[k];
+				t_vec2	p1 = editor->points->vertices[wall.indice];
+				t_vec2	p2 = editor->points->vertices[wall1.indice];
+				t_vec3	v1 = (t_vec3){ p1.x, wall.floor_height, p1.y};
+				t_vec3	v2 = (t_vec3){ p2.x, wall1.floor_height, p2.y};
+
+				t_renderable r;
+				copy_renderable(editor->doom->res_manager.ressources->values[22]->data.model, &r);
+				r.scale = (t_vec3){ 1, 1, 30 };
+				r.dirty = TRUE;
+				t_vec3 right = ft_vec3_norm(ft_vec3_sub(v2, v1));
+				float len = ft_vec3_len(ft_vec3_sub(v2, v1));
+				r.scale.x = len / 5;
+				r.scale.y = (wall.ceiling_height - wall.floor_height);
+				r.position = editor_to_world(ft_vec3_add(v1, ft_vec3_mul_s(right, len / 2)));
+				r.position.y = fmin(v1.y, v2.y);
+				t_vec3 rot = rotation_matrix_to_euler2(look_at(v2, ft_vec3_add(v2, ft_vec3_cross((t_vec3){ 0, 1, 0 }, right))));
+				r.rotation = rot;
+				post_process_renderable(editor->doom, &r, TRUE, FALSE);
+				if (!append_renderables_array(&editor->doom->renderables, r))
+					return (FALSE);
+			}
+		}
+	}
+
 	default_renderables(editor->doom);
 	spawn_player(editor->doom);
 	return (TRUE);

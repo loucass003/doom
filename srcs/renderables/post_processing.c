@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/16 21:24:43 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/20 18:56:27 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/29 00:35:51 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ t_bool			post_process_renderable(t_doom *doom, t_renderable *r, t_bool octree, t
 	compute_collidables(r);
 	if (octree)
 	{
+		r->octree = NULL;
 		r->octree = create_octree(doom, r);
 		printf("%p %d\n", r->octree, r->faces->len);
 		// print_octree(r->octree);

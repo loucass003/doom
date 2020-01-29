@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   obj.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 15:28:48 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/22 12:45:12 by louali           ###   ########.fr       */
+/*   Updated: 2020/01/28 22:35:31 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ t_bool		free_obj(t_obj *obj, t_bool ret)
 t_bool		init_obj(t_doom *doom, t_obj *obj)
 {
 	obj->current_group = 0;
-	obj->groups_count++;
+	obj->groups_count = 1;
 	obj->can_add_materials = TRUE;
 	obj->current_mtl = -1;
 	obj->working_dir = ft_strdup(doom->obj_working_dir);

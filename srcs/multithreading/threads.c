@@ -6,13 +6,14 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 11:16:46 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/27 17:28:34 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/28 21:59:45 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "threads.h"
 #include <stdlib.h>
 #include <stdio.h>
-#include "threads.h"
+#include <pthread.h>
 #include "constants.h"
 #include "render.h"
 

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 14:37:12 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/28 17:48:04 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/28 23:05:56 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,10 @@ t_bool			init_ressources_registry(t_doom *doom)
 	error |= a(doom, "AXE ANNIMATION", RESSOURCE_TEXTURE, TRUE);
 	error |= a(doom, "ENEMY SPRITESHEET", RESSOURCE_TEXTURE, TRUE);
 	error |= a(doom, "BOSS SPRITESHEET", RESSOURCE_TEXTURE, TRUE);
-	error |= a(doom, "SKYBOX TEXTURE", RESSOURCE_TEXTURE, TRUE);
-	error |= a(doom, "YOUWIN TEXTURE", RESSOURCE_TEXTURE, TRUE);
 	error |= a(doom, "GRENADE MODEL", RESSOURCE_MODEL, TRUE);
 	error |= a(doom, "ROCKET MODEL", RESSOURCE_MODEL, TRUE);
+	error |= a(doom, "SKYBOX TEXTURE", RESSOURCE_TEXTURE, TRUE);
+	error |= a(doom, "YOUWIN TEXTURE", RESSOURCE_TEXTURE, TRUE);
 	error |= a(doom, "SOUND WILHELM", RESSOURCE_SOUND, TRUE);
 	error |= a(doom, "SOUND GUN", RESSOURCE_SOUND, TRUE);
 	error |= a(doom, "SOUND FOOTSTEP", RESSOURCE_SOUND, TRUE);
