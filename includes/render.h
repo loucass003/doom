@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:16:19 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/27 15:33:57 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/30 15:39:15 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,6 +166,7 @@ t_bool				compute_change_of_basis(t_vec3 n, t_mat4 *p_inv, t_mat4 *reverse);
 t_bool				ear_clip2(int *filters, int filters_count, t_4dvertices *vertices, t_faces **faces, int normal_type, int face_material, int room_index);
 void				uv_mapping(t_4dvertices *vertices, t_2dvertices *vertex, int *filter, int filter_len);
 t_bool				create_player(t_renderable *r, struct s_doom *doom);
+
 
 
 #endif

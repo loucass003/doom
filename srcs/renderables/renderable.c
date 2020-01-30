@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/05 00:02:57 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/29 01:17:22 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/30 15:07:50 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +82,12 @@ t_bool		copy_renderable(t_renderable *src, t_renderable *dest)
 	if (!(dest->vertices = create_4dvertices_array(src->vertices->capacity)))
 		return (FALSE);
 	ft_memcpy(dest->vertices, src->vertices, sizeof(t_4dvertices) + sizeof(t_vec4) * src->vertices->capacity);
-	if (!(dest->vertex = create_2dvertices_array(src->vertex->capacity)))
-		return (FALSE);
-	ft_memcpy(dest->vertex, src->vertex, sizeof(t_2dvertices) + sizeof(t_vec2) * src->vertex->capacity);
+	if (src->vertex)
+	{
+		if (!(dest->vertex = create_2dvertices_array(src->vertex->capacity)))
+			return (FALSE);
+		ft_memcpy(dest->vertex, src->vertex, sizeof(t_2dvertices) + sizeof(t_vec2) * src->vertex->capacity);
+	}
 	if (!(dest->normals = create_3dvertices_array(src->normals->capacity)))
 		return (FALSE);
 	ft_memcpy(dest->normals, src->normals, sizeof(t_3dvertices) + sizeof(t_vec3) * src->normals->capacity);

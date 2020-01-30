@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 15:55:03 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/29 18:47:12 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/30 16:08:10 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -322,25 +322,40 @@ void			default_renderables(t_doom *doom)
 	printf("SKYBOX %d\n", doom->skybox_index);
 }
 
-t_vec3	rotation_matrix_to_euler2(t_mat4 m)
-{
-	float sy = sqrtf(m.a[0][0] * m.a[0][0] + m.a[0][1] * m.a[0][1]);
-	t_bool singlular = sy < 1e-6;
-	t_vec3 out;
 
-	if (!singlular)
+
+t_bool		add_map(t_renderable *rmap, t_editor *editor)
+{
+	int				i;
+
+	//TODO: free removed renderables from map_renderable to renderables->led
+	editor->doom->renderables->len = editor->map_renderable;
+	create_map(rmap, editor);
+	if (!append_renderables_array(&editor->doom->renderables, *rmap))
+		return (FALSE);
+	i = -1;
+	while (++i < editor->rooms->len)
 	{
-		out.x = atan2(m.a[1][2], m.a[2][2]);
-		out.y = atan2(-m.a[0][2], sy);
-		out.z = atan2(m.a[0][1], m.a[0][0]);
+		int j = -1;
+		t_room *room = &editor->rooms->values[i];
+		while (++j < room->walls->len)
+		{
+			int k = -1;
+			t_wall *wall = &room->walls->values[j];
+			while (++k < wall->wall_sections->len)
+			{
+				t_wall_section *ws = &wall->wall_sections->values[k];
+				if (ws->type != WS_DOOR)
+					continue;
+				t_renderable r;
+				create_door(editor->doom, (int [3]){ i, j, k }, &r);
+				post_process_renderable(editor->doom, &r, TRUE, FALSE);
+				if (!append_renderables_array(&editor->doom->renderables, r))
+					return (FALSE);
+			}
+		}
 	}
-	else
-	{
-		out.x = atan2(-m.a[2][1], m.a[1][1]);
-		out.y = atan2(-m.a[0][2], sy);
-		out.z = 0;
-	}
-	return (out);	
+	return (TRUE);
 }
 
 t_bool		editor_setmap(t_editor *editor) 
@@ -356,10 +371,7 @@ t_bool		editor_setmap(t_editor *editor)
 	// set_gui_settings(editor, -1);
 	
 	default_renderables(editor->doom);
-	editor->map_renderable = editor->doom->renderables->len;
-	create_map(&r, editor);
-	if (!append_renderables_array(&editor->doom->renderables, r))
-		return (FALSE);
+	
 	i = -1;
 	while (++i < editor->objects->len)
 	{
@@ -376,47 +388,9 @@ t_bool		editor_setmap(t_editor *editor)
 		if (object->r->has_hitbox)
 			object->r->show_hitbox = FALSE;
 	}
-
-	i = -1;
-	while (++i < editor->rooms->len)
-	{
-		int j = -1;
-		t_room room = editor->rooms->values[i];
-		while (++j < room.walls->len)
-		{
-			int k = -1;
-			t_wall wall = room.walls->values[j];
-			t_wall wall1 = room.walls->values[(j + 1) % room.walls->len];
-			while (++k < wall.wall_sections->len)
-			{
-				t_wall_section ws = wall.wall_sections->values[k];
-				if (ws.type != WS_DOOR)
-					continue;
-				t_vec3	v1 = vec4_to_3(get_map(editor)->vertices->vertices[ws.vertices_index[0]]);
-				t_vec3	v2 = vec4_to_3(get_map(editor)->vertices->vertices[ws.vertices_index[1]]);
-				t_vec3	vt1 = vec4_to_3(get_map(editor)->vertices->vertices[ws.vertices_index[2]]);
-				t_vec3	vt2 = vec4_to_3(get_map(editor)->vertices->vertices[ws.vertices_index[3]]);
-
-				t_renderable r;
-				copy_renderable(editor->doom->res_manager.ressources->values[22]->data.model, &r);
-				r.scale = (t_vec3){ 1, 1, 30 };
-				r.dirty = TRUE;
-				t_vec3 right = ft_vec3_norm(ft_vec3_sub(v2, v1));
-				float len = ft_vec3_len(ft_vec3_sub(v2, v1));
-				r.scale.x = len;
-				r.scale.y = (vt1.y - v1.y);
-				r.position = ft_vec3_add(v1, ft_vec3_mul_s(right, len / 2));
-				r.position.y = fmin(v1.y, v2.y);
-				t_vec3 rot = rotation_matrix_to_euler2(look_at(v2, ft_vec3_add(v2, ft_vec3_cross((t_vec3){ 0, 1, 0 }, right))));
-				r.rotation = rot;
-				post_process_renderable(editor->doom, &r, TRUE, FALSE);
-				if (!append_renderables_array(&editor->doom->renderables, r))
-					return (FALSE);
-			}
-		}
-	}
-
 	
+	editor->map_renderable = editor->doom->renderables->len;
+	add_map(&r, editor);
 	spawn_player(editor->doom);
 	return (TRUE);
 }

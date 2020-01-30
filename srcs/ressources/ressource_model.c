@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/25 10:50:33 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/09 17:11:12 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/30 15:04:27 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,7 @@ t_bool		read_model(t_ressource_manager *r, t_renderable **m)
 	model->fixed = TRUE;
 	model->scale = (t_vec3){ 1, 1, 1 };
 	model->visible = TRUE;
+	model->object_index = -1;
 	post_process_renderable(r->doom, model, TRUE, FALSE);
 	*m = model;
 	return (TRUE);
