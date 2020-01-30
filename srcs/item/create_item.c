@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_item.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/22 14:43:20 by lloncham          #+#    #+#             */
-/*   Updated: 2020/01/24 12:05:04 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/30 16:38:13 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,16 @@ t_item	*create_item_weapon(t_ressource *image, SDL_Rect bounds, t_weapon_type ty
 {
 	t_item	*weapon;
 
-	if (!(weapon = create_item(ITEM_WEAPON, image, bounds, 1)))
-		return (NULL); //TODO: FREE
+	if (type == WEAPON_GRENADA)
+	{
+		if (!(weapon = create_item(ITEM_WEAPON, image, bounds, 75)))
+			return (NULL);
+	}
+	else
+	{
+		if (!(weapon = create_item(ITEM_WEAPON, image, bounds, 1)))
+			return (NULL); //TODO: FREE
+	}
 	weapon->data.weapon.type = type;
 	weapon->data.weapon.damage = 0.6;
 	return (weapon);

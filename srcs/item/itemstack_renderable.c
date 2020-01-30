@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   itemstack_renderable.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/22 14:51:01 by lloncham          #+#    #+#             */
-/*   Updated: 2020/01/22 15:34:06 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/30 16:33:53 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ t_item			*create_item_weapon_from_type(t_doom *doom, t_weapon_type type)
 		doom->res_manager.ressources->values[3]));
 	else if (type == WEAPON_AXE)
 		return (create_item_weapon_axe(doom->res_manager.ressources->values[2], doom->res_manager.ressources->values[4]));
+	else if (type == WEAPON_GRENADA)
+		return (create_item_weapon_grenada(doom->res_manager.ressources->values[2]));
 	return (NULL);
 }
 

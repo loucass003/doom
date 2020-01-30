@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_item_weapon.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/22 14:43:37 by lloncham          #+#    #+#             */
-/*   Updated: 2020/01/22 15:34:08 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/30 16:44:03 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,4 +113,50 @@ t_item	*create_item_weapon_axe(t_ressource *image, t_ressource *animation)
 	axe->on_use = on_use_axe;
 	set_current_animation_step(&axe->data.weapon, 3);
 	return (axe);
+}
+
+void	on_use_grenada(t_doom *doom, t_itemstack *is)
+{
+	t_weapon	*weapon;
+	t_collision	hit;
+
+	weapon = &is->of->data.weapon;
+	if (is->amount > 0)
+	{
+		t_renderable grenada;
+		t_vec3 forward;
+		grenada = *doom->res_manager.ressources->values[7]->data.model;
+		create_grenada(&grenada, doom);
+		grenada.of.data.entity->position = doom->player.entity.position;
+		forward = vec3_rotate((t_vec3){ 0, 0, 1 }, (t_vec3){-doom
+			->player.entity.rotation.x, doom->player.entity.rotation.y, 0});
+		printf("%f %f %f\n", forward.x, forward.y, forward.z);
+		forward.y *= 20;
+		forward.x *= 14;
+		forward.z *= 14;
+		grenada.of.data.entity->velocity = forward;
+		append_renderables_array(&doom->renderables, grenada);
+		player_sound(&doom->audio, CHAR_SHOOTING, 1, 1.5);//TROUVER UN SON POUR LANCER DE GRENADE
+		is->amount--;
+	}
+	if (is->amount <= 0)
+		is->of = NULL;
+	hit = ray_hit_world(doom, doom->renderables, create_shoot_ray(doom->player, (t_vec3){0, 0, 1}));
+	if (hit.collide && hit.renderable->of.type == RENDERABLE_ENTITY
+        && (hit.renderable->of.data.entity->type == ENTITY_ENEMY
+        || hit.renderable->of.data.entity->type == ENTITY_BOSS))
+	{
+		give_damage(&doom->player.entity, hit.renderable->of.data.entity, doom, weapon->damage);
+		hit.renderable->of.data.entity->of.enemy.focus = TRUE;
+	}
+}
+
+t_item	*create_item_weapon_grenada(t_ressource *image)
+{
+	t_item					*grenada;
+
+	if (!(grenada = create_item_weapon(image, (SDL_Rect){257, 1, 60, 136}, WEAPON_GRENADA)))
+		return (NULL);
+	grenada->on_use = on_use_grenada;
+	return (grenada);
 }

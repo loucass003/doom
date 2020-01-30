@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   entity.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 22:00:26 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/22 13:28:05 by louali           ###   ########.fr       */
+/*   Updated: 2020/01/30 16:24:18 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,8 @@ t_bool		check_collision(t_entity *entity, t_collide_aabb area)
 				|| (r.of.data.entity->dead))))
 			continue;
 		if (entity->type == ENTITY_ROCKET && r.of.type == RENDERABLE_ENTITY && r.of.data.entity->type == ENTITY_BOSS)
+			continue;
+		if (entity->type == ENTITY_GRENADA && r.of.type == RENDERABLE_ENTITY && r.of.data.entity->type == ENTITY_PLAYER)
 			continue;
 		new_area = area;
 		t_physics_data data = entity->packet;

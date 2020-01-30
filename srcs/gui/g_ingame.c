@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_ingame.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/29 18:13:28 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/30 16:42:35 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,22 +110,22 @@ void	g_ingame_on_events(t_gui *self, SDL_Event *event, t_doom *doom)
 			}
 		}
 
-		if (event->type == SDL_KEYDOWN && key == SDL_SCANCODE_G)
-		{
-			t_renderable grenada;
-			t_vec3 forward;
-			grenada = *doom->res_manager.ressources->values[7]->data.model;
-			create_grenada(&grenada, doom);
-			grenada.of.data.entity->position = doom->player.entity.position;
-			forward = vec3_rotate((t_vec3){ 0, 0, 1 }, (t_vec3){-doom
-				->player.entity.rotation.x, doom->player.entity.rotation.y, 0});
-			printf("%f %f %f\n", forward.x, forward.y, forward.z);
-			forward.y *= 20;
-			forward.x *= 14;
-			forward.z *= 14;
-			grenada.of.data.entity->velocity = forward;
-			append_renderables_array(&doom->renderables, grenada);
-		}
+		// if (event->type == SDL_KEYDOWN && key == SDL_SCANCODE_G)
+		// {
+		// 	t_renderable grenada;
+		// 	t_vec3 forward;
+		// 	grenada = *doom->res_manager.ressources->values[7]->data.model;
+		// 	create_grenada(&grenada, doom);
+		// 	grenada.of.data.entity->position = doom->player.entity.position;
+		// 	forward = vec3_rotate((t_vec3){ 0, 0, 1 }, (t_vec3){-doom
+		// 		->player.entity.rotation.x, doom->player.entity.rotation.y, 0});
+		// 	printf("%f %f %f\n", forward.x, forward.y, forward.z);
+		// 	forward.y *= 20;
+		// 	forward.x *= 14;
+		// 	forward.z *= 14;
+		// 	grenada.of.data.entity->velocity = forward;
+		// 	append_renderables_array(&doom->renderables, grenada);
+		// }
 	}
 	else if (doom->main_context.type == CTX_EDITOR)
 	{
