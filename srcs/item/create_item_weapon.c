@@ -6,7 +6,7 @@
 /*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/22 14:43:37 by lloncham          #+#    #+#             */
-/*   Updated: 2020/01/30 16:44:03 by Lisa             ###   ########.fr       */
+/*   Updated: 2020/01/30 17:04:49 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,6 @@ void	on_use_grenada(t_doom *doom, t_itemstack *is)
 		grenada.of.data.entity->position = doom->player.entity.position;
 		forward = vec3_rotate((t_vec3){ 0, 0, 1 }, (t_vec3){-doom
 			->player.entity.rotation.x, doom->player.entity.rotation.y, 0});
-		printf("%f %f %f\n", forward.x, forward.y, forward.z);
 		forward.y *= 20;
 		forward.x *= 14;
 		forward.z *= 14;
@@ -155,7 +154,7 @@ t_item	*create_item_weapon_grenada(t_ressource *image)
 {
 	t_item					*grenada;
 
-	if (!(grenada = create_item_weapon(image, (SDL_Rect){257, 1, 60, 136}, WEAPON_GRENADA)))
+	if (!(grenada = create_item_weapon(image, (SDL_Rect){317, 1, 250, 255}, WEAPON_GRENADA)))
 		return (NULL);
 	grenada->on_use = on_use_grenada;
 	return (grenada);
