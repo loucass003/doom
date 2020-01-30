@@ -6,7 +6,11 @@
 /*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2020/01/30 16:42:35 by Lisa             ###   ########.fr       */
+=======
+/*   Updated: 2020/01/30 15:45:58 by llelievr         ###   ########.fr       */
+>>>>>>> a2ad7b78115675757b80d8cfcf68a62bbc9c067b
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +23,7 @@
 #include "render.h"
 #include "editor.h"
 #include "threads.h"
+#include "door.h"
 
 void	g_ingame_on_enter(t_gui *self, t_doom *doom)
 {
@@ -177,10 +182,18 @@ void	g_ingame_on_events(t_gui *self, SDL_Event *event, t_doom *doom)
 						select_floor_ceil(&doom->editor, face.room_index, hit.who.data.triangle.face < room->ceilling_start);
 					}
 				}
+				if (hit.renderable->of.type == RENDERABLE_DOOR)
+				{
+					t_door *door = hit.renderable->of.data.door;
+					t_room *room = &doom->editor.rooms->values[door->indexes[0]];
+					doom->editor.current_seg.x = room->walls->values[door->indexes[1]].indice;
+					doom->editor.current_seg.y = room->walls->values[(door->indexes[1] + 1) % room->walls->len].indice;
+					doom->editor.wall_section = door->indexes[2];
+					select_room(&doom->editor, door->indexes[0]);
+				}
 				else if (renderables_indexof(doom->renderables, hit.renderable) == doom->skybox_index)
 				{
 					editor_settings_update(&doom->editor);
-					printf("CALL\n");
 				}
 				else if (hit.renderable->object_index != -1)
 				{
@@ -234,7 +247,7 @@ void	g_ingame_on_events(t_gui *self, SDL_Event *event, t_doom *doom)
 					room->floor_rot = rot;
 				else
 					room->ceil_rot = rot;
-				create_map(&doom->renderables->values[doom->editor.map_renderable], &doom->editor);
+				add_map(&doom->renderables->values[doom->editor.map_renderable], &doom->editor);
 				select_floor_ceil(&doom->editor, doom->editor.current_room, doom->editor.selected_floor_ceil == 0);
 			}
 			else if (key == SDL_SCANCODE_KP_PLUS || key == SDL_SCANCODE_KP_MINUS)
@@ -254,7 +267,7 @@ void	g_ingame_on_events(t_gui *self, SDL_Event *event, t_doom *doom)
 					else
 						wall->ceiling_height += add;
 				}
-				create_map(&doom->renderables->values[doom->editor.map_renderable], &doom->editor);
+				add_map(&doom->renderables->values[doom->editor.map_renderable], &doom->editor);
 				select_floor_ceil(&doom->editor, doom->editor.current_room, doom->editor.selected_floor_ceil == 0);
 			}
 		}

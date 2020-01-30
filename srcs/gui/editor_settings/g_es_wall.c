@@ -6,12 +6,42 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 20:40:10 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/29 17:30:22 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/30 17:01:04 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "editor.h"
 #include "doom.h"
+
+void					hide_adjacent_walls(t_editor *editor, t_wall *wall, t_wall_section *ws)
+{
+	int		i;
+	int		j;
+	int		k;
+	t_room			*r;
+	t_wall			*w;
+	t_wall			*w1;
+	t_wall_section	*s;
+
+	i = -1;
+	while (++i < editor->rooms->len)
+	{
+		j = -1;
+		r = &editor->rooms->values[i];
+		while (++j < r->walls->len)
+		{
+			k = -1;
+			while (++k < w->wall_sections->len)
+			{
+				s = &w->wall_sections->values[k];
+				if (ft_memcmp(s->vertices_index, ws->vertices_index, sizeof(int) * 4) == 0)
+				{
+					s->invisible = TRUE;
+				}
+			}
+		}
+	}
+}
 
 static t_bool			action_performed(t_component *cmp, t_doom *doom)
 {
@@ -31,8 +61,8 @@ static t_bool			action_performed(t_component *cmp, t_doom *doom)
 		if (editor->wall_section >= wall->wall_sections->len)
 			editor->wall_section = 0;
 	}
-	if (cmp == editor->settings.guis[ES_GUI_WALL].components->values[2])
-		ws->type = ((t_select *)cmp)->items->values[((t_select *)cmp)->selected_item].value;
+	if (cmp == editor->settings.guis[ES_GUI_WALL].components->values[7])
+		ws->normal_type = ((t_select *)cmp)->items->values[((t_select *)cmp)->selected_item].value;
 	if (cmp == editor->settings.guis[ES_GUI_WALL].components->values[3])
 		ws->texture = get_prev_ressource(&doom->res_manager, ws->texture, RESSOURCE_TEXTURE);
 	if (cmp == editor->settings.guis[ES_GUI_WALL].components->values[4])
@@ -41,9 +71,16 @@ static t_bool			action_performed(t_component *cmp, t_doom *doom)
 		ws->collisions = ((t_checkbox *)cmp)->value;
 	if (cmp == editor->settings.guis[ES_GUI_WALL].components->values[6])
 		ws->invisible = ((t_checkbox *)cmp)->value;
-	if (cmp == editor->settings.guis[ES_GUI_WALL].components->values[7])
-		ws->normal_type = ((t_select *)cmp)->items->values[((t_select *)cmp)->selected_item].value;
-	update_wall(editor, editor->current_room, wall_indexof_by_indice(editor->rooms->values[editor->current_room].walls, editor->current_seg.x), doom->editor.wall_section);
+	if (cmp == editor->settings.guis[ES_GUI_WALL].components->values[2])
+	{
+		ws->type = ((t_select *)cmp)->items->values[((t_select *)cmp)->selected_item].value;
+		if (ws->type)
+			hide_adjacent_walls(&doom->editor, wall, ws);
+		add_map(get_map(&doom->editor), &doom->editor);
+	}
+	else
+		update_wall(editor, editor->current_room, wall_indexof_by_indice(editor->rooms->values[editor->current_room].walls, editor->current_seg.x), doom->editor.wall_section);
+	
 	editor_settings_update(&doom->editor);
 	return (TRUE);
 }
