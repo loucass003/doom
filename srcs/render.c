@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 16:49:48 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/28 23:19:03 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/31 17:05:57 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,6 +181,8 @@ void	update_renderable(t_render_context *ctx, t_renderable *r)
 {
 	if (r->of.type == RENDERABLE_ENTITY)
 		update_renderable_entity(ctx, r);
+	else if (r->of.type == RENDERABLE_DOOR)
+		update_renderable_door(ctx, r);
 }
 
 void	render_renderable(t_render_context *ctx, t_renderable *r)

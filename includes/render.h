@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:16:19 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/30 15:39:15 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/31 18:45:11 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 # include "renderable_of.h"
 # include "collision.h"
 
+# define GROUPS_MAX 255
+# define GROUPS_NAME_LEN 255
 
 typedef struct		s_face
 {
@@ -112,6 +114,8 @@ typedef struct		s_renderable
 	t_bool					wireframe;
 	int						wireframe_color;
 	int						object_index;
+	size_t					groups_count;
+	char					groups[GROUPS_MAX][GROUPS_NAME_LEN];
 }					t_renderable;
 
 typedef struct		s_renderables

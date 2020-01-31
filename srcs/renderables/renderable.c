@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/05 00:02:57 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/30 15:07:50 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/31 19:37:44 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,12 @@ t_bool		free_renderable(t_renderable **r, t_bool res)
 void		transform_renderable(t_renderable *r)
 {
 	int		i;
+
+	if (r->of.type == RENDERABLE_DOOR)
+	{
+		transform_renderable_door(r);
+		return ;
+	}
 
 	const	t_mat4 rot = ft_mat4_rotation(r->rotation);
 	r->matrix = ft_mat4_mul(

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/25 05:41:51 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/29 17:07:49 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/31 18:58:12 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <libft.h>
 # include "ressource.h"
 # include "editor.h"
+# include "render.h"
 
 typedef struct		s_wr_songs
 {
@@ -97,6 +98,8 @@ typedef struct		s_wr_model
 	int				normals_count;
 	int				materials_count;
 	int				faces_count;
+	int				groups_count;
+	char			groups[GROUPS_MAX][GROUPS_NAME_LEN];
 }					t_wr_model;
 
 typedef struct		s_wr_mtl

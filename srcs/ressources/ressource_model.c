@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/25 10:50:33 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/30 15:04:27 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/31 19:14:50 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,12 @@ t_bool		write_model(t_ressource_manager *r, t_renderable *model)
 		.vertex_count = model->vertex ? model->vertex->len : 0,
 		.normals_count = model->normals->len,
 		.materials_count = model->materials->len,
-		.faces_count = model->faces->len
+		.faces_count = model->faces->len,
+		.groups_count = model->groups_count
 	};
 	int			i;
 
+	ft_memcpy(wr_model.groups, model->groups, GROUPS_NAME_LEN * GROUPS_MAX);
 	dp_write(r, &wr_model, sizeof(t_wr_model));
 	dp_write(r, model->faces->values, sizeof(t_face) * model->faces->len);
 	dp_write(r, model->vertices->vertices, sizeof(t_vec4) * model->vertices->len);
@@ -129,6 +131,8 @@ t_bool		read_model(t_ressource_manager *r, t_renderable **m)
 	model->scale = (t_vec3){ 1, 1, 1 };
 	model->visible = TRUE;
 	model->object_index = -1;
+	model->groups_count = wr_model.groups_count;
+	ft_memcpy(model->groups, wr_model.groups, GROUPS_NAME_LEN * GROUPS_MAX);
 	post_process_renderable(r->doom, model, TRUE, FALSE);
 	*m = model;
 	return (TRUE);

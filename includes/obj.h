@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   obj.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 15:26:39 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/22 13:36:09 by louali           ###   ########.fr       */
+/*   Updated: 2020/01/31 18:48:56 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,13 @@
 
 # define PREFIXES_COUNT 7
 # define MTL_PREFIXES_COUNT 3
-# define GROUPS_MAX 255
-# define GROUPS_NAME_LEN 255
+
 
 typedef struct	s_obj
 {
 	t_bool			can_add_materials;
 	int				current_mtl;
 	int				current_group;
-	size_t			groups_count;
-	char			groups[GROUPS_MAX][GROUPS_NAME_LEN];
 	char			*working_dir;
 }				t_obj;
 
@@ -56,7 +53,7 @@ t_bool			face_formatter(t_obj *obj, t_reader *reader, t_renderable *r);
 t_bool			vertice_formatter(t_obj *obj, t_reader *reader, t_renderable *r);
 t_bool			normal_formatter(t_obj *obj, t_reader *reader, t_renderable *r);
 t_bool			vertex_formatter(t_obj *obj, t_reader *reader, t_renderable *r);
-t_bool			group_formatter(t_obj *obj, t_reader *reader);
+t_bool			group_formatter(t_obj *obj, t_reader *reader, t_renderable *r);
 t_bool			mtllib_formatter(t_obj *obj, t_reader *reader, t_renderable *r);
 t_bool			usemtl_formatter(t_obj *obj, t_reader *reader, t_renderable *r);
 t_bool			mtl_newmtl_formatter(t_obj *obj, t_reader *reader, t_renderable *r);

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 20:40:10 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/31 16:57:01 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/31 20:12:39 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,10 @@ void					hide_adjacent_walls(t_editor *editor, int room, int wall, t_wall_sectio
 					t_vec2 range2 = (t_vec2){ get_map(editor)->vertices->vertices[s->vertices_index[1]].y, get_map(editor)->vertices->vertices[s->vertices_index[3]].y };
 					if (range1.x == range3.x && range1.y == range3.y 
 						&& range2.x == range4.x && range2.y == range4.y)
+					{
 						s->invisible = TRUE;
+						s->collisions = FALSE;
+					}
 				}
 			}
 		}
