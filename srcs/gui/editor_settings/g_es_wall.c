@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   g_es_wall.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 20:40:10 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/31 16:09:54 by louali           ###   ########.fr       */
+/*   Updated: 2020/01/31 16:57:01 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "editor.h"
 #include "doom.h"
 
-void					hide_adjacent_walls(t_editor *editor, t_wall *wall, t_wall_section *ws)
+void					hide_adjacent_walls(t_editor *editor, int room, int wall, t_wall_section *ws)
 {
 	int		i;
 	int		j;
@@ -23,6 +23,8 @@ void					hide_adjacent_walls(t_editor *editor, t_wall *wall, t_wall_section *ws)
 	t_wall			*w1;
 	t_wall_section	*s;
 
+	t_vec2 range3 = (t_vec2){ get_map(editor)->vertices->vertices[ws->vertices_index[0]].y, get_map(editor)->vertices->vertices[ws->vertices_index[2]].y };
+	t_vec2 range4 = (t_vec2){ get_map(editor)->vertices->vertices[ws->vertices_index[1]].y, get_map(editor)->vertices->vertices[ws->vertices_index[3]].y };
 	i = -1;
 	while (++i < editor->rooms->len)
 	{
@@ -30,14 +32,24 @@ void					hide_adjacent_walls(t_editor *editor, t_wall *wall, t_wall_section *ws)
 		r = &editor->rooms->values[i];
 		while (++j < r->walls->len)
 		{
-			k = -1;
 			w = &r->walls->values[j];
-			while (++k < w->wall_sections->len)
+			w1 = &r->walls->values[(j + 1) % r->walls->len];
+
+			t_room t_r = editor->rooms->values[room];
+			t_wall t_w = t_r.walls->values[wall];
+			t_wall t_w1 = t_r.walls->values[(wall + 1) % t_r.walls->len];
+			
+			if ((w->indice == t_w.indice && w1->indice == t_w1.indice) || (w->indice == t_w1.indice && w1->indice == t_w.indice))
 			{
-				s = &w->wall_sections->values[k];
-				if (ft_memcmp(s->vertices_index, ws->vertices_index, sizeof(int) * 4) == 0)
+				k = -1;			
+				while (++k < w->wall_sections->len)
 				{
-					s->invisible = TRUE;
+					s = &w->wall_sections->values[k];
+					t_vec2 range1 = (t_vec2){ get_map(editor)->vertices->vertices[s->vertices_index[0]].y, get_map(editor)->vertices->vertices[s->vertices_index[2]].y };
+					t_vec2 range2 = (t_vec2){ get_map(editor)->vertices->vertices[s->vertices_index[1]].y, get_map(editor)->vertices->vertices[s->vertices_index[3]].y };
+					if (range1.x == range3.x && range1.y == range3.y 
+						&& range2.x == range4.x && range2.y == range4.y)
+						s->invisible = TRUE;
 				}
 			}
 		}
@@ -48,7 +60,11 @@ static t_bool			action_performed(t_component *cmp, t_doom *doom)
 {
 	t_editor *editor = &doom->editor;
 
-	t_wall *wall = get_current_wall(editor);
+	t_room	*room = &editor->rooms->values[editor->current_room];
+	int wall_index = wall_indexof_by_indice(room->walls, editor->current_seg.x);
+	if (wall_index == -1)
+		return (NULL);
+	t_wall *wall = &room->walls->values[wall_index];
 	t_wall_section *ws = &wall->wall_sections->values[editor->wall_section];
 	if (cmp == editor->settings.guis[ES_GUI_WALL].components->values[0])
 	{
@@ -76,7 +92,7 @@ static t_bool			action_performed(t_component *cmp, t_doom *doom)
 	{
 		ws->type = ((t_select *)cmp)->items->values[((t_select *)cmp)->selected_item].value;
 		if (ws->type)
-			hide_adjacent_walls(&doom->editor, wall, ws);
+			hide_adjacent_walls(&doom->editor, editor->current_room, wall_index, ws);
 		add_map(get_map(&doom->editor), &doom->editor);
 	}
 	else

@@ -15,7 +15,8 @@
 	"MODELS": {
 		"GRENADE MODEL": "assets/obj/grenada.obj",
 		"ROCKET MODEL": "assets/obj/rocket.obj",
-		"DOOR MODEL": "assets/obj/door/door2.obj"
+		"DOOR MODEL": "assets/obj/door/door2.obj",
+		"TRANSPORTEUR": "assets/obj/teleporter/teleporter3.obj"
 	},
 	"SOUNDS": {
 		"SOUND WILHELM": "song/wilhelm.wav",
