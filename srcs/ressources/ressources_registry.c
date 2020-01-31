@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ressources_registry.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 14:37:12 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/28 23:05:56 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/31 14:15:58 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ t_bool			init_ressources_registry(t_doom *doom)
 	error |= a(doom, "LEADERBOARD", RESSOURCE_TEXTURE, TRUE);
 	error |= a(doom, "HELP", RESSOURCE_TEXTURE, TRUE);
 	error |= a(doom, "DOOR MODEL", RESSOURCE_MODEL, TRUE);
+	error |= a(doom, "TRANSPORTEUR", RESSOURCE_MODEL, TRUE);
 	return (error);
 }
 

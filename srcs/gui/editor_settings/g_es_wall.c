@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_es_wall.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 20:40:10 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/30 17:01:04 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/31 16:09:54 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void					hide_adjacent_walls(t_editor *editor, t_wall *wall, t_wall_section *ws)
 		while (++j < r->walls->len)
 		{
 			k = -1;
+			w = &r->walls->values[j];
 			while (++k < w->wall_sections->len)
 			{
 				s = &w->wall_sections->values[k];
