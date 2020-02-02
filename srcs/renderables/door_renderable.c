@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:22:26 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/02 18:50:50 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/02 21:35:45 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,9 +142,7 @@ void			update_renderable_door(t_render_context *ctx, t_renderable *r)
 			t_face	*face = &r->faces->values[i];
 
 			if (face->group == door->door_1 || face->group == door->door_2)
-			{
 				face->has_collision = door->open_value == 0;
-			}
 		}
 		r->dirty = TRUE;
 	}
@@ -173,12 +171,11 @@ void		transform_renderable_door(t_renderable *r)
 		t_mat4 a;
 		
 		if (ints_indexof(r->of.data.door->door_1_indexes, i + 1) != -1)
-			a = m; 
+			a = m;
 		else if (ints_indexof(r->of.data.door->door_2_indexes, i + 1) != -1)
 			a = m2;
 		else
 			a = r->matrix;
-		//printf("LOL\n");
 		r->pp_vertices[i] = mat4_mulv4(a, r->vertices->vertices[i]);
 	}
 	i = -1;
