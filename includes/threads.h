@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/24 01:36:30 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/28 23:14:55 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/02 17:21:28 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@
 # define _POSIX_C_SOURCE 199309L
 
 # define RENDER_DATAS_CAPACITY (4096)
-# define THREADS_ROW (3)
 # define THREADS_COUNT (8)
 
 typedef struct	s_bsem 

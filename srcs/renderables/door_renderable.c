@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   renderable_door.c                                  :+:      :+:    :+:   */
+/*   door_renderable.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:22:26 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/31 20:25:39 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/02 18:50:50 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,18 +80,36 @@ t_bool		create_door(t_doom *doom, int indexes[3], t_renderable *r)
 	t_vec3 right = ft_vec3_norm(ft_vec3_sub(v2, v1));
 	float len = ft_vec3_len(ft_vec3_sub(v2, v1));
 	r->scale.x = len;
-	float start_y = fmax(v1.y, v2.y);
+	float start_y = fmax(v1.y, v2.y) - 0.5;
 	float end_y = fmin(vt1.y, vt2.y);
 
 	r->scale.y = end_y - start_y;
 	r->position = ft_vec3_add(v1, ft_vec3_mul_s(right, len / 2));
-	r->position.y = start_y;
+	r->position.y = start_y ;
 	t_vec3 rot = rotation_matrix_to_euler(look_at(v2, ft_vec3_add(v2, ft_vec3_cross((t_vec3){ 0, 1, 0 }, right))));
 	r->rotation = rot;
 	
 	return (TRUE);
 }
 
+static t_bool			is_something_close(t_render_context *ctx, t_renderable *r)
+{
+	int				i;
+	t_doom			*doom;
+	t_renderable	renderable;
+
+	i = -1;
+	doom = ctx->doom;
+	while (++i < doom->renderables->len)
+	{
+		renderable = doom->renderables->values[i];
+		if (renderable.of.type != RENDERABLE_ENTITY || renderable.of.data.entity->dead)
+			continue;
+		if (ft_vec3_len(ft_vec3_sub(r->position, renderable.of.data.entity->position)) < 12)
+			return (TRUE);
+	}
+	return (FALSE);
+}
 
 void			update_renderable_door(t_render_context *ctx, t_renderable *r)
 {
@@ -101,7 +119,7 @@ void			update_renderable_door(t_render_context *ctx, t_renderable *r)
 	if (ctx->type != CTX_NORMAL)
 		return ;
 	float last_open = door->open_value;
-	if (ft_vec3_len(ft_vec3_sub(r->position, ctx->doom->player.entity.position)) < 10)
+	if (is_something_close(ctx, r))
 	{
 		if (door->open_value < 1)
 			door->open_value += open_speed;
@@ -121,11 +139,11 @@ void			update_renderable_door(t_render_context *ctx, t_renderable *r)
 
 		while (++i < r->faces->len)
 		{
-			t_face	face = r->faces->values[i];
+			t_face	*face = &r->faces->values[i];
 
-			if (face.group == door->door_1 || face.group == door->door_2)
+			if (face->group == door->door_1 || face->group == door->door_2)
 			{
-				face.has_collision = door->open_value != 1;
+				face->has_collision = door->open_value == 0;
 			}
 		}
 		r->dirty = TRUE;

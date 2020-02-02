@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   octree.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/05 17:31:15 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/22 13:31:18 by louali           ###   ########.fr       */
+/*   Updated: 2020/02/02 18:42:31 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ t_octree_node	*create_octree(t_doom *doom, t_renderable *r)
 
 void			ray_intersect_octree(t_octree_node *n, t_renderable *r, t_ray *ray, t_collision *closest_hit)
 {
-	int		i;
+	int			i;
 	t_collision	ahit;
 
 	ahit = ray_hit_aabb(ray->to_local, &n->box.data.aabb);
@@ -143,9 +143,13 @@ void			ray_intersect_octree(t_octree_node *n, t_renderable *r, t_ray *ray, t_col
 		return;
 	if (n->faces_index)
 	{
-		int i = -1;
+		i = -1;
 		while (++i < n->faces_index->len)
 		{
+			if (ray->doom
+				&& ray->doom->main_context.type == CTX_NORMAL
+				&& !r->faces->values[n->faces_index->values[i]].has_collision)
+				continue;
 			t_collision hit = ray_hit_triangle(ray->to_local, &r->faces->values[n->faces_index->values[i]].collidable.data.triangle);
 			if (hit.collide)
 			{

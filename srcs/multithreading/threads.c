@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 11:16:46 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/28 21:59:45 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/02 17:23:03 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,9 +115,7 @@ void		*worker(t_thread *t)
 t_bool		init_threads(t_threads *threads)
 {
 	int			i;
-	int			j;
 	t_thread	*t;
-	t_vec2		delta;
 
 	pthread_cond_init(&threads->wait_cnd, NULL);
 	pthread_cond_init(&threads->work_cnd, NULL);
@@ -130,7 +128,6 @@ t_bool		init_threads(t_threads *threads)
 	threads->worker_count = THREADS_COUNT;
 	threads->active = THREADS_COUNT;
 	i = -1;
-	delta = ft_vec2_div_s((t_vec2){ S_WIDTH, S_HEIGHT }, THREADS_ROW);
 	while (++i < THREADS_COUNT)
 	{
 		t = &threads->threads[i];

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/14 16:37:29 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/17 15:33:12 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/02 18:41:55 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ t_ray			to_local_ray(t_ray ray, t_vec3 position, t_vec3 rotation, t_vec3 scale)
 {
 	t_ray		local;
 
+	local.doom = ray.doom;
 	local.origin = point_to_local(ray.origin, position, rotation, scale);
 	local.direction = vec3_rotate(ray.direction, ft_vec3_mul_s(rotation, -1));
 	local.direction = ft_vec3_mul(local.direction, ft_vec3_div((t_vec3){ 1, 1, 1 }, scale));
@@ -81,6 +82,7 @@ t_collision		ray_hit_world(t_doom *doom, t_renderables *renderables, t_ray ray)
 	int				j;
 
 	min = (t_collision) { .collide = FALSE, .dist = INT_MAX };
+	ray.doom = doom;
 	i = -1;
 	while (++i < renderables->len)
 	{
@@ -106,7 +108,7 @@ t_collision		ray_hit_world(t_doom *doom, t_renderables *renderables, t_ray ray)
 		if (r->octree)
 		{
 			t_collision mincpy = min;
-			ray_intersect_octree(r->octree, r, &ray, &min);
+			ray_intersect_octree(r->octree, r, &ray ,&min);
 			if (min.collide && mincpy.dist > min.dist)
 				min.renderable = &renderables->values[i];
 			continue;
@@ -114,7 +116,8 @@ t_collision		ray_hit_world(t_doom *doom, t_renderables *renderables, t_ray ray)
 		j = -1;
 		while (++j < r->faces->len)
 		{
-			
+			if (!r->faces->values[j].has_collision && doom->main_context.type == CTX_NORMAL)
+				continue;
 			hit = ray_hit_collidable(ray.to_local, &r->faces->values[j].collidable);
 			if (hit.collide)
 			{
