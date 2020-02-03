@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 22:00:26 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/28 17:28:55 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/03 15:31:04 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ t_bool		check_collision(t_entity *entity, t_collide_aabb area)
 			continue;
 		if (entity->type == ENTITY_ROCKET && r.of.type == RENDERABLE_ENTITY && r.of.data.entity->type == ENTITY_BOSS)
 			continue;
-		if (entity->type == ENTITY_GRENADA &&  r.of.type == RENDERABLE_ENTITY && r.of.data.entity->type == ENTITY_PLAYER)
+		if (entity->type == ENTITY_GRENADA && r.of.type == RENDERABLE_ENTITY && r.of.data.entity->type == ENTITY_PLAYER)
 			continue;
 		new_area = area;
 		t_physics_data data = entity->packet;
@@ -163,6 +163,10 @@ void 		damage_explo(t_entity *from, t_doom *doom, float damage)
 	float			dist;
 	int				i;
 
+	t_renderable r;
+	create_explosion_renderable(doom, &r);
+	r.position = from->position;
+	append_renderables_array(&doom->renderables, r);
 	i = -1;
 	renderables = doom->renderables;
 	while (++i < renderables->len)
@@ -193,11 +197,14 @@ void		give_damage(t_entity *from, t_entity *to, t_doom *doom, float damage)
 	if (from && from->type == ENTITY_PLAYER)
 		d = damage * doom->level.coeff_damage;
 	to->life -= d;
-	if (from && from->type == ENTITY_PLAYER && to->type != ENTITY_PLAYER && !to->diying && !to->dead)
+	if (from && (from->type == ENTITY_PLAYER || from->type == ENTITY_GRENADA) && to->type != ENTITY_PLAYER && to->killable && !to->diying && !to->dead)
 	{
 		doom->gameover.totaldamage += d;
 		if (to->life <= 0)
+		{
+			to->diying = TRUE;
 			doom->gameover.kill += 1;
+		}
 	}
 	if (to->type == ENTITY_BOSS)
 	{
@@ -326,6 +333,9 @@ t_bool		entity_update(t_doom *doom, t_entity *entity, double dt)
 			entity_update_boss(doom, entity, dt);
 		if (entity->type == ENTITY_ENEMY)
 			entity_update_enemy(doom, entity, dt);
+		if (entity->type == ENTITY_GRENADA)
+			if (!entity_update_grenada(doom, entity, dt))
+				return (FALSE);
 		entity->jetpack = FALSE;
 		int slot = get_slot_of(&doom->player, ITEM_JETPACK);
 		if (slot != -1)

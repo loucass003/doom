@@ -6,22 +6,25 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/24 01:36:30 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/27 16:25:58 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/02 17:21:28 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+
 
 #ifndef THREADS_H
 # define THREADS_H
 
-# include <libft.h>
-# include <pthread.h>
 # include "render.h"
+# include <libft.h>
+# include <signal.h>
+# include <pthread.h>
 
-# define _POSIX_C_SOURCE (199309L)
+# undef  _POSIX_C_SOURCE
+# define _POSIX_C_SOURCE 199309L
 
 # define RENDER_DATAS_CAPACITY (4096)
-# define THREADS_ROW (3)
-# define THREADS_COUNT (16)
+# define THREADS_COUNT (8)
 
 typedef struct	s_bsem 
 {

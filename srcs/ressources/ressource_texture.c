@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ressource_texture.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/12 17:27:40 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/22 14:02:48 by louali           ###   ########.fr       */
+/*   Updated: 2020/01/29 14:12:46 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ static t_bool	is_tga_ext(char *path)
 {
 	char	*start;
 	
-	start = ft_strrchr(path, '.') + 1;
-	return (ft_memcmp(start, "tga", 3) == 0);
+	start = ft_strrchr(path, '.');
+	return (start && *start && ft_memcmp(start + 1, "tga", 3) == 0);
 }
 
 t_bool		load_texture_file(t_doom *doom, t_ressource *r, char *path)

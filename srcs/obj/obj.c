@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   obj.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 15:28:48 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/22 12:45:12 by louali           ###   ########.fr       */
+/*   Updated: 2020/01/31 18:46:55 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,14 +49,14 @@ t_bool		free_obj(t_obj *obj, t_bool ret)
 	return (ret);
 }
 
-t_bool		init_obj(t_doom *doom, t_obj *obj)
+t_bool		init_obj(t_doom *doom, t_obj *obj, t_renderable *r)
 {
 	obj->current_group = 0;
-	obj->groups_count++;
+	r->groups_count = 1;
 	obj->can_add_materials = TRUE;
 	obj->current_mtl = -1;
 	obj->working_dir = ft_strdup(doom->obj_working_dir);
-	ft_strcpy(obj->groups[0], "root");
+	ft_strcpy(r->groups[0], "root");
 	return (TRUE);
 }
 
@@ -85,7 +85,7 @@ t_bool		load_obj(t_doom *doom, t_renderable *r, t_obj *obj, char *file)
 		|| (reader.fd = open(path, O_RDONLY)) == -1)
 		return (FALSE);
 	free(path);
-	if (!init_obj(doom, obj))
+	if (!init_obj(doom, obj, r))
 		return (FALSE);
 	while (!!(formatter = get_formatter(prefixes, PREFIXES_COUNT, &reader)))
 	{
@@ -112,7 +112,6 @@ t_bool		set_obj_working_dir(t_doom *doom, char *folder)
 t_bool	create_obj(t_doom *doom, t_renderable *r, char *file)
 {
 	ft_bzero(r, sizeof(t_renderable));
-	r->of.type = RENDERABLE_OBJ;
 	if (!(r->of.data.obj = malloc(sizeof(t_obj))))
 		return (FALSE);
 	if(!(r->vertices = create_4dvertices_array(800)))

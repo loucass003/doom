@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 20:30:43 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/22 14:46:41 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/03 15:04:12 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ typedef enum		e_weapon_type
 {
 	WEAPON_GUN = 0,
 	WEAPON_AXE = 1,
-	WEAPON_GRENADA = 1,
-	WEAPON_AR = 2
+	WEAPON_GRENADA = 2,
+	WEAPON_AR = 3
 }					t_weapon_type;
 
 typedef struct		s_weapon
@@ -51,15 +51,9 @@ typedef enum		e_item_type
 	ITEM_JETPACK = 4
 }					t_item_type;
 
-typedef	struct 		s_jetpack
-{
-	int				amount;
-}					t_jetpack;
-
 typedef union		u_item_data
 {
 	t_weapon		weapon;
-	t_jetpack		jetpack;
 }					t_item_data;
 
 typedef struct		s_item
@@ -81,8 +75,9 @@ typedef struct		s_itemstack
 
 t_bool				create_itemstack_renderable(t_renderable *r, t_item *item, int amount);
 t_item				*create_item(t_item_type type, t_ressource *image, SDL_Rect bounds, int max_stack_size);
-t_item				*create_item_weapon(t_ressource *image, SDL_Rect bounds, t_weapon_type type);
+t_item				*create_item_weapon(t_ressource *image, SDL_Rect bounds, t_weapon_type type, int max_stack_size);
 t_item				*create_item_weapon_gun(t_ressource *image, t_ressource *animation);
+t_item				*create_item_weapon_grenada(t_ressource *image);
 t_item				*create_item_ammo(t_ressource *image);
 t_item				*create_item_heal(t_ressource *image);
 t_item				*create_item_jetpack(t_ressource *image);

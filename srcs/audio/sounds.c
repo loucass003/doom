@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sounds.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/22 14:16:52 by louali            #+#    #+#             */
-/*   Updated: 2020/01/22 14:17:46 by louali           ###   ########.fr       */
+/*   Updated: 2020/02/02 17:02:05 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 
 void			entity_sound(t_entity *s, int buffer, int source, int peach)
 {
+	if (NO_AUDIO)
+		return ;
 	alSourcei(s->sources[source], AL_BUFFER,
 		s->packet.doom->audio.buffer[buffer]);
 	alSourcei(s->sources[source], AL_SOURCE_RELATIVE, 0);
@@ -31,6 +33,8 @@ void			entity_sound(t_entity *s, int buffer, int source, int peach)
 
 void			player_sound(t_audio *s, int source, int buffer, float peach)
 {
+	if (NO_AUDIO)
+		return ;
 	alSourcei(s->source[source], AL_BUFFER, s->buffer[buffer]);
 	alSourcei(s->source[source], AL_SOURCE_RELATIVE, 1);
 	alSourcef(s->source[source], AL_PITCH, peach * 2.0);
@@ -45,6 +49,8 @@ void			play_music(t_audio *s, t_vec3 pos, int idb, t_bool glob)
 {
 	int		ids;
 
+	if (NO_AUDIO)
+		return ;
 	if ((ids = get_source(s)) == -1)
 		return ;
 	alSourcei(s->source[ids], AL_BUFFER, s->buffer[idb]);

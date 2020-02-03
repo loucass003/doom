@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   events.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:14:55 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/28 15:11:48 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/30 15:19:20 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static t_bool	events_window(t_doom *doom, SDL_Event *event)
 		set_gui(doom, GUI_MAIN_MENU);
 		return (FALSE);
 	}
-	if (event->type == SDL_KEYDOWN && (key == SDL_SCANCODE_F1))
+	if (event->type == SDL_KEYDOWN && (key == SDL_SCANCODE_F1)) //securiser context ressource
 		doom->help = TRUE;
 	if (event->type == SDL_KEYUP && (key == SDL_SCANCODE_F1))
 		doom->help = FALSE;

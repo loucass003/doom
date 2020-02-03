@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   entity.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 00:01:14 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/22 03:09:06 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/03 15:29:49 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef struct		s_entity_grenada
 	float			damage;
 	float			range;
 	long			delay;
+	long			start;
 }					t_entity_grenada;
 
 typedef struct		s_entity_rocket
@@ -93,6 +94,7 @@ typedef struct		s_entity
 	float				max_life;
 	ALuint				*sources;
 	t_bool				jetpack;
+	t_bool				killable;
 	struct s_renderable	*r;
 }					t_entity;
 
@@ -103,9 +105,13 @@ t_bool		create_grenada(t_renderable *r, struct s_doom *doom);
 void		compute_entity_hitbox(t_renderable *r);
 void		entity_update_boss(struct s_doom *doom, t_entity *entity, double dt);
 void		entity_update_enemy(struct s_doom *doom, t_entity *entity, double dt);
+t_bool		entity_update_grenada(struct s_doom *doom, t_entity *entity, double dt);
 
 t_bool	renderable_rocket(struct s_doom *doom, t_vec3 from, t_vec3 to);
 t_bool	create_rocket(t_renderable *r, struct s_doom *doom);
+
+t_bool		create_explosion_renderable(struct s_doom *doom, t_renderable *r);
+void		entity_update_explosion(struct s_doom *doom, t_entity *entity, double dt);
 
 
 #endif

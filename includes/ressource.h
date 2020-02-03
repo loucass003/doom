@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ressource.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 10:19:30 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/22 13:39:13 by louali           ###   ########.fr       */
+/*   Updated: 2020/01/29 14:49:07 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ t_ressources	*copy_ressources_array(t_ressources *src, t_ressources **dst);
 int				ressources_indexof(t_ressources *arr, t_ressource *r);
 t_bool			init_ressources_registry(struct s_doom *doom);
 t_bool			check_ressources_errors(struct s_doom *doom);
+t_bool			ressource_mapper(t_ressource_manager *r, char *path);
 t_bool			ressource_error(t_ressource *r);
 t_bool			a(t_doom *doom, char *name, t_ressource_type type, t_bool fixed);
 t_bool			load_ressource(t_doom *doom, t_ressource *r, char *path);
@@ -112,6 +113,7 @@ t_bool			read_songs(t_ressource_manager *r, t_sound **sound);
 t_ressource		*get_next_ressource(t_ressource_manager *r, t_ressource *res, t_ressource_type type);
 t_ressource		*get_prev_ressource(t_ressource_manager *r, t_ressource *res, t_ressource_type type);
 t_ressource		*get_ressource(t_ressource_manager *r, t_ressource_type type);
+int				get_ressource_by_name(t_ressource_manager *r, t_ressource_type type, char *name);
 t_bool			write_ressources(t_ressource_manager *rm);
 
 int				get_pages_count(t_ressource_manager *rm);

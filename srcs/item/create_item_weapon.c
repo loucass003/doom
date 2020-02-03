@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/22 14:43:37 by lloncham          #+#    #+#             */
-/*   Updated: 2020/01/22 15:34:08 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/03 15:24:02 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ t_item	*create_item_weapon_gun(t_ressource *image, t_ressource *animation)
 	static const uint8_t	seq[6] = { 0, 1, 2, 3, 4, 5 };
 	t_item					*gun;
 
-	if (!(gun = create_item_weapon(image, (SDL_Rect){1, 259, 123, 97}, WEAPON_GUN)))
+	if (!(gun = create_item_weapon(image, (SDL_Rect){1, 259, 123, 97}, WEAPON_GUN, 1)))
 		return (NULL);
 	gun->data.weapon.animation = animation;
 	gun->data.weapon.bounds = (SDL_Rect){ 0, 0, animation->data.texture->width, animation->data.texture->height - 120 };
@@ -103,7 +103,7 @@ t_item	*create_item_weapon_axe(t_ressource *image, t_ressource *animation)
 	static const uint8_t	seq[7] = { 3, 2, 1, 0, 1, 2, 3 };
 	t_item					*axe;
 
-	if (!(axe = create_item_weapon(image, (SDL_Rect){257, 1, 60, 136}, WEAPON_AXE)))
+	if (!(axe = create_item_weapon(image, (SDL_Rect){257, 1, 60, 136}, WEAPON_AXE, 1)))
 		return (NULL);
 	axe->data.weapon.animation = animation;
 	axe->data.weapon.bounds = (SDL_Rect){ 0, 194, 439 * 2, 601 * 2 };
@@ -113,4 +113,42 @@ t_item	*create_item_weapon_axe(t_ressource *image, t_ressource *animation)
 	axe->on_use = on_use_axe;
 	set_current_animation_step(&axe->data.weapon, 3);
 	return (axe);
+}
+
+void	on_use_grenada(t_doom *doom, t_itemstack *is)
+{
+	t_weapon	*weapon;
+
+	weapon = &is->of->data.weapon;
+	if (is->amount > 0)
+	{
+		t_renderable grenada;
+		t_vec3 forward;
+		grenada = *doom->res_manager.ressources->values[7]->data.model;
+		create_grenada(&grenada, doom);
+		grenada.of.data.entity->position = doom->player.entity.position;
+		forward = vec3_rotate((t_vec3){ 0, 0, 1 }, (t_vec3){-doom
+			->player.entity.rotation.x, doom->player.entity.rotation.y, 0});
+		forward.y *= 20;
+		forward.x *= 18;
+		forward.z *= 18;
+		grenada.of.data.entity->velocity = forward;
+		grenada.of.data.entity->of.grenada.start = SDL_GetTicks();
+		append_renderables_array(&doom->renderables, grenada);
+		player_sound(&doom->audio, CHAR_SHOOTING, 1, 1.5);//TROUVER UN SON POUR LANCER DE GRENADE
+		is->amount--;
+	}
+	if (is->amount <= 0)
+		is->of = NULL;
+	
+}
+
+t_item	*create_item_weapon_grenada(t_ressource *image)
+{
+	t_item					*grenada;
+
+	if (!(grenada = create_item_weapon(image, (SDL_Rect){317, 1, 250, 255}, WEAPON_GRENADA, 75)))
+		return (NULL);
+	grenada->on_use = on_use_grenada;
+	return (grenada);
 }

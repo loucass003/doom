@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/22 14:43:20 by lloncham          #+#    #+#             */
-/*   Updated: 2020/01/24 12:05:04 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/03 15:02:22 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,12 @@ t_item	*create_item(t_item_type type, t_ressource *image, SDL_Rect bounds, int m
 	return (item);
 }
 
-t_item	*create_item_weapon(t_ressource *image, SDL_Rect bounds, t_weapon_type type)
+t_item	*create_item_weapon(t_ressource *image, SDL_Rect bounds, t_weapon_type type, int max_stack_size)
 {
 	t_item	*weapon;
 
-	if (!(weapon = create_item(ITEM_WEAPON, image, bounds, 1)))
-		return (NULL); //TODO: FREE
+	if (!(weapon = create_item(ITEM_WEAPON, image, bounds, max_stack_size)))
+		return (NULL);
 	weapon->data.weapon.type = type;
 	weapon->data.weapon.damage = 0.6;
 	return (weapon);

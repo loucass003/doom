@@ -3,26 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   formatters.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 14:34:00 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/22 12:49:09 by louali           ###   ########.fr       */
+/*   Updated: 2020/01/31 18:48:41 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "obj.h"
 
-static int		get_group(t_obj *obj, char *name, size_t len)
+static int		get_group(t_renderable *r, char *name, size_t len)
 {
 	size_t		i;
 
 	if (!name)
 		return (-1);
 	i = 0;
-	while (i < obj->groups_count)
+	while (i < r->groups_count)
 	{
-		if (len == ft_strlen(obj->groups[i]) 
-			&& ft_strncmp(obj->groups[i], name, len) == 0)
+		if (len == ft_strlen(r->groups[i]) 
+			&& ft_strncmp(r->groups[i], name, len) == 0)
 			return (i);
 		i++;
 	}
@@ -99,7 +99,7 @@ t_bool			vertex_formatter(t_obj *obj, t_reader *reader, t_renderable *r)
 	return (TRUE);
 }
 
-t_bool			group_formatter(t_obj *obj, t_reader *reader)
+t_bool			group_formatter(t_obj *obj, t_reader *reader, t_renderable *r)
 {
 	char		name[GROUPS_NAME_LEN];
 	size_t		len;
@@ -117,13 +117,13 @@ t_bool			group_formatter(t_obj *obj, t_reader *reader)
 		ft_putendl("Max group length exeed");
 		return (FALSE);
 	}
-	if ((obj->current_group = get_group(obj, name, len)) != -1)
+	if ((obj->current_group = get_group(r, name, len)) != -1)
 		return (TRUE);
-	if ((obj->current_group = obj->groups_count++) > GROUPS_MAX)
+	if ((obj->current_group = r->groups_count++) > GROUPS_MAX)
 	{
 		ft_putendl("Max group declaration exeed");
 		return (FALSE);
 	}
-	ft_strncpy(obj->groups[obj->current_group], name, len);
+	ft_strncpy(r->groups[obj->current_group], name, len);
 	return (TRUE);
 }

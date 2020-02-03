@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   load_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 01:53:42 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/23 13:54:53 by louali           ###   ########.fr       */
+/*   Updated: 2020/01/29 17:13:03 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ t_bool		read_wall_section(t_ressource_manager *r, t_wall_sections **sections)
 	if (texture->type != RESSOURCE_TEXTURE)
 		return (FALSE);
 	ws = (t_wall_section) {
+		.type = wr_ws.type,
 		.texture = r->ressources->values[wr_ws.resource_index],
 		.normal_type = wr_ws.normal_type,
 		.invisible = wr_ws.invisible,

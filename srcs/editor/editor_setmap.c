@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 15:55:03 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/27 16:24:47 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/30 16:08:10 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -322,6 +322,42 @@ void			default_renderables(t_doom *doom)
 	printf("SKYBOX %d\n", doom->skybox_index);
 }
 
+
+
+t_bool		add_map(t_renderable *rmap, t_editor *editor)
+{
+	int				i;
+
+	//TODO: free removed renderables from map_renderable to renderables->led
+	editor->doom->renderables->len = editor->map_renderable;
+	create_map(rmap, editor);
+	if (!append_renderables_array(&editor->doom->renderables, *rmap))
+		return (FALSE);
+	i = -1;
+	while (++i < editor->rooms->len)
+	{
+		int j = -1;
+		t_room *room = &editor->rooms->values[i];
+		while (++j < room->walls->len)
+		{
+			int k = -1;
+			t_wall *wall = &room->walls->values[j];
+			while (++k < wall->wall_sections->len)
+			{
+				t_wall_section *ws = &wall->wall_sections->values[k];
+				if (ws->type != WS_DOOR)
+					continue;
+				t_renderable r;
+				create_door(editor->doom, (int [3]){ i, j, k }, &r);
+				post_process_renderable(editor->doom, &r, TRUE, FALSE);
+				if (!append_renderables_array(&editor->doom->renderables, r))
+					return (FALSE);
+			}
+		}
+	}
+	return (TRUE);
+}
+
 t_bool		editor_setmap(t_editor *editor) 
 {
 	int		i;
@@ -333,11 +369,8 @@ t_bool		editor_setmap(t_editor *editor)
 	
 	editor->settings.open = FALSE;
 	// set_gui_settings(editor, -1);
-	editor->map_renderable = editor->doom->renderables->len;
-	create_map(&r, editor);
-	if (!append_renderables_array(&editor->doom->renderables, r))
-		return (FALSE);
-
+	
+	default_renderables(editor->doom);
 	
 	i = -1;
 	while (++i < editor->objects->len)
@@ -355,7 +388,9 @@ t_bool		editor_setmap(t_editor *editor)
 		if (object->r->has_hitbox)
 			object->r->show_hitbox = FALSE;
 	}
-	default_renderables(editor->doom);
+	
+	editor->map_renderable = editor->doom->renderables->len;
+	add_map(&r, editor);
 	spawn_player(editor->doom);
 	return (TRUE);
 }

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/10 13:41:47 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/23 03:36:23 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/29 18:24:36 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ t_bool	post_process_map(t_editor *editor, t_renderable *r, t_bool replace)
 
 t_bool	create_map(t_renderable	*r, t_editor *editor)
 {
-
+	
 	if (!create_renderable(r, RENDERABLE_MAP))  
 		return (FALSE);
 	create_map_points_and_floor(editor, r);

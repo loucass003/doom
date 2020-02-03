@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 14:35:33 by lloncham          #+#    #+#             */
-/*   Updated: 2020/01/23 03:33:42 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/01/30 16:08:13 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,15 @@ typedef struct		s_objects
 	t_object		values[];
 }					t_objects;
 
+typedef enum		e_wall_section_type
+{
+	WS_WALL = 0,
+	WS_DOOR = 1
+}					t_wall_section_type;
+
 typedef struct		s_wall_section
 {
+	t_wall_section_type	type;
 	t_bool				invisible;
 	t_bool				collisions;
 	struct s_ressource	*texture;

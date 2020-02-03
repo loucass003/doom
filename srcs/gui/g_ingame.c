@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/28 14:27:46 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/03 15:12:00 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 #include "render.h"
 #include "editor.h"
 #include "threads.h"
+#include "door.h"
 
 void	g_ingame_on_enter(t_gui *self, t_doom *doom)
 {
@@ -109,23 +110,6 @@ void	g_ingame_on_events(t_gui *self, SDL_Event *event, t_doom *doom)
 				}
 			}
 		}
-
-		if (event->type == SDL_KEYDOWN && key == SDL_SCANCODE_G)
-		{
-			t_renderable grenada;
-			t_vec3 forward;
-			grenada = *doom->res_manager.ressources->values[7]->data.model;
-			create_grenada(&grenada, doom);
-			grenada.of.data.entity->position = doom->player.entity.position;
-			forward = vec3_rotate((t_vec3){ 0, 0, 1 }, (t_vec3){-doom
-				->player.entity.rotation.x, doom->player.entity.rotation.y, 0});
-			printf("%f %f %f\n", forward.x, forward.y, forward.z);
-			forward.y *= 20;
-			forward.x *= 14;
-			forward.z *= 14;
-			grenada.of.data.entity->velocity = forward;
-			append_renderables_array(&doom->renderables, grenada);
-		}
 	}
 	else if (doom->main_context.type == CTX_EDITOR)
 	{
@@ -154,8 +138,8 @@ void	g_ingame_on_events(t_gui *self, SDL_Event *event, t_doom *doom)
 				{
 					t_face face;
 					t_room *room;
-					room = &doom->editor.rooms->values[face.room_index];
 					face = hit.renderable->faces->values[hit.who.data.triangle.face];
+					room = &doom->editor.rooms->values[face.room_index];
 					
 					if (face.wall_index == -1)
 					{
@@ -177,10 +161,18 @@ void	g_ingame_on_events(t_gui *self, SDL_Event *event, t_doom *doom)
 						select_floor_ceil(&doom->editor, face.room_index, hit.who.data.triangle.face < room->ceilling_start);
 					}
 				}
+				if (hit.renderable->of.type == RENDERABLE_DOOR)
+				{
+					t_door *door = hit.renderable->of.data.door;
+					t_room *room = &doom->editor.rooms->values[door->indexes[0]];
+					doom->editor.current_seg.x = room->walls->values[door->indexes[1]].indice;
+					doom->editor.current_seg.y = room->walls->values[(door->indexes[1] + 1) % room->walls->len].indice;
+					doom->editor.wall_section = door->indexes[2];
+					select_room(&doom->editor, door->indexes[0]);
+				}
 				else if (renderables_indexof(doom->renderables, hit.renderable) == doom->skybox_index)
 				{
 					editor_settings_update(&doom->editor);
-					printf("CALL\n");
 				}
 				else if (hit.renderable->object_index != -1)
 				{
@@ -234,7 +226,7 @@ void	g_ingame_on_events(t_gui *self, SDL_Event *event, t_doom *doom)
 					room->floor_rot = rot;
 				else
 					room->ceil_rot = rot;
-				create_map(&doom->renderables->values[doom->editor.map_renderable], &doom->editor);
+				add_map(&doom->renderables->values[doom->editor.map_renderable], &doom->editor);
 				select_floor_ceil(&doom->editor, doom->editor.current_room, doom->editor.selected_floor_ceil == 0);
 			}
 			else if (key == SDL_SCANCODE_KP_PLUS || key == SDL_SCANCODE_KP_MINUS)
@@ -254,7 +246,7 @@ void	g_ingame_on_events(t_gui *self, SDL_Event *event, t_doom *doom)
 					else
 						wall->ceiling_height += add;
 				}
-				create_map(&doom->renderables->values[doom->editor.map_renderable], &doom->editor);
+				add_map(&doom->renderables->values[doom->editor.map_renderable], &doom->editor);
 				select_floor_ceil(&doom->editor, doom->editor.current_room, doom->editor.selected_floor_ceil == 0);
 			}
 		}
@@ -395,7 +387,11 @@ void	g_ingame_render(t_gui *self, t_doom *doom)
 		}
 		if (r->has_hitbox)
 			update_hitbox(r);
-		render_renderable(&doom->main_context, r);
+		if (!render_renderable(&doom->main_context, r))
+		{
+			i--;
+			continue;
+		}
 		if (r->has_hitbox && r->show_hitbox && r->hitbox.type == COLLIDE_ELLIPSOID)
 		{
 			t_renderable *sphere;

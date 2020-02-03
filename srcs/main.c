@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/28 14:27:30 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/01/30 16:21:26 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,6 @@ void	init_bsp(t_doom *doom)
 	ellipsoid.wireframe_color = 0xFFFF0000;
 	append_renderables_array(&doom->renderables, ellipsoid);
 	
-
-
-
 	t_renderable itemstack;
 	t_item *weapon = create_item_weapon_gun(doom->res_manager.ressources->values[2], doom->res_manager.ressources->values[3]);
 	t_item *axe = create_item_weapon_axe(doom->res_manager.ressources->values[2], doom->res_manager.ressources->values[4]);
@@ -56,8 +53,8 @@ void	init_bsp(t_doom *doom)
 	append_renderables_array(&doom->renderables, itemstack);
 
 
-	set_obj_working_dir(doom, "assets/obj/cs_italy");
-	create_obj(doom, &r, "cs_italy.obj");
+	set_obj_working_dir(doom, "assets/obj/de_dust");
+	create_obj(doom, &r, "de_dust2.obj");
 	r.position = (t_vec3){0, 0, -3};
 	r.rotation = (t_vec3){0, 0, 0};
 	r.scale = (t_vec3){0.06, 0.06, 0.06};

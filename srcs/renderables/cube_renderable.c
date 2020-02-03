@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cube_renderable.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/05 14:34:42 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/22 12:36:01 by louali           ###   ########.fr       */
+/*   Updated: 2020/01/29 00:54:54 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,8 @@ t_bool	gen_cube_mesh(t_renderable *r, t_bool inside)
 		return (FALSE);
 	i = -1;
 	while (++i < 12)
-		if (!append_faces_array(&r->faces, create_face((int(*)[3])faces[i], 0, inside ? 1 : 0)))
+		if (!append_faces_array(&r->faces,
+			create_face((int(*)[3])faces[i], 0, inside ? 1 : 0)))
 			return (FALSE);
 	return (TRUE);
 }

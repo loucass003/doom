@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   audio.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/19 01:15:20 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/22 13:36:37 by louali           ###   ########.fr       */
+/*   Updated: 2020/02/02 17:02:18 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 # include <alc.h>
 # include "constants.h"
 # include "entity.h"
+
+# define NO_AUDIO (TRUE)
 
 typedef struct	s_audio
 {

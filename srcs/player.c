@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:43:35 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/27 16:47:38 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/03 15:30:44 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ void				init_player(t_doom *doom)
 	player->entity.rotation.y = -M_PI;
 	player->entity.rotation.x = 0;
 	player->entity.rotation.z = 0;
+	player->entity.killable = TRUE;
 	player->entity.life = doom->level.max_life;
 	player->entity.max_life = doom->level.max_life;
 	doom->main_context.camera = &player->camera;
@@ -152,7 +153,8 @@ t_bool				draw_player_inventory(t_doom *doom, t_gui *self)
 				}
 				set_current_animation_step(weapon, weapon->animation_seq[weapon->current_step]);
 			}
-			apply_image_blended(doom->main_context.image, weapon->animation->data.texture, weapon->curr_image, (SDL_Rect){ S_WIDTH_2 - 80 / 2, S_HEIGHT - 300, 300, 300 });
+			if (weapon->type != WEAPON_GRENADA)
+				apply_image_blended(doom->main_context.image, weapon->animation->data.texture, weapon->curr_image, (SDL_Rect){ S_WIDTH_2 - 80 / 2, S_HEIGHT - 300, 300, 300 });
 		}
 		((t_progress *)self->components->values[0])->value = doom->player.entity.life * (1 / doom->player.entity.max_life) * 100;
 		if (doom->player.entity.life <= 0 || (doom->closer_boss && doom->closer_boss->dead))

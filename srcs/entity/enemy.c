@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   enemy.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/30 16:36:08 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/18 16:39:22 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/03 15:30:09 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ t_bool		create_enemy_renderable(t_doom *doom, t_renderable *r)
 	enemy->scale = (t_vec3){ 5, 5, 5 };
 	enemy->radius = (t_vec3){ 1, 2.5, 1 };
 	enemy->life = 1;
+	enemy->killable = TRUE;
 	enemy->sources = enemy->of.enemy.sources;
 	alGenSources(3, enemy->sources);
 	r->of.data.entity = enemy;
