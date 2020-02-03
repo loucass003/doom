@@ -1,32 +1,33 @@
 {
-	"TEXTURES": {
-		"MAIN MENU BACKGROUND": "Doom.png",
-		"GAMEOVER BACKGROUND": "gameover.png",
-		"ITEMS ICONS": "assets/textures/items_atlas.png",
-		"GUN ANNIMATION": "assets/textures/gun0.png",
-		"AXE ANNIMATION": "assets/textures/axe.png",
-		"ENEMY SPRITESHEET": "assets/textures/enemy_1.png",
-		"BOSS SPRITESHEET": "assets/textures/boss.png",
-		"SKYBOX TEXTURE": "assets/obj/skybox.png",
-		"YOUWIN TEXTURE": "youwin.png",
-		"LEADERBOARD": "Leaderboard.jpg",
-		"HELP": "HELP.png"
-	},
-	"MODELS": {
-		"GRENADE MODEL": "assets/obj/grenada.obj",
-		"ROCKET MODEL": "assets/obj/rocket.obj",
-		"DOOR MODEL": "assets/obj/door/door2.obj",
-		"TRANSPORTEUR": "assets/obj/teleporter/teleporter3.obj"
-	},
-	"SOUNDS": {
-		"SOUND WILHELM": "song/wilhelm.wav",
-		"SOUND GUN": "song/380.wav",
-		"SOUND FOOTSTEP": "song/step24.wav",
-		"SOUND PICKITEM": "song/badum.wav",
-		"SOUND BOSS FOOTSTEP": "song/boss_step.wav",
-		"SOUND BOSS GUN": "song/boss_rocket.wav",
-		"SOUND BOSS DIE": "song/boss_death.wav",
-		"SOUND BOSS HIT": "song/boss_shot.wav",
-		"SOUND EXPLOSION": "song/explosion.wav"
-	}
+    "TEXTURES": {
+        "MAIN MENU BACKGROUND": "Doom.png",
+        "GAMEOVER BACKGROUND": "gameover.png",
+        "ITEMS ICONS": "assets/textures/items_atlas.png",
+        "GUN ANNIMATION": "assets/textures/gun0.png",
+        "AXE ANNIMATION": "assets/textures/axe.png",
+        "ENEMY SPRITESHEET": "assets/textures/enemy_1.png",
+        "BOSS SPRITESHEET": "assets/textures/boss.png",
+        "SKYBOX TEXTURE": "assets/obj/skybox.png",
+        "YOUWIN TEXTURE": "youwin.png",
+        "LEADERBOARD": "Leaderboard.jpg",
+        "HELP": "HELP.png",
+        "EXPLOSION": "assets/textures/explosion2.png"
+    },
+    "MODELS": {
+        "GRENADE MODEL": "assets/obj/grenada.obj",
+        "ROCKET MODEL": "assets/obj/rocket.obj",
+        "DOOR MODEL": "assets/obj/door/door2.obj",
+        "TRANSPORTEUR": "assets/obj/teleporter/teleporter3.obj"
+    },
+    "SOUNDS": {
+        "SOUND WILHELM": "song/wilhelm.wav",
+        "SOUND GUN": "song/380.wav",
+        "SOUND FOOTSTEP": "song/step24.wav",
+        "SOUND PICKITEM": "song/badum.wav",
+        "SOUND BOSS FOOTSTEP": "song/boss_step.wav",
+        "SOUND BOSS GUN": "song/boss_rocket.wav",
+        "SOUND BOSS DIE": "song/boss_death.wav",
+        "SOUND BOSS HIT": "song/boss_shot.wav",
+        "SOUND EXPLOSION": "song/explosion.wav"
+    }
 }
