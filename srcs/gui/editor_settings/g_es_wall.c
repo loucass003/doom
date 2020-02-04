@@ -3,61 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   g_es_wall.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 20:40:10 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/03 13:45:58 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/04 00:09:15 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "editor.h"
 #include "doom.h"
-
-void					hide_adjacent_walls(t_editor *editor, int room, int wall, t_wall_section *ws)
-{
-	int		i;
-	int		j;
-	int		k;
-	t_room			*r;
-	t_wall			*w;
-	t_wall			*w1;
-	t_wall_section	*s;
-
-	t_vec2 range3 = (t_vec2){ ws->vertices_index[0], ws->vertices_index[2] };
-	t_vec2 range4 = (t_vec2){ ws->vertices_index[1], ws->vertices_index[3] };
-	i = -1;
-	while (++i < editor->rooms->len)
-	{
-		j = -1;
-		r = &editor->rooms->values[i];
-		while (++j < r->walls->len)
-		{
-			w = &r->walls->values[j];
-			w1 = &r->walls->values[(j + 1) % r->walls->len];
-
-			t_room t_r = editor->rooms->values[room];
-			t_wall t_w = t_r.walls->values[wall];
-			t_wall t_w1 = t_r.walls->values[(wall + 1) % t_r.walls->len];
-			
-			if ((w->indice == t_w.indice && w1->indice == t_w1.indice) || (w->indice == t_w1.indice && w1->indice == t_w.indice))
-			{
-				k = -1;			
-				while (++k < w->wall_sections->len)
-				{
-					s = &w->wall_sections->values[k];
-					t_vec2 range1 = (t_vec2){ s->vertices_index[0], s->vertices_index[2] };
-					t_vec2 range2 = (t_vec2){ s->vertices_index[1], s->vertices_index[3] };
-					if (range1.x == range3.x && range1.y == range3.y 
-						&& range2.x == range4.x && range2.y == range4.y)
-					{
-						s->invisible = TRUE;
-						s->collisions = FALSE;
-					}
-				}
-			}
-		}
-	}
-}
 
 static t_bool			action_performed(t_component *cmp, t_doom *doom)
 {
@@ -94,12 +48,13 @@ static t_bool			action_performed(t_component *cmp, t_doom *doom)
 	if (cmp == editor->settings.guis[ES_GUI_WALL].components->values[2])
 	{
 		ws->type = ((t_select *)cmp)->items->values[((t_select *)cmp)->selected_item].value;
-		
-		if (ws->type)
-			hide_adjacent_walls(&doom->editor, editor->current_room, wall_index, ws);
 		t_renderable *r = get_map(&doom->editor);
 		if (r)
+		{
+			if (ws->type == WS_DOOR)
+				hide_adjacent_walls(&doom->editor, editor->current_room, wall_index, ws);
 			add_map(r, &doom->editor);
+		}
 	}
 	else
 		update_wall(editor, editor->current_room, wall_indexof_by_indice(editor->rooms->values[editor->current_room].walls, editor->current_seg.x), doom->editor.wall_section);
@@ -134,8 +89,8 @@ void			g_es_wall_enter(t_gui *self, t_doom *doom)
 	append_components_array(&self->components, create_button((SDL_Rect){ x + 270, y + 10, 40, 40 }, NULL, ">"));
 	append_components_array(&self->components, create_select((SDL_Rect){x + 10, y + 60, 300, 30}, "WALL TYPE"));
 	((t_select *)self->components->values[2])->items = create_select_items_array(2);
-	append_select_items_array(&((t_select *)self->components->values[2])->items, (t_select_item){ .name = "WALL", .value = 0 });
-	append_select_items_array(&((t_select *)self->components->values[2])->items, (t_select_item){ .name = "DOOR", .value = 1 });
+	append_select_items_array(&((t_select *)self->components->values[2])->items, (t_select_item){ .name = "WALL", .value = WS_WALL });
+	append_select_items_array(&((t_select *)self->components->values[2])->items, (t_select_item){ .name = "DOOR", .value = WS_DOOR });
 	((t_select *)self->components->values[2])->selected_item = select_items_indexof(((t_select *)self->components->values[2])->items, ws->type);
 	append_components_array(&self->components, create_button((SDL_Rect){ x + 10, y + 100, 40, 40 }, NULL, "<"));
 	append_components_array(&self->components, create_button((SDL_Rect){ x + 270, y + 100, 40, 40 }, NULL, ">"));

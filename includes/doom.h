@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/28 21:58:09 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/04 00:00:27 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,5 +165,6 @@ void				init_lightning(t_doom *doom);
 t_vec2				get_mouse_pos(t_doom *doom);
 void				update_selects(t_gui *self, t_ressource_manager *rm);
 void				apply_select_value(t_gui *self, t_doom *doom);
+
 
 #endif

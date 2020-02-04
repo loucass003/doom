@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 15:55:03 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/30 16:08:10 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/04 00:01:19 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -333,6 +333,7 @@ t_bool		add_map(t_renderable *rmap, t_editor *editor)
 	create_map(rmap, editor);
 	if (!append_renderables_array(&editor->doom->renderables, *rmap))
 		return (FALSE);
+	hide_doors_wall(editor);
 	i = -1;
 	while (++i < editor->rooms->len)
 	{

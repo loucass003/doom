@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   editor_wall.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 18:54:05 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/22 11:02:39 by louali           ###   ########.fr       */
+/*   Updated: 2020/02/04 00:24:41 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,4 +100,77 @@ t_wall			*get_current_wall(t_editor *editor)
 	if (wall_index == -1)
 		return (NULL);
 	return (&room->walls->values[wall_index]);
+}
+
+void					hide_doors_wall(t_editor *editor)
+{
+	int				i;
+	int				j;
+	int				k;
+	t_room			*room;
+	t_wall			*wall;
+	t_wall_section	*ws;
+
+	i = -1;
+	while (++i < editor->rooms->len)
+	{
+		j = -1;
+		room = &editor->rooms->values[i];
+		while (++j < room->walls->len)
+		{
+			k = -1;
+			wall = &room->walls->values[j];
+			while (++k < wall->wall_sections->len)
+			{
+				ws = &wall->wall_sections->values[k];
+				if (ws->type == WS_DOOR)
+					hide_adjacent_walls(editor, i, j, ws);
+			}
+		}
+	}
+}
+
+void					hide_adjacent_walls(t_editor *editor, int room, int wall, t_wall_section *ws)
+{
+	int		i;
+	int		j;
+	int		k;
+	t_room			*r;
+	t_wall			*w;
+	t_wall			*w1;
+	t_wall_section	*s;
+
+	t_vec2 range3 = (t_vec2){ get_map(editor)->vertices->vertices[ws->vertices_index[0]].y, get_map(editor)->vertices->vertices[ws->vertices_index[2]].y };
+	t_vec2 range4 = (t_vec2){ get_map(editor)->vertices->vertices[ws->vertices_index[1]].y, get_map(editor)->vertices->vertices[ws->vertices_index[3]].y };
+
+	t_room t_r = editor->rooms->values[room];
+	t_wall t_w = t_r.walls->values[wall];
+	t_wall t_w1 = t_r.walls->values[(wall + 1) % t_r.walls->len];
+	i = -1;
+	while (++i < editor->rooms->len)
+	{
+		j = -1;
+		r = &editor->rooms->values[i];
+		while (++j < r->walls->len)
+		{
+			w = &r->walls->values[j];
+			w1 = &r->walls->values[(j + 1) % r->walls->len];
+			if ((w->indice == t_w.indice && w1->indice == t_w1.indice) || (w->indice == t_w1.indice && w1->indice == t_w.indice))
+			{
+				k = -1;
+				while (++k < w->wall_sections->len)
+				{
+					s = &w->wall_sections->values[k];
+					t_vec2 range1 = (t_vec2){ get_map(editor)->vertices->vertices[s->vertices_index[0]].y, get_map(editor)->vertices->vertices[s->vertices_index[2]].y };
+					t_vec2 range2 = (t_vec2){ get_map(editor)->vertices->vertices[s->vertices_index[1]].y, get_map(editor)->vertices->vertices[s->vertices_index[3]].y };
+					if (range1.x == range3.x && range1.y == range3.y 
+						&& range2.x == range4.x && range2.y == range4.y)
+					{
+						s->invisible = TRUE;
+						s->collisions = FALSE;
+					}
+				}
+			}
+		}
+	}
 }
