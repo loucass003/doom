@@ -11,7 +11,7 @@
         "YOUWIN TEXTURE": "youwin.png",
         "LEADERBOARD": "Leaderboard.jpg",
         "HELP": "HELP.png",
-        "EXPLOSION": "assets/textures/explosion2.png"
+        "EXPLOSION": "assets/textures/explosion.png"
     },
     "MODELS": {
         "GRENADE MODEL": "assets/obj/grenada.obj",
