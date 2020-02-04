@@ -4,3 +4,4 @@ doom-nukem
 deps
 node_modules/
 data
+.DS_Store

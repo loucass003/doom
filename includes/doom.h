@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   doom.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/04 00:00:27 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/04 15:52:09 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,11 +122,7 @@ typedef struct		s_doom
 	int					current_gui;
 	t_editor			editor;
 	char				*obj_working_dir;
-	t_texture			*wall;
-	t_texture			*obj;
-	t_texture			*icons;
 	t_audio				audio;
-	SDL_Surface 		*background;
 	t_gdata				gdata;
 	int					skybox_index;
 	t_bool				skybox_enabled;
@@ -148,9 +144,6 @@ void				render(t_doom *doom);
 void				game_loop(t_doom *doom);
 
 t_bool				obj_test(t_doom *doom);
-
-
-void				load_all(t_doom *doom);
 
 
 

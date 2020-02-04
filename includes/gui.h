@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 01:42:00 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/28 14:27:25 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/04 15:51:45 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,15 +52,16 @@ typedef struct		s_components
 typedef struct		s_button
 {
 	t_component		super;
-	int				text_len;
-	char			text[256];
 	char			*texte;
+	t_img			*img;
+	t_vec2			cells_count;
+	t_vec2			img_start;
+	t_vec2			img_end;
 	int				color;
 	int				color_default;
 	int				color_hover;
 	t_bool			selected;
 	t_bool			hover;
-	char			*image;
 	SDL_Color		colortext;
 }					t_button;
 
@@ -127,34 +128,6 @@ typedef struct		s_checkbox
 	int					color_hover;
 	int					fg_color;
 }					t_checkbox;
-
-
-typedef struct		s_files
-{
-    struct s_files		*next;
-    char				s[];
-}					t_files;
-
-typedef struct		s_texture
-{
-	SDL_Surface			*text;
-	char				*name;
-	int					count;
-	struct s_texture	*next;
-}						t_texture;
-
-typedef struct		s_icone
-{
-	t_component		super;
-	t_bool			open;
-	t_files			*name_file;
-	char			*select_file;
-	int				select_pos;
-	int				posx;
-	int				posy;
-	int				files_count;
-	SDL_Surface		*texture;
-}					t_icone;
 
 typedef struct		s_gui
 {
@@ -237,13 +210,10 @@ void				set_gui(t_doom *doom, int id);
 void				render_components(t_doom *doom, t_gui *gui);
 t_bool				in_bounds(SDL_Rect bounds, t_vec2 pos);
 void				free_components(t_gui *gui);
-t_component	 		*create_button(SDL_Rect bounds, char *s, char *s2);
+t_component			*create_button(SDL_Rect bounds, t_img *img, char *s2);
 t_component	 		*create_progress(SDL_Rect bounds);
 
 
-DIR					*open_dir(char *s);
-void				close_dir(DIR *rep);
-t_files				*copy_name(struct dirent *file, t_files *start, char *s2);
 void				display_comp(t_doom *doom, t_gui *self);
 
 t_select_items		*create_select_items_array(int capacity);

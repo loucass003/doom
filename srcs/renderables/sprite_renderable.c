@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sprite_renderable.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/28 16:17:38 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/18 19:41:10 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/04 14:49:41 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ void	set_current_cell(t_renderable *r, int x, int y)
 	sprite = r->sprite;
 	pos = (t_vec2){ x, sprite->cells_count.y - 1 - y };
 	div = (t_vec2){ mtl->texture_map->width / sprite->cells_count.x, mtl->texture_map->height / sprite->cells_count.y };
-	//sprite->is_spritesheet = TRUE;
 	sprite->current_cell = y * sprite->cells_count.x + x;
 	sprite->uv_min = ft_vec2_div(ft_vec2_mul(pos, div), (t_vec2){  mtl->texture_map->width, mtl->texture_map->height});
 	sprite->uv_max = ft_vec2_div(ft_vec2_mul(ft_vec2_add(pos, (t_vec2){ 1, 1 }), div),  (t_vec2){  mtl->texture_map->width, mtl->texture_map->height});

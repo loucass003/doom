@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   apply.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/17 09:33:32 by louali            #+#    #+#             */
-/*   Updated: 2020/01/23 13:03:29 by louali           ###   ########.fr       */
+/*   Updated: 2020/02/04 15:34:50 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,12 @@
 
 void		apply_btn_image(t_doom *doom, t_component *self, t_button *btn)
 {
-	t_texture	*tmp;
+	const t_vec2		size = ft_vec2_sub(btn->img_end, btn->img_start);
 
-	tmp = doom->icons;
-	while (tmp != NULL && ft_strcmp(btn->image, tmp->name) != 0)
-		tmp = tmp->next;
-	if (ft_strcmp(btn->image, tmp->name) == 0)
-		apply_surface(&doom->screen, tmp->text,
-			(SDL_Rect) {0, 0, tmp->text->w, tmp->text->h},
-			(SDL_Rect) {self->bounds.x + 2, self->bounds.y +
-			2, self->bounds.w - 4, self->bounds.h - 4});
+	apply_image_to_image(&doom->screen, btn->img,
+		(SDL_Rect) {btn->img_start.x, btn->img_start.y, size.x + 2, size.y},
+		(SDL_Rect) {self->bounds.x + 2, self->bounds.y +
+		2, self->bounds.w - 4, self->bounds.h - 4});
 }
 
 void		apply_text(t_doom *doom, t_component *self, t_button *btn)

@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:01:13 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/03 15:08:24 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/04 15:48:04 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,9 +98,6 @@ void			game_loop(t_doom *doom)
 
 	init_player(doom);
 	init_gameover(doom);
-	
-	load_all(doom);
-	// ;
 	
 	
 	while (doom->running)

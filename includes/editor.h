@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   editor.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 14:35:33 by lloncham          #+#    #+#             */
-/*   Updated: 2020/02/04 00:00:53 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/04 15:53:39 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,9 +210,6 @@ typedef struct		s_editor
 	t_bool					player_grab;
 	
 	
-	int						icone;
-	SDL_Surface				*objet;
-	SDL_Surface				*texture;
 }					t_editor;
 
 

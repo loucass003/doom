@@ -3,16 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   c_button.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:59:38 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/23 13:16:25 by louali           ###   ########.fr       */
+/*   Updated: 2020/02/04 15:49:43 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 #include "gui.h"
 #include "doom.h"
+
+void	set_button_cell(t_button *btn, int x, int y)
+{
+	t_vec2		div;
+	t_vec2		pos;
+
+	if (!btn->img)
+		return ;
+
+	pos = (t_vec2){ x, y };
+	div = (t_vec2){ btn->img->width / btn->cells_count.x, btn->img->height / btn->cells_count.y };
+	btn->img_start = ft_vec2_mul(pos, div);
+	btn->img_end = ft_vec2_mul(ft_vec2_add(pos, (t_vec2){ 1, 1 }), div);
+}
 
 void		c_button_render(t_doom *doom, t_component *self, t_img *image)
 {
@@ -37,7 +51,7 @@ void		c_button_render(t_doom *doom, t_component *self, t_img *image)
 		}
 		x++;
 	}
-	if (btn->image)
+	if (btn->img)
 		apply_btn_image(doom, self, btn);
 	if (btn->texte != NULL)
 		apply_text(doom, self, btn);
@@ -61,7 +75,7 @@ t_bool		c_button_on_event(t_component *self, SDL_Event *event, t_doom *doom)
 	return (TRUE);
 }
 
-t_component	*create_button(SDL_Rect bounds, char *s, char *s2)
+t_component	*create_button(SDL_Rect bounds, t_img *img, char *s2)
 {
 	t_button	*btn;
 
@@ -76,7 +90,9 @@ t_component	*create_button(SDL_Rect bounds, char *s, char *s2)
 	btn->colortext = (SDL_Color) {255, 255, 255, 0};
 	btn->color = btn->color_default;
 	btn->selected = FALSE;
-	btn->image = s;
+	btn->img = img;
 	btn->texte = s2;
+	btn->cells_count = (t_vec2){ 1, 1 };
+	set_button_cell(btn, 0, 0);
 	return ((t_component *)btn);
 }
