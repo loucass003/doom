@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/03 15:12:00 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/04 17:45:10 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -320,7 +320,8 @@ void	draw_object_transform_type(t_editor *editor, t_gui *self)
 	const char	types[3][12] = {"TRANSLATION\0", "ROTATION\0", "SCALING\0"};
 	
 	(void)self;
-	if (editor->current_object == -1)
+	if (editor->current_object == -1
+		|| editor->doom->main_context.type != CTX_EDITOR)
 		return ;
 	SDL_Surface		*text;
 	text = TTF_RenderText_Blended(editor->doom->fonts.helvetica,
@@ -457,5 +458,6 @@ void	g_ingame_render(t_gui *self, t_doom *doom)
 	}
 
 	render_components(doom, self);
-	doom->guis[GUI_EDITOR_SETTINGS].render(&doom->guis[GUI_EDITOR_SETTINGS], doom);
+	if (doom->main_context.type == CTX_EDITOR)
+		doom->guis[GUI_EDITOR_SETTINGS].render(&doom->guis[GUI_EDITOR_SETTINGS], doom);
 }

@@ -3,37 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   constants.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 21:05:41 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/21 15:18:46 by louali           ###   ########.fr       */
+/*   Updated: 2020/02/04 17:40:46 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CONSTANTS_H
 # define CONSTANTS_H
 
-// # define W_HEIGHT 900.0
-// # define W_WIDTH 1600.0
-// # define S_HEIGHT (619.0)
-// # define S_WIDTH (1100.0)
-# define W_HEIGHT 640.
-# define W_WIDTH 1280.0
-# define S_HEIGHT 640.
-# define S_WIDTH 1280.0
-
-// MENU TEXTURES
-# define MT_Y 150
-# define MT_X (S_WIDTH - 170)
-# define MT_W 40
-# define MT_H 40
-
-// ICONE TEXTURES
-
-// # define IT_Y 30
-// # define IT_X (W_WIDTH - 60)
-// # define IT_W 50
-// # define IT_H 50
+# define W_HEIGHT 900.
+# define W_WIDTH 1600.0
+# define S_HEIGHT 900.
+# define S_WIDTH 1600.0
 
 # define S_HEIGHT_2 (S_HEIGHT / 2.)
 # define S_WIDTH_2 (S_WIDTH / 2.)
