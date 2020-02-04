@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 01:42:00 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/04 15:51:45 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/04 16:54:49 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -238,5 +238,7 @@ t_component			*create_checkbox(t_doom *doom, t_vec2 pos, char *text);
 void				apply_btn_image(t_doom *doom, t_component *self, t_button *btn);
 void				apply_text(t_doom *doom, t_component *self, t_button *btn);
 void				apply_textfield(t_doom *doom, char *str, t_component *self, t_textfield *tf);
+
+void				set_button_cell(t_button *btn, int x, int y);
 
 #endif

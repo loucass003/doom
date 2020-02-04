@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 14:15:25 by lloncham          #+#    #+#             */
-/*   Updated: 2020/02/03 15:30:19 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/04 17:03:12 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,7 @@ void		entity_update_boss(t_doom *doom, t_entity *entity, double dt)
 						else
 						{
 							t_vec3 p_right;
-							p_right =  ft_mat4_mulv(rot, (t_vec3){ 0, 0, -0.4 * 5 }); 
+							p_right = ft_mat4_mulv(rot, (t_vec3){ 0, 0, -0.4 * 5 }); 
 							p_right = ft_vec3_add(p_right, pos);
 							renderable_rocket(doom, p_right, doom->player.camera.pos);
 						}

@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:22:26 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/03 14:42:42 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/04 16:55:57 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_bool		create_door(t_doom *doom, int indexes[3], t_renderable *r)
 	int		i;
 
 	i = -1;
-	while (++i < r->groups_count)
+	while (++i < (int)r->groups_count)
 	{
 		if (ft_strequ(r->groups[i], "door_part1"))
 			r->of.data.door->door_1 = i;

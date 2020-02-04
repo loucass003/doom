@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   mat4.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:25:31 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/30 15:26:10 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/04 16:55:37 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "maths/mat4.h"
+#include <math.h>
 
 t_vec3	rotation_matrix_to_euler(t_mat4 m)
 {

@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 00:01:14 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/03 15:29:49 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/04 16:52:56 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ t_bool		create_grenada(t_renderable *r, struct s_doom *doom);
 void		compute_entity_hitbox(t_renderable *r);
 void		entity_update_boss(struct s_doom *doom, t_entity *entity, double dt);
 void		entity_update_enemy(struct s_doom *doom, t_entity *entity, double dt);
-t_bool		entity_update_grenada(struct s_doom *doom, t_entity *entity, double dt);
+t_bool		entity_update_grenada(struct s_doom *doom, t_entity *entity);
 
 t_bool	renderable_rocket(struct s_doom *doom, t_vec3 from, t_vec3 to);
 t_bool	create_rocket(t_renderable *r, struct s_doom *doom);

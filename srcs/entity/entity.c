@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 22:00:26 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/03 15:31:04 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/04 17:05:03 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -334,7 +334,7 @@ t_bool		entity_update(t_doom *doom, t_entity *entity, double dt)
 		if (entity->type == ENTITY_ENEMY)
 			entity_update_enemy(doom, entity, dt);
 		if (entity->type == ENTITY_GRENADA)
-			if (!entity_update_grenada(doom, entity, dt))
+			if (!entity_update_grenada(doom, entity))
 				return (FALSE);
 		entity->jetpack = FALSE;
 		int slot = get_slot_of(&doom->player, ITEM_JETPACK);
@@ -361,7 +361,7 @@ t_bool		entity_update(t_doom *doom, t_entity *entity, double dt)
 		}
 		else if (entity->type == ENTITY_ROCKET)
 		{
-			entity->velocity.y = 0;
+			;
 		}
 		else
 		{	

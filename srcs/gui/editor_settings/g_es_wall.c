@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_es_wall.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 20:40:10 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/04 00:09:15 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/04 16:55:09 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static t_bool			action_performed(t_component *cmp, t_doom *doom)
 	t_room	*room = &editor->rooms->values[editor->current_room];
 	int wall_index = wall_indexof_by_indice(room->walls, editor->current_seg.x);
 	if (wall_index == -1)
-		return (NULL);
+		return (FALSE);
 	t_wall *wall = &room->walls->values[wall_index];
 	t_wall_section *ws = &wall->wall_sections->values[editor->wall_section];
 	if (cmp == editor->settings.guis[ES_GUI_WALL].components->values[0])

@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 14:02:33 by rle-ru            #+#    #+#             */
-/*   Updated: 2020/02/03 15:23:10 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/04 16:52:50 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int			renderable_from_entity(t_renderables *renderables, t_entity *entity)
 	return (-1);
 }
 
-t_bool		entity_update_grenada(t_doom *doom, t_entity *entity, double dt)
+t_bool		entity_update_grenada(t_doom *doom, t_entity *entity)
 {
 	t_entity_grenada *g;
 
