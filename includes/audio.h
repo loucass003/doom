@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   audio.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/19 01:15:20 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/02 17:02:18 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/04 16:31:37 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,5 +75,7 @@ t_bool				wav_return_error(char *error);
 t_bool				load_wav(char *path, t_wav_format *wav);
 t_bool				free_wav(t_wav_format **wav);
 t_bool				set_default_sounds(struct s_doom *doom);
+int					get_source(t_audio *s);
+
 
 #endif

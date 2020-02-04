@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 14:35:33 by lloncham          #+#    #+#             */
-/*   Updated: 2020/02/04 15:53:39 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/04 16:34:39 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -307,6 +307,7 @@ void				hide_doors_wall(t_editor *editor);
 
 
 
+t_bool				add_map(t_renderable *rmap, t_editor *editor);
 
 
 

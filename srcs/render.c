@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 16:49:48 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/03 14:23:00 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/04 16:33:47 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 #include "sprite.h"
 #include "render.h"
 #include "octree.h"
+#include "door.h"
+#include "explosion.h"
 
 void	render(t_doom *doom)
 {

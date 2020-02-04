@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:43:35 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/04 13:59:59 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/04 16:28:54 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ void				update_player_camera(t_player *player)
 	// ALenum error = alGetError();
 	// 	printf("alGenBuffers : %s\n", alGetString(error)); 
 }
-
 
 t_bool	create_player(t_renderable *r, t_doom *doom)
 {
@@ -62,8 +61,6 @@ void				init_player(t_doom *doom)
 	doom->main_context.camera = &player->camera;
 	update_player_camera(&doom->player);
 }
-
-
 
 void				spawn_player(t_doom *doom)
 {
@@ -104,7 +101,6 @@ void				player_inventory_event(t_doom *doom, SDL_Event *event)
 		}
 	}
 }
-
 
 t_bool				draw_player_inventory(t_doom *doom, t_gui *self)
 {
