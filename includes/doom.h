@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   doom.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/04 15:52:09 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/04 16:13:22 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,7 @@ typedef struct		s_doom
 	t_level				level;
 	t_score				scores[5];
 	t_bool				help;
+	t_bool				fullscreen;
 }					t_doom;
 
 float				clamp(float min, float max, float v);
