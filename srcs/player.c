@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:43:35 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/03 15:30:44 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/04 13:59:59 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,9 @@ t_bool				draw_player_inventory(t_doom *doom, t_gui *self)
 			fill_rect(doom->main_context.image, (SDL_Rect){ 10, 50 + i * 60, 50, 50 }, 0xFFFF0000);
 			if (is->of)
 			{
-				apply_image_blended(doom->main_context.image, is->of->image->data.texture, is->of->bounds, (SDL_Rect){ 10, 50 + i * 60, 50, 50 });
+				apply_image_blended(doom->main_context.image, is->of->image
+					->data.texture, is->of->bounds,
+					(SDL_Rect){ 10, 50 + i * 60, 50, 50 });
 				if (is->amount <= 1)
 					continue;
 				const SDL_Color	color = {255, 255, 0, 0};
@@ -129,7 +131,8 @@ t_bool				draw_player_inventory(t_doom *doom, t_gui *self)
 
 				text = TTF_RenderText_Blended(doom->fonts.helvetica,
 					ft_int_to_str(is->amount).str, color);
-				apply_surface_blended(doom->main_context.image, text, (SDL_Rect){0, 0, text->w, text->h},
+				apply_surface_blended(doom->main_context.image, text,
+					(SDL_Rect){0, 0, text->w, text->h},
 					(SDL_Rect){ 40, 50 + i * 60, 20, 20 });
 				SDL_FreeSurface(text);
 			}
@@ -148,16 +151,22 @@ t_bool				draw_player_inventory(t_doom *doom, t_gui *self)
 				weapon->current_step++;
 				if (weapon->current_step == weapon->steps_count)
 				{
-					weapon->current_step = (SDL_GetMouseState(NULL, NULL) & SDL_BUTTON(SDL_BUTTON_LEFT) ? 0 : weapon->idle_step);
+					weapon->current_step = (SDL_GetMouseState(NULL, NULL) 
+					& SDL_BUTTON(SDL_BUTTON_LEFT) ? 0 : weapon->idle_step);
 					weapon->fireing = FALSE;
 				}
-				set_current_animation_step(weapon, weapon->animation_seq[weapon->current_step]);
+				set_current_animation_step(weapon, weapon->animation_seq[weapon
+					->current_step]);
 			}
 			if (weapon->type != WEAPON_GRENADA)
-				apply_image_blended(doom->main_context.image, weapon->animation->data.texture, weapon->curr_image, (SDL_Rect){ S_WIDTH_2 - 80 / 2, S_HEIGHT - 300, 300, 300 });
+				apply_image_blended(doom->main_context.image, weapon->animation
+				->data.texture, weapon->curr_image,
+				(SDL_Rect){ S_WIDTH_2 - 80 / 2, S_HEIGHT - 300, 300, 300 });
 		}
-		((t_progress *)self->components->values[0])->value = doom->player.entity.life * (1 / doom->player.entity.max_life) * 100;
-		if (doom->player.entity.life <= 0 || (doom->closer_boss && doom->closer_boss->dead))
+		((t_progress *)self->components->values[0])->value
+		= doom->player.entity.life * (1 / doom->player.entity.max_life) * 100;
+		if (doom->player.entity.life <= 0 || (doom->closer_boss
+		&& doom->closer_boss->dead))
 		{
 			set_gui(doom, GUI_GAMEOVER);
 			return (FALSE);
@@ -182,25 +191,28 @@ void	update_controls(t_doom *doom)
 	else if (doom->player.entity.jetpack)
 		move_speed = 15;
 	else if (s[SDL_SCANCODE_LSHIFT] && !doom->player.entity.jetpack)
-		move_speed = 30;
+		move_speed = 15;
 	else
 		move_speed = !doom->player.entity.grounded ? 1.2 : 10;
 	if (s[SDL_SCANCODE_W] || s[SDL_SCANCODE_S])
 	{
-		doom->player.entity.velocity.x += sinf(doom->player.entity.rotation.y) * (s[SDL_SCANCODE_W] ? 1 : -1) * move_speed;
-		doom->player.entity.velocity.z += cosf(doom->player.entity.rotation.y) * (s[SDL_SCANCODE_W] ? 1 : -1) * move_speed;
+		doom->player.entity.velocity.x += sinf(doom->player.entity.rotation.y)
+			* (s[SDL_SCANCODE_W] ? 1 : -1) * move_speed;
+		doom->player.entity.velocity.z += cosf(doom->player.entity.rotation.y)
+			* (s[SDL_SCANCODE_W] ? 1 : -1) * move_speed;
 	}
 	if (s[SDL_SCANCODE_A] || s[SDL_SCANCODE_D])
 	{
-		doom->player.entity.velocity.x += -cosf(doom->player.entity.rotation.y) * (s[SDL_SCANCODE_D] ? 1 : -1) * move_speed;
-		doom->player.entity.velocity.z += sinf(doom->player.entity.rotation.y) * (s[SDL_SCANCODE_D] ? 1 : -1) * move_speed;
+		doom->player.entity.velocity.x += -cosf(doom->player.entity.rotation.y)
+			* (s[SDL_SCANCODE_D] ? 1 : -1) * move_speed;
+		doom->player.entity.velocity.z += sinf(doom->player.entity.rotation.y)
+			* (s[SDL_SCANCODE_D] ? 1 : -1) * move_speed;
 	}
 	if (doom->main_context.type == CTX_NORMAL)
 	{
-		if (s[SDL_SCANCODE_SPACE] && !doom->player.entity.jump && (doom->player.entity.grounded || doom->player.entity.jetpack))
-		{ 
+		if (s[SDL_SCANCODE_SPACE] && !doom->player.entity.jump
+		&& (doom->player.entity.grounded || doom->player.entity.jetpack))
 			doom->player.entity.jump = TRUE;
-		}
 		if (s[SDL_SCANCODE_LSHIFT] && doom->player.entity.jetpack)
 		{ 
 			doom->player.entity.grounded = FALSE;
@@ -233,7 +245,8 @@ void	update_controls(t_doom *doom)
 		if (m_y != 0)
 		{
 			float rot = m_y * ms * 0.01;
-			if (doom->player.entity.rotation.x - rot < M_PI_2 && doom->player.entity.rotation.x - rot > -M_PI_2 )
+			if (doom->player.entity.rotation.x - rot < M_PI_2
+			&& doom->player.entity.rotation.x - rot > -M_PI_2 )
 				doom->player.entity.rotation.x -= rot;
 		}
 	}
