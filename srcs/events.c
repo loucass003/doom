@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   events.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:14:55 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/04 14:27:57 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/04 16:13:01 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,19 @@ static t_bool	events_window(t_doom *doom, SDL_Event *event)
 	{
 		set_gui(doom, GUI_MAIN_MENU);
 		return (FALSE);
+	}
+	if (event->type == SDL_KEYDOWN && (key == SDL_SCANCODE_F2))
+	{
+		if (doom->fullscreen == TRUE)
+		{
+			doom->fullscreen = FALSE;
+			SDL_SetWindowFullscreen(doom->win,0);
+		}
+		else
+		{
+			doom->fullscreen = TRUE;
+			SDL_SetWindowFullscreen(doom->win,SDL_WINDOW_FULLSCREEN);
+		}
 	}
 	
 	return (TRUE);
