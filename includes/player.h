@@ -9,6 +9,13 @@
 
 #define PLAYER_INV_SIZE (8)
 
+typedef enum					s_player_state
+{
+	PS_CROUCH = 0,
+	PS_NORMAL = 1,
+	PS_SPRINT = 2
+}								t_player_state;
+
 typedef struct					s_player_spawn_data
 {
 	t_vec3		position;
@@ -22,8 +29,8 @@ typedef struct					s_player
 	t_itemstack			item[PLAYER_INV_SIZE];
 	int					selected_slot;
 	t_player_spawn_data	spawn_data;
-
-
+	t_player_state		player_state;
+	t_player_state		desired_state;
 }								t_player;
 
 t_ray				create_shoot_ray(t_player player, t_vec3 direction);
@@ -34,5 +41,6 @@ void				update_controls(struct s_doom *doom);
 void				player_inventory_event(struct s_doom *doom, SDL_Event *event);
 t_bool				draw_player_inventory(struct s_doom *doom, t_gui *self);
 int					get_slot_of(t_player *player, t_item_type type);
+void				set_player_state(t_player *player, t_player_state state);
 
 #endif

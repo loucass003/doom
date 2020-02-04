@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   entity.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 00:01:14 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/04 16:52:56 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/04 18:05:00 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ typedef struct		s_entity
 	ALuint				*sources;
 	t_bool				jetpack;
 	t_bool				killable;
+	t_bool				crouch;
 	struct s_renderable	*r;
 }					t_entity;
 
@@ -106,6 +107,7 @@ void		compute_entity_hitbox(t_renderable *r);
 void		entity_update_boss(struct s_doom *doom, t_entity *entity, double dt);
 void		entity_update_enemy(struct s_doom *doom, t_entity *entity, double dt);
 t_bool		entity_update_grenada(struct s_doom *doom, t_entity *entity);
+t_vec3		collide_with_world(t_entity *entity, t_vec3 e_position, t_vec3 e_velocity, t_bool *stop);
 
 t_bool	renderable_rocket(struct s_doom *doom, t_vec3 from, t_vec3 to);
 t_bool	create_rocket(t_renderable *r, struct s_doom *doom);

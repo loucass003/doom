@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:43:35 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/04 16:28:54 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/04 18:06:09 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ void				init_player(t_doom *doom)
 	player->entity.life = doom->level.max_life;
 	player->entity.max_life = doom->level.max_life;
 	doom->main_context.camera = &player->camera;
+	set_player_state(player, PS_NORMAL);
 	update_player_camera(&doom->player);
 }
 
@@ -90,6 +91,8 @@ void				player_inventory_event(t_doom *doom, SDL_Event *event)
 			if (doom->player.selected_slot > 7)
 				doom->player.selected_slot = 0;
 		}
+		if (event->type == SDL_KEYDOWN && key == SDL_SCANCODE_C)
+			set_player_state(&doom->player, doom->player.desired_state == PS_CROUCH ? PS_NORMAL : PS_CROUCH);
 	}
 	if (doom->main_context.type == CTX_EDITOR)
 	{
@@ -179,9 +182,6 @@ void	update_controls(t_doom *doom)
 	float move_speed;
 	if (!doom->mouse_focus && is_settings_open(&doom->editor))
 		return ;
-	//long start = getMicrotime();
-	//entity_update(doom, &doom->player.entity, doom->stats.delta);
-	//printf("delay %luus\n", getMicrotime() - start);
 	if (doom->main_context.type == CTX_EDITOR)
 		move_speed = 10;
 	else if (doom->player.entity.jetpack)
@@ -214,12 +214,12 @@ void	update_controls(t_doom *doom)
 			doom->player.entity.grounded = FALSE;
 			doom->player.entity.velocity.y -= 8;
 		}
+	
 	}
-
 	if (doom->main_context.type == CTX_EDITOR)
 	{
 		if (s[SDL_SCANCODE_SPACE] )
-		{ 
+		{
 			doom->player.entity.velocity.y += 8;
 		}
 		if (s[SDL_SCANCODE_LSHIFT])
@@ -227,11 +227,6 @@ void	update_controls(t_doom *doom)
 			doom->player.entity.velocity.y -= 8;
 		}
 	}
-	if (s[SDL_SCANCODE_J] || s[SDL_SCANCODE_L])
-		doom->player.entity.rotation.y += (s[SDL_SCANCODE_J] ? 1 : -1) * ms;
-	if (s[SDL_SCANCODE_I] || s[SDL_SCANCODE_K])
-		doom->player.entity.rotation.x += (s[SDL_SCANCODE_I] ? 1 : -1) * ms;
-
 	if (doom->mouse_focus)
 	{
 		int m_x, m_y;
@@ -247,4 +242,58 @@ void	update_controls(t_doom *doom)
 		}
 	}
 	update_player_camera(&doom->player);
+}
+
+
+t_bool		set_player_height(t_player *player, float height)
+{
+	t_entity	*e;
+	float		diff;
+
+	e = &player->entity;
+
+	diff = (height / 2.0) - e->radius.y;
+	// printf("%f diff\n", diff);
+	//e->velocity.y = 5;
+	if (diff > 0)
+	{
+		t_entity test = *e;
+		test.velocity.x = 0;
+		test.velocity.z = 0;
+		test.velocity.y = 5;
+		test.packet.r3_posision = e->position;
+		test.packet.r3_velocity = ft_vec3_mul_s(test.velocity, e->packet.dt);
+		test.packet.e_radius = e->radius;
+		t_vec3	e_position = ft_vec3_div(test.packet.r3_posision, test.packet.e_radius);
+		t_vec3	e_velocity = ft_vec3_div(test.packet.r3_velocity, test.packet.e_radius);
+		t_vec3	final_pos;
+
+		test.packet.depth = 0;
+		t_bool stop = FALSE;
+		final_pos = collide_with_world(&test, e_position, e_velocity, &stop);
+		if (test.packet.found_colision)
+			return (FALSE);
+	}
+	// e->velocity.y = 500;
+	e->radius.y = height / 2;
+	if (diff < 0)
+		e->position.y -= height / 2;
+	if (diff > 0)
+		e->position.y += height / 2;
+	return (TRUE);
+}
+
+void		set_player_state(t_player *player, t_player_state state)
+{
+	player->desired_state = state;
+	if (state == PS_CROUCH)
+	{
+		if (set_player_height(player, 2.5))
+			player->player_state = state;
+	}
+	else if (state == PS_NORMAL)
+	{
+		if (set_player_height(player, 3 * 2))
+			player->player_state = state;
+	}
 }
