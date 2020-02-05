@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:43:35 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/05 18:52:55 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/05 18:56:15 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -321,7 +321,7 @@ t_bool	ellipsoid_intersect_world(t_doom *doom, t_collide_ellipsoid ellipsoid)
 			if (!r->faces->values[j].has_collision && doom->main_context.type == CTX_NORMAL)
 				continue;
 			// t_physics_data		*check_triangle(t_renderable *r, t_physics_data *packet, t_vec3 p1, t_vec3 p2, t_vec3 p3)
-			hit = ellipsoid_hit_triangle(&ellipsoid, &r->faces->values[j].collidable.data.triangle);
+			hit = ellipsoid_hit_triangle(ellipsoid, r->faces->values[j].collidable.data.triangle);
 			if (hit.collide)
 			{
 				printf("HIT %d\n", r->of.type);
