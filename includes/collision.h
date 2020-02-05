@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 01:15:48 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/05 18:55:18 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/05 19:29:19 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,8 +127,5 @@ t_collision			triangle_hit_aabb(t_collide_triangle *triangle,  t_collide_aabb *a
 t_bool				get_obb_collision(t_obb_box a, t_obb_box b);
 
 t_physics_data		*check_triangle(struct s_renderable *r, t_physics_data *packet, t_vec3 p1, t_vec3 p2, t_vec3 p3);
-t_collision			ellipsoid_hit_triangle(t_collide_ellipsoid ellipsoid, t_collide_triangle tri);
-
-
 
 #endif
