@@ -6,12 +6,13 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:43:35 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/04 18:06:09 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/05 15:52:49 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom.h"
 #include "player.h"
+#include "octree.h"
 
 void				update_player_camera(t_player *player)
 {
@@ -59,7 +60,7 @@ void				init_player(t_doom *doom)
 	player->entity.life = doom->level.max_life;
 	player->entity.max_life = doom->level.max_life;
 	doom->main_context.camera = &player->camera;
-	set_player_state(player, PS_NORMAL);
+	set_player_state(doom, player, PS_NORMAL);
 	update_player_camera(&doom->player);
 }
 
@@ -92,7 +93,7 @@ void				player_inventory_event(t_doom *doom, SDL_Event *event)
 				doom->player.selected_slot = 0;
 		}
 		if (event->type == SDL_KEYDOWN && key == SDL_SCANCODE_C)
-			set_player_state(&doom->player, doom->player.desired_state == PS_CROUCH ? PS_NORMAL : PS_CROUCH);
+			set_player_state(doom, &doom->player, doom->player.desired_state == PS_CROUCH ? PS_NORMAL : PS_CROUCH);
 	}
 	if (doom->main_context.type == CTX_EDITOR)
 	{
@@ -244,8 +245,50 @@ void	update_controls(t_doom *doom)
 	update_player_camera(&doom->player);
 }
 
+t_bool	aabb_intersect_world(t_doom *doom, t_collide_aabb aabb)
+{
+	t_collision		hit;
+	t_renderable	*r;
+	int				i;
+	int				j;
 
-t_bool		set_player_height(t_player *player, float height)
+	i = -1;
+	while (++i < doom->renderables->len)
+	{
+		r = &doom->renderables->values[i];
+		if (r->of.type == RENDERABLE_ENTITY 
+			&& (r->of.data.entity->dead
+				|| (r->of.data.entity->type == ENTITY_ROCKET)
+				|| (r->of.data.entity->type == ENTITY_PLAYER)))
+			continue;
+		if (r->has_hitbox && r->hitbox.type == COLLIDE_ELLIPSOID)
+		{
+			t_collide_ellipsoid ellipsoid = r->hitbox.data.ellipsoid;
+			t_renderable *sphere = &doom->sphere_primitive;
+			sphere->position = ellipsoid.origin;
+			sphere->scale = ellipsoid.radius;
+			sphere->dirty = TRUE;
+			transform_renderable(sphere);
+			r = sphere; 
+		}
+		j = -1;
+		while (++j < r->faces->len)
+		{
+			if (!r->faces->values[j].has_collision && doom->main_context.type == CTX_NORMAL)
+				continue;
+			hit = triangle_hit_aabb(&r->faces->values[j].collidable.data.triangle, &aabb);
+			if (hit.collide)
+			{
+				printf("HIT %d\n", r->of.type);
+				return (TRUE);
+			}
+		}
+	}
+	return (FALSE);
+}
+
+
+t_bool		set_player_height(t_doom *doom, t_player *player, float height)
 {
 	t_entity	*e;
 	float		diff;
@@ -257,21 +300,12 @@ t_bool		set_player_height(t_player *player, float height)
 	//e->velocity.y = 5;
 	if (diff > 0)
 	{
-		t_entity test = *e;
-		test.velocity.x = 0;
-		test.velocity.z = 0;
-		test.velocity.y = 5;
-		test.packet.r3_posision = e->position;
-		test.packet.r3_velocity = ft_vec3_mul_s(test.velocity, e->packet.dt);
-		test.packet.e_radius = e->radius;
-		t_vec3	e_position = ft_vec3_div(test.packet.r3_posision, test.packet.e_radius);
-		t_vec3	e_velocity = ft_vec3_div(test.packet.r3_velocity, test.packet.e_radius);
-		t_vec3	final_pos;
-
-		test.packet.depth = 0;
-		t_bool stop = FALSE;
-		final_pos = collide_with_world(&test, e_position, e_velocity, &stop);
-		if (test.packet.found_colision)
+		t_vec3 radius = (t_vec3){ e->radius.x, height / 2, e->radius.z };
+		t_collide_aabb aabb = (t_collide_aabb){ 
+			.min = ft_vec3_sub(e->position, (t_vec3){ e->radius.x, 0, e->radius.z }),
+			.max = ft_vec3_add(e->position, radius) 
+		};
+		if (aabb_intersect_world(doom, aabb))
 			return (FALSE);
 	}
 	// e->velocity.y = 500;
@@ -283,17 +317,17 @@ t_bool		set_player_height(t_player *player, float height)
 	return (TRUE);
 }
 
-void		set_player_state(t_player *player, t_player_state state)
+void		set_player_state(t_doom *doom, t_player *player, t_player_state state)
 {
 	player->desired_state = state;
 	if (state == PS_CROUCH)
 	{
-		if (set_player_height(player, 2.5))
+		if (set_player_height(doom, player, 2.5))
 			player->player_state = state;
 	}
 	else if (state == PS_NORMAL)
 	{
-		if (set_player_height(player, 3 * 2))
+		if (set_player_height(doom, player, 3 * 2))
 			player->player_state = state;
 	}
 }
