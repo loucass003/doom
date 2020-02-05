@@ -20,6 +20,7 @@ SRC+=audio/wav_parser.c
 SRC+=audio/wav_utils.c
 SRC+=colisions/aabb.c
 SRC+=colisions/compute_collidables.c
+SRC+=colisions/ellipsoid.c
 SRC+=colisions/obb.c
 SRC+=colisions/physics/physics.c
 SRC+=colisions/triangle.c
