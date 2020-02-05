@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/04 17:45:10 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/05 16:33:08 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,16 @@
 #include "editor.h"
 #include "threads.h"
 #include "door.h"
+
+static t_bool			action_performed(t_component *cmp, t_doom *doom)
+{
+	if (cmp == doom->guis[doom->current_gui].components->values[2])
+	{
+		set_gui(doom, GUI_EDITOR);
+		return (FALSE);
+	}
+	return (TRUE);
+}
 
 void	g_ingame_on_enter(t_gui *self, t_doom *doom)
 {
@@ -36,6 +46,13 @@ void	g_ingame_on_enter(t_gui *self, t_doom *doom)
 	((t_progress *)self->components->values[1])->value = 50;
 	((t_progress *)self->components->values[1])->bg_color = 0xFFFF0000;
 	((t_progress *)self->components->values[1])->fg_color = 0xFF00FF00;
+	if (doom->main_context.type == CTX_EDITOR)
+	{
+		append_components_array(&self->components, create_button((SDL_Rect)
+		{ 10, 10 , 200, 50 }, NULL, "BACK"));
+		self->components->values[2]->perform_action = action_performed;
+	}
+
 }
 
 void	g_ingame_on_leave(t_gui *self, t_doom *doom)
@@ -89,108 +106,22 @@ void	g_ingame_on_events(t_gui *self, SDL_Event *event, t_doom *doom)
 
 	if (event->type == SDL_KEYDOWN && (key == SDL_SCANCODE_TAB))
 			doom->mouse_focus = !doom->mouse_focus;
-	if (doom->main_context.type == CTX_NORMAL)
-	{
-		if (event->type == SDL_KEYDOWN && (key == SDL_SCANCODE_P))
-		{
-			t_ray ray = create_shoot_ray(doom->player, (t_vec3){0, 0, 1});
-			t_collision hit = ray_hit_world(doom, doom->renderables, ray);
-			if (hit.collide)
-			{
-				t_renderable *r = hit.renderable;
-				if (r && r->of.type != RENDERABLE_ENTITY)
-				{
-					t_renderable enemy;
-					
-					create_enemy_renderable(doom, &enemy);
-					enemy.of.data.entity->position = hit.point;
-					enemy.of.data.entity->position.y += enemy.of.data.entity
-						->radius.y;
-					append_renderables_array(&doom->renderables, enemy);
-				}
-			}
-		}
-	}
-	else if (doom->main_context.type == CTX_EDITOR)
+	if (doom->main_context.type == CTX_EDITOR)
 	{
 		if (!doom->mouse_focus && is_settings_open(&doom->editor))
 		{
 			g_editor_settings_on_event(self, event, doom);
 			return ;
 		}
-		
 		if (event->type == SDL_MOUSEBUTTONDOWN
 			&& event->button.button == SDL_BUTTON_LEFT)
-		{
-			t_ray ray; 
-			t_collision hit;
-			ray = create_shoot_ray(doom->player, (t_vec3){0, 0, 1});
-			hit = ray_hit_world(doom, doom->renderables, ray);
-			
-			if (hit.collide)
-			{
-				if (doom->editor.current_object != -1)
-					doom->editor.objects->values[doom->editor.current_object].r
-						->show_hitbox = FALSE;
-				select_floor_ceil(&doom->editor, -1, FALSE);
-				select_room(&doom->editor, -1);
-				if (hit.renderable->of.type == RENDERABLE_MAP)
-				{
-					t_face face;
-					t_room *room;
-					face = hit.renderable->faces->values[hit.who.data.triangle.face];
-					room = &doom->editor.rooms->values[face.room_index];
-					
-					if (face.wall_index == -1)
-					{
-						doom->editor.wall_section = -1;
-						doom->editor.current_seg.x = -1;
-					}
-					else
-					{
-						doom->editor.current_seg.x = room->walls->values[face.wall_index].indice;
-						doom->editor.current_seg.y = room->walls->values[(face.wall_index + 1) % room->walls->len].indice;
-						doom->editor.wall_section = face.wall_section;
-						//printf("%d section\n", face.wall_section);
-					}
-					select_room(&doom->editor, face.room_index);
-					const Uint8		*s = SDL_GetKeyboardState(NULL);
-					if (s[SDL_SCANCODE_LCTRL] && hit.who.data.triangle.face >= room->floor_start && hit.who.data.triangle.face < room->walls_start)
-					{
-						// printf("CALL\n");
-						select_floor_ceil(&doom->editor, face.room_index, hit.who.data.triangle.face < room->ceilling_start);
-					}
-				}
-				if (hit.renderable->of.type == RENDERABLE_DOOR)
-				{
-					t_door *door = hit.renderable->of.data.door;
-					t_room *room = &doom->editor.rooms->values[door->indexes[0]];
-					doom->editor.current_seg.x = room->walls->values[door->indexes[1]].indice;
-					doom->editor.current_seg.y = room->walls->values[(door->indexes[1] + 1) % room->walls->len].indice;
-					doom->editor.wall_section = door->indexes[2];
-					select_room(&doom->editor, door->indexes[0]);
-				}
-				else if (renderables_indexof(doom->renderables, hit.renderable) == doom->skybox_index)
-				{
-					editor_settings_update(&doom->editor);
-				}
-				else if (hit.renderable->object_index != -1)
-				{
-					doom->editor.current_object = hit.renderable->object_index;
-					doom->editor.objects->values[doom->editor.current_object].r->show_hitbox = TRUE;
-					editor_settings_update(&doom->editor);
-				}
-			}
-		}
+			event_button_left(doom);
 		else if (event->type == SDL_MOUSEBUTTONDOWN && event->button.button == SDL_BUTTON_RIGHT)
 			unselect_all(doom);
-
 		if (event->type == SDL_KEYDOWN && doom->editor.selected_floor_ceil != -1 && doom->editor.current_room != -1)
 		{
 			t_room	*room;
 			room = &doom->editor.rooms->values[doom->editor.current_room];
-			// if (!room->r)
-			// 	return ;
 			if (key == SDL_SCANCODE_KP_4 || key == SDL_SCANCODE_KP_6 || key == SDL_SCANCODE_KP_8 || key == SDL_SCANCODE_KP_5)
 			{
 				t_vec3	rot;

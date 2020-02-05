@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 20:16:48 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/22 15:34:04 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/05 16:07:20 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,10 @@ t_bool				entity_hit_itemstack(t_entity *entity, t_itemstack *is)
 	if (s == -1 && (s = get_empty_slot(&entity->packet.doom->player)) == -1)
 		return (TRUE);
 	inv_is = &entity->packet.doom->player.item[s];
-	if (inv_is->of && inv_is->of->type == ITEM_WEAPON 
+	if (inv_is->of && inv_is->of->type == ITEM_WEAPON &&  inv_is->of->data.weapon.type != WEAPON_GRENADA
 		&& inv_is->of->data.weapon.type == is->of->data.weapon.type)
 		return (TRUE);
-	else if (inv_is->of && inv_is->of->type == ITEM_WEAPON 
+	else if (inv_is->of && inv_is->of->type == ITEM_WEAPON &&  inv_is->of->data.weapon.type != WEAPON_GRENADA
 		&& (s = get_empty_slot(&entity->packet.doom->player)) == -1)
 		return (TRUE); 
 	inv_is = &entity->packet.doom->player.item[s];

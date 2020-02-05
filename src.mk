@@ -59,6 +59,7 @@ SRC+=game.c
 SRC+=gaps_filler.c
 SRC+=gui/editor/editor_button.c
 SRC+=gui/editor/editor_event.c
+SRC+=gui/editor/ingame_events/events_ctx_editor.c
 SRC+=gui/editor_settings/g_es_global.c
 SRC+=gui/editor_settings/g_es_object.c
 SRC+=gui/editor_settings/g_es_player.c
