@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   editor_setmap.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 15:55:03 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/04 16:52:03 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/06 13:08:14 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -299,6 +299,8 @@ t_bool		create_object_renderable(t_editor *editor, int object_index, t_renderabl
 		object->rotation = r->rotation;
 	else
 		r->rotation = object->rotation;
+	if (object->type == OBJECT_ENTITY)
+		r->of.data.entity->rotation = object->rotation;
 	r->object_index = object_index;
 	r->no_light = object->no_light;
 	object->r = r;

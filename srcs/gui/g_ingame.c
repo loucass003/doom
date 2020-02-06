@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_ingame.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/05 16:33:08 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/06 13:06:49 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,14 +220,12 @@ void	g_ingame_on_events(t_gui *self, SDL_Event *event, t_doom *doom)
 				object->rotation = ft_vec3_add(object->rotation, add);
 				if (object->r)
 				{
-					object->r->rotation = object->rotation;
+					if (object->r->of.type == RENDERABLE_ENTITY)
+						object->r->of.data.entity->rotation = object->rotation;
+					else
+						object->r->rotation = object->rotation;
 					object->r->dirty = TRUE;
 				}
-				// if (object->type == OBJECT_LIGHT)
-				// {
-				// 	t_light *light = &doom->lights->values[object->of.light_index];
-				// 	light->dir = ft_vec3_norm(object->rotation);
-				// }
 			}
 			else if (doom->editor.object_transform_mode == OT_MODE_SCALE)
 			{
