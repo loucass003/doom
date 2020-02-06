@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:43:35 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/05 19:28:56 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/06 12:58:04 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@ void				update_player_camera(t_player *player)
 	camera_update_maxtrix(&player->camera);	
 	alListener3f(AL_POSITION, player->camera.pos.x, player->camera.pos.y, player->camera.pos.z);
 	alListenerfv(AL_ORIENTATION, (ALfloat[6]){camera->forward.x, camera->forward.y, camera->forward.z, 0.f, 1.f, 0.f});
-	// ALenum error = alGetError();
-	// 	printf("alGenBuffers : %s\n", alGetString(error)); 
 }
 
 t_bool	create_player(t_renderable *r, t_doom *doom)
@@ -256,10 +254,7 @@ t_bool	aabb_intersect_world(t_doom *doom, t_collide_aabb aabb)
 	while (++i < doom->renderables->len)
 	{
 		r = &doom->renderables->values[i];
-		if (r->of.type == RENDERABLE_ENTITY 
-			&& (r->of.data.entity->dead
-				|| (r->of.data.entity->type == ENTITY_ROCKET)
-				|| (r->of.data.entity->type == ENTITY_PLAYER)))
+		if (ray_skip_renderable(r))
 			continue;
 		if (r->has_hitbox && r->hitbox.type == COLLIDE_ELLIPSOID)
 		{
@@ -280,10 +275,7 @@ t_bool	aabb_intersect_world(t_doom *doom, t_collide_aabb aabb)
 				continue;
 			hit = triangle_hit_aabb(&r->faces->values[j].collidable.data.triangle, &aabb);
 			if (hit.collide)
-			{
-				printf("HIT %d\n", r->of.type);
 				return (TRUE);
-			}
 		}
 	}
 	return (FALSE);
@@ -297,8 +289,6 @@ t_bool		set_player_height(t_doom *doom, t_player *player, float height)
 	e = &player->entity;
 
 	diff = (height / 2.0) - e->radius.y;
-	// printf("%f diff\n", diff);
-	//e->velocity.y = 5;
 	if (diff > 0)
 	{
 		t_vec3 pos = e->position;

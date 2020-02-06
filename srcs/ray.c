@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/14 16:37:29 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/05 15:41:52 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/06 12:55:29 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,13 @@ t_collision		ray_hit_collidable(t_ray *ray, t_collidable *collidable)
 	return ((t_collision){ .collide = FALSE });
 }
 
+t_bool			ray_skip_renderable(t_renderable *r)
+{
+	return (r->of.type == RENDERABLE_ENTITY 
+		&& (r->of.data.entity->dead
+			|| (r->of.data.entity->type == ENTITY_ROCKET)
+			|| (r->of.data.entity->type == ENTITY_PLAYER)));
+}
 
 t_collision		ray_hit_world(t_doom *doom, t_renderables *renderables, t_ray ray)
 {
@@ -87,11 +94,7 @@ t_collision		ray_hit_world(t_doom *doom, t_renderables *renderables, t_ray ray)
 	while (++i < renderables->len)
 	{
 		r = &renderables->values[i];
-		
-		if (r->of.type == RENDERABLE_ENTITY 
-			&& (r->of.data.entity->dead
-				|| (r->of.data.entity->type == ENTITY_ROCKET)
-				|| (r->of.data.entity->type == ENTITY_PLAYER)))
+		if (ray_skip_renderable(r))
 			continue;
 		if (r->has_hitbox && r->hitbox.type == COLLIDE_ELLIPSOID)
 		{
