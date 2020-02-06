@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_es_obj_sprite.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 22:55:54 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/22 13:11:51 by louali           ###   ########.fr       */
+/*   Updated: 2020/02/06 13:16:58 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void			g_es_obj_sprite_render(t_gui *self, t_doom *doom)
 	if (!object)
 		return ;
 	t_sprite	*sprite = object->of.sprite;
-	if (sprite->texture && sprite->texture->type == RESSOURCE_TEXTURE)
+	if (sprite->texture && sprite->texture->type == RESSOURCE_TEXTURE && *sprite->texture->display_name)
 	{
 		t_img	*img = sprite->texture->data.texture;
 		apply_image_to_image(&doom->screen, img, (SDL_Rect){ 0, 0, img->width, img->height }, (SDL_Rect){ S_WIDTH - 335 + 50, 165, 220, 40 });

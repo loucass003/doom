@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 22:00:26 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/06 12:57:46 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/06 13:22:27 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -377,9 +377,9 @@ t_bool		entity_update(t_doom *doom, t_entity *entity, double dt)
 				{
 					if (entity->grounded && entity->jump && entity->velocity.y < 0)
 						entity->velocity.y = fmax(0, entity->velocity.y);
-					if (entity->jump && entity->velocity.y <= 15 && !entity->packet.found_colision)
+					if (entity->jump && entity->velocity.y <= 12 && !entity->packet.found_colision)
 						entity->velocity.y += 1.5;
-					if (entity->jump && entity->velocity.y >= 15)
+					if (entity->jump && entity->velocity.y >= 12)
 						entity->jump = FALSE;
 					if (!entity->jump)
 					{

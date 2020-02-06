@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_es_obj_model.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/26 15:00:53 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/22 13:14:25 by louali           ###   ########.fr       */
+/*   Updated: 2020/02/06 13:17:22 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void			g_es_obj_model_render(t_gui *self, t_doom *doom)
 	if (!object)
 		return ;
 	t_ressource *model_r = object->of.model;
-    if (model_r && model_r->type == RESSOURCE_MODEL)
+    if (model_r && model_r->type == RESSOURCE_MODEL && *model_r->display_name)
     {
         SDL_Surface *text = TTF_RenderText_Blended(doom->fonts.helvetica,
 			model_r->display_name, (SDL_Color){255, 0, 0, 0});
