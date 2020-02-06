@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:43:35 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/06 12:58:04 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/06 14:19:20 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ void				update_player_camera(t_player *player)
 	camera_update_maxtrix(&player->camera);	
 	alListener3f(AL_POSITION, player->camera.pos.x, player->camera.pos.y, player->camera.pos.z);
 	alListenerfv(AL_ORIENTATION, (ALfloat[6]){camera->forward.x, camera->forward.y, camera->forward.z, 0.f, 1.f, 0.f});
+	player->entity.packet.doom->lights->values[0].position = player->camera.pos;
+	player->entity.packet.doom->lights->values[0].dir = player->camera.forward;
 }
 
 t_bool	create_player(t_renderable *r, t_doom *doom)
