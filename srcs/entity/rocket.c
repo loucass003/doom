@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rocket.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/14 10:24:25 by lloncham          #+#    #+#             */
-/*   Updated: 2020/02/04 17:06:20 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/07 03:10:06 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,10 @@ t_bool	create_rocket(t_renderable *r, t_doom *doom)
 	r->of.data.entity->radius = (t_vec3){ 0.5, 0.5, 0.5 };
 	r->of.data.entity->sources = rocket->sources;
 	alGenSources(1, rocket->sources);
-	//r->show_hitbox = TRUE;
 	compute_ellipsoid_hitbox(r, r->of.data.entity->position, r->of.data.entity->radius);
 	return (TRUE);
 }
+
 
 t_bool	renderable_rocket(t_doom *doom, t_vec3 from, t_vec3 to)
 {
@@ -51,7 +51,6 @@ t_bool	renderable_rocket(t_doom *doom, t_vec3 from, t_vec3 to)
 	rocket.of.data.entity->position = from;
 	rocket.of.data.entity->velocity = ft_vec3_mul_s(ft_vec3_norm(ft_vec3_sub(to, from)), 10 * doom->level.coeff_speed);
 	rocket.of.data.entity->rotation = rotation_matrix_to_euler(look_at(from, to));
-	rocket.of.data.entity->rotation.y -= M_PI; 
 	append_renderables_array(&doom->renderables, rocket);
 	return (TRUE);
 }

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 00:01:14 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/04 18:05:00 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/07 01:02:57 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ typedef struct		s_entity_rocket
 {
 	float			damage;
 	float			range;
+	t_mat4			look_at;
 	ALuint			sources[1];
 }					t_entity_rocket;
 

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 20:40:10 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/06 13:13:27 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/06 15:41:10 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ void			g_es_wall_render(t_gui *self, t_doom *doom)
 	apply_surface_blended(&doom->screen, text, (SDL_Rect){0, 0, text->w, text->h},
 		(SDL_Rect){S_WIDTH - 335 + 50 + 170, 85, 40, 40});
 	SDL_FreeSurface(text);
-	if (ws->type == WS_WALL && ws->texture && ws->texture->type == RESSOURCE_TEXTURE && ws->texture->display_name && *ws->texture->display_name)
+	if (ws->type == WS_WALL && ws->texture && ws->texture->type == RESSOURCE_TEXTURE && *ws->texture->display_name)
 	{
 		t_img	*img = ws->texture->data.texture;
 		apply_image_to_image(&doom->screen, img, (SDL_Rect){ 0, 0, img->width, img->height }, (SDL_Rect){ S_WIDTH - 335 + 50, 175, 220, 40 });

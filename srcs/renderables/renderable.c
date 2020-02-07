@@ -6,13 +6,14 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/05 00:02:57 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/31 19:37:44 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/07 01:38:43 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <libft.h>
 #include "render.h"
+#include "entity.h"
 
 t_bool		free_renderable(t_renderable **r, t_bool res)
 {
@@ -29,22 +30,24 @@ void		transform_renderable(t_renderable *r)
 		transform_renderable_door(r);
 		return ;
 	}
-
-	const	t_mat4 rot = ft_mat4_rotation(r->rotation);
+	
+	
+	r->rot_matrix = ft_mat4_rotation(r->rotation);
 	r->matrix = ft_mat4_mul(
 		ft_mat4_mul(
 			ft_mat4_translation(r->position),
-			rot
+			r->rot_matrix
 		),
 		ft_mat4_scale(r->scale)
 	);
+
 
 	i = -1;
 	while (++i < r->vertices->len)
 		r->pp_vertices[i] = mat4_mulv4(r->matrix, r->vertices->vertices[i]);
 	i = -1;
 	while (++i < r->normals->len)
-		r->pp_normals[i] = ft_mat4_mulv(rot, r->normals->vertices[i]);
+		r->pp_normals[i] = ft_mat4_mulv(r->rot_matrix, r->normals->vertices[i]);
 	i = -1;
 	while (++i < r->faces->len)
 	{
