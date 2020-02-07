@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   light.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/17 17:12:46 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/22 11:09:26 by louali           ###   ########.fr       */
+/*   Updated: 2020/02/06 14:17:18 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,6 @@ void		init_lightning(t_doom *doom)
 		.position = { 0, 0, 0 },
 		.dir = ((t_vec3){ -1, 0, 0 }),
 		.type = LIGHT_POINT,
-		.intensity = 255
-	});
-	append_lights_array(&doom->lights,(t_light) {
-		.position = { 20, 0, 35 },
-		.dir = ((t_vec3){ 1, 0, 0 }),
-		.type = LIGHT_SPOT,
 		.intensity = 255
 	});
 }

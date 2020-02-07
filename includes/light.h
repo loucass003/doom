@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   light.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/30 04:25:19 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/17 17:48:12 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/06 14:03:41 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,5 +46,7 @@ t_lights		*copy_lights_array(t_lights *src,
 						t_lights **dst);
 
 int				create_default_light(struct s_doom *doom);
+void            light_render(struct s_doom *doom);
+
 
 #endif
