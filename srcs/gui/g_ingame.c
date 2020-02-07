@@ -6,10 +6,9 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/06 16:02:37 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/07 10:29:39 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "doom.h"
 #include <limits.h>
@@ -21,7 +20,7 @@
 #include "threads.h"
 #include "door.h"
 
-static t_bool			action_performed(t_component *cmp, t_doom *doom)
+static t_bool	action_performed(t_component *cmp, t_doom *doom)
 {
 	if (cmp == doom->guis[doom->current_gui].components->values[2])
 	{
@@ -31,7 +30,7 @@ static t_bool			action_performed(t_component *cmp, t_doom *doom)
 	return (TRUE);
 }
 
-void	g_ingame_on_enter(t_gui *self, t_doom *doom)
+void			g_ingame_on_enter(t_gui *self, t_doom *doom)
 {
 	enter_gui(doom, doom->guis, GUI_EDITOR_SETTINGS);
 	doom->screen.secure = FALSE;
@@ -49,35 +48,24 @@ void	g_ingame_on_enter(t_gui *self, t_doom *doom)
 	if (doom->main_context.type == CTX_EDITOR)
 	{
 		append_components_array(&self->components, create_button((SDL_Rect)
-		{ 10, 10 , 200, 50 }, NULL, "BACK"));
+		{ 10, 10, 200, 50 }, NULL, "BACK"));
 		self->components->values[2]->perform_action = action_performed;
 	}
 }
 
-void	g_ingame_on_leave(t_gui *self, t_doom *doom)
+void			g_ingame_on_leave(t_gui *self, t_doom *doom)
 {
 	(void)self;
 	leave_gui(doom, doom->guis, GUI_EDITOR_SETTINGS);
 	doom->mouse_focus = FALSE;
 }
 
-void	unselect_all(t_doom *doom)
-{
-	if (doom->editor.current_object != -1)
-		doom->editor.objects->values[doom->editor.current_object].r
-			->show_hitbox = FALSE;
-	doom->editor.object_transform_mode = OT_MODE_TRANSLATION;
-	doom->editor.current_object = -1;
-	doom->editor.wall_section = -1;
-	select_room(&doom->editor, -1);
-}
-
-void	g_ingame_on_events(t_gui *self, SDL_Event *event, t_doom *doom)
+void			g_ingame_on_events(t_gui *self, SDL_Event *event, t_doom *doom)
 {
 	const SDL_Scancode	key = event->key.keysym.scancode;
 
 	if (event->type == SDL_KEYDOWN && (key == SDL_SCANCODE_TAB))
-			doom->mouse_focus = !doom->mouse_focus;
+		doom->mouse_focus = !doom->mouse_focus;
 	if (doom->main_context.type == CTX_EDITOR)
 	{
 		if (!doom->mouse_focus && is_settings_open(&doom->editor))
@@ -101,26 +89,7 @@ void	g_ingame_on_events(t_gui *self, SDL_Event *event, t_doom *doom)
 	components_events(doom, doom->guis, event, GUI_EDITOR_SETTINGS);
 }
 
-void	draw_object_transform_type(t_editor *editor, t_gui *self)
-{
-	const char		types[3][12] = {"TRANSLATION\0", "ROTATION\0", "SCALING\0"};
-	SDL_Surface		*text;
-	
-	(void)self;
-	if (editor->current_object == -1
-		|| editor->doom->main_context.type != CTX_EDITOR)
-		return ;
-	text = TTF_RenderText_Blended(editor->doom->fonts.helvetica,
-		types[(int)editor->object_transform_mode],
-		(SDL_Color){255, 255, 255, 0});
-	apply_surface_blended(editor->doom->main_context.image, text,
-		(SDL_Rect){0, 0, text->w, text->h},
-		(SDL_Rect){ S_WIDTH - text->w - 15, 15, text->w, 20 });
-	SDL_FreeSurface(text);
-}
-
-
-void	g_ingame_render(t_gui *self, t_doom *doom)
+void			g_ingame_render(t_gui *self, t_doom *doom)
 {
 	int i;
 
@@ -141,18 +110,21 @@ void	g_ingame_render(t_gui *self, t_doom *doom)
 	threads_wait(&doom->threads);
 	doom->main_context.image->pixels[(doom->main_context.image->height / 2)
 		* doom->main_context.image->width
-		+ doom->main_context.image->width / 2 ] = 0xFF00FF00;
-	draw_circle(doom->main_context.image, (t_pixel){ S_WIDTH_2, S_HEIGHT_2, 0xFF00FF00 }, 10);
+		+ doom->main_context.image->width / 2] = 0xFF00FF00;
+	draw_circle(doom->main_context.image,
+		(t_pixel){ S_WIDTH_2, S_HEIGHT_2, 0xFF00FF00 }, 10);
 	doom->main_context.image = &doom->screen_transparency;
 	doom->main_context.image = &doom->screen;
 	if (!draw_player_inventory(doom, self))
 		return ;
 	draw_object_transform_type(&doom->editor, self);
 	self->components->values[0]->visible = doom->main_context.type == CTX_NORMAL;
-	self->components->values[1]->visible = doom->main_context.type == CTX_NORMAL && !!doom->closer_boss;
+	self->components->values[1]->visible = doom->main_context.type == CTX_NORMAL
+		&& !!doom->closer_boss;
 	if (doom->closer_boss)
-		((t_progress *)self->components->values[1])->value = doom->closer_boss->life * (1 / doom->closer_boss->max_life) * 100;
+		((t_progress *)self->components->values[1])->value = doom->closer_boss
+			->life * (1 / doom->closer_boss->max_life) * 100;
 	render_components(doom, self);
 	if (doom->main_context.type == CTX_EDITOR)
-		doom->guis[GUI_EDITOR_SETTINGS].render(&doom->guis[GUI_EDITOR_SETTINGS], doom); 
+		doom->guis[GUI_EDITOR_SETTINGS].render(&doom->guis[GUI_EDITOR_SETTINGS], doom);
 }

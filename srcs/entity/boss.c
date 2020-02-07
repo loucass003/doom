@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 14:15:25 by lloncham          #+#    #+#             */
-/*   Updated: 2020/02/04 17:03:12 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/07 15:16:25 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void		entity_update_boss(t_doom *doom, t_entity *entity, double dt)
 		boss->animation_step = 0;
 	}
 	entity->rotation.y = doom->player.camera.rotation.y + M_PI_2;
-	if (boss->hit_data.dist > 25 && boss->phase <= 1)
+	if (boss->hit_data.dist > 20 && boss->phase <= 1)
 		entity->velocity = ft_vec3_add(entity->velocity, ft_vec3_mul_s(norm_dir, 4 * doom->level.coeff_speed));
 	boss->t0 += 5 * dt;
 	if (boss->focus && boss->t0 > 1)
@@ -88,7 +88,7 @@ void		entity_update_boss(t_doom *doom, t_entity *entity, double dt)
 		if (boss->phase <= 1)
 		{
 			t_bool walking = ft_vec3_dot(entity->velocity, entity->velocity) != 0;
-			if (boss->hit_data.dist > 20 && walking)
+			if (boss->hit_data.dist >= 20 && walking)
 			{
 				boss->animation_step++;
 				if (boss->animation_step >= 4)
@@ -105,7 +105,6 @@ void		entity_update_boss(t_doom *doom, t_entity *entity, double dt)
 					boss->t1 = 0;
 					boss->animation_step = 4;
 				}
-
 				if (boss->shooting)
 				{
 					boss->t2++;

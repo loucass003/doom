@@ -63,6 +63,7 @@ SRC+=gui/editor/ingame/events_button_left.c
 SRC+=gui/editor/ingame/events_ceil_floor.c
 SRC+=gui/editor/ingame/events_objects.c
 SRC+=gui/editor/ingame/render_ingame.c
+SRC+=gui/editor/ingame/render_utils.c
 SRC+=gui/editor_settings/g_es_global.c
 SRC+=gui/editor_settings/g_es_object.c
 SRC+=gui/editor_settings/g_es_player.c

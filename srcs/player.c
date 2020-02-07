@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:43:35 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/06 14:19:20 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/07 13:35:03 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,18 +179,34 @@ void	update_controls(t_doom *doom)
 {
 	const double	ms = doom->stats.delta * 2.;
 	const Uint8		*s = SDL_GetKeyboardState(NULL);
+	int				shift;
 
 	float move_speed;
+	doom->player.entity.run = FALSE;
 	if (!doom->mouse_focus && is_settings_open(&doom->editor))
 		return ;
 	if (doom->main_context.type == CTX_EDITOR)
 		move_speed = 10;
 	else if (doom->player.entity.jetpack)
 		move_speed = 15;
-	else if (s[SDL_SCANCODE_LSHIFT] && !doom->player.entity.jetpack)
+	else if (s[SDL_SCANCODE_LSHIFT] && !doom->player.entity.jetpack && !doom->player.entity.jump)
+	{
+		doom->player.entity.run = TRUE;
 		move_speed = 15;
+	}
 	else
 		move_speed = !doom->player.entity.grounded ? 1.2 : 10;
+	if (doom->main_context.type == CTX_NORMAL)
+	{
+		if (s[SDL_SCANCODE_SPACE] && !doom->player.entity.jump
+		&& (doom->player.entity.grounded || doom->player.entity.jetpack))
+			doom->player.entity.jump = TRUE;
+		if (s[SDL_SCANCODE_LSHIFT] && doom->player.entity.jetpack)
+		{ 
+			doom->player.entity.grounded = FALSE;
+			doom->player.entity.velocity.y -= 8;
+		}
+	}
 	if (s[SDL_SCANCODE_W] || s[SDL_SCANCODE_S])
 	{
 		doom->player.entity.velocity.x += sinf(doom->player.entity.rotation.y)
@@ -204,18 +220,6 @@ void	update_controls(t_doom *doom)
 			* (s[SDL_SCANCODE_D] ? 1 : -1) * move_speed;
 		doom->player.entity.velocity.z += sinf(doom->player.entity.rotation.y)
 			* (s[SDL_SCANCODE_D] ? 1 : -1) * move_speed;
-	}
-	if (doom->main_context.type == CTX_NORMAL)
-	{
-		if (s[SDL_SCANCODE_SPACE] && !doom->player.entity.jump
-		&& (doom->player.entity.grounded || doom->player.entity.jetpack))
-			doom->player.entity.jump = TRUE;
-		if (s[SDL_SCANCODE_LSHIFT] && doom->player.entity.jetpack)
-		{ 
-			doom->player.entity.grounded = FALSE;
-			doom->player.entity.velocity.y -= 8;
-		}
-	
 	}
 	if (doom->main_context.type == CTX_EDITOR)
 	{

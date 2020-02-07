@@ -12,6 +12,7 @@
         "LEADERBOARD": "Leaderboard.jpg",
         "HELP": "HELP.png",
         "EXPLOSION": "assets/textures/explosion.png"
+        "EDITOR ICONS": "assets/textures/icons.png"
     },
     "MODELS": {
         "GRENADE MODEL": "assets/obj/grenada.obj",

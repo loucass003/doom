@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/06 11:32:00 by lloncham          #+#    #+#             */
-/*   Updated: 2020/02/06 14:30:08 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/06 16:27:56 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,18 @@
 #include "editor.h"
 #include "threads.h"
 #include "door.h"
+
+
+void	unselect_all(t_doom *doom)
+{
+	if (doom->editor.current_object != -1)
+		doom->editor.objects->values[doom->editor.current_object].r
+			->show_hitbox = FALSE;
+	doom->editor.object_transform_mode = OT_MODE_TRANSLATION;
+	doom->editor.current_object = -1;
+	doom->editor.wall_section = -1;
+	select_room(&doom->editor, -1);
+}
 
 void	transform_object(t_doom *doom, t_object *object, t_vec3 add)
 {

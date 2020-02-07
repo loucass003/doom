@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   entity.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 00:01:14 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/07 01:02:57 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/07 13:13:19 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ typedef struct		s_entity
 	t_bool				jetpack;
 	t_bool				killable;
 	t_bool				crouch;
+	t_bool				run;
 	struct s_renderable	*r;
 }					t_entity;
 

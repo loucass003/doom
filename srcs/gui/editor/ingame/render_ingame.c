@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/06 13:59:51 by lloncham          #+#    #+#             */
-/*   Updated: 2020/02/06 15:22:17 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/06 16:23:52 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,10 @@ void               skybox_activated(t_doom *doom)
 {
 	if (doom->skybox_index != -1)
 	{
-		doom->renderables->values[doom->skybox_index].visible = doom->skybox_enabled;
-		doom->renderables->values[doom->skybox_index].position = doom->main_context.camera->pos;
+		doom->renderables->values[doom->skybox_index].visible
+            = doom->skybox_enabled;
+		doom->renderables->values[doom->skybox_index].position
+            = doom->main_context.camera->pos;
 		doom->renderables->values[doom->skybox_index].dirty = TRUE;
 	}
 }

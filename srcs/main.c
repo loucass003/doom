@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/30 16:21:26 by Lisa             ###   ########.fr       */
+/*   Updated: 2020/02/07 11:10:36 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ void	init_bsp(t_doom *doom)
 	itemstack.position = (t_vec3){ -19, 1.5, 58 };
 	append_renderables_array(&doom->renderables, itemstack);
 
-
 	set_obj_working_dir(doom, "assets/obj/de_dust");
 	create_obj(doom, &r, "de_dust2.obj");
 	r.position = (t_vec3){0, 0, -3};
@@ -70,9 +69,6 @@ void	init_bsp(t_doom *doom)
 	r.scale = (t_vec3){0.03, 0.03, 0.03};
 	r.fixed = TRUE;
 	append_renderables_array(&doom->renderables, r);
-
-
-	
 
 //	post_process_map(doom);
 }

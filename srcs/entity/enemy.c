@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/30 16:36:08 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/03 15:30:09 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/07 15:02:13 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ void		entity_update_enemy(t_doom *doom, t_entity *entity, double dt)
 {
 	t_entity_enemy	*enemy;
 	t_bool			walking;
-
 
 	enemy = &entity->of.enemy;
 	if (entity->dead)
