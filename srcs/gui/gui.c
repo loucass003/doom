@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 09:46:13 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/24 16:24:29 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/07 16:11:50 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,9 @@ void	register_guis(t_doom *doom)
 	doom->guis[GUI_ESC] = (t_gui) { .render = g_esc_render};
 	doom->guis[GUI_LEADERBOARD] = (t_gui){ .render = g_leaderboard_render,
 		.on_enter = g_leaderboard_on_enter, .on_leave = g_leaderboard_on_leave};
+		
+	doom->guis[GUI_STORY] = (t_gui){ .render = g_story_render,
+		.on_enter = g_story_on_enter, .on_leave = g_story_on_leave};
 }
 
 void	leave_gui(t_doom *doom, t_gui *guis, int id)

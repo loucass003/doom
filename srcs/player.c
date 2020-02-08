@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:43:35 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/07 13:35:03 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/07 16:21:06 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,7 +179,6 @@ void	update_controls(t_doom *doom)
 {
 	const double	ms = doom->stats.delta * 2.;
 	const Uint8		*s = SDL_GetKeyboardState(NULL);
-	int				shift;
 
 	float move_speed;
 	doom->player.entity.run = FALSE;
