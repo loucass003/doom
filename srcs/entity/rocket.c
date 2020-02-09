@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rocket.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/14 10:24:25 by lloncham          #+#    #+#             */
-/*   Updated: 2020/02/07 13:57:57 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/10 00:17:55 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "sprite.h"
 #include "entity.h"
 #include "maths/mat4.h"
+#include "maths/quat.h"
 #include <math.h>
 #include <stdlib.h>
 
@@ -28,7 +29,6 @@ t_bool	create_rocket(t_renderable *r, t_doom *doom)
 		return (FALSE);
 	r->of.data.entity->type = ENTITY_ROCKET;
 	r->of.data.entity->packet.doom = doom;
-	
 	r->visible = TRUE;
 	rocket = &r->of.data.entity->of.rocket;
 	rocket->damage = 0.5;
@@ -50,7 +50,7 @@ t_bool	renderable_rocket(t_doom *doom, t_vec3 from, t_vec3 to)
 	create_rocket(&rocket, doom);
 	rocket.of.data.entity->position = from;
 	rocket.of.data.entity->velocity = ft_vec3_mul_s(ft_vec3_norm(ft_vec3_sub(to, from)), 10 * doom->level.coeff_speed);
-	rocket.of.data.entity->rotation = rotation_matrix_to_euler(look_at(from, to));
+	rocket.of.data.entity->rotation = rotation_matrix_to_euler(look_at(to, from));
 	append_renderables_array(&doom->renderables, rocket);
 	return (TRUE);
 }

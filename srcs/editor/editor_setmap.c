@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 15:55:03 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/06 13:08:14 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/07 19:02:35 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,6 +148,11 @@ t_bool		update_floor(t_editor *editor, int room_index, t_bool floor)
 	return (TRUE);
 }
 
+t_vec2		uv_setting(t_wall_section *ws, t_vec2 uv)
+{
+	return (ft_vec2_add(ws->uv_offset, ft_vec2_mul(uv, ws->uv_repeat)));
+}
+
 t_bool		create_wall(t_renderable *r, t_editor *editor, int room_index, int wall_index, int wall_section)
 {
 	t_room 	*room = &editor->rooms->values[room_index];
@@ -176,16 +181,16 @@ t_bool		create_wall(t_renderable *r, t_editor *editor, int room_index, int wall_
 	int	n_start = r->normals->len;
 	int	v_start = r->vertex->len;
 	append_3dvertices_array(&r->normals, face_normal);
-	append_2dvertices_array(&r->vertex, (t_vec2){ 0, 0 });
+	append_2dvertices_array(&r->vertex, uv_setting(ws, (t_vec2){ 0, 0 }));
 
 	append_3dvertices_array(&r->normals, face_normal);
-	append_2dvertices_array(&r->vertex, (t_vec2){ 1, 0 });
+	append_2dvertices_array(&r->vertex, uv_setting(ws, (t_vec2){ 1, 0 }));
 
 	append_3dvertices_array(&r->normals, face_normal);
-	append_2dvertices_array(&r->vertex, (t_vec2){ 1, 1 });
+	append_2dvertices_array(&r->vertex, uv_setting(ws, (t_vec2){ 1, 1 }));
 
 	append_3dvertices_array(&r->normals, face_normal);
-	append_2dvertices_array(&r->vertex, (t_vec2){ 0, 1 });
+	append_2dvertices_array(&r->vertex, uv_setting(ws, (t_vec2){ 0, 1 }));
 	t_face face;
 	
 	ft_bzero(&face, sizeof(t_face));

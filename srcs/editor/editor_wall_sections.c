@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/15 01:20:40 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/23 02:32:58 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/07 19:00:06 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ t_wall_section	init_wall_section(t_editor *editor)
 		.texture = get_default_texture(&editor->doom->res_manager, TRUE),
 		.collisions = TRUE,
 		.invisible = FALSE,
+		.uv_repeat = (t_vec2){ 1, 1 }
 	});
 }
 

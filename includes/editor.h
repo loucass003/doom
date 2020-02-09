@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   editor.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 14:35:33 by lloncham          #+#    #+#             */
-/*   Updated: 2020/02/04 16:34:39 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/07 18:59:11 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,8 @@ typedef struct		s_wall_section
 	t_wall_section_type	type;
 	t_bool				invisible;
 	t_bool				collisions;
+	t_vec2				uv_repeat;
+	t_vec2				uv_offset;
 	struct s_ressource	*texture;
 	uint8_t				normal_type;
 	int					vertices_index[4];

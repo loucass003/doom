@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/05 00:02:57 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/07 01:38:43 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/07 16:06:09 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,11 @@ void		transform_renderable(t_renderable *r)
 	}
 	
 	
-	r->rot_matrix = ft_mat4_rotation(r->rotation);
+	const t_mat4 rot = r->rot_matrix_set ? r->rot_matrix : ft_mat4_rotation(r->rotation);
 	r->matrix = ft_mat4_mul(
 		ft_mat4_mul(
 			ft_mat4_translation(r->position),
-			r->rot_matrix
+			rot
 		),
 		ft_mat4_scale(r->scale)
 	);
@@ -47,7 +47,7 @@ void		transform_renderable(t_renderable *r)
 		r->pp_vertices[i] = mat4_mulv4(r->matrix, r->vertices->vertices[i]);
 	i = -1;
 	while (++i < r->normals->len)
-		r->pp_normals[i] = ft_mat4_mulv(r->rot_matrix, r->normals->vertices[i]);
+		r->pp_normals[i] = ft_mat4_mulv(rot, r->normals->vertices[i]);
 	i = -1;
 	while (++i < r->faces->len)
 	{

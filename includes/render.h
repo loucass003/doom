@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:16:19 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/07 01:08:37 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/07 15:10:31 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ typedef struct		s_renderable
 	t_bool					no_collision;
 	t_vec3					scale;
 	t_mat4					matrix;
+	t_bool					rot_matrix_set;
 	t_mat4					rot_matrix;
 	t_bool					visible;
 	t_bool					dirty;

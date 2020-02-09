@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:25:31 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/06 16:01:00 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/07 20:02:31 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,21 @@ t_vec3	rotation_matrix_to_euler(t_mat4 m)
 		out.z = 0;
 	}
 	return (out);	
+}
+
+
+t_mat4	mat4_transpose(t_mat4 a)
+{
+	int		i;
+	int		j;
+	t_mat4	m;
+
+	i = -1;
+	while (++i < 4)
+	{
+		j = -1;
+		while (++j < 4)
+			m.a[i][j] = a.a[j][i];
+	}
+	return (m);
 }
