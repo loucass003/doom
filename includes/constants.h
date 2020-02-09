@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 21:05:41 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/05 15:58:55 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/07 16:17:23 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 # define FAR_CULL (500)
 # define FAR (500)
 
-# define GUI_COUNT (9)
+# define GUI_COUNT (10)
 # define GUI_INGAME (0)
 # define GUI_MAIN_MENU (1)
 # define GUI_EDITOR (2)
@@ -41,6 +41,7 @@
 # define GUI_LEVEL (6)
 # define GUI_ESC (7)
 # define GUI_LEADERBOARD (8)
+# define GUI_STORY (9)
 
 # define AMBIANT_LIGHT (50)
 

@@ -111,6 +111,7 @@ SRC+=gui/editor/ingame/render_utils.c
 SRC+=gui/editor/ingame/render_ingame.c
 SRC+=gui/editor/editor_button.c
 SRC+=gui/editor/editor_event.c
+SRC+=gui/g_story.c
 SRC+=gui/g_editor_settings.c
 SRC+=gui/ressources/ressources_render.c
 SRC+=gui/ressources/ressources_utils.c

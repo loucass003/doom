@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/07 10:29:39 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/08 13:49:56 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ static t_bool	action_performed(t_component *cmp, t_doom *doom)
 void			g_ingame_on_enter(t_gui *self, t_doom *doom)
 {
 	enter_gui(doom, doom->guis, GUI_EDITOR_SETTINGS);
+
+	enter_gui(doom, doom->guis, GUI_STORY); //
 	doom->screen.secure = FALSE;
 	doom->mouse_focus = TRUE;
 	append_components_array(&self->components, create_progress((SDL_Rect)
@@ -57,6 +59,7 @@ void			g_ingame_on_leave(t_gui *self, t_doom *doom)
 {
 	(void)self;
 	leave_gui(doom, doom->guis, GUI_EDITOR_SETTINGS);
+	leave_gui(doom, doom->guis, GUI_STORY); //
 	doom->mouse_focus = FALSE;
 }
 
@@ -87,6 +90,7 @@ void			g_ingame_on_events(t_gui *self, SDL_Event *event, t_doom *doom)
 	}
 	player_inventory_event(doom, event);
 	components_events(doom, doom->guis, event, GUI_EDITOR_SETTINGS);
+	g_story_on_event(self, event, doom);//
 }
 
 void			g_ingame_render(t_gui *self, t_doom *doom)
@@ -127,4 +131,6 @@ void			g_ingame_render(t_gui *self, t_doom *doom)
 	render_components(doom, self);
 	if (doom->main_context.type == CTX_EDITOR)
 		doom->guis[GUI_EDITOR_SETTINGS].render(&doom->guis[GUI_EDITOR_SETTINGS], doom);
+	if (doom->main_context.type == CTX_NORMAL)
+		doom->guis[GUI_STORY].render(&doom->guis[GUI_STORY], doom);
 }

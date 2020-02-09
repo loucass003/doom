@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/30 16:36:08 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/07 15:02:13 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/08 14:59:02 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,17 +67,18 @@ void		entity_update_enemy(t_doom *doom, t_entity *entity, double dt)
 	view = vec3_rotate(view, (t_vec3){ 0, -entity->rotation.y, 0 });
 	float a = atan2(view.z, view.x);
 	enemy->hit_data.collide = FALSE;
-
 	if ((a < 1.5 && a > -1.5) || enemy->focus)
 		enemy->hit_data = ray_hit_world(doom, doom->renderables, ray);
 	if (enemy->hit_data.collide && enemy->hit_data.renderable && enemy->hit_data.renderable->of.data.entity == entity && enemy->hit_data.dist < 50)
+	{
+		doom->story.first_enemy = TRUE; //STORY
 		enemy->focus = TRUE;
+	}
 	else
 	{
 		enemy->focus = FALSE;
 		enemy->animation_step = 0;
 	}
-
 	if (enemy->focus || entity->diying)
 	{
 		entity->rotation.y = doom->player.camera.rotation.y + M_PI_2;

@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 20:16:48 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/05 16:07:20 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/08 15:39:23 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ t_bool				entity_hit_itemstack(t_entity *entity, t_itemstack *is)
 		inv_is->amount += ft_min(i, is->amount);
 		is->amount -= ft_min(i, is->amount);
 		player_sound(&entity->packet.doom->audio, ITEM_PICK, 3, 1);
+		entity->packet.doom->story.first_item = TRUE;////STORY
 	}
 	return (TRUE);
 }
