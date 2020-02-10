@@ -107,6 +107,7 @@ SRC+=gui/g_level.c
 SRC+=gui/editor/ingame/events_objects.c
 SRC+=gui/editor/ingame/events_ceil_floor.c
 SRC+=gui/editor/ingame/events_button_left.c
+SRC+=gui/editor/ingame/events_uvs.c
 SRC+=gui/editor/ingame/render_utils.c
 SRC+=gui/editor/ingame/render_ingame.c
 SRC+=gui/editor/editor_button.c

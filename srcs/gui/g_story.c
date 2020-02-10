@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_story.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/07 16:08:54 by lloncham          #+#    #+#             */
-/*   Updated: 2020/02/08 16:03:34 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/10 01:04:21 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,3 +91,5 @@ void			g_story_render(t_gui *self, t_doom *doom)
         SDL_FreeSurface(text);
     }
 }
+
+

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:16:19 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/07 15:10:31 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/10 02:14:24 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,10 +167,10 @@ t_bool				create_cube(struct s_doom *doom, t_renderable *r, t_bool inside);
 void				compute_collidables(t_renderable *r);
 void				draw_line_zbuff(t_render_context *ctx, t_vec4 v0, t_vec4 v1, int color);
 t_bool				render_renderable(t_render_context *ctx, t_renderable *r);
-t_bool				triangulate_floor_ceil(t_renderable *r, t_vec3 n, int *filter, int filter_len, int normal_type, int mtl, int room_index);
+t_bool				triangulate_floor_ceil(t_renderable *r, t_vec3 n, int *filter, int filter_len, int normal_type, int mtl, int room_index, t_vec2 offset, t_vec2 repeat);
 t_bool				compute_change_of_basis(t_vec3 n, t_mat4 *p_inv, t_mat4 *reverse);
 t_bool				ear_clip2(int *filters, int filters_count, t_4dvertices *vertices, t_faces **faces, int normal_type, int face_material, int room_index);
-void				uv_mapping(t_4dvertices *vertices, t_2dvertices *vertex, int *filter, int filter_len);
+void				uv_mapping(t_4dvertices *vertices, t_2dvertices *vertex, int *filter, int filter_len, t_vec2 offset, t_vec2 repeat);
 t_bool				create_player(t_renderable *r, struct s_doom *doom);
 
 

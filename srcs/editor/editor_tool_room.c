@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 20:09:08 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/23 03:20:45 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/10 02:11:09 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ void		editor_tool_room(t_editor *editor, SDL_Event *event)
 			.ceil_collision = TRUE,
 			.floor_normal = 1,
 			.ceil_normal = 1,
+			.floor_uv_repeat = (t_vec2){ 1, 1 },
+			.ceil_uv_repeat = (t_vec2){ 1, 1 }
 		});
 		select_room(editor, editor->rooms->len - 1);
 	}

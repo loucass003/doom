@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 15:55:03 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/07 19:02:35 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/10 02:08:57 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 #include "ellipsoid.h"
 #include "door.h"
 
-t_bool	triangulate_floor_ceil(t_renderable *r, t_vec3 n, int *filter, int filter_len, int normal_type, int mtl, int room_index)
+t_bool	triangulate_floor_ceil(t_renderable *r, t_vec3 n, int *filter, int filter_len, int normal_type, int mtl, int room_index, t_vec2 offset, t_vec2 repeat)
 {
 	t_mat4			p_inv;
 	t_mat4			reverse;
@@ -33,7 +33,7 @@ t_bool	triangulate_floor_ceil(t_renderable *r, t_vec3 n, int *filter, int filter
 			r->vertices->vertices[filter[i]]);
 	if (!ear_clip2(filter, filter_len, r->vertices, &r->faces, normal_type, mtl, room_index))
 		return (FALSE);
-	uv_mapping(r->vertices, r->vertex, filter, filter_len);
+	uv_mapping(r->vertices, r->vertex, filter, filter_len, offset, repeat);
 	i = -1;
 	while (++i < filter_len)
 		r->vertices->vertices[filter[i]] = mat4_mulv4(reverse,
@@ -57,6 +57,11 @@ t_vec3		world_to_editor(t_vec3 pos)
 	pos.x *= ratio;
 	pos.z *= ratio;
 	return (pos);
+}
+
+t_vec2		uv_setting(t_wall_section *ws, t_vec2 uv)
+{
+	return (ft_vec2_add(ws->uv_offset, ft_vec2_mul(uv, ws->uv_repeat)));
 }
 
 t_bool		update_wall(t_editor *editor, int room_index, int wall_index, int wall_section)
@@ -100,6 +105,12 @@ t_bool		update_wall(t_editor *editor, int room_index, int wall_index, int wall_s
 	f2->face_normal = face_normal;
 	f2->normal_type = ws->normal_type;
 	f2->double_sided = ws->normal_type == 2;
+
+	int start = f1->vertex_index[0] - 1;
+	get_map(editor)->vertex->vertices[start] = uv_setting(ws, (t_vec2){ 0, 0 });
+	get_map(editor)->vertex->vertices[start + 1] = uv_setting(ws, (t_vec2){ 1, 0 });
+	get_map(editor)->vertex->vertices[start + 2] = uv_setting(ws, (t_vec2){ 1, 1 });
+	get_map(editor)->vertex->vertices[start + 3] = uv_setting(ws, (t_vec2){ 0, 1 });
 
 	get_map(editor)->materials->values[ws->material_index].texture_map = ws->texture->data.texture;
 	return (TRUE);
@@ -148,10 +159,7 @@ t_bool		update_floor(t_editor *editor, int room_index, t_bool floor)
 	return (TRUE);
 }
 
-t_vec2		uv_setting(t_wall_section *ws, t_vec2 uv)
-{
-	return (ft_vec2_add(ws->uv_offset, ft_vec2_mul(uv, ws->uv_repeat)));
-}
+
 
 t_bool		create_wall(t_renderable *r, t_editor *editor, int room_index, int wall_index, int wall_section)
 {

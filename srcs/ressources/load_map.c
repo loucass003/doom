@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 01:53:42 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/29 17:13:03 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/10 02:12:06 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,9 @@ t_bool		read_wall_section(t_ressource_manager *r, t_wall_sections **sections)
 		.texture = r->ressources->values[wr_ws.resource_index],
 		.normal_type = wr_ws.normal_type,
 		.invisible = wr_ws.invisible,
-		.collisions = wr_ws.collisions
+		.collisions = wr_ws.collisions,
+		.uv_offset = wr_ws.uv_offset,
+		.uv_repeat = wr_ws.uv_repeat
 	};
 	if (!append_wall_sections_array(&*sections, ws))
 		return (FALSE);
@@ -96,6 +98,10 @@ t_bool		read_room(t_ressource_manager *r)
 		.floor_normal = wr_room.floor_normal,
 		.ceil_normal = wr_room.ceil_normal,
 		.ambiant_light = wr_room.ambiant_light,
+		.floor_uv_repeat = wr_room.floor_uv_repeat,
+		.floor_uv_offset = wr_room.floor_uv_offset,
+		.ceil_uv_repeat = wr_room.ceil_uv_repeat,
+		.ceil_uv_offset = wr_room.ceil_uv_offset,
 	};
 	i = -1;
 	while (++i < wr_room.walls_count)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_ingame.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/08 13:49:56 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/10 02:02:10 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 
 static t_bool	action_performed(t_component *cmp, t_doom *doom)
 {
-	if (cmp == doom->guis[doom->current_gui].components->values[2])
+	if (cmp == doom->guis[doom->current_gui].components->values[2] && !doom->mouse_focus)
 	{
 		set_gui(doom, GUI_EDITOR);
 		return (FALSE);
@@ -82,11 +82,13 @@ void			g_ingame_on_events(t_gui *self, SDL_Event *event, t_doom *doom)
 		else if (event->type == SDL_MOUSEBUTTONDOWN
 			&& event->button.button == SDL_BUTTON_RIGHT)
 			unselect_all(doom);
+		if (event->type == SDL_KEYDOWN && (doom->editor.wall_section != -1 || (doom->editor.selected_floor_ceil != -1 && doom->editor.current_room != -1)))
+			uvs_events(doom, event);
 		if (event->type == SDL_KEYDOWN && doom->editor.selected_floor_ceil != -1
 			&& doom->editor.current_room != -1)
-			ceil_floor_events(doom, key);
+			ceil_floor_events(doom, event);
 		if (event->type == SDL_KEYDOWN && doom->editor.current_object != -1)
-			object_events(doom, key);
+			object_events(doom, event);
 	}
 	player_inventory_event(doom, event);
 	components_events(doom, doom->guis, event, GUI_EDITOR_SETTINGS);
@@ -121,7 +123,7 @@ void			g_ingame_render(t_gui *self, t_doom *doom)
 	doom->main_context.image = &doom->screen;
 	if (!draw_player_inventory(doom, self))
 		return ;
-	draw_object_transform_type(&doom->editor, self);
+	draw_transforms_type(&doom->editor);
 	self->components->values[0]->visible = doom->main_context.type == CTX_NORMAL;
 	self->components->values[1]->visible = doom->main_context.type == CTX_NORMAL
 		&& !!doom->closer_boss;

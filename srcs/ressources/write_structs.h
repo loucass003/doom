@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/25 05:41:51 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/31 18:58:12 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/10 02:12:23 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,10 @@ typedef struct		s_wr_room
 	uint8_t			floor_normal;
 	uint8_t			ceil_normal;
 	uint8_t			ambiant_light;
+	t_vec2			floor_uv_repeat;
+	t_vec2			floor_uv_offset;
+	t_vec2			ceil_uv_repeat;
+	t_vec2			ceil_uv_offset;
 }					t_wr_room;
 
 typedef struct		s_wr_sprite
@@ -81,6 +85,8 @@ typedef struct		s_wr_wall_section
 	uint8_t				normal_type;
 	t_bool				invisible;
 	t_bool				collisions;
+	t_vec2				uv_repeat;
+	t_vec2				uv_offset;
 }					t_wr_wall_section;
 
 typedef struct		s_wr_img

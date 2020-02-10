@@ -1,0 +1,18 @@
+[
+	{
+		"triger": { "type": "PICK_ITEM", "item_type": "WEAPON" },
+		"textes": ["TU AS RECUPERE UNE ARME", "PHRASE 2", "PHRASE 3"]
+	},
+	{
+		"triger": { "type": "PICK_ITEM", "item_type": "WEAPON", "item": "GRENADA" },
+		"textes": ["TU AS RECUPERE UNE GRENADE"]
+	},
+	{
+		"triger": { "type": "SPAWN" },
+		"textes": ["TU VIENS D ARRIVE TU DOIS FAIRE  ......."]
+	},
+	{
+		"triger": { "type": "AREA", "pos": [10, 15, 5], "radius": 5 },
+		"textes": ["BRAVO TU EST ARRIVE ICI"]
+	}
+]

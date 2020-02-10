@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   editor_room.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 18:37:59 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/22 12:27:55 by louali           ###   ########.fr       */
+/*   Updated: 2020/02/10 02:00:20 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,8 @@ void			select_floor_ceil(t_editor *editor, int room_index, t_bool floor)
 	room = &editor->rooms->values[room_index];
 	material_index = room_index * 2 + !floor;
 	editor->selected_floor_ceil = floor ? 0 : 1;
-	get_map(editor)->materials->values[material_index].texture_map_set = FALSE;
+	if (editor->slope_mode)
+		get_map(editor)->materials->values[material_index].texture_map_set = FALSE;
 }
 
 void			select_room(t_editor *editor, int index)
@@ -128,7 +129,7 @@ void			select_room(t_editor *editor, int index)
 	editor->current_object = -1;
 	editor->selected_floor_ceil = -1;
 	editor->current_room = index;
-	// editor->wall_section = -1;
+	editor->slope_mode = FALSE;
 	editor_settings_update(editor);
 }
 

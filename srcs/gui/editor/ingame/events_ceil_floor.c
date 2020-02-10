@@ -3,21 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   events_ceil_floor.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/06 10:58:54 by lloncham          #+#    #+#             */
-/*   Updated: 2020/02/06 14:21:36 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/10 01:52:14 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom.h"
-#include <limits.h>
 #include "gui.h"
-#include "octree.h"
-#include <math.h>
-#include "render.h"
 #include "editor.h"
-#include "threads.h"
 
 void        ceil_floor_slope(t_doom *doom, t_room *room, int i, t_mat4 m_rot)
 {
@@ -74,11 +69,14 @@ void        ceil_floor_height(t_doom *doom, t_room *room, SDL_Scancode key, int 
         wall->ceiling_height += add;
 }   
       
-void        ceil_floor_events(t_doom *doom, SDL_Scancode key)
+void        ceil_floor_events(t_doom *doom, SDL_Event *event)
 {
-    t_room	*room;
-    int		i;
+    t_room	            *room;
+    const SDL_Scancode	key = event->key.keysym.scancode;
+    int		            i;
 	
+    if (!doom->editor.slope_mode)
+        return ;
     i = -1;
     room = &doom->editor.rooms->values[doom->editor.current_room];
     if (key == SDL_SCANCODE_KP_4 || key == SDL_SCANCODE_KP_6 || key == SDL_SCANCODE_KP_8 || key == SDL_SCANCODE_KP_5)

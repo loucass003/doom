@@ -3,22 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   events_objects.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/06 11:32:00 by lloncham          #+#    #+#             */
-/*   Updated: 2020/02/06 16:27:56 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/10 01:59:11 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom.h"
-#include <limits.h>
 #include "gui.h"
-#include "octree.h"
-#include <math.h>
-#include "render.h"
 #include "editor.h"
-#include "threads.h"
-#include "door.h"
 
 
 void	unselect_all(t_doom *doom)
@@ -96,9 +90,10 @@ void        object_mode(t_doom *doom, t_vec3 add)
     }
 }
 
-void        object_events(t_doom *doom, SDL_Scancode key)
+void        object_events(t_doom *doom, SDL_Event *event)
 {
-    t_vec3  add;
+    t_vec3              add;
+    const SDL_Scancode	key = event->key.keysym.scancode;
     
     add = (t_vec3){ 0, 0, 0 };
     if (key == SDL_SCANCODE_PAGEUP)
@@ -107,7 +102,7 @@ void        object_events(t_doom *doom, SDL_Scancode key)
         if (doom->editor.object_transform_mode == 3)
             doom->editor.object_transform_mode = 0;
     }
-    if (key == SDL_SCANCODE_PAGEDOWN)
+    else if (key == SDL_SCANCODE_PAGEDOWN)
     {
         doom->editor.object_transform_mode--;
         if ((int)doom->editor.object_transform_mode == -1)

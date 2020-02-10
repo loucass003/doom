@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 01:20:07 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/29 17:13:21 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/10 02:13:17 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,9 @@ t_bool		write_wall_sections(t_ressource_manager *r, t_wall_section *ws)
 		.resource_index = ressources_indexof(r->ressources, ws->texture),
 		.normal_type = ws->normal_type,
 		.invisible = ws->invisible,
-		.collisions = ws->collisions
+		.collisions = ws->collisions,
+		.uv_offset = ws->uv_offset,
+		.uv_repeat = ws->uv_repeat
 	};
 
 	dp_write(r, &wr_ws, sizeof(t_wr_wall_section));
@@ -65,7 +67,11 @@ t_bool		write_room(t_ressource_manager *r, t_room *room)
 		.ceil_collision = room->ceil_collision,
 		.floor_normal = room->floor_normal,
 		.ceil_normal = room->ceil_normal,
-		.ambiant_light = room->ambiant_light
+		.ambiant_light = room->ambiant_light,
+		.floor_uv_offset = room->floor_uv_offset,
+		.floor_uv_repeat = room->floor_uv_repeat,
+		.ceil_uv_offset = room->ceil_uv_offset,
+		.ceil_uv_repeat = room->ceil_uv_repeat
 	};
 
 	dp_write(r, &wr_room, sizeof(t_wr_room));

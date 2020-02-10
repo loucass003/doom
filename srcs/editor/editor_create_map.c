@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/10 13:41:47 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/29 18:24:36 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/10 02:09:49 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,12 +62,12 @@ t_bool	create_map_points_and_floor(t_editor *editor, t_renderable *r)
 		int j = -1;
 		while (++j < room->walls->len)
 			filter[j] = room->room_vertices_start + j * 2;
-		triangulate_floor_ceil(r, (t_vec3){ 0, -1, 0 }, filter, room->walls->len, room->floor_normal, (i * 2), i);
+		triangulate_floor_ceil(r, (t_vec3){ 0, -1, 0 }, filter, room->walls->len, room->floor_normal, (i * 2), i, room->floor_uv_offset, room->floor_uv_repeat);
 		room->ceilling_start = r->faces->len;
 		j = -1;
 		while (++j < room->walls->len)
 			filter[j] = room->room_vertices_start + (j * 2) + 1;
-		triangulate_floor_ceil(r, (t_vec3){ 0, 1, 0 }, filter, room->walls->len, room->ceil_normal, (i * 2) + 1, i);
+		triangulate_floor_ceil(r, (t_vec3){ 0, 1, 0 }, filter, room->walls->len, room->ceil_normal, (i * 2) + 1, i, room->ceil_uv_offset, room->ceil_uv_repeat);
 		room->ceilling_end = r->faces->len;
 		free(filter);
 	}

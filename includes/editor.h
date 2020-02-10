@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 14:35:33 by lloncham          #+#    #+#             */
-/*   Updated: 2020/02/07 18:59:11 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/10 02:12:10 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,12 @@ typedef enum		e_object_transform_mode
 	OT_MODE_ROTATION = 1,
 	OT_MODE_SCALE = 2
 }					t_object_transform_mode;
+
+typedef enum		e_uv_transform_mode
+{
+	UVT_MODE_OFFSET = 0,
+	UVT_MODE_REPEAT = 1,
+}					t_uv_transform_mode;
 
 typedef union		u_object_of
 {
@@ -155,6 +161,10 @@ typedef struct		s_room
 	uint8_t				floor_normal;
 	uint8_t				ceil_normal;
 	uint8_t				ambiant_light;
+	t_vec2				floor_uv_repeat;
+	t_vec2				floor_uv_offset;
+	t_vec2				ceil_uv_repeat;
+	t_vec2				ceil_uv_offset;
 }					t_room;
 
 typedef struct		s_rooms
@@ -200,6 +210,7 @@ typedef struct		s_editor
 	t_vec2					current_seg;
 	int						current_object;
 	int						selected_floor_ceil;
+	t_bool					slope_mode;
 	int						wall_section;
 	t_bool					object_grab;
 	t_editor_settings		settings;
@@ -207,6 +218,7 @@ typedef struct		s_editor
 	int						map_renderable;
 	int						walls_faces_start;
 	t_object_transform_mode	object_transform_mode;
+	t_uv_transform_mode		uv_transform_mode;
 	
 	t_bool					player_set;
 	t_bool					player_grab;
