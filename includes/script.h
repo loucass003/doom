@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 13:36:27 by lloncham          #+#    #+#             */
-/*   Updated: 2020/02/10 17:05:15 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/11 17:46:07 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ typedef struct  s_trigger
 
 typedef enum    s_action_type
 {
+    ACTION_NONE,
     ACTION_MESSAGE,
     ACTION_TELEPORT
 }               t_action_type;
@@ -84,6 +85,7 @@ typedef struct  s_action_teleport
 typedef union   u_action_data
 {
     t_action_message    message;
+    t_action_teleport   teleport;
 }               t_action_data;
 
 typedef struct  s_action
@@ -108,11 +110,16 @@ typedef struct	s_script_data
 	char		*script_str;
 }				t_script_data;
 
-void        trigger_script(struct s_doom *doom, t_trigger triger);
+void        trigger_event(struct s_doom *doom, t_trigger trigger);
+
+void        trigger_script(struct s_doom *doom, t_trigger trigger);
 t_bool		parse_script_data(t_script_data *data);
 t_bool		write_script(t_ressource_manager *rm, struct s_script_data *s_data);
 t_bool		read_script(t_ressource_manager *r, struct s_script_data **s_data);
 t_bool		load_script(t_ressource *r, char *path);
 
+t_bool      trigger_item_weapon(t_trigger_pick_item *trigger, t_json_object *object);
+t_bool      trigger_pick_item(t_trigger_pick_item *trigger, t_json_object *object);
+t_bool		script_return_error(char *error);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 22:00:26 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/08 15:39:34 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/11 17:23:01 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,6 @@ t_bool		check_collision(t_entity *entity, t_collide_aabb area)
 		{
 			if (entity_hit_itemstack(entity, entity->packet.r->of.data.itemstack))
 			{
-				printf("AMOUNT %d\n", entity->packet.r->of.data.itemstack->amount);
 				if (entity->packet.r->of.data.itemstack->amount <= 0)
 				{
 					splice_renderables_array(entity->packet.doom->renderables, i, 1);

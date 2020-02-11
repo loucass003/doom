@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   doom.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/11 09:57:58 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/11 16:52:03 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,7 @@ typedef struct		s_doom
 	t_bool				help;
 	t_bool				fullscreen;
 	t_story				story;
+	Uint32				trigger_event;		
 }					t_doom;
 
 float				clamp(float min, float max, float v);

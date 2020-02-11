@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sdl.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 20:10:35 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/11 10:07:27 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/11 16:59:52 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ t_bool			init_sdl(t_doom *doom)
 	doom->main_context.image = &doom->screen;
 	if (!load_fonts(doom))
 		return (sdl_quit(doom));
+	if ((doom->trigger_event = SDL_RegisterEvents(1)) == (Uint32)-1)
+		return (FALSE);
 	doom->fullscreen = FALSE;
 	return (TRUE);
 }

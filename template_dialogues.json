@@ -1,10 +1,5 @@
 [
     {
-        "trigger": { "type": "PICK_ITEM", "item_type": "WEAPON" },
-        "use": 0,
-        "textes": ["TU AS RECUPERE UNE ARME", "PHRASE 2", "PHRASE 3"]
-    },
-    {
         "trigger": {
             "type": "PICK_ITEM",
             "item_type": "WEAPON",
@@ -22,11 +17,20 @@
         ]
     },
     {
-        "trigger": { "type": "SPAWN" },
-        "textes": ["TU VIENS D ARRIVE TU DOIS FAIRE  ......."]
-    },
-    {
-        "trigger": { "type": "AREA", "pos": [10, 15, 5], "radius": 5 },
-        "textes": ["BRAVO TU EST ARRIVE ICI"]
+        "trigger": {
+            "type": "AREA",
+            "pos": [50, 0, 50],
+            "radius": 10
+        },
+        "actions": [
+            {
+                "type": "MESSAGE",
+                "text": ["TU EST ENTRE DANS"]
+            },
+            {
+                "type": "TELEPORT",
+                "pos": [5, 10, 12]
+            }
+        ]
     }
 ]

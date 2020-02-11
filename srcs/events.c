@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   events.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:14:55 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/11 08:21:09 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/11 17:29:57 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <libft.h>
 #include "doom.h"
 #include "gui.h"
+#include "script.h"
 
 static t_bool	events_window(t_doom *doom, SDL_Event *event)
 {
@@ -46,6 +47,12 @@ static t_bool	events_window(t_doom *doom, SDL_Event *event)
 			doom->fullscreen = TRUE;
 			SDL_SetWindowFullscreen(doom->win,SDL_WINDOW_FULLSCREEN);
 		}
+	}
+	if (event->type == SDL_USEREVENT && event->user.type == doom->trigger_event)
+	{
+		printf("ALOOoooooo\n");
+		trigger_script(doom, *((t_trigger *)event->user.data1));
+		free(event->user.data1);
 	}
 	
 	return (TRUE);

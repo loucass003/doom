@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 20:16:48 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/08 15:39:23 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/11 17:49:12 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include "entity.h"
 #include "doom.h"
 #include "item.h"
+#include "script.h"
 
 int					get_slot_of(t_player *player, t_item_type type)
 {
@@ -82,6 +83,16 @@ t_bool				entity_hit_itemstack(t_entity *entity, t_itemstack *is)
 		is->amount -= ft_min(i, is->amount);
 		player_sound(&entity->packet.doom->audio, ITEM_PICK, 3, 1);
 		entity->packet.doom->story.first_item = TRUE;////STORY
+		
+		t_trigger t = (t_trigger) { .type = TRIG_PICK_ITEM };
+		t.data.pick_item = (t_trigger_pick_item) {
+			.item_type = is->of->type,
+			.is_weapon_set = is->of->type == ITEM_WEAPON,
+			.weapon_type = is->of->type == ITEM_WEAPON
+				? is->of->data.weapon.type
+				: WEAPON_NONE
+		};
+		trigger_event(entity->packet.doom, t);
 	}
 	return (TRUE);
 }

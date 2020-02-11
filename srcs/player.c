@@ -6,17 +6,22 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:43:35 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/07 16:21:06 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/11 18:29:02 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom.h"
 #include "player.h"
 #include "octree.h"
+#include "script.h"
 
 void				update_player_camera(t_player *player)
 {
+	int				i;
+	t_doom			*doom;
 	t_camera		*camera;
+	t_script_data	*s_data;
+	t_script		*script;
 
 	camera = &player->camera;
 	camera->pos = player->entity.position;
@@ -26,6 +31,24 @@ void				update_player_camera(t_player *player)
 	alListenerfv(AL_ORIENTATION, (ALfloat[6]){camera->forward.x, camera->forward.y, camera->forward.z, 0.f, 1.f, 0.f});
 	player->entity.packet.doom->lights->values[0].position = player->camera.pos;
 	player->entity.packet.doom->lights->values[0].dir = player->camera.forward;
+
+	//printf("%f %f %f\n", player->entity.position.x, player->entity.position.y, player->entity.position.z);
+	doom = player->entity.packet.doom;
+	if (doom->main_context.type == CTX_NORMAL)
+	{
+		i = -1;
+		s_data = doom->res_manager.ressources->values[26]->data.script_data;
+		while (++i < s_data->script_count)
+		{
+			script = &s_data->scripts[i];
+			float dist = ft_vec3_len(ft_vec3_sub(player->entity.position, 
+				script->trigger.data.area.pos));
+			printf("dist %f\n", dist);
+			if (script->trigger.type == TRIG_AREA 
+				&& dist <= script->trigger.data.area.radius)
+				trigger_event(doom, script->trigger);
+		}
+	}
 }
 
 t_bool	create_player(t_renderable *r, t_doom *doom)
