@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 15:55:03 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/10 02:08:57 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/11 03:08:05 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -380,13 +380,9 @@ t_bool		editor_setmap(t_editor *editor)
 	int		i;
 	t_renderable r;
 
-	editor->doom->main_context.type = CTX_EDITOR;
 	editor->doom->renderables->len = 0;
 	editor->doom->skybox_index = -1;
-	
 	editor->settings.open = FALSE;
-	// set_gui_settings(editor, -1);
-	
 	default_renderables(editor->doom);
 	
 	i = -1;

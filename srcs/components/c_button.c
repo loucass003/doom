@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   c_button.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:59:38 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/04 15:49:43 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/11 03:11:05 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void		c_button_render(t_doom *doom, t_component *self, t_img *image)
 		return ;
 	btn = (t_button *)self;
 	btn->color = btn->hover ? btn->color_hover : btn->color_default;
+	btn->color = self->enabled ? btn->color : 0xFF252525;
 	btn->color = btn->selected ? 0xFFFFFFFF : btn->color;
 	x = self->bounds.x;
 	while (x < self->bounds.x + self->bounds.w)

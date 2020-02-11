@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_level.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/15 16:27:20 by lloncham          #+#    #+#             */
-/*   Updated: 2020/01/23 15:36:36 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/11 03:01:37 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,11 @@
 
 void				play_game(t_doom *doom)
 {
+	doom->main_context.type = CTX_NORMAL;
 	init_player(doom);
 	spawn_player(doom);
-	if (doom->main_context.type == CTX_NORMAL)
-	{
-		obj_test(doom);
-		init_bsp(doom);
-		doom->player.entity.position = (t_vec3){ 0, 50, 0 };
-	}
-	else
-		unselect_all(doom);
-	doom->main_context.type = CTX_NORMAL;
+	unselect_all(doom);
+	editor_setmap(&doom->editor);
 	set_gui(doom, GUI_INGAME);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_mainmenu.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:56:05 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/24 11:28:59 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/11 02:57:55 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ void				g_mainmenu_on_enter(t_gui *self, t_doom *doom)
 	append_components_array(&self->components, create_button((SDL_Rect)
 		{ (S_WIDTH - 250) / 2, (S_HEIGHT + 250) / 2, 250, 50 },
 		NULL, "Leaderboard"));
+	self->components->values[0]->enabled = doom->editor.player_set;
 	i = -1;
 	while (++i < self->components->len)
 	{

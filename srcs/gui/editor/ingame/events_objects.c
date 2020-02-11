@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/06 11:32:00 by lloncham          #+#    #+#             */
-/*   Updated: 2020/02/10 01:59:11 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/11 03:08:24 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	unselect_all(t_doom *doom)
 	doom->editor.object_transform_mode = OT_MODE_TRANSLATION;
 	doom->editor.current_object = -1;
 	doom->editor.wall_section = -1;
+    doom->editor.settings.open = FALSE;
 	select_room(&doom->editor, -1);
 }
 
