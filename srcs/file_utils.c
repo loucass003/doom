@@ -6,12 +6,13 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/28 01:48:23 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/16 15:44:34 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/11 04:05:14 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <libft.h>
+#include <unistd.h>
 
 char	*path_join(char *dir, char *file)
 {
@@ -33,4 +34,12 @@ char	*path_join(char *dir, char *file)
 	ft_strcpy(path + dir_len + need_slash, file);
 	path[len - 1] = '\0';
 	return (path);
+}
+
+ssize_t		get_file_size(int fd)
+{
+	size_t len = lseek(fd, 0, SEEK_END);
+	if (lseek(fd, 0, SEEK_SET) == -1)
+		return (-1);
+	return (len);
 }

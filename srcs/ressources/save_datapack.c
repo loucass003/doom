@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/24 22:14:40 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/13 01:24:41 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/11 04:14:51 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,15 @@ void		dp_write(t_ressource_manager *rm, const void *buf, size_t n)
 	if (!buf)
 		return ;
 	write(rm->reader.fd, buf, n);
-	rm->dp_header.file_size += n;
 }
 
 t_bool		write_header(t_ressource_manager *rm)
 {
+	if ((rm->dp_header.file_size = get_file_size(rm->reader.fd)) == -1)
+		return (FALSE);
 	if (lseek(rm->reader.fd, 0, SEEK_SET) == -1)
 		return (FALSE);
+	ft_memcpy(rm->dp_header.magic, "DATAPACK", 8);
 	dp_write(rm, &rm->dp_header, sizeof(t_wr_header));
 	return (TRUE);
 }

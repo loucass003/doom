@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 10:19:30 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/29 14:49:07 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/11 04:10:31 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,12 @@ typedef struct	s_ressources
 	t_ressource		*values[];
 }				t_ressources;
 
+
+
 typedef struct	s_wr_header
 {
-	size_t		file_size;
+	uint8_t		magic[8];
+	ssize_t		file_size;
 }				t_wr_header;
 
 typedef struct	s_ressource_manager

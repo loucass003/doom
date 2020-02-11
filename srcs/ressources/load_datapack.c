@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   load_datapack.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/24 02:52:17 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/13 18:05:42 by louali           ###   ########.fr       */
+/*   Updated: 2020/02/11 04:20:10 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,15 @@
 
 t_bool		read_header(t_ressource_manager *rm)
 {
+	ssize_t	len;
+
+	if ((len = get_file_size(rm->reader.fd)) == -1)
+		return (FALSE);
 	if (!io_memcpy(&rm->reader, &rm->dp_header, sizeof(t_wr_header)))
+		return (FALSE);
+	if (ft_memcmp(rm->dp_header.magic, "DATAPACK", 8) != 0)
+		return (FALSE);
+	if (len != rm->dp_header.file_size)
 		return (FALSE);
 	return (TRUE);
 }
