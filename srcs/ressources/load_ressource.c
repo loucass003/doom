@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   load_ressource.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/24 01:51:49 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/22 11:06:17 by louali           ###   ########.fr       */
+/*   Updated: 2020/02/10 14:47:34 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "doom.h"
 #include "ressource.h"
 #include "write_structs.h"
+#include "script.h"
 
 t_bool		load_ressource(t_doom *doom, t_ressource *r, char *path)
 {
@@ -23,6 +24,8 @@ t_bool		load_ressource(t_doom *doom, t_ressource *r, char *path)
 		return (load_model_file(doom, r, path));
 	else if (r->type == RESSOURCE_SOUND)
 		return (load_sound(r, path));
+	else if (r->type == RESSOURCE_SCRIPT)
+		return (load_script(r, path));
 	else
 		return (FALSE);
 }
@@ -53,6 +56,8 @@ t_bool		read_ressource(t_ressource_manager *rm, t_ressource *r)
 		result = read_model(rm, &r->data.model);
 	else if (r->type == RESSOURCE_SOUND)
 		result = read_songs(rm, &r->data.sound);
+	else if (r->type == RESSOURCE_SCRIPT)
+		result = read_script(rm, &r->data.script_data);
 	if (result)
 		r->loaded = TRUE;
 	return (TRUE);

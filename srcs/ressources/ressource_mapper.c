@@ -3,42 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ressource_mapper.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/29 13:50:12 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/29 15:50:50 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/10 14:19:16 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 #include "ressource.h"
-#include <fcntl.h>
-#include <unistd.h>
-
-static char			*get_file_content(char *file, int *content_len)
-{
-	int		fd;
-	char	*content;
-	char	buf[READ_BUFFER + 1];
-	int		rd;
-
-	if ((fd = open(file, O_RDONLY)) == -1)
-		return (NULL);
-	*content_len = 0;
-	content = NULL;
-	while ((rd = read(fd, &buf, READ_BUFFER)) > 0)
-	{
-		buf[rd] = 0;
-		content = ft_realloc(content, *content_len, *content_len + rd);
-		ft_memcpy(content + *content_len, buf, rd);
-		*content_len += rd;
-	}
-	if (rd != -1)
-		return (content);
-	if (content)
-		free(content);
-	return (NULL);
-}
+#include "file_utils.h"
 
 t_bool		read_ressource_type(t_ressource_manager *r, t_json_object *val,
 	char *name, t_ressource_type type)

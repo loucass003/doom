@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ressource.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 10:19:30 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/11 06:13:29 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/11 12:37:18 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,16 @@ typedef enum	e_ressource_type
 	RESSOURCE_UNSET = 0,
 	RESSOURCE_TEXTURE = 1,
 	RESSOURCE_MODEL = 2,
-	RESSOURCE_SOUND = 3
+	RESSOURCE_SOUND = 3,
+	RESSOURCE_SCRIPT = 4
 }				t_ressource_type;
-
 
 typedef union	u_ressource_data
 {
-	struct s_img		*texture;
-	struct s_renderable	*model;
-	t_sound				*sound;
+	struct s_img			*texture;
+	struct s_renderable		*model;
+	t_sound					*sound;
+	struct s_script_data	*script_data;
 }				t_ressource_data;
 
 typedef struct	s_ressource
@@ -118,6 +119,5 @@ int				get_ressource_by_name(t_ressource_manager *r, t_ressource_type type, char
 t_bool			write_ressources(t_ressource_manager *rm);
 
 int				get_pages_count(t_ressource_manager *rm);
-
 
 #endif

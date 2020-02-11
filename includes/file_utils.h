@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   file_utils.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 02:48:07 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/11 04:05:12 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/11 12:41:14 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,4 +16,6 @@
 
 char				*path_join(char *dir, char *file);
 ssize_t				get_file_size(int fd);
+char			    *get_file_content(char *file, int *content_len);
+
 #endif

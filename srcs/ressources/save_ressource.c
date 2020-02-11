@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   save_ressource.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 01:08:20 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/13 18:06:04 by louali           ###   ########.fr       */
+/*   Updated: 2020/02/10 14:45:55 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ressource.h"
 #include "doom.h"
 #include "write_structs.h"
+#include "script.h"
 
 t_bool		write_ressource(t_ressource_manager *rm, t_ressource *r)
 {
@@ -32,6 +33,8 @@ t_bool		write_ressource(t_ressource_manager *rm, t_ressource *r)
 		return (write_model(rm, r->data.model));
 	else if (r->type == RESSOURCE_SOUND)
 		return (write_sound(rm , r->data.sound));
+	else if (r->type == RESSOURCE_SCRIPT)
+		return (write_script(rm , r->data.script_data));
 	return (TRUE);
 }
 
