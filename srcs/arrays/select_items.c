@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   select_items.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 23:06:40 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/22 14:44:03 by louali           ###   ########.fr       */
+/*   Updated: 2020/02/11 10:19:09 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ t_select_items	*create_select_items_array(int capacity)
 		return (NULL);
 	ft_bzero(arr, size);
 	arr->capacity = capacity;
+	arr->auto_free = TRUE;
 	return (arr);
 }
 

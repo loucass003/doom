@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/10 02:02:10 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/11 09:58:23 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,6 @@ void			g_ingame_render(t_gui *self, t_doom *doom)
 		+ doom->main_context.image->width / 2] = 0xFF00FF00;
 	draw_circle(doom->main_context.image,
 		(t_pixel){ S_WIDTH_2, S_HEIGHT_2, 0xFF00FF00 }, 10);
-	doom->main_context.image = &doom->screen_transparency;
 	doom->main_context.image = &doom->screen;
 	if (!draw_player_inventory(doom, self))
 		return ;

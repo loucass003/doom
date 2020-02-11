@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_es_object.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 22:55:54 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/22 13:11:21 by louali           ###   ########.fr       */
+/*   Updated: 2020/02/11 12:00:43 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,10 @@ void			set_object_default(t_doom *doom, t_object *object)
 	object->scale = (t_vec3){0, 0, 0};
 	object->rotation = (t_vec3){0, 0, 0};
 	if (object->r)
+	{
+		// free_renderable(object->r, object->type == OBJECT_MODEL, FALSE);
 		create_object_renderable(&doom->editor, objects_indexof(doom->editor.objects, object), object->r);
-}
-
-void			free_object(t_object *object)
-{
-	(void)object;
-	//TODO: leaks
+	}
 }
 
 static t_bool			action_performed(t_component *cmp, t_doom *doom)
@@ -110,14 +107,13 @@ void			g_es_object_enter(t_gui *self, t_doom *doom)
 	doom->editor.settings.guis_object[OBJECT_MODEL] = (t_gui){ .render = g_es_obj_model_render, .on_enter = g_es_obj_model_enter };
 	doom->editor.settings.guis_object[OBJECT_LIGHT] = (t_gui){ .render = g_es_obj_light_render, .on_enter = g_es_obj_light_enter };
 
-	if (object->type != OBJECT_NONE)
+	// if (object->type != OBJECT_NONE)
 		set_es_object_gui(&doom->editor, object->type);
 }
 
 void			g_es_object_on_event(t_gui *self, SDL_Event *event,
 	t_doom *doom)
 {
-	(void)event;
 	(void)self;
 	gui_events(doom, doom->editor.settings.guis_object, event, doom->editor.settings.current_gui_object);
 	components_events(doom, doom->editor.settings.guis_object, event, doom->editor.settings.current_gui_object);
@@ -126,7 +122,7 @@ void			g_es_object_on_event(t_gui *self, SDL_Event *event,
 void			g_es_object_leave(t_gui *self, t_doom *doom)
 {
 	(void)self;
-	(void)doom;	
+	set_es_object_gui(&doom->editor, -1);
 }
 
 void			g_es_object_render(t_gui *self, t_doom *doom)

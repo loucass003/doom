@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   component.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 12:50:35 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/17 14:27:04 by louali           ###   ########.fr       */
+/*   Updated: 2020/02/11 11:22:20 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,18 @@ void	render_components(t_doom *doom, t_gui *gui)
 				gui->components->values[i], &doom->screen);
 }
 
+void	free_component(t_component **c_addr)
+{
+	t_component		*c;
+
+	c = *c_addr;
+	if (c->type == C_TEXTFIELD)
+		free(((t_textfield *)c)->text);
+	else if (c->type == C_SELECT && ((t_select *)c)->items && ((t_select *)c)->items->auto_free)
+		ft_memdel((void **)&((t_select *)c)->items);
+	ft_memdel((void **)c_addr);
+}
+
 void	free_components(t_gui *gui)
 {
 	int		i;
@@ -33,7 +45,7 @@ void	free_components(t_gui *gui)
 	{
 		i = -1;
 		while (++i < gui->components->len)
-			free(gui->components->values[i]);
+			free_component(&gui->components->values[i]);
 	}
 	free(gui->components);
 	gui->components = NULL;

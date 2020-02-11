@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 15:55:03 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/11 03:08:05 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/11 12:00:53 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ t_vec2		uv_setting(t_wall_section *ws, t_vec2 uv)
 
 t_bool		update_wall(t_editor *editor, int room_index, int wall_index, int wall_section)
 {
-	// t_renderable	*r;
 	t_face			*f1;
 	t_face			*f2;
 	t_room			*room;
@@ -76,8 +75,6 @@ t_bool		update_wall(t_editor *editor, int room_index, int wall_index, int wall_s
 	if (editor->doom->main_context.type != CTX_EDITOR)
 		return (TRUE);
 
-	// if (!(r = room->r))
-	// 	return (FALSE);
 	room = &editor->rooms->values[room_index];
 	wall = &room->walls->values[wall_index];
 	ws = &wall->wall_sections->values[wall_section];
@@ -167,12 +164,6 @@ t_bool		create_wall(t_renderable *r, t_editor *editor, int room_index, int wall_
 	t_wall	*wall = &room->walls->values[wall_index];
 	t_wall_section	*ws = &wall->wall_sections->values[wall_section];
 	
-	if (ws->invisible)
-		printf("CALL\n");
-	// if (!wall->collisions && wall->invisible)
-	// 	continue;
-	// int	next = (i + 1) % room->walls->len;
-//	printf("MATERIAL %d\n", r->materials->len);
 	ws->material_index = r->materials->len;
 	if (!append_mtllist(&r->materials, (t_mtl){ 
 		.texture_map_set = TRUE, .texture_map = ws->texture->data.texture, .material_color_set = TRUE, .material_color = 0xFFFF0000 }))
@@ -344,7 +335,10 @@ t_bool		add_map(t_renderable *rmap, t_editor *editor)
 {
 	int				i;
 
-	//TODO: free removed renderables from map_renderable to renderables->led
+	//TODO: free removed renderables from map_renderable to renderables->len
+	i = editor->map_renderable - 1;
+	while (++i < editor->doom->renderables->len)
+		free_renderable(&editor->doom->renderables->values[i], FALSE, TRUE);
 	editor->doom->renderables->len = editor->map_renderable;
 	create_map(rmap, editor);
 	if (!append_renderables_array(&editor->doom->renderables, *rmap))
@@ -380,6 +374,9 @@ t_bool		editor_setmap(t_editor *editor)
 	int		i;
 	t_renderable r;
 
+	// i = -1;
+	// while (++i < editor->doom->renderables->len)
+	// 	free_renderable(&editor->doom->renderables->values[i], FALSE, TRUE);
 	editor->doom->renderables->len = 0;
 	editor->doom->skybox_index = -1;
 	editor->settings.open = FALSE;

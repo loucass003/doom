@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 18:26:47 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/11 05:57:12 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/11 11:44:25 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,14 @@ t_object	init_object(t_editor *editor, t_vec2 pos)
 	return object;
 }
 
+void		free_object(t_object *o)
+{
+	if (o->type == OBJECT_SPRITE)
+		ft_memdel((void **)&o->of.sprite);
+	else if (o->type == OBJECT_ITEMSTACK)
+		free_itemstack(&o->of.itemstack);
+}
+
 void		free_objects(t_objects **objects)
 {
 	int			i;
@@ -91,10 +99,7 @@ void		free_objects(t_objects **objects)
 	while (++i < (*objects)->len)
 	{
 		o = &(*objects)->values[i];
-		// if (o->type == OBJECT_SPRITE)
-		// 	ft_memdel((void **)&o->of.sprite);
-		// else if (o->type == OBJECT_ITEMSTACK)
-		// 	free_itemstack(&o->of.itemstack);
+		free_object(o);
 	}
 	ft_memdel((void **)objects);
 }

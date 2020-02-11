@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 20:40:10 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/06 13:15:38 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/11 11:26:16 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,18 @@ t_bool			action_performed(t_component *cmp, t_doom *doom)
  	return (TRUE);
 }
 
+t_select_items	*normals_types(void)
+{
+	t_select_items	*normals_types;
+	
+	normals_types = create_select_items_array(3);
+	append_select_items_array(&normals_types, (t_select_item){ .name = "FRONT", .value = 0 });
+	append_select_items_array(&normals_types, (t_select_item){ .name = "BACK", .value = 1 });
+	append_select_items_array(&normals_types, (t_select_item){ .name = "DOUBLE SIDED", .value = 2 });
+
+	return (normals_types);
+}
+
 void			g_es_room_enter(t_gui *self, t_doom *doom)
 {
 	int			x = S_WIDTH - 335;
@@ -91,11 +103,6 @@ void			g_es_room_enter(t_gui *self, t_doom *doom)
 
 	t_room *room = &doom->editor.rooms->values[doom->editor.current_room];
 	
-	t_select_items	*normals_types = create_select_items_array(3);
-	append_select_items_array(&normals_types, (t_select_item){ .name = "FRONT", .value = 0 });
-	append_select_items_array(&normals_types, (t_select_item){ .name = "BACK", .value = 1 });
-	append_select_items_array(&normals_types, (t_select_item){ .name = "DOUBLE SIDED", .value = 2 });
-
 	append_components_array(&self->components, create_button((SDL_Rect){ x + 10, y + 40, 40, 40 }, NULL, "<"));
 	append_components_array(&self->components, create_button((SDL_Rect){ x + 270, y + 40, 40, 40 }, NULL, ">"));
 	append_components_array(&self->components, create_checkbox(doom, (t_vec2){ x + 10, y + 100 }, "INVISIBLE"));
@@ -103,8 +110,8 @@ void			g_es_room_enter(t_gui *self, t_doom *doom)
 	append_components_array(&self->components, create_checkbox(doom, (t_vec2){ x + 170, y + 100 }, "COLLISIONS"));
 	((t_checkbox *)self->components->values[3])->value = room->floor_collision;
 	append_components_array(&self->components, create_select((SDL_Rect){x + 10, y + 120, 300, 30}, "NORMAL TYPE"));
-	((t_select *)self->components->values[4])->items = normals_types;
-	((t_select *)self->components->values[4])->selected_item = select_items_indexof(normals_types, room->floor_normal);
+	((t_select *)self->components->values[4])->items = normals_types();
+	((t_select *)self->components->values[4])->selected_item = select_items_indexof(((t_select *)self->components->values[4])->items, room->floor_normal);
 
 	append_components_array(&self->components, create_button((SDL_Rect){ x + 10, y + 185, 40, 40 }, NULL, "<"));
 	append_components_array(&self->components, create_button((SDL_Rect){ x + 270, y + 185, 40, 40 }, NULL, ">"));
@@ -113,8 +120,8 @@ void			g_es_room_enter(t_gui *self, t_doom *doom)
 	append_components_array(&self->components, create_checkbox(doom, (t_vec2){ x + 170, y + 245 }, "COLLISIONS"));
 	((t_checkbox *)self->components->values[8])->value = room->ceil_collision;
 	append_components_array(&self->components, create_select((SDL_Rect){x + 10, y + 265, 300, 30}, "NORMAL TYPE"));
-	((t_select *)self->components->values[9])->items = normals_types;
-	((t_select *)self->components->values[9])->selected_item = select_items_indexof(normals_types, room->ceil_normal);
+	((t_select *)self->components->values[9])->items = normals_types();
+	((t_select *)self->components->values[9])->selected_item = select_items_indexof(((t_select *)self->components->values[9])->items, room->ceil_normal);
 	
 	append_components_array(&self->components, create_textfield((SDL_Rect){x + 10, y + 325, 300, 30}, "AMBIANT LIGHT", TRUE));
 	t_int_str istr = ft_int_to_str(room->ambiant_light);

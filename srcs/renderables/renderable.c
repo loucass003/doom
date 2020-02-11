@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/05 00:02:57 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/11 08:49:56 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/11 12:02:06 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,8 @@ t_bool		free_renderable(t_renderable *r, t_bool free_resources, t_bool res)
 	ft_memdel((void **)&r->vertex);
 	ft_memdel((void **)&r->normals);
 	ft_memdel((void **)&r->sprite);
-	free_materials(&r->materials, free_resources);
+	if (r->materials)
+		free_materials(&r->materials, free_resources);
 	if (r->octree)
 		free_octree(&r->octree);
 	free_renderable_of(r);

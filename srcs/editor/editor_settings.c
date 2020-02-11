@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   editor_settings.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/11 18:01:41 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/22 10:59:42 by louali           ###   ########.fr       */
+/*   Updated: 2020/02/11 11:10:56 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ t_bool	editor_settings_guis(t_editor *editor)
 
 void	set_gui_settings(t_editor *editor, int id)
 {
-	;
 	if (editor->settings.current_gui >= 0)
 		leave_gui(editor->doom, editor->settings.guis, editor->settings.current_gui);
 	editor->settings.current_gui = id;

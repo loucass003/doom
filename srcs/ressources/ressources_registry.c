@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 14:37:12 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/06 13:18:34 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/11 10:20:32 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ t_bool			init_ressources_select_items(t_ressource_manager *rm)
 {
 	if (rm->ressources_types || !(rm->ressources_types = create_select_items_array(5)))
 		return (!!rm->ressources_types);
+	rm->ressources_types->auto_free = FALSE;
 	append_select_items_array(&rm->ressources_types, (t_select_item){ "TEXTURE", RESSOURCE_TEXTURE });
 	append_select_items_array(&rm->ressources_types, (t_select_item){ "MODEL", RESSOURCE_MODEL });
 	append_select_items_array(&rm->ressources_types, (t_select_item){ "SOUND", RESSOURCE_SOUND });

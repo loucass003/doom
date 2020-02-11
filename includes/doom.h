@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/11 06:58:48 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/11 09:57:58 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,6 @@ typedef struct		s_doom
 	SDL_Window			*win;
 	SDL_Renderer		*renderer;
 	t_img				screen;
-	t_img				screen_transparency;
 	t_bool				running;
 	t_stats				stats;
 	t_fonts				fonts;
