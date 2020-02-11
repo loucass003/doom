@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/25 05:41:51 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/10 02:12:23 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/11 07:53:54 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 # include "ressource.h"
 # include "editor.h"
 # include "render.h"
+
+# pragma pack(push, 1)
 
 typedef struct		s_wr_songs
 {
@@ -133,5 +135,7 @@ typedef struct		s_wr_data
 {
 	t_wr_header		header;
 }					t_wr_data;
+
+# pragma pack(pop)
 
 #endif

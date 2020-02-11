@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   c_checkbox.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/14 01:21:54 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/17 14:26:14 by louali           ###   ########.fr       */
+/*   Updated: 2020/02/11 09:05:05 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,13 @@ SDL_Event *event, t_doom *doom)
 	t_checkbox		*checkbox;
 
 	checkbox = (t_checkbox *)self;
-	if (in_bounds(self->bounds, (t_vec2){ event->motion.x, event->motion.y }))
-		checkbox->bg_color = checkbox->color_hover;
-	else
+	if (event->type == SDL_MOUSEMOTION)
+	{
 		checkbox->bg_color = checkbox->color_default;
-	if (event->type == SDL_MOUSEBUTTONUP)
+		if (in_bounds(self->bounds, (t_vec2){ event->motion.x, event->motion.y }))
+			checkbox->bg_color = checkbox->color_hover;
+	}
+	else if (event->type == SDL_MOUSEBUTTONUP)
 	{
 		if (in_bounds(self->bounds,
 			(t_vec2){ event->motion.x, event->motion.y }))

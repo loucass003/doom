@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 15:28:48 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/11 07:04:29 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/11 08:36:31 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,17 +115,17 @@ t_bool	create_obj(t_doom *doom, t_renderable *r, char *file)
 	if (!(r->of.data.obj = malloc(sizeof(t_obj))))
 		return (FALSE);
 	if(!(r->vertices = create_4dvertices_array(800)))
-		return (free_renderable(r, FALSE));
+		return (free_renderable(r, FALSE, FALSE));
 	if(!(r->vertex = create_2dvertices_array(800)))
-		return (free_renderable(r, FALSE));
+		return (free_renderable(r, FALSE, FALSE));
 	if(!(r->normals = create_3dvertices_array(800)))
-		return (free_renderable(r, FALSE));
+		return (free_renderable(r, FALSE, FALSE));
 	if(!(r->faces = create_faces_array(800)))
-		return (free_renderable(r, FALSE));
+		return (free_renderable(r, FALSE, FALSE));
 	if(!(r->materials = create_mtllist(3)))
-		return (free_renderable(r, FALSE));
+		return (free_renderable(r, FALSE, FALSE));
 	if (!load_obj(doom, r, r->of.data.obj, file))
-		return (free_renderable(r, FALSE));
+		return (free_renderable(r, FALSE, FALSE));
 	if (r->materials->len == 0)
 	{
 		printf("ADD DEFAULT MATERIAL\n");
@@ -139,77 +139,4 @@ t_bool	create_obj(t_doom *doom, t_renderable *r, char *file)
 	r->dirty = TRUE;
 	r->visible = TRUE;
 	return (TRUE);
-}
-
-t_bool		obj_test(t_doom *doom)
-{
-	/* t_bool lol = load_obj(doom, &obj, "House2.obj");
-	obj->fixed = TRUE;
-	obj->position = (t_vec3){1, 0, 4};
-	obj->scale = (t_vec3){0.003, 0.003, 0.003}; */
-	//append_objs_array(&doom->objects, (t_obj){ .renderable = NULL });
-	//t_bool lol = load_obj(doom, &doom->objects->objs[doom->objects->len - 1], "House2.obj");
-	//  t_renderable r;
-	// t_bool lol;
-	(void)doom;
-	
-	
-
-
-	// set_obj_working_dir(doom, "assets/obj");
-	// lol = create_obj(doom, &r, "skybox.obj");
-	// r.position = (t_vec3){0, 0, 0};
-	// r.scale = (t_vec3){FAR_CULL, FAR_CULL, FAR_CULL};
-	// r.no_light = TRUE;
-	// r.fixed = TRUE;
-	// doom->skybox_index = doom->renderables->len;
-	// append_renderables_array(&doom->renderables, r);
-	// set_obj_working_dir(doom, "assets/obj/de_dust");
-	// lol = create_obj(doom, &r, "de_dust2.obj");
-	// r.position = (t_vec3){0, 0, 0};
-	// r.rotation = (t_vec3){0, 0, 0};
-	// r.scale = (t_vec3){0.05, 0.05, 0.05};
-	// //r.wireframe = TRUE;
-	// r.wireframe_color = 0xFFFF0000;
-	// r.fixed = TRUE;
-	// append_renderables_array(&doom->renderables, r);
-
-// 	set_obj_working_dir(doom, "assets/obj");
-// 	lol = create_obj(doom, &r, "polarbear.obj");
-// 	r.position = (t_vec3){0, 0, 0};
-// 	r.rotation = (t_vec3){0, 0, 0};
-// //	r.scale = (t_vec3){0.05, 0.05, 0.05};
-// 	r.scale = (t_vec3){1, 1, 1};
-// 	//r.wireframe = TRUE;
-// 	r.wireframe_color = 0xFFFF0000;
-// 	r.fixed = TRUE;
-// 	append_renderables_array(&doom->renderables, r);
-	// set_obj_working_dir(doom, "assets/obj");
-	// lol = create_obj(doom, &doom->grenada_primitive, "grenada.obj");
-	// doom->grenada_primitive.position = (t_vec3){0, 0, 0};
-	// doom->grenada_primitive.rotation = (t_vec3){0, 10, 0};
-	// doom->grenada_primitive.scale = (t_vec3){0.05, 0.05, 0.05};
-	//append_renderables_array(&doom->renderables, doom->grenada_primitive);
-//	post_process_obj(doom, &doom->grenada_primitive);
-	//r.wireframe = TRUE;
-	//r.wireframe_color = 0xFFFF0000;
-	//r.fixed = TRUE;
-	// set_obj_working_dir(doom, "assets/obj/cs_italy");
-	// lol = create_obj(doom, &r, "cs_italy.obj");
-	// r.position = (t_vec3){0, 0, 0};
-	// r.scale = (t_vec3){0.06, 0.06, 0.06};
-	// r.fixed = TRUE;
-	// append_renderables_array(&doom->renderables, r);
-
-	
-	// lol = create_obj(doom, &r, "skybox.obj");
-	// r.position = (t_vec3){0, 0, 0};
-	// r.scale = (t_vec3){FAR_CULL, FAR_CULL, FAR_CULL};
-	// r.no_light = TRUE;
-	// r.double_faced = TRUE;
-	// //r.fixed = TRUE;
-	// append_renderables_array(&doom->renderables, r);
-	
-	// printf("ERROR %d\n", !lol);
-	return (FALSE);
 }

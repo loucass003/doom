@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/28 16:17:38 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/11 07:04:53 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/11 08:36:31 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ t_bool	create_sprite_renderable(t_renderable *r, t_sprite *sprite)
 	r->object_index = -1;
 	r->sprite = sprite;
 	if (!append_mtllist(&r->materials, (t_mtl){ .texture_map = sprite->texture->data.texture, .texture_map_set = TRUE }))
-		return (free_renderable(r, FALSE));
+		return (free_renderable(r, FALSE, FALSE));
 	add_point(r, (t_vec4){ -0.5, -0.5, 0, 1 }, (t_vec2){ 1, 0 });
 	add_point(r, (t_vec4){ 0.5, -0.5, 0, 1 }, (t_vec2){ 0, 0 });
 	add_point(r, (t_vec4){ 0.5, 0.5, 0, 1 }, (t_vec2){ 0, 1 });

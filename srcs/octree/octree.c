@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/05 17:31:15 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/02 18:42:31 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/11 07:37:38 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,4 +221,23 @@ void			print_octree(t_octree_node	*n)
 		if (n->childs[i].faces_index)
 			printf("%p(%d) --> %p(%d -- %d)\n", n,  0, n->childs + i, i, n->childs[i].faces_index->len);
 	}
+}
+
+void			free_octree_nodes(t_octree_node *n)
+{
+	int		i;
+
+	ft_memdel((void **)&n->faces_index);
+	if (!n->childs)
+		return ;
+	i = -1;
+	while (++i < 8)
+		free_octree_nodes(n->childs + i);
+	free(n->childs);
+}
+
+void			free_octree(t_octree_node **n)
+{
+	free_octree_nodes(*n);
+	ft_memdel((void **)n);
 }

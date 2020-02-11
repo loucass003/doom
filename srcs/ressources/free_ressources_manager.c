@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/11 06:02:31 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/11 07:04:56 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/11 08:52:10 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,10 @@ void	free_ressource(t_ressource **r_addr)
 	if (r->loaded)
 	{
 		if (r->type == RESSOURCE_MODEL)
-			free_renderable(r->data.model, TRUE);
+		{
+			free_renderable(r->data.model, TRUE, TRUE);
+			ft_memdel((void **)&r->data.model);
+		}
 		else if (r->type == RESSOURCE_TEXTURE)
 		{
 			destroy_image(r->data.texture);

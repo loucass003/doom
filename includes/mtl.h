@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/04 22:13:55 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/11 05:58:22 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/11 08:45:05 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ typedef struct	s_mtl
 	t_bool		material_color_set;
 	t_bool		transparent;
 	int			material_color;
-	char		*working_dir; //TODO: NEED TO BE LINKED
 	t_bool		wireframe;
 }				t_mtl;
 
