@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 18:46:30 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/10 17:47:25 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/11 02:52:56 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ void			insert_point(t_editor *editor, t_vec2 seg, int point_index)
 	while (++i < editor->rooms->len)
 	{
 		t_room	*room0 = &editor->rooms->values[i];
+		if (!room0->closed)
+			continue;
 		int		index0 = wall_indexof_by_indice(room0->walls, seg.x);
 		int		index1 = wall_indexof_by_indice(room0->walls, seg.y);
 		
