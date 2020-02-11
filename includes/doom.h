@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   doom.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/07 17:32:48 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/11 06:58:48 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,18 +44,6 @@ typedef struct		s_fonts
 {
 	TTF_Font		*helvetica;
 }					t_fonts;
-
-typedef struct		s_textures
-{
-	SDL_Surface		*bricks;
-	SDL_Surface		*test;
-	SDL_Surface		*sprite;
-	SDL_Surface		*machin;
-	SDL_Surface		*gun0;
-	SDL_Surface		*medkit;
-	SDL_Surface		*ammo1;
-	SDL_Surface		*axe;
-}					t_textures;
 
 typedef struct		s_gdata
 {
@@ -117,7 +105,6 @@ typedef struct		s_doom
 	t_renderable		sphere_primitive;
 	t_renderable		grenada_primitive;
 	t_player			player;
-	t_textures			textures;
 	t_gui				guis[GUI_COUNT];
 	int					current_gui;
 	t_editor			editor;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ressource_sound.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 16:55:56 by louali            #+#    #+#             */
-/*   Updated: 2020/01/22 11:06:22 by louali           ###   ########.fr       */
+/*   Updated: 2020/02/11 06:16:09 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,4 +74,10 @@ t_bool		read_songs(t_ressource_manager *r, t_sound **sound)
 	gen_audio_buffer(s);
 	*sound = s;
 	return (TRUE);
+}
+
+
+void		free_sound(t_sound **s_addr)
+{
+	ft_memdel((void **)s_addr);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   audio.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/22 13:41:15 by lloncham          #+#    #+#             */
-/*   Updated: 2020/01/22 14:17:13 by louali           ###   ########.fr       */
+/*   Updated: 2020/02/11 05:18:49 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ t_bool			init_openal(t_doom *doom)
 {
 	doom->audio.device = alcOpenDevice(NULL);
 	if (!(doom->audio.context = alcCreateContext(doom->audio.device, NULL)))
-		printf("context error\n");
+		return (FALSE);
 	if (!alcMakeContextCurrent(doom->audio.context))
-		printf("context current error\n");
+		return (FALSE);
 	alGenSources(MAX_SOUNDS, doom->audio.source);
 	return (TRUE);
 }
@@ -62,14 +62,11 @@ t_bool			set_default_sounds(t_doom *doom)
 	return (TRUE);
 }
 
-void			quit_openal(void)
+void			quit_openal(t_doom *doom)
 {
-	ALCcontext	*context;
-	ALCdevice	*device;
-
-	context = alcGetCurrentContext();
-	device = alcGetContextsDevice(context);
+	alDeleteSources(MAX_SOUNDS, (const ALuint *)doom->audio.source);
+//	alDeleteBuffers(12, (const ALuint *)doom->audio.buffer);
 	alcMakeContextCurrent(NULL);
-	alcDestroyContext(context);
-	alcCloseDevice(device);
+	alcDestroyContext(doom->audio.context);
+	alcCloseDevice(doom->audio.device);
 }

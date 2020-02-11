@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ellipsoid_renderable.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/09 21:56:55 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/07 17:11:03 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/11 07:04:40 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,16 +82,16 @@ t_bool	create_ellipsoid(t_doom *doom, t_renderable *r, t_vec2 res, t_vec3 radius
 		return (FALSE);
 	r->of.data.ellipsoid->radius = radius;
 	if(!(r->vertices = create_4dvertices_array(100)))
-		return (free_renderable(&r, FALSE));
+		return (free_renderable(r, FALSE));
 	if(!(r->normals = create_3dvertices_array(100)))
-		return (free_renderable(&r, FALSE));
+		return (free_renderable(r, FALSE));
 	if(!(r->faces = create_faces_array(50)))
-		return (free_renderable(&r, FALSE));
+		return (free_renderable(r, FALSE));
 	if(!(r->materials = create_mtllist(1)))
-		return (free_renderable(&r, FALSE));
+		return (free_renderable(r, FALSE));
 	if (!append_mtllist(&r->materials, (t_mtl){ 
 			.material_color_set = TRUE, .material_color = 0xFFFF0000 }))
-		return (free_renderable(&r, FALSE));
+		return (free_renderable(r, FALSE));
 	gen_ellipsoid_mesh(r, res, radius);
 	post_process_renderable(doom, r, TRUE, FALSE);
 	r->dirty = TRUE;

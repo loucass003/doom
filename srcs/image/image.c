@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   image.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 21:24:49 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/22 15:09:00 by louali           ###   ########.fr       */
+/*   Updated: 2020/02/11 06:23:05 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,11 @@ t_bool	create_image(SDL_Renderer *renderer, uint32_t w, uint32_t h, t_img *img)
 
 t_bool	destroy_image(t_img *img)
 {
+	if (!img)
+		return (FALSE);
 	free(img->pixels);
-	if (!img->ignore_texture && img->texture)
-		SDL_DestroyTexture(img->texture);
-	img = NULL;
+	// if (!img->ignore_texture && img->texture)
+	// 	SDL_DestroyTexture(img->texture);
 	return (TRUE);
 }
 

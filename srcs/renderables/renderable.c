@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/05 00:02:57 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/07 16:06:09 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/11 07:02:39 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,14 @@
 #include "render.h"
 #include "entity.h"
 
-t_bool		free_renderable(t_renderable **r, t_bool res)
+t_bool		free_renderable(t_renderable *r, t_bool res)
 {
-	*r = NULL;
+	ft_memdel((void **)&r->vertices);
+	ft_memdel((void **)&r->pp_vertices);
+	ft_memdel((void **)&r->pp_normals);
+	ft_memdel((void **)&r->faces);
+	ft_memdel((void **)&r->vertex);
+	ft_memdel((void **)&r->normals);
 	return (res);
 }
 
@@ -72,15 +77,15 @@ t_bool		create_renderable(t_renderable	*r, t_renderable_type type)
 	r->object_index = -1;
 	r->visible = TRUE;
 	if(!(r->vertices = create_4dvertices_array(4)))
-		return (free_renderable(&r, FALSE));
+		return (free_renderable(r, FALSE));
 	if(!(r->vertex = create_2dvertices_array(4)))
-		return (free_renderable(&r, FALSE));
+		return (free_renderable(r, FALSE));
 	if(!(r->normals = create_3dvertices_array(4)))
-		return (free_renderable(&r, FALSE));
+		return (free_renderable(r, FALSE));
 	if(!(r->faces = create_faces_array(2)))
-		return (free_renderable(&r, FALSE));
+		return (free_renderable(r, FALSE));
 	if(!(r->materials = create_mtllist(4)))
-		return (free_renderable(&r, FALSE));
+		return (free_renderable(r, FALSE));
 	return (TRUE);
 }
 
@@ -109,4 +114,20 @@ t_bool		copy_renderable(t_renderable *src, t_renderable *dest)
 		return (FALSE);
 	transform_renderable(src);
 	return (TRUE);
+}
+
+void		free_renderables(t_renderables **renderables)
+{
+	int				i;
+	t_renderable	*r;
+
+	if (!*renderables)
+		return ;
+	i = -1;
+	while (++i < (*renderables)->len)
+	{
+		r = &(*renderables)->values[i];
+		free_renderable(r, TRUE);
+	}
+	ft_memdel((void **)renderables);
 }

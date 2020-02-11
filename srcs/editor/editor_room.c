@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 18:37:59 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/10 02:00:20 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/11 05:29:35 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,4 +222,20 @@ int				point_in_rooms(t_editor *editor, t_vec2 point)
 			index = i;
 	}
 	return (index);
+}
+
+void			free_rooms(t_rooms **rooms)
+{
+	int		i;
+	t_room	*room;
+
+	if (!*rooms)
+		return;
+	i = -1;
+	while (++i < (*rooms)->len)
+	{
+		room = &(*rooms)->values[i];
+		free_walls(&room->walls);
+	}
+	ft_memdel((void **)rooms);
 }

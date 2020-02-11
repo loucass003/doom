@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   audio.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/19 01:15:20 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/04 16:31:37 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/11 04:46:37 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ typedef struct	s_sound
 }				t_sound;
 
 t_bool				init_openal(struct s_doom *doom);
-void				quit_openal();
+void				quit_openal(struct s_doom *doom);
 
 void				entity_sound(struct s_entity *s, int buffer, int source, int peach);
 void				player_sound(t_audio *s, int source, int buffer, float peach);

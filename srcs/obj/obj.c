@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 15:28:48 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/31 18:46:55 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/11 07:04:29 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,17 +115,17 @@ t_bool	create_obj(t_doom *doom, t_renderable *r, char *file)
 	if (!(r->of.data.obj = malloc(sizeof(t_obj))))
 		return (FALSE);
 	if(!(r->vertices = create_4dvertices_array(800)))
-		return (free_renderable(&r, FALSE));
+		return (free_renderable(r, FALSE));
 	if(!(r->vertex = create_2dvertices_array(800)))
-		return (free_renderable(&r, FALSE));
+		return (free_renderable(r, FALSE));
 	if(!(r->normals = create_3dvertices_array(800)))
-		return (free_renderable(&r, FALSE));
+		return (free_renderable(r, FALSE));
 	if(!(r->faces = create_faces_array(800)))
-		return (free_renderable(&r, FALSE));
+		return (free_renderable(r, FALSE));
 	if(!(r->materials = create_mtllist(3)))
-		return (free_renderable(&r, FALSE));
+		return (free_renderable(r, FALSE));
 	if (!load_obj(doom, r, r->of.data.obj, file))
-		return (free_renderable(&r, FALSE));
+		return (free_renderable(r, FALSE));
 	if (r->materials->len == 0)
 	{
 		printf("ADD DEFAULT MATERIAL\n");

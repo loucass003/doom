@@ -1,0 +1,57 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   free_ressources_manager.c                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/02/11 06:02:31 by llelievr          #+#    #+#             */
+/*   Updated: 2020/02/11 07:04:56 by llelievr         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "ressource.h"
+#include "image.h"
+
+void	free_ressource(t_ressource **r_addr)
+{
+	t_ressource		*r;
+
+	r = *r_addr;
+	ft_memdel((void **)r->path);
+	if (r->loaded)
+	{
+		if (r->type == RESSOURCE_MODEL)
+			free_renderable(r->data.model, TRUE);
+		else if (r->type == RESSOURCE_TEXTURE)
+		{
+			destroy_image(r->data.texture);
+			ft_memdel((void **)&r->data.texture);
+		}
+		else if (r->type == RESSOURCE_SOUND)
+			free_sound(&r->data.sound);
+	}
+	ft_memdel((void **)r_addr);
+}
+
+void	free_ressources(t_ressources **resources)
+{
+	int				i;
+	t_ressource		*r;
+
+	if (!*resources)
+		return ;
+	i = -1;
+	while (++i < (*resources)->len)
+	{
+		r = (*resources)->values[i];
+		free_ressource(&r);
+	}
+	ft_memdel((void **)resources);
+}
+
+void	free_ressources_manager(t_ressource_manager *rm)
+{
+	ft_memdel((void **)&rm->ressources_types);
+	free_ressources(&rm->ressources);
+}

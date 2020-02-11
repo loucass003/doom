@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:59:38 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/11 03:11:05 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/11 06:56:36 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,13 @@ t_bool		c_button_on_event(t_component *self, SDL_Event *event, t_doom *doom)
 	t_button	*btn;
 
 	btn = (t_button *)self;
-	btn->hover = FALSE;
-	if (in_bounds(self->bounds, (t_vec2){event->motion.x, event->motion.y}))
-		btn->hover = TRUE;
-	if (event->type == SDL_MOUSEBUTTONUP)
+	if (event->type == SDL_MOUSEMOTION)
+	{
+		btn->hover = FALSE;
+		if (in_bounds(self->bounds, (t_vec2){event->motion.x, event->motion.y}))
+			btn->hover = TRUE;
+	}
+	else if (event->type == SDL_MOUSEBUTTONUP)
 	{
 		if (in_bounds(self->bounds, (t_vec2){event->motion.x, event->motion.y})
 			&& self->perform_action != NULL)

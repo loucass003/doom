@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   editor_object.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 18:26:47 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/22 12:27:47 by louali           ###   ########.fr       */
+/*   Updated: 2020/02/11 05:57:12 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,4 +78,23 @@ t_object	init_object(t_editor *editor, t_vec2 pos)
 	object = (t_object){ .pos = (t_vec3){ pos.x, y, pos.y } };
 	set_object_default(editor->doom, &object);
 	return object;
+}
+
+void		free_objects(t_objects **objects)
+{
+	int			i;
+	t_object	*o;
+
+	if (!*objects)
+		return;
+	i = -1;
+	while (++i < (*objects)->len)
+	{
+		o = &(*objects)->values[i];
+		// if (o->type == OBJECT_SPRITE)
+		// 	ft_memdel((void **)&o->of.sprite);
+		// else if (o->type == OBJECT_ITEMSTACK)
+		// 	free_itemstack(&o->of.itemstack);
+	}
+	ft_memdel((void **)objects);
 }

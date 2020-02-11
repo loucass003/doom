@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 11:16:46 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/02 17:23:03 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/11 07:09:17 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,7 +167,7 @@ void		threads_destroy(t_threads *threads)
 {
 	if (!threads->worker_count || threads->alive == FALSE)
 		return ;
-	threads_stop_threads(threads);
+//	threads_stop_threads(threads);
 	pthread_mutex_destroy(&threads->wait_mtx);
 	pthread_mutex_destroy(&threads->work_mtx);
 	pthread_cond_destroy(&threads->wait_cnd);

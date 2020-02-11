@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   itemstack_renderable.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/22 14:51:01 by lloncham          #+#    #+#             */
-/*   Updated: 2020/01/30 16:33:53 by Lisa             ###   ########.fr       */
+/*   Updated: 2020/02/11 05:40:28 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,4 +94,14 @@ t_bool			create_itemstack_renderable(t_renderable *r, t_item *item, int amount)
 	sprite->hitbox_radius = ft_vec3_mul_s(r->scale, 0.5);
 	compute_sprite_hitbox(r);
 	return (TRUE);
+}
+
+
+void	free_itemstack(t_itemstack **it)
+{
+	t_itemstack *i;
+
+	i = *it;
+	ft_memdel((void **)&i->of);
+	ft_memdel((void **)it);
 }

@@ -62,6 +62,7 @@ SRC+=ressources/ressource_texture.c
 SRC+=ressources/ressource_utils.c
 SRC+=ressources/save_datapack.c
 SRC+=ressources/load_ressource.c
+SRC+=ressources/free_ressources_manager.c
 SRC+=ressources/ressource_sound.c
 SRC+=ressources/save_map.c
 SRC+=ressources/save_ressource.c

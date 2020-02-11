@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 18:54:05 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/04 00:24:41 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/11 05:29:24 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,4 +173,22 @@ void					hide_adjacent_walls(t_editor *editor, int room, int wall, t_wall_sectio
 			}
 		}
 	}
+}
+
+void		free_walls(t_walls **walls)
+{
+	int		i;
+	t_wall	*wall;
+
+	if (!*walls)
+		return ;
+	i = -1;
+	while (++i < (*walls)->len)
+	{
+		wall = &(*walls)->values[i];
+		ft_memdel((void **)&wall->start_rooms_range);
+		ft_memdel((void **)&wall->end_rooms_range);
+		ft_memdel((void **)&wall->wall_sections);
+	}
+	ft_memdel((void **)walls);
 }

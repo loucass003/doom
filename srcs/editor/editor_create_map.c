@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/10 13:41:47 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/10 02:09:49 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/11 07:04:46 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,10 @@ t_bool	create_map_points_and_floor(t_editor *editor, t_renderable *r)
 			continue;
 		if (!append_mtllist(&r->materials, (t_mtl){ 
 				.texture_map_set = TRUE, .texture_map = room->floor_texture->data.texture, .material_color_set = TRUE, .material_color = 0xFFFF0000 }))
-			return (free_renderable(&r, FALSE));
+			return (free_renderable(r, FALSE));
 		if (!append_mtllist(&r->materials, (t_mtl){ 
 				.texture_map_set = TRUE, .texture_map = room->ceiling_texture->data.texture, .material_color_set = TRUE, .material_color = 0xFFFF0000 }))
-			return (free_renderable(&r, FALSE));
+			return (free_renderable(r, FALSE));
 		
 		room->room_vertices_start = r->vertices->len;
 		add_room_points(editor, room, r);

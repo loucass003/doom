@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:16:19 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/10 02:14:24 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/11 07:02:51 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,7 @@ t_render_datas		*copy_render_data_array(t_render_datas *src,
 						t_render_datas **dst);
 int					render_data_indexof(t_render_datas *arr, t_render_data *elem);
 
-t_bool				free_renderable(t_renderable **r, t_bool res);
+t_bool				free_renderable(t_renderable *r, t_bool res);
 void				draw_triangle(t_render_data data);
 void				process_triangle(t_render_context *ctx, t_mtl *mtl, t_triangle triangle);
 void				post_process_triangle(t_render_context *ctx, t_mtl *mtl, t_triangle triangle);

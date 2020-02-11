@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 10:19:30 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/11 04:10:31 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/11 06:13:29 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,6 @@ typedef struct	s_ressources
 	int				capacity;
 	t_ressource		*values[];
 }				t_ressources;
-
-
 
 typedef struct	s_wr_header
 {

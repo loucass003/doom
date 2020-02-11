@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sdl.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 20:10:35 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/04 16:14:04 by louali           ###   ########.fr       */
+/*   Updated: 2020/02/11 06:58:34 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,27 +19,6 @@ static t_bool	load_fonts(t_doom *doom)
 {
 	if (!(doom->fonts.helvetica = TTF_OpenFont(FONT_VERAMONO, 25)))
 		return (FALSE);
-	return (TRUE);
-}
-
-static t_bool	load_textures(t_doom *doom)
-{
-	if (!(doom->textures.bricks = SDL_ConvertSurfaceFormat(IMG_Load("assets/textures/block00007.png"), SDL_PIXELFORMAT_ARGB8888, 0)))
-		return (FALSE);
-	if (!(doom->textures.test = SDL_ConvertSurfaceFormat(IMG_Load("assets/textures/test.png"), SDL_PIXELFORMAT_ARGB8888, 0)))
-		return (FALSE);
-	if (!(doom->textures.sprite = SDL_ConvertSurfaceFormat(IMG_Load("assets/textures/enemy_1.png"), SDL_PIXELFORMAT_ARGB8888, 0)))
-		return (FALSE);  
-	if (!(doom->textures.machin = SDL_ConvertSurfaceFormat(IMG_Load("assets/textures/sprite.png"), SDL_PIXELFORMAT_ARGB8888, 0)))
-		return (FALSE);  
-	if (!(doom->textures.gun0 = SDL_ConvertSurfaceFormat(IMG_Load("assets/textures/gun0.png"), SDL_PIXELFORMAT_ARGB8888, 0)))
-		return (FALSE);  
-	if (!(doom->textures.medkit = SDL_ConvertSurfaceFormat(IMG_Load("assets/textures/medkit.png"), SDL_PIXELFORMAT_ARGB8888, 0)))
-		return (FALSE);  
-	if (!(doom->textures.ammo1 = SDL_ConvertSurfaceFormat(IMG_Load("assets/textures/ammo1.png"), SDL_PIXELFORMAT_ARGB8888, 0)))
-		return (FALSE);  
-	if (!(doom->textures.axe = SDL_ConvertSurfaceFormat(IMG_Load("assets/textures/axe.png"), SDL_PIXELFORMAT_ARGB8888, 0)))
-		return (FALSE);  
 	return (TRUE);
 }
 
@@ -63,8 +42,6 @@ t_bool			init_sdl(t_doom *doom)
 		return (sdl_quit(doom));
 	doom->main_context.image = &doom->screen;
 	if (!load_fonts(doom))
-		return (sdl_quit(doom));
-	if (!load_textures(doom))
 		return (sdl_quit(doom));
 	doom->fullscreen = FALSE;
 	return (TRUE);
