@@ -6,7 +6,7 @@
 /*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:43:35 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/12 16:42:10 by louali           ###   ########.fr       */
+/*   Updated: 2020/02/12 16:47:52 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ void				update_player_camera(t_player *player)
 	alListenerfv(AL_ORIENTATION, (ALfloat[6]){camera->forward.x, camera->forward.y, camera->forward.z, 0.f, 1.f, 0.f});
 	player->entity.packet.doom->lights->values[0].position = player->camera.pos;
 	player->entity.packet.doom->lights->values[0].dir = player->camera.forward;
-	
 	doom = player->entity.packet.doom;
 	if (doom->main_context.type == CTX_NORMAL)
 	{

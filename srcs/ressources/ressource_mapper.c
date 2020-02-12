@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/29 13:50:12 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/12 15:56:28 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/12 16:11:38 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_bool		read_ressource_type(t_ressource_manager *r, t_json_object *val,
 	t_json_member	*e;
 	t_json_string	*s;
 	int				i;
-	const char		v[4][10] = { "UNSET\0", "TEXTURE\0", "MODEL\0", "SOUND\0", "SCRIPT\0" };
+	const char		v[5][10] = { "UNSET\0", "TEXTURE\0", "MODEL\0", "SOUND\0", "SCRIPT\0" };
 
 	if (!(obj = json_get_object(val, name)))
 		return (FALSE);
@@ -68,7 +68,7 @@ t_bool		ressource_mapper(t_ressource_manager *r, char *path)
 	state = (t_json_state){str_content, 0, str_len};
 	if (!str_len || !(val = parse_value(&state)))
 	{
-		ft_putendl("Invalid JSON file");
+		ft_putendl("Invalid JSON MAPPING file");
 		if (str_content)
 			free((void *)str_content);
 		return (FALSE);
@@ -77,7 +77,7 @@ t_bool		ressource_mapper(t_ressource_manager *r, char *path)
 	if (val->type != JSON_OBJECT || !(read_mapping(r, (t_json_object *)val)))
 	{
 		json_free_value(val);
-		ft_putendl("Invalid JSON file");
+		ft_putendl("Invalid JSON MAPPING content");
 		return (FALSE);
 	}
 	json_free_value(val);

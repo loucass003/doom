@@ -31,7 +31,7 @@
         "SOUND BOSS HIT": "song/boss_shot.wav",
         "SOUND EXPLOSION": "song/explosion.wav"
     },
-    "SCRIPT": {
+    "SCRIPTS": {
         "SCRIPT": "template_dialogues.json"
     }
 }

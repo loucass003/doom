@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/11 16:50:13 by lloncham          #+#    #+#             */
-/*   Updated: 2020/02/12 15:46:39 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/12 16:10:55 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void        trigger_script(t_doom *doom, t_trigger trigger)
             }
             if (action->type == ACTION_MAP)
             {
-                //printmap ->
+                printf("PRINT MAP\n");
             }
         }
     }

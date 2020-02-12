@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 14:15:25 by lloncham          #+#    #+#             */
-/*   Updated: 2020/02/12 13:12:57 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/12 16:08:39 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,8 @@ static t_action_type	get_action_type(char *str)
 		return (ACTION_MESSAGE);
 	if (len == 8 && ft_strncmp(str, "TELEPORT", 8) == 0)
 		return (ACTION_TELEPORT);
+	if (len == 3 && ft_strncmp(str, "MAP", 3) == 0)
+		return (ACTION_MAP);
 	return (ACTION_NONE);
 }
 
