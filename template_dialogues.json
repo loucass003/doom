@@ -8,7 +8,7 @@
         "actions": [
             {
                 "type": "MESSAGE",
-                "text": ["TU AS RECUPERE UNE GRENADE"]
+                "text": ["TU AS RECUPERE UNE GRENADE", "hophop"]
             },
             {
                 "type": "TELEPORT",
@@ -22,6 +22,7 @@
             "pos": [50, 0, 50],
             "radius": 10
         },
+        "use": 1,
         "actions": [
             {
                 "type": "MESSAGE",

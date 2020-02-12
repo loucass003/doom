@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 14:15:25 by lloncham          #+#    #+#             */
-/*   Updated: 2020/02/11 18:09:26 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/12 13:12:57 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,7 +222,11 @@ t_bool			parse_script_data(t_script_data *s_data)
 		double *use_d;
 		script->use = -1;
 		if (!!(use_d = (json_get_number((t_json_object *)element->value, "use"))))
+		{
 			script->use = (int)*use_d;
+			// if (script->trigger.type == TRIG_SPAWN)
+				// script->use = 1;
+		}
 		if (!parse_json_actions(script, json_get_array((t_json_object *)element->value, "actions")))	
 			return (script_return_error("array 'actions' doesn't exist"));
 		s_data->script_count++;

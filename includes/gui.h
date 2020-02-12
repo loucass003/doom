@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gui.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 01:42:00 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/11 10:18:08 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/12 12:13:25 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,16 +49,29 @@ typedef struct		s_components
 	t_component		*values[];
 }					t_components;
 
-typedef struct		s_story
+typedef	struct		s_message_data
 {
-	int				begin_story;
-	int				item_story;
-	int				shoot_story;
-	int				enemy_story;
-	t_bool			first_item;
-	t_bool			first_shoot;
-	t_bool			first_enemy;
-}					t_story;
+	int				textes_count;
+	char			**textes;
+}					t_message_data;
+
+typedef	struct 		s_message
+{
+	t_bool			open;
+	int				counter;
+	t_message_data	message_data;
+}					t_message;
+
+// typedef struct		s_story
+// {
+// 	int				begin_story;
+// 	int				item_story;
+// 	int				shoot_story;
+// 	int				enemy_story;
+// 	t_bool			first_item;
+// 	t_bool			first_shoot;
+// 	t_bool			first_enemy;
+// }					t_story;
 
 typedef struct		s_button
 {
@@ -205,9 +218,9 @@ void				g_leaderboard_on_enter(t_gui *self, t_doom *doom);
 void				g_leaderboard_on_leave(t_gui *self, t_doom *doom);
 void				g_leaderboard_render(t_gui *self, t_doom *doom);
 
-void				g_story_on_enter(t_gui *self, t_doom *doom);
-void				g_story_on_leave(t_gui *self, t_doom *doom);
-void				g_story_render(t_gui *self, t_doom *doom);
+void				g_message_on_enter(t_gui *self, t_doom *doom);
+void				g_message_on_leave(t_gui *self, t_doom *doom);
+void				g_message_render(t_gui *self, t_doom *doom);
 
 void				g_editor_button(t_gui *self, t_doom *doom);
 void				editor_mousebuttonup(t_doom *doom);

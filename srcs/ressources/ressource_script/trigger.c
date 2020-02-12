@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/11 16:50:13 by lloncham          #+#    #+#             */
-/*   Updated: 2020/02/11 18:32:36 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/12 13:02:04 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,16 @@ void        trigger_script(t_doom *doom, t_trigger trigger)
             action = &script->action[j];
             if (action->type == ACTION_MESSAGE)
             {
-                // message->open = TRUE;
-                // message->counter = 0;
-                // message->message_data = action->data.message;
+                doom->message.open = TRUE;
+                doom->message.counter = 0;
+                doom->message.message_data = (t_message_data){action->data.message.textes_count, action->data.message.textes};
+            }
+            if (action->type == ACTION_TELEPORT)
+            {
+                doom->player.entity.position = action->data.teleport.pos;
+                if (action->data.teleport.is_rotation_set == TRUE)
+                    doom->player.entity.rotation = action->data.teleport.rotation;
+                printf("TELEPORT ACTION\n");
             }
         }
     }

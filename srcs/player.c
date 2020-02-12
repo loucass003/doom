@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:43:35 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/11 18:29:02 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/12 12:54:03 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ void				update_player_camera(t_player *player)
 	player->entity.packet.doom->lights->values[0].position = player->camera.pos;
 	player->entity.packet.doom->lights->values[0].dir = player->camera.forward;
 
-	//printf("%f %f %f\n", player->entity.position.x, player->entity.position.y, player->entity.position.z);
 	doom = player->entity.packet.doom;
 	if (doom->main_context.type == CTX_NORMAL)
 	{
@@ -43,7 +42,6 @@ void				update_player_camera(t_player *player)
 			script = &s_data->scripts[i];
 			float dist = ft_vec3_len(ft_vec3_sub(player->entity.position, 
 				script->trigger.data.area.pos));
-			printf("dist %f\n", dist);
 			if (script->trigger.type == TRIG_AREA 
 				&& dist <= script->trigger.data.area.radius)
 				trigger_event(doom, script->trigger);

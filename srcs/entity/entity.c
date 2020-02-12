@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 22:00:26 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/11 17:23:01 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/12 12:00:26 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,7 +203,6 @@ void		give_damage(t_entity *from, t_entity *to, t_doom *doom, float damage)
 		{
 			to->diying = TRUE;
 			doom->gameover.kill += 1;
-			doom->story.first_shoot = TRUE; ///// STORY
 		}
 	}
 	if (to->type == ENTITY_BOSS)

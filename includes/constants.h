@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 21:05:41 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/07 16:17:23 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/12 12:00:47 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@
 # define GUI_LEVEL (6)
 # define GUI_ESC (7)
 # define GUI_LEADERBOARD (8)
-# define GUI_STORY (9)
+# define GUI_MESSAGE (9)
 
 # define AMBIANT_LIGHT (50)
 

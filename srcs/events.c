@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:14:55 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/11 17:29:57 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/12 12:42:12 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ static t_bool	events_window(t_doom *doom, SDL_Event *event)
 	}
 	if (event->type == SDL_USEREVENT && event->user.type == doom->trigger_event)
 	{
-		printf("ALOOoooooo\n");
 		trigger_script(doom, *((t_trigger *)event->user.data1));
 		free(event->user.data1);
 	}
