@@ -1,18 +1,39 @@
 [
     {
         "trigger": {
-            "type": "PICK_ITEM",
-            "item_type": "WEAPON",
-            "weapon": "GRENADA"
+            "type": "SPAWN"
         },
         "actions": [
             {
                 "type": "MESSAGE",
-                "text": ["TU AS RECUPERE UNE GRENADE", "hophop"]
+                "text": [
+                    "BONJOUR SOLDAT",
+                    "J'AI UNE MISSION POUR TOI AUJOURD'HUI",
+                    "LE LIEUTENANT ENNEMI A PRIS D'ASSAUT NOTRE BASE",
+                    "TU DOIS ALLER LA LIBERER!",
+                    "COMMENCE PAR T'ARMER D'UN PISTOLET!"
+                ]
+            }
+        ]
+    },
+    {
+        "trigger": {
+            "type": "PICK_ITEM",
+            "item_type": "WEAPON",
+            "weapon": "GUN"
+        },
+        "use": 1,
+        "actions": [
+            {
+                "type": "MESSAGE",
+                "text": [
+                    "SUPER! TU AS UNE ARME ... ",
+                    "VERIFIE QUE TU AS DES MUNITIONS ET ALLONS FUMER CE PETIT BATARD",
+                    "PREND CETTE CARTE, ELLE TE SERA UTILE"
+                ]
             },
             {
-                "type": "TELEPORT",
-                "pos": [5, 10, 12]
+                "type": "MAP"
             }
         ]
     },
@@ -26,7 +47,7 @@
         "actions": [
             {
                 "type": "MESSAGE",
-                "text": ["TU EST ENTRE DANS"]
+                "text": ["TU ES ENTRE DANS"]
             },
             {
                 "type": "TELEPORT",

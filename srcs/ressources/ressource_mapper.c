@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/29 13:50:12 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/10 14:19:16 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/12 15:56:28 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_bool		read_ressource_type(t_ressource_manager *r, t_json_object *val,
 	t_json_member	*e;
 	t_json_string	*s;
 	int				i;
-	const char		v[4][10] = { "UNSET\0", "TEXTURE\0", "MODEL\0", "SOUND\0" };
+	const char		v[4][10] = { "UNSET\0", "TEXTURE\0", "MODEL\0", "SOUND\0", "SCRIPT\0" };
 
 	if (!(obj = json_get_object(val, name)))
 		return (FALSE);
@@ -51,6 +51,8 @@ t_bool		read_mapping(t_ressource_manager *r, t_json_object *val)
 	if (!read_ressource_type(r, val, "MODELS", RESSOURCE_MODEL))
 		return (FALSE);
 	if (!read_ressource_type(r, val, "SOUNDS", RESSOURCE_SOUND))
+		return (FALSE);
+	if (!read_ressource_type(r, val, "SCRIPTS", RESSOURCE_SCRIPT))
 		return (FALSE);
 	return (TRUE);
 }

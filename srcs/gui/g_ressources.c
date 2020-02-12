@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_ressources.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/24 12:20:04 by lloncham          #+#    #+#             */
-/*   Updated: 2020/02/06 13:18:05 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/12 15:53:31 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ static t_bool		action_performed(t_component *cmp, t_doom *doom)
 	update_selects(&doom->guis[doom->current_gui], &doom->res_manager);
 	if (cmp == comp->values[PAGE_SIZE * 3] && !check_ressources_errors(doom))
 	{
+		pre_init(doom);
 		set_gui(doom, GUI_MAIN_MENU);
 		return (FALSE);
 	}

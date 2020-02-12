@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:01:13 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/04 15:48:04 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/12 15:52:25 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,11 @@ void			init_gameover(t_doom *doom)
 	gameover->totaldamage = 0;
 }
 
+void			pre_init(t_doom *doom)
+{
+	init_player(doom);
+	init_gameover(doom);
+}
 
 
 void			game_loop(t_doom *doom)
@@ -92,12 +97,14 @@ void			game_loop(t_doom *doom)
 	if (check_ressources_errors(doom))
 		set_gui(doom, GUI_RESSOURCES);
 	else
+	{
+		pre_init(doom);
 		set_gui(doom, GUI_MAIN_MENU);
-	
+		
+	}
 //	default_renderables(doom);
 
-	init_player(doom);
-	init_gameover(doom);
+	
 	
 	
 	while (doom->running)

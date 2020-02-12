@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:43:35 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/12 12:54:03 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/12 15:49:47 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,13 @@ void				update_player_camera(t_player *player)
 	player->entity.packet.doom->lights->values[0].position = player->camera.pos;
 	player->entity.packet.doom->lights->values[0].dir = player->camera.forward;
 
+
+	//////////A CHANGER DE PLACE !!!! SEGFAULT QUAND DATAPACK N EST PAS BON !!
 	doom = player->entity.packet.doom;
 	if (doom->main_context.type == CTX_NORMAL)
 	{
 		i = -1;
-		s_data = doom->res_manager.ressources->values[26]->data.script_data;
+		s_data = doom->res_manager.ressources->values[26]->data.script_data; //->ACCEDE A CETTE RESSOURCE ALORS QU ON INIT PPAAS DATAPACK
 		while (++i < s_data->script_count)
 		{
 			script = &s_data->scripts[i];
@@ -47,6 +49,7 @@ void				update_player_camera(t_player *player)
 				trigger_event(doom, script->trigger);
 		}
 	}
+	/////////////////////////////////
 }
 
 t_bool	create_player(t_renderable *r, t_doom *doom)

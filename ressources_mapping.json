@@ -30,5 +30,8 @@
         "SOUND BOSS DIE": "song/boss_death.wav",
         "SOUND BOSS HIT": "song/boss_shot.wav",
         "SOUND EXPLOSION": "song/explosion.wav"
+    },
+    "SCRIPT": {
+        "SCRIPT": "template_dialogues.json"
     }
 }

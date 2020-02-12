@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 13:36:27 by lloncham          #+#    #+#             */
-/*   Updated: 2020/02/12 12:13:29 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/12 15:42:26 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,8 @@ typedef enum    s_action_type
 {
     ACTION_NONE,
     ACTION_MESSAGE,
-    ACTION_TELEPORT
+    ACTION_TELEPORT,
+    ACTION_MAP
 }               t_action_type;
 
 
