@@ -6,7 +6,7 @@
 /*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 22:00:26 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/12 16:34:18 by louali           ###   ########.fr       */
+/*   Updated: 2020/02/12 18:04:21 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,10 @@ void		collide_with_octree(t_renderable *r, t_entity *entity, t_octree_node *octr
 	aabb_intersect_octree(octree, &area, collide_with_face, &(struct s_entity_collision_check){ .entity = entity, .r = r });
 }
 
-void		teleport(t_entity *entity, t_vec3 pos)
+void		teleport(t_entity *entity, t_vec3 pos, t_vec3 rot)
 {
 	entity->position = pos;
+	entity->rotation = rot;
 	entity->ontp = FALSE;
 	//TODO: son ?
 }
@@ -158,22 +159,22 @@ t_bool		check_collision(t_entity *entity, t_collide_aabb area)
 			entity->packet = data;
 			return (FALSE);
 		}
-		// if (entity->packet.r && entity->packet.r->of.type == RENDERABLE_TRANSPO)
-		// {
-		// 	t_transpo *transpo = entity->packet.r->of.data.transpo;
-		// 	if (entity->ontp == FALSE)
-		// 	{
-		// 		entity->ontp = TRUE;
-		// 		transpo->cooldown = SDL_GetTicks();
-		// 	}
-		// 	if (SDL_GetTicks() - transpo->cooldown >= 5000)
-		// 	{
-		// 		t_vec3 pos = editor_to_world(entity->packet.doom->editor.objects->values[transpo->connected].pos);
-		// 		pos.y += 1.5 + entity->radius.y;
-		// 		teleport(&entity->packet.doom->player.entity, pos);
-		// 		return (FALSE);
-		// 	}
-		// }
+		if (entity->packet.r && entity->packet.r->of.type == RENDERABLE_TRANSPO)
+		{
+			t_transpo *transpo = entity->packet.r->of.data.transpo;
+			if (entity->ontp == FALSE)
+			{
+				entity->ontp = TRUE;
+				transpo->cooldown = SDL_GetTicks();
+			}
+			if (SDL_GetTicks() - transpo->cooldown >= 5000)
+			{
+				t_vec3 pos = editor_to_world(entity->packet.doom->editor.objects->values[transpo->connected].pos);
+				pos.y += 1.5 + entity->radius.y;
+				teleport(entity, pos, entity->rotation);
+				return (FALSE);
+			}
+		}
 	}
 	return (TRUE);
 }

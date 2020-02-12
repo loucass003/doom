@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_ingame.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/12 15:50:42 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/12 17:59:38 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,20 +36,7 @@ void			g_ingame_on_enter(t_gui *self, t_doom *doom)
 	enter_gui(doom, doom->guis, GUI_EDITOR_SETTINGS);
 
 	enter_gui(doom, doom->guis, GUI_MESSAGE); 
-	//ICI NV MESSAGE
-	if (doom->main_context.type == CTX_NORMAL)
-	{
-		int i = -1;
-		t_script_data *s_data = doom->res_manager.ressources->values[26]->data.script_data;
-		while (++i < s_data->script_count)
-		{
-			t_script	*script = &s_data->scripts[i];
-			if (script->trigger.type == TRIG_SPAWN)
-				trigger_event(doom, script->trigger);
-			float dist = ft_vec3_len(ft_vec3_sub(doom->player.entity.position, 
-				script->trigger.data.area.pos));
-		}
-	}
+	
 	doom->screen.secure = FALSE;
 	doom->mouse_focus = TRUE;
 	append_components_array(&self->components, create_progress((SDL_Rect)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   trigger.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/11 16:50:13 by lloncham          #+#    #+#             */
-/*   Updated: 2020/02/12 16:10:55 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/12 18:05:53 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ void        trigger_event(t_doom *doom, t_trigger trigger)
     SDL_Event   event;
     t_trigger   *t;
 
+    if (doom->main_context.type != CTX_NORMAL)
+        return ;
     if (doom->trigger_event == (uint32_t)-1)
         return ;
     if (!(t = malloc(sizeof(t_trigger))))
@@ -55,13 +57,14 @@ void        trigger_script(t_doom *doom, t_trigger trigger)
             {
                 doom->message.open = TRUE;
                 doom->message.counter = 0;
-                doom->message.message_data = (t_message_data){action->data.message.textes_count, action->data.message.textes};
+                doom->message.message_data = &action->data.message;
             }
             if (action->type == ACTION_TELEPORT)
             {
-                doom->player.entity.position = action->data.teleport.pos;
+                t_vec3 rot = doom->player.entity.rotation;
                 if (action->data.teleport.is_rotation_set == TRUE)
-                    doom->player.entity.rotation = action->data.teleport.rotation;
+                    rot = action->data.teleport.rotation;
+                teleport(&doom->player.entity, action->data.teleport.pos, rot);
                 printf("TELEPORT ACTION\n");
             }
             if (action->type == ACTION_MAP)

@@ -6,7 +6,7 @@
 /*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 01:42:00 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/12 15:59:06 by louali           ###   ########.fr       */
+/*   Updated: 2020/02/12 17:58:02 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,9 @@ typedef	struct		s_message_data
 
 typedef	struct 		s_message
 {
-	t_bool			open;
-	int				counter;
-	t_message_data	message_data;
+	t_bool						open;
+	int							counter;
+	struct s_action_message		*message_data;
 }					t_message;
 
 // typedef struct		s_story

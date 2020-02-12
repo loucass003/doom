@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   editor_button.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/24 15:17:54 by lloncham          #+#    #+#             */
-/*   Updated: 2020/02/11 03:05:24 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/12 17:56:27 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,9 @@ t_bool					selected_tool(t_doom *doom, int last_select)
 			return (TRUE);
 		doom->editor.selected_tool = -1;
 		doom->main_context.type = CTX_EDITOR;
+		init_player(doom);
+		spawn_player(doom);
+		unselect_all(doom);
 		editor_setmap(&doom->editor);
 		set_gui(doom, GUI_INGAME);
 		return (FALSE);
