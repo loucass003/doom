@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   entity.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 22:00:26 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/12 12:00:26 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/12 16:34:18 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include "render.h"
 #include "octree.h"
 #include "sprite.h"
+#include <SDL.h>
 
 struct	s_entity_collision_check
 {
@@ -75,6 +76,13 @@ void		collide_with_octree(t_renderable *r, t_entity *entity, t_octree_node *octr
 	area.min = min;
 	area.max = max;
 	aabb_intersect_octree(octree, &area, collide_with_face, &(struct s_entity_collision_check){ .entity = entity, .r = r });
+}
+
+void		teleport(t_entity *entity, t_vec3 pos)
+{
+	entity->position = pos;
+	entity->ontp = FALSE;
+	//TODO: son ?
 }
 
 t_bool		check_collision(t_entity *entity, t_collide_aabb area)
@@ -144,17 +152,33 @@ t_bool		check_collision(t_entity *entity, t_collide_aabb area)
 	
 		if (entity->type == ENTITY_ROCKET && entity->packet.found_colision)
 		{
-			//TODO SON EXLOSION
 			entity_sound(entity, 8, 0, 1);
-			// if (entity->packet.r && entity->packet.r->of.type == RENDERABLE_ENTITY)
 			damage_explo(entity, entity->packet.doom, entity->of.rocket.damage);
 			splice_renderables_array(entity->packet.doom->renderables, renderables_indexof(entity->packet.doom->renderables, entity->r), 1);
 			entity->packet = data;
 			return (FALSE);
 		}
+		// if (entity->packet.r && entity->packet.r->of.type == RENDERABLE_TRANSPO)
+		// {
+		// 	t_transpo *transpo = entity->packet.r->of.data.transpo;
+		// 	if (entity->ontp == FALSE)
+		// 	{
+		// 		entity->ontp = TRUE;
+		// 		transpo->cooldown = SDL_GetTicks();
+		// 	}
+		// 	if (SDL_GetTicks() - transpo->cooldown >= 5000)
+		// 	{
+		// 		t_vec3 pos = editor_to_world(entity->packet.doom->editor.objects->values[transpo->connected].pos);
+		// 		pos.y += 1.5 + entity->radius.y;
+		// 		teleport(&entity->packet.doom->player.entity, pos);
+		// 		return (FALSE);
+		// 	}
+		// }
 	}
 	return (TRUE);
 }
+
+
 
 void 		damage_explo(t_entity *from, t_doom *doom, float damage)
 {

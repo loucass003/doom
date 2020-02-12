@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gui.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 01:42:00 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/12 14:30:40 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/12 15:59:06 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,6 +206,8 @@ void				g_es_obj_model_enter(t_gui *self, t_doom *doom);
 void				g_es_obj_model_render(t_gui *self, t_doom *doom);
 void				g_es_obj_light_enter(t_gui *self, t_doom *doom);
 void				g_es_obj_light_render(t_gui *self, t_doom *doom);
+void				g_es_obj_transpo_render(t_gui *self, t_doom *doom);
+void				g_es_obj_transpo_enter(t_gui *self, t_doom *doom);
 void				g_es_global_enter(t_gui *self, t_doom *doom);
 void				g_es_global_render(t_gui *self, t_doom *doom);
 void				g_level_render(t_gui *self, t_doom *doom);

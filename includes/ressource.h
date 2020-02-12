@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ressource.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 10:19:30 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/11 12:37:18 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/11 13:15:12 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ typedef enum	e_ressource_type
 	RESSOURCE_TEXTURE = 1,
 	RESSOURCE_MODEL = 2,
 	RESSOURCE_SOUND = 3,
-	RESSOURCE_SCRIPT = 4
+	RESSOURCE_SCRIPT = 4,
+	RESSOURCE_TRANSPO = 5
 }				t_ressource_type;
 
 typedef union	u_ressource_data

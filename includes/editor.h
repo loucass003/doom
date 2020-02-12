@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   editor.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 14:35:33 by lloncham          #+#    #+#             */
-/*   Updated: 2020/02/10 02:12:10 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/12 13:12:48 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@
 # define ES_GUI_GLOBAL (3)
 # define ES_GUI_PLAYER (4)
 
-# define ES_OBJ_GUIS_COUNT (5)
+# define ES_OBJ_GUIS_COUNT (6)
 
 typedef enum		e_object_type
 {
@@ -43,7 +43,8 @@ typedef enum		e_object_type
 	OBJECT_SPRITE = 1,
 	OBJECT_ENTITY = 2,
 	OBJECT_MODEL = 3,
-	OBJECT_LIGHT = 4
+	OBJECT_LIGHT = 4,
+	OBJECT_TRANSPO = 5
 }					t_object_type;
 
 typedef enum		e_object_transform_mode
@@ -59,12 +60,20 @@ typedef enum		e_uv_transform_mode
 	UVT_MODE_REPEAT = 1,
 }					t_uv_transform_mode;
 
+typedef struct		s_transpo
+{
+	int				connected;
+	int				cooldown;
+	t_bool			on_it;
+}					t_transpo;
+
 typedef union		u_object_of
 {
 	struct s_itemstack	*itemstack;
 	struct s_sprite		*sprite;
 	t_entity_type		entity;
 	struct s_ressource	*model;
+	struct s_transpo	*transpo;
 	int					light_index;
 }					t_object_of;
 

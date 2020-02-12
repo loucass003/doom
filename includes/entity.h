@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   entity.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 00:01:14 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/07 13:13:19 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/12 13:55:46 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,8 @@ typedef struct		s_entity
 	t_bool				crouch;
 	t_bool				run;
 	struct s_renderable	*r;
+	t_bool				ontp;
+
 }					t_entity;
 
 t_bool		entity_update(struct s_doom *doom, t_entity *entity, double dt);

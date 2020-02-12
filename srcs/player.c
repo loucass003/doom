@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:43:35 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/12 15:49:47 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/12 16:42:10 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,12 @@ void				update_player_camera(t_player *player)
 	alListenerfv(AL_ORIENTATION, (ALfloat[6]){camera->forward.x, camera->forward.y, camera->forward.z, 0.f, 1.f, 0.f});
 	player->entity.packet.doom->lights->values[0].position = player->camera.pos;
 	player->entity.packet.doom->lights->values[0].dir = player->camera.forward;
-
-
-	//////////A CHANGER DE PLACE !!!! SEGFAULT QUAND DATAPACK N EST PAS BON !!
+	
 	doom = player->entity.packet.doom;
 	if (doom->main_context.type == CTX_NORMAL)
 	{
 		i = -1;
-		s_data = doom->res_manager.ressources->values[26]->data.script_data; //->ACCEDE A CETTE RESSOURCE ALORS QU ON INIT PPAAS DATAPACK
+		s_data = doom->res_manager.ressources->values[26]->data.script_data;
 		while (++i < s_data->script_count)
 		{
 			script = &s_data->scripts[i];
@@ -49,7 +47,6 @@ void				update_player_camera(t_player *player)
 				trigger_event(doom, script->trigger);
 		}
 	}
-	/////////////////////////////////
 }
 
 t_bool	create_player(t_renderable *r, t_doom *doom)
@@ -264,6 +261,9 @@ void	update_controls(t_doom *doom)
 		if (m_y != 0)
 		{
 			float rot = m_y * ms * 0.01;
+			if (doom->player.entity.rotation.x < M_PI_2
+			&& doom->player.entity.rotation.x > -M_PI_2 )
+				doom->player.entity.rotation.x = 0;
 			if (doom->player.entity.rotation.x - rot < M_PI_2
 			&& doom->player.entity.rotation.x - rot > -M_PI_2 )
 				doom->player.entity.rotation.x -= rot;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_es_object.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 22:55:54 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/11 12:00:43 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/11 13:40:48 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,16 @@ void	 set_es_object_gui(t_editor *editor, int id)
 		enter_gui(editor->doom, editor->settings.guis_object, editor->settings.current_gui_object);
 }
 
+t_transpo		*create_default_transpo(t_doom *doom, t_object *object)
+{
+	t_transpo	*transpo;
+
+	if (!(transpo = ft_memalloc(sizeof(t_transpo))))
+		return (NULL);
+	transpo->connected = objects_indexof(doom->editor.objects, object);
+	return (transpo);
+}
+
 void			set_object_default(t_doom *doom, t_object *object)
 {
 	if (object->type == OBJECT_ITEMSTACK)
@@ -34,6 +44,8 @@ void			set_object_default(t_doom *doom, t_object *object)
 		object->of.sprite = create_sprite((t_vec2){ 1, 1 }, get_default_texture(&doom->res_manager, TRUE));
 	else if (object->type == OBJECT_MODEL)
 		object->of.model = get_ressource(&doom->res_manager, RESSOURCE_MODEL);
+	else if (object->type == OBJECT_TRANSPO)
+		object->of.transpo = create_default_transpo(doom, object);
 	else if (object->type == OBJECT_LIGHT)
 	{
 		object->of.light_index = create_default_light(doom);
@@ -90,6 +102,7 @@ void			g_es_object_enter(t_gui *self, t_doom *doom)
 	append_select_items_array(&((t_select *)self->components->values[0])->items, (t_select_item){ .name = "ITEMSTACK", .value = OBJECT_ITEMSTACK });
 	append_select_items_array(&((t_select *)self->components->values[0])->items, (t_select_item){ .name = "SPRITE", .value = OBJECT_SPRITE });
 	append_select_items_array(&((t_select *)self->components->values[0])->items, (t_select_item){ .name = "ENTITY", .value = OBJECT_ENTITY });
+	append_select_items_array(&((t_select *)self->components->values[0])->items, (t_select_item){ .name = "TRANSPO", .value = OBJECT_TRANSPO });	
 	if (!!get_ressource(&doom->res_manager, RESSOURCE_MODEL))
 		append_select_items_array(&((t_select *)self->components->values[0])->items, (t_select_item){ .name = "MODEL", .value = OBJECT_MODEL });
 	append_select_items_array(&((t_select *)self->components->values[0])->items, (t_select_item){ .name = "LIGHT", .value = OBJECT_LIGHT });
@@ -106,6 +119,7 @@ void			g_es_object_enter(t_gui *self, t_doom *doom)
 	doom->editor.settings.guis_object[OBJECT_ENTITY] = (t_gui){ .render = g_es_obj_entity_render, .on_enter = g_es_obj_entity_enter };
 	doom->editor.settings.guis_object[OBJECT_MODEL] = (t_gui){ .render = g_es_obj_model_render, .on_enter = g_es_obj_model_enter };
 	doom->editor.settings.guis_object[OBJECT_LIGHT] = (t_gui){ .render = g_es_obj_light_render, .on_enter = g_es_obj_light_enter };
+	doom->editor.settings.guis_object[OBJECT_TRANSPO] = (t_gui){ .render = g_es_obj_transpo_render, .on_enter = g_es_obj_transpo_enter };
 
 	// if (object->type != OBJECT_NONE)
 		set_es_object_gui(&doom->editor, object->type);

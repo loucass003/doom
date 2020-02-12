@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   editor_setmap.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 15:55:03 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/11 12:00:53 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/11 14:02:48 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -277,6 +277,17 @@ t_bool		create_object_renderable(t_editor *editor, int object_index, t_renderabl
 		r->dirty = TRUE;
 		r->position = editor_to_world(object->pos);
 		r->position.y += r->scale.y;
+	}
+	else if (object->type == OBJECT_TRANSPO)
+	{
+		ft_bzero(r, sizeof(t_renderable));
+		copy_renderable(editor->doom->res_manager.ressources->values[23]->data.model, r);
+		r->of.type = RENDERABLE_TRANSPO;
+		r->of.data.transpo = object->of.transpo;
+		r->scale = (t_vec3){ 1, 1, 1 };
+		r->dirty = TRUE;
+		r->position = editor_to_world(object->pos);
+		// r->position.y += r->scale.y;
 	}
 	else if (object->type == OBJECT_LIGHT)
 	{

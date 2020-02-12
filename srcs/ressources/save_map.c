@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   save_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 01:20:07 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/10 02:13:17 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/11 13:43:52 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,6 +151,12 @@ t_bool		write_object_light(t_ressource_manager *r, int light_index)
 	return (TRUE);
 }
 
+t_bool		write_object_transpo(t_ressource_manager *r, t_transpo *transpo)
+{
+	dp_write(r, transpo, sizeof(t_transpo));
+	return (TRUE);
+}
+
 t_bool		write_object(t_ressource_manager *r, t_object *object)
 {
 	const t_wr_object	wr_object = (t_wr_object) {
@@ -172,6 +178,8 @@ t_bool		write_object(t_ressource_manager *r, t_object *object)
 		write_object_model(r, object->of.model);
 	else if (object->type == OBJECT_LIGHT)
 		write_object_light(r, object->of.light_index);
+	else if (object->type == OBJECT_TRANSPO)
+		write_object_transpo(r, object->of.transpo);
 	return (TRUE);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   load_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 01:53:42 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/10 02:12:06 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/11 13:42:35 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -230,6 +230,18 @@ t_bool		read_object_light(t_ressource_manager *r, int *light_index)
 	return (TRUE);
 }
 
+t_bool		read_object_transpo(t_ressource_manager *r, t_transpo **t_addr)
+{
+	t_transpo	*transpo;
+
+	if (!(transpo = malloc(sizeof(t_transpo))))
+		return (FALSE);
+	if (!io_memcpy(&r->reader, transpo, sizeof(t_transpo)))
+		return (FALSE);
+	*t_addr = transpo;
+	return (TRUE);
+}
+
 t_bool		read_object(t_ressource_manager *r, t_object *object)
 {
 	t_wr_object	wr_object;
@@ -248,6 +260,8 @@ t_bool		read_object(t_ressource_manager *r, t_object *object)
 	else if (wr_object.type == OBJECT_MODEL && !read_object_model(r, &object->of.model))
 		return (FALSE);
 	else if (wr_object.type == OBJECT_LIGHT && !read_object_light(r, &object->of.light_index))
+		return (FALSE);
+	else if (wr_object.type == OBJECT_TRANSPO && !read_object_transpo(r, &object->of.transpo))
 		return (FALSE);
 	return (TRUE);
 }

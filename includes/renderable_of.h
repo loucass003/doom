@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   renderable_of.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/05 17:25:21 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/03 13:56:44 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/11 13:58:23 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ typedef enum		e_renderable_type
 	RENDERABLE_ITEMSTACK,
 	RENDERABLE_ELLIPSOID,
 	RENDERABLE_DOOR,
-	RENDERABLE_EXPLOSION
+	RENDERABLE_EXPLOSION,
+	RENDERABLE_TRANSPO,
 }					t_renderable_type;
 
 typedef union		u_renderable_of_data
@@ -33,6 +34,7 @@ typedef union		u_renderable_of_data
 	struct s_itemstack		*itemstack;
 	struct s_door			*door;
 	struct s_explosion		*explosion;
+	struct s_transpo		*transpo;
 }					t_renderable_of_data;
 
 typedef struct		s_renderable_of

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   events.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:14:55 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/12 12:42:12 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/12 15:48:59 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void		hook_events(t_doom *doom)
 	SDL_Event		event;
 	const Uint8		*s = SDL_GetKeyboardState(NULL);
 
-//	SDL_SetRelativeMouseMode((SDL_bool)doom->mouse_focus);
+	SDL_SetRelativeMouseMode((SDL_bool)doom->mouse_focus);
 	doom->help = FALSE;
 	if (s[SDL_SCANCODE_F1] && doom->current_gui != GUI_RESSOURCES) //securiser context ressource
 		doom->help = TRUE;
