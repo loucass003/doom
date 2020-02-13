@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/11 16:50:13 by lloncham          #+#    #+#             */
-/*   Updated: 2020/02/13 17:48:26 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/13 18:12:15 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ void        trigger_script(t_doom *doom, t_trigger trigger)
             action = &script->action[j];
             if (action->type == ACTION_MESSAGE)
             {
-                doom->message.open = TRUE;
                 doom->message.counter_m = 0;
                 doom->message.message_data = &action->data.message;
             }
@@ -68,7 +67,6 @@ void        trigger_script(t_doom *doom, t_trigger trigger)
             }
             else if (action->type == ACTION_QUESTION)
             {
-                doom->message.open = TRUE;
                 doom->message.counter_q = -1;
                 doom->message.question_data = &action->data.question;
             }

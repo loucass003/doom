@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:43:35 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/13 14:18:54 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/13 18:11:50 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,6 +221,8 @@ void	update_controls(t_doom *doom)
 		if (s[SDL_SCANCODE_SPACE] && !doom->player.entity.jump
 		&& (doom->player.entity.grounded || doom->player.entity.jetpack))
 			doom->player.entity.jump = TRUE;
+		if (s[SDL_SCANCODE_M])
+			doom->message.open = (doom->message.open == TRUE) ? FALSE : TRUE;
 		if (s[SDL_SCANCODE_LSHIFT] && doom->player.entity.jetpack)
 		{ 
 			doom->player.entity.grounded = FALSE;
