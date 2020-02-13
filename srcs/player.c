@@ -263,9 +263,6 @@ void	update_controls(t_doom *doom)
 		if (m_y != 0)
 		{
 			float rot = m_y * ms * 0.01;
-			if (doom->player.entity.rotation.x < M_PI_2
-			&& doom->player.entity.rotation.x > -M_PI_2 )
-				doom->player.entity.rotation.x = 0;
 			if (doom->player.entity.rotation.x - rot < M_PI_2
 			&& doom->player.entity.rotation.x - rot > -M_PI_2 )
 				doom->player.entity.rotation.x -= rot;

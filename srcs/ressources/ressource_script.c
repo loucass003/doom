@@ -243,8 +243,6 @@ t_bool			parse_script_data(t_script_data *s_data)
 	t_json_array	*array;
 	t_json_element	*element;
 	
-	int				i;
-
 	state = (t_json_state){s_data->script_str, 0, s_data->script_len};
 	if (!(val = parse_value(&state)))
 		return (FALSE);
@@ -252,11 +250,10 @@ t_bool			parse_script_data(t_script_data *s_data)
 		return (script_return_error("root element must be an array"));
 	if (!(s_data->scripts = ft_memalloc(sizeof(t_script) * array->elems_count)))
 		return (script_return_error("unable to alloc script"));	
+	s_data->script_count = 0;
 	element = array->elements;
-	i = -1;
 	while (element)
 	{
-		i++;
 		t_script	*script = &s_data->scripts[s_data->script_count];
 		if (element->value->type != JSON_OBJECT)
 			return (script_return_error("script mut be an object"));
@@ -265,11 +262,7 @@ t_bool			parse_script_data(t_script_data *s_data)
 		double *use_d;
 		script->use = -1;
 		if (!!(use_d = (json_get_number((t_json_object *)element->value, "use"))))
-		{
 			script->use = (int)*use_d;
-			// if (script->trigger.type == TRIG_SPAWN)
-				// script->use = 1;
-		}
 		if (!parse_json_actions(script, json_get_array((t_json_object *)element->value, "actions")))	
 			return (script_return_error("array 'actions' doesn't exist"));
 		s_data->script_count++;
