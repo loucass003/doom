@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 13:36:27 by lloncham          #+#    #+#             */
-/*   Updated: 2020/02/12 15:42:26 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/13 14:29:40 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ typedef enum    s_action_type
     ACTION_NONE,
     ACTION_MESSAGE,
     ACTION_TELEPORT,
-    ACTION_MAP
+    ACTION_QUESTION
 }               t_action_type;
 
 
@@ -75,6 +75,14 @@ typedef struct  s_action_message
     int         textes_count;
     char        **textes;
 }               t_action_message;
+
+typedef struct  s_action_question
+{
+    int         quest_count;
+    int         answer_count;
+    char        **quest;
+    char        **answer;
+}               t_action_question;
 
 typedef struct  s_action_teleport
 {
@@ -87,6 +95,7 @@ typedef union   u_action_data
 {
     t_action_message    message;
     t_action_teleport   teleport;
+    t_action_question   question;
 }               t_action_data;
 
 typedef struct  s_action

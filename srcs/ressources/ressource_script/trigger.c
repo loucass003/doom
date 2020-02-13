@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   trigger.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/11 16:50:13 by lloncham          #+#    #+#             */
-/*   Updated: 2020/02/12 18:05:53 by louali           ###   ########.fr       */
+/*   Updated: 2020/02/13 17:48:26 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,20 +56,21 @@ void        trigger_script(t_doom *doom, t_trigger trigger)
             if (action->type == ACTION_MESSAGE)
             {
                 doom->message.open = TRUE;
-                doom->message.counter = 0;
+                doom->message.counter_m = 0;
                 doom->message.message_data = &action->data.message;
             }
-            if (action->type == ACTION_TELEPORT)
+            else if (action->type == ACTION_TELEPORT)
             {
                 t_vec3 rot = doom->player.entity.rotation;
                 if (action->data.teleport.is_rotation_set == TRUE)
                     rot = action->data.teleport.rotation;
                 teleport(&doom->player.entity, action->data.teleport.pos, rot);
-                printf("TELEPORT ACTION\n");
             }
-            if (action->type == ACTION_MAP)
+            else if (action->type == ACTION_QUESTION)
             {
-                printf("PRINT MAP\n");
+                doom->message.open = TRUE;
+                doom->message.counter_q = -1;
+                doom->message.question_data = &action->data.question;
             }
         }
     }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gui.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 01:42:00 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/12 17:58:02 by louali           ###   ########.fr       */
+/*   Updated: 2020/02/13 17:12:06 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,11 @@ typedef	struct		s_message_data
 typedef	struct 		s_message
 {
 	t_bool						open;
-	int							counter;
+	int							counter_m;
+	int							counter_q;
 	struct s_action_message		*message_data;
+	struct s_action_question	*question_data;
+	
 }					t_message;
 
 // typedef struct		s_story

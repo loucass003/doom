@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 14:15:25 by lloncham          #+#    #+#             */
-/*   Updated: 2020/02/12 16:08:39 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/13 16:19:09 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,8 @@ static t_action_type	get_action_type(char *str)
 		return (ACTION_MESSAGE);
 	if (len == 8 && ft_strncmp(str, "TELEPORT", 8) == 0)
 		return (ACTION_TELEPORT);
-	if (len == 3 && ft_strncmp(str, "MAP", 3) == 0)
-		return (ACTION_MAP);
+	if (len == 8 && ft_strncmp(str, "QUESTION", 8) == 0)
+		return (ACTION_QUESTION);
 	return (ACTION_NONE);
 }
 
@@ -145,6 +145,45 @@ t_bool			parse_action_message(t_action_message *message, t_json_object *object)
 	return (TRUE);
 }
 
+t_bool			parse_action_question(t_action_question *question, t_json_object *object)
+{
+	t_json_array	*array;
+	t_json_element	*element;
+	t_json_string	*string;
+
+	if (!(array = json_get_array(object, "choice")))
+		return (script_return_error("No text element or invalid text element"));
+	if (!(question->quest = ft_memalloc(array->elems_count * sizeof(char *))))
+		return (script_return_error("Unnable to alloc strings"));
+	element = array->elements;
+	while (element)
+	{
+		if (!(string = json_to_string(element->value)))
+			return (script_return_error("Invalid question type (NOT A STRING)"));
+		if (!(question->quest[question->quest_count] = ft_memalloc(sizeof(char) * (string->value_len + 1))))
+			return (script_return_error("Unnable to alloc strings"));
+		ft_memcpy(question->quest[question->quest_count], string->value, string->value_len);
+		question->quest_count++;
+		element = element->next;
+	}
+	if (!(array = json_get_array(object, "answer choice")))
+		return (script_return_error("No text element or invalid text element"));
+	if (!(question->answer = ft_memalloc(array->elems_count * sizeof(char *))))
+		return (script_return_error("Unnable to alloc strings"));
+	element = array->elements;
+	while (element)
+	{
+		if (!(string = json_to_string(element->value)))
+			return (script_return_error("Invalid question type (NOT A STRING)"));
+		if (!(question->answer[question->answer_count] = ft_memalloc(sizeof(char) * (string->value_len + 1))))
+			return (script_return_error("Unnable to alloc strings"));
+		ft_memcpy(question->answer[question->answer_count], string->value, string->value_len);
+		question->answer_count++;
+		element = element->next;
+	}
+	return (TRUE);
+}
+
 t_bool			parse_action_teleport(t_action_teleport *teleport, t_json_object *object)
 {
 	t_json_value	*val;
@@ -171,6 +210,8 @@ t_bool			parse_json_action(t_action *action, t_json_object *object)
 		return (script_return_error("Invalid action message"));
 	else if (action->type == ACTION_TELEPORT && !parse_action_teleport(&action->data.teleport, object))
 		return (script_return_error("Invalid action teleport"));
+	else if (action->type == ACTION_QUESTION && !parse_action_question(&action->data.question, object))
+		return (script_return_error("Invalid action question"));
 	return (TRUE);
 }
 

@@ -28,12 +28,17 @@
                 "type": "MESSAGE",
                 "text": [
                     "SUPER! TU AS UNE ARME ... ",
-                    "VERIFIE QUE TU AS DES MUNITIONS ET ALLONS FUMER CE PETIT COQUIN",
-                    "PREND CETTE CARTE, ELLE TE SERA UTILE MATE"
+                    "VERIFIE QUE TU AS DES MUNITIONS ET ALLONS FUMER CE COQUIN",
+                    "TU ES PRET?"
                 ]
             },
             {
-                "type": "MAP"
+                "type": "QUESTION",
+                "choice": ["1 - OUI", "2 - NON"],
+                "answer choice": [
+                    "DE TOUTES FACONS NOUS N'AVONS PAS LE CHOIX",
+                    "IL FAUT Y ALLER"
+                ]
             }
         ]
     },
@@ -47,11 +52,7 @@
         "actions": [
             {
                 "type": "MESSAGE",
-                "text": ["TU ES ENTRE DANS"]
-            },
-            {
-                "type": "TELEPORT",
-                "pos": [5, 10, 12]
+                "text": ["DEPECHE TOI, NOS SOLDATS SONT EN DANGER"]
             }
         ]
     }

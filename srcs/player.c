@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:43:35 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/12 16:47:52 by louali           ###   ########.fr       */
+/*   Updated: 2020/02/13 14:18:54 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ void				init_player(t_doom *doom)
 
 void				spawn_player(t_doom *doom)
 {
+	trigger_script(doom, (t_trigger){.type = TRIG_SPAWN});
 	doom->player.entity.position = editor_to_world(doom->player.spawn_data.position);
 	doom->player.entity.position.y += doom->player.entity.radius.y + 0.1;
 	doom->player.entity.rotation = doom->player.spawn_data.rotation;
