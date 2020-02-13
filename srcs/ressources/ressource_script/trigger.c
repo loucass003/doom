@@ -56,6 +56,7 @@ void        trigger_script(t_doom *doom, t_trigger trigger)
             if (action->type == ACTION_MESSAGE)
             {
                 doom->message.counter_m = 0;
+                doom->message.open = TRUE;
                 doom->message.message_data = &action->data.message;
             }
             else if (action->type == ACTION_TELEPORT)

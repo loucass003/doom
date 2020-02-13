@@ -86,10 +86,11 @@ void				init_player(t_doom *doom)
 
 void				spawn_player(t_doom *doom)
 {
-	trigger_script(doom, (t_trigger){.type = TRIG_SPAWN});
 	doom->player.entity.position = editor_to_world(doom->player.spawn_data.position);
 	doom->player.entity.position.y += doom->player.entity.radius.y + 0.1;
 	doom->player.entity.rotation = doom->player.spawn_data.rotation;
+	if (doom->main_context.type == CTX_NORMAL)
+		trigger_event(doom, (t_trigger){.type = TRIG_SPAWN});
 }
 
 void				player_inventory_event(t_doom *doom, SDL_Event *event)
