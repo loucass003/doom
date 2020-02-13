@@ -1,29 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   editor_player.c                                    :+:      :+:    :+:   */
+/*   editor_free.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/03 14:07:05 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/13 15:18:14 by louali           ###   ########.fr       */
+/*   Created: 2020/02/13 15:15:59 by louali            #+#    #+#             */
+/*   Updated: 2020/02/13 15:16:43 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "doom.h"
 #include "editor.h"
+#include "doom.h"
 
-t_bool		editor_render_player(t_doom *doom, t_editor *editor)
+void		free_object(t_object *o)
 {
-	if (editor->player_set)
+	if (o->type == OBJECT_SPRITE)
+		ft_memdel((void **)&o->of.sprite);
+	else if (o->type == OBJECT_ITEMSTACK)
+		free_itemstack(&o->of.itemstack);
+}
+
+void		free_objects(t_objects **objects)
+{
+	int			i;
+	t_object	*o;
+
+	if (!*objects)
+		return ;
+	i = -1;
+	while (++i < (*objects)->len)
 	{
-		draw_circle(doom->main_context.image,
-			(t_pixel){
-				doom->player.spawn_data.position.x,
-				doom->player.spawn_data.position.z,
-				0xFFFFFF00
-			},
-		7);
+		o = &(*objects)->values[i];
+		free_object(o);
 	}
-	return (TRUE);
+	ft_memdel((void **)objects);
 }

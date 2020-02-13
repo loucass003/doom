@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   editor_delete.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 22:38:06 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/24 01:11:43 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/13 14:31:00 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,28 +20,28 @@ static void	editor_remove_point(t_editor *editor)
 	t_bool	rem_room;
 
 	if ((index = vertices2d_indexof(editor->points, editor->grid_cell)) == -1)
-		return;
+		return ;
 	rem_room = FALSE;
 	i = -1;
 	while (++i < editor->rooms->len)
 	{
-		if ((index0 = wall_indexof_by_indice(editor->rooms->values[i].walls, index)) == -1)
+		if ((index0 = wall_indexof_by_indice(editor->rooms->values[i].walls,
+			index)) == -1)
 			continue;
 		if (editor->rooms->values[i].walls->len - 1 < 3)
 		{
 			select_room(editor, -1);
 			remove_room(editor, i);
 			rem_room = TRUE;
-			break;
+			break ;
 		}
 		else
 			splice_walls_array(editor->rooms->values[i].walls, index0, 1);
 	}
-	if (!rem_room)
-		remove_point(editor, index);
+	!rem_room ? remove_point(editor, index) : 0;
 }
 
-void	editor_delete_action(t_editor *editor)
+void		editor_delete_action(t_editor *editor)
 {
 	if (editor->grid_cell_grab == GG_POINT)
 		editor_remove_point(editor);
