@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:43:35 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/13 18:11:50 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/15 17:14:31 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,33 @@
 #include "octree.h"
 #include "script.h"
 
-void				update_player_camera(t_player *player)
+void				update_trigger_area(t_doom *doom, t_player *player)
 {
-	int				i;
-	t_doom			*doom;
-	t_camera		*camera;
 	t_script_data	*s_data;
 	t_script		*script;
+	float			dist;
+	int				i;
+	
+	if (doom->main_context.type == CTX_NORMAL)
+	{
+		i = -1;
+		s_data = doom->res_manager.ressources->values[26]->data.script_data;
+		while (++i < s_data->script_count)
+		{
+			script = &s_data->scripts[i];
+			dist = ft_vec3_len(ft_vec3_sub(player->entity.position,
+				script->trigger.data.area.pos));
+			if (script->trigger.type == TRIG_AREA
+				&& dist <= script->trigger.data.area.radius)
+				trigger_event(doom, script->trigger);
+		}
+	}
+}
+
+void				update_player_camera(t_player *player)
+{
+	t_doom			*doom;
+	t_camera		*camera;
 
 	camera = &player->camera;
 	camera->pos = player->entity.position;
@@ -32,20 +52,7 @@ void				update_player_camera(t_player *player)
 	player->entity.packet.doom->lights->values[0].position = player->camera.pos;
 	player->entity.packet.doom->lights->values[0].dir = player->camera.forward;
 	doom = player->entity.packet.doom;
-	if (doom->main_context.type == CTX_NORMAL)
-	{
-		i = -1;
-		s_data = doom->res_manager.ressources->values[26]->data.script_data;
-		while (++i < s_data->script_count)
-		{
-			script = &s_data->scripts[i];
-			float dist = ft_vec3_len(ft_vec3_sub(player->entity.position, 
-				script->trigger.data.area.pos));
-			if (script->trigger.type == TRIG_AREA 
-				&& dist <= script->trigger.data.area.radius)
-				trigger_event(doom, script->trigger);
-		}
-	}
+	update_trigger_area(doom, player);
 }
 
 t_bool	create_player(t_renderable *r, t_doom *doom)
@@ -68,7 +75,6 @@ void				init_player(t_doom *doom)
 	player->camera.projection = projection_matrix();
 	ft_bzero(player->item, sizeof(t_itemstack) * 8);
 	ft_bzero(&doom->gameover, sizeof(t_gameover));
-	// player->entity.position = (t_vec3){ 0, 2.512500, 45.176151 };
 	player->entity.position = (t_vec3){ -30, 50, 0 };
 	player->entity.velocity = (t_vec3){ 0, 0, 0 };
 	player->entity.radius = (t_vec3){ 1, 2.5f, 1 };
@@ -93,19 +99,18 @@ void				spawn_player(t_doom *doom)
 		trigger_event(doom, (t_trigger){.type = TRIG_SPAWN});
 }
 
-void				player_inventory_event(t_doom *doom, SDL_Event *event)
+void				player_inventory_normal(t_doom *doom, const SDL_Scancode key, SDL_Event *event)
 {
-	const SDL_Scancode	key = event->key.keysym.scancode;
-
+	t_itemstack	*is;
+	
 	if (doom->main_context.type == CTX_NORMAL)
 	{
 		if (event->type == SDL_MOUSEBUTTONDOWN)
 		{
-			t_itemstack	*is = &doom->player.item[doom->player.selected_slot];
+			is = &doom->player.item[doom->player.selected_slot];
 			if (is->of && is->of->on_use)
 				is->of->on_use(doom, is);
 		}
-
 		if (event->type == SDL_KEYDOWN && (key == SDL_SCANCODE_UP || key == SDL_SCANCODE_DOWN))
 		{
 			doom->player.selected_slot += (key == SDL_SCANCODE_DOWN ? 1 : -1);
@@ -117,6 +122,13 @@ void				player_inventory_event(t_doom *doom, SDL_Event *event)
 		if (event->type == SDL_KEYDOWN && key == SDL_SCANCODE_C)
 			set_player_state(doom, &doom->player, doom->player.desired_state == PS_CROUCH ? PS_NORMAL : PS_CROUCH);
 	}
+}
+
+void				player_inventory_event(t_doom *doom, SDL_Event *event)
+{
+	const SDL_Scancode	key = event->key.keysym.scancode;
+
+	player_inventory_normal(doom, key, event);
 	if (doom->main_context.type == CTX_EDITOR)
 	{
 		if (event->type == SDL_KEYDOWN && (key == SDL_SCANCODE_END))
@@ -197,15 +209,10 @@ t_bool				draw_player_inventory(t_doom *doom, t_gui *self)
 	return (TRUE);
 }
 
-void	update_controls(t_doom *doom)
+float	update_speed(t_doom *doom, const Uint8 *s)
 {
-	const double	ms = doom->stats.delta * 2.;
-	const Uint8		*s = SDL_GetKeyboardState(NULL);
+	float			move_speed;
 
-	float move_speed;
-	doom->player.entity.run = FALSE;
-	if (!doom->mouse_focus && is_settings_open(&doom->editor))
-		return ;
 	if (doom->main_context.type == CTX_EDITOR)
 		move_speed = 10;
 	else if (doom->player.entity.jetpack)
@@ -217,19 +224,11 @@ void	update_controls(t_doom *doom)
 	}
 	else
 		move_speed = !doom->player.entity.grounded ? 1.2 : 10;
-	if (doom->main_context.type == CTX_NORMAL)
-	{
-		if (s[SDL_SCANCODE_SPACE] && !doom->player.entity.jump
-		&& (doom->player.entity.grounded || doom->player.entity.jetpack))
-			doom->player.entity.jump = TRUE;
-		if (s[SDL_SCANCODE_M])
-			doom->message.open = (doom->message.open == TRUE) ? FALSE : TRUE;
-		if (s[SDL_SCANCODE_LSHIFT] && doom->player.entity.jetpack)
-		{ 
-			doom->player.entity.grounded = FALSE;
-			doom->player.entity.velocity.y -= 8;
-		}
-	}
+	return (move_speed);
+}
+
+void	update_direction(t_doom *doom, const Uint8 *s, float move_speed)
+{
 	if (s[SDL_SCANCODE_W] || s[SDL_SCANCODE_S])
 	{
 		doom->player.entity.velocity.x += sinf(doom->player.entity.rotation.y)
@@ -244,35 +243,67 @@ void	update_controls(t_doom *doom)
 		doom->player.entity.velocity.z += sinf(doom->player.entity.rotation.y)
 			* (s[SDL_SCANCODE_D] ? 1 : -1) * move_speed;
 	}
-	if (doom->main_context.type == CTX_EDITOR)
+}
+
+void	update_up_down(t_doom *doom, const Uint8 *s)
+{
+	if (doom->main_context.type == CTX_NORMAL)
 	{
-		if (s[SDL_SCANCODE_SPACE] )
-		{
-			doom->player.entity.velocity.y += 8;
-		}
-		if (s[SDL_SCANCODE_LSHIFT])
+		if (s[SDL_SCANCODE_SPACE] && !doom->player.entity.jump
+		&& (doom->player.entity.grounded || doom->player.entity.jetpack))
+			doom->player.entity.jump = TRUE;
+		if (s[SDL_SCANCODE_LSHIFT] && doom->player.entity.jetpack)
 		{ 
+			doom->player.entity.grounded = FALSE;
 			doom->player.entity.velocity.y -= 8;
 		}
 	}
-	if (doom->mouse_focus)
+	if (doom->main_context.type == CTX_EDITOR)
 	{
-		int m_x, m_y;
-		SDL_GetRelativeMouseState(&m_x, &m_y);
-		if (m_x != 0)
-			doom->player.entity.rotation.y -= m_x * ms * 0.01;
-		if (m_y != 0)
-		{
-			float rot = m_y * ms * 0.01;
-			if (doom->player.entity.rotation.x - rot < M_PI_2
-			&& doom->player.entity.rotation.x - rot > -M_PI_2 )
-				doom->player.entity.rotation.x -= rot;
-		}
+		if (s[SDL_SCANCODE_SPACE])
+			doom->player.entity.velocity.y += 8;
+		if (s[SDL_SCANCODE_LSHIFT])
+			doom->player.entity.velocity.y -= 8;
 	}
+}
+
+void	update_mouse_focus(t_doom *doom)
+{
+	int				m_x;
+	int				m_y;
+	float 			rot;
+	const double	ms = doom->stats.delta * 2.;
+	
+	rot = 0;
+	SDL_GetRelativeMouseState(&m_x, &m_y);
+	if (m_x != 0)
+		doom->player.entity.rotation.y -= m_x * ms * 0.01;
+	if (m_y != 0)
+	{
+		rot = m_y * ms * 0.01;
+		if (doom->player.entity.rotation.x - rot < M_PI_2
+		&& doom->player.entity.rotation.x - rot > -M_PI_2 )
+			doom->player.entity.rotation.x -= rot;
+	}
+}
+
+void	update_controls(t_doom *doom)
+{
+	const Uint8		*s = SDL_GetKeyboardState(NULL);
+	float			move_speed;
+	
+	doom->player.entity.run = FALSE;
+	if (!doom->mouse_focus && is_settings_open(&doom->editor))
+		return ;
+	move_speed = update_speed(doom, s);
+	update_up_down(doom, s);
+	update_direction(doom, s, move_speed);
+	if (doom->mouse_focus)
+		update_mouse_focus(doom);
 	update_player_camera(&doom->player);
 }
 
-t_bool	aabb_intersect_world(t_doom *doom, t_collide_aabb aabb)
+t_bool		aabb_intersect_world(t_doom *doom, t_collide_aabb aabb)
 {
 	t_collision		hit;
 	t_renderable	*r;
