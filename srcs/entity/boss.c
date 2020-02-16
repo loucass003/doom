@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 14:15:25 by lloncham          #+#    #+#             */
-/*   Updated: 2020/02/07 15:16:25 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/16 18:07:34 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ t_bool		create_boss_renderable(t_doom *doom, t_renderable *r)
 	t_sprite	*sprite;
 	t_entity	*boss;
 
-	if (!(sprite = create_sprite((t_vec2){ 7, 4 }, doom->res_manager.ressources->values[6])))
+	if (!(sprite = create_sprite((t_vec2){ 7, 4 },
+		doom->res_manager.ressources->values[6])))
 		return (FALSE);
 	if (!create_sprite_renderable(r, sprite))
 		return (FALSE);
@@ -44,6 +45,61 @@ t_bool		create_boss_renderable(t_doom *doom, t_renderable *r)
 	r->scale = boss->scale;
 	compute_entity_hitbox(r);
 	return (TRUE);
+}
+
+void		boss_shoot(t_doom *doom, t_entity *entity, t_entity_boss *boss)
+{
+	t_vec3 pos; 
+	t_mat4 rot;
+	t_vec3 p_left_right;
+	
+	pos = entity->position;
+	rot = ft_mat4_rotation(entity->rotation);
+	if (boss->shoot % 2 == 0)
+	{
+		p_left_right = ft_mat4_mulv(rot, (t_vec3){ 0, 0, 0.4 * 5 }); 
+		p_left_right = ft_vec3_add(p_left_right, pos);
+		renderable_rocket(doom, p_left_right, doom->player.camera.pos);
+	}
+	else
+	{
+		p_left_right = ft_mat4_mulv(rot, (t_vec3){ 0, 0, -0.4 * 5 }); 
+		p_left_right = ft_vec3_add(p_left_right, pos);
+		renderable_rocket(doom, p_left_right, doom->player.camera.pos);
+	}					
+}
+
+void		boss_hit_dist(t_doom *doom, t_entity *entity, t_entity_boss *boss)
+{
+	if (boss->shooting)
+		boss->t1 = 0;
+	boss->t1++;
+	if (boss->t1 >= 5 && !boss->shooting)
+	{
+		boss->shooting = TRUE;
+		boss->t1 = 0;
+		boss->animation_step = 4;
+	}
+	if (boss->shooting)
+	{
+		boss->t2++;
+		if (boss->t2 >= 3)
+		{
+			boss->t2 = 0;
+			boss->animation_step++;
+			boss->shoot++;
+			if (boss->animation_step >= 7)
+			{
+				boss->shoot = 0;
+				boss->animation_step = 4;
+				boss->shooting = FALSE;
+			}
+			entity_sound(entity, 5, 1, 1);
+			boss_shoot(doom, entity, boss);
+		}
+	}
+	else
+		boss->animation_step = 4;
 }
 
 void		entity_update_boss(t_doom *doom, t_entity *entity, double dt)
@@ -95,55 +151,7 @@ void		entity_update_boss(t_doom *doom, t_entity *entity, double dt)
 					boss->animation_step = 0;
 			}
 			if (boss->hit_data.dist <= 20)
-			{
-				if (boss->shooting)
-					boss->t1 = 0;
-				boss->t1++;
-				if (boss->t1 >= 5 && !boss->shooting)
-				{
-					boss->shooting = TRUE;
-					boss->t1 = 0;
-					boss->animation_step = 4;
-				}
-				if (boss->shooting)
-				{
-					boss->t2++;
-					if (boss->t2 >= 3)
-					{
-						boss->t2 = 0;
-						boss->animation_step++;
-						boss->shoot++;
-						if (boss->animation_step >= 7)
-						{
-							
-							boss->shoot = 0;
-							boss->animation_step = 4;
-							boss->shooting = FALSE;
-						}
-						
-						entity_sound(entity, 5, 1, 1);
-						t_vec3 pos = entity->position;
-						t_mat4 rot = ft_mat4_rotation(entity->rotation);
-						if (boss->shoot % 2 == 0)
-						{
-							
-							t_vec3 p_left;
-							p_left = ft_mat4_mulv(rot, (t_vec3){ 0, 0, 0.4 * 5 }); 
-							p_left = ft_vec3_add(p_left, pos);
-							renderable_rocket(doom, p_left, doom->player.camera.pos);
-						}
-						else
-						{
-							t_vec3 p_right;
-							p_right = ft_mat4_mulv(rot, (t_vec3){ 0, 0, -0.4 * 5 }); 
-							p_right = ft_vec3_add(p_right, pos);
-							renderable_rocket(doom, p_right, doom->player.camera.pos);
-						}
-					}
-				}
-				else
-					boss->animation_step = 4;
-			}
+				boss_hit_dist(doom, entity, boss);
 		}
 		if (boss->phase == 3)
 		{
