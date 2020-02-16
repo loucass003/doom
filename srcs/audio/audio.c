@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   audio.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/22 13:41:15 by lloncham          #+#    #+#             */
-/*   Updated: 2020/02/11 05:18:49 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/16 17:22:24 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ t_bool			set_default_sounds(t_doom *doom)
 void			quit_openal(t_doom *doom)
 {
 	alDeleteSources(MAX_SOUNDS, (const ALuint *)doom->audio.source);
-//	alDeleteBuffers(12, (const ALuint *)doom->audio.buffer);
 	alcMakeContextCurrent(NULL);
 	alcDestroyContext(doom->audio.context);
 	alcCloseDevice(doom->audio.device);
