@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   arrays.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/02/16 14:02:32 by lloncham          #+#    #+#             */
+/*   Updated: 2020/02/16 14:33:58 by lloncham         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef ARRAYS_H
 # define ARRAYS_H
 
@@ -38,8 +50,6 @@ typedef struct		s_ptrs
 	int				capacity;
 	void			*values[];
 }					t_ptrs;
-
-
 
 t_2dvertices		*create_2dvertices_array(int capacity);
 t_2dvertices		*append_2dvertices_array(t_2dvertices **arr, t_vec2 v);

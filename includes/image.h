@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   image.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 21:21:40 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/22 13:35:13 by louali           ###   ########.fr       */
+/*   Updated: 2020/02/16 15:11:18 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef IMAGE_H
 # define IMAGE_H
 
-#include <SDL.h>
-#include <SDL_image.h>
-#include <libft.h>
+# include <SDL.h>
+# include <SDL_image.h>
+# include <libft.h>
 
 typedef struct		s_img
 {
@@ -46,12 +46,9 @@ void				apply_surface(t_img *img, SDL_Surface *s,
 						SDL_Rect src, SDL_Rect dst);
 void				fill_rect(t_img *img, SDL_Rect bounds, int color);
 void				draw_rect(t_img *img, SDL_Rect rect, int color);
-void				apply_image_blended(t_img *img, t_img *s, SDL_Rect src, SDL_Rect dst);
-void				apply_image_to_image(t_img *img, t_img *s, SDL_Rect src, SDL_Rect dst);
-
-
-
-
+void				apply_image_blended(t_img *img, t_img *s, SDL_Rect src,
+						SDL_Rect dst);
+void				apply_image_to_image(t_img *img, t_img *s, SDL_Rect src,
+						SDL_Rect dst);
 
 #endif
-

@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   mtl.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/04 22:13:55 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/11 08:45:05 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/16 15:21:40 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MTL_H
 # define MTL_H
 
-#include <libft.h>
-#include <SDL.h>
-#include "image.h"
+# include <libft.h>
+# include <SDL.h>
+# include "image.h"
 
 # define MATERIAL_FILE_LEN 255
 # define MATERIAL_TEXTURE_LEN 255

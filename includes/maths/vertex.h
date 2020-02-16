@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   vertex.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/02/16 16:55:01 by lloncham          #+#    #+#             */
+/*   Updated: 2020/02/16 16:56:17 by lloncham         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef VERTEX_H
 # define VERTEX_H
 
@@ -17,6 +29,5 @@ t_vertex			vertex_sub(t_vertex a, t_vertex b);
 t_vertex			vertex_div_s(t_vertex a, float v);
 t_vertex			vertex_mul_s(t_vertex a, float v);
 t_vertex			vertex_interpolate(t_vertex a, t_vertex b, float v);
-
 
 #endif

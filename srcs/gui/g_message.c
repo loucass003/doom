@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/07 16:08:54 by lloncham          #+#    #+#             */
-/*   Updated: 2020/02/13 18:03:40 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/16 15:10:28 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ void			g_message_on_event(t_gui *self, SDL_Event *event, t_doom *doom)
         else if (doom->message.question_data)
         {
             doom->message.counter_q++;
+            if (doom->message.question_data->answer_count == doom->message.counter_q)
+                doom->message.open = FALSE;
         }
     }
     if (event->type == SDL_KEYDOWN && (key == SDL_SCANCODE_1 || key == SDL_SCANCODE_2))

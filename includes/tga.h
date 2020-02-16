@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tga.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/19 16:55:03 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/23 02:20:56 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/16 16:49:38 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include <SDL.h>
 # include "io.h"
 
-typedef enum	s_tga_image_type
+typedef enum	e_tga_image_type
 {
 	TGA_IMAGE_TYPE_NODATA = 0,
 	TGA_IMAGE_TYPE_COLORS = 1,
@@ -26,13 +26,12 @@ typedef enum	s_tga_image_type
 	TGA_IMAGE_TYPE_MONOCHROME = 3,
 	TGA_IMAGE_TYPE_INDEXED_COMPRESS = 9,
 	TGA_IMAGE_TYPE_TRUECOLOR_COMPRESS = 10,
-	TGA_IMAGE_TYPE_MONOCHROME_COMPRESS = 11, 
+	TGA_IMAGE_TYPE_MONOCHROME_COMPRESS = 11,
 }				t_tga_image_type;
-
 
 typedef struct	s_img_descriptor
 {
-	uint8_t		meh : 3;
+	uint8_t		meh: 3;
 	uint8_t		reserved: 1;
 	uint8_t		origin: 1;
 	uint8_t		interleaving: 2;
@@ -62,7 +61,7 @@ typedef struct	s_tga_format
 {
 	t_tga_header	header;
 	uint8_t			bpp;
-	int				format; 
+	int				format;
 	uint8_t			*data;
 	uint8_t			*colormap;
 }				t_tga_format;

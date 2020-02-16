@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   entity.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 00:01:14 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/12 13:55:46 by louali           ###   ########.fr       */
+/*   Updated: 2020/02/16 14:37:46 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,66 +18,66 @@
 # include "render.h"
 # include <al.h>
 
-typedef enum		e_entity_type
+typedef enum			e_entity_type
 {
 	ENTITY_PLAYER,
 	ENTITY_ENEMY,
 	ENTITY_GRENADA,
 	ENTITY_BOSS,
 	ENTITY_ROCKET
-}					t_entity_type;
+}						t_entity_type;
 
-typedef struct		s_entity_grenada
+typedef struct			s_entity_grenada
 {
-	float			damage;
-	float			range;
-	long			delay;
-	long			start;
-}					t_entity_grenada;
+	float				damage;
+	float				range;
+	long				delay;
+	long				start;
+}						t_entity_grenada;
 
-typedef struct		s_entity_rocket
+typedef struct			s_entity_rocket
 {
-	float			damage;
-	float			range;
-	t_mat4			look_at;
-	ALuint			sources[1];
-}					t_entity_rocket;
+	float				damage;
+	float				range;
+	t_mat4				look_at;
+	ALuint				sources[1];
+}						t_entity_rocket;
 
-typedef struct		s_entity_enemy
+typedef struct			s_entity_enemy
 {
-	float			t0;
-	float			t1;
-	int				animation_step;
-	int				diying_step;
-	t_bool			focus;
-	t_collision		hit_data;
-	t_bool			shooting;
-	ALuint			sources[3];
-}					t_entity_enemy;
+	float				t0;
+	float				t1;
+	int					animation_step;
+	int					diying_step;
+	t_bool				focus;
+	t_collision			hit_data;
+	t_bool				shooting;
+	ALuint				sources[3];
+}						t_entity_enemy;
 
-typedef struct		s_entity_boss
+typedef struct			s_entity_boss
 {
-	float			t0;
-	float			t1;
-	float			t2;
-	t_bool			shooting;
-	t_collision		hit_data;
-	t_bool			focus;
-	int				animation_step;
-	int				phase;
-	ALuint			sources[4];
-	int				shoot;
-}					t_entity_boss;
+	float				t0;
+	float				t1;
+	float				t2;
+	t_bool				shooting;
+	t_collision			hit_data;
+	t_bool				focus;
+	int					animation_step;
+	int					phase;
+	ALuint				sources[4];
+	int					shoot;
+}						t_entity_boss;
 
-typedef union		u_entity_of
+typedef union			u_entity_of
 {
 	t_entity_grenada	grenada;
 	t_entity_enemy		enemy;
 	t_entity_boss		boss;
 	t_entity_rocket		rocket;
-}					t_entity_of;
+}						t_entity_of;
 
-typedef struct		s_entity
+typedef struct			s_entity
 {
 	t_entity_type		type;
 	t_entity_of			of;
@@ -101,23 +101,32 @@ typedef struct		s_entity
 	struct s_renderable	*r;
 	t_bool				ontp;
 
-}					t_entity;
+}						t_entity;
 
-t_bool		entity_update(struct s_doom *doom, t_entity *entity, double dt);
-t_bool		create_enemy_renderable(struct s_doom *doom, t_renderable *r);
-t_bool		create_boss_renderable(struct s_doom *doom, t_renderable *r);
-t_bool		create_grenada(t_renderable *r, struct s_doom *doom);
-void		compute_entity_hitbox(t_renderable *r);
-void		entity_update_boss(struct s_doom *doom, t_entity *entity, double dt);
-void		entity_update_enemy(struct s_doom *doom, t_entity *entity, double dt);
-t_bool		entity_update_grenada(struct s_doom *doom, t_entity *entity);
-t_vec3		collide_with_world(t_entity *entity, t_vec3 e_position, t_vec3 e_velocity, t_bool *stop);
+t_bool					entity_update(struct s_doom *doom, t_entity *entity,
+							double dt);
+t_bool					create_enemy_renderable(struct s_doom *doom,
+							t_renderable *r);
+t_bool					create_boss_renderable(struct s_doom *doom,
+							t_renderable *r);
+t_bool					create_grenada(t_renderable *r, struct s_doom *doom);
+void					compute_entity_hitbox(t_renderable *r);
+void					entity_update_boss(struct s_doom *doom,
+							t_entity *entity, double dt);
+void					entity_update_enemy(struct s_doom *doom,
+							t_entity *entity, double dt);
+t_bool					entity_update_grenada(struct s_doom *doom,
+							t_entity *entity);
+t_vec3					collide_with_world(t_entity *entity, t_vec3 e_position,
+							t_vec3 e_velocity, t_bool *stop);
 
-t_bool	renderable_rocket(struct s_doom *doom, t_vec3 from, t_vec3 to);
-t_bool	create_rocket(t_renderable *r, struct s_doom *doom);
+t_bool					renderable_rocket(struct s_doom *doom, t_vec3 from,
+							t_vec3 to);
+t_bool					create_rocket(t_renderable *r, struct s_doom *doom);
 
-t_bool		create_explosion_renderable(struct s_doom *doom, t_renderable *r);
-void		entity_update_explosion(struct s_doom *doom, t_entity *entity, double dt);
-
+t_bool					create_explosion_renderable(struct s_doom *doom,
+							t_renderable *r);
+void					entity_update_explosion(struct s_doom *doom,
+							t_entity *entity, double dt);
 
 #endif

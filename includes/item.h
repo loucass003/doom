@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 20:30:43 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/11 13:54:28 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/16 15:12:24 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,22 +73,29 @@ typedef struct		s_itemstack
 	int				amount;
 }					t_itemstack;
 
-
-t_bool				create_itemstack_renderable(t_renderable *r, t_item *item, int amount);
-t_item				*create_item(t_item_type type, t_ressource *image, SDL_Rect bounds, int max_stack_size);
-t_item				*create_item_weapon(t_ressource *image, SDL_Rect bounds, t_weapon_type type, int max_stack_size);
-t_item				*create_item_weapon_gun(t_ressource *image, t_ressource *animation);
+t_bool				create_itemstack_renderable(t_renderable *r, t_item *item,
+						int amount);
+t_item				*create_item(t_item_type type, t_ressource *image,
+						SDL_Rect bounds, int max_stack_size);
+t_item				*create_item_weapon(t_ressource *image, SDL_Rect bounds,
+						t_weapon_type type, int max_stack_size);
+t_item				*create_item_weapon_gun(t_ressource *image,
+						t_ressource *animation);
 t_item				*create_item_weapon_grenada(t_ressource *image);
 t_item				*create_item_ammo(t_ressource *image);
 t_item				*create_item_heal(t_ressource *image);
 t_item				*create_item_jetpack(t_ressource *image);
-t_bool				entity_hit_itemstack(struct s_entity *entity, t_itemstack *is);
-t_item				*create_item_weapon_axe(t_ressource *image, t_ressource *animation);
+t_bool				entity_hit_itemstack(struct s_entity *entity,
+						t_itemstack *is);
+t_item				*create_item_weapon_axe(t_ressource *image,
+						t_ressource *animation);
 t_itemstack			*create_itemstack(t_item *item, int amount);
-t_itemstack			*create_itemstack_from_type(t_doom *doom, t_item_type type, t_weapon_type weapon_type);
-t_item				*create_item_weapon_from_type(t_doom *doom, t_weapon_type type);
-t_item				*create_item_from_type(t_doom *doom, t_item_type type, t_weapon_type weapon_type);
+t_itemstack			*create_itemstack_from_type(t_doom *doom, t_item_type type,
+						t_weapon_type weapon_type);
+t_item				*create_item_weapon_from_type(t_doom *doom,
+						t_weapon_type type);
+t_item				*create_item_from_type(t_doom *doom, t_item_type type,
+						t_weapon_type weapon_type);
 void				set_current_animation_step(t_weapon *weapon, int i);
-
 
 #endif
