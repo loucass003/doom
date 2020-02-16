@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/24 01:36:30 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/16 16:52:26 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/16 17:00:36 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,31 +41,32 @@ typedef struct			s_thread
 	struct s_threads	*threads;
 }						t_thread;
 
-typedef struct		s_threads
+typedef struct			s_threads
 {
-	t_thread		threads[THREADS_COUNT];
-	pthread_cond_t	work_cnd;
-	pthread_mutex_t	work_mtx;
-	t_bool			work;
-	pthread_cond_t	wait_cnd;
-	pthread_mutex_t	wait_mtx;
-	t_bool			wait;
-	t_bool			alive;
-	int				worker_count;
-	int				work_load;
-	int				active;
-}					t_threads;
+	t_thread			threads[THREADS_COUNT];
+	pthread_cond_t		work_cnd;
+	pthread_mutex_t		work_mtx;
+	t_bool				work;
+	pthread_cond_t		wait_cnd;
+	pthread_mutex_t		wait_mtx;
+	t_bool				wait;
+	t_bool				alive;
+	int					worker_count;
+	int					work_load;
+	int					active;
+}						t_threads;
 
-void				bsem_init(t_bsem *bsem_p, int value);
-void				bsem_reset(t_bsem *bsem_p);
-void				bsem_post(t_bsem *bsem_p);
-void				bsem_post_all(t_bsem *bsem_p);
-void				bsem_wait(t_bsem *bsem_p);
+void					bsem_init(t_bsem *bsem_p, int value);
+void					bsem_reset(t_bsem *bsem_p);
+void					bsem_post(t_bsem *bsem_p);
+void					bsem_post_all(t_bsem *bsem_p);
+void					bsem_wait(t_bsem *bsem_p);
 
-t_bool				init_threads(t_threads *threads);
-void				threads_wait(t_threads *threads);
-void				threads_launch(t_threads *threads);
-void				threads_clear(t_threads *threads);
-t_bool				add_data_to_threads(t_threads *threads, t_render_data data);
+t_bool					init_threads(t_threads *threads);
+void					threads_wait(t_threads *threads);
+void					threads_launch(t_threads *threads);
+void					threads_clear(t_threads *threads);
+t_bool					add_data_to_threads(t_threads *threads,
+							t_render_data data);
 
 #endif
