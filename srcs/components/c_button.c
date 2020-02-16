@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   c_button.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:59:38 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/11 06:56:36 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/16 17:30:56 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,16 @@
 #include "gui.h"
 #include "doom.h"
 
-void	set_button_cell(t_button *btn, int x, int y)
+void		set_button_cell(t_button *btn, int x, int y)
 {
 	t_vec2		div;
 	t_vec2		pos;
 
 	if (!btn->img)
 		return ;
-
 	pos = (t_vec2){ x, y };
-	div = (t_vec2){ btn->img->width / btn->cells_count.x, btn->img->height / btn->cells_count.y };
+	div = (t_vec2){ btn->img->width / btn->cells_count.x,
+		btn->img->height / btn->cells_count.y };
 	btn->img_start = ft_vec2_mul(pos, div);
 	btn->img_end = ft_vec2_mul(ft_vec2_add(pos, (t_vec2){ 1, 1 }), div);
 }
@@ -54,8 +54,7 @@ void		c_button_render(t_doom *doom, t_component *self, t_img *image)
 	}
 	if (btn->img)
 		apply_btn_image(doom, self, btn);
-	if (btn->texte != NULL)
-		apply_text(doom, self, btn);
+	btn->texte != NULL ? apply_text(doom, self, btn) : 0;
 }
 
 t_bool		c_button_on_event(t_component *self, SDL_Event *event, t_doom *doom)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   component.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 12:50:35 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/11 11:22:20 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/16 17:31:41 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ void	free_component(t_component **c_addr)
 	c = *c_addr;
 	if (c->type == C_TEXTFIELD)
 		free(((t_textfield *)c)->text);
-	else if (c->type == C_SELECT && ((t_select *)c)->items && ((t_select *)c)->items->auto_free)
+	else if (c->type == C_SELECT && ((t_select *)c)->items
+		&& ((t_select *)c)->items->auto_free)
 		ft_memdel((void **)&((t_select *)c)->items);
 	ft_memdel((void **)c_addr);
 }

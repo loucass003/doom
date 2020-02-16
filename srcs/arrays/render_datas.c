@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 14:44:37 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/16 17:16:45 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/16 17:30:48 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 t_render_datas		*create_render_data_array(int capacity)
 {
 	t_render_datas	*arr;
-	const size_t	size;
+	size_t			size;
 
 	size = sizeof(t_render_datas) + (capacity * sizeof(t_render_data));
 	if (capacity <= 0)
