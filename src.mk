@@ -62,6 +62,7 @@ SRC+=editor/editor_grid.c
 SRC+=editor/editor_wall.c
 SRC+=editor/editor_point_room.c
 SRC+=editor/editor_room_mod.c
+SRC+=editor/editor_tool_gg.c
 SRC+=editor/editor_tool_object.c
 SRC+=editor/editor_tool_room.c
 SRC+=editor/editor_setmap_wall.c

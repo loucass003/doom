@@ -6,7 +6,7 @@
 /*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 17:24:14 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/22 11:00:07 by louali           ###   ########.fr       */
+/*   Updated: 2020/02/17 15:01:49 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ void			editor_tool_objects_move(t_editor *editor)
 {
 	t_object	*object;
 
-	if (editor->current_object != -1 && editor->object_grab && editor->grid_cell.x != -1)
+	if (editor->current_object != -1 && editor->object_grab
+		&& editor->grid_cell.x != -1)
 	{
 		object = &editor->objects->values[editor->current_object];
 		object->pos.x = editor->grid_cell.x;
@@ -28,14 +29,17 @@ void			editor_tool_objects_move(t_editor *editor)
 void			editor_tool_objects_release(t_editor *editor)
 {
 	if (editor->current_object != -1 && editor->object_grab)
-		editor->object_grab = FALSE; 
+		editor->object_grab = FALSE;
 }
 
 void			editor_tool_objects(t_editor *editor)
 {
-	if (editor->current_object == -1 && editor->grid_cell_grab != GG_PLAYER && editor->grid_cell_grab != GG_OBJECT && editor->grid_cell_grab != GG_OUTSIDE)
+	if (editor->current_object == -1 && editor->grid_cell_grab != GG_PLAYER
+		&& editor->grid_cell_grab != GG_OBJECT
+		&& editor->grid_cell_grab != GG_OUTSIDE)
 	{
-		if (!append_objects_array(&editor->objects, init_object(editor, editor->grid_cell)))
+		if (!append_objects_array(&editor->objects,
+			init_object(editor, editor->grid_cell)))
 			return ;
 		editor->current_object = -1;
 	}

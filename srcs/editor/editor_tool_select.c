@@ -6,7 +6,7 @@
 /*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 20:13:35 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/22 12:55:40 by louali           ###   ########.fr       */
+/*   Updated: 2020/02/17 15:44:48 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,12 @@ void			editor_tool_select(t_editor *editor)
 			editor->current_seg = (t_vec2){ -1, -1 };
 			select_room(editor, get_close_room(editor));
 		}
-		else if (editor->current_room != -1 && editor->grid_cell_grab == GG_LINE)
+		else if (editor->current_room != -1 && editor->grid_cell_grab
+			== GG_LINE)
 		{
 			editor->wall_section = 0;
-			seg = get_close_seg(editor, &editor->rooms->values[editor->current_room], editor->grid_cell);
+			seg = get_close_seg(editor, &editor->rooms->values[
+				editor->current_room], editor->grid_cell);
 			editor->current_seg = seg;
 			if (seg_in_room(&editor->rooms->values[editor->current_room], seg))
 				select_room(editor, editor->current_room);
@@ -65,7 +67,9 @@ void			editor_tool_select(t_editor *editor)
 		if (index != -1)
 			editor->current_point = index;
 	}
-	if (editor->grid_cell_grab == GG_OBJECT || (editor->current_object != -1 && (editor->grid_cell_grab == GG_NONE || editor->grid_cell_grab == GG_OUTSIDE)))
+	if (editor->grid_cell_grab == GG_OBJECT || (editor->current_object != -1
+		&& (editor->grid_cell_grab == GG_NONE
+		|| editor->grid_cell_grab == GG_OUTSIDE)))
 		editor_tool_objects(editor);
 	if (editor->grid_cell_grab == GG_PLAYER)
 		editor_tool_player(editor);
