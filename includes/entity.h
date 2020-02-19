@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 00:01:14 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/16 14:37:46 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/19 17:27:46 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,14 +107,42 @@ t_bool					entity_update(struct s_doom *doom, t_entity *entity,
 							double dt);
 t_bool					create_enemy_renderable(struct s_doom *doom,
 							t_renderable *r);
+
 t_bool					create_boss_renderable(struct s_doom *doom,
 							t_renderable *r);
+void					boss_shoot(struct s_doom *doom, t_entity *entity,
+							t_entity_boss *boss);
+void					boss_shoot_true(struct s_doom *doom, t_entity *entity,
+							t_entity_boss *boss);
+void					boss_hit_dist(struct s_doom *doom, t_entity *entity,
+							t_entity_boss *boss);
+void					set_boss_focus(t_entity *entity, t_entity_boss *boss);
+void					boss_rocket(struct s_doom *doom, t_entity *entity,
+							t_entity_boss *boss);
+void					boss_hit_dist_step(struct s_doom *doom,
+							t_entity *entity, t_entity_boss *boss);
+void					boss_anim_state(struct s_doom *doom, t_entity *entity,
+							t_entity_boss *boss);
+void					boss_update_step(struct s_doom *doom, t_entity *entity,
+							t_entity_boss *boss, double dt);
+
 t_bool					create_grenada(t_renderable *r, struct s_doom *doom);
 void					compute_entity_hitbox(t_renderable *r);
 void					entity_update_boss(struct s_doom *doom,
 							t_entity *entity, double dt);
+
 void					entity_update_enemy(struct s_doom *doom,
 							t_entity *entity, double dt);
+void					entity_update_sound(t_entity *entity);
+void					enemy_focus_step(struct s_doom *doom, t_entity *entity,
+							t_entity_enemy *enemy, t_bool walking);
+void					update_entity_state(struct s_doom *doom,
+							t_entity *entity, t_entity_enemy *enemy);
+void					set_enemy_focus(struct s_doom *doom, t_entity *entity,
+							t_entity_enemy *enemy, t_vec3 norm_dir);
+void					entity_anim_step(struct s_doom *doom, t_entity *entity,
+							t_entity_enemy *enemy);
+
 t_bool					entity_update_grenada(struct s_doom *doom,
 							t_entity *entity);
 t_vec3					collide_with_world(t_entity *entity, t_vec3 e_position,
