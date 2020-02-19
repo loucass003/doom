@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/22 14:43:37 by lloncham          #+#    #+#             */
-/*   Updated: 2020/02/03 15:24:02 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/19 18:10:54 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ void	set_current_animation_step(t_weapon *weapon, int i)
         weapon->bounds.h / (int)weapon->cells.y };
 
 	weapon->curr_image.y = weapon->bounds.y + (int)cell_size.y * row;
-	weapon->curr_image.x = weapon->bounds.x + (int)cell_size.x * (i - (row * (int)weapon->cells.x));
+	weapon->curr_image.x = weapon->bounds.x + (int)cell_size.x * (i - (row
+		* (int)weapon->cells.x));
 	weapon->curr_image.w = cell_size.x;
 	weapon->curr_image.h = cell_size.y;
 }
@@ -52,12 +53,14 @@ void	on_use_weapon(t_doom *doom, t_itemstack *is)
 	}
 	if (inv_is->amount <= 0)
 		inv_is->of = NULL;
-	hit = ray_hit_world(doom, doom->renderables, create_shoot_ray(doom->player, (t_vec3){0, 0, 1}));
+	hit = ray_hit_world(doom, doom->renderables,
+		create_shoot_ray(doom->player, (t_vec3){0, 0, 1}));
 	if (hit.collide && hit.renderable->of.type == RENDERABLE_ENTITY
         && (hit.renderable->of.data.entity->type == ENTITY_ENEMY
         || hit.renderable->of.data.entity->type == ENTITY_BOSS))
 	{
-		give_damage(&doom->player.entity, hit.renderable->of.data.entity, doom, weapon->damage);
+		give_damage(&doom->player.entity, hit.renderable->of.data.entity,
+			doom, weapon->damage);
 		hit.renderable->of.data.entity->of.enemy.focus = TRUE;
 	}
 }
@@ -71,12 +74,15 @@ void	on_use_axe(t_doom *doom, t_itemstack *is)
 	if (weapon->fireing)
 		return ;
 	weapon->fireing = TRUE;
-	hit = ray_hit_world(doom, doom->renderables, create_shoot_ray(doom->player, (t_vec3){0, 0, 1}));
-	if (hit.collide && hit.dist < 2 && hit.renderable->of.type == RENDERABLE_ENTITY
+	hit = ray_hit_world(doom, doom->renderables, create_shoot_ray(doom->player,
+		(t_vec3){0, 0, 1}));
+	if (hit.collide && hit.dist < 2
+		&& hit.renderable->of.type == RENDERABLE_ENTITY
         && (hit.renderable->of.data.entity->type == ENTITY_ENEMY
         || hit.renderable->of.data.entity->type == ENTITY_BOSS))
 	{
-		give_damage(&doom->player.entity, hit.renderable->of.data.entity, doom, weapon->damage);
+		give_damage(&doom->player.entity, hit.renderable->of.data.entity, doom,
+			weapon->damage);
 		hit.renderable->of.data.entity->of.enemy.focus = TRUE;
 	}
 }
@@ -86,10 +92,12 @@ t_item	*create_item_weapon_gun(t_ressource *image, t_ressource *animation)
 	static const uint8_t	seq[6] = { 0, 1, 2, 3, 4, 5 };
 	t_item					*gun;
 
-	if (!(gun = create_item_weapon(image, (SDL_Rect){1, 259, 123, 97}, WEAPON_GUN, 1)))
+	if (!(gun = create_item_weapon(image, (SDL_Rect){1, 259, 123, 97},
+		WEAPON_GUN, 1)))
 		return (NULL);
 	gun->data.weapon.animation = animation;
-	gun->data.weapon.bounds = (SDL_Rect){ 0, 0, animation->data.texture->width, animation->data.texture->height - 120 };
+	gun->data.weapon.bounds = (SDL_Rect){ 0, 0, animation->data.texture->width,
+		animation->data.texture->height - 120 };
 	gun->data.weapon.cells = (t_vec2){ 3, 6 };
 	gun->data.weapon.animation_seq = (uint8_t *)seq;
 	gun->data.weapon.steps_count = 6;
@@ -103,7 +111,8 @@ t_item	*create_item_weapon_axe(t_ressource *image, t_ressource *animation)
 	static const uint8_t	seq[7] = { 3, 2, 1, 0, 1, 2, 3 };
 	t_item					*axe;
 
-	if (!(axe = create_item_weapon(image, (SDL_Rect){257, 1, 60, 136}, WEAPON_AXE, 1)))
+	if (!(axe = create_item_weapon(image, (SDL_Rect){257, 1, 60, 136},
+		WEAPON_AXE, 1)))
 		return (NULL);
 	axe->data.weapon.animation = animation;
 	axe->data.weapon.bounds = (SDL_Rect){ 0, 194, 439 * 2, 601 * 2 };
@@ -147,7 +156,8 @@ t_item	*create_item_weapon_grenada(t_ressource *image)
 {
 	t_item					*grenada;
 
-	if (!(grenada = create_item_weapon(image, (SDL_Rect){317, 1, 250, 255}, WEAPON_GRENADA, 75)))
+	if (!(grenada = create_item_weapon(image, (SDL_Rect){317, 1, 250, 255},
+		WEAPON_GRENADA, 75)))
 		return (NULL);
 	grenada->on_use = on_use_grenada;
 	return (grenada);
