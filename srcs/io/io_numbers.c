@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   io_numbers.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 12:57:00 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/26 04:00:42 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/19 17:51:35 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static t_bool	get_sign(t_reader *r, t_bool s)
 	return (sign);
 }
 
-static long	ft_powd(long n, long pow)
+static long		ft_powd(long n, long pow)
 {
 	long	out;
 
@@ -42,7 +42,7 @@ static long	ft_powd(long n, long pow)
 	return (out);
 }
 
-static t_bool		readnum(t_reader *r, int32_t *out, size_t *len, t_bool s)
+static t_bool	readnum(t_reader *r, int32_t *out, size_t *len, t_bool s)
 {
 	char		c;
 	uint32_t	res;
@@ -62,22 +62,22 @@ static t_bool		readnum(t_reader *r, int32_t *out, size_t *len, t_bool s)
 	return (TRUE);
 }
 
-t_bool		io_readnum(t_reader *r, int32_t *out)
+t_bool			io_readnum(t_reader *r, int32_t *out)
 {
 	size_t	len;
 
 	return (readnum(r, out, &len, TRUE));
 }
 
-t_bool		io_readfloat(t_reader *r, float *out)
+t_bool			io_readfloat(t_reader *r, float *out)
 {
 	int32_t	part;
 	char	c;
 	size_t	len;
 	t_bool	sign;
-	
+
 	sign = get_sign(r, TRUE);
-	if(!readnum(r, &part, &len, FALSE))
+	if (!readnum(r, &part, &len, FALSE))
 		return (FALSE);
 	*out = part;
 	if (!io_peek(r, &c))

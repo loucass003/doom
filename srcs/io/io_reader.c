@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   io_reader.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 16:30:11 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/22 04:36:56 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/19 17:53:13 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,6 @@ t_bool			io_peek2(t_reader *r, uint8_t *c)
 	if (c)
 		*c = r->buffer[r->pos];
 	return (TRUE);
-}
-
-
-void			io_next(t_reader *r)
-{
-	r->pos++;
-	r->total_read++;
 }
 
 t_bool			io_expect(t_reader *r, const char *str)

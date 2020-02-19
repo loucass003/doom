@@ -115,6 +115,7 @@ SRC+=image/tga_read_formats.c
 SRC+=image/tga_utils.c
 SRC+=io/io_numbers.c
 SRC+=io/io_reader.c
+SRC+=io/io_reader_tool.c
 SRC+=io/io_skip.c
 SRC+=item/create_item.c
 SRC+=item/create_item_weapon.c
