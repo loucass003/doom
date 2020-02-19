@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   image.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 21:24:49 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/11 06:23:05 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/19 17:35:37 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,6 @@ t_bool	destroy_image(t_img *img)
 	if (!img)
 		return (FALSE);
 	free(img->pixels);
-	// if (!img->ignore_texture && img->texture)
-	// 	SDL_DestroyTexture(img->texture);
 	return (TRUE);
 }
 

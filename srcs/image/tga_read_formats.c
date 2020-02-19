@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tga_read_formats.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/23 02:15:58 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/23 02:17:15 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/19 17:48:01 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ t_bool		read_tga_8bits(t_reader *r, t_tga_format *tga)
 {
 	int		i;
 	uint8_t	color;
-	
+
 	i = -1;
 	tga->format = SDL_PIXELFORMAT_RGB24;
 	while (++i < tga->header.width * tga->header.height)
@@ -38,7 +38,7 @@ t_bool		read_tga_16bits(t_reader *r, t_tga_format *tga)
 	uint8_t		color_a;
 	uint8_t		color_b;
 	uint16_t	color;
-	
+
 	i = -1;
 	tga->format = SDL_PIXELFORMAT_RGB24;
 	while (++i < tga->header.width * tga->header.height)
@@ -51,8 +51,8 @@ t_bool		read_tga_16bits(t_reader *r, t_tga_format *tga)
 		io_next(r);
 		color = color_a + (color_b << 8);
 		tga->data[(i * 3) + 0] = (uint8_t)(((color & 0x7C00) >> 10) << 3);
-		tga->data[(i * 3) + 1] = (uint8_t)(((color & 0x03E0) >>  5) << 3);
-		tga->data[(i * 3) + 2] = (uint8_t)(((color & 0x001F) >>  0) << 3);
+		tga->data[(i * 3) + 1] = (uint8_t)(((color & 0x03E0) >> 5) << 3);
+		tga->data[(i * 3) + 2] = (uint8_t)(((color & 0x001F) >> 0) << 3);
 	}
 	return (TRUE);
 }
@@ -61,7 +61,7 @@ t_bool		read_tga_24bits(t_reader *r, t_tga_format *tga)
 {
 	int		i;
 	uint8_t	color;
-	
+
 	i = -1;
 	tga->format = SDL_PIXELFORMAT_RGB24;
 	while (++i < tga->header.width * tga->header.height)
@@ -86,7 +86,7 @@ t_bool		read_tga_32bits(t_reader *r, t_tga_format *tga)
 {
 	int		i;
 	uint8_t	color;
-	
+
 	i = -1;
 	tga->format = SDL_PIXELFORMAT_RGBA32;
 	while (++i < tga->header.width * tga->header.height)

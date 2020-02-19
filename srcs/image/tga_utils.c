@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tga_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/22 03:04:16 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/23 02:21:07 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/19 17:44:39 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void		flip_image(t_tga_format *tga, SDL_Surface *s)
 		while (++pos[1] < s->w)
 		{
 			if (tga->header.pixel_depth == 32)
-			{ 
+			{
 				i = (s->h - 1 - pos[0]) * s->w + pos[1];
 				j = pos[0] * s->w + pos[1];
 				((uint32_t *)s->pixels)[i] = ((uint32_t *)tga->data)[j];

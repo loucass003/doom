@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tga_parser.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/22 03:03:10 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/23 02:18:50 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/19 17:41:44 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,16 +28,19 @@ static t_bool		tga_colormap(t_reader *r, t_tga_format *tga)
 	return (TRUE);
 }
 
-static t_bool		create_tga_image(t_reader *r, t_tga_format *tga, SDL_Surface **s)
+static t_bool		create_tga_image(t_reader *r, t_tga_format *tga,
+	SDL_Surface **s)
 {
-	if (!(tga->data = malloc(sizeof(uint8_t) * tga->header.width * tga->header.height * tga->bpp)))
+	if (!(tga->data = malloc(sizeof(uint8_t) * tga->header.width
+		* tga->header.height * tga->bpp)))
 		return (tga_return_error("Unable to alloc buffer"));
 	if (tga->header.color_map_type && !tga_colormap(r, tga))
 		return (tga_return_error("Unable to process colormap"));
 	if (!read_tga_data(r, tga))
 		return (tga_return_error("Unable to read tga data"));
 	if (!(*s = SDL_CreateRGBSurfaceWithFormat(0, tga->header.width,
-		tga->header.height, tga->header.pixel_depth == 32 ? 32 : 24, tga->format)))
+		tga->header.height, tga->header.pixel_depth == 32 ? 32 : 24,
+		tga->format)))
 		return (tga_return_error("Unable to create Surface"));
 	if (tga->header.image_descriptor.origin == 0)
 		flip_image(tga, *s);
@@ -55,7 +58,7 @@ t_bool				free_tga(t_tga_format *tga)
 	return (TRUE);
 }
 
-t_bool				load_tga(char *path, SDL_Surface **surface) 
+t_bool				load_tga(char *path, SDL_Surface **surface)
 {
 	t_reader		r;
 	t_tga_format	tga;
