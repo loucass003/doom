@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/07 14:15:52 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/16 16:56:09 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/20 17:16:38 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,18 @@ typedef struct	s_quat
 	float		z;
 	float		w;
 }				t_quat;
+
+typedef struct	s_matr
+{
+	float a;
+	float b;
+	float c;
+	float d;
+	float a2;
+	float b2;
+	float c2;
+	float d2;
+}				t_matr;
 
 t_quat			quat_identity();
 t_quat			quat_normalize(t_quat q);
