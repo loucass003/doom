@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   line.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/08 14:40:55 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/16 15:44:34 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/20 16:58:46 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_vec2		line_normal(t_line l)
 float		line_get_distance(t_line l, t_vec2 p)
 {
 	const	t_vec2		len = ft_vec2_sub(l.b, l.a);
-	
-	return (ft_abs(len.y * p.x - len.x * p.y + l.b.x * l.a.y - l.b.y * l.a.x) 
+
+	return (ft_abs(len.y * p.x - len.x * p.y + l.b.x * l.a.y - l.b.y * l.a.x)
 		/ sqrtf(len.y * len.y + len.x * len.x));
 }

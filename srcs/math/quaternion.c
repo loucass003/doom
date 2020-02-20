@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quaternion.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/07 13:55:27 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/07 16:13:21 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/20 17:24:50 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "maths/vec4.h"
 #include <math.h>
 
-t_quat		quat_identity()
+t_quat		quat_identity(void)
 {
 	return ((t_quat){ 0, 0, 0, 1 });
 }
@@ -59,29 +59,29 @@ t_quat		quat_rotation_to(t_vec3 from, t_vec3 to)
 t_mat4		quat_to_matrix(t_quat q)
 {
 	t_mat4	m;
-	float a = q.w;
-	float b = q.x;
-	float c = q.y;
-	float d = q.z;
-	float a2 = a*a;
-	float b2 = b*b;
-	float c2 = c*c;
-	float d2 = d*d;
-	
-	m.a[0][0] = a2 + b2 - c2 - d2;
-	m.a[1][0] = 2.f*(b*c + a*d);
-	m.a[2][0] = 2.f*(b*d - a*c);
+	t_matr	mat;
+
+	mat.a = q.w;
+	mat.b = q.x;
+	mat.c = q.y;
+	mat.d = q.z;
+	mat.a2 = mat.a * mat.a;
+	mat.b2 = mat.b * mat.b;
+	mat.c2 = mat.c * mat.c;
+	mat.d2 = mat.d;
+	m.a[0][0] = mat.a2 + mat.b2 - mat.c2 - mat.d2;
+	m.a[1][0] = 2.f * (mat.b * mat.c + mat.a * mat.d);
+	m.a[2][0] = 2.f * (mat.b * mat.d - mat.a * mat.c);
 	m.a[3][0] = 0.f;
-	m.a[0][1] = 2*(b*c - a*d);
-	m.a[1][1] = a2 - b2 + c2 - d2;
-	m.a[2][1] = 2.f*(c*d + a*b);
+	m.a[0][1] = 2 * (mat.b * mat.c - mat.a * mat.d);
+	m.a[1][1] = mat.a2 - mat.b2 + mat.c2 - mat.d2;
+	m.a[2][1] = 2.f * (mat.c * mat.d + mat.a * mat.b);
 	m.a[3][1] = 0.f;
-	m.a[0][2] = 2.f*(b*d + a*c);
-	m.a[1][2] = 2.f*(c*d - a*b);
-	m.a[2][2] = a2 - b2 - c2 + d2;
+	m.a[0][2] = 2.f * (mat.b * mat.d + mat.a * mat.c);
+	m.a[1][2] = 2.f * (mat.c * mat.d - mat.a * mat.b);
+	m.a[2][2] = mat.a2 - mat.b2 - mat.c2 + mat.d2;
 	m.a[3][2] = 0.f;
 	m.a[0][3] = m.a[1][3] = m.a[2][3] = 0.f;
 	m.a[3][3] = 1.f;
-	
 	return (m);
 }

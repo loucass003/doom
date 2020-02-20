@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vec3.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/27 18:52:48 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/16 15:44:34 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/20 17:12:10 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_vec3		vec3_clamp_s(t_vec3 v, float min, float max)
 	v.x = fmax(min, fmin(max, v.x));
 	v.y = fmax(min, fmin(max, v.y));
 	v.z = fmax(min, fmin(max, v.z));
-	return v;
+	return (v);
 }
 
 t_vec3		vec3_add_s(t_vec3 v, float s)
@@ -26,7 +26,7 @@ t_vec3		vec3_add_s(t_vec3 v, float s)
 	v.x += s;
 	v.y += s;
 	v.z += s;
-	return v;
+	return (v);
 }
 
 t_vec3		vec3_sub_s(t_vec3 v, float s)
@@ -34,7 +34,7 @@ t_vec3		vec3_sub_s(t_vec3 v, float s)
 	v.x -= s;
 	v.y -= s;
 	v.z -= s;
-	return v;
+	return (v);
 }
 
 static t_vec3	vec3_rotate_x(t_vec3 v, float angle)

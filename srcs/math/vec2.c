@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vec2.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 01:54:26 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/16 15:44:34 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/20 17:02:15 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@ t_vec2		vec2_add_s(t_vec2 v, float s)
 {
 	v.x += s;
 	v.y += s;
-	return v;
+	return (v);
 }
 
 t_vec2		vec2_sub_s(t_vec2 v, float s)
 {
 	v.x -= s;
 	v.y -= s;
-	return v;
+	return (v);
 }

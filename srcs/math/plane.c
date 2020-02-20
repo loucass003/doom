@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   plane.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 22:09:35 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/16 15:44:34 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/20 16:59:34 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ t_plane	plane_new(t_vec3 origin, t_vec3 normal)
 
 float	distance_to_plane(t_plane plane, t_vec3 point)
 {
-	return ft_vec3_dot(point, plane.normal) + plane.f;
+	return (ft_vec3_dot(point, plane.normal) + plane.f);
 }
 
 t_bool	is_front_facing(t_plane plane, t_vec3 direction)

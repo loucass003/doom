@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vec4.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/19 17:50:27 by llelievr          #+#    #+#             */
-/*   Updated: 2019/11/27 16:14:04 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/20 17:36:30 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ t_vec4	mat4_mulv4(t_mat4 m, t_vec4 p)
 	return (r);
 }
 
-t_vec4		ft_vec4_mul_s(t_vec4 a, float v)
+t_vec4	ft_vec4_mul_s(t_vec4 a, float v)
 {
 	a.x *= v;
 	a.y *= v;
@@ -49,7 +49,7 @@ t_vec4		ft_vec4_mul_s(t_vec4 a, float v)
 	return (a);
 }
 
-t_vec4		ft_vec4_div_s(t_vec4 a, float v)
+t_vec4	ft_vec4_div_s(t_vec4 a, float v)
 {
 	a.x /= v;
 	a.y /= v;
@@ -58,7 +58,7 @@ t_vec4		ft_vec4_div_s(t_vec4 a, float v)
 	return (a);
 }
 
-t_vec4		ft_vec4_div(t_vec4 a, t_vec4 b)
+t_vec4	ft_vec4_div(t_vec4 a, t_vec4 b)
 {
 	a.x /= b.x;
 	a.y /= b.y;
@@ -67,7 +67,7 @@ t_vec4		ft_vec4_div(t_vec4 a, t_vec4 b)
 	return (a);
 }
 
-t_vec4		ft_vec4_mul(t_vec4 a, t_vec4 b)
+t_vec4	ft_vec4_mul(t_vec4 a, t_vec4 b)
 {
 	a.x *= b.x;
 	a.y *= b.y;
@@ -76,7 +76,7 @@ t_vec4		ft_vec4_mul(t_vec4 a, t_vec4 b)
 	return (a);
 }
 
-t_vec4		ft_vec4_sub(t_vec4 a, t_vec4 b)
+t_vec4	ft_vec4_sub(t_vec4 a, t_vec4 b)
 {
 	a.x -= b.x;
 	a.y -= b.y;
@@ -85,7 +85,7 @@ t_vec4		ft_vec4_sub(t_vec4 a, t_vec4 b)
 	return (a);
 }
 
-t_vec4		ft_vec4_sub_s(t_vec4 a, float v)
+t_vec4	ft_vec4_sub_s(t_vec4 a, float v)
 {
 	a.x -= v;
 	a.y -= v;
@@ -94,8 +94,7 @@ t_vec4		ft_vec4_sub_s(t_vec4 a, float v)
 	return (a);
 }
 
-
-t_vec4		ft_vec4_add(t_vec4 a, t_vec4 b)
+t_vec4	ft_vec4_add(t_vec4 a, t_vec4 b)
 {
 	a.x += b.x;
 	a.y += b.y;

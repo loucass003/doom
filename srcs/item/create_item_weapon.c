@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/22 14:43:37 by lloncham          #+#    #+#             */
-/*   Updated: 2020/02/19 18:10:54 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/20 15:50:51 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,7 @@ void	on_use_grenada(t_doom *doom, t_itemstack *is)
 	}
 	if (is->amount <= 0)
 		is->of = NULL;
-	
+
 }
 
 t_item	*create_item_weapon_grenada(t_ressource *image)

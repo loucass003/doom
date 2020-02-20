@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mat4.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:25:31 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/07 20:02:31 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/20 17:01:50 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,12 @@
 
 t_vec3	rotation_matrix_to_euler(t_mat4 m)
 {
-	float sy = sqrtf(m.a[0][0] * m.a[0][0] + m.a[0][1] * m.a[0][1]);
-	t_bool singlular = sy < 1e-6;
-	t_vec3 out;
+	float	sy;
+	t_bool	singlular;
+	t_vec3	out;
 
+	sy = sqrtf(m.a[0][0] * m.a[0][0] + m.a[0][1] * m.a[0][1]);
+	singlular = sy < 1e-6;
 	if (!singlular)
 	{
 		out.x = atan2(m.a[1][2], m.a[2][2]);
@@ -31,9 +33,8 @@ t_vec3	rotation_matrix_to_euler(t_mat4 m)
 		out.y = atan2(-m.a[0][2], sy);
 		out.z = 0;
 	}
-	return (out);	
+	return (out);
 }
-
 
 t_mat4	mat4_transpose(t_mat4 a)
 {

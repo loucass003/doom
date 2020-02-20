@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   itemstack_renderable.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/22 14:51:01 by lloncham          #+#    #+#             */
-/*   Updated: 2020/02/11 05:40:28 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/20 15:52:41 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,16 @@ t_item			*create_item_weapon_from_type(t_doom *doom, t_weapon_type type)
 		return (create_item_weapon_gun(doom->res_manager.ressources->values[2],
 		doom->res_manager.ressources->values[3]));
 	else if (type == WEAPON_AXE)
-		return (create_item_weapon_axe(doom->res_manager.ressources->values[2], doom->res_manager.ressources->values[4]));
+		return (create_item_weapon_axe(doom->res_manager.ressources->values[2],
+			doom->res_manager.ressources->values[4]));
 	else if (type == WEAPON_GRENADA)
-		return (create_item_weapon_grenada(doom->res_manager.ressources->values[2]));
+		return (create_item_weapon_grenada(doom->res_manager.ressources
+			->values[2]));
 	return (NULL);
 }
 
-t_item			*create_item_from_type(t_doom *doom, t_item_type type, t_weapon_type weapon_type)
+t_item			*create_item_from_type(t_doom *doom, t_item_type type,
+	t_weapon_type weapon_type)
 {
 	if (type == ITEM_AMMO)
 		return (create_item_ammo(doom->res_manager.ressources->values[2]));
@@ -55,7 +58,8 @@ t_item			*create_item_from_type(t_doom *doom, t_item_type type, t_weapon_type we
 	return (NULL);
 }
 
-t_itemstack		*create_itemstack_from_type(t_doom *doom, t_item_type type, t_weapon_type weapon_type)
+t_itemstack		*create_itemstack_from_type(t_doom *doom, t_item_type type,
+	t_weapon_type weapon_type)
 {
 	t_itemstack	*it;
 	t_item		*item;
@@ -66,7 +70,8 @@ t_itemstack		*create_itemstack_from_type(t_doom *doom, t_item_type type, t_weapo
 	return (it);
 }
 
-t_bool			create_itemstack_renderable(t_renderable *r, t_item *item, int amount)
+t_bool			create_itemstack_renderable(t_renderable *r, t_item *item,
+	int amount)
 {
 	t_sprite	*sprite;
 

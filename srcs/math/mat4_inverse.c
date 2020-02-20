@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   mat4_inverse.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/04 02:12:21 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/16 15:44:34 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/20 17:04:29 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 
-static void		cofactor(float A[4][4], float temp[4][4], int v[3]) 
+static void		cofactor(float A[4][4], float temp[4][4], int v[3])
 {
 	int		i;
-	int		j; 
+	int		j;
 	int		row;
 	int		col;
 
@@ -27,7 +27,7 @@ static void		cofactor(float A[4][4], float temp[4][4], int v[3])
 		col = -1;
 		while (++col < v[2])
 		{
-			if (row != v[0] && col != v[1]) 
+			if (row != v[0] && col != v[1])
 			{
 				temp[i][j++] = A[row][col];
 				if (j == v[2] - 1)
@@ -40,28 +40,28 @@ static void		cofactor(float A[4][4], float temp[4][4], int v[3])
 	}
 }
 
-static float	determinant(float a[4][4], int n) 
+static float	determinant(float a[4][4], int n)
 {
 	float	temp[4][4];
 	float	d;
-	int 	sign;
+	int		sign;
 	int		f;
 
 	d = 0;
 	sign = 1;
 	if (n == 1)
-		return a[0][0]; 
+		return (a[0][0]);
 	f = -1;
 	while (++f < n)
 	{
 		cofactor(a, temp, (int[3]){0, f, n});
-		d += (float)sign * a[0][f] * determinant(temp, n - 1); 
+		d += (float)sign * a[0][f] * determinant(temp, n - 1);
 		sign = -sign;
 	}
-	return (d); 
-} 
+	return (d);
+}
 
-static void		adjoint(float a[4][4], float adj[4][4]) 
+static void		adjoint(float a[4][4], float adj[4][4])
 {
 	float	temp[4][4];
 	int		i;
@@ -80,16 +80,16 @@ static void		adjoint(float a[4][4], float adj[4][4])
 			adj[j][i] = (float)sign * determinant(temp, 4 - 1);
 		}
 	}
-} 
+}
 
-t_bool		mat4_inverse(t_mat4 a, t_mat4 *inverse)
+t_bool			mat4_inverse(t_mat4 a, t_mat4 *inverse)
 {
-	const float		det = 1.0 / determinant(a.a, 4); 
+	const float		det = 1.0 / determinant(a.a, 4);
 	float			adj[4][4];
 	int				i;
 	int				j;
-	
-	if (det == 0) 
+
+	if (det == 0)
 		return (FALSE);
 	adjoint(a.a, adj);
 	i = -1;
@@ -97,7 +97,7 @@ t_bool		mat4_inverse(t_mat4 a, t_mat4 *inverse)
 	{
 		j = -1;
 		while (++j < 4)
-			inverse->a[i][j] = adj[i][j] * (float)det; 
+			inverse->a[i][j] = adj[i][j] * (float)det;
 	}
 	return (TRUE);
 }
