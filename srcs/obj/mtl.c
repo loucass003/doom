@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mtl.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 17:07:44 by llelievr          #+#    #+#             */
-/*   Updated: 2019/10/26 02:05:58 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/20 17:43:48 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int				get_material(t_renderable *r, char *name, size_t len)
 	i = 0;
 	while (i < r->materials->len)
 	{
-		if (len == ft_strlen(r->materials->values[i].name) 
+		if (len == ft_strlen(r->materials->values[i].name)
 			&& ft_strncmp(r->materials->values[i].name, name, len) == 0)
 			return (i);
 		i++;
@@ -31,8 +31,8 @@ int				get_material(t_renderable *r, char *name, size_t len)
 	return (-1);
 }
 
-
-static t_bool	mtl_process_formaters(t_obj *obj, t_reader *reader, t_renderable *r)
+static t_bool	mtl_process_formaters(t_obj *obj, t_reader *reader,
+	t_renderable *r)
 {
 	t_obj_prefix	prefixes[MTL_PREFIXES_COUNT + 1];
 	t_obj_prefix	*formatter;
@@ -60,7 +60,7 @@ t_bool			mtllib_formatter(t_obj *obj, t_reader *reader, t_renderable *r)
 	size_t		len;
 	char		c;
 	char		*path;
-	
+
 	if (!obj->can_add_materials)
 	{
 		ft_putendl("Can't load mtl after usemtl");
@@ -75,7 +75,7 @@ t_bool			mtllib_formatter(t_obj *obj, t_reader *reader, t_renderable *r)
 		file[len++] = c;
 	}
 	ft_bzero(&mtl_reader, sizeof(t_reader));
-	if (!(path = path_join(obj->working_dir, file)) 
+	if (!(path = path_join(obj->working_dir, file))
 		|| (mtl_reader.fd = open(path, O_RDONLY)) == -1)
 		return (FALSE);
 	free(path);

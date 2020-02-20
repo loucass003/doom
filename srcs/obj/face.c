@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   face.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/25 19:30:54 by llelievr          #+#    #+#             */
-/*   Updated: 2019/12/05 15:22:49 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/20 17:45:24 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ t_faces			*append_faces_array(t_faces **arr, t_face i)
 	return (*arr);
 }
 
-t_bool		read_face_part(t_reader *r, size_t i, t_face *face)
+t_bool			read_face_part(t_reader *r, size_t i, t_face *face)
 {
 	size_t	j;
 	char	v;
@@ -74,7 +74,7 @@ t_bool		read_face_part(t_reader *r, size_t i, t_face *face)
 	return (TRUE);
 }
 
-t_bool		face_formatter(t_obj *obj, t_reader *reader, t_renderable *r)
+t_bool			face_formatter(t_obj *obj, t_reader *reader, t_renderable *r)
 {
 	t_face	face;
 	char	c;
@@ -88,7 +88,7 @@ t_bool		face_formatter(t_obj *obj, t_reader *reader, t_renderable *r)
 		if (!read_face_part(reader, i, &face))
 			return (FALSE);
 		if (++i > 3)
-			break;
+			break ;
 	}
 	if (i != 3)
 	{
@@ -103,8 +103,8 @@ t_bool		face_formatter(t_obj *obj, t_reader *reader, t_renderable *r)
 	return (TRUE);
 }
 
-
-t_face		create_face(int indexes[3][3], int material_index, int normal_type)
+t_face			create_face(int indexes[3][3], int material_index,
+	int normal_type)
 {
 	t_face	face;
 
@@ -118,6 +118,5 @@ t_face		create_face(int indexes[3][3], int material_index, int normal_type)
 	face.normals_set = TRUE;
 	face.vertex_set = TRUE;
 	face.mtl_index = material_index;
-	
 	return (face);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   obj.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 15:28:48 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/11 08:36:31 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/20 17:49:54 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 #include "obj.h"
 #include <doom.h>
 
-t_obj_prefix	*get_formatter(t_obj_prefix *prefixes, size_t prefixes_count, t_reader *reader)
+t_obj_prefix	*get_formatter(t_obj_prefix *prefixes, size_t prefixes_count,
+	t_reader *reader)
 {
 	char		name[40];
 	char		c;
@@ -35,7 +36,7 @@ t_obj_prefix	*get_formatter(t_obj_prefix *prefixes, size_t prefixes_count, t_rea
 	i = 0;
 	while (i < prefixes_count)
 	{
-		if (ft_strlen(prefixes[i].prefix) == len 
+		if (ft_strlen(prefixes[i].prefix) == len
 			&& ft_strncmp(prefixes[i].prefix, name, len) == 0)
 			return (prefixes + i);
 		i++;
@@ -43,13 +44,13 @@ t_obj_prefix	*get_formatter(t_obj_prefix *prefixes, size_t prefixes_count, t_rea
 	return (prefixes + prefixes_count);
 }
 
-t_bool		free_obj(t_obj *obj, t_bool ret)
+t_bool			free_obj(t_obj *obj, t_bool ret)
 {
 	(void)obj;
 	return (ret);
 }
 
-t_bool		init_obj(t_doom *doom, t_obj *obj, t_renderable *r)
+t_bool			init_obj(t_doom *doom, t_obj *obj, t_renderable *r)
 {
 	obj->current_group = 0;
 	r->groups_count = 1;
@@ -60,7 +61,7 @@ t_bool		init_obj(t_doom *doom, t_obj *obj, t_renderable *r)
 	return (TRUE);
 }
 
-void		init_prefixes(t_obj_prefix *prefixes)
+void			init_prefixes(t_obj_prefix *prefixes)
 {
 	prefixes[0] = (t_obj_prefix){ "v", vertice_formatter };
 	prefixes[1] = (t_obj_prefix){ "f", face_formatter };
@@ -72,16 +73,16 @@ void		init_prefixes(t_obj_prefix *prefixes)
 	prefixes[PREFIXES_COUNT] = (t_obj_prefix){ NULL, NULL };
 }
 
-t_bool		load_obj(t_doom *doom, t_renderable *r, t_obj *obj, char *file)
+t_bool			load_obj(t_doom *doom, t_renderable *r, t_obj *obj, char *file)
 {
 	t_reader		reader;
 	t_obj_prefix	prefixes[PREFIXES_COUNT + 1];
 	t_obj_prefix	*formatter;
 	char			*path;
-	
+
 	init_prefixes(prefixes);
 	ft_bzero(&reader, sizeof(t_reader));
-	if (!(path = path_join(doom->obj_working_dir, file)) 
+	if (!(path = path_join(doom->obj_working_dir, file))
 		|| (reader.fd = open(path, O_RDONLY)) == -1)
 		return (FALSE);
 	free(path);
@@ -99,7 +100,7 @@ t_bool		load_obj(t_doom *doom, t_renderable *r, t_obj *obj, char *file)
 	return (TRUE);
 }
 
-t_bool		set_obj_working_dir(t_doom *doom, char *folder)
+t_bool			set_obj_working_dir(t_doom *doom, char *folder)
 {
 	if (doom->obj_working_dir)
 		ft_memdel((void **)&doom->obj_working_dir);
@@ -109,27 +110,28 @@ t_bool		set_obj_working_dir(t_doom *doom, char *folder)
 	return (TRUE);
 }
 
-t_bool	create_obj(t_doom *doom, t_renderable *r, char *file)
+t_bool			create_obj(t_doom *doom, t_renderable *r, char *file)
 {
 	ft_bzero(r, sizeof(t_renderable));
 	if (!(r->of.data.obj = malloc(sizeof(t_obj))))
 		return (FALSE);
-	if(!(r->vertices = create_4dvertices_array(800)))
+	if (!(r->vertices = create_4dvertices_array(800)))
 		return (free_renderable(r, FALSE, FALSE));
-	if(!(r->vertex = create_2dvertices_array(800)))
+	if (!(r->vertex = create_2dvertices_array(800)))
 		return (free_renderable(r, FALSE, FALSE));
-	if(!(r->normals = create_3dvertices_array(800)))
+	if (!(r->normals = create_3dvertices_array(800)))
 		return (free_renderable(r, FALSE, FALSE));
-	if(!(r->faces = create_faces_array(800)))
+	if (!(r->faces = create_faces_array(800)))
 		return (free_renderable(r, FALSE, FALSE));
-	if(!(r->materials = create_mtllist(3)))
+	if (!(r->materials = create_mtllist(3)))
 		return (free_renderable(r, FALSE, FALSE));
 	if (!load_obj(doom, r, r->of.data.obj, file))
 		return (free_renderable(r, FALSE, FALSE));
 	if (r->materials->len == 0)
 	{
-		printf("ADD DEFAULT MATERIAL\n");
-		if (!append_mtllist(&r->materials, (t_mtl){ .material_color_set = TRUE, .material_color = 0xFFFFFFFF }))
+		if (!append_mtllist(&r->materials, (t_mtl){
+			.material_color_set = TRUE,
+			.material_color = 0xFFFFFFFF }))
 			return (FALSE);
 	}
 	if (r->normals->len == 0)

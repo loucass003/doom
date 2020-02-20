@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   formatters.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 14:34:00 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/31 18:48:41 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/20 17:46:18 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int		get_group(t_renderable *r, char *name, size_t len)
 	i = 0;
 	while (i < r->groups_count)
 	{
-		if (len == ft_strlen(r->groups[i]) 
+		if (len == ft_strlen(r->groups[i])
 			&& ft_strncmp(r->groups[i], name, len) == 0)
 			return (i);
 		i++;
@@ -34,14 +34,14 @@ t_bool			vertice_formatter(t_obj *obj, t_reader *reader, t_renderable *r)
 	char		c;
 	t_vec4_u	vertice;
 	int			i;
-	
+
 	(void)obj;
 	vertice.v.w = 1;
 	i = 0;
 	while (io_peek(reader, &c) && c == ' ')
 	{
 		io_next(reader);
-		if(!io_readfloat(reader, &vertice.a[i]))
+		if (!io_readfloat(reader, &vertice.a[i]))
 			return (FALSE);
 		if (++i >= 4)
 			return (FALSE);
@@ -49,7 +49,6 @@ t_bool			vertice_formatter(t_obj *obj, t_reader *reader, t_renderable *r)
 	if (i < 3)
 		return (FALSE);
 	append_4dvertices_array(&r->vertices, vertice.v);
-//	printf("VERTICE %f %f %f %f\n", vertice.v.x, vertice.v.y, vertice.v.z, vertice.v.w);
 	return (TRUE);
 }
 
@@ -58,13 +57,13 @@ t_bool			normal_formatter(t_obj *obj, t_reader *reader, t_renderable *r)
 	char		c;
 	t_vec3_u	normal;
 	int			i;
-	
+
 	(void)obj;
 	i = 0;
 	while (io_peek(reader, &c) && c == ' ')
 	{
 		io_next(reader);
-		if(!io_readfloat(reader, &normal.a[i]))
+		if (!io_readfloat(reader, &normal.a[i]))
 			return (FALSE);
 		if (++i > 3)
 			return (FALSE);
@@ -72,7 +71,6 @@ t_bool			normal_formatter(t_obj *obj, t_reader *reader, t_renderable *r)
 	if (i != 3)
 		return (FALSE);
 	append_3dvertices_array(&r->normals, normal.v);
-//	printf("NORMAL %f %f %f\n", normal.v.x, normal.v.y, normal.v.z);
 	return (TRUE);
 }
 
@@ -81,13 +79,13 @@ t_bool			vertex_formatter(t_obj *obj, t_reader *reader, t_renderable *r)
 	char		c;
 	t_vec2_u	vertex;
 	int			i;
-	
+
 	(void)obj;
 	i = 0;
 	while (io_peek(reader, &c) && c == ' ')
 	{
 		io_next(reader);
-		if(!io_readfloat(reader, &vertex.a[i]))
+		if (!io_readfloat(reader, &vertex.a[i]))
 			return (FALSE);
 		if (++i > 2)
 			return (FALSE);
@@ -95,7 +93,6 @@ t_bool			vertex_formatter(t_obj *obj, t_reader *reader, t_renderable *r)
 	if (i != 2)
 		return (FALSE);
 	append_2dvertices_array(&r->vertex, vertex.v);
-//	printf("VERTEX %f %f\n", vertex.v.x, vertex.v.y);
 	return (TRUE);
 }
 

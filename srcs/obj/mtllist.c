@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   mtllist.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/27 22:50:34 by llelievr          #+#    #+#             */
-/*   Updated: 2019/08/29 02:45:37 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/20 17:47:45 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "obj.h"
+#include "obj.h"
 
 t_mtllist	*create_mtllist(int capacity)
 {

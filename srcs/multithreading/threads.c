@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   threads.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 11:16:46 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/11 09:26:16 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/20 17:42:01 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,14 @@ void				threads_launch(t_threads *threads)
 
 static inline void	swap(t_vertex *a, t_vertex *b)
 {
-	t_vertex t = *a;
+	t_vertex t;
+
+	t = *a;
 	*a = *b;
 	*b = t;
 }
 
-t_bool		add_data_to_threads(t_threads *threads, t_render_data data)
+t_bool				add_data_to_threads(t_threads *threads, t_render_data data)
 {
 	int			i;
 	t_thread	*t;
@@ -77,8 +79,8 @@ t_bool		add_data_to_threads(t_threads *threads, t_render_data data)
 	while (++i < threads->worker_count)
 	{
 		t = &threads->threads[i];
-		
-		if (data.triangle.a.pos.y > t->end.y || data.triangle.c.pos.y < t->start.y)
+		if (data.triangle.a.pos.y > t->end.y
+			|| data.triangle.c.pos.y < t->start.y)
 			continue;
 		data.min = t->start;
 		data.max = t->end;
@@ -88,7 +90,7 @@ t_bool		add_data_to_threads(t_threads *threads, t_render_data data)
 	return (TRUE);
 }
 
-void		*worker(t_thread *t)
+void				*worker(t_thread *t)
 {
 	int		i;
 
@@ -112,7 +114,7 @@ void		*worker(t_thread *t)
 	return (NULL);
 }
 
-t_bool		init_threads(t_threads *threads)
+t_bool				init_threads(t_threads *threads)
 {
 	int			i;
 	t_thread	*t;
@@ -145,7 +147,7 @@ t_bool		init_threads(t_threads *threads)
 	return (TRUE);
 }
 
-void		threads_wait(t_threads *threads)
+void				threads_wait(t_threads *threads)
 {
 	pthread_mutex_lock(&threads->wait_mtx);
 	while (threads->wait)
@@ -153,7 +155,7 @@ void		threads_wait(t_threads *threads)
 	pthread_mutex_unlock(&threads->wait_mtx);
 }
 
-static void	threads_stop_threads(t_threads *threads)
+static void			threads_stop_threads(t_threads *threads)
 {
 	int		i;
 
@@ -164,7 +166,7 @@ static void	threads_stop_threads(t_threads *threads)
 		pthread_join(threads->threads[i].pthread, NULL);
 }
 
-void		threads_destroy(t_threads *threads)
+void				threads_destroy(t_threads *threads)
 {
 	int		i;
 
