@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ressource_sound.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 16:55:56 by louali            #+#    #+#             */
-/*   Updated: 2020/02/11 06:16:09 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/21 18:18:20 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ t_bool		gen_audio_buffer(t_sound *s)
 	format = AL_FORMAT_MONO16;
 	if (s->bits_per_sample == 8)
 		format = AL_FORMAT_MONO8;
-	alBufferData(s->buffer_id, format, s->buffer, s->buffer_size, s->sample_rate);
+	alBufferData(s->buffer_id, format, s->buffer, s->buffer_size,
+		s->sample_rate);
 	return (TRUE);
 }
 
@@ -46,12 +47,12 @@ t_bool		load_sound(t_ressource *r, char *path)
 
 t_bool		write_sound(t_ressource_manager *rm, t_sound *sound)
 {
-	const t_wr_songs	wr_song = (t_wr_songs){ 
+	t_wr_songs	wr_song;
+
+	wr_song = (t_wr_songs){
 		.buffer_size = sound->buffer_size,
 		.sample_rate = sound->sample_rate,
-		.bits_per_sample = sound->bits_per_sample
-	};
-
+		.bits_per_sample = sound->bits_per_sample};
 	dp_write(rm, &wr_song, sizeof(t_wr_songs));
 	dp_write(rm, sound->buffer, sound->buffer_size);
     return (TRUE);
@@ -75,7 +76,6 @@ t_bool		read_songs(t_ressource_manager *r, t_sound **sound)
 	*sound = s;
 	return (TRUE);
 }
-
 
 void		free_sound(t_sound **s_addr)
 {
