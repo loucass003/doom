@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/05 17:31:15 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/20 17:55:26 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/21 12:55:53 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void			compute_boxes(t_collide_aabb p, t_octree_node *n)
 	int				j;
 	int				k;
 	t_vec3			s;
-	t_octree_node 	*c;
+	t_octree_node	*c;
 
 	i = -1;
 	while (++i < 2 && !!(j = -1))
@@ -85,22 +85,29 @@ t_bool			subdivide(t_octree_node *n)
 	return (TRUE);
 }
 
+t_bool			insert_octree_false(t_octree_node *n, int face)
+{
+	if (!n->faces_index && !(n->faces_index = create_ints_array(50)))
+		return (FALSE);
+	if (!append_ints_array(&n->faces_index, face))
+		return (FALSE);
+	return (TRUE);
+}
+
 t_bool			insert_octree(t_octree_node *n, t_doom *doom, t_renderable *r,
 	int face)
 {
 	int i;
 
+	i = -1;
 	if (!n->childs)
 	{
-		if (!n->faces_index && !(n->faces_index = create_ints_array(50)))
-			return (FALSE);
-		if (!append_ints_array(&n->faces_index, face))
+		if (insert_octree_false(n, face) == FALSE)
 			return (FALSE);
 		if (n->faces_index->len > 100)
 		{
 			if (!subdivide(n))
 				return (FALSE);
-			i = -1;
 			while (++i < n->faces_index->len)
 				if (!insert_octree(n, doom, r, n->faces_index->values[i]))
 					return (FALSE);
@@ -109,14 +116,11 @@ t_bool			insert_octree(t_octree_node *n, t_doom *doom, t_renderable *r,
 		}
 	}
 	else
-	{
-		i = -1;
 		while (++i < 8)
-			if (triangle_hit_aabb(&r->faces->values[face]
-				.collidable.data.triangle, &n->childs[i].box.data.aabb).collide)
+			if (triangle_hit_aabb(&r->faces->values[face].collidable.data
+				.triangle, &n->childs[i].box.data.aabb).collide)
 				if (!insert_octree(&n->childs[i], doom, r, face))
 					return (FALSE);
-	}
 	return (TRUE);
 }
 
@@ -134,37 +138,42 @@ t_octree_node	*create_octree(t_doom *doom, t_renderable *r)
 	return (root);
 }
 
+void			ray_hit_coll_triangle(t_ray *ray, t_renderable *r,
+	t_collision *closest_hit, t_collision hit)
+{
+	if (hit.collide)
+	{
+		hit = to_world_collision(*ray, hit, r->position, r->rotation,
+			r->scale);
+		if (hit.dist > 0 && hit.dist < closest_hit->dist)
+		{
+			*closest_hit = hit;
+			closest_hit->renderable = r;
+		}
+	}
+}
+
 void			ray_intersect_octree(t_octree_node *n, t_renderable *r,
 	t_ray *ray, t_collision *closest_hit)
 {
 	int			i;
 	t_collision	ahit;
+	t_collision hit;
 
 	ahit = ray_hit_aabb(ray->to_local, &n->box.data.aabb);
 	if (!ahit.collide)
-		return;
+		return ;
 	if (n->faces_index)
 	{
 		i = -1;
 		while (++i < n->faces_index->len)
 		{
-			if (ray->doom
-				&& ray->doom->main_context.type == CTX_NORMAL
+			if (ray->doom && ray->doom->main_context.type == CTX_NORMAL
 				&& !r->faces->values[n->faces_index->values[i]].has_collision)
 				continue;
-			t_collision hit;
 			hit = ray_hit_triangle(ray->to_local, &r->faces->values[
 				n->faces_index->values[i]].collidable.data.triangle);
-			if (hit.collide)
-			{
-				hit = to_world_collision(*ray, hit, r->position, r->rotation,
-					r->scale);
-				if (hit.dist > 0 && hit.dist < closest_hit->dist)
-				{
-					*closest_hit = hit;
-					closest_hit->renderable = r;
-				}
-			}
+			ray_hit_coll_triangle(ray, r, closest_hit, hit);
 		}
 	}
 	if (!n->childs)
@@ -216,9 +225,10 @@ void			frustum_intersect_octree(t_octree_node *n, t_vec4 *frustum,
 		frustum_intersect_octree(&n->childs[i], frustum, fn, param);
 }
 
-void			print_octree(t_octree_node	*n)
+void			print_octree(t_octree_node *n)
 {
-	int i;
+	int	i;
+
 	if (!n || !n->childs)
 		return ;
 	i = -1;
