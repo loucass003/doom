@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   post_processing.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/16 21:24:43 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/29 00:35:51 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/21 15:10:04 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@
 #include "render.h"
 #include "octree.h"
 
-t_bool			post_process_renderable(t_doom *doom, t_renderable *r, t_bool octree, t_bool replace)
+t_bool			post_process_renderable(t_doom *doom, t_renderable *r,
+	t_bool octree, t_bool replace)
 {
 	if (!r->pp_vertices || replace)
 	{
@@ -37,8 +38,6 @@ t_bool			post_process_renderable(t_doom *doom, t_renderable *r, t_bool octree, t
 	{
 		r->octree = NULL;
 		r->octree = create_octree(doom, r);
-		printf("%p %d\n", r->octree, r->faces->len);
-		// print_octree(r->octree);
 	}
 	transform_renderable(r);
 	return (TRUE);

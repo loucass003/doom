@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   triangle.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 01:17:41 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/28 23:13:56 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/21 15:09:28 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int					ft_max(int a, int b)
 	return (a > b ? a : b);
 }
 
-typedef union ut_color {
+typedef union	ut_color {
 	uint32_t color;
 	struct argbTag
 	{
@@ -54,7 +54,7 @@ void				scanline2(t_render_data data, t_pixel p, float t, t_vertex start, t_vert
 		 ur_color c;
 		float a = ft_max(AMBIANT_LIGHT, lt_color) / 255.0;
 		if (data.mtl->texture_map_set)
-		{ 
+		{
 			float w = 1. / vert.pos.w;
 			vert.tex.x = (1.0f - t) * start.tex.x + t * end.tex.x ;
 			vert.tex.y = (1.0f - t) * start.tex.y + t * end.tex.y;
@@ -75,11 +75,11 @@ void				scanline2(t_render_data data, t_pixel p, float t, t_vertex start, t_vert
 			c.argb.r *= a;
 			c.argb.g *= a;
 			c.argb.b *= a;
-		}	
+		}
 		data.ctx->image->pixels[p.y * (int)S_WIDTH + p.x] = c.color;
 		*buff = vert.pos.w;
 	}
-	
+
 }
 
 void				TexturedTriangle2(t_render_data data)
@@ -97,7 +97,7 @@ void				TexturedTriangle2(t_render_data data)
 	{
 		int y_start = ft_max(data.min.y, ft_min(data.triangle.a.pos.y, data.max.y));
 		int y_end = ft_max(data.min.y, ft_min(data.triangle.b.pos.y, data.max.y));
-		
+
 		for (int i = y_start; i < y_end; i++)
 		{
 			t_vertex start = vertex_add(data.triangle.a, vertex_mul_s(d1_step, (i - (int)data.triangle.a.pos.y)));
@@ -123,7 +123,7 @@ void				TexturedTriangle2(t_render_data data)
 	{
 		int y_start = ft_max(data.min.y, ft_min(data.triangle.b.pos.y, data.max.y));
 		int y_end = ft_max(data.min.y, ft_min(data.triangle.c.pos.y, data.max.y));
-		
+
 		for (int i = y_start; i < y_end; i++)
 		{
 			t_vertex start = vertex_add(data.triangle.b, vertex_mul_s(d1_step, (i - (int)data.triangle.b.pos.y)));

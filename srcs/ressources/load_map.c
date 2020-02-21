@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   load_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 01:53:42 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/11 13:42:35 by louali           ###   ########.fr       */
+/*   Updated: 2020/02/21 17:04:30 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@
 #include "write_structs.h"
 #include "sprite.h"
 
-t_bool		read_wall_section(t_ressource_manager *r, t_wall_sections **sections)
+t_bool		read_wall_section(t_ressource_manager *r,
+	t_wall_sections **sections)
 {
 	t_wr_wall_section	wr_ws;
 	t_ressource			*texture;
@@ -48,7 +49,7 @@ t_bool		read_wall(t_ressource_manager *r, t_walls **walls)
 	t_wr_wall		wr_wall;
 	t_wall			wall;
 	int				i;
-	
+
 	if (!io_memcpy(&r->reader, &wr_wall, sizeof(t_wr_wall)))
 		return (FALSE);
 	wall = (t_wall) {
@@ -58,7 +59,8 @@ t_bool		read_wall(t_ressource_manager *r, t_walls **walls)
 	};
 	if (wr_wall.wall_sections_count < 0)
 		return (FALSE);
-	if (!(wall.wall_sections = create_wall_sections_array(wr_wall.wall_sections_count + 5)))
+	if (!(wall.wall_sections = create_wall_sections_array(
+		wr_wall.wall_sections_count + 5)))
 		return (FALSE);
 	i = -1;
 	while (++i < wr_wall.wall_sections_count)
@@ -69,24 +71,11 @@ t_bool		read_wall(t_ressource_manager *r, t_walls **walls)
 	return (TRUE);
 }
 
-t_bool		read_room(t_ressource_manager *r)
+t_room		init_room(t_ressource_manager *r, t_wr_room wr_room, t_walls *walls)
 {
-	t_wr_room	wr_room;
-	t_room		room;
-	t_walls		*walls;
-	int			i;
+	t_room room;
 
-	if (!io_memcpy(&r->reader, &wr_room, sizeof(t_wr_room)))
-		return (FALSE);
-	if (wr_room.walls_count < 0)
-		return (FALSE);
-	if (!(walls = create_walls_array(wr_room.walls_count + 5)))
-		return (FALSE);
-	if (wr_room.ceiling_res_index < 0 || wr_room.ceiling_res_index >= r->ressources->len)
-		return (FALSE);
-	if (wr_room.floor_res_index < 0 || wr_room.floor_res_index >= r->ressources->len)
-		return (FALSE);
-	room = (t_room) { .closed = wr_room.closed, .walls = walls, 
+	room = (t_room) { .closed = wr_room.closed, .walls = walls,
 		.floor_texture = r->ressources->values[wr_room.floor_res_index],
 		.ceiling_texture = r->ressources->values[wr_room.ceiling_res_index],
 		.floor_rot = wr_room.floor_rot,
@@ -103,6 +92,29 @@ t_bool		read_room(t_ressource_manager *r)
 		.ceil_uv_repeat = wr_room.ceil_uv_repeat,
 		.ceil_uv_offset = wr_room.ceil_uv_offset,
 	};
+	return (room);
+}
+
+t_bool		read_room(t_ressource_manager *r)
+{
+	t_wr_room	wr_room;
+	t_room		room;
+	t_walls		*walls;
+	int			i;
+
+	if (!io_memcpy(&r->reader, &wr_room, sizeof(t_wr_room)))
+		return (FALSE);
+	if (wr_room.walls_count < 0)
+		return (FALSE);
+	if (!(walls = create_walls_array(wr_room.walls_count + 5)))
+		return (FALSE);
+	if (wr_room.ceiling_res_index < 0
+		|| wr_room.ceiling_res_index >= r->ressources->len)
+		return (FALSE);
+	if (wr_room.floor_res_index < 0
+		|| wr_room.floor_res_index >= r->ressources->len)
+		return (FALSE);
+	room = init_room(r, wr_room, walls);
 	i = -1;
 	while (++i < wr_room.walls_count)
 		if (!read_wall(r, &walls))
@@ -156,7 +168,8 @@ t_bool		read_item(t_ressource_manager *r, t_item **item)
 	weapon_type = -1;
 	if (!io_memcpy(&r->reader, &item_type, sizeof(t_item_type)))
 		return (FALSE);
-	if (item_type == ITEM_WEAPON && !io_memcpy(&r->reader, &weapon_type, sizeof(t_weapon_type)))
+	if (item_type == ITEM_WEAPON && !io_memcpy(&r->reader, &weapon_type,
+		sizeof(t_weapon_type)))
 		return (FALSE);
 	*item = create_item_from_type(r->doom, item_type, weapon_type);
 	if (!*item)
@@ -185,9 +198,11 @@ t_bool		read_sprite(t_ressource_manager *r, t_sprite **sprite)
 
 	if (!io_memcpy(&r->reader, &wr_sprite, sizeof(t_wr_sprite)))
 		return (FALSE);
-	if (wr_sprite.texture_index < 0 || wr_sprite.texture_index >= r->ressources->len)
+	if (wr_sprite.texture_index < 0
+		|| wr_sprite.texture_index >= r->ressources->len)
 		return (FALSE);
-	if (!(s = create_sprite((t_vec2){ 1, 1 }, r->ressources->values[wr_sprite.texture_index])))
+	if (!(s = create_sprite((t_vec2){ 1, 1 },
+		r->ressources->values[wr_sprite.texture_index])))
 		return (FALSE);
 	s->always_facing_player = wr_sprite.always_facing_player;
 	s->hitbox_radius = wr_sprite.hitbox_radius;
@@ -226,7 +241,7 @@ t_bool		read_object_light(t_ressource_manager *r, int *light_index)
 		return (FALSE);
 	*light_index = r->doom->lights->len;
 	if (!append_lights_array(&r->doom->lights, wr_light))
-		return (FALSE); 
+		return (FALSE);
 	return (TRUE);
 }
 
@@ -242,6 +257,30 @@ t_bool		read_object_transpo(t_ressource_manager *r, t_transpo **t_addr)
 	return (TRUE);
 }
 
+t_bool		read_object_return(t_wr_object wr_object, t_ressource_manager *r,
+	t_object *object)
+{
+	if (wr_object.type == OBJECT_ITEMSTACK
+		&& !read_itemstack(r, &object->of.itemstack))
+		return (FALSE);
+	else if (wr_object.type == OBJECT_SPRITE
+		&& !read_sprite(r, &object->of.sprite))
+		return (FALSE);
+	else if (wr_object.type == OBJECT_ENTITY
+		&& !read_entity(r, &object->of.entity))
+		return (FALSE);
+	else if (wr_object.type == OBJECT_MODEL
+		&& !read_object_model(r, &object->of.model))
+		return (FALSE);
+	else if (wr_object.type == OBJECT_LIGHT
+		&& !read_object_light(r, &object->of.light_index))
+		return (FALSE);
+	else if (wr_object.type == OBJECT_TRANSPO
+		&& !read_object_transpo(r, &object->of.transpo))
+		return (FALSE);
+	return (TRUE);
+}
+
 t_bool		read_object(t_ressource_manager *r, t_object *object)
 {
 	t_wr_object	wr_object;
@@ -251,19 +290,7 @@ t_bool		read_object(t_ressource_manager *r, t_object *object)
 	*object = (t_object) { .type = wr_object.type, .pos = wr_object.pos,
 		.scale = wr_object.scale, .no_light = wr_object.no_light,
 		.rotation = wr_object.rotation };
-	if (wr_object.type == OBJECT_ITEMSTACK && !read_itemstack(r, &object->of.itemstack))
-		return (FALSE);
-	else if (wr_object.type == OBJECT_SPRITE && !read_sprite(r, &object->of.sprite))
-		return (FALSE);
-	else if (wr_object.type == OBJECT_ENTITY && !read_entity(r, &object->of.entity))
-		return (FALSE);
-	else if (wr_object.type == OBJECT_MODEL && !read_object_model(r, &object->of.model))
-		return (FALSE);
-	else if (wr_object.type == OBJECT_LIGHT && !read_object_light(r, &object->of.light_index))
-		return (FALSE);
-	else if (wr_object.type == OBJECT_TRANSPO && !read_object_transpo(r, &object->of.transpo))
-		return (FALSE);
-	return (TRUE);
+	return (read_object_return(wr_object, r, object));
 }
 
 t_bool		read_objects(t_ressource_manager *r)

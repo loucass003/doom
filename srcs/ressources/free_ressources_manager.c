@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_ressources_manager.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/11 06:02:31 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/11 08:52:10 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/21 16:55:03 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

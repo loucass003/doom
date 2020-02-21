@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 14:15:25 by lloncham          #+#    #+#             */
-/*   Updated: 2020/02/13 16:19:09 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/21 17:32:41 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 t_bool		load_script(t_ressource *r, char *path)
 {
-    t_script_data	*script;
+	t_script_data	*script;
 
 	if (!(script = ft_memalloc(sizeof(t_script_data))))
 		return (FALSE);
@@ -43,16 +43,16 @@ t_bool			read_script(t_ressource_manager *r, t_script_data **s_data)
 	if (!io_memcpy(&r->reader, s->script_str, sizeof(char) * s->script_len))
 		return (FALSE);
 	if (!parse_script_data(s))
-		return (FALSE);	
+		return (FALSE);
 	*s_data = s;
 	return (TRUE);
 }
 
-t_bool		write_script(t_ressource_manager *rm, t_script_data *s_data)
+t_bool			write_script(t_ressource_manager *rm, t_script_data *s_data)
 {
 	dp_write(rm, &s_data->script_len, sizeof(int));
 	dp_write(rm, s_data->script_str, s_data->script_len * sizeof(char));
-    return (TRUE);
+	return (TRUE);
 }
 
 static t_trigger_type	get_trigger_type(char *str)
@@ -67,7 +67,6 @@ static t_trigger_type	get_trigger_type(char *str)
 		return (TRIG_AREA);
 	return (TRIG_NONE);
 }
-
 
 t_bool		script_return_error(char *error)
 {
@@ -89,18 +88,18 @@ static t_action_type	get_action_type(char *str)
 	return (ACTION_NONE);
 }
 
-t_bool          trigger_area(t_trigger_area *area, t_json_object *object)
+t_bool			trigger_area(t_trigger_area *area, t_json_object *object)
 {
 	double		*radius_d;
 
-    if (!object)
-        return (FALSE);
-    if (!ft_json_vec3(json_object_get(object, "pos"), &area->pos))
+	if (!object)
+		return (FALSE);
+	if (!ft_json_vec3(json_object_get(object, "pos"), &area->pos))
 		return (FALSE);
 	if (!(radius_d = json_get_number(object, "radius")))
 		return (FALSE);
 	area->radius = *radius_d;
-    return (TRUE);
+	return (TRUE);
 }
 
 t_bool			parse_json_trigger(t_script *script, t_json_object *object)
@@ -113,7 +112,7 @@ t_bool			parse_json_trigger(t_script *script, t_json_object *object)
 		return (FALSE);
 	script->trigger.type = get_trigger_type(j_string->value);
 	if (script->trigger.type == TRIG_NONE)
-		return(script_return_error(j_string->value));
+		return (script_return_error(j_string->value));
 	if (script->trigger.type == TRIG_PICK_ITEM)
 		return (trigger_pick_item(&script->trigger.data.pick_item, object));
 	else if (script->trigger.type == TRIG_AREA)
@@ -121,7 +120,8 @@ t_bool			parse_json_trigger(t_script *script, t_json_object *object)
 	return (TRUE);
 }
 
-t_bool			parse_action_message(t_action_message *message, t_json_object *object)
+t_bool			parse_action_message(t_action_message *message,
+	t_json_object *object)
 {
 	t_json_array	*array;
 	t_json_element	*element;
@@ -136,16 +136,19 @@ t_bool			parse_action_message(t_action_message *message, t_json_object *object)
 	{
 		if (!(string = json_to_string(element->value)))
 			return (script_return_error("Invalid message type (NOT A STRING)"));
-		if (!(message->textes[message->textes_count] = ft_memalloc(sizeof(char) * (string->value_len + 1))))
+		if (!(message->textes[message->textes_count] = ft_memalloc(sizeof(char)
+			* (string->value_len + 1))))
 			return (script_return_error("Unnable to alloc strings"));
-		ft_memcpy(message->textes[message->textes_count], string->value, string->value_len);
+		ft_memcpy(message->textes[message->textes_count], string->value,
+			string->value_len);
 		message->textes_count++;
 		element = element->next;
 	}
 	return (TRUE);
 }
 
-t_bool			parse_action_question(t_action_question *question, t_json_object *object)
+t_bool			parse_action_question(t_action_question *question,
+	t_json_object *object)
 {
 	t_json_array	*array;
 	t_json_element	*element;
@@ -159,10 +162,12 @@ t_bool			parse_action_question(t_action_question *question, t_json_object *objec
 	while (element)
 	{
 		if (!(string = json_to_string(element->value)))
-			return (script_return_error("Invalid question type (NOT A STRING)"));
-		if (!(question->quest[question->quest_count] = ft_memalloc(sizeof(char) * (string->value_len + 1))))
+			return (script_return_error("Invalid question type(NOT A STRING)"));
+		if (!(question->quest[question->quest_count] = ft_memalloc(sizeof(char)
+			* (string->value_len + 1))))
 			return (script_return_error("Unnable to alloc strings"));
-		ft_memcpy(question->quest[question->quest_count], string->value, string->value_len);
+		ft_memcpy(question->quest[question->quest_count], string->value,
+			string->value_len);
 		question->quest_count++;
 		element = element->next;
 	}
@@ -174,17 +179,20 @@ t_bool			parse_action_question(t_action_question *question, t_json_object *objec
 	while (element)
 	{
 		if (!(string = json_to_string(element->value)))
-			return (script_return_error("Invalid question type (NOT A STRING)"));
-		if (!(question->answer[question->answer_count] = ft_memalloc(sizeof(char) * (string->value_len + 1))))
+			return (script_return_error("Invalid question type(NOT A STRING)"));
+		if (!(question->answer[question->answer_count] = ft_memalloc(
+			sizeof(char) * (string->value_len + 1))))
 			return (script_return_error("Unnable to alloc strings"));
-		ft_memcpy(question->answer[question->answer_count], string->value, string->value_len);
+		ft_memcpy(question->answer[question->answer_count], string->value,
+			string->value_len);
 		question->answer_count++;
 		element = element->next;
 	}
 	return (TRUE);
 }
 
-t_bool			parse_action_teleport(t_action_teleport *teleport, t_json_object *object)
+t_bool			parse_action_teleport(t_action_teleport *teleport,
+	t_json_object *object)
 {
 	t_json_value	*val;
 
@@ -206,11 +214,14 @@ t_bool			parse_json_action(t_action *action, t_json_object *object)
 	j_string = json_get_string(object, "type");
 	if ((action->type = get_action_type(j_string->value)) == ACTION_NONE)
 		return (script_return_error("Invalid action type"));
-	if (action->type == ACTION_MESSAGE && !parse_action_message(&action->data.message, object))
+	if (action->type == ACTION_MESSAGE
+		&& !parse_action_message(&action->data.message, object))
 		return (script_return_error("Invalid action message"));
-	else if (action->type == ACTION_TELEPORT && !parse_action_teleport(&action->data.teleport, object))
+	else if (action->type == ACTION_TELEPORT
+		&& !parse_action_teleport(&action->data.teleport, object))
 		return (script_return_error("Invalid action teleport"));
-	else if (action->type == ACTION_QUESTION && !parse_action_question(&action->data.question, object))
+	else if (action->type == ACTION_QUESTION
+		&& !parse_action_question(&action->data.question, object))
 		return (script_return_error("Invalid action question"));
 	return (TRUE);
 }
@@ -228,7 +239,8 @@ t_bool			parse_json_actions(t_script *script, t_json_array *array)
 			return (script_return_error("ELEMENT in ACTIONS is not an Object"));
 		if (script->actions_count == MAX_ACTIONS - 1)
 			return (script_return_error("Too much actions in script"));
-		if (!parse_json_action(&script->action[script->actions_count], (t_json_object *)element->value))
+		if (!parse_json_action(&script->action[script->actions_count],
+			(t_json_object *)element->value))
 			return (script_return_error("Invalid action"));
 		script->actions_count++;
 		element = element->next;
@@ -242,28 +254,32 @@ t_bool			parse_script_data(t_script_data *s_data)
 	t_json_value	*val;
 	t_json_array	*array;
 	t_json_element	*element;
-	
+
 	state = (t_json_state){s_data->script_str, 0, s_data->script_len};
 	if (!(val = parse_value(&state)))
 		return (FALSE);
 	if (!(array = json_to_array(val)))
 		return (script_return_error("root element must be an array"));
 	if (!(s_data->scripts = ft_memalloc(sizeof(t_script) * array->elems_count)))
-		return (script_return_error("unable to alloc script"));	
+		return (script_return_error("unable to alloc script"));
 	s_data->script_count = 0;
 	element = array->elements;
 	while (element)
 	{
-		t_script	*script = &s_data->scripts[s_data->script_count];
+		t_script	*script;
+		script = &s_data->scripts[s_data->script_count];
 		if (element->value->type != JSON_OBJECT)
 			return (script_return_error("script mut be an object"));
-		if (!parse_json_trigger(script, json_get_object((t_json_object *)element->value, "trigger")))
+		if (!parse_json_trigger(script,
+			json_get_object((t_json_object *)element->value, "trigger")))
 			return (script_return_error("object 'trigger' doesn't exist"));
 		double *use_d;
 		script->use = -1;
-		if (!!(use_d = (json_get_number((t_json_object *)element->value, "use"))))
+		if (!!(use_d = (json_get_number(
+			(t_json_object *)element->value, "use"))))
 			script->use = (int)*use_d;
-		if (!parse_json_actions(script, json_get_array((t_json_object *)element->value, "actions")))	
+		if (!parse_json_actions(script,
+			json_get_array((t_json_object *)element->value, "actions")))
 			return (script_return_error("array 'actions' doesn't exist"));
 		s_data->script_count++;
 		element = element->next;

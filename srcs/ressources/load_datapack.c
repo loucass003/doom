@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   load_datapack.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/24 02:52:17 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/11 04:20:10 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/21 16:55:23 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ t_bool		load_datapack(t_doom *doom, char *path)
 	doom->res_manager.path = path;
 	if (stat(path, &stats) == -1)
 		return (TRUE);
-	if ((doom->res_manager.reader.fd = open(doom->res_manager.path, O_RDONLY, 0666)) == -1)
+	if ((doom->res_manager.reader.fd = open(doom->res_manager.path, O_RDONLY,
+		0666)) == -1)
 		return (FALSE);
 	if (!read_header(&doom->res_manager))
 		return (FALSE);

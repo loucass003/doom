@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cube_renderable.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/05 14:34:42 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/11 08:36:31 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/21 15:10:56 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,10 @@ static t_bool	normals(t_renderable *r)
 	return (TRUE);
 }
 
-t_bool	gen_cube_mesh(t_renderable *r, t_bool inside)
+t_bool			gen_cube_mesh(t_renderable *r, t_bool inside)
 {
-	const int     faces[12][3][3] = {
+	int			i;
+	const int	faces[12][3][3] = {
 		{{ 3, 5, 1 }, { 1, 2, 3 }, { 1, 1, 1 }},
 		{{ 8, 3, 4 }, { 4, 5, 6 }, { 2, 2, 2 }},
 		{{ 6, 7, 8 }, { 7, 8, 4 }, { 3, 3, 3 }},
@@ -72,7 +73,6 @@ t_bool	gen_cube_mesh(t_renderable *r, t_bool inside)
 		{{ 4, 3, 1 }, { 11, 14, 3 }, { 5, 5, 5 }},
 		{{ 2, 1, 5 }, { 10, 3, 2 }, { 6, 6, 6 }},
 	};
-	int     i;
 
 	if (!vertices(r) || !vertex(r) || !normals(r))
 		return (FALSE);
@@ -84,7 +84,7 @@ t_bool	gen_cube_mesh(t_renderable *r, t_bool inside)
 	return (TRUE);
 }
 
-t_bool	create_cube(t_doom *doom, t_renderable *r, t_bool inside)
+t_bool			create_cube(t_doom *doom, t_renderable *r, t_bool inside)
 {
 	if (!create_renderable(r, RENDERABLE_UNKNOWN))
 		return (FALSE);
@@ -94,9 +94,8 @@ t_bool	create_cube(t_doom *doom, t_renderable *r, t_bool inside)
 	gen_cube_mesh(r, inside);
 	post_process_renderable(doom, r, TRUE, FALSE);
 	r->dirty = TRUE;
-	r->fixed = FALSE; 
+	r->fixed = FALSE;
 	r->scale = (t_vec3){ 1, 1, 1 };
 	r->object_index = -1;
-	//r->double_faced = TRUE;
 	return (TRUE);
 }

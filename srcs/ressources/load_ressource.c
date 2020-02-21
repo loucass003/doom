@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/24 01:51:49 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/10 14:47:34 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/21 17:08:29 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,19 @@ t_bool		load_ressource(t_doom *doom, t_ressource *r, char *path)
 		return (FALSE);
 }
 
+t_bool		result_ress(t_bool result, t_ressource_manager *rm, t_ressource *r)
+{
+	if (r->type == RESSOURCE_TEXTURE)
+		result = read_texture(rm, &r->data.texture);
+	else if (r->type == RESSOURCE_MODEL)
+		result = read_model(rm, &r->data.model);
+	else if (r->type == RESSOURCE_SOUND)
+		result = read_songs(rm, &r->data.sound);
+	else if (r->type == RESSOURCE_SCRIPT)
+		result = read_script(rm, &r->data.script_data);
+	return (result);
+}
+
 t_bool		read_ressource(t_ressource_manager *rm, t_ressource *r)
 {
 	t_wr_ressource	wr_res;
@@ -50,14 +63,7 @@ t_bool		read_ressource(t_ressource_manager *rm, t_ressource *r)
 	if (!wr_res.loaded)
 		return (TRUE);
 	result = FALSE;
-	if (r->type == RESSOURCE_TEXTURE)
-		result = read_texture(rm, &r->data.texture);
-	else if (r->type == RESSOURCE_MODEL)
-		result = read_model(rm, &r->data.model);
-	else if (r->type == RESSOURCE_SOUND)
-		result = read_songs(rm, &r->data.sound);
-	else if (r->type == RESSOURCE_SCRIPT)
-		result = read_script(rm, &r->data.script_data);
+	result = result_ress(result, rm, r);
 	if (result)
 		r->loaded = TRUE;
 	return (TRUE);
@@ -76,9 +82,10 @@ t_bool		read_ressources(t_ressource_manager *rm)
 	while (++i < res_count)
 	{
 		if (i >= rm->ressources->len)
-			if (!append_ressources_array(&rm->ressources, ft_memalloc(sizeof(t_ressource))))
+			if (!append_ressources_array(&rm->ressources,
+				ft_memalloc(sizeof(t_ressource))))
 				return (FALSE);
-		if(!read_ressource(rm, rm->ressources->values[i]))
+		if (!read_ressource(rm, rm->ressources->values[i]))
 			return (FALSE);
 	}
 	return (TRUE);
