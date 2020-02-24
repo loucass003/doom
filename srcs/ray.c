@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/14 16:37:29 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/24 12:17:23 by Lisa             ###   ########.fr       */
+/*   Updated: 2020/02/24 15:43:24 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,9 @@ t_vec3	point_to_local(t_vec3 point, t_vec3 position, t_vec3 rotation,
 
 t_ray			create_shoot_ray(t_player player, t_vec3 direction)
 {
-	t_vec3 d = vec3_rotate(direction, (t_vec3){-player.entity.rotation.x,
+	t_vec3 d;
+
+	d = vec3_rotate(direction, (t_vec3){-player.entity.rotation.x,
 		player.entity.rotation.y, 0});
 	return ((t_ray){
 		.origin = player.camera.pos,
@@ -75,9 +77,9 @@ t_collision		to_world_collision(t_ray original_ray,
 t_collision		ray_hit_collidable(t_ray *ray, t_collidable *collidable)
 {
 	if (collidable->type == COLLIDE_AABB)
-		return ray_hit_aabb(ray, &collidable->data.aabb);
+		return (ray_hit_aabb(ray, &collidable->data.aabb));
 	else if (collidable->type == COLLIDE_TRIANGLE)
-		return ray_hit_triangle(ray, &collidable->data.triangle);
+		return (ray_hit_triangle(ray, &collidable->data.triangle));
 	return ((t_collision){ .collide = FALSE });
 }
 
@@ -91,8 +93,8 @@ t_bool			ray_skip_renderable(t_renderable *r)
 
 t_renderable		*ray_transform_renderable(t_doom *doom, t_renderable *r)
 {
-	t_collide_ellipsoid ellipsoid;
-	t_renderable *sphere;
+	t_collide_ellipsoid	ellipsoid;
+	t_renderable		*sphere;
 
 	sphere = &doom->sphere_primitive;
 	ellipsoid = r->hitbox.data.ellipsoid;

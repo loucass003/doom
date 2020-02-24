@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/29 13:50:12 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/21 17:11:23 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/24 15:54:16 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_bool		read_ressource_type(t_ressource_manager *r, t_json_object *val,
 	t_json_member	*e;
 	t_json_string	*s;
 	int				i;
-	char			v[5][10] = { "UNSET\0", "TEXTURE\0", "MODEL\0", "SOUND\0", "SCRIPT\0" };
+	const char		v[4][9] = { "TEXTURE\0", "MODEL\0", "SOUND\0", "SCRIPT\0" };
 
 	if (!(obj = json_get_object(val, name)))
 		return (FALSE);
@@ -32,7 +32,7 @@ t_bool		read_ressource_type(t_ressource_manager *r, t_json_object *val,
 			|| (i = get_ressource_by_name(r, type, e->string->value)) == -1)
 		{
 			ft_putstr("RESSOURCE MAPPER: Invalid ");
-			ft_putstr(v[type]);
+			ft_putstr(v[type + 1]);
 			ft_putstr(" at element ");
 			ft_putendl(e->string->value);
 			return (FALSE);

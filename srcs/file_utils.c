@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/28 01:48:23 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/11 12:42:40 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/24 16:37:43 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-char	*path_join(char *dir, char *file)
+char		*path_join(char *dir, char *file)
 {
 	size_t		len;
 	size_t		dir_len;
@@ -40,13 +40,15 @@ char	*path_join(char *dir, char *file)
 
 ssize_t		get_file_size(int fd)
 {
-	size_t len = lseek(fd, 0, SEEK_END);
+	size_t len;
+
+	len = lseek(fd, 0, SEEK_END);
 	if (lseek(fd, 0, SEEK_SET) == -1)
 		return (-1);
 	return (len);
 }
 
-char			*get_file_content(char *file, int *content_len)
+char		*get_file_content(char *file, int *content_len)
 {
 	int		fd;
 	char	*content;

@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/16 14:30:26 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/24 15:24:08 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,20 +41,6 @@ typedef struct			s_fonts
 {
 	TTF_Font			*helvetica;
 }						t_fonts;
-
-typedef struct			s_gdata
-{
-	int					todo_triangles;
-	int					finished_triangles;
-	t_bool				all_called;
-}						t_gdata;
-
-typedef struct			s_tdata
-{
-	t_gdata				*gdata;
-	t_render_context	*ctx;
-	t_render_data		data;
-}						t_tdata;
 
 typedef struct			s_score
 {
@@ -106,7 +92,6 @@ typedef struct			s_doom
 	t_editor			editor;
 	char				*obj_working_dir;
 	t_audio				audio;
-	t_gdata				gdata;
 	int					skybox_index;
 	t_bool				skybox_enabled;
 	t_ressource_manager	res_manager;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   events.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:14:55 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/12 15:48:59 by louali           ###   ########.fr       */
+/*   Updated: 2020/02/24 16:36:13 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,21 @@
 #include "doom.h"
 #include "gui.h"
 #include "script.h"
+
+static t_bool	events_full_screen(t_doom *doom, const SDL_Scancode key,
+	SDL_Event *event)
+{
+	if (doom->fullscreen == TRUE)
+	{
+		doom->fullscreen = FALSE;
+		SDL_SetWindowFullscreen(doom->win, 0);
+	}
+	else
+	{
+		doom->fullscreen = TRUE;
+		SDL_SetWindowFullscreen(doom->win, SDL_WINDOW_FULLSCREEN);
+	}
+}
 
 static t_bool	events_window(t_doom *doom, SDL_Event *event)
 {
@@ -36,38 +51,26 @@ static t_bool	events_window(t_doom *doom, SDL_Event *event)
 		return (FALSE);
 	}
 	if (event->type == SDL_KEYDOWN && (key == SDL_SCANCODE_F2))
-	{
-		if (doom->fullscreen == TRUE)
-		{
-			doom->fullscreen = FALSE;
-			SDL_SetWindowFullscreen(doom->win,0);
-		}
-		else
-		{
-			doom->fullscreen = TRUE;
-			SDL_SetWindowFullscreen(doom->win,SDL_WINDOW_FULLSCREEN);
-		}
-	}
+		events_full_screen(doom, key, event);
 	if (event->type == SDL_USEREVENT && event->user.type == doom->trigger_event)
 	{
 		trigger_script(doom, *((t_trigger *)event->user.data1));
 		free(event->user.data1);
 	}
-	
 	return (TRUE);
 }
 
-void		hook_events(t_doom *doom)
+void			hook_events(t_doom *doom)
 {
 	SDL_Event		event;
 	const Uint8		*s = SDL_GetKeyboardState(NULL);
 
 	SDL_SetRelativeMouseMode((SDL_bool)doom->mouse_focus);
 	doom->help = FALSE;
-	if (s[SDL_SCANCODE_F1] && doom->current_gui != GUI_RESSOURCES) //securiser context ressource
+	if (s[SDL_SCANCODE_F1] && doom->current_gui != GUI_RESSOURCES)//securiser context ressource
 		doom->help = TRUE;
 	while (SDL_PollEvent(&event))
 		if (!events_window(doom, &event))
-			break;
+			break ;
 	SDL_PumpEvents();
 }

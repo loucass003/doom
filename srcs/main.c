@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/11 09:21:01 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/24 17:30:10 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,20 +52,26 @@ int		exit_doom(t_doom *doom)
 	return (0);
 }
 
-int		main(int argc, char **argv)
+t_doom	init_doom(void)
 {
- 	t_doom doom = (t_doom) {
+	t_doom doom;
+
+	doom = (t_doom) {
 		.running = TRUE,
-		.main_context = {
-			.type = CTX_NORMAL,
-			.camera = NULL
-		},
+		.main_context = {.type = CTX_NORMAL, .camera = NULL},
 		.current_gui = -1,
 		.skybox_index = -1,
 		.skybox_enabled = TRUE,
-		.editor = { .map_renderable = -1, .player_set = FALSE, .current_object = -1 }
-	};
+		.editor = {
+			.map_renderable = -1, .player_set = FALSE, .current_object = -1 }};
+	return (doom);
+}
 
+int		main(int argc, char **argv)
+{
+	t_doom doom;
+
+	doom = init_doom();
 	if (argc != 2)
 	{
 		ft_putendl("Usage: ./doom-nukem <datapack>");
@@ -74,27 +80,23 @@ int		main(int argc, char **argv)
 	init_openal(&doom);
 	init_ressources_registry(&doom);
 	init_map(&doom);
-
 	if (!load_datapack(&doom, argv[1]))
 	{
 		ft_putendl("Error: invalid datapack");
 		return (exit_doom(&doom));
 	}
-
 	doom.main_context.doom = &doom;
 	doom.editor.doom = &doom;
-
 	if (!init_threads(&doom.threads))
 		return (exit_doom(&doom));
-	if (!(doom.main_context.buffer = (float *)malloc((int)(S_WIDTH * S_HEIGHT) * sizeof(float))))
+	if (!(doom.main_context.buffer = (float *)malloc((int)(S_WIDTH * S_HEIGHT)
+		* sizeof(float))))
 		return (exit_doom(&doom));
-	if (!create_ellipsoid(&doom, &doom.sphere_primitive, (t_vec2){ 12, 12 }, (t_vec3){ 1, 1, 1 }))
+	if (!create_ellipsoid(&doom, &doom.sphere_primitive, (t_vec2){ 12, 12 },
+		(t_vec3){ 1, 1, 1 }))
 		return (exit_doom(&doom));
-	
 	init_sdl(&doom);
-
 	game_loop(&doom);
 	exit_doom(&doom);
-
 	return (0);
 }

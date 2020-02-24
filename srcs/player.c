@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:43:35 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/15 17:14:31 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/24 15:48:19 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void				update_trigger_area(t_doom *doom, t_player *player)
 	t_script		*script;
 	float			dist;
 	int				i;
-	
+
 	if (doom->main_context.type == CTX_NORMAL)
 	{
 		i = -1;
@@ -46,9 +46,11 @@ void				update_player_camera(t_player *player)
 	camera = &player->camera;
 	camera->pos = player->entity.position;
 	camera->rotation = player->entity.rotation;
-	camera_update_maxtrix(&player->camera);	
-	alListener3f(AL_POSITION, player->camera.pos.x, player->camera.pos.y, player->camera.pos.z);
-	alListenerfv(AL_ORIENTATION, (ALfloat[6]){camera->forward.x, camera->forward.y, camera->forward.z, 0.f, 1.f, 0.f});
+	camera_update_maxtrix(&player->camera);
+	alListener3f(AL_POSITION, player->camera.pos.x, player->camera.pos.y,
+		player->camera.pos.z);
+	alListenerfv(AL_ORIENTATION, (ALfloat[6]){camera->forward.x,
+		camera->forward.y, camera->forward.z, 0.f, 1.f, 0.f});
 	player->entity.packet.doom->lights->values[0].position = player->camera.pos;
 	player->entity.packet.doom->lights->values[0].dir = player->camera.forward;
 	doom = player->entity.packet.doom;
@@ -63,7 +65,8 @@ t_bool	create_player(t_renderable *r, t_doom *doom)
 	r->of.data.entity->type = ENTITY_PLAYER;
 	r->of.data.entity->packet.doom = doom;
 	r->visible = FALSE;
-	compute_ellipsoid_hitbox(r, r->of.data.entity->position, r->of.data.entity->radius);
+	compute_ellipsoid_hitbox(r, r->of.data.entity->position,
+		r->of.data.entity->radius);
 	return (TRUE);
 }
 
@@ -92,7 +95,8 @@ void				init_player(t_doom *doom)
 
 void				spawn_player(t_doom *doom)
 {
-	doom->player.entity.position = editor_to_world(doom->player.spawn_data.position);
+	doom->player.entity.position = editor_to_world(doom->player
+		.spawn_data.position);
 	doom->player.entity.position.y += doom->player.entity.radius.y + 0.1;
 	doom->player.entity.rotation = doom->player.spawn_data.rotation;
 	if (doom->main_context.type == CTX_NORMAL)
@@ -102,7 +106,7 @@ void				spawn_player(t_doom *doom)
 void				player_inventory_normal(t_doom *doom, const SDL_Scancode key, SDL_Event *event)
 {
 	t_itemstack	*is;
-	
+
 	if (doom->main_context.type == CTX_NORMAL)
 	{
 		if (event->type == SDL_MOUSEBUTTONDOWN)
@@ -174,7 +178,7 @@ t_bool				draw_player_inventory(t_doom *doom, t_gui *self)
 
 		ticks += doom->stats.delta * 30.;
 
-		t_itemstack	*is = &doom->player.item[doom->player.selected_slot]; 
+		t_itemstack	*is = &doom->player.item[doom->player.selected_slot];
 
 		if (is->of && is->of->type == ITEM_WEAPON)
 		{
@@ -185,7 +189,7 @@ t_bool				draw_player_inventory(t_doom *doom, t_gui *self)
 				weapon->current_step++;
 				if (weapon->current_step == weapon->steps_count)
 				{
-					weapon->current_step = (SDL_GetMouseState(NULL, NULL) 
+					weapon->current_step = (SDL_GetMouseState(NULL, NULL)
 					& SDL_BUTTON(SDL_BUTTON_LEFT) ? 0 : weapon->idle_step);
 					weapon->fireing = FALSE;
 				}
@@ -253,7 +257,7 @@ void	update_up_down(t_doom *doom, const Uint8 *s)
 		&& (doom->player.entity.grounded || doom->player.entity.jetpack))
 			doom->player.entity.jump = TRUE;
 		if (s[SDL_SCANCODE_LSHIFT] && doom->player.entity.jetpack)
-		{ 
+		{
 			doom->player.entity.grounded = FALSE;
 			doom->player.entity.velocity.y -= 8;
 		}
@@ -273,7 +277,7 @@ void	update_mouse_focus(t_doom *doom)
 	int				m_y;
 	float 			rot;
 	const double	ms = doom->stats.delta * 2.;
-	
+
 	rot = 0;
 	SDL_GetRelativeMouseState(&m_x, &m_y);
 	if (m_x != 0)
@@ -291,7 +295,7 @@ void	update_controls(t_doom *doom)
 {
 	const Uint8		*s = SDL_GetKeyboardState(NULL);
 	float			move_speed;
-	
+
 	doom->player.entity.run = FALSE;
 	if (!doom->mouse_focus && is_settings_open(&doom->editor))
 		return ;
@@ -324,7 +328,7 @@ t_bool		aabb_intersect_world(t_doom *doom, t_collide_aabb aabb)
 			sphere->scale = ellipsoid.radius;
 			sphere->dirty = TRUE;
 			transform_renderable(sphere);
-			r = sphere; 
+			r = sphere;
 		}
 		j = -1;
 		while (++j < r->faces->len)
@@ -354,9 +358,9 @@ t_bool		set_player_height(t_doom *doom, t_player *player, float height)
 		t_vec3 pos = e->position;
 		pos.y += height / 2;
 		t_vec3 radius = (t_vec3){ e->radius.x, height / 2, e->radius.z };
-		t_collide_aabb aabb = (t_collide_aabb){ 
+		t_collide_aabb aabb = (t_collide_aabb){
 			.min = ft_vec3_sub(pos, radius),
-			.max = ft_vec3_add(pos, radius) 
+			.max = ft_vec3_add(pos, radius)
 		};
 		if (aabb_intersect_world(doom, aabb))
 			return (FALSE);

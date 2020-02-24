@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 15:50:09 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/24 15:23:48 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/24 15:37:55 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ void					g_editor_on_leave(t_gui *self, t_doom *doom)
 {
 	(void)self;
 	leave_gui(doom, doom->guis, GUI_EDITOR_SETTINGS);
+	doom->editor.current_object = -1;
+	unselect_all(doom);
 }
 
 void					g_editor_render(t_gui *self, t_doom *doom)

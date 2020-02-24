@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 16:55:56 by louali            #+#    #+#             */
-/*   Updated: 2020/02/21 18:18:20 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/24 14:52:30 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ t_bool		write_sound(t_ressource_manager *rm, t_sound *sound)
 		.bits_per_sample = sound->bits_per_sample};
 	dp_write(rm, &wr_song, sizeof(t_wr_songs));
 	dp_write(rm, sound->buffer, sound->buffer_size);
-    return (TRUE);
+	return (TRUE);
 }
 
 t_bool		read_songs(t_ressource_manager *r, t_sound **sound)
@@ -65,12 +65,12 @@ t_bool		read_songs(t_ressource_manager *r, t_sound **sound)
 
 	if (!io_memcpy(&r->reader, &wr_songs, sizeof(t_wr_songs)))
 		return (FALSE);
-    if (!(s = malloc(sizeof(t_sound) + wr_songs.buffer_size)))
+	if (!(s = malloc(sizeof(t_sound) + wr_songs.buffer_size)))
 		return (FALSE);
 	s->buffer_size = wr_songs.buffer_size;
 	s->sample_rate = wr_songs.sample_rate;
 	s->bits_per_sample = wr_songs.bits_per_sample;
-    if (!io_memcpy(&r->reader, s->buffer, wr_songs.buffer_size))
+	if (!io_memcpy(&r->reader, s->buffer, wr_songs.buffer_size))
 		return (FALSE);
 	gen_audio_buffer(s);
 	*sound = s;
