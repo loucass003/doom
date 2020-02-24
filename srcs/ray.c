@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/14 16:37:29 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/06 12:55:29 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/24 12:17:23 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@
 #include "render.h"
 #include "octree.h"
 
-t_vec3	point_to_local(t_vec3 point, t_vec3 position, t_vec3 rotation, t_vec3 scale)
+t_vec3	point_to_local(t_vec3 point, t_vec3 position, t_vec3 rotation,
+	t_vec3 scale)
 {
 	t_vec3		local;
 
@@ -28,36 +29,44 @@ t_vec3	point_to_local(t_vec3 point, t_vec3 position, t_vec3 rotation, t_vec3 sca
 
 t_ray			create_shoot_ray(t_player player, t_vec3 direction)
 {
-	t_vec3 d = vec3_rotate(direction, (t_vec3){-player.entity.rotation.x, player.entity.rotation.y, 0});
+	t_vec3 d = vec3_rotate(direction, (t_vec3){-player.entity.rotation.x,
+		player.entity.rotation.y, 0});
 	return ((t_ray){
 		.origin = player.camera.pos,
 		.direction = d
 	});
 }
 
-t_ray			to_local_ray(t_ray ray, t_vec3 position, t_vec3 rotation, t_vec3 scale)
+t_ray			to_local_ray(t_ray ray, t_vec3 position, t_vec3 rotation,
+	t_vec3 scale)
 {
 	t_ray		local;
 
 	local.doom = ray.doom;
 	local.origin = point_to_local(ray.origin, position, rotation, scale);
 	local.direction = vec3_rotate(ray.direction, ft_vec3_mul_s(rotation, -1));
-	local.direction = ft_vec3_mul(local.direction, ft_vec3_div((t_vec3){ 1, 1, 1 }, scale));
+	local.direction = ft_vec3_mul(local.direction, ft_vec3_div((t_vec3)
+		{ 1, 1, 1 }, scale));
 	local.direction = ft_vec3_norm(local.direction);
 	return (local);
 }
 
-t_collision		to_world_collision(t_ray original_ray, t_collision local_collision, t_vec3 position, t_vec3 rotation, t_vec3 scale)
+t_collision		to_world_collision(t_ray original_ray,
+	t_collision local_collision, t_vec3 position, t_vec3 rotation, t_vec3 scale)
 {
 	t_collision	collision;
+	t_ray		*local_ray;
+	t_vec3		point;
+	float		dist;
 
 	collision = local_collision;
-	t_ray *local_ray = original_ray.to_local;
-	t_vec3 point = ft_vec3_add(local_ray->origin, ft_vec3_mul_s(local_ray->direction, local_collision.dist));
+	local_ray = original_ray.to_local;
+	point = ft_vec3_add(local_ray->origin, ft_vec3_mul_s(local_ray->direction,
+		local_collision.dist));
 	point = ft_vec3_mul(point, scale);
 	point = vec3_rotate(point, rotation);
 	point = ft_vec3_add(point, position);
-	float dist = ft_vec3_len(ft_vec3_sub(original_ray.origin, point));
+	dist = ft_vec3_len(ft_vec3_sub(original_ray.origin, point));
 	collision.dist = dist;
 	collision.point = point;
 	return (collision);
@@ -74,13 +83,29 @@ t_collision		ray_hit_collidable(t_ray *ray, t_collidable *collidable)
 
 t_bool			ray_skip_renderable(t_renderable *r)
 {
-	return (r->of.type == RENDERABLE_ENTITY 
+	return (r->of.type == RENDERABLE_ENTITY
 		&& (r->of.data.entity->dead
 			|| (r->of.data.entity->type == ENTITY_ROCKET)
 			|| (r->of.data.entity->type == ENTITY_PLAYER)));
 }
 
-t_collision		ray_hit_world(t_doom *doom, t_renderables *renderables, t_ray ray)
+t_renderable		*ray_transform_renderable(t_doom *doom, t_renderable *r)
+{
+	t_collide_ellipsoid ellipsoid;
+	t_renderable *sphere;
+
+	sphere = &doom->sphere_primitive;
+	ellipsoid = r->hitbox.data.ellipsoid;
+	sphere->position = ellipsoid.origin;
+	sphere->scale = ellipsoid.radius;
+	sphere->dirty = TRUE;
+	transform_renderable(sphere);
+	r = sphere;
+	return (r);
+}
+
+t_collision		ray_hit_world(t_doom *doom, t_renderables *renderables,
+	t_ray ray)
 {
 	t_collision		min;
 	t_collision		hit;
@@ -97,15 +122,7 @@ t_collision		ray_hit_world(t_doom *doom, t_renderables *renderables, t_ray ray)
 		if (ray_skip_renderable(r))
 			continue;
 		if (r->has_hitbox && r->hitbox.type == COLLIDE_ELLIPSOID)
-		{
-			t_collide_ellipsoid ellipsoid = r->hitbox.data.ellipsoid;
-			t_renderable *sphere = &doom->sphere_primitive;
-			sphere->position = ellipsoid.origin;
-			sphere->scale = ellipsoid.radius;
-			sphere->dirty = TRUE;
-			transform_renderable(sphere);
-			r = sphere; 
-		}
+			r = ray_transform_renderable(doom, r);
 		t_ray local = to_local_ray(ray, r->position, r->rotation, r->scale);
 		ray.to_local = &local;
 		if (r->octree)
