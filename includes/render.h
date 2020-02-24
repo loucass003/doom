@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:16:19 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/16 15:38:03 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/02/24 16:14:40 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,5 +197,7 @@ void						uv_mapping(t_4dvertices *vertices,
 								t_2dvertices *vertex, int *filter,
 								int filter_len, t_vec2 offset, t_vec2 repeat);
 t_bool						create_player(t_renderable *r, struct s_doom *doom);
+
+
 
 #endif

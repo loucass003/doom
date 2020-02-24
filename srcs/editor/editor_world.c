@@ -6,7 +6,7 @@
 /*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/14 16:03:32 by louali            #+#    #+#             */
-/*   Updated: 2020/02/14 16:03:58 by louali           ###   ########.fr       */
+/*   Updated: 2020/02/20 17:06:47 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 t_vec3		editor_to_world(t_vec3 pos)
 {
 	float	ratio;
-	
+
 	ratio = 1. / 5.;
 	pos.x *= ratio;
 	pos.z *= ratio;

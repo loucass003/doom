@@ -6,7 +6,7 @@
 /*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 18:37:59 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/14 14:38:31 by louali           ###   ########.fr       */
+/*   Updated: 2020/02/21 17:00:29 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,26 @@
 #include "doom.h"
 #include <limits.h>
 
+t_bool		need_name(t_editor *editor, t_room *room)
+{
+	int		index1;
+	int		index2;
+
+	index1 = wall_indexof_by_indice(room->walls, editor->close_seg.x);
+	index2 = wall_indexof_by_indice(room->walls, editor->close_seg.y);
+	if (index1 != -1 && index2 != -1 && ((index2 == index1 + 1 || index2
+		== index1 - 1) || ((index1 == 0 && index2 == room->walls->len - 1)
+		|| (index2 == 0 && index1 == room->walls->len - 1))))
+		return (TRUE);
+	else
+		return (FALSE);
+}
+
 int			get_close_room(t_editor *editor)
 {
 	int		i;
 	int		index;
 	t_room	*room;
-	int		index2;
-	int		index1;
 
 	i = -1;
 	while (++i < editor->rooms->len)
@@ -35,14 +48,8 @@ int			get_close_room(t_editor *editor)
 				return (i);
 		}
 		else if (editor->grid_cell_grab == GG_LINE)
-		{
-			index1 = wall_indexof_by_indice(room->walls, editor->close_seg.x);
-			index2 = wall_indexof_by_indice(room->walls, editor->close_seg.y);
-			if (index1 != -1 && index2 != -1 && ((index2 == index1 + 1 || index2
-			== index1 - 1) || ((index1 == 0 && index2 == room->walls->len - 1)
-			|| (index2 == 0 && index1 == room->walls->len - 1))))
+			if (need_name(editor, room))
 				return (i);
-		}
 	}
 	return (-1);
 }

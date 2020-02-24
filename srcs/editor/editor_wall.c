@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   editor_wall.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 18:54:05 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/11 05:29:24 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/02/24 15:37:51 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@ t_wall			init_wall(int indice)
 {
 	if (indice < 0)
 		return (t_wall){ .indice = indice };
-	return  (t_wall){ 
+	return (t_wall){
 		.indice = indice,
 		.floor_height = 0,
 		.ceiling_height = 10
 	};
 }
 
-int			wall_indexof_by_indice(t_walls *walls, int indice)
+int				wall_indexof_by_indice(t_walls *walls, int indice)
 {
 	int			i;
 
@@ -37,18 +37,22 @@ int			wall_indexof_by_indice(t_walls *walls, int indice)
 	return (-1);
 }
 
-void		editor_render_wall_nornal(t_doom *doom, t_room *room, t_line l, int j)
+void			editor_render_wall_nornal(t_doom *doom, t_room *room, t_line l,
+	int j)
 {
-	const int				color = doom->editor.current_room != -1 && room
-		== &doom->editor.rooms->values[doom->editor.current_room]
-			? 0xFFFFF0F0 : 0xFFFF9090;
-	const t_vec2			dir = ft_vec2_norm(ft_vec2_sub(l.a, l.b));
-	const t_vec2			c = ft_vec2_add(l.a, 
-		ft_vec2_mul_s(ft_vec2_sub(l.b, l.a), 0.5));
-	const t_wall_section	ws = room->walls->values[j]
-		.wall_sections->values[doom->editor.wall_section];
-	t_vec2					n;
-	
+	int				color;
+	t_vec2			dir;
+	t_vec2			c;
+	t_wall_section	ws;
+	t_vec2			n;
+
+	color = doom->editor.current_room != -1 && room ==
+		&doom->editor.rooms->values[doom->editor.current_room]
+		? 0xFFFFF0F0 : 0xFFFF9090;
+	dir = ft_vec2_norm(ft_vec2_sub(l.a, l.b));
+	c = ft_vec2_add(l.a, ft_vec2_mul_s(ft_vec2_sub(l.b, l.a), 0.5));
+	ws = room->walls->values[j].wall_sections->values[
+		doom->editor.wall_section];
 	n = (t_vec2){ -dir.y, dir.x };
 	if (ws.normal_type == 2 || ws.normal_type == 0)
 	{
@@ -63,132 +67,44 @@ void		editor_render_wall_nornal(t_doom *doom, t_room *room, t_line l, int j)
 	}
 }
 
-t_bool		editor_render_wall(t_doom *doom, t_editor *editor, t_room *room, int j)
+void			init_render(int *color, t_room *room,
+	t_editor *editor)
 {
-	t_vec2	p0;
-	t_vec2	p1;
-	int	color = editor->current_room != -1 && room
-		== &editor->rooms->values[editor->current_room] ? 0xFFFFF0F0 : 0xFFFF9090;
-	
-	int test_room = point_in_rooms(editor, editor->grid_cell);
-	if (test_room != -1 && room == &editor->rooms->values[test_room])
-		color = 0xFF00FF00;
+	int		test_room;
 
-	p0 = editor->points->vertices[room->walls->values[j].indice];
-	p1 = editor->points->vertices[
+	*color = editor->current_room != -1 && room
+		== &editor->rooms->values[editor->current_room] ? 0xFFFFF0F0 :
+		0xFFFF9090;
+	test_room = point_in_rooms(editor, editor->grid_cell);
+	if (test_room != -1 && room == &editor->rooms->values[test_room])
+		*color = 0xFF00FF00;
+}
+
+t_bool			editor_render_wall(t_doom *doom, t_editor *editor, t_room *room,
+	int j)
+{
+	t_line	p;
+	int		color;
+
+	init_render(&color, room, editor);
+	p.a = editor->points->vertices[room->walls->values[j].indice];
+	p.b = editor->points->vertices[
 			room->walls->values[(j + 1) % room->walls->len].indice];
-	if (editor->current_seg.x == room->walls->values[j].indice && editor->current_seg.y == room->walls->values[(j + 1) % room->walls->len].indice)
+	if (editor->current_seg.x == room->walls->values[j].indice &&
+		editor->current_seg.y == room->walls->values[(j + 1)
+		% room->walls->len].indice)
 		color = 0xFFFF0000;
-	draw_line(&doom->screen, (t_pixel){ p0.x, p0.y, color},
-		(t_pixel){ p1.x, p1.y, 0 });
-	draw_circle(&doom->screen, (t_pixel){ p0.x, p0.y, 0xFFFF00FF }, 2);
-	if (!room->closed || (p0.x == p1.x && p0.y == p1.y) 
-		|| (editor->current_room != -1 
+	draw_line(&doom->screen, (t_pixel){ p.a.x, p.a.y, color},
+		(t_pixel){ p.b.x, p.b.y, 0 });
+	draw_circle(&doom->screen, (t_pixel){ p.a.x, p.a.y, 0xFFFF00FF }, 2);
+	if (!room->closed || (p.a.x == p.b.x && p.a.y == p.b.y)
+		|| (editor->current_room != -1
 			&& room != &editor->rooms->values[editor->current_room]))
 		return (FALSE);
-	if (editor->wall_section != -1 && editor->current_seg.x == room->walls->values[j].indice && editor->current_seg.y == room->walls->values[(j + 1) % room->walls->len].indice)
-		editor_render_wall_nornal(doom, room, (t_line){ .a = p0, .b = p1 }, j);
+	if (editor->wall_section != -1 && editor->current_seg.x ==
+		room->walls->values[j].indice && editor->current_seg.y ==
+		room->walls->values[(j + 1) % room->walls->len].indice)
+		editor_render_wall_nornal(doom, room, (t_line){ .a = p.a,
+		.b = p.b }, j);
 	return (TRUE);
-}
-
-t_wall			*get_current_wall(t_editor *editor)
-{
-	if (editor->current_room == -1)
-		return (NULL);
-	t_room	*room = &editor->rooms->values[editor->current_room];
-	int wall_index = wall_indexof_by_indice(room->walls, editor->current_seg.x);
-	if (wall_index == -1)
-		return (NULL);
-	return (&room->walls->values[wall_index]);
-}
-
-void					hide_doors_wall(t_editor *editor)
-{
-	int				i;
-	int				j;
-	int				k;
-	t_room			*room;
-	t_wall			*wall;
-	t_wall_section	*ws;
-
-	i = -1;
-	while (++i < editor->rooms->len)
-	{
-		j = -1;
-		room = &editor->rooms->values[i];
-		while (++j < room->walls->len)
-		{
-			k = -1;
-			wall = &room->walls->values[j];
-			while (++k < wall->wall_sections->len)
-			{
-				ws = &wall->wall_sections->values[k];
-				if (ws->type == WS_DOOR)
-					hide_adjacent_walls(editor, i, j, ws);
-			}
-		}
-	}
-}
-
-void					hide_adjacent_walls(t_editor *editor, int room, int wall, t_wall_section *ws)
-{
-	int		i;
-	int		j;
-	int		k;
-	t_room			*r;
-	t_wall			*w;
-	t_wall			*w1;
-	t_wall_section	*s;
-
-	t_vec2 range3 = (t_vec2){ get_map(editor)->vertices->vertices[ws->vertices_index[0]].y, get_map(editor)->vertices->vertices[ws->vertices_index[2]].y };
-	t_vec2 range4 = (t_vec2){ get_map(editor)->vertices->vertices[ws->vertices_index[1]].y, get_map(editor)->vertices->vertices[ws->vertices_index[3]].y };
-
-	t_room t_r = editor->rooms->values[room];
-	t_wall t_w = t_r.walls->values[wall];
-	t_wall t_w1 = t_r.walls->values[(wall + 1) % t_r.walls->len];
-	i = -1;
-	while (++i < editor->rooms->len)
-	{
-		j = -1;
-		r = &editor->rooms->values[i];
-		while (++j < r->walls->len)
-		{
-			w = &r->walls->values[j];
-			w1 = &r->walls->values[(j + 1) % r->walls->len];
-			if ((w->indice == t_w.indice && w1->indice == t_w1.indice) || (w->indice == t_w1.indice && w1->indice == t_w.indice))
-			{
-				k = -1;
-				while (++k < w->wall_sections->len)
-				{
-					s = &w->wall_sections->values[k];
-					t_vec2 range1 = (t_vec2){ get_map(editor)->vertices->vertices[s->vertices_index[0]].y, get_map(editor)->vertices->vertices[s->vertices_index[2]].y };
-					t_vec2 range2 = (t_vec2){ get_map(editor)->vertices->vertices[s->vertices_index[1]].y, get_map(editor)->vertices->vertices[s->vertices_index[3]].y };
-					if (range1.x == range3.x && range1.y == range3.y 
-						&& range2.x == range4.x && range2.y == range4.y)
-					{
-						s->invisible = TRUE;
-						s->collisions = FALSE;
-					}
-				}
-			}
-		}
-	}
-}
-
-void		free_walls(t_walls **walls)
-{
-	int		i;
-	t_wall	*wall;
-
-	if (!*walls)
-		return ;
-	i = -1;
-	while (++i < (*walls)->len)
-	{
-		wall = &(*walls)->values[i];
-		ft_memdel((void **)&wall->start_rooms_range);
-		ft_memdel((void **)&wall->end_rooms_range);
-		ft_memdel((void **)&wall->wall_sections);
-	}
-	ft_memdel((void **)walls);
 }

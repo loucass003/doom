@@ -6,7 +6,7 @@
 /*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 14:35:33 by lloncham          #+#    #+#             */
-/*   Updated: 2020/02/17 15:39:13 by louali           ###   ########.fr       */
+/*   Updated: 2020/02/24 16:15:30 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,6 +149,12 @@ typedef struct				s_walls
 	int						capacity;
 	t_wall					values[];
 }							t_walls;
+
+typedef struct				s_wall2
+{
+	t_wall					a;
+	t_wall					b;
+}							t_wall2;
 
 typedef struct				s_room
 {
@@ -347,5 +353,10 @@ t_wall_section		create_last_wall_section(t_editor *editor, t_room *room, int wal
 t_wall_section		create_gap_wall_section(t_editor *editor, t_room *room, int wall, t_gap_filler_packet p);
 t_wall_section		create_between_gaps_wall_section(t_editor *editor, t_room *room, int wall, t_gap_filler_packet p);
 
+void						set_itemstack(t_renderable *r, struct s_object *object);
+t_bool						set_sprite(t_renderable *r, struct s_object *object);
+void						set_entity(t_renderable *r, struct s_object *object, struct s_editor *editor);
+void						set_model(t_renderable *r, struct s_object *object);
+void						set_transpo(t_renderable *r, struct s_object *object, struct s_editor *editor);
 
 #endif

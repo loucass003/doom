@@ -6,7 +6,7 @@
 /*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/14 14:02:10 by louali            #+#    #+#             */
-/*   Updated: 2020/02/14 14:03:08 by louali           ###   ########.fr       */
+/*   Updated: 2020/02/24 13:32:40 by louali           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,14 @@ void			point_room(int index1, t_room *room0,
 	room0->walls->values[index].ceiling_height = ceil_h;
 }
 
+t_bool			init_p(t_editor *editor, t_room *room, int k)
+{
+	editor->grid_cell_grab = GG_LINE;
+	editor->close_seg = (t_vec2){ room->walls->values[k].indice,
+	room->walls->values[(k + 1) % room->walls->len].indice };
+	return (TRUE);
+}
+
 t_vec2			point_on_room(t_editor *editor, t_room *room,
 	t_vec2 pos, t_bool *found)
 {
@@ -48,7 +56,7 @@ t_vec2			point_on_room(t_editor *editor, t_room *room,
 	{
 		p0 = editor->points->vertices[room->walls->values[k].indice];
 		p1 = editor->points->vertices[room->walls->values[(k + 1)
-			% room->walls->len].indice];
+		% room->walls->len].indice];
 		editor->grid_cell_grab = GG_POINT;
 		if (is_in_range(p0, pos))
 			return (p0);
@@ -56,12 +64,8 @@ t_vec2			point_on_room(t_editor *editor, t_room *room,
 			return (p1);
 		project = get_point_on_seg(p0, p1, pos);
 		if (is_point_on_seg(project, pos))
-		{
-			editor->grid_cell_grab = GG_LINE;
-			editor->close_seg = (t_vec2){ room->walls->values[k].indice,
-				room->walls->values[(k + 1) % room->walls->len].indice };
-			return (project);
-		}
+			if (init_p(editor, room, k))
+				return (project);
 	}
 	*found = FALSE;
 	return (pos);
