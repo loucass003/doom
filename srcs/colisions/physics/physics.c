@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   physics.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/15 23:50:58 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/22 14:56:02 by louali           ###   ########.fr       */
+/*   Updated: 2020/02/24 17:32:30 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,12 @@ t_bool	point_in_triangle(t_vec3 point, t_vec3 p1, t_vec3 p2, t_vec3 p3)
 
 	if (ft_vec3_dot(vw, vu) < 0)
 		return (FALSE);
-	
+
 	t_vec3 uw = ft_vec3_cross(u, w);
 	t_vec3 uv = ft_vec3_cross(u, v);
 	if (ft_vec3_dot(uw, uv) < 0)
 		return (FALSE);
-	
+
 	float d = ft_vec3_len(uv);
 	float r = ft_vec3_len(vw) / d;
 	float t = ft_vec3_len(uw) / d;
@@ -49,7 +49,7 @@ t_bool	lowest_root(t_vec3 v, float max, float *root)
 	float sqrt_d = sqrtf(det);
 	float r1 = (-v.y - sqrt_d) / (2.0 * v.x);
 	float r2 = (-v.y + sqrt_d) / (2.0 * v.x);
-	if (r1 > r2) 
+	if (r1 > r2)
 	{
 		float tmp = r2;
 		r2 = r1;
@@ -76,11 +76,11 @@ float				clamp(float min, float max, float v)
 t_physics_data		*check_triangle(t_renderable *r, t_physics_data *packet, t_vec3 p1, t_vec3 p2, t_vec3 p3)
 {
 	const	t_plane plane = triangle_to_plane(p1, p2, p3);
-	
+
 	packet->r = NULL;
 	if (!is_front_facing(plane, packet->e_norm_velocity))
 		return packet;
-	
+
 	float	t0 = 0;
 	float	t1 = 0;
 	t_bool	in_plane = FALSE;
@@ -259,7 +259,7 @@ t_physics_data		*check_triangle(t_renderable *r, t_physics_data *packet, t_vec3 
 		t_vec3 n = ft_vec3_norm(ft_vec3_sub(colision_point, packet->e_velocity));
 		float dz = ft_vec3_dot(n, (t_vec3){ 0, 1, 0 });
 		packet->grounded = dz <= -0.5;
-		
+
 	}
 	// if (!found_collision)
 	// 	printf("NOT COLLIDE\n");

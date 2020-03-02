@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   save_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 01:20:07 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/11 13:43:52 by louali           ###   ########.fr       */
+/*   Updated: 2020/03/02 16:12:54 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@
 
 t_bool		write_wall_sections(t_ressource_manager *r, t_wall_section *ws)
 {
-	const t_wr_wall_section	wr_ws = (t_wr_wall_section) {
+	t_wr_wall_section	wr_ws;
+
+	wr_ws = (t_wr_wall_section) {
 		.type = ws->type,
 		.resource_index = ressources_indexof(r->ressources, ws->texture),
 		.normal_type = ws->normal_type,
@@ -28,21 +30,22 @@ t_bool		write_wall_sections(t_ressource_manager *r, t_wall_section *ws)
 		.uv_offset = ws->uv_offset,
 		.uv_repeat = ws->uv_repeat
 	};
-
 	dp_write(r, &wr_ws, sizeof(t_wr_wall_section));
 	return (TRUE);
 }
 
 t_bool		write_wall(t_ressource_manager *r, t_wall *wall)
 {
-	const t_wr_wall	wr_wall = (t_wr_wall) {
+	t_wr_wall	wr_wall;
+	int			i;
+
+	wr_wall = (t_wr_wall) {
 		.indice = wall->indice,
 		.floor_height = wall->floor_height,
 		.ceiling_height = wall->ceiling_height,
-		.wall_sections_count = wall->wall_sections ? wall->wall_sections->len : 0
+		.wall_sections_count = wall->wall_sections
+			? wall->wall_sections->len : 0
 	};
-	int				i;
-
 	dp_write(r, &wr_wall, sizeof(t_wr_wall));
 	i = -1;
 	while (++i < wr_wall.wall_sections_count)
@@ -54,26 +57,24 @@ t_bool		write_wall(t_ressource_manager *r, t_wall *wall)
 t_bool		write_room(t_ressource_manager *r, t_room *room)
 {
 	int				i;
-	const t_wr_room	wr_room = (t_wr_room) {
-		.closed = room->closed && room->walls->len >= 3,
+	t_wr_room		wr_room;
+
+	wr_room = (t_wr_room) { .closed = room->closed && room->walls->len >= 3,
 		.walls_count = room->walls->len,
-		.floor_res_index = ressources_indexof(r->ressources, room->floor_texture),
-		.ceiling_res_index = ressources_indexof(r->ressources, room->ceiling_texture),
-		.floor_rot = room->floor_rot,
-		.ceil_rot = room->ceil_rot,
-		.floor_invisible = room->floor_invisible,
+		.floor_res_index = ressources_indexof(r->ressources,
+			room->floor_texture),
+		.ceiling_res_index = ressources_indexof(r->ressources,
+			room->ceiling_texture), .floor_rot = room->floor_rot,
+		.ceil_rot = room->ceil_rot, .floor_invisible = room->floor_invisible,
 		.ceil_invisible = room->ceil_invisible,
 		.floor_collision = room->floor_collision,
 		.ceil_collision = room->ceil_collision,
-		.floor_normal = room->floor_normal,
-		.ceil_normal = room->ceil_normal,
+		.floor_normal = room->floor_normal, .ceil_normal = room->ceil_normal,
 		.ambiant_light = room->ambiant_light,
 		.floor_uv_offset = room->floor_uv_offset,
 		.floor_uv_repeat = room->floor_uv_repeat,
 		.ceil_uv_offset = room->ceil_uv_offset,
-		.ceil_uv_repeat = room->ceil_uv_repeat
-	};
-
+		.ceil_uv_repeat = room->ceil_uv_repeat};
 	dp_write(r, &wr_room, sizeof(t_wr_room));
 	i = -1;
 	while (++i < room->walls->len)
@@ -119,12 +120,13 @@ t_bool		write_itemstack(t_ressource_manager *r, t_itemstack *is)
 
 t_bool		write_sprite(t_ressource_manager *r, t_sprite *sprite)
 {
-	const	t_wr_sprite	wr_sprite = (t_wr_sprite) {
+	t_wr_sprite	wr_sprite;
+
+	wr_sprite = (t_wr_sprite) {
 		.always_facing_player = sprite->always_facing_player,
 		.texture_index = ressources_indexof(r->ressources, sprite->texture),
 		.hitbox_radius = sprite->hitbox_radius
 	};
-
 	dp_write(r, &wr_sprite, sizeof(t_wr_sprite));
 	return (TRUE);
 }
@@ -145,7 +147,7 @@ t_bool		write_object_model(t_ressource_manager *r, t_ressource *model)
 
 t_bool		write_object_light(t_ressource_manager *r, int light_index)
 {
-	const t_light	light	= r->doom->lights->values[light_index];
+	const t_light	light = r->doom->lights->values[light_index];
 
 	dp_write(r, &light, sizeof(t_light));
 	return (TRUE);
@@ -159,14 +161,15 @@ t_bool		write_object_transpo(t_ressource_manager *r, t_transpo *transpo)
 
 t_bool		write_object(t_ressource_manager *r, t_object *object)
 {
-	const t_wr_object	wr_object = (t_wr_object) {
+	t_wr_object wr_object;
+
+	wr_object = (t_wr_object) {
 		.type = object->type,
 		.pos = object->pos,
 		.scale = object->scale,
 		.rotation = object->rotation,
 		.no_light = object->no_light
 	};
-
 	dp_write(r, &wr_object, sizeof(t_wr_object));
 	if (object->type == OBJECT_ITEMSTACK)
 		write_itemstack(r, object->of.itemstack);
@@ -197,22 +200,22 @@ t_bool		write_objects(t_ressource_manager *r)
 
 t_bool		write_player(t_ressource_manager *r)
 {
-	const t_wr_player	wr_player = (t_wr_player){
+	t_wr_player	wr_player;
+
+	wr_player = (t_wr_player){
 		.set = r->doom->editor.player_set,
 		.position = r->doom->player.spawn_data.position,
 		.rotation = r->doom->player.spawn_data.rotation
 	};
-
 	dp_write(r, &wr_player, sizeof(t_wr_player));
 	return (TRUE);
 }
 
 t_bool		write_globals(t_ressource_manager *r)
 {
-	const t_wr_globals	wr_globals = (t_wr_globals){
-		.skybox = r->doom->skybox_enabled
-	};
+	t_wr_globals	wr_globals;
 
+	wr_globals = (t_wr_globals){.skybox = r->doom->skybox_enabled};
 	dp_write(r, &wr_globals, sizeof(t_wr_globals));
 	return (TRUE);
 }

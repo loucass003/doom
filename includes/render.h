@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:16:19 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/24 16:14:40 by louali           ###   ########.fr       */
+/*   Updated: 2020/03/02 15:41:30 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,5 +199,10 @@ void						uv_mapping(t_4dvertices *vertices,
 t_bool						create_player(t_renderable *r, struct s_doom *doom);
 
 
+void		free_materials(t_mtllist **m_addr, t_bool free_ressources);
+void		free_renderable_of(t_renderable *r);
+t_bool		free_renderable(t_renderable *r, t_bool free_resources, t_bool res);
+void		face_and_triangle(t_renderable *r, int i);
+void		free_renderables(t_renderables **renderables);
 
 #endif

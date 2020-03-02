@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 14:15:25 by lloncham          #+#    #+#             */
-/*   Updated: 2020/02/21 17:32:41 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/03/02 16:28:25 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "file_utils.h"
 #include "item.h"
 
-t_bool		load_script(t_ressource *r, char *path)
+t_bool					load_script(t_ressource *r, char *path)
 {
 	t_script_data	*script;
 
@@ -30,7 +30,8 @@ t_bool		load_script(t_ressource *r, char *path)
 	return (TRUE);
 }
 
-t_bool			read_script(t_ressource_manager *r, t_script_data **s_data)
+t_bool					read_script(t_ressource_manager *r,
+	t_script_data **s_data)
 {
 	t_script_data	*s;
 
@@ -48,7 +49,8 @@ t_bool			read_script(t_ressource_manager *r, t_script_data **s_data)
 	return (TRUE);
 }
 
-t_bool			write_script(t_ressource_manager *rm, t_script_data *s_data)
+t_bool					write_script(t_ressource_manager *rm,
+	t_script_data *s_data)
 {
 	dp_write(rm, &s_data->script_len, sizeof(int));
 	dp_write(rm, s_data->script_str, s_data->script_len * sizeof(char));
@@ -68,7 +70,7 @@ static t_trigger_type	get_trigger_type(char *str)
 	return (TRIG_NONE);
 }
 
-t_bool		script_return_error(char *error)
+t_bool					script_return_error(char *error)
 {
 	ft_putstr("Script error: ");
 	ft_putendl(error);
@@ -88,7 +90,8 @@ static t_action_type	get_action_type(char *str)
 	return (ACTION_NONE);
 }
 
-t_bool			trigger_area(t_trigger_area *area, t_json_object *object)
+t_bool					trigger_area(t_trigger_area *area,
+	t_json_object *object)
 {
 	double		*radius_d;
 
@@ -102,7 +105,8 @@ t_bool			trigger_area(t_trigger_area *area, t_json_object *object)
 	return (TRUE);
 }
 
-t_bool			parse_json_trigger(t_script *script, t_json_object *object)
+t_bool					parse_json_trigger(t_script *script,
+	t_json_object *object)
 {
 	t_json_string	*j_string;
 
@@ -120,7 +124,7 @@ t_bool			parse_json_trigger(t_script *script, t_json_object *object)
 	return (TRUE);
 }
 
-t_bool			parse_action_message(t_action_message *message,
+t_bool					parse_action_message(t_action_message *message,
 	t_json_object *object)
 {
 	t_json_array	*array;
@@ -147,7 +151,7 @@ t_bool			parse_action_message(t_action_message *message,
 	return (TRUE);
 }
 
-t_bool			parse_action_question(t_action_question *question,
+t_bool					parse_action_question(t_action_question *question,
 	t_json_object *object)
 {
 	t_json_array	*array;
@@ -191,7 +195,7 @@ t_bool			parse_action_question(t_action_question *question,
 	return (TRUE);
 }
 
-t_bool			parse_action_teleport(t_action_teleport *teleport,
+t_bool					parse_action_teleport(t_action_teleport *teleport,
 	t_json_object *object)
 {
 	t_json_value	*val;
@@ -207,7 +211,8 @@ t_bool			parse_action_teleport(t_action_teleport *teleport,
 	return (TRUE);
 }
 
-t_bool			parse_json_action(t_action *action, t_json_object *object)
+t_bool					parse_json_action(t_action *action,
+	t_json_object *object)
 {
 	t_json_string	*j_string;
 
@@ -226,7 +231,8 @@ t_bool			parse_json_action(t_action *action, t_json_object *object)
 	return (TRUE);
 }
 
-t_bool			parse_json_actions(t_script *script, t_json_array *array)
+t_bool					parse_json_actions(t_script *script,
+	t_json_array *array)
 {
 	t_json_element	*element;
 
@@ -248,7 +254,7 @@ t_bool			parse_json_actions(t_script *script, t_json_array *array)
 	return (TRUE);
 }
 
-t_bool			parse_script_data(t_script_data *s_data)
+t_bool					parse_script_data(t_script_data *s_data)
 {
 	t_json_state	state;
 	t_json_value	*val;
@@ -267,6 +273,7 @@ t_bool			parse_script_data(t_script_data *s_data)
 	while (element)
 	{
 		t_script	*script;
+
 		script = &s_data->scripts[s_data->script_count];
 		if (element->value->type != JSON_OBJECT)
 			return (script_return_error("script mut be an object"));

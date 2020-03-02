@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ressource_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 21:58:49 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/12 16:34:56 by louali           ###   ########.fr       */
+/*   Updated: 2020/03/02 16:16:44 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ressource.h"
 
-t_ressource		*get_next_ressource(t_ressource_manager *r, t_ressource *res, t_ressource_type type)
+t_ressource		*get_next_ressource(t_ressource_manager *r, t_ressource *res,
+	t_ressource_type type)
 {
 	int			i;
 	t_ressource	*t_r;
@@ -35,7 +36,8 @@ t_ressource		*get_next_ressource(t_ressource_manager *r, t_ressource *res, t_res
 	return (t_r);
 }
 
-t_ressource		*get_prev_ressource(t_ressource_manager *r, t_ressource *res, t_ressource_type type)
+t_ressource		*get_prev_ressource(t_ressource_manager *r, t_ressource *res,
+	t_ressource_type type)
 {
 	int			i;
 	t_ressource	*t_r;
@@ -69,13 +71,15 @@ t_ressource		*get_ressource(t_ressource_manager *r, t_ressource_type type)
 	return (NULL);
 }
 
-int				get_ressource_by_name(t_ressource_manager *r, t_ressource_type type, char *name)
+int				get_ressource_by_name(t_ressource_manager *r,
+	t_ressource_type type, char *name)
 {
 	int			i;
 
 	i = -1;
 	while (++i < r->ressources->len)
-		if (r->ressources->values[i]->type == type && ft_strequ(r->ressources->values[i]->display_name, name))
+		if (r->ressources->values[i]->type == type
+			&& ft_strequ(r->ressources->values[i]->display_name, name))
 			return (i);
 	return (-1);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ressource_texture.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/12 17:27:40 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/29 14:12:46 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/03/02 16:18:13 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,12 @@
 static t_bool	is_tga_ext(char *path)
 {
 	char	*start;
-	
+
 	start = ft_strrchr(path, '.');
 	return (start && *start && ft_memcmp(start + 1, "tga", 3) == 0);
 }
 
-t_bool		load_texture_file(t_doom *doom, t_ressource *r, char *path)
+t_bool			load_texture_file(t_doom *doom, t_ressource *r, char *path)
 {
 	SDL_Surface	*s;
 	t_img		*img;
@@ -47,7 +47,7 @@ t_bool		load_texture_file(t_doom *doom, t_ressource *r, char *path)
 	return (TRUE);
 }
 
-t_bool		read_texture(t_ressource_manager *rm, t_img **img)
+t_bool			read_texture(t_ressource_manager *rm, t_img **img)
 {
 	t_wr_img wr_img;
 
@@ -65,14 +65,15 @@ t_bool		read_texture(t_ressource_manager *rm, t_img **img)
 	return (TRUE);
 }
 
-t_bool		write_texture(t_ressource_manager *rm, t_img *img)
+t_bool			write_texture(t_ressource_manager *rm, t_img *img)
 {
-	const t_wr_img	wr_img = (t_wr_img){ 
+	t_wr_img	wr_img;
+
+	wr_img = (t_wr_img){
 		.size = img->size * sizeof(uint32_t),
 		.width = img->width,
 		.height = img->height
 	};
-
 	dp_write(rm, &wr_img, sizeof(t_wr_img));
 	dp_write(rm, img->pixels, wr_img.size);
 	return (TRUE);

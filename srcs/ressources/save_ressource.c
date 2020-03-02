@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 01:08:20 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/10 14:45:55 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/03/02 16:15:23 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,9 @@
 
 t_bool		write_ressource(t_ressource_manager *rm, t_ressource *r)
 {
-	const t_wr_ressource	wr_res = (t_wr_ressource){ 
+	t_wr_ressource	wr_res;
+
+	wr_res = (t_wr_ressource){
 		.type = r->type,
 		.fixed = r->fixed,
 		.loaded = r->loaded,
@@ -32,9 +34,9 @@ t_bool		write_ressource(t_ressource_manager *rm, t_ressource *r)
 	else if (r->type == RESSOURCE_MODEL)
 		return (write_model(rm, r->data.model));
 	else if (r->type == RESSOURCE_SOUND)
-		return (write_sound(rm , r->data.sound));
+		return (write_sound(rm, r->data.sound));
 	else if (r->type == RESSOURCE_SCRIPT)
-		return (write_script(rm , r->data.script_data));
+		return (write_script(rm, r->data.script_data));
 	return (TRUE);
 }
 

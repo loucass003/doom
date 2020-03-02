@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:22:26 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/21 16:54:30 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/03/02 15:38:28 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,14 @@ t_bool		create_door(t_doom *doom, int indexes[3], t_renderable *r)
 	i = -1;
 	while (++i < r->faces->len)
 	{
-		t_face face = r->faces->values[i];
+		t_face face;
 
+		face = r->faces->values[i];
 		if (face.group == r->of.data.door->door_1)
 		{
-			int j = -1;
+			int j;
 
+			j = -1;
 			while (++j < 3)
 			{
 				if (ints_indexof(r->of.data.door->door_1_indexes,
@@ -89,10 +91,15 @@ t_bool		create_door(t_doom *doom, int indexes[3], t_renderable *r)
 	r->dirty = TRUE;
 	t_vec3 right;
 	right = ft_vec3_norm(ft_vec3_sub(v2, v1));
-	float len = ft_vec3_len(ft_vec3_sub(v2, v1));
+
+	float len;
+	float start_y;
+	float end_y;
+
+	len = ft_vec3_len(ft_vec3_sub(v2, v1));
 	r->scale.x = len;
-	float start_y = fmax(v1.y, v2.y) - 0.5;
-	float end_y = fmin(vt1.y, vt2.y);
+	start_y = fmax(v1.y, v2.y) - 0.5;
+	end_y = fmin(vt1.y, vt2.y);
 
 	r->scale.y = end_y - start_y;
 	r->position = ft_vec3_add(v1, ft_vec3_mul_s(right, len / 2));
@@ -129,12 +136,15 @@ static t_bool			is_something_close(t_render_context *ctx,
 
 t_bool			update_renderable_door(t_render_context *ctx, t_renderable *r)
 {
-	t_door		*door = r->of.data.door;
-	float		open_speed = 0.8 * ctx->doom->stats.delta;
+	t_door		*door;
+	float		open_speed;
+	float		last_open;
 
+	door = r->of.data.door;
+	open_speed = 0.8 * ctx->doom->stats.delta;
 	if (ctx->type != CTX_NORMAL)
 		return (TRUE);
-	float last_open = door->open_value;
+	last_open = door->open_value;
 	if (is_something_close(ctx, r))
 	{
 		if (door->open_value < 1)
@@ -151,12 +161,14 @@ t_bool			update_renderable_door(t_render_context *ctx, t_renderable *r)
 	}
 	if (last_open != door->open_value)
 	{
-		int	i = -1;
+		int	i;
 
+		i = -1;
 		while (++i < r->faces->len)
 		{
-			t_face	*face = &r->faces->values[i];
+			t_face	*face;
 
+			face = &r->faces->values[i];
 			if (face->group == door->door_1 || face->group == door->door_2)
 				face->has_collision = door->open_value == 0;
 		}
@@ -168,7 +180,6 @@ t_bool			update_renderable_door(t_render_context *ctx, t_renderable *r)
 void		transform_renderable_door(t_renderable *r)
 {
 	int		i;
-
 	const	t_mat4 rot = ft_mat4_rotation(r->rotation);
 
 	r->matrix = ft_mat4_mul(
@@ -177,8 +188,8 @@ void		transform_renderable_door(t_renderable *r)
 			rot),
 		ft_mat4_scale(r->scale));
 
-	t_mat4 m;
-	t_mat4 m2;
+	t_mat4	m;
+	t_mat4	m2;
 	m = ft_mat4_mul(r->matrix, ft_mat4_translation((t_vec3){
 		r->of.data.door->open_value * 0.6, 0, 0 }));
 	m2 = ft_mat4_mul(r->matrix, ft_mat4_translation((t_vec3){
@@ -187,7 +198,7 @@ void		transform_renderable_door(t_renderable *r)
 	i = -1;
 	while (++i < r->vertices->len)
 	{
-		t_mat4 a;
+		t_mat4	a;
 
 		if (ints_indexof(r->of.data.door->door_1_indexes, i + 1) != -1)
 			a = m;
@@ -203,7 +214,7 @@ void		transform_renderable_door(t_renderable *r)
 	i = -1;
 	while (++i < r->faces->len)
 	{
-		t_face *face;
+		t_face	*face;
 		t_vec3	n;
 
 		face = &r->faces->values[i];

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   save_datapack.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/24 22:14:40 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/11 04:14:51 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/03/02 16:15:44 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ t_bool		write_header(t_ressource_manager *rm)
 
 t_bool		save_datapack(t_doom *doom)
 {
-	if ((doom->res_manager.reader.fd = open(doom->res_manager.path, O_WRONLY | O_CREAT | O_TRUNC, 0666)) == -1)
+	if ((doom->res_manager.reader.fd = open(doom->res_manager.path,
+		O_WRONLY | O_CREAT | O_TRUNC, 0666)) == -1)
 		return (FALSE);
 	if (lseek(doom->res_manager.reader.fd, sizeof(t_wr_header), SEEK_SET) == -1)
 		return (FALSE);

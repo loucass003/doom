@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 14:37:12 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/12 14:58:34 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/03/02 16:16:21 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 t_bool	a(t_doom *doom, char *name, t_ressource_type type, t_bool fixed)
 {
 	t_ressource	*ressource;
-	
+
 	if (!(ressource = malloc(sizeof(t_ressource))))
 		return (FALSE);
 	*ressource = (t_ressource){ .type = type, .fixed = fixed, .used = fixed };
@@ -27,13 +27,18 @@ t_bool	a(t_doom *doom, char *name, t_ressource_type type, t_bool fixed)
 
 t_bool			init_ressources_select_items(t_ressource_manager *rm)
 {
-	if (rm->ressources_types || !(rm->ressources_types = create_select_items_array(5)))
+	if (rm->ressources_types
+		|| !(rm->ressources_types = create_select_items_array(5)))
 		return (!!rm->ressources_types);
 	rm->ressources_types->auto_free = FALSE;
-	append_select_items_array(&rm->ressources_types, (t_select_item){ "TEXTURE", RESSOURCE_TEXTURE });
-	append_select_items_array(&rm->ressources_types, (t_select_item){ "MODEL", RESSOURCE_MODEL });
-	append_select_items_array(&rm->ressources_types, (t_select_item){ "SOUND", RESSOURCE_SOUND });
-	append_select_items_array(&rm->ressources_types, (t_select_item){ "SCRIPT", RESSOURCE_SCRIPT });
+	append_select_items_array(&rm->ressources_types, (t_select_item){ "TEXTURE",
+		RESSOURCE_TEXTURE });
+	append_select_items_array(&rm->ressources_types, (t_select_item){ "MODEL",
+		RESSOURCE_MODEL });
+	append_select_items_array(&rm->ressources_types, (t_select_item){ "SOUND",
+		RESSOURCE_SOUND });
+	append_select_items_array(&rm->ressources_types, (t_select_item){ "SCRIPT",
+		RESSOURCE_SCRIPT });
 	return (TRUE);
 }
 
