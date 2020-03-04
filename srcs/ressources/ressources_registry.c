@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 14:37:12 by llelievr          #+#    #+#             */
-/*   Updated: 2020/03/02 16:16:21 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/03/04 17:28:14 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "doom.h"
 #include "ressource.h"
 
-t_bool	a(t_doom *doom, char *name, t_ressource_type type, t_bool fixed)
+t_bool			a(t_doom *doom, char *name, t_ressource_type type, t_bool fixed)
 {
 	t_ressource	*ressource;
 

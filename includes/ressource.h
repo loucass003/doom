@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 10:19:30 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/16 15:47:37 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/03/04 17:37:57 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,5 +142,13 @@ int							get_ressource_by_name(t_ressource_manager *r,
 t_bool						write_ressources(t_ressource_manager *rm);
 
 int							get_pages_count(t_ressource_manager *rm);
+
+t_bool						read_object(t_ressource_manager *r,
+								t_object *object);
+t_bool						read_entity(t_ressource_manager *r,
+								t_entity_type *type);
+
+
+
 
 #endif

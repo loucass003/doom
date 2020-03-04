@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 13:36:27 by lloncham          #+#    #+#             */
-/*   Updated: 2020/02/16 16:00:14 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/03/04 17:33:21 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,5 +123,10 @@ t_bool					trigger_item_weapon(t_trigger_pick_item *trigger,
 t_bool					trigger_pick_item(t_trigger_pick_item *trigger,
 							t_json_object *object);
 t_bool					script_return_error(char *error);
+t_trigger_type			get_trigger_type(char *str);
+t_action_type			get_action_type(char *str);
+t_bool					parse_json_actions(t_script *script,
+							t_json_array *array);
+
 
 #endif
