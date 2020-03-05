@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/15 23:50:58 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/24 17:32:30 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/03/05 19:24:23 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,24 @@
 #include "maths/plane.h"
 #include "doom.h"
 #include "collision.h"
+
+t_bool	point_in_triangle_cross(const t_vec3 u, const t_vec3 v, const t_vec3 w, const t_vec3 vw)
+{
+	t_vec3	uw;
+	t_vec3	uv;
+	float 	d;
+	float	r;
+	float	t;
+
+	uw = ft_vec3_cross(u, w);
+	uv = ft_vec3_cross(u, v);
+	if (ft_vec3_dot(uw, uv) < 0)
+		return (FALSE);
+	d = ft_vec3_len(uv);
+	r = ft_vec3_len(vw) / d;
+	t = ft_vec3_len(uw) / d;
+	return ((r + t) <= 1);
+}
 
 t_bool	point_in_triangle(t_vec3 point, t_vec3 p1, t_vec3 p2, t_vec3 p3)
 {
@@ -27,17 +45,7 @@ t_bool	point_in_triangle(t_vec3 point, t_vec3 p1, t_vec3 p2, t_vec3 p3)
 
 	if (ft_vec3_dot(vw, vu) < 0)
 		return (FALSE);
-
-	t_vec3 uw = ft_vec3_cross(u, w);
-	t_vec3 uv = ft_vec3_cross(u, v);
-	if (ft_vec3_dot(uw, uv) < 0)
-		return (FALSE);
-
-	float d = ft_vec3_len(uv);
-	float r = ft_vec3_len(vw) / d;
-	float t = ft_vec3_len(uw) / d;
-
-	return ((r + t) <= 1);
+	return (point_in_triangle_cross(u, v, w, vw));
 }
 
 t_bool	lowest_root(t_vec3 v, float max, float *root)
@@ -73,7 +81,8 @@ float				clamp(float min, float max, float v)
 	return (fmin(max, fmax(min, v)));
 }
 
-t_physics_data		*check_triangle(t_renderable *r, t_physics_data *packet, t_vec3 p1, t_vec3 p2, t_vec3 p3)
+t_physics_data		*check_triangle(t_renderable *r, t_physics_data *packet,
+	t_vec3 p1, t_vec3 p2, t_vec3 p3)
 {
 	const	t_plane plane = triangle_to_plane(p1, p2, p3);
 
