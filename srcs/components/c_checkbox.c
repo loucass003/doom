@@ -3,16 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   c_checkbox.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/14 01:21:54 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/16 17:24:24 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/03/06 13:57:55 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 #include "gui.h"
 #include "doom.h"
+
+void		draw_box(t_component *self, t_img *img, t_checkbox *checkbox)
+{
+	draw_line(img, (t_pixel){ self->bounds.x, self->bounds.y,
+		checkbox->fg_color }, (t_pixel){ self->bounds.x + 20,
+		self->bounds.y + 20, checkbox->fg_color });
+	draw_line(img, (t_pixel){ self->bounds.x, self->bounds.y + 20,
+		checkbox->fg_color }, (t_pixel){ self->bounds.x + 20,
+		self->bounds.y, checkbox->fg_color });
+	draw_rect(img, (SDL_Rect){ self->bounds.x, self->bounds.y,
+		20, 20 }, 0xFFFFFFFF);
+}
 
 void		c_checkbox_render(t_doom *doom, t_component *self, t_img *img)
 {
@@ -31,16 +43,7 @@ void		c_checkbox_render(t_doom *doom, t_component *self, t_img *img)
 		self->bounds.h / 2 - 20 / 2, self->bounds.w - 25, self->bounds.h});
 	SDL_FreeSurface(text);
 	if (checkbox->value)
-	{
-		draw_line(img, (t_pixel){ self->bounds.x, self->bounds.y,
-			checkbox->fg_color }, (t_pixel){ self->bounds.x + 20,
-			self->bounds.y + 20, checkbox->fg_color });
-		draw_line(img, (t_pixel){ self->bounds.x, self->bounds.y + 20,
-			checkbox->fg_color }, (t_pixel){ self->bounds.x + 20,
-			self->bounds.y, checkbox->fg_color });
-		draw_rect(img, (SDL_Rect){ self->bounds.x, self->bounds.y,
-			20, 20 }, 0xFFFFFFFF);
-	}
+		draw_box(self, img, checkbox);
 }
 
 t_bool		c_checkbox_on_event(t_component *self,

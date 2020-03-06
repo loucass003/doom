@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   boss.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 14:15:25 by lloncham          #+#    #+#             */
-/*   Updated: 2020/02/19 17:28:35 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/03/06 14:05:43 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,22 @@
 #include "entity.h"
 #include <math.h>
 #include <stdlib.h>
+
+void	init_boss(t_entity *boss, t_renderable *r, t_doom *doom)
+{
+	boss->type = ENTITY_BOSS;
+	boss->packet.doom = doom;
+	boss->scale = (t_vec3){ 5, 5, 5 };
+	boss->radius = (t_vec3){ 2.5, 2.5, 2.5 };
+	boss->life = 8;
+	boss->killable = TRUE;
+	boss->max_life = 8;
+	boss->sources = boss->of.boss.sources;
+	alGenSources(4, boss->sources);
+	r->of.data.entity = boss;
+	r->scale = boss->scale;
+	compute_entity_hitbox(r);
+}
 
 t_bool	create_boss_renderable(t_doom *doom, t_renderable *r)
 {
@@ -32,18 +48,7 @@ t_bool	create_boss_renderable(t_doom *doom, t_renderable *r)
 	r->of.type = RENDERABLE_ENTITY;
 	if (!(boss = ft_memalloc(sizeof(t_entity))))
 		return (FALSE);
-	boss->type = ENTITY_BOSS;
-	boss->packet.doom = doom;
-	boss->scale = (t_vec3){ 5, 5, 5 };
-	boss->radius = (t_vec3){ 2.5, 2.5, 2.5 };
-	boss->life = 8;
-	boss->killable = TRUE;
-	boss->max_life = 8;
-	boss->sources = boss->of.boss.sources;
-	alGenSources(4, boss->sources);
-	r->of.data.entity = boss;
-	r->scale = boss->scale;
-	compute_entity_hitbox(r);
+	init_boss(boss, r, doom);
 	return (TRUE);
 }
 

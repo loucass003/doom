@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   physics.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/15 23:50:58 by llelievr          #+#    #+#             */
-/*   Updated: 2020/03/05 19:24:23 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/03/06 13:42:42 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,18 @@ t_bool	lowest_root(t_vec3 v, float max, float *root)
 
 	if (det < 0)
 		return (FALSE);
-	float sqrt_d = sqrtf(det);
-	float r1 = (-v.y - sqrt_d) / (2.0 * v.x);
-	float r2 = (-v.y + sqrt_d) / (2.0 * v.x);
+	float sqrt_d;
+	float r1;
+	float r2;
+
+	sqrt_d = sqrtf(det);
+	r1 = (-v.y - sqrt_d) / (2.0 * v.x);
+	r2 = (-v.y + sqrt_d) / (2.0 * v.x);
 	if (r1 > r2)
 	{
-		float tmp = r2;
+		float tmp;
+
+		tmp = r2;
 		r2 = r1;
 		r1 = tmp;
 	}
@@ -90,12 +96,18 @@ t_physics_data		*check_triangle(t_renderable *r, t_physics_data *packet,
 	if (!is_front_facing(plane, packet->e_norm_velocity))
 		return packet;
 
-	float	t0 = 0;
-	float	t1 = 0;
-	t_bool	in_plane = FALSE;
+	float	t0;
+	float	t1;
+	t_bool	in_plane;
 
-	float dist_to_plane = distance_to_plane(plane, packet->e_base_point);
-	float normal_dot_velocity = ft_vec3_dot(plane.normal, packet->e_velocity);
+	t0 = 0;
+	t1 = 0;
+	in_plane = FALSE;
+
+	float dist_to_plane;
+	float normal_dot_velocity;
+	dist_to_plane = distance_to_plane(plane, packet->e_base_point);
+	normal_dot_velocity = ft_vec3_dot(plane.normal, packet->e_velocity);
 
 	if (normal_dot_velocity == 0)
 	{
@@ -111,7 +123,8 @@ t_physics_data		*check_triangle(t_renderable *r, t_physics_data *packet,
 		t1 = (1. - dist_to_plane) / normal_dot_velocity;
 		if (t0 > t1)
 		{
-			float tmp = t1;
+			float tmp;
+			tmp = t1;
 			t1 = t0;
 			t0 = tmp;
 		}
@@ -121,14 +134,21 @@ t_physics_data		*check_triangle(t_renderable *r, t_physics_data *packet,
 		t1 = clamp(0, 1, t1);
 	}
 
-	t_vec3	colision_point = (t_vec3){0, 0, 0};
-	t_bool	found_collision = FALSE;
-	float	t = 1;
+	t_vec3	colision_point;
+	t_bool	found_collision;
+	float	t;
+
+	colision_point = (t_vec3){0, 0, 0};
+	found_collision = FALSE;
+	t = 1;
 
 	if (!in_plane)
 	{
-		t_vec3 plane_intersect = ft_vec3_sub(packet->e_base_point, plane.normal);
-		t_vec3 tmp = ft_vec3_mul_s(packet->e_velocity, t0);
+		t_vec3 plane_intersect;
+		t_vec3 tmp;
+
+		plane_intersect = ft_vec3_sub(packet->e_base_point, plane.normal);
+		tmp = ft_vec3_mul_s(packet->e_velocity, t0);
 		plane_intersect = ft_vec3_add(plane_intersect, tmp);
 		if (point_in_triangle(plane_intersect, p1, p2, p3))
 		{
@@ -140,25 +160,37 @@ t_physics_data		*check_triangle(t_renderable *r, t_physics_data *packet,
 
 	if (!found_collision)
 	{
-		t_vec3 velocity = packet->e_velocity;
-		t_vec3 base = packet->e_base_point;
-		float velocity_sq_len = ft_vec3_dot(velocity, velocity);
-		float a = velocity_sq_len;
-		float b = 0;
-		float c = 0;
+		t_vec3 velocity;
+		t_vec3 base;
+		float velocity_sq_len;
 
-		t_vec3 tmp = ft_vec3_sub(base, p1);
+		velocity = packet->e_velocity;
+		base = packet->e_base_point;
+		velocity_sq_len = ft_vec3_dot(velocity, velocity);
+
+		float a;
+		float b;
+		float c;
+
+		a = velocity_sq_len;
+		b = 0;
+		c = 0;
+
+		t_vec3 tmp;
+
+		tmp = ft_vec3_sub(base, p1);
 		b = 2.0 * ft_vec3_dot(velocity, tmp);
 		tmp = ft_vec3_sub(p1, base);
 		c = ft_vec3_dot(tmp, tmp) - 1;
+
 		float new_t;
+
 		if (lowest_root((t_vec3){ a, b, c }, t, &new_t))
 		{
 			t = new_t;
 			found_collision = TRUE;
 			colision_point = p1;
 		}
-
 		if (!found_collision)
 		{
 			tmp = ft_vec3_sub(base, p2);
@@ -172,7 +204,6 @@ t_physics_data		*check_triangle(t_renderable *r, t_physics_data *packet,
 				colision_point = p2;
 			}
 		}
-
 		if (!found_collision)
 		{
 			tmp = ft_vec3_sub(base, p3);
@@ -187,18 +218,26 @@ t_physics_data		*check_triangle(t_renderable *r, t_physics_data *packet,
 			}
 		}
 
-		t_vec3	edge = ft_vec3_sub(p2, p1);
-		t_vec3	base_to_vertex = ft_vec3_sub(p1, base);
-		float	edge_sq_len = ft_vec3_dot(edge, edge);
-		float	edge_dot_velocity = ft_vec3_dot(edge, velocity);
-		float	edge_dot_base_to_vertex = ft_vec3_dot(edge, base_to_vertex);
+		t_vec3	edge;
+		t_vec3	base_to_vertex;
+		float	edge_sq_len;
+		float	edge_dot_velocity;
+		float	edge_dot_base_to_vertex;
+
+		edge = ft_vec3_sub(p2, p1);
+		base_to_vertex = ft_vec3_sub(p1, base);
+		edge_sq_len = ft_vec3_dot(edge, edge);
+		edge_dot_velocity = ft_vec3_dot(edge, velocity);
+		edge_dot_base_to_vertex = ft_vec3_dot(edge, base_to_vertex);
 
 		a = edge_sq_len * -velocity_sq_len + edge_dot_velocity * edge_dot_velocity;
 		b = edge_sq_len * (2. * ft_vec3_dot(velocity, base_to_vertex)) - 2. * edge_dot_velocity * edge_dot_base_to_vertex;
 		c = edge_sq_len * (1. - ft_vec3_dot(base_to_vertex, base_to_vertex)) + edge_dot_base_to_vertex * edge_dot_base_to_vertex;
 		if (lowest_root((t_vec3){ a, b, c }, t, &new_t))
 		{
-			float f = (edge_dot_velocity * new_t - edge_dot_base_to_vertex) / edge_sq_len;
+			float f;
+
+			f = (edge_dot_velocity * new_t - edge_dot_base_to_vertex) / edge_sq_len;
 			if (f >= 0 && f <= 1)
 			{
 				t = new_t;
@@ -218,7 +257,9 @@ t_physics_data		*check_triangle(t_renderable *r, t_physics_data *packet,
 		c = edge_sq_len * (1. - ft_vec3_dot(base_to_vertex, base_to_vertex)) + edge_dot_base_to_vertex * edge_dot_base_to_vertex;
 		if (lowest_root((t_vec3){ a, b, c }, t, &new_t))
 		{
-			float f = (edge_dot_velocity * new_t - edge_dot_base_to_vertex) / edge_sq_len;
+			float f;
+
+			f = (edge_dot_velocity * new_t - edge_dot_base_to_vertex) / edge_sq_len;
 			if (f >= 0 && f <= 1)
 			{
 				t = new_t;
@@ -238,7 +279,9 @@ t_physics_data		*check_triangle(t_renderable *r, t_physics_data *packet,
 		c = edge_sq_len * (1. - ft_vec3_dot(base_to_vertex, base_to_vertex)) + edge_dot_base_to_vertex * edge_dot_base_to_vertex;
 		if (lowest_root((t_vec3){ a, b, c }, t, &new_t))
 		{
-			float f = (edge_dot_velocity * new_t - edge_dot_base_to_vertex) / edge_sq_len;
+			float f;
+
+			f = (edge_dot_velocity * new_t - edge_dot_base_to_vertex) / edge_sq_len;
 			if (f >= 0 && f <= 1)
 			{
 				t = new_t;
@@ -250,27 +293,27 @@ t_physics_data		*check_triangle(t_renderable *r, t_physics_data *packet,
 
 	if (found_collision)
 	{
-		float dist_to_coll = t * ft_vec3_len(packet->e_velocity);
+		float dist_to_coll;
+
+		dist_to_coll = t * ft_vec3_len(packet->e_velocity);
 		if (!packet->found_colision || dist_to_coll < packet->distance)
 		{
-		//	printf("COLLISION\n");
 			packet->distance = dist_to_coll;
 			packet->intersect_point = colision_point;
 			packet->found_colision = TRUE;
 			packet->r = r;
-			// packet->t = t;
 			packet->a = p1;
 			packet->b = p2;
 			packet->c = p3;
 			packet->plane = plane;
 		}
 
-		t_vec3 n = ft_vec3_norm(ft_vec3_sub(colision_point, packet->e_velocity));
-		float dz = ft_vec3_dot(n, (t_vec3){ 0, 1, 0 });
-		packet->grounded = dz <= -0.5;
+		t_vec3 n;
+		float dz;
 
+		n = ft_vec3_norm(ft_vec3_sub(colision_point, packet->e_velocity));
+		dz = ft_vec3_dot(n, (t_vec3){ 0, 1, 0 });
+		packet->grounded = dz <= -0.5;
 	}
-	// if (!found_collision)
-	// 	printf("NOT COLLIDE\n");
 	return (packet);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   entity.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 22:00:26 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/20 16:53:36 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/03/06 15:03:42 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,6 @@ void		teleport(t_entity *entity, t_vec3 pos, t_vec3 rot)
 	entity->position = pos;
 	entity->rotation = rot;
 	entity->ontp = FALSE;
-	//TODO: son ?
 }
 
 void		check_col_collide_ellipsoid(t_renderable r, t_entity *entity,
@@ -220,7 +219,8 @@ void 		damage_explo(t_entity *from, t_doom *doom, float damage)
 	float			dist;
 	int				i;
 
-	t_renderable r;
+	t_renderable	r;
+
 	create_explosion_renderable(doom, &r);
 	r.position = from->position;
 	append_renderables_array(&doom->renderables, r);
@@ -228,10 +228,12 @@ void 		damage_explo(t_entity *from, t_doom *doom, float damage)
 	renderables = doom->renderables;
 	while (++i < renderables->len)
 	{
-		t_renderable *r = &renderables->values[i];
+		t_renderable	*r;
+		r = &renderables->values[i];
 		if (r->of.type == RENDERABLE_ENTITY)
 		{
-			t_entity *e = r->of.data.entity;
+			t_entity	*e;
+			e = r->of.data.entity;
 			if (from == e)
 				continue;
 			dist = ft_vec3_len(ft_vec3_sub(e->position, from->position));
@@ -266,15 +268,14 @@ void		give_damage(t_entity *from, t_entity *to, t_doom *doom, float damage)
 		}
 	}
 	if (to->type == ENTITY_BOSS)
-	{
 		entity_sound(to, 7, 3, 1);
-	}
 }
 
 t_vec3		ft_vec3_trim(t_vec3 v, float max_len)
 {
-	float len = ft_vec3_len(v);
+	float len;
 
+	len = ft_vec3_len(v);
 	if (len > max_len)
 	{
 		len = 1.0 / len;
@@ -287,40 +288,51 @@ t_vec3		ft_vec3_trim(t_vec3 v, float max_len)
 t_vec3		collide_with_world(t_entity *entity, t_vec3 e_position,
 	t_vec3 e_velocity, t_bool *stop)
 {
-	float unit_scale = 1;
-	float very_close_dist = 0.0005 * unit_scale;
+	float	unit_scale;
+	float	very_close_dist;
 
+	unit_scale = 1;
+	very_close_dist = 0.0005 * unit_scale;
 	if (entity->packet.depth > 5)
 		return e_position;
-
 	entity->packet.e_velocity = e_velocity;
 	entity->packet.e_norm_velocity = ft_vec3_norm(e_velocity);
 	entity->packet.e_base_point = e_position;
 	entity->packet.found_colision = FALSE;
 	entity->packet.distance = 1e20;
 
-	float scale = fmax(1.5, ft_vec3_len(e_velocity)) * 1.5;
-	t_vec3 r3_position = ft_vec3_mul(e_position, entity->packet.e_radius);
-	t_vec3 query_radius = ft_vec3_mul_s(entity->packet.e_radius, scale);
-	t_vec3 min = ft_vec3_sub(r3_position, query_radius);
-	t_vec3 max = ft_vec3_add(r3_position, query_radius);
+	float scale;
+	t_vec3 r3_position;
+	t_vec3 query_radius;
+	t_vec3 min;
+	t_vec3 max;
+
+	scale = fmax(1.5, ft_vec3_len(e_velocity)) * 1.5;
+	r3_position = ft_vec3_mul(e_position, entity->packet.e_radius);
+	query_radius = ft_vec3_mul_s(entity->packet.e_radius, scale);
+	min = ft_vec3_sub(r3_position, query_radius);
+	max = ft_vec3_add(r3_position, query_radius);
 	if (*stop || !check_collision(entity, (t_collide_aabb){
 		.min = min, .max = max }))
 	{
+		t_vec3	dest_point;
+
 		*stop = TRUE;
-		t_vec3 dest_point = ft_vec3_add(e_position, e_velocity);
+		dest_point = ft_vec3_add(e_position, e_velocity);
 		return dest_point;
 	}
 
-	t_vec3 dest_point = ft_vec3_add(e_position, e_velocity);
+	t_vec3	dest_point;
+	dest_point = ft_vec3_add(e_position, e_velocity);
 	if (entity->packet.found_colision == FALSE)
 	{
 		entity->grounded = FALSE;
 		return dest_point;
 	}
 
-	t_vec3 new_base_point = e_position;
+	t_vec3	new_base_point;
 
+	new_base_point = e_position;
 	if (entity->packet.distance >= very_close_dist)
 	{
 		t_vec3 v;
@@ -331,15 +343,17 @@ t_vec3		collide_with_world(t_entity *entity, t_vec3 e_position,
 			.intersect_point, ft_vec3_mul_s(v, very_close_dist));
 	}
 
-	t_vec3 slide_plane_origin;
+	t_vec3	slide_plane_origin;
+	t_vec3	slide_plane_normal;
+
 	slide_plane_origin = entity->packet.intersect_point;
-	t_vec3 slide_plane_normal;
 	slide_plane_normal = ft_vec3_norm(ft_vec3_sub(new_base_point,
 		entity->packet.intersect_point));
 
-	t_plane sliding_plane = plane_new(slide_plane_origin, slide_plane_normal);
-	float slide_factor = distance_to_plane(sliding_plane, dest_point);
-
+	t_plane	sliding_plane;
+	float	slide_factor;
+	sliding_plane = plane_new(slide_plane_origin, slide_plane_normal);
+	slide_factor = distance_to_plane(sliding_plane, dest_point);
 
 	if (entity->type != ENTITY_GRENADA
 		&& entity->packet.intersect_point.y <= e_position.y
@@ -348,10 +362,11 @@ t_vec3		collide_with_world(t_entity *entity, t_vec3 e_position,
 			entity->grounded = TRUE;
 			return new_base_point;
 	}
-	t_vec3 new_dest_point;
+	t_vec3	new_dest_point;
+	t_vec3	new_velocity;
+
 	new_dest_point = ft_vec3_sub(dest_point, ft_vec3_mul_s(slide_plane_normal,
 		slide_factor));
-	t_vec3 new_velocity;
 	new_velocity = ft_vec3_sub(new_dest_point, entity->packet.intersect_point);
 	if (ft_vec3_len(new_velocity) < very_close_dist)
 		return new_base_point;
@@ -367,29 +382,25 @@ t_bool		collide_and_slide(t_entity *entity)
 	entity->packet.e_radius = entity->radius;
 
 	t_vec3	gravity;
-	gravity = (t_vec3){0, fmin(0, entity->packet.r3_velocity.y), 0};
 	t_vec3	e_position;
+	t_vec3	e_velocity;
+	t_vec3	final_pos;
+	t_bool	stop;
+
+	gravity = (t_vec3){0, fmin(0, entity->packet.r3_velocity.y), 0};
 	e_position = ft_vec3_div(entity->packet.r3_posision,
 		entity->packet.e_radius);
-	t_vec3	e_velocity;
 	e_velocity = ft_vec3_div(entity->packet.r3_velocity,
 		entity->packet.e_radius);
-	t_vec3	final_pos;
-
 	e_velocity.y = fmax(0.0, e_velocity.y);
-
 	entity->packet.depth = 0;
-	t_bool stop;
 	stop = FALSE;
 	final_pos = collide_with_world(entity, e_position, e_velocity, &stop);
-
 	if (stop)
 		return (FALSE);
-
 	entity->packet.r3_posision = ft_vec3_mul(final_pos,
 		entity->packet.e_position);
 	entity->packet.e_velocity = gravity;
-
 	e_velocity = ft_vec3_div(gravity, entity->packet.e_radius);
 	entity->packet.depth = 0;
 	stop = FALSE;
@@ -414,10 +425,12 @@ t_bool		entity_update(t_doom *doom, t_entity *entity, double dt)
 			if (!entity_update_grenada(doom, entity))
 				return (FALSE);
 		entity->jetpack = FALSE;
-		int slot = get_slot_of(&doom->player, ITEM_JETPACK);
+		int	slot;
+		slot = get_slot_of(&doom->player, ITEM_JETPACK);
 		if (slot != -1)
 		{
 			t_itemstack	*is;
+
 			is = &doom->player.item[slot];
 			if (entity->type == ENTITY_PLAYER && is->of
 				&& is->of->type == ITEM_JETPACK && !entity->grounded)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   c_textfield.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/21 03:16:01 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/21 16:25:58 by louali           ###   ########.fr       */
+/*   Updated: 2020/03/06 14:04:03 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,8 @@ SDL_Event *event, t_doom *doom)
 	tf = (t_textfield *)self;
 	if (tf->focus && event->type == SDL_TEXTINPUT)
 	{
-		if (tf->text_len < 255)
-		{
+		if (tf->text_len++ < 255)
 			ft_strcat(tf->text, event->text.text);
-			tf->text_len++;
-		}
 	}
 	else if (tf->focus && event->type == SDL_KEYDOWN
 		&& event->key.keysym.scancode == SDL_SCANCODE_BACKSPACE)
