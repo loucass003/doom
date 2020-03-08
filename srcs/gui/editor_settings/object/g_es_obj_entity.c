@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_es_obj_entity.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 22:55:54 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/04 17:31:27 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/03/08 21:05:39 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,10 @@ static t_bool			action_performed(t_component *cmp, t_doom *doom)
 		t_select_item val = ((t_select *)cmp)->items->values[((t_select *)cmp)->selected_item];
 		object->of.entity = val.value;
 		if (object->r)
+		{
+			free_renderable(object->r, FALSE, FALSE);
 			create_object_renderable(&doom->editor, doom->editor.current_object, object->r);
+		}
 	}
 	return (TRUE);
 }

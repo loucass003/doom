@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_es_obj_transpo.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/06 11:23:57 by louali            #+#    #+#             */
-/*   Updated: 2020/02/11 13:46:29 by louali           ###   ########.fr       */
+/*   Updated: 2020/03/08 21:08:37 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,6 @@ static t_bool			action_performed(t_component *cmp, t_doom *doom)
 				transpo->connected++;
 		}
 	}
-	if (object->r)
-		create_object_renderable(&doom->editor, doom->editor.current_object, object->r);
 	return (TRUE);
 }
 

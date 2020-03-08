@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_es_obj_itemstack.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 22:55:54 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/22 11:50:49 by louali           ###   ########.fr       */
+/*   Updated: 2020/03/08 21:06:01 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,10 @@ static t_bool			action_performed(t_component *cmp, t_doom *doom)
 		t_select_item val = ((t_select *)cmp)->items->values[((t_select *)cmp)->selected_item];
 		if (val.value != object->of.itemstack->of->type)
 		{
-			free_object(object);
+			if (!object->r)
+				free_object(object);
+			else
+				free_renderable(object->r, FALSE, FALSE);
 			object->of.itemstack = create_itemstack_from_type(doom, (t_item_type)val.value, WEAPON_GUN);
 			t_int_str istr = ft_int_to_str(object->of.itemstack->amount);
 			ft_memcpy(((t_textfield *)editor->settings.guis_object[OBJECT_ITEMSTACK].components->values[1])->text, istr.str, istr.len);
@@ -43,8 +46,6 @@ static t_bool			action_performed(t_component *cmp, t_doom *doom)
 		object->of.itemstack->amount = 1;
 		if (!((t_textfield *)cmp)->error)
 			object->of.itemstack->amount = ((t_textfield *)cmp)->value;
-		if (object->r)
-				create_object_renderable(&doom->editor, doom->editor.current_object, object->r);
 	}
 	else if (cmp == editor->settings.guis_object[OBJECT_ITEMSTACK].components->values[2])
 	{
@@ -52,7 +53,10 @@ static t_bool			action_performed(t_component *cmp, t_doom *doom)
 		t_select_item val = ((t_select *)cmp)->items->values[((t_select *)cmp)->selected_item];
 		if (val.value != object->of.itemstack->of->data.weapon.type)
 		{
-			free_object(object);
+			if (!object->r)
+				free_object(object);
+			else
+				free_renderable(object->r, FALSE, FALSE);
 			object->of.itemstack = create_itemstack_from_type(doom, ITEM_WEAPON, (t_weapon_type)val.value);
 			t_int_str istr = ft_int_to_str(object->of.itemstack->amount);
 			ft_memcpy(((t_textfield *)editor->settings.guis_object[OBJECT_ITEMSTACK].components->values[1])->text, istr.str, istr.len);
@@ -80,10 +84,7 @@ void			g_es_obj_itemstack_enter(t_gui *self, t_doom *doom)
 	t_object	*object = &doom->editor.objects->values[doom->editor.current_object];
 	t_itemstack	*is = object->of.itemstack;
 	if (!is)
-	{
-		printf("NOT COOL\n");
 		return ;
-	}
 	((t_select *)self->components->values[0])->selected_item = select_items_indexof(((t_select *)self->components->values[0])->items, is->of->type);
 	append_components_array(&self->components, create_textfield((SDL_Rect){x + 10, y + 50, 300, 30}, "AMOUNT", TRUE));
 	t_int_str istr = ft_int_to_str(is->amount);

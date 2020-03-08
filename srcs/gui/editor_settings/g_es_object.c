@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 22:55:54 by llelievr          #+#    #+#             */
-/*   Updated: 2020/03/07 02:41:37 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/03/08 21:02:51 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,7 @@ static t_bool			action_performed(t_component *cmp, t_doom *doom)
 			if (!object->r)
 				free_object(object);
 			else
-			{
-				printf("FREE object renderable\n");
 				free_renderable(object->r, FALSE, FALSE);
-			}
 			object->type = ((t_select *)cmp)->items->values[((t_select *)cmp)->selected_item].value;
 			if (object->type != OBJECT_NONE)
 			{

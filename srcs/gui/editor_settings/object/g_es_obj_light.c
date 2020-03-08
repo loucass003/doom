@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_es_obj_light.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/26 15:00:53 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/22 11:51:13 by louali           ###   ########.fr       */
+/*   Updated: 2020/03/08 21:05:28 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,10 @@ static t_bool			action_performed(t_component *cmp, t_doom *doom)
 	{
 		light->model_visible = ((t_checkbox *)cmp)->value;
 		if (object->r)
+		{
+			free_renderable(object->r, FALSE, FALSE);
 			create_object_renderable(&doom->editor, doom->editor.current_object, object->r);
+		}
 	}
 	if (cmp == editor->settings.guis_object[OBJECT_LIGHT].components->values[3])
 	{

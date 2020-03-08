@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 18:56:08 by llelievr          #+#    #+#             */
-/*   Updated: 2020/03/08 20:18:08 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/03/08 20:52:34 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,12 @@ void	editor_grid_render(t_doom *doom, t_editor *editor)
 		draw_circle(&doom->screen, (t_pixel){ editor->grid_cell.x,
 			editor->grid_cell.y, color }, 5);
 	}
-	i = -1;
-	while (++i < editor->points->len)
-	{
-		p = editor->points->vertices[i];
-		draw_circle(&doom->screen, (t_pixel){ p.x, p.y, 0xFFFF0000 }, 5);
-	}
+	// i = -1;
+	// while (++i < editor->points->len)
+	// {
+	// 	p = editor->points->vertices[i];
+	// 	draw_circle(&doom->screen, (t_pixel){ p.x, p.y, 0xFFFF0000 }, 5);
+	// }
 	if (editor->line_start_cell.x != -1 && editor->grid_cell.x != -1)
 		draw_line(&doom->screen, (t_pixel){ editor->line_start_cell.x,
 			editor->line_start_cell.y, 0xFF909090}, (t_pixel){
