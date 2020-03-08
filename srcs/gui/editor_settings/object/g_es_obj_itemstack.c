@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 22:55:54 by llelievr          #+#    #+#             */
-/*   Updated: 2020/03/08 21:06:01 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/03/08 21:14:34 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ static t_bool			action_performed(t_component *cmp, t_doom *doom)
 		t_select_item val = ((t_select *)cmp)->items->values[((t_select *)cmp)->selected_item];
 		if (val.value != object->of.itemstack->of->type)
 		{
-			if (!object->r)
-				free_object(object);
-			else
-				free_renderable(object->r, FALSE, FALSE);
+			// if (!object->r)
+			// 	free_object(object);
+			// else
+			// 	free_renderable(object->r, FALSE, FALSE);
 			object->of.itemstack = create_itemstack_from_type(doom, (t_item_type)val.value, WEAPON_GUN);
 			t_int_str istr = ft_int_to_str(object->of.itemstack->amount);
 			ft_memcpy(((t_textfield *)editor->settings.guis_object[OBJECT_ITEMSTACK].components->values[1])->text, istr.str, istr.len);
@@ -53,10 +53,10 @@ static t_bool			action_performed(t_component *cmp, t_doom *doom)
 		t_select_item val = ((t_select *)cmp)->items->values[((t_select *)cmp)->selected_item];
 		if (val.value != object->of.itemstack->of->data.weapon.type)
 		{
-			if (!object->r)
-				free_object(object);
-			else
-				free_renderable(object->r, FALSE, FALSE);
+			// if (!object->r)
+			// 	free_object(object);
+			// else
+			// 	free_renderable(object->r, FALSE, FALSE);
 			object->of.itemstack = create_itemstack_from_type(doom, ITEM_WEAPON, (t_weapon_type)val.value);
 			t_int_str istr = ft_int_to_str(object->of.itemstack->amount);
 			ft_memcpy(((t_textfield *)editor->settings.guis_object[OBJECT_ITEMSTACK].components->values[1])->text, istr.str, istr.len);
