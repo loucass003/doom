@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ressources.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 13:56:22 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/07 17:57:22 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/03/07 03:54:19 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,18 @@ t_ressources	*append_ressources_array(t_ressources **arr, t_ressource *v)
 
 t_ressources	*splice_ressources_array(t_ressources *arr, int index, int n)
 {
+	int		i;
+
 	if (index < 0)
 		index = index + arr->len - 1;
 	if (n <= 0 || index >= arr->len || index + n > arr->len)
 		return (NULL);
+	i = -1;
+	while (++i < n)
+	{
+		arr->values[i + index]->loaded = TRUE;
+		free_ressource(&arr->values[i + index]);
+	}
 	ft_memcpy(arr->values + index, arr->values + index + n,
 		(arr->len - (index + n)) * sizeof(t_ressource *));
 	arr->len -= n;

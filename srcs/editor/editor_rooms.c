@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   editor_rooms.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/14 14:34:01 by louali            #+#    #+#             */
-/*   Updated: 2020/02/14 14:34:58 by louali           ###   ########.fr       */
+/*   Updated: 2020/03/08 20:14:08 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,11 @@ int			point_in_rooms(t_editor *editor, t_vec2 point)
 	return (index);
 }
 
+void		free_room(t_room *room)
+{
+	free_walls(&room->walls);
+}
+
 void		free_rooms(t_rooms **rooms)
 {
 	int		i;
@@ -69,7 +74,7 @@ void		free_rooms(t_rooms **rooms)
 	while (++i < (*rooms)->len)
 	{
 		room = &(*rooms)->values[i];
-		free_walls(&room->walls);
+		free_room(room);
 	}
 	ft_memdel((void **)rooms);
 }

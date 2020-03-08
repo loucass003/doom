@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   itemstack_renderable.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/22 14:51:01 by lloncham          #+#    #+#             */
-/*   Updated: 2020/02/20 15:52:41 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/03/07 03:21:46 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,18 +70,18 @@ t_itemstack		*create_itemstack_from_type(t_doom *doom, t_item_type type,
 	return (it);
 }
 
-t_bool			create_itemstack_renderable(t_renderable *r, t_item *item,
-	int amount)
+t_bool			create_itemstack_renderable(t_renderable *r, t_itemstack *is)
 {
 	t_sprite	*sprite;
+	t_item		*item;
 
-	if (!(sprite = create_sprite((t_vec2){ 1, 1 }, item->image)))
+	item = is->of;
+	if (!(sprite = create_sprite((t_vec2){ 1, 1 }, is->of->image)))
 		return (FALSE);
 	if (!create_sprite_renderable(r, sprite))
 		return (FALSE);
 	r->of.type = RENDERABLE_ITEMSTACK;
-	if (!(r->of.data.itemstack = create_itemstack(item, amount)))
-		return (FALSE);
+	r->of.data.itemstack = is;
 	sprite = r->sprite;
 	sprite->uv_max = (t_vec2){ (float)item->bounds.x
 		/ (float)item->image->data.texture->width,
@@ -104,9 +104,8 @@ t_bool			create_itemstack_renderable(t_renderable *r, t_item *item,
 
 void	free_itemstack(t_itemstack **it)
 {
-	t_itemstack *i;
-
-	i = *it;
-	ft_memdel((void **)&i->of);
+	if (!(*it))
+		return ;
+	ft_memdel((void **)&(*it)->of);
 	ft_memdel((void **)it);
 }

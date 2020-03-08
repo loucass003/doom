@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   door_renderable.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:22:26 by llelievr          #+#    #+#             */
-/*   Updated: 2020/03/02 15:38:28 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/03/07 03:35:42 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,4 +229,17 @@ void		transform_renderable_door(t_renderable *r)
 			face->face_normal = n;
 	}
 	compute_collidables(r);
+}
+
+
+void		free_door(t_door **d_addr)
+{
+	t_door	*door;
+
+	if (!(*d_addr))
+		return ;
+	door = *d_addr;
+	ft_memdel((void **)&door->door_1_indexes);
+	ft_memdel((void **)&door->door_2_indexes);
+	ft_memdel((void **)d_addr);
 }

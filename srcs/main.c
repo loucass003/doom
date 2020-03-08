@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/24 17:30:10 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/03/05 16:58:10 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ t_bool	init_map(t_doom *doom)
 void	free_map(t_doom *doom)
 {
 	free_rooms(&doom->editor.rooms);
-	free_objects(&doom->editor.objects);
-	free_renderables(&doom->renderables);
+	free_objects(&doom->editor.objects, FALSE);
+	free_renderables(&doom->renderables, TRUE);
 	ft_memdel((void **)&doom->editor.points);
 	ft_memdel((void **)&doom->lights);
 }

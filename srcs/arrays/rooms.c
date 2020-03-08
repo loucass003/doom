@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rooms.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/22 14:29:19 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/22 14:41:41 by louali           ###   ########.fr       */
+/*   Updated: 2020/03/08 20:14:52 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,15 @@ t_rooms	*append_rooms_array(t_rooms **arr, t_room v)
 
 t_rooms	*splice_rooms_array(t_rooms *arr, int index, int n)
 {
+	int		i;
+
 	if (index < 0)
 		index = index + arr->len - 1;
 	if (n <= 0 || index >= arr->len || index + n > arr->len)
 		return (NULL);
+	i = -1;
+	while (++i < n)
+		free_room(&arr->values[index + i]);
 	ft_memcpy(arr->values + index, arr->values + index + n,
 		(arr->len - (index + n)) * sizeof(t_room));
 	arr->len -= n;

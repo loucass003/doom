@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   octree.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/05 17:31:15 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/21 12:55:53 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/03/04 20:25:53 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ t_bool			subdivide(t_octree_node *n)
 	return (TRUE);
 }
 
-t_bool			insert_octree_false(t_octree_node *n, int face)
+t_bool			insert_face_index(t_octree_node *n, int face)
 {
 	if (!n->faces_index && !(n->faces_index = create_ints_array(50)))
 		return (FALSE);
@@ -102,7 +102,7 @@ t_bool			insert_octree(t_octree_node *n, t_doom *doom, t_renderable *r,
 	i = -1;
 	if (!n->childs)
 	{
-		if (insert_octree_false(n, face) == FALSE)
+		if (insert_face_index(n, face) == FALSE)
 			return (FALSE);
 		if (n->faces_index->len > 100)
 		{

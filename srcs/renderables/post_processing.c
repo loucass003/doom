@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   post_processing.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/16 21:24:43 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/21 15:10:04 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/03/07 03:31:18 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ t_bool			post_process_renderable(t_doom *doom, t_renderable *r,
 	compute_collidables(r);
 	if (octree)
 	{
-		r->octree = NULL;
+		if (r->octree)
+			free_octree(&r->octree);
 		r->octree = create_octree(doom, r);
 	}
 	transform_renderable(r);

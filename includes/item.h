@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   item.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 20:30:43 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/16 15:12:24 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/03/07 03:18:05 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,7 @@ typedef struct		s_itemstack
 	int				amount;
 }					t_itemstack;
 
-t_bool				create_itemstack_renderable(t_renderable *r, t_item *item,
-						int amount);
+t_bool				create_itemstack_renderable(t_renderable *r, t_itemstack *is);
 t_item				*create_item(t_item_type type, t_ressource *image,
 						SDL_Rect bounds, int max_stack_size);
 t_item				*create_item_weapon(t_ressource *image, SDL_Rect bounds,

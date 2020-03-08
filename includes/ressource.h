@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ressource.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 10:19:30 by llelievr          #+#    #+#             */
-/*   Updated: 2020/03/04 17:37:57 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/03/08 20:45:52 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ typedef union				u_ressource_data
 typedef struct				s_ressource
 {
 	char					display_name[255];
-	char					*path;
 	t_ressource_type		type;
 	t_ressource_data		data;
 	t_bool					loaded;

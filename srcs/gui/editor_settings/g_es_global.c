@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_es_global.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 20:40:10 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/22 11:49:48 by louali           ###   ########.fr       */
+/*   Updated: 2020/03/04 19:22:28 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,6 @@ void			g_es_global_enter(t_gui *self, t_doom *doom)
 
     append_components_array(&self->components, create_checkbox(doom, (t_vec2){ x + 10, y + 40 }, "SKYBOX"));
 	((t_checkbox *)self->components->values[0])->value = doom->skybox_enabled;
-	// append_components_array(&self->components, create_button((SDL_Rect){ x + 10, y + 40, 40, 40 }, NULL, "<"));
-	// append_components_array(&self->components, create_button((SDL_Rect){ x + 270, y + 40, 40, 40 }, NULL, ">"));
-	// append_components_array(&self->components, create_button((SDL_Rect){ x + 10, y + 120, 40, 40 }, NULL, "<"));
-	// append_components_array(&self->components, create_button((SDL_Rect){ x + 270, y + 120, 40, 40 }, NULL, ">"));
 	int i = -1;
 	while (++i < 1)
 	 	self->components->values[i]->perform_action = action_performed;

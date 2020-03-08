@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:16:19 by llelievr          #+#    #+#             */
-/*   Updated: 2020/03/02 15:41:30 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/03/05 16:57:02 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ typedef struct				s_renderable
 	t_bool					no_light;
 	t_bool					show_hitbox;
 	t_bool					has_hitbox;
+	t_bool					model;
 	t_collidable			hitbox;
 	t_vec3					hitbox_offset;
 	t_bool					wireframe;
@@ -203,6 +204,6 @@ void		free_materials(t_mtllist **m_addr, t_bool free_ressources);
 void		free_renderable_of(t_renderable *r);
 t_bool		free_renderable(t_renderable *r, t_bool free_resources, t_bool res);
 void		face_and_triangle(t_renderable *r, int i);
-void		free_renderables(t_renderables **renderables);
+void		free_renderables(t_renderables **renderables, t_bool destroy_array);
 
 #endif

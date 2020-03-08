@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   editor_tool_room.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 20:09:08 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/24 16:23:19 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/03/03 19:41:50 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void		init_rooms(t_editor *editor)
 	select_room(editor, editor->rooms->len - 1);
 }
 
-t_bool		select(t_room *curr_room, t_editor *editor, SDL_Event *event)
+t_bool		select_event(t_room *curr_room, t_editor *editor, SDL_Event *event)
 {
 	t_vec2	vert0;
 
@@ -86,7 +86,7 @@ void		editor_tool_room(t_editor *editor, SDL_Event *event)
 	if (curr_room->closed)
 		return ;
 	if (curr_room->walls->len >= 3)
-		if (select(curr_room, editor, event))
+		if (select_event(curr_room, editor, event))
 			return ;
 	if (event->button.button == SDL_BUTTON_RIGHT)
 		return ;

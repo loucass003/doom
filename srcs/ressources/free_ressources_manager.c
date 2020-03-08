@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_ressources_manager.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/11 06:02:31 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/21 16:55:03 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/03/08 20:01:42 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void	free_ressource(t_ressource **r_addr)
 	t_ressource		*r;
 
 	r = *r_addr;
-	ft_memdel((void **)r->path);
 	if (r->loaded)
 	{
 		if (r->type == RESSOURCE_MODEL)
@@ -33,6 +32,8 @@ void	free_ressource(t_ressource **r_addr)
 		}
 		else if (r->type == RESSOURCE_SOUND)
 			free_sound(&r->data.sound);
+		else if (r->type == RESSOURCE_SCRIPT)
+			free_script(&r->data.script_data);
 	}
 	ft_memdel((void **)r_addr);
 }

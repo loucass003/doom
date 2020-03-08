@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_ressources.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/24 12:20:04 by lloncham          #+#    #+#             */
-/*   Updated: 2020/02/12 18:01:43 by louali           ###   ########.fr       */
+/*   Updated: 2020/03/08 19:35:00 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ void				g_ressources_on_enter(t_gui *self, t_doom *doom)
 {
 	int i;
 
-	SDL_EventState(SDL_DROPFILE, SDL_ENABLE);
 	i = -1;
 	while (++i < PAGE_SIZE)
 	{
@@ -121,7 +120,8 @@ void				g_ressources_on_event(t_gui *self,
 			r = doom->res_manager.ressources->values[index];
 			if (r->type == RESSOURCE_UNSET)
 				return ;
-			load_ressource(doom, r, event->drop.file);
+			if (!load_ressource(doom, r, event->drop.file))
+				free_ressource(&r);
 			update_selects(&doom->guis[doom->current_gui], &doom->res_manager);
 		}
 		else if (in_bounds(self->components->values[(PAGE_SIZE * 3) + 4]->bounds, pos))
@@ -129,13 +129,11 @@ void				g_ressources_on_event(t_gui *self,
 			ressource_mapper(&doom->res_manager, event->drop.file);
 			update_selects(&doom->guis[doom->current_gui], &doom->res_manager);
 		}
-		SDL_free(event->drop.file);
 	}
 }
 
 void				g_ressources_on_leave(t_gui *self, t_doom *doom)
 {
 	(void)self;
-	SDL_EventState(SDL_DROPFILE, SDL_DISABLE);
 	doom->screen.secure = FALSE;
 }

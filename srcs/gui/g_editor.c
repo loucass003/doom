@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_editor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 15:50:09 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/24 15:37:55 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/03/08 20:25:43 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,16 @@ void					g_editor_on_event(t_gui *self,
 void					g_editor_on_leave(t_gui *self, t_doom *doom)
 {
 	(void)self;
-	leave_gui(doom, doom->guis, GUI_EDITOR_SETTINGS);
+	if (doom->editor.current_room != -1 
+		&& !doom->editor.rooms->values[doom->editor.current_room].closed)
+	{
+		remove_room(&doom->editor, doom->editor.current_room);
+		select_room(&doom->editor, -1);
+		doom->editor.line_start_cell = (t_vec2){ -1, -1 };
+	}
 	doom->editor.current_object = -1;
 	unselect_all(doom);
+	leave_gui(doom, doom->guis, GUI_EDITOR_SETTINGS);
 }
 
 void					g_editor_render(t_gui *self, t_doom *doom)

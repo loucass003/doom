@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   walls.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/22 14:02:50 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/22 14:46:19 by louali           ###   ########.fr       */
+/*   Updated: 2020/03/08 20:10:17 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,15 @@ t_walls	*append_walls_array(t_walls **arr, t_wall v)
 
 t_walls	*splice_walls_array(t_walls *arr, int index, int n)
 {
+	int		i;
+	
 	if (index < 0)
 		index = index + arr->len - 1;
 	if (n <= 0 || index >= arr->len || index + n > arr->len)
 		return (NULL);
+	i = -1;
+	while (++i < n)
+		free_wall(&arr->values[index + i]);
 	ft_memcpy(arr->values + index, arr->values + index + n,
 		(arr->len - (index + n)) * sizeof(t_wall));
 	arr->len -= n;

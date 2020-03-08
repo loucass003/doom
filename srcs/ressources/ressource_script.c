@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ressource_script.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 14:15:25 by lloncham          #+#    #+#             */
-/*   Updated: 2020/03/04 17:10:32 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/03/08 20:46:47 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,4 +77,53 @@ t_bool					trigger_area(t_trigger_area *area,
 		return (FALSE);
 	area->radius = *radius_d;
 	return (TRUE);
+}
+
+void					free_action(t_action *action)
+{
+	if (action->type == ACTION_MESSAGE)
+	{
+		int j;
+
+		j = -1;
+		while (++j < action->data.message.textes_count)
+			free(action->data.message.textes[j]);
+		ft_memdel((void **)&action->data.message.textes);
+	}
+	else if (action->type == ACTION_QUESTION)
+	{
+		int j;
+
+		j = -1;
+		while (++j < action->data.question.quest_count)
+			free(action->data.question.quest[j]);
+		ft_memdel((void **)&action->data.question.quest);
+		j = -1;
+		while (++j < action->data.question.answer_count)
+			free(action->data.question.answer[j]);
+		ft_memdel((void **)&action->data.question.answer);
+	}
+}
+
+void					free_script(t_script_data **s_addr)
+{
+	t_script_data	*sd;
+	t_script		*script;
+	int				i;
+	int				j;
+
+	if (!(*s_addr))
+		return ;
+	sd = *s_addr;
+	ft_memdel((void **)&sd->script_str);
+	i = -1;
+	while (++i < sd->script_count)
+	{
+		j = -1;
+		script = &sd->scripts[i];
+		while (++j < script->actions_count)
+			free_action(&script->action[j]);
+	}
+	ft_memdel((void **)&sd->scripts);
+	ft_memdel((void **)s_addr);
 }

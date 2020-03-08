@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   editor_free.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 15:15:59 by louali            #+#    #+#             */
-/*   Updated: 2020/02/13 15:16:43 by louali           ###   ########.fr       */
+/*   Updated: 2020/03/08 20:13:19 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,11 @@ void		free_object(t_object *o)
 		ft_memdel((void **)&o->of.sprite);
 	else if (o->type == OBJECT_ITEMSTACK)
 		free_itemstack(&o->of.itemstack);
+	else if (o->type == OBJECT_TRANSPO)
+		ft_memdel((void **)&o->of.transpo);
 }
 
-void		free_objects(t_objects **objects)
+void		free_objects(t_objects **objects, t_bool force)
 {
 	int			i;
 	t_object	*o;
@@ -32,7 +34,8 @@ void		free_objects(t_objects **objects)
 	while (++i < (*objects)->len)
 	{
 		o = &(*objects)->values[i];
-		free_object(o);
+		if (!o->r || force)
+			free_object(o);
 	}
 	ft_memdel((void **)objects);
 }

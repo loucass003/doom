@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   renderable.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/05 00:02:57 by llelievr          #+#    #+#             */
-/*   Updated: 2020/03/02 15:40:02 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/03/05 17:14:08 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ t_bool		create_renderable(t_renderable *r, t_renderable_type type)
 	r->of.type = type;
 	r->object_index = -1;
 	r->visible = TRUE;
+	r->model = FALSE;
 	if (!(r->vertices = create_4dvertices_array(4)))
 		return (free_renderable(r, FALSE, FALSE));
 	if (!(r->vertex = create_2dvertices_array(4)))
@@ -97,6 +98,7 @@ t_bool		copy_renderable(t_renderable *src, t_renderable *dest)
 		+ sizeof(t_face) * src->faces->capacity);
 	if (copy_renderable_malloc(src, dest) == FALSE)
 		return (FALSE);
-	transform_renderable(src);
+	transform_renderable(dest);
+	dest->model = TRUE;
 	return (TRUE);
 }

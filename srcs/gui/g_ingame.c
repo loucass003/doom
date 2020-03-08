@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_ingame.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/12 17:59:38 by louali           ###   ########.fr       */
+/*   Updated: 2020/03/05 16:40:28 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void			g_ingame_on_leave(t_gui *self, t_doom *doom)
 {
 	(void)self;
 	leave_gui(doom, doom->guis, GUI_EDITOR_SETTINGS);
-	leave_gui(doom, doom->guis, GUI_MESSAGE); //
+	leave_gui(doom, doom->guis, GUI_MESSAGE);
 	doom->mouse_focus = FALSE;
 }
 

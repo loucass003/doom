@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   events.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:14:55 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/24 16:36:13 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/03/08 19:59:43 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 static t_bool	events_full_screen(t_doom *doom, const SDL_Scancode key,
 	SDL_Event *event)
 {
+	(void)key;
+	(void)event;
 	if (doom->fullscreen == TRUE)
 	{
 		doom->fullscreen = FALSE;
@@ -29,19 +31,24 @@ static t_bool	events_full_screen(t_doom *doom, const SDL_Scancode key,
 		doom->fullscreen = TRUE;
 		SDL_SetWindowFullscreen(doom->win, SDL_WINDOW_FULLSCREEN);
 	}
+	return (TRUE);
 }
 
 static t_bool	events_window(t_doom *doom, SDL_Event *event)
 {
 	const SDL_Scancode	key = event->key.keysym.scancode;
 
+	
 	gui_events(doom, doom->guis, event, doom->current_gui);
 	components_events(doom, doom->guis, event, doom->current_gui);
+	if (event->type == SDL_DROPFILE)
+		SDL_free(event->drop.file);
 	if (event->type == SDL_QUIT
 		|| (event->type == SDL_KEYDOWN && key == SDL_SCANCODE_ESCAPE))
 	{
 		set_gui(doom, GUI_ESC);
 		doom->running = FALSE;
+		SDL_SetRelativeMouseMode((SDL_bool)FALSE);
 		return (FALSE);
 	}
 	if (event->type == SDL_KEYDOWN && ((key == SDL_SCANCODE_HOME)
@@ -67,7 +74,7 @@ void			hook_events(t_doom *doom)
 
 	SDL_SetRelativeMouseMode((SDL_bool)doom->mouse_focus);
 	doom->help = FALSE;
-	if (s[SDL_SCANCODE_F1] && doom->current_gui != GUI_RESSOURCES)//securiser context ressource
+	if (s[SDL_SCANCODE_F1] && doom->current_gui != GUI_RESSOURCES)
 		doom->help = TRUE;
 	while (SDL_PollEvent(&event))
 		if (!events_window(doom, &event))

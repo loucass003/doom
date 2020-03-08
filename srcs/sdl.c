@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sdl.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 20:10:35 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/24 16:39:33 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/03/08 20:03:14 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ t_bool			init_sdl(t_doom *doom)
 		return (sdl_quit(doom));
 	SDL_RenderSetLogicalSize(doom->renderer, S_WIDTH, S_HEIGHT);
 	SDL_SetRenderDrawBlendMode(doom->renderer, SDL_BLENDMODE_NONE);
-	SDL_EventState(SDL_DROPFILE, SDL_DISABLE);
 	if (!create_image(doom->renderer, S_WIDTH, S_HEIGHT, &doom->screen))
 		return (sdl_quit(doom));
 	doom->main_context.image = &doom->screen;
@@ -50,12 +49,13 @@ t_bool			init_sdl(t_doom *doom)
 
 t_bool			sdl_quit(t_doom *doom)
 {
+	
+	destroy_image(&doom->screen);
+	TTF_CloseFont(doom->fonts.helvetica);
 	if (doom->renderer)
 		SDL_DestroyRenderer(doom->renderer);
 	if (doom->win)
 		SDL_DestroyWindow(doom->win);
-	destroy_image(&doom->screen);
-	TTF_CloseFont(doom->fonts.helvetica);
 	TTF_Quit();
 	SDL_Quit();
 	return (FALSE);

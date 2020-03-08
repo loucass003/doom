@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   component.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 12:50:35 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/16 17:31:41 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/03/05 16:35:33 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,11 @@ void	free_components(t_gui *gui)
 {
 	int		i;
 
-	if (gui->components)
-	{
-		i = -1;
-		while (++i < gui->components->len)
-			free_component(&gui->components->values[i]);
-	}
+	if (!gui->components)
+		return ;
+	i = -1;
+	while (++i < gui->components->len)
+		free_component(&gui->components->values[i]);
 	free(gui->components);
 	gui->components = NULL;
 }

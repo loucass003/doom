@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ressource_mapper.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/29 13:50:12 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/24 15:54:16 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/03/07 04:18:52 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,11 @@ t_bool		read_ressource_type(t_ressource_manager *r, t_json_object *val,
 			return (FALSE);
 		}
 		s = (t_json_string *)e->value;
-		load_ressource(r->doom, r->ressources->values[i], s->value);
+		if(!load_ressource(r->doom, r->ressources->values[i], s->value))
+		{
+			free_ressource(&r->ressources->values[i]);
+			return (FALSE);
+		}
 		e = e->next;
 	}
 	return (TRUE);

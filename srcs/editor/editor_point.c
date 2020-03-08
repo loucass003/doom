@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   editor_point.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 18:46:30 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/21 16:50:12 by louali           ###   ########.fr       */
+/*   Updated: 2020/03/03 20:06:55 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom.h"
+#include "editor.h"
 
 void			remove_point(t_editor *editor, int index)
 {
@@ -68,10 +69,11 @@ t_bool			is_in_range(t_vec2 pos, t_vec2 test)
 		* (test.y - pos.y) < 9 * 9);
 }
 
-t_bool			search_room_point(t_editor *editor, t_room *room2, t_vec2 pos,
+t_bool			search_room_point(t_editor *editor, t_vec2 pos,
 	t_vec2 *p)
 {
 	int		j;
+	t_room	*room2;
 	t_bool	found;
 
 	j = -1;
@@ -89,13 +91,13 @@ t_bool			search_room_point(t_editor *editor, t_room *room2, t_vec2 pos,
 t_vec2			get_close_point(t_editor *editor, t_vec2 pos)
 {
 	t_vec2	p;
-	t_room	*room2;
+	
 
 	p = pos;
 	if ((editor->selected_tool == TOOL_OBJECTS || editor->selected_tool
 		== TOOL_SELECT) && get_close_object(editor, &p))
 		return (p);
-	if (search_room_point(editor, room2, pos, &p) == TRUE)
+	if (search_room_point(editor, pos, &p) == TRUE)
 		return (p);
 	if (editor->player_set
 		&& is_in_range((t_vec2){editor->doom->player.spawn_data.position.x,

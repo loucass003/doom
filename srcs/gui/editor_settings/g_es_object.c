@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_es_object.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 22:55:54 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/11 13:40:48 by louali           ###   ########.fr       */
+/*   Updated: 2020/03/07 02:41:37 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ t_transpo		*create_default_transpo(t_doom *doom, t_object *object)
 
 void			set_object_default(t_doom *doom, t_object *object)
 {
+	object->no_light = FALSE;
 	if (object->type == OBJECT_ITEMSTACK)
 		object->of.itemstack = create_itemstack_from_type(doom, ITEM_AMMO, -1);
 	else if (object->type == OBJECT_ENTITY)
@@ -54,10 +55,7 @@ void			set_object_default(t_doom *doom, t_object *object)
 	object->scale = (t_vec3){0, 0, 0};
 	object->rotation = (t_vec3){0, 0, 0};
 	if (object->r)
-	{
-		// free_renderable(object->r, object->type == OBJECT_MODEL, FALSE);
 		create_object_renderable(&doom->editor, objects_indexof(doom->editor.objects, object), object->r);
-	}
 }
 
 static t_bool			action_performed(t_component *cmp, t_doom *doom)
@@ -69,8 +67,13 @@ static t_bool			action_performed(t_component *cmp, t_doom *doom)
 		t_object	*object = &editor->objects->values[editor->current_object];
 		if (object->type != ((t_select *)cmp)->items->values[((t_select *)cmp)->selected_item].value)
 		{
-			free_object(object);
-			object->of.entity = -1;
+			if (!object->r)
+				free_object(object);
+			else
+			{
+				printf("FREE object renderable\n");
+				free_renderable(object->r, FALSE, FALSE);
+			}
 			object->type = ((t_select *)cmp)->items->values[((t_select *)cmp)->selected_item].value;
 			if (object->type != OBJECT_NONE)
 			{
@@ -85,7 +88,7 @@ static t_bool			action_performed(t_component *cmp, t_doom *doom)
 		t_object	*object = &editor->objects->values[editor->current_object];
 		object->no_light = ((t_checkbox *)cmp)->value;
 		if (object->r)
-			create_object_renderable(&doom->editor, doom->editor.current_object, object->r);
+			object->r->no_light = object->no_light;
 	}
 	return (TRUE);
 }

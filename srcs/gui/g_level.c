@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/15 16:27:20 by lloncham          #+#    #+#             */
-/*   Updated: 2020/02/11 03:01:37 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/03/05 17:08:34 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ void				play_game(t_doom *doom)
 	init_player(doom);
 	spawn_player(doom);
 	unselect_all(doom);
+	leave_gui(doom, doom->guis, GUI_EDITOR_SETTINGS);
+	free_renderables(&doom->renderables, FALSE);
 	editor_setmap(&doom->editor);
 	set_gui(doom, GUI_INGAME);
 }

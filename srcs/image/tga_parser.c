@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tga_parser.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/22 03:03:10 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/19 17:41:44 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/03/08 19:06:27 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ t_bool				load_tga(char *path, SDL_Surface **surface)
 	t_tga_format	tga;
 
 	r = (t_reader) { .pos = 0 };
+	*surface = NULL;
 	if ((r.fd = open(path, O_RDONLY, 0666)) == -1)
 		return (tga_return_error("Unable to open file"));
 	ft_bzero(&tga, sizeof(t_tga_format));

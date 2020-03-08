@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_item_weapon.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/22 14:43:37 by lloncham          #+#    #+#             */
-/*   Updated: 2020/02/20 15:50:51 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/03/03 20:47:17 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,7 @@ void	on_use_grenada(t_doom *doom, t_itemstack *is)
 	{
 		t_renderable grenada;
 		t_vec3 forward;
-		grenada = *doom->res_manager.ressources->values[7]->data.model;
+		copy_renderable(doom->res_manager.ressources->values[7]->data.model, &grenada);
 		create_grenada(&grenada, doom);
 		grenada.of.data.entity->position = doom->player.entity.position;
 		forward = vec3_rotate((t_vec3){ 0, 0, 1 }, (t_vec3){-doom

@@ -3,15 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   editor_free_wall.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/24 15:00:32 by louali            #+#    #+#             */
-/*   Updated: 2020/02/24 15:39:00 by louali           ###   ########.fr       */
+/*   Updated: 2020/03/08 20:13:16 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "editor.h"
 #include "doom.h"
+
+void		free_wall(t_wall *wall)
+{
+	ft_memdel((void **)&wall->start_rooms_range);
+	ft_memdel((void **)&wall->end_rooms_range);
+	ft_memdel((void **)&wall->wall_sections);
+}
 
 void			free_walls(t_walls **walls)
 {
@@ -24,9 +31,7 @@ void			free_walls(t_walls **walls)
 	while (++i < (*walls)->len)
 	{
 		wall = &(*walls)->values[i];
-		ft_memdel((void **)&wall->start_rooms_range);
-		ft_memdel((void **)&wall->end_rooms_range);
-		ft_memdel((void **)&wall->wall_sections);
+		free_wall(wall);
 	}
 	ft_memdel((void **)walls);
 }

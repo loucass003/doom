@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_renderable.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 15:39:35 by lloncham          #+#    #+#             */
-/*   Updated: 2020/03/02 15:40:10 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/03/07 03:33:33 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,10 @@ void		free_materials(t_mtllist **m_addr, t_bool free_ressources)
 	while (++i < (*m_addr)->len)
 	{
 		mtl = &(*m_addr)->values[i];
-		if (mtl->texture_map_set && free_ressources)
+		if (mtl->texture_map_set && mtl->texture_map && free_ressources)
 		{
 			destroy_image(mtl->texture_map);
-			free(mtl->texture_map);
+			ft_memdel((void **)&mtl->texture_map);
 		}
 	}
 	ft_memdel((void **)m_addr);
@@ -45,7 +45,11 @@ void		free_renderable_of(t_renderable *r)
 		&& r->of.data.entity->type != ENTITY_PLAYER)
 		ft_memdel((void **)&r->of.data.entity);
 	else if (r->of.type == RENDERABLE_ITEMSTACK)
-		free_itemstack((void **)&r->of.data.itemstack);
+		free_itemstack(&r->of.data.itemstack);
+	else if (r->of.type == RENDERABLE_TRANSPO)
+		ft_memdel((void **)&r->of.data.transpo);
+	else if (r->of.type == RENDERABLE_DOOR)
+		free_door(&r->of.data.door);
 }
 
 t_bool		free_renderable(t_renderable *r, t_bool free_resources, t_bool res)
@@ -57,9 +61,9 @@ t_bool		free_renderable(t_renderable *r, t_bool free_resources, t_bool res)
 	ft_memdel((void **)&r->vertex);
 	ft_memdel((void **)&r->normals);
 	ft_memdel((void **)&r->sprite);
-	if (r->materials)
+	if (r->materials && (free_resources || !r->model))
 		free_materials(&r->materials, free_resources);
-	if (r->octree)
+	if (r->octree && (free_resources || !r->model))
 		free_octree(&r->octree);
 	free_renderable_of(r);
 	return (res);
@@ -81,12 +85,12 @@ void		face_and_triangle(t_renderable *r, int i)
 		face->face_normal = n;
 }
 
-void		free_renderables(t_renderables **renderables)
+void		free_renderables(t_renderables **renderables, t_bool destroy_array)
 {
 	int				i;
 	t_renderable	*r;
 
-	if (!*renderables)
+	if (!(*renderables))
 		return ;
 	i = -1;
 	while (++i < (*renderables)->len)
@@ -94,5 +98,6 @@ void		free_renderables(t_renderables **renderables)
 		r = &(*renderables)->values[i];
 		free_renderable(r, FALSE, TRUE);
 	}
-	ft_memdel((void **)renderables);
+	if (destroy_array)
+		ft_memdel((void **)renderables);
 }

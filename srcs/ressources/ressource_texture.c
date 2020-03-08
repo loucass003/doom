@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ressource_texture.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/12 17:27:40 by llelievr          #+#    #+#             */
-/*   Updated: 2020/03/02 16:18:13 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/03/08 18:58:34 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,26 +25,38 @@ static t_bool	is_tga_ext(char *path)
 	return (start && *start && ft_memcmp(start + 1, "tga", 3) == 0);
 }
 
+t_bool			free_load_texture_surface(SDL_Surface *surface)
+{
+	if (surface)
+		SDL_FreeSurface(surface);
+	return (TRUE);
+}
+
 t_bool			load_texture_file(t_doom *doom, t_ressource *r, char *path)
 {
+	SDL_Surface	*s_src;
 	SDL_Surface	*s;
 	t_img		*img;
 
-	if (is_tga_ext(path) && !load_tga(path, &s))
+	if (is_tga_ext(path) && !load_tga(path, &s_src))
 		return (FALSE);
-	else if (!(s = IMG_Load(path)))
+	else if (!(s_src = IMG_Load(path)))
 		return (FALSE);
-	if (!(s = SDL_ConvertSurfaceFormat(s, SDL_PIXELFORMAT_ARGB8888, 0)))
-		return (FALSE);
+	if (!(s = SDL_ConvertSurfaceFormat(s_src, SDL_PIXELFORMAT_ARGB8888, 0)))
+	{
+		SDL_FreeSurface(s_src);
+		return (!free_load_texture_surface(s));
+	}
+	SDL_FreeSurface(s_src);
 	if (!(img = malloc(sizeof(t_img))))
-		return (FALSE);
+		return (!free_load_texture_surface(s));
 	img->ignore_texture = TRUE;
 	if (!create_image(doom->renderer, s->w, s->h, img))
-		return (FALSE);
+		return (!free_load_texture_surface(s));
 	ft_memcpy(img->pixels, s->pixels, s->w * s->h * sizeof(uint32_t));
 	r->loaded = TRUE;
 	r->data.texture = img;
-	return (TRUE);
+	return (free_load_texture_surface(s));
 }
 
 t_bool			read_texture(t_ressource_manager *rm, t_img **img)
