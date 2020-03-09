@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/26 15:00:53 by llelievr          #+#    #+#             */
-/*   Updated: 2020/03/08 21:05:28 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/03/09 03:07:46 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static t_bool			action_performed(t_component *cmp, t_doom *doom)
 		light->model_visible = ((t_checkbox *)cmp)->value;
 		if (object->r)
 		{
-			free_renderable(object->r, FALSE, FALSE);
+			free_renderable(object->r, FALSE, TRUE, FALSE);
 			create_object_renderable(&doom->editor, doom->editor.current_object, object->r);
 		}
 	}

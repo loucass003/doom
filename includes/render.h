@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:16:19 by llelievr          #+#    #+#             */
-/*   Updated: 2020/03/05 16:57:02 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/03/09 02:24:45 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,8 +151,6 @@ t_render_datas				*copy_render_data_array(t_render_datas *src,
 int							render_data_indexof(t_render_datas *arr,
 								t_render_data *elem);
 
-t_bool						free_renderable(t_renderable *r,
-								t_bool free_resources, t_bool res);
 void						draw_triangle(t_render_data data);
 void						process_triangle(t_render_context *ctx, t_mtl *mtl,
 								t_triangle triangle);
@@ -202,7 +200,7 @@ t_bool						create_player(t_renderable *r, struct s_doom *doom);
 
 void		free_materials(t_mtllist **m_addr, t_bool free_ressources);
 void		free_renderable_of(t_renderable *r);
-t_bool		free_renderable(t_renderable *r, t_bool free_resources, t_bool res);
+t_bool		free_renderable(t_renderable *r, t_bool free_resources, t_bool free_of, t_bool res);
 void		face_and_triangle(t_renderable *r, int i);
 void		free_renderables(t_renderables **renderables, t_bool destroy_array);
 

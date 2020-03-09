@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ellipsoid_renderable.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/09 21:56:55 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/21 16:16:23 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/03/09 02:11:10 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ static t_bool		create_ellipsoid_face(t_renderable *r, t_vec2 i, t_vec2 res)
 		.mtl_index = 0 };
 	if (!append_faces_array(&r->faces, face))
 		return (FALSE);
+	return (TRUE);
 }
 
 static t_bool		create_ellipsoid_faces(t_renderable *r, t_vec2 res)
@@ -101,16 +102,16 @@ t_bool				create_ellipsoid(t_doom *doom, t_renderable *r,
 		return (FALSE);
 	r->of.data.ellipsoid->radius = radius;
 	if (!(r->vertices = create_4dvertices_array(100)))
-		return (free_renderable(r, FALSE, FALSE));
+		return (free_renderable(r, FALSE, TRUE, FALSE));
 	if (!(r->normals = create_3dvertices_array(100)))
-		return (free_renderable(r, FALSE, FALSE));
+		return (free_renderable(r, FALSE, TRUE, FALSE));
 	if (!(r->faces = create_faces_array(50)))
-		return (free_renderable(r, FALSE, FALSE));
+		return (free_renderable(r, FALSE, TRUE, FALSE));
 	if (!(r->materials = create_mtllist(1)))
-		return (free_renderable(r, FALSE, FALSE));
+		return (free_renderable(r, FALSE, TRUE, FALSE));
 	if (!append_mtllist(&r->materials, (t_mtl){
 			.material_color_set = TRUE, .material_color = 0xFFFF0000 }))
-		return (free_renderable(r, FALSE, FALSE));
+		return (free_renderable(r, FALSE, TRUE, FALSE));
 	gen_ellipsoid_mesh(r, res, radius);
 	post_process_renderable(doom, r, TRUE, FALSE);
 	r->dirty = TRUE;

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 15:55:03 by llelievr          #+#    #+#             */
-/*   Updated: 2020/03/08 21:02:55 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/03/09 02:06:23 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ t_bool		add_map(t_renderable *rmap, t_editor *editor)
 	//TODO: free removed renderables from map_renderable to renderables->len
 	i = editor->map_renderable - 1;
 	while (++i < editor->doom->renderables->len)
-		free_renderable(&editor->doom->renderables->values[i], FALSE, TRUE);
+		free_renderable(&editor->doom->renderables->values[i], FALSE, TRUE, TRUE);
 	editor->doom->renderables->len = editor->map_renderable;
 	create_map(rmap, editor);
 	if (!append_renderables_array(&editor->doom->renderables, *rmap))

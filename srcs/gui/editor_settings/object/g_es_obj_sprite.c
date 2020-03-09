@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 22:55:54 by llelievr          #+#    #+#             */
-/*   Updated: 2020/03/08 21:08:16 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/03/09 03:07:58 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static t_bool			action_performed(t_component *cmp, t_doom *doom)
 		sprite->always_facing_player = ((t_checkbox *)cmp)->value;
 	if (object->r)
 	{
-		free_renderable(object->r, FALSE, FALSE);
+		free_renderable(object->r, FALSE, TRUE, FALSE);
 		create_object_renderable(&doom->editor, doom->editor.current_object, object->r);
 	}
 	return (TRUE);

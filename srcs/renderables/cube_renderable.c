@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cube_renderable.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/05 14:34:42 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/21 15:10:56 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/03/09 02:08:47 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ t_bool			create_cube(t_doom *doom, t_renderable *r, t_bool inside)
 		return (FALSE);
 	if (!append_mtllist(&r->materials, (t_mtl){
 			.material_color_set = TRUE, .material_color = 0xFFFF0000 }))
-		return (free_renderable(r, FALSE, FALSE));
+		return (free_renderable(r, FALSE, TRUE, FALSE));
 	gen_cube_mesh(r, inside);
 	post_process_renderable(doom, r, TRUE, FALSE);
 	r->dirty = TRUE;

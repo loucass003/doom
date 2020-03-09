@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 22:55:54 by llelievr          #+#    #+#             */
-/*   Updated: 2020/03/08 21:02:51 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/03/09 02:52:39 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,9 @@ static t_bool			action_performed(t_component *cmp, t_doom *doom)
 		t_object	*object = &editor->objects->values[editor->current_object];
 		if (object->type != ((t_select *)cmp)->items->values[((t_select *)cmp)->selected_item].value)
 		{
-			if (!object->r)
-				free_object(object);
-			else
-				free_renderable(object->r, FALSE, FALSE);
+			if (object->r)
+				free_renderable(object->r, FALSE, TRUE, FALSE);
+			free_object(object);
 			object->type = ((t_select *)cmp)->items->values[((t_select *)cmp)->selected_item].value;
 			if (object->type != OBJECT_NONE)
 			{

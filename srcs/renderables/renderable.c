@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/05 00:02:57 by llelievr          #+#    #+#             */
-/*   Updated: 2020/03/05 17:14:08 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/03/09 02:09:12 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,15 +53,15 @@ t_bool		create_renderable(t_renderable *r, t_renderable_type type)
 	r->visible = TRUE;
 	r->model = FALSE;
 	if (!(r->vertices = create_4dvertices_array(4)))
-		return (free_renderable(r, FALSE, FALSE));
+		return (free_renderable(r, FALSE, TRUE, FALSE));
 	if (!(r->vertex = create_2dvertices_array(4)))
-		return (free_renderable(r, FALSE, FALSE));
+		return (free_renderable(r, FALSE, TRUE, FALSE));
 	if (!(r->normals = create_3dvertices_array(4)))
-		return (free_renderable(r, FALSE, FALSE));
+		return (free_renderable(r, FALSE, TRUE, FALSE));
 	if (!(r->faces = create_faces_array(2)))
-		return (free_renderable(r, FALSE, FALSE));
+		return (free_renderable(r, FALSE, TRUE, FALSE));
 	if (!(r->materials = create_mtllist(4)))
-		return (free_renderable(r, FALSE, FALSE));
+		return (free_renderable(r, FALSE, TRUE, FALSE));
 	return (TRUE);
 }
 

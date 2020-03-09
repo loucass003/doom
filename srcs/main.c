@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2020/03/05 16:58:10 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/03/09 03:14:10 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ t_bool	init_map(t_doom *doom)
 
 void	free_map(t_doom *doom)
 {
-	free_rooms(&doom->editor.rooms);
-	free_objects(&doom->editor.objects, FALSE);
 	free_renderables(&doom->renderables, TRUE);
+	free_rooms(&doom->editor.rooms);
+	free_objects(&doom->editor.objects, TRUE);
 	ft_memdel((void **)&doom->editor.points);
 	ft_memdel((void **)&doom->lights);
 }
@@ -44,11 +44,13 @@ int		exit_doom(t_doom *doom)
 	threads_destroy(&doom->threads);
 	ft_memdel((void **)&doom->main_context.buffer);
 	save_datapack(doom);
-	free_renderable(&doom->sphere_primitive, FALSE, TRUE);
+	free_renderable(&doom->sphere_primitive, FALSE, TRUE, TRUE);
 	free_map(doom);
 	free_ressources_manager(&doom->res_manager);
 	sdl_quit(doom);
 	quit_openal(doom);
+	if (doom->obj_working_dir)
+		ft_memdel((void **)&doom->obj_working_dir);
 	return (0);
 }
 

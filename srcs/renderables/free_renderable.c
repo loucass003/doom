@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 15:39:35 by lloncham          #+#    #+#             */
-/*   Updated: 2020/03/07 03:33:33 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/03/09 03:04:03 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void		free_renderable_of(t_renderable *r)
 		free_door(&r->of.data.door);
 }
 
-t_bool		free_renderable(t_renderable *r, t_bool free_resources, t_bool res)
+t_bool		free_renderable(t_renderable *r, t_bool free_resources, t_bool free_of, t_bool res)
 {
 	ft_memdel((void **)&r->vertices);
 	ft_memdel((void **)&r->pp_vertices);
@@ -60,12 +60,14 @@ t_bool		free_renderable(t_renderable *r, t_bool free_resources, t_bool res)
 	ft_memdel((void **)&r->faces);
 	ft_memdel((void **)&r->vertex);
 	ft_memdel((void **)&r->normals);
-	ft_memdel((void **)&r->sprite);
+	if (r->object_index == -1 || (r->object_index != -1 && (r->of.type == RENDERABLE_ITEMSTACK || r->of.type == RENDERABLE_ENTITY)))
+		ft_memdel((void **)&r->sprite);
 	if (r->materials && (free_resources || !r->model))
 		free_materials(&r->materials, free_resources);
 	if (r->octree && (free_resources || !r->model))
 		free_octree(&r->octree);
-	free_renderable_of(r);
+	if (r->object_index == -1 || (r->object_index != -1 && (r->of.type == RENDERABLE_ELLIPSOID || r->of.type == RENDERABLE_ENTITY)))
+		free_renderable_of(r);
 	return (res);
 }
 
@@ -96,7 +98,7 @@ void		free_renderables(t_renderables **renderables, t_bool destroy_array)
 	while (++i < (*renderables)->len)
 	{
 		r = &(*renderables)->values[i];
-		free_renderable(r, FALSE, TRUE);
+		free_renderable(r, FALSE, FALSE, TRUE);
 	}
 	if (destroy_array)
 		ft_memdel((void **)renderables);

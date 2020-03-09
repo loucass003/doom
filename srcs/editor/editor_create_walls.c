@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   editor_create_walls.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 11:36:27 by louali            #+#    #+#             */
-/*   Updated: 2020/02/13 14:23:53 by louali           ###   ########.fr       */
+/*   Updated: 2020/03/09 02:07:40 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,11 +76,11 @@ t_bool	create_map_points_and_floor(t_editor *editor, t_renderable *r)
 		if (!append_mtllist(&r->materials, (t_mtl){.texture_map_set = TRUE,
 			.texture_map = room->floor_texture->data.texture,
 			.material_color_set = TRUE, .material_color = 0xFFFF0000 }))
-			return (free_renderable(r, FALSE, FALSE));
+			return (free_renderable(r, FALSE, TRUE, FALSE));
 		if (!append_mtllist(&r->materials, (t_mtl){.texture_map_set = TRUE,
 			.texture_map = room->ceiling_texture->data.texture,
 			.material_color_set = TRUE, .material_color = 0xFFFF0000 }))
-			return (free_renderable(r, FALSE, FALSE));
+			return (free_renderable(r, FALSE, TRUE, FALSE));
 		room->room_vertices_start = r->vertices->len;
 		add_room_points(editor, room, r);
 		room->floor_start = r->faces->len;

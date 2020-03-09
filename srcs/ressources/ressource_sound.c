@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ressource_sound.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 16:55:56 by louali            #+#    #+#             */
-/*   Updated: 2020/03/02 16:18:24 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/03/09 02:34:01 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,16 @@ t_bool		load_sound(t_ressource *r, char *path)
 	if (!load_wav(path, &wav))
 		return (FALSE);
 	if (!(r->data.sound = malloc(sizeof(t_sound) + wav.buffer_size)))
+	{
+		ft_memdel((void **)&wav.buffer);
 		return (FALSE);
+	}
 	ft_memcpy(r->data.sound->buffer, wav.buffer, wav.buffer_size);
 	r->data.sound->buffer_size = wav.buffer_size;
 	r->data.sound->sample_rate = wav.fmt.sample_rate;
 	r->data.sound->bits_per_sample = wav.fmt.bits_per_sample;
 	gen_audio_buffer(r->data.sound);
+	ft_memdel((void **)&wav.buffer);
 	r->loaded = TRUE;
 	return (TRUE);
 }

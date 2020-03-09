@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/11 06:02:31 by llelievr          #+#    #+#             */
-/*   Updated: 2020/03/08 20:01:42 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/03/09 02:09:26 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	free_ressource(t_ressource **r_addr)
 	{
 		if (r->type == RESSOURCE_MODEL)
 		{
-			free_renderable(r->data.model, TRUE, TRUE);
+			free_renderable(r->data.model, TRUE, TRUE, TRUE);
 			ft_memdel((void **)&r->data.model);
 		}
 		else if (r->type == RESSOURCE_TEXTURE)
