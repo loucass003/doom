@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 15:39:35 by lloncham          #+#    #+#             */
-/*   Updated: 2020/03/09 03:04:03 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/03/09 03:20:12 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ void		free_renderable_of(t_renderable *r)
 		free_itemstack(&r->of.data.itemstack);
 	else if (r->of.type == RENDERABLE_TRANSPO)
 		ft_memdel((void **)&r->of.data.transpo);
+	else if (r->of.type == RENDERABLE_EXPLOSION)
+		ft_memdel((void **)&r->of.data.explosion);
 	else if (r->of.type == RENDERABLE_DOOR)
 		free_door(&r->of.data.door);
 }

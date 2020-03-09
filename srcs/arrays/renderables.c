@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   renderables.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/05 00:11:08 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/22 14:39:12 by louali           ###   ########.fr       */
+/*   Updated: 2020/03/09 03:26:02 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,15 @@ t_renderables	*append_renderables_array(t_renderables **arr, t_renderable p)
 
 t_renderables	*splice_renderables_array(t_renderables *arr, int index, int n)
 {
+	int		i;
+
 	if (index < 0)
 		index = index + arr->len - 1;
 	if (n <= 0 || index >= arr->len || index + n > arr->len)
 		return (NULL);
+	i = -1;
+	while (++i < n)
+		free_renderable(&arr->values[index + i], FALSE, TRUE, TRUE);
 	ft_memcpy(arr->values + index, arr->values + index + n,
 		(arr->len - (index + n)) * sizeof(t_renderable));
 	arr->len -= n;
