@@ -6,10 +6,11 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 22:38:06 by llelievr          #+#    #+#             */
-/*   Updated: 2020/03/07 03:45:52 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/03/09 15:15:13 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "doom.h"
 #include "editor.h"
 
 static void	editor_remove_point(t_editor *editor)
@@ -41,8 +42,25 @@ static void	editor_remove_point(t_editor *editor)
 	!rem_room ? remove_point(editor, index) : 0;
 }
 
+void					remove_light(t_doom *doom, int light_index)
+{
+	int			i;
+	t_object	*object;
+
+	i = -1;
+	splice_lights_array(doom->lights, light_index, 1);
+	while (++i < doom->editor.objects->len)
+	{
+		object = &doom->editor.objects->values[i];
+		if (object->type == OBJECT_LIGHT && object->of.light_index > light_index)
+			object->of.light_index--;
+	}
+}
+
 void		editor_delete_action(t_editor *editor)
 {
+	t_object	*object;
+
 	if (editor->grid_cell_grab == GG_POINT)
 		editor_remove_point(editor);
 	else if (editor->current_room != -1)
@@ -53,6 +71,9 @@ void		editor_delete_action(t_editor *editor)
 	}
 	else if (editor->current_object != -1)
 	{
+		object = &editor->objects->values[editor->current_object];
+		if (object->type == OBJECT_LIGHT)
+			remove_light(editor->doom, object->of.light_index);
 		splice_objects_array(editor->objects, editor->current_object, 1);
 		editor->current_object = -1;
 		editor_settings_update(editor);
