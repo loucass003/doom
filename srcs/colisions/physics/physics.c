@@ -6,11 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/15 23:50:58 by llelievr          #+#    #+#             */
-<<<<<<< Updated upstream
-/*   Updated: 2020/03/09 11:49:34 by lloncham         ###   ########.fr       */
-=======
-/*   Updated: 2020/03/05 19:30:07 by lloncham         ###   ########.fr       */
->>>>>>> Stashed changes
+/*   Updated: 2020/03/09 15:46:03 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

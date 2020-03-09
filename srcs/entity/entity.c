@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 22:00:26 by llelievr          #+#    #+#             */
-/*   Updated: 2020/03/09 15:37:13 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/03/09 16:47:55 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,12 +141,65 @@ t_bool		renderable_transpo(t_entity *entity)
 	return (TRUE);
 }
 
+t_bool	check_collision_rocket(t_entity *entity, t_physics_data data)
+{
+	entity_sound(entity, 8, 0, 1);
+	damage_explo(entity, entity->packet.doom, entity->of.rocket.damage);
+	splice_renderables_array(entity->packet.doom->renderables,
+		renderables_indexof(entity->packet.doom->renderables,
+			entity->r), 1);
+	entity->packet = data;
+	return (FALSE);
+}
+
+int		check_col_itemstack(t_entity *entity, int i, t_physics_data data)
+{
+	if (entity_hit_itemstack(entity,
+		entity->packet.r->of.data.itemstack))
+	{
+		if (entity->packet.r->of.data.itemstack->amount <= 0)
+		{
+			splice_renderables_array(entity->packet.doom->renderables,
+				i, 1);
+			i--;
+		}
+		entity->packet = data;
+	}
+	return (i);
+}
+
+t_collide_aabb	check_col_octree(t_collide_aabb new_area, t_renderable r,
+	t_entity *entity, int i)
+{
+	t_physics_data	data;
+
+	data = entity->packet;
+	new_area.min = point_to_local(new_area.min, r.position, r.rotation,
+		r.scale);
+	new_area.max = point_to_local(new_area.max, r.position, r.rotation,
+		r.scale);
+	collide_with_octree(&r, entity, r.octree, new_area);
+	if (data.distance > entity->packet.distance)
+		entity->packet.r = &entity->packet.doom->renderables->values[i];
+	return (new_area);
+}
+
+void	check_col_else(t_renderable r, t_entity *entity)
+{
+	int	j;
+
+	j = -1;
+	while (++j < r.faces->len)
+		collide_with_face(j, &(struct s_entity_collision_check){
+			.entity = entity, .r = &r });
+}
+
 t_bool		check_collision(t_entity *entity, t_collide_aabb area)
 {
 	int				i;
-	int				j;
 	t_renderable	r;
 	t_collide_aabb	new_area;
+	t_physics_data	data;
 
 	i = -1;
 	while (++i < entity->packet.doom->renderables->len)
@@ -164,52 +217,18 @@ t_bool		check_collision(t_entity *entity, t_collide_aabb area)
 			&& r.of.data.entity->type == ENTITY_PLAYER)
 			continue;
 		new_area = area;
-		t_physics_data data;
 		data = entity->packet;
 		if (r.has_hitbox && r.hitbox.type == COLLIDE_ELLIPSOID)
 			check_col_collide_ellipsoid(r, entity, new_area, i);
 		else if (r.octree && r.faces->len > 100)
-		{
-			new_area.min = point_to_local(new_area.min, r.position, r.rotation,
-				r.scale);
-			new_area.max = point_to_local(new_area.max, r.position, r.rotation,
-				r.scale);
-			collide_with_octree(&r, entity, r.octree, new_area);
-			if (data.distance > entity->packet.distance)
-				entity->packet.r = &entity->packet.doom->renderables->values[i];
-		}
+			new_area = check_col_octree(new_area, r, entity, i);
 		else
-		{
-			j = -1;
-			while (++j < r.faces->len)
-				collide_with_face(j, &(struct s_entity_collision_check){
-					.entity = entity, .r = &r });
-		}
+			check_col_else(r, entity);
 		if (entity->packet.r
 			&& entity->packet.r->of.type == RENDERABLE_ITEMSTACK)
-		{
-			if (entity_hit_itemstack(entity,
-				entity->packet.r->of.data.itemstack))
-			{
-				if (entity->packet.r->of.data.itemstack->amount <= 0)
-				{
-					splice_renderables_array(entity->packet.doom->renderables,
-						i, 1);
-					i--;
-				}
-				entity->packet = data;
-			}
-		}
+			i = check_col_itemstack(entity, i, data);
 		if (entity->type == ENTITY_ROCKET && entity->packet.found_colision)
-		{
-			entity_sound(entity, 8, 0, 1);
-			damage_explo(entity, entity->packet.doom, entity->of.rocket.damage);
-			splice_renderables_array(entity->packet.doom->renderables,
-				renderables_indexof(entity->packet.doom->renderables,
-					entity->r), 1);
-			entity->packet = data;
-			return (FALSE);
-		}
+			return (check_collision_rocket(entity, data));
 		if (entity->packet.r && entity->packet.r->of.type == RENDERABLE_TRANSPO)
 			if (renderable_transpo(entity) == FALSE)
 				return (FALSE);
@@ -222,7 +241,6 @@ void 		damage_explo(t_entity *from, t_doom *doom, float damage)
 	t_renderables	*renderables;
 	float			dist;
 	int				i;
-
 	t_renderable	r;
 
 	create_explosion_renderable(doom, &r);
