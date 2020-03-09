@@ -91,6 +91,7 @@ SRC+=gui/editor_settings/g_es_room.c
 SRC+=gui/editor_settings/g_es_wall.c
 SRC+=gui/editor_settings/object/g_es_obj_entity.c
 SRC+=gui/editor_settings/object/g_es_obj_itemstack.c
+SRC+=gui/editor_settings/object/g_es_obj_itemstack_actions.c
 SRC+=gui/editor_settings/object/g_es_obj_light.c
 SRC+=gui/editor_settings/object/g_es_obj_model.c
 SRC+=gui/editor_settings/object/g_es_obj_sprite.c

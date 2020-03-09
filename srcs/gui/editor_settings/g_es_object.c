@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 22:55:54 by llelievr          #+#    #+#             */
-/*   Updated: 2020/03/09 18:08:16 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/03/09 18:45:21 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void			g_es_object_enter(t_gui *self, t_doom *doom)
 	append_components_array(&self->components, create_checkbox(doom, (t_vec2){ x + 10, y + 60}, "No Light"));
 	self->components->values[1]->perform_action = g_es_action_performed;
 	((t_checkbox *)self->components->values[1])->value = object->no_light;
-	doom->editor.settings.guis_object[OBJECT_ITEMSTACK] = (t_gui){ .render = g_es_obj_itemstack_render, .on_enter = g_es_obj_itemstack_enter };
+	doom->editor.settings.guis_object[OBJECT_ITEMSTACK] = (t_gui){ .on_enter = g_es_obj_itemstack_enter };
 	doom->editor.settings.guis_object[OBJECT_SPRITE] = (t_gui){ .render = g_es_obj_sprite_render, .on_enter = g_es_obj_sprite_enter };
 	doom->editor.settings.guis_object[OBJECT_ENTITY] = (t_gui){ .render = g_es_obj_entity_render, .on_enter = g_es_obj_entity_enter };
 	doom->editor.settings.guis_object[OBJECT_MODEL] = (t_gui){ .render = g_es_obj_model_render, .on_enter = g_es_obj_model_enter };
