@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 22:55:54 by llelievr          #+#    #+#             */
-/*   Updated: 2020/03/09 02:52:39 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/03/09 15:15:35 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ void			set_object_default(t_doom *doom, t_object *object)
 		create_object_renderable(&doom->editor, objects_indexof(doom->editor.objects, object), object->r);
 }
 
+
+
 static t_bool			action_performed(t_component *cmp, t_doom *doom)
 {
 	const t_editor *editor = &doom->editor;
@@ -67,6 +69,8 @@ static t_bool			action_performed(t_component *cmp, t_doom *doom)
 		t_object	*object = &editor->objects->values[editor->current_object];
 		if (object->type != ((t_select *)cmp)->items->values[((t_select *)cmp)->selected_item].value)
 		{
+			if (object->type == OBJECT_LIGHT)
+				remove_light(doom, object->of.light_index);
 			if (object->r)
 				free_renderable(object->r, FALSE, TRUE, FALSE);
 			free_object(object);
@@ -111,17 +115,13 @@ void			g_es_object_enter(t_gui *self, t_doom *doom)
 	append_components_array(&self->components, create_checkbox(doom, (t_vec2){ x + 10, y + 60}, "No Light"));
 	self->components->values[1]->perform_action = action_performed;
 	((t_checkbox *)self->components->values[1])->value = object->no_light;
-
-	// doom->editor.settings.guis_object[OBJECT_PLAYER] = (t_gui){ .render = g_es_obj_player_render, .on_enter = g_es_obj_player_enter };
 	doom->editor.settings.guis_object[OBJECT_ITEMSTACK] = (t_gui){ .render = g_es_obj_itemstack_render, .on_enter = g_es_obj_itemstack_enter };
 	doom->editor.settings.guis_object[OBJECT_SPRITE] = (t_gui){ .render = g_es_obj_sprite_render, .on_enter = g_es_obj_sprite_enter };
 	doom->editor.settings.guis_object[OBJECT_ENTITY] = (t_gui){ .render = g_es_obj_entity_render, .on_enter = g_es_obj_entity_enter };
 	doom->editor.settings.guis_object[OBJECT_MODEL] = (t_gui){ .render = g_es_obj_model_render, .on_enter = g_es_obj_model_enter };
 	doom->editor.settings.guis_object[OBJECT_LIGHT] = (t_gui){ .render = g_es_obj_light_render, .on_enter = g_es_obj_light_enter };
 	doom->editor.settings.guis_object[OBJECT_TRANSPO] = (t_gui){ .render = g_es_obj_transpo_render, .on_enter = g_es_obj_transpo_enter };
-
-	// if (object->type != OBJECT_NONE)
-		set_es_object_gui(&doom->editor, object->type);
+	set_es_object_gui(&doom->editor, object->type);
 }
 
 void			g_es_object_on_event(t_gui *self, SDL_Event *event,
