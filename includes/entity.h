@@ -6,7 +6,7 @@
 /*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 00:01:14 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/19 17:27:46 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/03/09 15:22:06 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,6 +155,9 @@ t_bool					create_rocket(t_renderable *r, struct s_doom *doom);
 t_bool					create_explosion_renderable(struct s_doom *doom,
 							t_renderable *r);
 void					entity_update_explosion(struct s_doom *doom,
+							t_entity *entity, double dt);
+
+t_bool					update_entity_type(struct s_doom *doom,
 							t_entity *entity, double dt);
 
 #endif

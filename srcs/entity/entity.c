@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   entity.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 22:00:26 by llelievr          #+#    #+#             */
-/*   Updated: 2020/03/06 15:03:42 by Lisa             ###   ########.fr       */
+/*   Updated: 2020/03/09 15:37:13 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,31 @@ struct	s_entity_collision_check
 	t_renderable	*r;
 };
 
+void		check_triangle_normal_type(struct s_entity_collision_check *data,
+	t_face *f)
+{
+	if (f->normal_type == 1 || f->normal_type == 2)
+	{
+		check_triangle(data->r, &data->entity->packet,
+		ft_vec3_div(vec4_to_3(data->r->pp_vertices[f->vertices_index[0] - 1]),
+		data->entity->packet.e_radius),
+		ft_vec3_div(vec4_to_3(data->r->pp_vertices[f->vertices_index[1] - 1]),
+		data->entity->packet.e_radius),
+		ft_vec3_div(vec4_to_3(data->r->pp_vertices[f->vertices_index[2] - 1]),
+		data->entity->packet.e_radius));
+	}
+	if (f->normal_type == 0 || f->normal_type == 2)
+	{
+		check_triangle(data->r, &data->entity->packet,
+		ft_vec3_div(vec4_to_3(data->r->pp_vertices[f->vertices_index[2] - 1]),
+		data->entity->packet.e_radius),
+		ft_vec3_div(vec4_to_3(data->r->pp_vertices[f->vertices_index[1] - 1]),
+		data->entity->packet.e_radius),
+		ft_vec3_div(vec4_to_3(data->r->pp_vertices[f->vertices_index[0] - 1]),
+		data->entity->packet.e_radius));
+	}
+}
+
 void		collide_with_face(int face, void *p)
 {
 	struct s_entity_collision_check	*data;
@@ -35,28 +60,7 @@ void		collide_with_face(int face, void *p)
 	f = &data->r->faces->values[face];
 	if (!f->has_collision)
 		return ;
-	if (f->normal_type == 1 || f->normal_type == 2)
-	{
-		check_triangle(data->r,
-			&data->entity->packet,
-			ft_vec3_div(vec4_to_3(data->r->pp_vertices[f
-				->vertices_index[0] - 1]), data->entity->packet.e_radius),
-			ft_vec3_div(vec4_to_3(data->r->pp_vertices[f
-				->vertices_index[1] - 1]), data->entity->packet.e_radius),
-			ft_vec3_div(vec4_to_3(data->r->pp_vertices[f
-				->vertices_index[2] - 1]), data->entity->packet.e_radius));
-	}
-	if (f->normal_type == 0 || f->normal_type == 2)
-	{
-		check_triangle(data->r,
-			&data->entity->packet,
-			ft_vec3_div(vec4_to_3(data->r->pp_vertices[f
-				->vertices_index[2] - 1]), data->entity->packet.e_radius),
-			ft_vec3_div(vec4_to_3(data->r->pp_vertices[f
-				->vertices_index[1] - 1]), data->entity->packet.e_radius),
-			ft_vec3_div(vec4_to_3(data->r->pp_vertices[f
-				->vertices_index[0] - 1]), data->entity->packet.e_radius));
-	}
+	check_triangle_normal_type(data, f);
 }
 
 void		collide_with_octree(t_renderable *r, t_entity *entity,
@@ -97,7 +101,7 @@ void		check_col_collide_ellipsoid(t_renderable r, t_entity *entity,
 {
 	t_collide_ellipsoid	ellipsoid;
 	t_renderable		*sphere;
-	t_physics_data 		data;
+	t_physics_data		data;
 
 	data = entity->packet;
 	ellipsoid = r.hitbox.data.ellipsoid;
@@ -149,8 +153,7 @@ t_bool		check_collision(t_entity *entity, t_collide_aabb area)
 	{
 		r = entity->packet.doom->renderables->values[i];
 		entity->packet.r = NULL;
-		if (r.of.data.entity == entity
-			|| (r.of.type == RENDERABLE_ENTITY
+		if (r.of.data.entity == entity || (r.of.type == RENDERABLE_ENTITY
 			&& (r.of.data.entity->type == ENTITY_GRENADA
 				|| (r.of.data.entity->dead))))
 			continue;
@@ -161,7 +164,8 @@ t_bool		check_collision(t_entity *entity, t_collide_aabb area)
 			&& r.of.data.entity->type == ENTITY_PLAYER)
 			continue;
 		new_area = area;
-		t_physics_data data = entity->packet;
+		t_physics_data data;
+		data = entity->packet;
 		if (r.has_hitbox && r.hitbox.type == COLLIDE_ELLIPSOID)
 			check_col_collide_ellipsoid(r, entity, new_area, i);
 		else if (r.octree && r.faces->len > 100)
@@ -301,11 +305,11 @@ t_vec3		collide_with_world(t_entity *entity, t_vec3 e_position,
 	entity->packet.found_colision = FALSE;
 	entity->packet.distance = 1e20;
 
-	float scale;
-	t_vec3 r3_position;
-	t_vec3 query_radius;
-	t_vec3 min;
-	t_vec3 max;
+	float	scale;
+	t_vec3	r3_position;
+	t_vec3	query_radius;
+	t_vec3	min;
+	t_vec3	max;
 
 	scale = fmax(1.5, ft_vec3_len(e_velocity)) * 1.5;
 	r3_position = ft_vec3_mul(e_position, entity->packet.e_radius);
@@ -335,7 +339,7 @@ t_vec3		collide_with_world(t_entity *entity, t_vec3 e_position,
 	new_base_point = e_position;
 	if (entity->packet.distance >= very_close_dist)
 	{
-		t_vec3 v;
+		t_vec3	v;
 		v = ft_vec3_trim(e_velocity, entity->packet.distance - very_close_dist);
 		new_base_point = ft_vec3_add(entity->packet.e_base_point, v);
 		v = ft_vec3_norm(v);
@@ -407,117 +411,8 @@ t_bool		collide_and_slide(t_entity *entity)
 	final_pos = collide_with_world(entity, final_pos, e_velocity, &stop);
 	if (stop)
 		return (FALSE);
-	entity->packet.r3_posision = ft_vec3_mul(final_pos, entity->packet.e_radius);
-	return (TRUE);
-}
-
-t_bool		entity_update(t_doom *doom, t_entity *entity, double dt)
-{
-	if (entity->position.y < -100)
-		entity->life = 0;
-	if (doom->main_context.type == CTX_NORMAL)
-	{
-		if (entity->type == ENTITY_BOSS)
-			entity_update_boss(doom, entity, dt);
-		if (entity->type == ENTITY_ENEMY)
-			entity_update_enemy(doom, entity, dt);
-		if (entity->type == ENTITY_GRENADA)
-			if (!entity_update_grenada(doom, entity))
-				return (FALSE);
-		entity->jetpack = FALSE;
-		int	slot;
-		slot = get_slot_of(&doom->player, ITEM_JETPACK);
-		if (slot != -1)
-		{
-			t_itemstack	*is;
-
-			is = &doom->player.item[slot];
-			if (entity->type == ENTITY_PLAYER && is->of
-				&& is->of->type == ITEM_JETPACK && !entity->grounded)
-			{
-				is->amount--;
-				if (is->amount <= 0)
-					is->of = NULL;
-				entity->jetpack = TRUE;
-			}
-		}
-		if (entity->type == ENTITY_PLAYER
-				&& (entity->velocity.x || entity->velocity.z)
-				&& entity->grounded
-				&& doom->audio.source_status[CHAR_FOOTSTEP] == 0)
-			player_sound(&doom->audio, CHAR_FOOTSTEP, 2, 0.25);
-		if (entity->type == ENTITY_GRENADA)
-		{
-			entity->velocity.y -= 0.9;
-			entity->velocity.y = fmax(-4, entity->velocity.y);
-		}
-		else if (entity->type == ENTITY_ROCKET)
-			;
-		else
-		{
-			if (entity->jetpack)
-			{
-				if (entity->jump)
-					entity->velocity.y += 1.5;
-				entity->jump = FALSE;
-				entity->velocity.y *= 0.9;
-			}
-			else
-			{
-				if (entity->grounded && entity->jump && entity->velocity.y < 0)
-					entity->velocity.y = fmax(0, entity->velocity.y);
-				if (entity->jump && entity->velocity.y <= 12
-					&& !entity->packet.found_colision)
-					entity->velocity.y += 1.5;
-				if (entity->jump && entity->velocity.y >= 12)
-					entity->jump = FALSE;
-				if (!entity->jump || entity->run)
-				{
-					entity->velocity.y -= !entity->grounded ? 8 : 40;
-					entity->velocity.y = fmax(-40, entity->velocity.y);
-				}
-			}
-		}
-		entity->packet.r3_posision = entity->position;
-		entity->packet.r3_velocity = entity->velocity;
-		entity->packet.e_radius = entity->radius;
-		entity->packet.grounded = FALSE;
-		entity->packet.dt = dt;
-		entity->packet.doom = doom;
-		if (!collide_and_slide(entity))
-			return (FALSE);
-		if (entity->grounded)
-			entity->jump = FALSE;
-		entity->position = entity->packet.r3_posision;
-		if (entity->type == ENTITY_GRENADA)
-			entity->velocity = ft_vec3_mul_s(entity->velocity,
-				!entity->packet.found_colision ? 0.999 : 0.8);
-		else if (entity->type == ENTITY_ENEMY || entity->type == ENTITY_BOSS)
-			entity->velocity = (t_vec3){ 0, 0, 0 };
-		else if (entity->type == ENTITY_ROCKET)
-			;
-		else
-		{
-			entity->velocity.x *= !entity->grounded
-				&& !entity->packet.found_colision
-				&& !entity->jetpack ? 0.99 : 0.5;
-			entity->velocity.z *= !entity->grounded
-				&& !entity->packet.found_colision
-				&& !entity->jetpack ? 0.99 : 0.5;
-			if (entity->velocity.x < 1 && entity->velocity.x > -1)
-				entity->velocity.x = 0;
-			if (entity->velocity.z < 1 && entity->velocity.z > -1)
-				entity->velocity.z = 0;
-		}
-		entity->radius = entity->packet.e_radius;
-	}
-	else if (doom->main_context.type == CTX_EDITOR)
-	{
-		entity->grounded = FALSE;
-		entity->position = ft_vec3_add(entity->position,
-			ft_vec3_mul_s(entity->velocity, dt));
-		entity->velocity = ft_vec3_mul_s(entity->velocity, 0.5);
-	}
+	entity->packet.r3_posision = ft_vec3_mul(final_pos,
+		entity->packet.e_radius);
 	return (TRUE);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   physics.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/15 23:50:58 by llelievr          #+#    #+#             */
-/*   Updated: 2020/03/06 13:42:42 by Lisa             ###   ########.fr       */
+/*   Updated: 2020/03/09 11:49:34 by lloncham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,12 @@
 #include "doom.h"
 #include "collision.h"
 
-t_bool	point_in_triangle_cross(const t_vec3 u, const t_vec3 v, const t_vec3 w, const t_vec3 vw)
+t_bool	point_in_triangle_cross(const t_vec3 u, const t_vec3 v, const t_vec3 w,
+	const t_vec3 vw)
 {
 	t_vec3	uw;
 	t_vec3	uv;
-	float 	d;
+	float	d;
 	float	r;
 	float	t;
 
@@ -50,21 +51,19 @@ t_bool	point_in_triangle(t_vec3 point, t_vec3 p1, t_vec3 p2, t_vec3 p3)
 
 t_bool	lowest_root(t_vec3 v, float max, float *root)
 {
-	const float det = v.y * v.y - 4.0 * v.x * v.z;
+	const float	det = v.y * v.y - 4.0 * v.x * v.z;
+	float		sqrt_d;
+	float		r1;
+	float		r2;
+	float		tmp;
 
 	if (det < 0)
 		return (FALSE);
-	float sqrt_d;
-	float r1;
-	float r2;
-
 	sqrt_d = sqrtf(det);
 	r1 = (-v.y - sqrt_d) / (2.0 * v.x);
 	r2 = (-v.y + sqrt_d) / (2.0 * v.x);
 	if (r1 > r2)
 	{
-		float tmp;
-
 		tmp = r2;
 		r2 = r1;
 		r1 = tmp;
@@ -94,7 +93,7 @@ t_physics_data		*check_triangle(t_renderable *r, t_physics_data *packet,
 
 	packet->r = NULL;
 	if (!is_front_facing(plane, packet->e_norm_velocity))
-		return packet;
+		return (packet);
 
 	float	t0;
 	float	t1;
@@ -112,7 +111,7 @@ t_physics_data		*check_triangle(t_renderable *r, t_physics_data *packet,
 	if (normal_dot_velocity == 0)
 	{
 		if (fabsf(dist_to_plane) >= 1)
-			return packet;
+			return (packet);
 		in_plane = TRUE;
 		t0 = 0;
 		t1 = 1;
