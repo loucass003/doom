@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   editor.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 14:35:33 by lloncham          #+#    #+#             */
-/*   Updated: 2020/02/24 16:15:30 by louali           ###   ########.fr       */
+/*   Updated: 2020/03/09 16:34:33 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -359,4 +359,7 @@ void						set_entity(t_renderable *r, struct s_object *object, struct s_editor *
 void						set_model(t_renderable *r, struct s_object *object);
 void						set_transpo(t_renderable *r, struct s_object *object, struct s_editor *editor);
 
+t_transpo			*create_default_transpo(t_doom *doom, t_object *object);
+void				prev_transpo(t_transpo *transpo, t_doom *doom);
+void				next_transpo(t_transpo *transpo, t_doom *doom);
 #endif

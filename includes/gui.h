@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gui.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 01:42:00 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/16 14:53:26 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/03/09 15:50:01 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,7 +206,8 @@ void							g_es_object_enter(t_gui *self, t_doom *doom);
 void							g_es_object_leave(t_gui *self, t_doom *doom);
 void							g_es_object_on_event(t_gui *self,
 									SDL_Event *event, t_doom *doom);
-
+t_bool							g_es_action_performed(t_component *cmp,
+									t_doom *doom);
 void							g_es_player_enter(t_gui *self, t_doom *doom);
 void							g_es_player_render(t_gui *self, t_doom *doom);
 
