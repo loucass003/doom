@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 15:55:03 by llelievr          #+#    #+#             */
-/*   Updated: 2020/03/09 02:06:23 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/03/10 17:29:02 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ t_bool		add_door(int j, int i, t_editor *editor, t_room *room)
 		if (ws->type != WS_DOOR)
 			continue;
 		create_door(editor->doom, (int[3]){ i, j, k }, &r);
-		post_process_renderable(editor->doom, &r, TRUE, FALSE);
 		if (!append_renderables_array(&editor->doom->renderables, r))
 			return (FALSE);
 	}

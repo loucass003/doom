@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/16 21:24:43 by llelievr          #+#    #+#             */
-/*   Updated: 2020/03/10 17:24:55 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/03/10 17:27:07 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,10 @@ t_bool			post_process_renderable(t_doom *doom, t_renderable *r,
 			return (FALSE);
 	}
 	compute_collidables(r);
-	if (octree && replace)
+	if (octree)
 	{
-		if (r->octree)
-			free_octree(&r->octree);
+		// if (r->octree)
+		// 	free_octree(&r->octree);
 		r->octree = create_octree(doom, r);
 	}
 	transform_renderable(r);

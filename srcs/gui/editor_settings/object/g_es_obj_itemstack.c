@@ -6,14 +6,12 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 22:55:54 by llelievr          #+#    #+#             */
-/*   Updated: 2020/03/09 19:09:59 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/03/10 17:46:02 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "editor.h"
 #include "doom.h"
-
-
 
 static t_bool			action_performed(t_component *cmp, t_doom *doom)
 {
@@ -89,7 +87,7 @@ static void				create_item_cmps(t_gui *self, int x, int y,
 	cmps->values[2]->enabled = is->of->type == ITEM_WEAPON;
 }
 
-void			g_es_obj_itemstack_enter(t_gui *self, t_doom *doom)
+void					g_es_obj_itemstack_enter(t_gui *self, t_doom *doom)
 {
 	const int	x = S_WIDTH - 335;
 	const int	y = 75 + 80;

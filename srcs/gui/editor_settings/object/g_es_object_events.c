@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 15:48:19 by llelievr          #+#    #+#             */
-/*   Updated: 2020/03/09 17:12:34 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/03/10 18:12:19 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,15 @@ t_bool			g_es_action_performed(t_component *cmp, t_doom *doom)
 			object->r->no_light = object->no_light;
 	}
 	return (TRUE);
+}
+
+void	 set_es_object_gui(t_editor *editor, int id)
+{
+	if (editor->settings.current_gui_object >= 0)
+		leave_gui(editor->doom, editor->settings.guis_object,
+			editor->settings.current_gui_object);
+	editor->settings.current_gui_object = id;
+	if (editor->settings.current_gui_object >= 0)
+		enter_gui(editor->doom, editor->settings.guis_object,
+			editor->settings.current_gui_object);
 }
