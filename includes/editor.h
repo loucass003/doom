@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 14:35:33 by lloncham          #+#    #+#             */
-/*   Updated: 2020/03/09 19:11:15 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/03/10 21:22:03 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -370,5 +370,13 @@ void				action_select_item_type_update(t_object *object,
 void				action_select_item_type(t_editor *e, t_select *select);
 void				action_select_item_weapon_type(t_editor *e,
 	t_object *object, t_select *select);
+void				remove_light(t_doom *doom, int light_index);
+void	 			set_es_object_gui(t_editor *editor, int id);
+t_bool				g_es_room_action_performed(t_component *cmp, t_doom *doom);
+t_select_items		*normals_types(void);
+void				g_es_wall_components_visibility(t_components *cmps,
+	t_wall_section *ws);
+t_bool				g_es_wall_action_performed(t_component *cmp,
+	t_doom *doom);
 
 #endif
