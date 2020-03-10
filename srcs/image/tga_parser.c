@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/22 03:03:10 by llelievr          #+#    #+#             */
-/*   Updated: 2020/03/08 19:06:27 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/03/10 22:12:43 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,10 @@
 
 static t_bool		tga_colormap(t_reader *r, t_tga_format *tga)
 {
-	const ssize_t	cm_size = sizeof(uint8_t) * tga->header.cm_length * (tga->header.cm_size >> 3);
+	ssize_t	cm_size;
 
+	cm_size = sizeof(uint8_t) * tga->header.cm_length
+		* (tga->header.cm_size >> 3);
 	if (!(tga->colormap = malloc(cm_size)))
 		return (tga_return_error("Unable to alloc colormap"));
 	if (!io_memcpy(r, tga->colormap, cm_size))

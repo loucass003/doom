@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:14:55 by llelievr          #+#    #+#             */
-/*   Updated: 2020/03/10 01:49:26 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/03/10 22:18:59 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,10 @@ static t_bool	events_full_screen(t_doom *doom, const SDL_Scancode key,
 	return (TRUE);
 }
 
-static t_bool	events_window(t_doom *doom, SDL_Event *event)
+t_bool			key_events(t_doom *doom, SDL_Event *event)
 {
 	const SDL_Scancode	key = event->key.keysym.scancode;
 
-	gui_events(doom, doom->guis, event, doom->current_gui);
-	components_events(doom, doom->guis, event, doom->current_gui);
-	if (event->type == SDL_DROPFILE)
-		SDL_free(event->drop.file);
 	if (event->type == SDL_QUIT
 		|| (event->type == SDL_KEYDOWN && key == SDL_SCANCODE_ESCAPE))
 	{
@@ -63,6 +59,17 @@ static t_bool	events_window(t_doom *doom, SDL_Event *event)
 		trigger_script(doom, *((t_trigger *)event->user.data1));
 		free(event->user.data1);
 	}
+	return (TRUE);
+}
+
+static t_bool	events_window(t_doom *doom, SDL_Event *event)
+{
+	gui_events(doom, doom->guis, event, doom->current_gui);
+	components_events(doom, doom->guis, event, doom->current_gui);
+	if (event->type == SDL_DROPFILE)
+		SDL_free(event->drop.file);
+	if (!key_events(doom, event))
+		return (FALSE);
 	return (TRUE);
 }
 
