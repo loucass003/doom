@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_gameover.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/15 20:19:09 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/31 14:15:56 by louali           ###   ########.fr       */
+/*   Updated: 2020/03/10 22:05:34 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,11 @@ static t_bool		action_performed(t_component *cmp, t_doom *doom)
 	}
 	if (cmp == doom->guis[doom->current_gui].components->values[2])
 	{
-		if (((t_textfield *)doom->guis[doom->current_gui].components->values[1])->text_len > 0)
+		if (((t_textfield *)doom->guis[doom->current_gui]
+			.components->values[1])->text_len > 0)
 		{
-			text = ((t_textfield *)doom->guis[doom->current_gui].components->values[1])->text;
+			text = ((t_textfield *)doom->guis[doom->current_gui]
+				.components->values[1])->text;
 			if (!add_score(text, total_score(doom), doom))
 				return (FALSE);
 			set_gui(doom, GUI_LEADERBOARD);
@@ -105,7 +107,8 @@ void				text_score(t_doom *doom, char *str, int x, int y)
 	const SDL_Color	color = {255, 255, 255, 0};
 
 	text = TTF_RenderText_Blended(doom->fonts.helvetica, str, color);
-	apply_surface_blended(&doom->screen, text, (SDL_Rect){0, 0, text->w, text->h}, (SDL_Rect){x, y, text->w, text->h});
+	apply_surface_blended(&doom->screen, text,
+		(SDL_Rect){0, 0, text->w, text->h}, (SDL_Rect){x, y, text->w, text->h});
 	SDL_FreeSurface(text);
 }
 
@@ -121,7 +124,8 @@ void				g_gameover_render(t_gui *self, t_doom *doom)
 		(SDL_Rect) {0, 0, background->width, background->height},
 		(SDL_Rect) {0, 0, S_WIDTH, S_HEIGHT});
 	text_score(doom, ft_int_to_str(doom->gameover.kill).str, 355, 104);
-	text_score(doom, ft_int_to_str(doom->gameover.totaldamage * 100.).str, 355, 155);
+	text_score(doom,
+		ft_int_to_str(doom->gameover.totaldamage * 100.).str, 355, 155);
 	text_score(doom, ft_int_to_str(doom->gameover.bullets).str, 355, 206);
 	text_score(doom, ft_int_to_str((int)doom->gameover.weapon).str, 355, 260);
 	text_score(doom, ft_int_to_str((int)total_score(doom)).str, 215, 60);
