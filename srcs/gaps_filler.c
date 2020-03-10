@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/09 13:36:42 by llelievr          #+#    #+#             */
-/*   Updated: 2020/03/10 01:47:06 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/03/10 22:22:29 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,29 @@ void		sort_ranges(t_4dvertices *range)
 				swap(v0, v1);
 		}
 	}
+}
+
+t_bool			arrange_wall_sections(t_wall *w0, t_wall_sections *wall_sections)
+{
+	int		i;
+	int		len = w0->wall_sections->len;
+
+	w0->wall_sections->len = 0;
+	i = -1;
+	while (++i < wall_sections->len)
+	{
+		if (i >= len)
+		{
+			if (!append_wall_sections_array(&w0->wall_sections, wall_sections->values[i]))
+				return (FALSE);
+		}
+		else
+		{
+			w0->wall_sections->len++;
+			ft_memcpy(w0->wall_sections->values[i].vertices_index, wall_sections->values[i].vertices_index, sizeof(int) * 4);
+		}
+	}
+	return (TRUE);
 }
 
 t_bool			update_walls_sections(t_editor *editor, t_room *room)
@@ -100,24 +123,8 @@ t_bool			update_walls_sections(t_editor *editor, t_room *room)
 		
 		if (w0->wall_sections)
 		{
-			int		i;
-			int		len = w0->wall_sections->len;
-
-			w0->wall_sections->len = 0;
-			i = -1;
-			while (++i < wall_sections->len)
-			{
-				if (i >= len)
-				{
-					if (!append_wall_sections_array(&w0->wall_sections, wall_sections->values[i]))
-						return (FALSE);
-				}
-				else
-				{
-					w0->wall_sections->len++;
-					ft_memcpy(w0->wall_sections->values[i].vertices_index, wall_sections->values[i].vertices_index, sizeof(int) * 4);
-				}
-			}
+			if (!arrange_wall_sections(w0, wall_sections))
+				return (FALSE);
 			free(wall_sections);
 			wall_sections = NULL;
 		}

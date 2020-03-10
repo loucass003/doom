@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/10 21:20:51 by llelievr          #+#    #+#             */
-/*   Updated: 2020/03/10 21:22:05 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/03/10 22:34:30 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void					g_es_wall_action_section(t_component *cmp,
 	}
 }
 
-void					g_es_wall_action_wall_type(t_component *cmp,
+t_bool					g_es_wall_action_wall_type(t_component *cmp,
 	t_editor *editor, int w_index, t_wall_section *ws)
 {
 	t_renderable *r;
@@ -46,13 +46,12 @@ void					g_es_wall_action_wall_type(t_component *cmp,
 				hide_adjacent_walls(editor, editor->current_room, w_index, ws);
 			add_map(r, editor);
 		}
+		editor_settings_update(editor);
+		return (FALSE);
 	}
-	else
-		update_wall(editor, editor->current_room,
-			wall_indexof_by_indice(
-				editor->rooms->values[editor->current_room].walls,
-				editor->current_seg.x),
-			editor->wall_section);
+		
+	return (TRUE);
+	
 }
 
 void					g_es_wall_action_settings(t_component *cmp,
@@ -93,10 +92,15 @@ t_bool					g_es_wall_action_performed(t_component *cmp,
 	wall = &room->walls->values[wall_index];
 	ws = &wall->wall_sections->values[editor->wall_section];
 	g_es_wall_action_section(cmp, editor, wall);
-	g_es_wall_action_wall_type(cmp, editor, wall_index, ws);
+	if (!g_es_wall_action_wall_type(cmp, editor, wall_index, ws))
+		return (FALSE);
 	g_es_wall_action_settings(cmp, doom, ws);
-	editor_settings_update(&doom->editor);
-	return (FALSE); //TODO: Not sure but can cause troubles with other components (needs more testing)
+	update_wall(editor, editor->current_room,
+		wall_indexof_by_indice(
+			editor->rooms->values[editor->current_room].walls,
+			editor->current_seg.x),
+		editor->wall_section);
+	return (TRUE);
 }
 
 void					g_es_wall_components_visibility(t_components *cmps,
