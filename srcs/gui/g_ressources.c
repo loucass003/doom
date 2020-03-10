@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/24 12:20:04 by lloncham          #+#    #+#             */
-/*   Updated: 2020/03/08 19:35:00 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/03/10 21:33:03 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,54 +37,11 @@ static t_bool		action_performed(t_component *cmp, t_doom *doom)
 	return (TRUE);
 }
 
-static t_bool		del_res_performed(t_component *cmp, t_doom *doom)
-{
-	int					i;
-	int					index;
-	t_ressource_manager res;
-
-	i = -1;
-	res = doom->res_manager;
-	while (++i < PAGE_SIZE)
-	{
-		if (cmp == doom->guis[doom->current_gui].components->values[i * 3 + 2])
-		{
-			index = i + (res.page * PAGE_SIZE);
-			if (index >= 0 && index < res.ressources->len
-				&& res.ressources->values[index]->used == 0)
-			{
-				splice_ressources_array(res.ressources, index, 1);
-				if (res.page > get_pages_count(&res))
-					doom->res_manager.page = get_pages_count(&res);
-				update_selects(&doom->guis[doom->current_gui],
-					&doom->res_manager);
-			}
-			return (TRUE);
-		}
-	}
-	return (TRUE);
-}
-
 void				g_ressources_on_enter(t_gui *self, t_doom *doom)
 {
 	int i;
 
-	i = -1;
-	while (++i < PAGE_SIZE)
-	{
-		append_components_array(&self->components, create_select((SDL_Rect)
-			{S_WIDTH_2, 55 + i * 30, 200, 25}, "RESSOURCE TYPE"));
-		self->components->values[i * 3]->visible = FALSE;
-		((t_select *)self->components->values[i * 3])->items =
-			doom->res_manager.ressources_types;
-		append_components_array(&self->components, create_textfield((SDL_Rect)
-			{S_WIDTH_2 - 353, 55 + i * 30, 350, 25}, "RESSOURCE NAME", FALSE));
-		self->components->values[i * 3 + 1]->visible = FALSE;
-		append_components_array(&self->components, create_button((SDL_Rect)
-			{S_WIDTH_2 + 202, 55 + i * 30, 25, 25}, NULL, "X"));
-		self->components->values[i * 3 + 2]->visible = FALSE;
-		self->components->values[i * 3 + 2]->perform_action = del_res_performed;
-	}
+	g_ressources_row_cmps(self, doom);
 	append_components_array(&self->components, create_button((SDL_Rect)
 		{S_WIDTH - 210, S_HEIGHT - 50, 200, 40}, NULL, "CONTINUE"));
 	append_components_array(&self->components, create_button((SDL_Rect)
@@ -102,19 +59,19 @@ void				g_ressources_on_enter(t_gui *self, t_doom *doom)
 	update_selects(self, &doom->res_manager);
 }
 
-void				g_ressources_on_event(t_gui *self,
+void				g_ressources_on_event(t_gui *s,
 	SDL_Event *event, t_doom *doom)
 {
 	t_ressource		*r;
 	t_vec2			pos;
 	int				index;
 
-	(void)self;
+	(void)s;
 	if (event->type == SDL_DROPFILE)
 	{
 		pos = get_mouse_pos(doom);
 		index = ((int)(pos.y - 53) / 30) + (doom->res_manager.page * PAGE_SIZE);
-		if (index >= 0 && index < doom->res_manager.ressources->len 
+		if (index >= 0 && index < doom->res_manager.ressources->len
 			&& pos.x >= S_WIDTH_2 - 356 && pos.x <= S_WIDTH_2 + 228)
 		{
 			r = doom->res_manager.ressources->values[index];
@@ -122,13 +79,11 @@ void				g_ressources_on_event(t_gui *self,
 				return ;
 			if (!load_ressource(doom, r, event->drop.file))
 				free_ressource(&r);
-			update_selects(&doom->guis[doom->current_gui], &doom->res_manager);
 		}
-		else if (in_bounds(self->components->values[(PAGE_SIZE * 3) + 4]->bounds, pos))
-		{
+		else if (in_bounds(s->components->values[(PAGE_SIZE * 3) + 4]->
+			bounds, pos))
 			ressource_mapper(&doom->res_manager, event->drop.file);
-			update_selects(&doom->guis[doom->current_gui], &doom->res_manager);
-		}
+		update_selects(&doom->guis[doom->current_gui], &doom->res_manager);
 	}
 }
 
