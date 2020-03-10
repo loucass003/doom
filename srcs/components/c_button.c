@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   c_button.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:59:38 by llelievr          #+#    #+#             */
-/*   Updated: 2020/03/06 13:45:01 by Lisa             ###   ########.fr       */
+/*   Updated: 2020/03/10 01:45:09 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,11 @@ void		c_button_render(t_doom *doom, t_component *self, t_img *image)
 	btn->color = btn->hover ? btn->color_hover : btn->color_default;
 	btn->color = self->enabled ? btn->color : 0xFF252525;
 	btn->color = btn->selected ? 0xFFFFFFFF : btn->color;
-	x = self->bounds.x;
-	while (x++ < self->bounds.x + self->bounds.w)
+	x = self->bounds.x - 1;
+	while (++x < self->bounds.x + self->bounds.w)
 	{
-		y = self->bounds.y;
-		while (y++ < self->bounds.y + self->bounds.h)
+		y = self->bounds.y - 1;
+		while (++y < self->bounds.y + self->bounds.h)
 			doom->screen.pixels[(y * doom->screen.width) + x] = btn->color;
 	}
 	if (btn->img)

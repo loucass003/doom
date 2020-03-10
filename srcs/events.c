@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:14:55 by llelievr          #+#    #+#             */
-/*   Updated: 2020/03/08 19:59:43 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/03/10 01:49:26 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ static t_bool	events_window(t_doom *doom, SDL_Event *event)
 {
 	const SDL_Scancode	key = event->key.keysym.scancode;
 
-	
 	gui_events(doom, doom->guis, event, doom->current_gui);
 	components_events(doom, doom->guis, event, doom->current_gui);
 	if (event->type == SDL_DROPFILE)
