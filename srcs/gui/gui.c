@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gui.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 09:46:13 by llelievr          #+#    #+#             */
-/*   Updated: 2020/03/05 19:01:15 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/03/10 21:52:35 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ void	register_guis(t_doom *doom)
 	doom->guis[GUI_LEADERBOARD] = (t_gui){.render = g_leaderboard_render,
 		.on_enter = g_leaderboard_on_enter, .on_leave = g_leaderboard_on_leave};
 	doom->guis[GUI_MESSAGE] = (t_gui){.render = g_message_render,
-		.on_enter = g_message_on_enter, .on_leave = g_message_on_leave,
 		.on_event = g_message_on_event};
 }
 

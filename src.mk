@@ -108,6 +108,7 @@ SRC+=gui/g_leaderboard.c
 SRC+=gui/g_level.c
 SRC+=gui/g_mainmenu.c
 SRC+=gui/g_message.c
+SRC+=gui/g_message_render.c
 SRC+=gui/g_ressources.c
 SRC+=gui/g_ressources_components.c
 SRC+=gui/gui.c
