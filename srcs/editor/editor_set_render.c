@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/24 15:42:51 by louali            #+#    #+#             */
-/*   Updated: 2020/03/07 03:18:22 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/03/11 16:39:05 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,10 @@ void		set_itemstack(t_renderable *r, t_object *object)
 	t_itemstack	*itemstack;
 
 	ft_bzero(r, sizeof(t_renderable));
-	itemstack = object->of.itemstack;
+	if (!(itemstack = ft_memalloc(sizeof(t_itemstack))))
+		return ;
+	ft_memcpy(itemstack, object->of.itemstack, sizeof(t_itemstack));
 	create_itemstack_renderable(r, itemstack);
-	object->of.itemstack = r->of.data.itemstack;
 	r->position = editor_to_world(object->pos);
 	r->position.y += r->scale.y * 0.5;
 }

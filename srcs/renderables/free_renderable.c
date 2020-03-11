@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 15:39:35 by lloncham          #+#    #+#             */
-/*   Updated: 2020/03/09 03:20:12 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/03/11 16:31:51 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void		free_renderable_of(t_renderable *r)
 		&& r->of.data.entity->type != ENTITY_PLAYER)
 		ft_memdel((void **)&r->of.data.entity);
 	else if (r->of.type == RENDERABLE_ITEMSTACK)
-		free_itemstack(&r->of.data.itemstack);
+		ft_memdel(&r->of.data.itemstack);
 	else if (r->of.type == RENDERABLE_TRANSPO)
 		ft_memdel((void **)&r->of.data.transpo);
 	else if (r->of.type == RENDERABLE_EXPLOSION)
@@ -68,7 +68,7 @@ t_bool		free_renderable(t_renderable *r, t_bool free_resources, t_bool free_of, 
 		free_materials(&r->materials, free_resources);
 	if (r->octree && (free_resources || !r->model))
 		free_octree(&r->octree);
-	if (r->object_index == -1 || (r->object_index != -1 && (r->of.type == RENDERABLE_ELLIPSOID || r->of.type == RENDERABLE_ENTITY)))
+	if (r->object_index == -1 || (r->object_index != -1 && (r->of.type == RENDERABLE_ITEMSTACK || r->of.type == RENDERABLE_ELLIPSOID || r->of.type == RENDERABLE_ENTITY)))
 		free_renderable_of(r);
 	return (res);
 }
