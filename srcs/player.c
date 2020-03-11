@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:43:35 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/24 15:48:19 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/03/11 18:50:55 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,23 +144,62 @@ void				player_inventory_event(t_doom *doom, SDL_Event *event)
 	}
 }
 
+void	inventory_item_grenada(t_doom *doom, t_weapon *weapon)
+{
+	if (weapon->type != WEAPON_GRENADA)
+		apply_image_blended(doom->main_context.image,
+			weapon->animation->data.texture, weapon->curr_image,
+			(SDL_Rect){ S_WIDTH_2 - 80 / 2, S_HEIGHT - 300, 300, 300 });
+}
+
+float	inventory_item_weapon(t_doom *doom, float ticks)
+{
+	t_itemstack	*is;
+	t_weapon	*weapon;
+
+	is = &doom->player.item[doom->player.selected_slot];
+	if (is->of && is->of->type == ITEM_WEAPON)
+	{
+		weapon = &is->of->data.weapon;
+		if (ticks > 1 && weapon->fireing)
+		{
+			ticks = 0;
+			weapon->current_step++;
+			if (weapon->current_step == weapon->steps_count)
+			{
+				weapon->current_step = (SDL_GetMouseState(NULL, NULL)
+				& SDL_BUTTON(SDL_BUTTON_LEFT) ? 0 : weapon->idle_step);
+				weapon->fireing = FALSE;
+			}
+			set_current_animation_step(weapon,
+				weapon->animation_seq[weapon->current_step]);
+		}
+		inventory_item_grenada(doom, weapon);
+	}
+	return (ticks);
+}
+
 t_bool				draw_player_inventory(t_doom *doom, t_gui *self)
 {
 	static float	ticks = 0;
+	int				i;
 
 	if (doom->main_context.type == CTX_NORMAL)
 	{
-		int i = -1;
+		i = -1;
 		while (++i < PLAYER_INV_SIZE)
 		{
-			t_itemstack		*is = &doom->player.item[i];
+			t_itemstack		*is;
+			is = &doom->player.item[i];
 			if (i == doom->player.selected_slot)
-				fill_rect(doom->main_context.image, (SDL_Rect){ 8, 48 + i * 60, 54, 54 }, 0xFFFFFF00);
-			fill_rect(doom->main_context.image, (SDL_Rect){ 10, 50 + i * 60, 50, 50 }, 0xFFFF0000);
+				fill_rect(doom->main_context.image, (SDL_Rect){ 8, 48 + i
+					* 60, 54, 54 }, 0xFFFFFF00);
+			fill_rect(doom->main_context.image, (SDL_Rect){ 10, 50 + i
+				* 60, 50, 50 }, 0xFFFF0000);
 			if (is->of)
 			{
-				apply_image_blended(doom->main_context.image, is->of->image
-					->data.texture, is->of->bounds,
+				apply_image_blended(doom->main_context.image,
+					is->of->image->data.texture, is->of->bounds,
 					(SDL_Rect){ 10, 50 + i * 60, 50, 50 });
 				if (is->amount <= 1)
 					continue;
@@ -175,32 +214,8 @@ t_bool				draw_player_inventory(t_doom *doom, t_gui *self)
 				SDL_FreeSurface(text);
 			}
 		}
-
 		ticks += doom->stats.delta * 30.;
-
-		t_itemstack	*is = &doom->player.item[doom->player.selected_slot];
-
-		if (is->of && is->of->type == ITEM_WEAPON)
-		{
-			t_weapon	*weapon = &is->of->data.weapon;
-			if (ticks > 1 && weapon->fireing)
-			{
-				ticks = 0;
-				weapon->current_step++;
-				if (weapon->current_step == weapon->steps_count)
-				{
-					weapon->current_step = (SDL_GetMouseState(NULL, NULL)
-					& SDL_BUTTON(SDL_BUTTON_LEFT) ? 0 : weapon->idle_step);
-					weapon->fireing = FALSE;
-				}
-				set_current_animation_step(weapon, weapon->animation_seq[weapon
-					->current_step]);
-			}
-			if (weapon->type != WEAPON_GRENADA)
-				apply_image_blended(doom->main_context.image, weapon->animation
-				->data.texture, weapon->curr_image,
-				(SDL_Rect){ S_WIDTH_2 - 80 / 2, S_HEIGHT - 300, 300, 300 });
-		}
+		ticks = inventory_item_weapon(doom, ticks);
 		((t_progress *)self->components->values[0])->value
 		= doom->player.entity.life * (1 / doom->player.entity.max_life) * 100;
 		if (doom->player.entity.life <= 0 || (doom->closer_boss

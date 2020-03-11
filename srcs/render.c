@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 16:49:48 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/15 16:36:13 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/03/11 16:22:53 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,26 +41,27 @@ static t_vec4	mat43_mulv4(t_mat4 m, t_vec4 p)
 
 float	get_light_intensity(t_render_context *ctx, t_renderable *r, t_vec3 normal, t_vec4 point, t_face *face)
 {
-	if (!ctx->doom->lights || (r && (r->no_light)))
-		return (255);
-
-	uint8_t	ambiant = AMBIANT_LIGHT;
+	uint8_t	ambiant;
 	int		i;
 	float	sum;
-	t_light	*light;
-	
+
+	if (!ctx->doom->lights || (r && (r->no_light)))
+		return (255);
+	ambiant = AMBIANT_LIGHT;
 	if (r->of.type == RENDERABLE_MAP && face->room_index != -1)
 		ambiant = ctx->doom->editor.rooms->values[face->room_index].ambiant_light;
-
 	i = -1;
 	sum = 0;
 	while (++i < ctx->doom->lights->len)
 	{
+		t_vec3	dir;
+		float	intensity;
+		t_light	*light;
 		light = &ctx->doom->lights->values[i];
-		t_vec3 dir = ft_vec3_norm(ft_vec3_sub(vec4_to_3(point), light->position));
-		float intensity = ft_vec3_dot(dir, ft_vec3_inv(normal));
+		dir = ft_vec3_norm(ft_vec3_sub(vec4_to_3(point), light->position));
+		intensity = ft_vec3_dot(dir, ft_vec3_inv(normal));
 		if (light->type == LIGHT_SPOT)
-		 	intensity = 1.0 / ((1.0 - ((ft_vec3_dot(dir, light->dir) + 1.0) / 2.0)) * 10.0) * 0.2; 
+		 	intensity = 1.0 / ((1.0 - ((ft_vec3_dot(dir, light->dir) + 1.0) / 2.0)) * 10.0) * 0.2;
 		sum += (intensity) * (15 / ft_vec3_len(ft_vec3_sub(vec4_to_3(point), light->position))) * light->intensity;
 	}
 	return clamp(ambiant, 255, sum);
@@ -77,16 +78,22 @@ int faces_count = 0;
 
 void	render_face(int face_index, void *p)
 {
-	//printf("CALL\n");
-	t_face_data *face_data = p;
-	t_vec2	vertex = (t_vec2){ 0, 0 };
-	t_renderable *r = face_data->r;
-	t_render_context *ctx = face_data->ctx;
-	t_face *face = &r->faces->values[face_index];
+	t_face_data			*face_data;
+	t_vec2				vertex;
+	t_renderable		*r;
+	t_render_context	*ctx;
+	t_face				*face;
+
+	face_data = p;
+	vertex = (t_vec2){ 0, 0 };
+	r = face_data->r;
+	ctx = face_data->ctx;
+	face = &r->faces->values[face_index];
 	if (face->hidden || face->rendered)
 		return;
-	
-	t_mtl *mtl = &r->materials->values[face->mtl_index];
+
+	t_mtl *mtl;
+	mtl = &r->materials->values[face->mtl_index];
 	faces_count++;
 	if (r->no_collision)
 		face->has_collision = FALSE;
@@ -94,42 +101,49 @@ void	render_face(int face_index, void *p)
 		face->double_sided = TRUE;
 	if (r->wireframe)
 		mtl->wireframe = TRUE;
-
 	if (r->wireframe_color == 0)
 		r->wireframe_color =  0xFF555555;
-
 	if (mtl->wireframe || (!mtl->texture_map_set && !mtl->material_color_set))
 	{
 		mtl->material_color_set = TRUE;
 		mtl->material_color = mtl->wireframe ? r->wireframe_color : 0xFF555555;
 	}
-
 	if (!face->double_sided)
 	{
-		float d = ft_vec3_dot(face->face_normal, ft_vec3_sub(ctx->camera->pos, vec4_to_3(r->pp_vertices[face->vertices_index[0] - 1])));
+		float d;
+		d = ft_vec3_dot(face->face_normal, ft_vec3_sub(ctx->camera->pos, vec4_to_3(r->pp_vertices[face->vertices_index[0] - 1])));
 		if (d <= 0)
 			return;
 	}
-
 	face->rendered = TRUE;
 
-	t_vec4 v0 = mat43_mulv4(ctx->camera->matrix, r->pp_vertices[face->vertices_index[0] - 1]);
-	t_vec4 v1 = mat43_mulv4(ctx->camera->matrix, r->pp_vertices[face->vertices_index[1] - 1]);
-	t_vec4 v2 = mat43_mulv4(ctx->camera->matrix, r->pp_vertices[face->vertices_index[2] - 1]);
+	t_vec4	v0;
+	t_vec4	v1;
+	t_vec4	v2;
 
-	
+	v0 = mat43_mulv4(ctx->camera->matrix, r->pp_vertices[face->vertices_index[0] - 1]);
+	v1 = mat43_mulv4(ctx->camera->matrix, r->pp_vertices[face->vertices_index[1] - 1]);
+	v2 = mat43_mulv4(ctx->camera->matrix, r->pp_vertices[face->vertices_index[2] - 1]);
 
-	float it0 = get_light_intensity(ctx, r, r->pp_normals[face->normals_index[0] - 1], r->pp_vertices[face->vertices_index[0] - 1], face);
-	float it1 = get_light_intensity(ctx, r, r->pp_normals[face->normals_index[1] - 1], r->pp_vertices[face->vertices_index[1] - 1], face);
-	float it2 = get_light_intensity(ctx, r, r->pp_normals[face->normals_index[2] - 1], r->pp_vertices[face->vertices_index[2] - 1], face);
-	
+	float	it0;
+	float	it1;
+	float	it2;
+
+	it0 = get_light_intensity(ctx, r, r->pp_normals[face->normals_index[0] - 1], r->pp_vertices[face->vertices_index[0] - 1], face);
+	it1 = get_light_intensity(ctx, r, r->pp_normals[face->normals_index[1] - 1], r->pp_vertices[face->vertices_index[1] - 1], face);
+	it2 = get_light_intensity(ctx, r, r->pp_normals[face->normals_index[2] - 1], r->pp_vertices[face->vertices_index[2] - 1], face);
+
 	v0 = mat4_mulv4(ctx->camera->projection, v0);
 	v1 = mat4_mulv4(ctx->camera->projection, v1);
 	v2 = mat4_mulv4(ctx->camera->projection, v2);
 
-	t_vec2 vertex0 = vertex;
-	t_vec2 vertex1 = vertex;
-	t_vec2 vertex2 = vertex;
+	t_vec2	vertex0;
+	t_vec2	vertex1;
+	t_vec2	vertex2;
+
+	vertex0 = vertex;
+	vertex1 = vertex;
+	vertex2 = vertex;
 
 	if (r->vertex)
 	{
@@ -137,7 +151,6 @@ void	render_face(int face_index, void *p)
 		vertex1 = r->vertex->vertices[face->vertex_index[1] - 1];
 		vertex2 = r->vertex->vertices[face->vertex_index[2] - 1];
 	}
-
 	process_triangle(ctx, mtl, (t_triangle) {
 		{ .pos = v0, .tex = vertex0, .normal = r->pp_normals[face->normals_index[0] - 1], .light_color = it0 },
 		{ .pos = v1, .tex = vertex1, .normal = r->pp_normals[face->normals_index[1] - 1], .light_color = it1 },
@@ -148,22 +161,28 @@ void	render_face(int face_index, void *p)
 
 t_bool	update_renderable_entity(t_render_context *ctx, t_renderable *r)
 {
-	t_entity *entity = r->of.data.entity;
+	t_entity	*entity;
+
+	entity = r->of.data.entity;
 	r->position = entity->position;
 	r->rotation = entity->rotation;
 	r->dirty = TRUE;
 	if(entity->type == ENTITY_ENEMY)
 	{
-		t_sprite	*sprite;
+		t_sprite		*sprite;
 		t_entity_enemy	*enemy;
 
+		t_vec3	view;
+		float	a;
+		float	f;
+		int		texture;
 		enemy = &entity->of.enemy;
 		sprite = r->sprite;
-		t_vec3 view = ft_vec3_sub(ctx->camera->pos, entity->position);
+		view = ft_vec3_sub(ctx->camera->pos, entity->position);
 		view = vec3_rotate(view, (t_vec3){ 0, -entity->rotation.y, 0 });
-		float a = atan2(view.z, view.x);
-		float f = round(a * (4 / M_PI));
-		int texture = f;
+		a = atan2(view.z, view.x);
+		f = round(a * (4 / M_PI));
+		texture = f;
 		if (enemy->animation_step == 6)
 			texture = enemy->shooting ? 2 : 1;
 		if (entity->diying)
@@ -203,29 +222,27 @@ t_bool	render_renderable(t_render_context *ctx, t_renderable *r)
 			r->rotation.y = ctx->camera->rotation.y;
 		transform_renderable(r);
 		r->dirty = FALSE;
-	}	
+	}
 	if (!r->visible)
 		return (TRUE);
-	t_face_data face_data = (t_face_data){ .ctx = ctx, .r = r };
+	t_face_data	face_data;
+	face_data = (t_face_data){ .ctx = ctx, .r = r };
 
 	i = -1;
 	while (++i < r->faces->len)
 		r->faces->values[i].rendered = FALSE;
 	faces_count = 0;
-	
 
 	if (r->octree)
 	{
 		frustum_to_local(ctx->camera, r);
 		frustum_intersect_octree(r->octree, ctx->camera->frustum, render_face, &face_data);
-		// printf("\nOCTREE %d %d/%d\n\n", r->of.type, faces_count, r->faces->len);
 	}
 	else
 	{
 		i = -1;
 		while (++i < r->faces->len)
 			render_face(i, &face_data);
-		//printf("NORMAL %d %d/%d\n", r->of.type, faces_count, r->faces->len);
 	}
 	return (TRUE);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gaps_filler.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/09 13:36:42 by llelievr          #+#    #+#             */
-/*   Updated: 2020/03/10 22:22:29 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/03/11 16:45:20 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,13 +56,15 @@ t_bool			arrange_wall_sections(t_wall *w0, t_wall_sections *wall_sections)
 	{
 		if (i >= len)
 		{
-			if (!append_wall_sections_array(&w0->wall_sections, wall_sections->values[i]))
+			if (!append_wall_sections_array(&w0->wall_sections,
+				wall_sections->values[i]))
 				return (FALSE);
 		}
 		else
 		{
 			w0->wall_sections->len++;
-			ft_memcpy(w0->wall_sections->values[i].vertices_index, wall_sections->values[i].vertices_index, sizeof(int) * 4);
+			ft_memcpy(w0->wall_sections->values[i].vertices_index,
+				wall_sections->values[i].vertices_index, sizeof(int) * 4);
 		}
 	}
 	return (TRUE);
@@ -82,26 +84,26 @@ t_bool			update_walls_sections(t_editor *editor, t_room *room)
 		next = ((j + 1) % room->walls->len);
 		w0 = &room->walls->values[j];
 		w1 = &room->walls->values[next];
-		
 		if (!(wall_sections = create_wall_sections_array(5)))
 			return (FALSE);
-
-		if (w0->start_rooms_range && w1->end_rooms_range 
+		if (w0->start_rooms_range && w1->end_rooms_range
 			&& w0->start_rooms_range->len != w1->end_rooms_range->len)
-		{
-			printf("PROBLEM !\n");
 			continue;
-		}
-		if (w0->start_rooms_range && w1->end_rooms_range && w0->start_rooms_range->len > 0 && w1->end_rooms_range->len > 0)
+		if (w0->start_rooms_range && w1->end_rooms_range
+			&& w0->start_rooms_range->len > 0 && w1->end_rooms_range->len > 0)
 		{
-			t_gap_filler_packet p = (t_gap_filler_packet){
+			t_gap_filler_packet p;
+			p = (t_gap_filler_packet){
 				.start_a = w0->floor_height, .start_b = w1->floor_height };
-			for (int k = 0; k < w0->start_rooms_range->len; k++)
+			int k;
+
+			k = -1;
+			while (++k < w0->start_rooms_range->len)
 			{
 				p.range_a = w0->start_rooms_range->vertices[k];
 				p.range_b = w1->end_rooms_range->vertices[k];
-				if (p.start_a < p.range_a.x && p.start_b < p.range_b.x 
-					&& p.start_a < w0->ceiling_height 
+				if (p.start_a < p.range_a.x && p.start_b < p.range_b.x
+					&& p.start_a < w0->ceiling_height
 						&& p.start_b < w1->ceiling_height)
 					append_wall_sections_array(&wall_sections,
 						create_gap_wall_section(editor, room, j, p));
@@ -112,15 +114,15 @@ t_bool			update_walls_sections(t_editor *editor, t_room *room)
 				p.last_range_a = p.range_a;
 				p.last_range_b = p.range_b;
 			}
-			if (p.start_a < w0->ceiling_height && p.start_a > w0->floor_height 
+			if (p.start_a < w0->ceiling_height && p.start_a > w0->floor_height
 				&& p.start_b < w1->ceiling_height && p.start_b > w1->floor_height)
-				append_wall_sections_array(&wall_sections, 
+				append_wall_sections_array(&wall_sections,
 					create_last_wall_section(editor, room, j, p));
 		}
 		else
 			append_wall_sections_array(&wall_sections,
 				create_simple_wall_section(editor, room, j));
-		
+
 		if (w0->wall_sections)
 		{
 			if (!arrange_wall_sections(w0, wall_sections))
@@ -168,21 +170,26 @@ t_bool			get_room_gaps(t_editor *editor, t_room *room)
 		{
 			if (room == &editor->rooms->values[j])
 				continue;
-			t_room *curr_room = &editor->rooms->values[j];
-			int index0 = wall_indexof_by_indice(curr_room->walls, wall0->indice);
-			int index1 = wall_indexof_by_indice(curr_room->walls, wall1->indice);
+			t_room	*curr_room;
+			int		index0;
+			int		index1;
+			curr_room = &editor->rooms->values[j];
+			index0 = wall_indexof_by_indice(curr_room->walls, wall0->indice);
+			index1 = wall_indexof_by_indice(curr_room->walls, wall1->indice);
 			if (index0 == -1 || index1 == -1)
 				continue;
-			t_wall wall2 = editor->rooms->values[j].walls->values[index0];
-			t_wall wall3 = editor->rooms->values[j].walls->values[index1];
-			if ((wall2.floor_height > wall0->floor_height && wall2.floor_height < wall0->ceiling_height) 
+			t_wall wall2;
+			t_wall wall3;
+			wall2 = editor->rooms->values[j].walls->values[index0];
+			wall3 = editor->rooms->values[j].walls->values[index1];
+			if ((wall2.floor_height > wall0->floor_height && wall2.floor_height < wall0->ceiling_height)
 				|| (wall2.ceiling_height > wall0->floor_height && wall2.ceiling_height < wall0->ceiling_height))
 			{
 				if (!wall0->start_rooms_range && !(wall0->start_rooms_range = create_4dvertices_array(5)))
 					return (FALSE);
 				append_4dvertices_array(&wall0->start_rooms_range, (t_vec4){ wall2.floor_height, wall2.ceiling_height, j, index0 });
 			}
-			if ((wall3.floor_height > wall1->floor_height && wall3.floor_height < wall1->ceiling_height) 
+			if ((wall3.floor_height > wall1->floor_height && wall3.floor_height < wall1->ceiling_height)
 				|| (wall3.ceiling_height > wall1->floor_height && wall3.ceiling_height < wall1->ceiling_height))
 			{
 				if (!wall1->end_rooms_range && !(wall1->end_rooms_range = create_4dvertices_array(5)))
