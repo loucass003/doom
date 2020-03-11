@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 15:55:03 by llelievr          #+#    #+#             */
-/*   Updated: 2020/03/10 17:29:02 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/03/11 21:01:24 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ t_bool		editor_setmap(t_editor *editor)
 		object->r->has_hitbox ? object->r->show_hitbox = FALSE : 0;
 	}
 	editor->map_renderable = editor->doom->renderables->len;
+	update_rooms_gaps(editor);
 	add_map(&r, editor);
 	spawn_player(editor->doom);
 	return (TRUE);
