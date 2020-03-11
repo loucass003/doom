@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/07 16:08:54 by lloncham          #+#    #+#             */
-/*   Updated: 2020/03/10 22:02:10 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/03/11 16:09:42 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,14 +49,25 @@ void			g_message_render(t_gui *self, t_doom *doom)
 {
 	SDL_Surface		*t;
 	
-	fill_rect(&doom->screen, (SDL_Rect)
-			{ 0, S_HEIGHT - 150, S_WIDTH, 150 }, 0xFF303030);
-	draw_rect(&doom->screen, (SDL_Rect)
-			{ 0, S_HEIGHT - 150, S_WIDTH, 250 }, 0xFFFFFFFF);
-	if (doom->message.open == TRUE && doom->message.message_data
+	if (!doom->message.open)
+		return ;
+	
+	if (doom->message.message_data
 		&& doom->message.message_data->textes_count > doom->message.counter_m
 		&& doom->message.counter_m != -1)
+	{
+		fill_rect(&doom->screen, (SDL_Rect)
+			{ 0, S_HEIGHT - 150, S_WIDTH, 150 }, 0xFF303030);
+		draw_rect(&doom->screen, (SDL_Rect)
+				{ 0, S_HEIGHT - 150, S_WIDTH, 250 }, 0xFFFFFFFF);
 		g_message_render_message(doom, doom->message.message_data);
-	else if (doom->message.open == TRUE && doom->message.question_data)
+	}
+	else if (doom->message.question_data)
+	{
+		fill_rect(&doom->screen, (SDL_Rect)
+			{ 0, S_HEIGHT - 150, S_WIDTH, 150 }, 0xFF303030);
+		draw_rect(&doom->screen, (SDL_Rect)
+				{ 0, S_HEIGHT - 150, S_WIDTH, 250 }, 0xFFFFFFFF);
 		g_message_render_questions(doom, doom->message.question_data);
+	}
 }
