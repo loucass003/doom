@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gaps_filler.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/09 13:36:42 by llelievr          #+#    #+#             */
-/*   Updated: 2020/03/11 21:35:30 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/03/12 15:33:00 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,29 +45,43 @@ void		sort_ranges(t_4dvertices *range)
 	}
 }
 
-t_bool			arrange_wall_sections(t_wall *w0, t_wall_sections *wall_sections)
+t_bool			arrange_wall_sections(t_wall *w0, t_wall_sections *wall_sect)
 {
 	int		i;
-	int		len = w0->wall_sections->len;
+	int		len;
 
+	len = w0->wall_sections->len;
 	w0->wall_sections->len = 0;
 	i = -1;
-	while (++i < wall_sections->len)
+	while (++i < wall_sect->len)
 	{
 		if (i >= len)
 		{
 			if (!append_wall_sections_array(&w0->wall_sections,
-				wall_sections->values[i]))
+				wall_sect->values[i]))
 				return (FALSE);
 		}
 		else
 		{
 			w0->wall_sections->len++;
 			ft_memcpy(w0->wall_sections->values[i].vertices_index,
-				wall_sections->values[i].vertices_index, sizeof(int) * 4);
+				wall_sect->values[i].vertices_index, sizeof(int) * 4);
 		}
 	}
 	return (TRUE);
+}
+
+t_bool set_wall_sections(t_wall *w0, t_wall_section *wall_sections)
+{
+	if (w0->wall_sections)
+	{
+		if (!arrange_wall_sections(w0, wall_sections))
+			return (FALSE);
+		free(wall_sections);
+		wall_sections = NULL;
+	}
+	else
+		w0->wall_sections = wall_sections;
 }
 
 t_bool			update_walls_sections(t_editor *editor, t_room *room)
@@ -122,16 +136,7 @@ t_bool			update_walls_sections(t_editor *editor, t_room *room)
 		else
 			append_wall_sections_array(&wall_sections,
 				create_simple_wall_section(editor, room, j));
-
-		if (w0->wall_sections)
-		{
-			if (!arrange_wall_sections(w0, wall_sections))
-				return (FALSE);
-			free(wall_sections);
-			wall_sections = NULL;
-		}
-		else
-			w0->wall_sections = wall_sections;
+		set_wall_sections(w0, wall_sections);
 	}
 	return (TRUE);
 }

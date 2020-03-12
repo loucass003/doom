@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ear_clipping.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/12 15:51:26 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/20 19:07:09 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/03/12 16:02:40 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,16 @@
 
 static float	area(t_4dvertices *vertices, int *filters, int filters_count)
 {
-	int n = filters_count;
-	float A = 0.0f;
+	int n;
+	float A;
+
+	n = filters_count;
+	A = 0.0f;
 	for (int p = n - 1, q = 0; q < n; p = q++) {
-		t_vec4 pval = vertices->vertices[filters[p]];
-		t_vec4 qval = vertices->vertices[filters[q]];
+		t_vec4	pval;
+		t_vec4	qval;
+		pval = vertices->vertices[filters[p]];
+		qval = vertices->vertices[filters[q]];
 		A += pval.x * qval.y - qval.x * pval.y;
 	}
 	return (A * 0.5f);
@@ -35,7 +40,7 @@ t_bool	inside_triangle(t_vec4 a, t_vec4 b, t_vec4 c, t_vec4 p)
 {
 	float ax, ay, bx, by, cx, cy, apx, apy, bpx, bpy, cpx, cpy;
 	float cCROSSap, bCROSScp, aCROSSbp;
- 
+
 	ax = c.x - b.x; ay = c.y - b.y;
 	bx = a.x - c.x; by = a.y - c.y;
 	cx = b.x - a.x; cy = b.y - a.y;
@@ -46,22 +51,25 @@ t_bool	inside_triangle(t_vec4 a, t_vec4 b, t_vec4 c, t_vec4 p)
 	aCROSSbp = ax * bpy - ay * bpx;
 	cCROSSap = cx * apy - cy * apx;
 	bCROSScp = bx * cpy - by * cpx;
- 
+
 	return ((aCROSSbp >= 0.0f) && (bCROSScp >= 0.0f) && (cCROSSap >= 0.0f));
 }
 
 static t_bool	snip(t_4dvertices *vertices, int u, int j, int w, int n, int *v)
 {
 	int		p;
-	t_vec4	a, b, c;
+	t_vec4	a;
+	t_vec4	b;
+	t_vec4	c;
 
 	a = vertices->vertices[v[u]];
 	b = vertices->vertices[v[j]];
 	c = vertices->vertices[v[w]];
-	float t = ((b.x - a.x) * (c.y - a.y)) - ((b.y - a.y) * (c.x - a.x));
+	float t;
+	t = ((b.x - a.x) * (c.y - a.y)) - ((b.y - a.y) * (c.x - a.x));
 	if (EPSILON > t)
 		return (FALSE);
-	for (p = 0; p < n; p++) 
+	for (p = 0; p < n; p++)
 	{
 		if (p == u || p == j || p == w)
 			continue;
@@ -71,7 +79,8 @@ static t_bool	snip(t_4dvertices *vertices, int u, int j, int w, int n, int *v)
 	return (TRUE);
 }
 
-t_bool	ear_clip2(int *filters, int filters_count, t_4dvertices *vertices, t_faces **faces, int normal_type, int face_material, int room_index)
+t_bool	ear_clip2(int *filters, int filters_count, t_4dvertices *vertices,
+	t_faces **faces, int normal_type, int face_material, int room_index)
 {
 	int		*v;
 
@@ -86,8 +95,10 @@ t_bool	ear_clip2(int *filters, int filters_count, t_4dvertices *vertices, t_face
 		for (int i = 0; i < filters_count; i++)
 			v[i] = filters[(filters_count - 1) - i];
 	}
-	int nv = filters_count;
-	int count = 2 * nv;
+	int nv;
+	nv = filters_count;
+	int count;
+	count = 2 * nv;
 	for (int j = nv - 1; nv > 2; )
 	{
 		if ((count--) <= 0)
@@ -95,18 +106,21 @@ t_bool	ear_clip2(int *filters, int filters_count, t_4dvertices *vertices, t_face
 			free(v);
 			return (TRUE);
 		}
-		int u = j;
+		int u;
+		u= j;
 		if (nv <= u)
 			u = 0;
 		j = u + 1;
 		if (nv <= j)
 			j = 0;
-		int w = j + 1;
+		int w;
+		w = j + 1;
 		if (nv <= w)
 			w = 0;
 		if (snip(vertices, u, j, w, nv, v))
 		{
-			int s, t;
+			int	s;
+			int	t;
 			t_face face;
 
 			ft_bzero(&face, sizeof(t_face));
@@ -133,7 +147,7 @@ t_bool	ear_clip2(int *filters, int filters_count, t_4dvertices *vertices, t_face
 				v[s] = v[t];
 			nv--;
 			count = 2 * nv;
-		}	
+		}
 	}
 	free(v);
 	return (TRUE);
