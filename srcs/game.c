@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:01:13 by llelievr          #+#    #+#             */
-/*   Updated: 2020/03/12 15:48:13 by Lisa             ###   ########.fr       */
+/*   Updated: 2020/03/05 16:45:09 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,10 @@ static void		render_debug(t_doom *doom)
 
 static void		update_fps(t_doom *doom)
 {
-	static double	t1;
-	static double	t2;
-	static double	t3;
+	static double		t1 = 0;
+	static double		t2 = 0;
+	static double		t3 = 0;
 
-	t1 = 0;
-	t2 = 0;
-	t3 = 0;
 	t2 = t1;
 	t1 = SDL_GetTicks();
 	doom->stats.delta = (t1 - t2) / 1000.;
