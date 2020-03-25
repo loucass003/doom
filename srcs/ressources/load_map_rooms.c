@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   load_map_rooms.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/04 17:23:12 by lloncham          #+#    #+#             */
-/*   Updated: 2020/03/04 17:24:08 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/03/25 15:54:17 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,17 @@ t_room		init_room(t_ressource_manager *r, t_wr_room wr_room, t_walls *walls)
 	return (room);
 }
 
+t_bool		check_floor_ceiling_room(t_wr_room wr_room, t_ressource_manager *r)
+{
+	if (wr_room.ceiling_res_index < 0
+		|| wr_room.ceiling_res_index >= r->ressources->len)
+		return (FALSE);
+	if (wr_room.floor_res_index < 0
+		|| wr_room.floor_res_index >= r->ressources->len)
+		return (FALSE);
+	return (TRUE);
+}
+
 t_bool		read_room(t_ressource_manager *r)
 {
 	t_wr_room	wr_room;
@@ -53,11 +64,7 @@ t_bool		read_room(t_ressource_manager *r)
 		return (FALSE);
 	if (!(walls = create_walls_array(wr_room.walls_count + 5)))
 		return (FALSE);
-	if (wr_room.ceiling_res_index < 0
-		|| wr_room.ceiling_res_index >= r->ressources->len)
-		return (FALSE);
-	if (wr_room.floor_res_index < 0
-		|| wr_room.floor_res_index >= r->ressources->len)
+	if (check_floor_ceiling_room(wr_room, r) == FALSE)
 		return (FALSE);
 	room = init_room(r, wr_room, walls);
 	i = -1;

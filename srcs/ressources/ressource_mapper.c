@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ressource_mapper.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/29 13:50:12 by llelievr          #+#    #+#             */
-/*   Updated: 2020/03/07 04:18:52 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/03/25 16:51:07 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,23 @@
 #include "ressource.h"
 #include "file_utils.h"
 
+void		msg_invalid_res(t_ressource_type type, t_json_member *e)
+{
+	const char		v[4][9] = { "TEXTURE\0", "MODEL\0", "SOUND\0", "SCRIPT\0" };
+
+	ft_putstr("RESSOURCE MAPPER: Invalid ");
+	ft_putstr(v[type + 1]);
+	ft_putstr(" at element ");
+	ft_putendl(e->string->value);
+}
+
 t_bool		read_ressource_type(t_ressource_manager *r, t_json_object *val,
-	char *name, t_ressource_type type)
+	char *name, t_ressource_type type) // A CONTINUER A NORMER
 {
 	t_json_object	*obj;
 	t_json_member	*e;
 	t_json_string	*s;
 	int				i;
-	const char		v[4][9] = { "TEXTURE\0", "MODEL\0", "SOUND\0", "SCRIPT\0" };
 
 	if (!(obj = json_get_object(val, name)))
 		return (FALSE);
@@ -31,10 +40,7 @@ t_bool		read_ressource_type(t_ressource_manager *r, t_json_object *val,
 		if (e->value->type != JSON_STRING
 			|| (i = get_ressource_by_name(r, type, e->string->value)) == -1)
 		{
-			ft_putstr("RESSOURCE MAPPER: Invalid ");
-			ft_putstr(v[type + 1]);
-			ft_putstr(" at element ");
-			ft_putendl(e->string->value);
+			msg_invalid_res(type, e);
 			return (FALSE);
 		}
 		s = (t_json_string *)e->value;

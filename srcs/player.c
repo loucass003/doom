@@ -6,7 +6,7 @@
 /*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:43:35 by llelievr          #+#    #+#             */
-/*   Updated: 2020/03/11 18:50:55 by Lisa             ###   ########.fr       */
+/*   Updated: 2020/03/25 14:41:16 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,8 @@ void				spawn_player(t_doom *doom)
 		trigger_event(doom, (t_trigger){.type = TRIG_SPAWN});
 }
 
-void				player_inventory_normal(t_doom *doom, const SDL_Scancode key, SDL_Event *event)
+void				player_inventory_normal(t_doom *doom,
+	const SDL_Scancode key, SDL_Event *event)
 {
 	t_itemstack	*is;
 
@@ -115,7 +116,8 @@ void				player_inventory_normal(t_doom *doom, const SDL_Scancode key, SDL_Event 
 			if (is->of && is->of->on_use)
 				is->of->on_use(doom, is);
 		}
-		if (event->type == SDL_KEYDOWN && (key == SDL_SCANCODE_UP || key == SDL_SCANCODE_DOWN))
+		if (event->type == SDL_KEYDOWN && (key == SDL_SCANCODE_UP
+			|| key == SDL_SCANCODE_DOWN))
 		{
 			doom->player.selected_slot += (key == SDL_SCANCODE_DOWN ? 1 : -1);
 			if (doom->player.selected_slot < 0)
@@ -124,7 +126,8 @@ void				player_inventory_normal(t_doom *doom, const SDL_Scancode key, SDL_Event 
 				doom->player.selected_slot = 0;
 		}
 		if (event->type == SDL_KEYDOWN && key == SDL_SCANCODE_C)
-			set_player_state(doom, &doom->player, doom->player.desired_state == PS_CROUCH ? PS_NORMAL : PS_CROUCH);
+			set_player_state(doom, &doom->player,
+			doom->player.desired_state == PS_CROUCH ? PS_NORMAL : PS_CROUCH);
 	}
 }
 
@@ -236,7 +239,8 @@ float	update_speed(t_doom *doom, const Uint8 *s)
 		move_speed = 10;
 	else if (doom->player.entity.jetpack)
 		move_speed = 15;
-	else if (s[SDL_SCANCODE_LSHIFT] && !doom->player.entity.jetpack && !doom->player.entity.jump)
+	else if (s[SDL_SCANCODE_LSHIFT] && !doom->player.entity.jetpack
+		&& !doom->player.entity.jump)
 	{
 		doom->player.entity.run = TRUE;
 		move_speed = 15;
@@ -322,6 +326,20 @@ void	update_controls(t_doom *doom)
 	update_player_camera(&doom->player);
 }
 
+void	intersect_collide_ellipsoid(t_doom *doom, t_renderable *r)
+{
+	t_collide_ellipsoid	ellipsoid;
+	t_renderable		*sphere;
+
+	ellipsoid = r->hitbox.data.ellipsoid;
+	sphere = &doom->sphere_primitive;
+	sphere->position = ellipsoid.origin;
+	sphere->scale = ellipsoid.radius;
+	sphere->dirty = TRUE;
+	transform_renderable(sphere);
+	r = sphere;
+}
+
 t_bool		aabb_intersect_world(t_doom *doom, t_collide_aabb aabb)
 {
 	t_collision		hit;
@@ -336,19 +354,12 @@ t_bool		aabb_intersect_world(t_doom *doom, t_collide_aabb aabb)
 		if (ray_skip_renderable(r))
 			continue;
 		if (r->has_hitbox && r->hitbox.type == COLLIDE_ELLIPSOID)
-		{
-			t_collide_ellipsoid ellipsoid = r->hitbox.data.ellipsoid;
-			t_renderable *sphere = &doom->sphere_primitive;
-			sphere->position = ellipsoid.origin;
-			sphere->scale = ellipsoid.radius;
-			sphere->dirty = TRUE;
-			transform_renderable(sphere);
-			r = sphere;
-		}
+			intersect_collide_ellipsoid(doom, r);
 		j = -1;
 		while (++j < r->faces->len)
 		{
-			if (!r->faces->values[j].has_collision && doom->main_context.type == CTX_NORMAL)
+			if (!r->faces->values[j].has_collision
+				&& doom->main_context.type == CTX_NORMAL)
 				continue;
 			if (r->faces->values[j].face_normal.y >= -1e-6)
 				continue;
@@ -362,33 +373,32 @@ t_bool		aabb_intersect_world(t_doom *doom, t_collide_aabb aabb)
 
 t_bool		set_player_height(t_doom *doom, t_player *player, float height)
 {
-	t_entity	*e;
-	float		diff;
+	t_entity		*e;
+	float			diff;
+	t_vec3			pos;
+	t_vec3			radius;
+	t_collide_aabb	aabb;
 
 	e = &player->entity;
-
 	diff = (height / 2.0) - e->radius.y;
 	if (diff > 0)
 	{
-		t_vec3 pos = e->position;
+		pos = e->position;
 		pos.y += height / 2;
-		t_vec3 radius = (t_vec3){ e->radius.x, height / 2, e->radius.z };
-		t_collide_aabb aabb = (t_collide_aabb){
-			.min = ft_vec3_sub(pos, radius),
-			.max = ft_vec3_add(pos, radius)
-		};
+		radius = (t_vec3){ e->radius.x, height / 2, e->radius.z };
+		aabb = (t_collide_aabb){ .min = ft_vec3_sub(pos, radius),
+			.max = ft_vec3_add(pos, radius)};
 		if (aabb_intersect_world(doom, aabb))
 			return (FALSE);
 	}
 	e->radius.y = height / 2;
-	if (diff < 0)
-		e->position.y -= height / 2;
-	if (diff > 0)
-		e->position.y += height / 2;
+	e->position.y = (diff < 0 ? e->position.y - (height / 2)
+		: e->position.y + (height / 2));
 	return (TRUE);
 }
 
-void		set_player_state(t_doom *doom, t_player *player, t_player_state state)
+void		set_player_state(t_doom *doom, t_player *player,
+	t_player_state state)
 {
 	player->desired_state = state;
 	if (state == PS_CROUCH)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ear_clipping.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/12 15:51:26 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/20 19:07:09 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/03/25 15:34:53 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_bool	inside_triangle(t_vec4 a, t_vec4 b, t_vec4 c, t_vec4 p)
 {
 	float ax, ay, bx, by, cx, cy, apx, apy, bpx, bpy, cpx, cpy;
 	float cCROSSap, bCROSScp, aCROSSbp;
- 
+
 	ax = c.x - b.x; ay = c.y - b.y;
 	bx = a.x - c.x; by = a.y - c.y;
 	cx = b.x - a.x; cy = b.y - a.y;
@@ -46,7 +46,7 @@ t_bool	inside_triangle(t_vec4 a, t_vec4 b, t_vec4 c, t_vec4 p)
 	aCROSSbp = ax * bpy - ay * bpx;
 	cCROSSap = cx * apy - cy * apx;
 	bCROSScp = bx * cpy - by * cpx;
- 
+
 	return ((aCROSSbp >= 0.0f) && (bCROSScp >= 0.0f) && (cCROSSap >= 0.0f));
 }
 
@@ -61,7 +61,7 @@ static t_bool	snip(t_4dvertices *vertices, int u, int j, int w, int n, int *v)
 	float t = ((b.x - a.x) * (c.y - a.y)) - ((b.y - a.y) * (c.x - a.x));
 	if (EPSILON > t)
 		return (FALSE);
-	for (p = 0; p < n; p++) 
+	for (p = 0; p < n; p++)
 	{
 		if (p == u || p == j || p == w)
 			continue;
@@ -71,7 +71,8 @@ static t_bool	snip(t_4dvertices *vertices, int u, int j, int w, int n, int *v)
 	return (TRUE);
 }
 
-t_bool	ear_clip2(int *filters, int filters_count, t_4dvertices *vertices, t_faces **faces, int normal_type, int face_material, int room_index)
+t_bool	ear_clip2(int *filters, int filters_count, t_4dvertices *vertices,
+	t_faces **faces, int normal_type, int face_material, int room_index)
 {
 	int		*v;
 
@@ -133,7 +134,7 @@ t_bool	ear_clip2(int *filters, int filters_count, t_4dvertices *vertices, t_face
 				v[s] = v[t];
 			nv--;
 			count = 2 * nv;
-		}	
+		}
 	}
 	free(v);
 	return (TRUE);

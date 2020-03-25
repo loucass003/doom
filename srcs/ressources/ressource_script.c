@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ressource_script.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 14:15:25 by lloncham          #+#    #+#             */
-/*   Updated: 2020/03/08 20:46:47 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/03/25 16:52:05 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,20 +81,17 @@ t_bool					trigger_area(t_trigger_area *area,
 
 void					free_action(t_action *action)
 {
+	int	j;
+
+	j = -1;
 	if (action->type == ACTION_MESSAGE)
 	{
-		int j;
-
-		j = -1;
 		while (++j < action->data.message.textes_count)
 			free(action->data.message.textes[j]);
 		ft_memdel((void **)&action->data.message.textes);
 	}
 	else if (action->type == ACTION_QUESTION)
 	{
-		int j;
-
-		j = -1;
 		while (++j < action->data.question.quest_count)
 			free(action->data.question.quest[j]);
 		ft_memdel((void **)&action->data.question.quest);
