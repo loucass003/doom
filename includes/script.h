@@ -100,6 +100,7 @@ typedef struct			s_script
 	int					actions_count;
 	t_action			action[MAX_ACTIONS];
 	int					use;
+	int					use_default;
 }						t_script;
 
 typedef struct			s_script_data

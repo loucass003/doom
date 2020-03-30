@@ -20,7 +20,7 @@
 # include "constants.h"
 # include "entity.h"
 
-# define NO_AUDIO (TRUE)
+# define NO_AUDIO (FALSE)
 
 typedef struct			s_audio
 {

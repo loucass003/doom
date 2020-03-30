@@ -14,6 +14,7 @@
 #include "ressource.h"
 #include "file_utils.h"
 #include "item.h"
+#include "doom.h"
 
 t_bool					parse_json_trigger(t_script *script,
 	t_json_object *object)
@@ -152,6 +153,7 @@ t_bool					parse_script_data(t_script_data *s_data)
 		if (!!(use_d = (json_get_number(
 			(t_json_object *)element->value, "use"))))
 			script->use = (int)*use_d;
+		script->use_default = script->use;
 		if (!parse_json_actions(script,
 			json_get_array((t_json_object *)element->value, "actions")))
 			return (script_return_error("array 'actions' doesn't exist"));
@@ -160,4 +162,20 @@ t_bool					parse_script_data(t_script_data *s_data)
 	}
 	json_free_value(val);
 	return (TRUE);
+}
+
+
+void		reset_scripts(t_doom *doom)
+{
+	int				i;
+	t_script_data	*s_data;
+	t_script		*script;
+
+	i = -1;
+	s_data = doom->res_manager.ressources->values[26]->data.script_data;
+	while (++i < s_data->script_count)
+	{
+		script = &s_data->scripts[i];
+		script->use = script->use_default;
+	}
 }

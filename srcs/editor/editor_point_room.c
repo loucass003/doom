@@ -26,9 +26,9 @@ void			point_room(int index1, t_room *room0,
 	if (index1 == room0->walls->len - 2 && index0 == 0)
 		index = room0->walls->len - 1;
 	else
-		ft_memmove(room0->walls->values + index1 + 1,
-			room0->walls->values + index1, (room0->walls->len
-			- (index1)) * sizeof(t_wall));
+		ft_memmove(room0->walls->values + index + 1,
+			room0->walls->values + index, (room0->walls->len
+			- (index + 1)) * sizeof(t_wall));
 	room0->walls->values[index] = init_wall(point_index);
 	room0->walls->values[index].floor_height = floor_h;
 	room0->walls->values[index].ceiling_height = ceil_h;

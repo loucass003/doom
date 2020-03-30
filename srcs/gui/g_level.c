@@ -16,6 +16,7 @@
 void				play_game(t_doom *doom)
 {
 	doom->main_context.type = CTX_NORMAL;
+	reset_scripts(doom);
 	init_player(doom);
 	spawn_player(doom);
 	unselect_all(doom);
