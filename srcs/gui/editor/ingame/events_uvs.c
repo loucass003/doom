@@ -37,14 +37,13 @@ void        uvs_events(t_doom *doom, SDL_Event *event)
 		add.y = (key == SDL_SCANCODE_UP ? 1 : -1) * 0.1;
 	if (key == SDL_SCANCODE_LEFT || key == SDL_SCANCODE_RIGHT)
 		add.x = (key == SDL_SCANCODE_RIGHT ? 1 : -1) * 0.1;
-
+	if (add.x == 0 && add.y == 0)
+		return ;
 	room = &doom->editor.rooms->values[doom->editor.current_room];
 	ws = NULL;
 	if (doom->editor.current_seg.x != -1 && doom->editor.wall_section != -1)
 		ws = &room->walls->values[(int)doom->editor.current_seg.x]
 			.wall_sections->values[doom->editor.wall_section];
-	if (add.x == 0 && add.y == 0)
-		return ;
 	if (doom->editor.uv_transform_mode == UVT_MODE_OFFSET)
 	{
 		if (ws)

@@ -84,7 +84,7 @@ void			g_ingame_on_events(t_gui *self, SDL_Event *event, t_doom *doom)
 		else if (event->type == SDL_MOUSEBUTTONDOWN
 			&& event->button.button == SDL_BUTTON_RIGHT)
 			unselect_all(doom);
-		if (event->type == SDL_KEYDOWN && (doom->editor.wall_section != -1 || (doom->editor.selected_floor_ceil != -1 && doom->editor.current_room != -1)))
+		if (event->type == SDL_KEYDOWN && doom->editor.current_room != -1 && (doom->editor.wall_section != -1 || doom->editor.selected_floor_ceil != -1))
 			uvs_events(doom, event);
 		if (event->type == SDL_KEYDOWN && doom->editor.selected_floor_ceil != -1
 			&& doom->editor.current_room != -1)

@@ -78,7 +78,7 @@ void			hook_events(t_doom *doom)
 	SDL_Event		event;
 	const Uint8		*s = SDL_GetKeyboardState(NULL);
 
-	SDL_SetRelativeMouseMode((SDL_bool)doom->mouse_focus);
+	//SDL_SetRelativeMouseMode((SDL_bool)doom->mouse_focus);
 	doom->help = FALSE;
 	if (s[SDL_SCANCODE_F1] && doom->current_gui != GUI_RESSOURCES)
 		doom->help = TRUE;
