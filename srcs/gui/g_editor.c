@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_editor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 15:50:09 by llelievr          #+#    #+#             */
-/*   Updated: 2020/03/08 20:25:43 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/09 17:47:50 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void					g_editor_on_event(t_gui *self,
 void					g_editor_on_leave(t_gui *self, t_doom *doom)
 {
 	(void)self;
-	if (doom->editor.current_room != -1 
+	if (doom->editor.current_room != -1
 		&& !doom->editor.rooms->values[doom->editor.current_room].closed)
 	{
 		remove_room(&doom->editor, doom->editor.current_room);

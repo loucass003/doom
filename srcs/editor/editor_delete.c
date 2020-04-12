@@ -3,15 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   editor_delete.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 22:38:06 by llelievr          #+#    #+#             */
-/*   Updated: 2020/03/09 15:15:13 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/12 17:44:32 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom.h"
 #include "editor.h"
+
+void		remove_all_room(t_editor *editor, int i)
+{
+	select_room(editor, -1);
+	remove_room(editor, i);
+}
 
 static void	editor_remove_point(t_editor *editor)
 {
@@ -31,8 +37,7 @@ static void	editor_remove_point(t_editor *editor)
 			continue;
 		if (editor->rooms->values[i].walls->len - 1 < 3)
 		{
-			select_room(editor, -1);
-			remove_room(editor, i);
+			remove_all_room(editor, i);
 			rem_room = TRUE;
 			break ;
 		}

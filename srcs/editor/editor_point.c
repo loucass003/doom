@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   editor_point.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 18:46:30 by llelievr          #+#    #+#             */
-/*   Updated: 2020/03/03 20:06:55 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/12 17:59:41 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,6 @@ t_bool			search_room_point(t_editor *editor, t_vec2 pos,
 t_vec2			get_close_point(t_editor *editor, t_vec2 pos)
 {
 	t_vec2	p;
-	
 
 	p = pos;
 	if ((editor->selected_tool == TOOL_OBJECTS || editor->selected_tool

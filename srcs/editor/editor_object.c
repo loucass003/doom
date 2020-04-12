@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   editor_object.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 18:26:47 by llelievr          #+#    #+#             */
-/*   Updated: 2020/03/09 16:30:38 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/12 17:58:44 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,8 @@ void			set_object_default(t_doom *doom, t_object *object)
 	else if (object->type == OBJECT_ENTITY)
 		object->of.entity = ENTITY_ENEMY;
 	else if (object->type == OBJECT_SPRITE)
-		object->of.sprite = create_sprite((t_vec2){ 1, 1 }, get_default_texture(&doom->res_manager, TRUE));
+		object->of.sprite = create_sprite((t_vec2){ 1, 1 },
+			get_default_texture(&doom->res_manager, TRUE));
 	else if (object->type == OBJECT_MODEL)
 		object->of.model = get_ressource(&doom->res_manager, RESSOURCE_MODEL);
 	else if (object->type == OBJECT_TRANSPO)
@@ -103,5 +104,6 @@ void			set_object_default(t_doom *doom, t_object *object)
 	object->scale = (t_vec3){0, 0, 0};
 	object->rotation = (t_vec3){0, 0, 0};
 	if (object->r)
-		create_object_renderable(&doom->editor, objects_indexof(doom->editor.objects, object), object->r);
+		create_object_renderable(&doom->editor,
+			objects_indexof(doom->editor.objects, object), object->r);
 }

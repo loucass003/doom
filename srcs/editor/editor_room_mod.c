@@ -3,16 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   editor_room_mod.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/14 14:36:46 by louali            #+#    #+#             */
-/*   Updated: 2020/02/14 14:37:32 by louali           ###   ########.fr       */
+/*   Updated: 2020/04/12 18:06:13 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "editor.h"
 #include "doom.h"
 #include <limits.h>
+
+void		update_array_room(t_editor *editor, int index)
+{
+	splice_rooms_array(editor->rooms, index, 1);
+	update_rooms_gaps(editor);
+}
 
 void		remove_room(t_editor *editor, int index)
 {
@@ -39,8 +45,7 @@ void		remove_room(t_editor *editor, int index)
 		splice_walls_array(room->walls, i--, 1);
 		(!contain_point && !!(i = -1)) ? remove_point(editor, indice) : 0;
 	}
-	splice_rooms_array(editor->rooms, index, 1);
-	update_rooms_gaps(editor);
+	update_array_room(editor, index);
 }
 
 void		select_room(t_editor *editor, int index)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   editor_room.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 18:37:59 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/21 17:00:29 by louali           ###   ########.fr       */
+/*   Updated: 2020/04/12 18:09:25 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,5 @@ t_vec3		room_center(t_editor *editor, t_room *room)
 		max.z = fmax(point.y, max.z);
 	}
 	pos = ft_vec3_add(min, ft_vec3_div_s(ft_vec3_sub(max, min), 2));
-	printf("%f %f %f\n", pos.x, pos.y, pos.z);
 	return (ft_vec3_add(min, ft_vec3_div_s(ft_vec3_sub(max, min), 2)));
 }

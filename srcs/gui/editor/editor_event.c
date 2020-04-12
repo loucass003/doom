@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   editor_event.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/24 14:53:54 by lloncham          #+#    #+#             */
-/*   Updated: 2020/01/24 15:28:28 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/04/12 17:54:44 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void					editor_mousebuttondown(SDL_Event *event, t_doom *doom)
 
 void					editor_keydown(SDL_Event *event, t_doom *doom)
 {
-	if (event->key.keysym.scancode == SDL_SCANCODE_DELETE)
+	if (event->key.keysym.scancode == SDL_SCANCODE_BACKSPACE)
 		editor_delete_action(&doom->editor);
 	if (event->key.keysym.scancode == SDL_SCANCODE_SLASH
 		&& doom->editor.rooms->len >= 2)
