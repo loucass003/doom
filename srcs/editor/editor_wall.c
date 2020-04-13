@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   editor_wall.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 18:54:05 by llelievr          #+#    #+#             */
-/*   Updated: 2020/03/08 20:16:53 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/13 17:21:43 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,20 +55,17 @@ void			editor_render_wall_nornal(t_doom *doom, t_room *room, t_line l,
 		doom->editor.wall_section];
 	n = (t_vec2){ -dir.y, dir.x };
 	if (ws.normal_type == 2 || ws.normal_type == 0)
-	{
-		draw_line(&doom->screen, (t_pixel){ c.x, c.y, color},
-			(t_pixel){ c.x + n.x * 10, c.y + n.y * 10, 0 });
-	}
+		draw_line(&doom->screen, (t_pixel){c.x, c.y, color},
+			(t_pixel){c.x + n.x * 10, c.y + n.y * 10, 0});
 	if (ws.normal_type == 1 || ws.normal_type == 2)
 	{
 		n = ft_vec2_inv(n);
-		draw_line(&doom->screen, (t_pixel){ c.x, c.y, color},
-			(t_pixel){ c.x + n.x * 10, c.y + n.y * 10, 0 });
+		draw_line(&doom->screen, (t_pixel){c.x, c.y, color},
+			(t_pixel){c.x + n.x * 10, c.y + n.y * 10, 0});
 	}
 }
 
-void			init_render(int *color, t_room *room,
-	t_editor *editor)
+void			init_render(int *color, t_room *room, t_editor *editor)
 {
 	// int		test_room;
 

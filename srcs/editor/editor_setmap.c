@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   editor_setmap.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 15:55:03 by llelievr          #+#    #+#             */
-/*   Updated: 2020/03/11 21:01:24 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/13 16:59:23 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,15 +72,20 @@ t_bool		add_map(t_renderable *rmap, t_editor *editor)
 	return (TRUE);
 }
 
+void		update_editor_var(t_editor *editor)
+{
+	editor->doom->renderables->len = 0;
+	editor->doom->skybox_index = -1;
+	editor->settings.open = FALSE;
+}
+
 t_bool		editor_setmap(t_editor *editor)
 {
 	int				i;
 	t_renderable	r;
 	t_object		*object;
 
-	editor->doom->renderables->len = 0;
-	editor->doom->skybox_index = -1;
-	editor->settings.open = FALSE;
+	update_editor_var(editor);
 	default_renderables(editor->doom);
 	i = -1;
 	while (++i < editor->objects->len)

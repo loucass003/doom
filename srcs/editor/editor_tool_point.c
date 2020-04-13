@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   editor_tool_point.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 20:10:29 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/17 15:04:15 by louali           ###   ########.fr       */
+/*   Updated: 2020/04/13 17:14:15 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,12 @@
 void		editor_tool_point_release(t_editor *editor)
 {
 	editor->current_point = -1;
+}
+
+void		cancel_editor_tool(t_bool cancel, t_editor *editor, t_vec2 pos)
+{
+	if (cancel)
+		editor->points->vertices[editor->current_point] = pos;
 }
 
 void		editor_tool_point_move(t_editor *editor)
@@ -42,8 +48,7 @@ void		editor_tool_point_move(t_editor *editor)
 			}
 		}
 	}
-	if (cancel)
-		editor->points->vertices[editor->current_point] = pos;
+	cancel_editor_tool(cancel, editor, pos);
 }
 
 void		editor_tool_point(t_editor *editor)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   editor.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 14:35:33 by lloncham          #+#    #+#             */
-/*   Updated: 2020/03/10 22:02:39 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/13 16:56:01 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -381,5 +381,7 @@ t_bool				g_es_wall_action_performed(t_component *cmp,
 void				g_ressources_row_cmps(t_gui *self, t_doom *doom);
 void				g_message_render_message(t_doom *doom, struct s_action_message *md);
 void				g_message_render_questions(t_doom *doom, struct s_action_question *q);
+
+void				default_renderables(t_doom *doom);
 
 #endif

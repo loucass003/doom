@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   editor_tool_select.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 20:13:35 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/24 17:04:00 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/04/13 17:20:29 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,7 @@ void			gg_outside(t_editor *editor)
 		editor->current_seg = (t_vec2){ -1, -1 };
 		select_room(editor, get_close_room(editor));
 	}
-	else if (editor->current_room != -1 && editor->grid_cell_grab
-		== GG_LINE)
+	else if (editor->current_room != -1 && editor->grid_cell_grab == GG_LINE)
 	{
 		editor->wall_section = 0;
 		seg = get_close_seg(editor, &editor->rooms->values[
@@ -61,7 +60,6 @@ void			gg_outside(t_editor *editor)
 void			editor_tool_select(t_editor *editor)
 {
 	int			index;
-	t_vec2		seg;
 
 	if (editor->grid_cell_grab != GG_OUTSIDE)
 		gg_outside(editor);
