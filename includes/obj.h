@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   obj.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 15:26:39 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/16 15:23:08 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/04/14 20:18:19 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef struct	s_obj_prefix
 	t_bool		(*formatter)();
 }				t_obj_prefix;
 
+t_bool			init_obj_renderable_arrays(t_renderable *r);
 t_bool			read_face_part(t_reader *r, size_t i, t_face *face);
 t_obj_prefix	*get_formatter(t_obj_prefix *prefixes, size_t prefixes_count,
 					t_reader *reader);

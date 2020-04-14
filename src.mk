@@ -53,6 +53,7 @@ SRC+=arrays/vertices4d.c
 SRC+=arrays/components.c
 SRC+=arrays/select_items.c
 SRC+=hitbox.c
+SRC+=obj/obj_utils.c
 SRC+=obj/mtl.c
 SRC+=obj/formatters.c
 SRC+=obj/face.c

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 15:28:48 by llelievr          #+#    #+#             */
-/*   Updated: 2020/03/09 03:12:24 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/14 20:18:10 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,6 @@ t_obj_prefix	*get_formatter(t_obj_prefix *prefixes, size_t prefixes_count,
 		i++;
 	}
 	return (prefixes + prefixes_count);
-}
-
-t_bool			free_obj(t_obj *obj, t_bool ret)
-{
-	(void)obj;
-	return (ret);
 }
 
 t_bool			init_obj(t_doom *doom, t_obj *obj, t_renderable *r)
@@ -100,15 +94,7 @@ t_bool			load_obj(t_doom *doom, t_renderable *r, t_obj *obj, char *file)
 	return (TRUE);
 }
 
-t_bool			set_obj_working_dir(t_doom *doom, char *folder)
-{
-	if (doom->obj_working_dir)
-		ft_memdel((void **)&doom->obj_working_dir);
-	if (!(doom->obj_working_dir = (char *)ft_strnew(ft_strlen(folder))))
-		return (FALSE);
-	ft_strcpy(doom->obj_working_dir, folder);
-	return (TRUE);
-}
+
 
 t_bool			create_obj(t_doom *doom, t_renderable *r, char *file)
 {
@@ -116,16 +102,8 @@ t_bool			create_obj(t_doom *doom, t_renderable *r, char *file)
 
 	ft_bzero(r, sizeof(t_renderable));
 	r->of.type = RENDERABLE_UNKNOWN;
-	if (!(r->vertices = create_4dvertices_array(800)))
-		return (free_renderable(r, FALSE, TRUE, FALSE));
-	if (!(r->vertex = create_2dvertices_array(800)))
-		return (free_renderable(r, FALSE, TRUE, FALSE));
-	if (!(r->normals = create_3dvertices_array(800)))
-		return (free_renderable(r, FALSE, TRUE, FALSE));
-	if (!(r->faces = create_faces_array(800)))
-		return (free_renderable(r, FALSE, TRUE, FALSE));
-	if (!(r->materials = create_mtllist(3)))
-		return (free_renderable(r, FALSE, TRUE, FALSE));
+	if (!init_obj_renderable_arrays(r))
+		return (FALSE);
 	if (!load_obj(doom, r, &obj, file))
 		return (free_renderable(r, FALSE, TRUE, FALSE));
 	if (r->materials->len == 0)
