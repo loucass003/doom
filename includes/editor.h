@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   editor.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 14:35:33 by lloncham          #+#    #+#             */
-/*   Updated: 2020/04/13 16:56:01 by Lisa             ###   ########.fr       */
+/*   Updated: 2020/04/15 01:15:19 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -239,6 +239,18 @@ typedef struct				s_editor
 }					t_editor;
 
 
+typedef struct		s_face_params
+{
+	t_wall_section	*ws;
+	int				n_start;
+	int				v_start;
+	t_vec3			face_normal;
+	int				room_index;
+	int				wall_index;
+	int				wall_section;
+	int				indexes[3];
+}					t_face_params;
+
 t_walls				*create_walls_array(int capacity);
 t_walls				*append_walls_array(t_walls **arr, t_wall i);
 t_walls				*splice_walls_array(t_walls *arr,
@@ -328,7 +340,7 @@ t_bool				editor_settings_guis(t_editor *editor);
 void				set_object_default(t_doom *doom, t_object *object);
 t_bool				floor_visibility(t_editor *editor, t_renderable *r, int room_index);
 void				unselect_all(t_doom *doom);
-t_bool				create_wall(t_renderable *r, t_editor *editor, int room_index, int wall_index, int wall_section);
+t_bool				create_wall(t_renderable *r, t_editor *editor, int indexes[3]);
 t_bool				update_floor(t_editor *editor, int room_index, t_bool floor);
 void				select_floor_ceil(t_editor *editor, int room_index, t_bool floor);
 int					point_in_rooms(t_editor *editor, t_vec2 point);

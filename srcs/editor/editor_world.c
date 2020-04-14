@@ -3,21 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   editor_world.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/14 16:03:32 by louali            #+#    #+#             */
-/*   Updated: 2020/02/24 17:11:29 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/04/15 00:24:22 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
-#include "doom.h"
-#include "editor.h"
-#include "render.h"
-#include "octree.h"
-#include "sprite.h"
-#include "ellipsoid.h"
-#include "door.h"
 
 t_vec3		editor_to_world(t_vec3 pos)
 {

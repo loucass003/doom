@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   editor_setmap_wall.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/14 14:44:38 by louali            #+#    #+#             */
-/*   Updated: 2020/04/13 16:48:40 by Lisa             ###   ########.fr       */
+/*   Updated: 2020/04/15 01:26:15 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,62 +14,9 @@
 #include "doom.h"
 #include "editor.h"
 #include "render.h"
-#include "octree.h"
-#include "sprite.h"
-#include "ellipsoid.h"
-#include "door.h"
 
-t_bool		update_wall(t_editor *editor, int room_index, int wall_index,
-	int wall_section)
-{
-	t_face			*f1;
-	t_face			*f2;
-	t_room			*room;
-	t_wall			*wall;
-	t_wall_section	*ws;
-	t_vec3			face_normal;
-	int				start;
-
-	if (editor->doom->main_context.type != CTX_EDITOR)
-		return (TRUE);
-	room = &editor->rooms->values[room_index];
-	wall = &room->walls->values[wall_index];
-	ws = &wall->wall_sections->values[wall_section];
-	f1 = &get_map(editor)->faces->values[wall->faces_start
-		+ (wall_section * 2)];
-	f2 = &get_map(editor)->faces->values[wall->faces_start
-		+ (wall_section * 2) + 1];
-	face_normal = get_triangle_normal(
-		vec4_to_3(get_map(editor)->pp_vertices[f1->vertices_index[0] - 1]),
-		vec4_to_3(get_map(editor)->pp_vertices[f1->vertices_index[1] - 1]),
-		vec4_to_3(get_map(editor)->pp_vertices[f1->vertices_index[2] - 1]));
-	if (ws->normal_type == 0)
-		face_normal = ft_vec3_inv(face_normal);
-	f1->hidden = ws->invisible;
-	f1->has_collision = ws->collisions;
-	f1->face_normal = face_normal;
-	f1->normal_type = ws->normal_type;
-	f1->double_sided = ws->normal_type == 2;
-	f2->hidden = ws->invisible;
-	f2->has_collision = ws->collisions;
-	f2->face_normal = face_normal;
-	f2->normal_type = ws->normal_type;
-	f2->double_sided = ws->normal_type == 2;
-	start = f1->vertex_index[0] - 1;
-	get_map(editor)->vertex->vertices[start] = uv_setting(ws,
-		(t_vec2){ 0, 0 });
-	get_map(editor)->vertex->vertices[start + 1] = uv_setting(ws,
-		(t_vec2){ 1, 0 });
-	get_map(editor)->vertex->vertices[start + 2] = uv_setting(ws,
-		(t_vec2){ 1, 1 });
-	get_map(editor)->vertex->vertices[start + 3] = uv_setting(ws,
-		(t_vec2){ 0, 1 });
-	get_map(editor)->materials->values[
-		ws->material_index].texture_map = ws->texture->data.texture;
-	return (TRUE);
-}
-
-void	append_array(t_renderable *r, t_vec3 face_normal, t_wall_section *ws)
+void		append_array(t_renderable *r, t_vec3 face_normal,
+	t_wall_section *ws)
 {
 	append_3dvertices_array(&r->normals, face_normal);
 	append_2dvertices_array(&r->vertex, uv_setting(ws, (t_vec2){ 0, 0 }));
@@ -81,60 +28,27 @@ void	append_array(t_renderable *r, t_vec3 face_normal, t_wall_section *ws)
 	append_2dvertices_array(&r->vertex, uv_setting(ws, (t_vec2){ 0, 1 }));
 }
 
-void	construct_wall_snd_triangle(t_wall_section *ws, int n_start, int v_start,
-	int wall_index, int wall_section, int room_index, t_renderable *r)
+void		init_face(t_renderable *r, t_face_params p)
 {
 	t_face	face;
 
 	ft_bzero(&face, sizeof(t_face));
-	face.hidden = ws->invisible;
-	face.has_collision = ws->collisions;
-	face.normal_type = ws->normal_type;
-	face.double_sided = ws->normal_type == 2;
+	update_face(&face, p.ws, p.face_normal);
 	face.normals_set = TRUE;
-	face.normals_index[0] = n_start + 1;
-	face.normals_index[1] = n_start + 1 + 1;
-	face.normals_index[2] = n_start + 2 + 1;
+	face.normals_index[0] = p.n_start + p.indexes[0] + 1;
+	face.normals_index[1] = p.n_start + p.indexes[1] + 1;
+	face.normals_index[2] = p.n_start + p.indexes[2] + 1;
 	face.vertex_set = TRUE;
-	face.vertex_index[0] = v_start + 1;
-	face.vertex_index[1] = v_start + 1 + 1;
-	face.vertex_index[2] = v_start + 2 + 1;
-	face.vertices_index[0] = ws->vertices_index[0] + 1;
-	face.vertices_index[1] = ws->vertices_index[1] + 1;
-	face.vertices_index[2] = ws->vertices_index[2] + 1;
-	face.mtl_index = ws->material_index;
-	face.wall_index = wall_index;
-	face.wall_section = wall_section;
-	face.room_index = room_index;
-	append_faces_array(&r->faces, face);
-}
-
-void	construct_wall_fst_triangle(t_wall_section *ws, int n_start, int v_start,
-	t_vec3 face_normal, int wall_index, int wall_section, int room_index, t_renderable *r)
-{
-	t_face	face;
-
-	ft_bzero(&face, sizeof(t_face));
-	face.hidden = ws->invisible;
-	face.has_collision = ws->collisions;
-	face.face_normal = face_normal;
-	face.normal_type = ws->normal_type;
-	face.double_sided = ws->normal_type == 2;
-	face.normals_set = TRUE;
-	face.normals_index[0] = n_start + 1;
-	face.normals_index[1] = n_start + 2 + 1;
-	face.normals_index[2] = n_start + 3 + 1;
-	face.vertex_set = TRUE;
-	face.vertex_index[0] = v_start + 1;
-	face.vertex_index[1] = v_start + 2 + 1;
-	face.vertex_index[2] = v_start + 3 + 1;
-	face.vertices_index[0] = ws->vertices_index[0] + 1;
-	face.vertices_index[1] = ws->vertices_index[2] + 1;
-	face.vertices_index[2] = ws->vertices_index[3] + 1;
-	face.mtl_index = ws->material_index;
-	face.wall_index = wall_index;
-	face.wall_section = wall_section;
-	face.room_index = room_index;
+	face.vertex_index[0] = p.v_start + p.indexes[0] + 1;
+	face.vertex_index[1] = p.v_start + p.indexes[1] + 1;
+	face.vertex_index[2] = p.v_start + p.indexes[2] + 1;
+	face.vertices_index[0] = p.ws->vertices_index[p.indexes[0]] + 1;
+	face.vertices_index[1] = p.ws->vertices_index[p.indexes[1]] + 1;
+	face.vertices_index[2] = p.ws->vertices_index[p.indexes[2]] + 1;
+	face.mtl_index = p.ws->material_index;
+	face.wall_index = p.wall_index;
+	face.wall_section = p.wall_section;
+	face.room_index = p.room_index;
 	append_faces_array(&r->faces, face);
 }
 
@@ -152,32 +66,32 @@ t_vec3		get_face_normal(t_renderable *r, t_wall_section *ws)
 		vec4_to_3(p2));
 	if (ws->normal_type == 0)
 		face_normal = ft_vec3_inv(face_normal);
-	return face_normal;
+	return (face_normal);
 }
 
-t_bool		create_wall(t_renderable *r, t_editor *editor, int room_index,
-	int wall_index, int wall_section)
+t_bool		create_wall(t_renderable *r, t_editor *editor, int indexes[3])
 {
 	t_room			*room;
 	t_wall			*wall;
 	t_wall_section	*ws;
 	t_vec3			face_normal;
-	int				n_start;
-	int				v_start;
+	t_face_params	params;
 
-	room = &editor->rooms->values[room_index];
-	wall = &room->walls->values[wall_index];
-	ws = &wall->wall_sections->values[wall_section];
+	room = &editor->rooms->values[indexes[0]];
+	wall = &room->walls->values[indexes[1]];
+	ws = &wall->wall_sections->values[indexes[2]];
 	ws->material_index = r->materials->len;
 	if (!append_mtllist(&r->materials, (t_mtl){
 		.texture_map_set = TRUE, .texture_map = ws->texture->data.texture,
 		.material_color_set = TRUE, .material_color = 0xFFFF0000 }))
 		return (FALSE);
 	face_normal = get_face_normal(r, ws);
-	n_start = r->normals->len;
-	v_start = r->vertex->len;
+	params = (t_face_params) { ws, r->normals->len, r->vertex->len, face_normal,
+		indexes[0], indexes[1], indexes[2], {0, 0, 0} };
 	append_array(r, face_normal, ws);
-	construct_wall_fst_triangle(ws, n_start, v_start, face_normal, wall_index, wall_section, room_index, r);
-	construct_wall_snd_triangle(ws, n_start, v_start, wall_index, wall_section, room_index, r);
+	ft_memcpy(&params.indexes, (int[3]){ 0, 1, 2 }, sizeof(int) * 3);
+	init_face(r, params);
+	ft_memcpy(&params.indexes, (int[3]){ 0, 2, 3 }, sizeof(int) * 3);
+	init_face(r, params);
 	return (TRUE);
 }

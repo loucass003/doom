@@ -6,19 +6,18 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/24 15:00:32 by louali            #+#    #+#             */
-/*   Updated: 2020/03/11 21:11:44 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/15 01:12:57 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "editor.h"
 #include "doom.h"
 
-void		free_wall(t_wall *wall)
+void			free_wall(t_wall *wall)
 {
-	printf("FREE WALL\n");
-	// ft_memdel((void **)&wall->start_rooms_range);
-	// ft_memdel((void **)&wall->end_rooms_range);
-	// ft_memdel((void **)&wall->wall_sections);
+	ft_memdel((void **)&wall->start_rooms_range);
+	ft_memdel((void **)&wall->end_rooms_range);
+	ft_memdel((void **)&wall->wall_sections);
 }
 
 void			free_walls(t_walls **walls)

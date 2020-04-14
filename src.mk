@@ -132,6 +132,7 @@ SRC+=io/io_reader_tool.c
 SRC+=editor/editor_setmap_render.c
 SRC+=editor/editor_player.c
 SRC+=editor/editor_intersect.c
+SRC+=editor/editor_wall_update.c
 SRC+=editor/editor_settings.c
 SRC+=editor/editor_tool_object.c
 SRC+=editor/editor_hide_wall.c

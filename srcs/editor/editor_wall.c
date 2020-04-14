@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   editor_wall.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 18:54:05 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/13 17:21:43 by Lisa             ###   ########.fr       */
+/*   Updated: 2020/04/15 00:24:11 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,16 +65,12 @@ void			editor_render_wall_nornal(t_doom *doom, t_room *room, t_line l,
 	}
 }
 
-void			init_render(int *color, t_room *room, t_editor *editor)
+int			get_color(t_room *room, t_editor *editor)
 {
-	// int		test_room;
-
-	*color = editor->current_room != -1 && room
-		== &editor->rooms->values[editor->current_room] ? 0xFFFFF0F0 :
-		0xFFFF9090;
-	// test_room = point_in_rooms(editor, editor->grid_cell);
-	// if (test_room != -1 && room == &editor->rooms->values[test_room])
-	// 	*color = 0xFF00FF00;
+	if (editor->current_room != -1
+		&& room == &editor->rooms->values[editor->current_room])
+		return (0xFFFFF0F0);
+	return (0xFFFF9090);
 }
 
 t_bool			editor_render_wall(t_doom *doom, t_editor *editor, t_room *room,
@@ -83,7 +79,7 @@ t_bool			editor_render_wall(t_doom *doom, t_editor *editor, t_room *room,
 	t_line	p;
 	int		color;
 
-	init_render(&color, room, editor);
+	color = get_color(room, editor);
 	p.a = editor->points->vertices[room->walls->values[j].indice];
 	p.b = editor->points->vertices[
 			room->walls->values[(j + 1) % room->walls->len].indice];

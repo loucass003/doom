@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   editor_setmap.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 15:55:03 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/13 16:59:23 by Lisa             ###   ########.fr       */
+/*   Updated: 2020/04/15 00:25:22 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,6 @@
 #include "doom.h"
 #include "editor.h"
 #include "render.h"
-#include "octree.h"
-#include "sprite.h"
-#include "ellipsoid.h"
-#include "door.h"
 
 t_vec2		uv_setting(t_wall_section *ws, t_vec2 uv)
 {
@@ -51,10 +47,10 @@ t_bool		add_map(t_renderable *rmap, t_editor *editor)
 	int		j;
 	t_room	*room;
 
-	//TODO: free removed renderables from map_renderable to renderables->len
 	i = editor->map_renderable - 1;
 	while (++i < editor->doom->renderables->len)
-		free_renderable(&editor->doom->renderables->values[i], FALSE, TRUE, TRUE);
+		free_renderable(&editor->doom->renderables->values[i],
+			FALSE, TRUE, TRUE);
 	editor->doom->renderables->len = editor->map_renderable;
 	create_map(rmap, editor);
 	if (!append_renderables_array(&editor->doom->renderables, *rmap))

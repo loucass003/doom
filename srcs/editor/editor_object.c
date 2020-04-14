@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   editor_object.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 18:26:47 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/12 17:58:44 by Lisa             ###   ########.fr       */
+/*   Updated: 2020/04/15 00:21:04 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ t_object	init_object(t_editor *editor, t_vec2 pos)
 	return (object);
 }
 
-void			set_object_default(t_doom *doom, t_object *object)
+void		set_object_default(t_doom *doom, t_object *object)
 {
 	object->no_light = FALSE;
 	if (object->type == OBJECT_ITEMSTACK)

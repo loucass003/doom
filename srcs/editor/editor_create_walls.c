@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 11:36:27 by louali            #+#    #+#             */
-/*   Updated: 2020/03/09 02:07:40 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/15 01:15:27 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ void	creat_walls(t_renderable *r, t_editor *editor, int i, t_room *room)
 		w0->faces_start = r->faces->len;
 		k = -1;
 		while (++k < w0->wall_sections->len)
-			create_wall(r, editor, i, j, k);
+			create_wall(r, editor, (int[3]){i, j, k});
 	}
 }
 

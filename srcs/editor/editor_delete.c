@@ -3,23 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   editor_delete.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 22:38:06 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/12 17:44:32 by Lisa             ###   ########.fr       */
+/*   Updated: 2020/04/15 00:20:14 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom.h"
 #include "editor.h"
 
-void		remove_all_room(t_editor *editor, int i)
+void			remove_all_room(t_editor *editor, int i)
 {
 	select_room(editor, -1);
 	remove_room(editor, i);
 }
 
-static void	editor_remove_point(t_editor *editor)
+static void		editor_remove_point(t_editor *editor)
 {
 	int		i;
 	int		index;
@@ -47,7 +47,7 @@ static void	editor_remove_point(t_editor *editor)
 	!rem_room ? remove_point(editor, index) : 0;
 }
 
-void					remove_light(t_doom *doom, int light_index)
+void			remove_light(t_doom *doom, int light_index)
 {
 	int			i;
 	t_object	*object;
@@ -57,12 +57,13 @@ void					remove_light(t_doom *doom, int light_index)
 	while (++i < doom->editor.objects->len)
 	{
 		object = &doom->editor.objects->values[i];
-		if (object->type == OBJECT_LIGHT && object->of.light_index > light_index)
+		if (object->type == OBJECT_LIGHT
+			&& object->of.light_index > light_index)
 			object->of.light_index--;
 	}
 }
 
-void		editor_delete_action(t_editor *editor)
+void			editor_delete_action(t_editor *editor)
 {
 	t_object	*object;
 
