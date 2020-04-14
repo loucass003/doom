@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   threads.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/24 01:36:30 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/16 17:00:36 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/04/14 20:11:27 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,6 @@
 # define RENDER_DATAS_CAPACITY (4096)
 # define THREADS_COUNT (8)
 
-typedef struct			s_bsem
-{
-	pthread_mutex_t		mutex;
-	pthread_cond_t		cond;
-	int					v;
-}						t_bsem;
 
 typedef struct			s_thread
 {
@@ -56,12 +50,7 @@ typedef struct			s_threads
 	int					active;
 }						t_threads;
 
-void					bsem_init(t_bsem *bsem_p, int value);
-void					bsem_reset(t_bsem *bsem_p);
-void					bsem_post(t_bsem *bsem_p);
-void					bsem_post_all(t_bsem *bsem_p);
-void					bsem_wait(t_bsem *bsem_p);
-
+void					wake_up_main_thread(t_thread *t);
 t_bool					init_threads(t_threads *threads);
 void					threads_wait(t_threads *threads);
 void					threads_launch(t_threads *threads);
