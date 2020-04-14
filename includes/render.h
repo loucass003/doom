@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:16:19 by llelievr          #+#    #+#             */
-/*   Updated: 2020/03/09 02:24:45 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/14 23:25:33 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,30 @@ typedef struct				s_renderables
 	t_renderable			values[];
 }							t_renderables;
 
+typedef struct				s_rgba
+{
+	uint8_t r;
+	uint8_t g;
+	uint8_t b;
+	uint8_t a;
+}							t_rgba;
+
+typedef union				u_color_r
+{
+	uint32_t	color;
+	t_rgba		argb;
+}							t_color_r;
+
+
+typedef struct				s_pixel_data
+{
+	int			x;
+	int			y;
+	float		t;
+	t_vertex	start;
+	t_vertex	end;
+}							t_pixel_data;
+
 t_faces						*create_faces_array(int capacity);
 t_faces						*append_faces_array(t_faces **arr, t_face i);
 
@@ -195,13 +219,14 @@ t_bool						ear_clip2(int *filters, int filters_count,
 void						uv_mapping(t_4dvertices *vertices,
 								t_2dvertices *vertex, int *filter,
 								int filter_len, t_vec2 offset, t_vec2 repeat);
-t_bool						create_player(t_renderable *r, struct s_doom *doom);
 
 
 void		free_materials(t_mtllist **m_addr, t_bool free_ressources);
 void		free_renderable_of(t_renderable *r);
-t_bool		free_renderable(t_renderable *r, t_bool free_resources, t_bool free_of, t_bool res);
+t_bool		free_renderable(t_renderable *r, t_bool free_resources,
+	t_bool free_of, t_bool res);
 void		face_and_triangle(t_renderable *r, int i);
 void		free_renderables(t_renderables **renderables, t_bool destroy_array);
+void		draw_pixel(t_render_data data, t_pixel_data pd);
 
 #endif
