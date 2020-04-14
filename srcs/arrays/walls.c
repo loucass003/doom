@@ -50,7 +50,7 @@ t_walls	*append_walls_array(t_walls **arr, t_wall v)
 t_walls	*splice_walls_array(t_walls *arr, int index, int n)
 {
 	int		i;
-	
+
 	if (index < 0)
 		index = index + arr->len - 1;
 	if (n <= 0 || index >= arr->len || index + n > arr->len)

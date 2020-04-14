@@ -12,7 +12,7 @@
 
 #include <libft.h>
 
-static void		cofactor(float A[4][4], float temp[4][4], int v[3])
+static void		cofactor(float a[4][4], float temp[4][4], int v[3])
 {
 	int		i;
 	int		j;
@@ -29,7 +29,7 @@ static void		cofactor(float A[4][4], float temp[4][4], int v[3])
 		{
 			if (row != v[0] && col != v[1])
 			{
-				temp[i][j++] = A[row][col];
+				temp[i][j++] = a[row][col];
 				if (j == v[2] - 1)
 				{
 					j = 0;
