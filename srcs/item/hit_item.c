@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hit_item.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 20:16:48 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/20 15:28:44 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/04/14 19:59:32 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,31 +20,49 @@
 #include "item.h"
 #include "script.h"
 
-int					get_slot_of(t_player *player, t_item_type type)
+t_bool				is_weapon_not_grenada(t_itemstack *it)
 {
-	int		i;
-
-	i = -1;
-	while (++i < PLAYER_INV_SIZE)
-		if (player->item[i].of && player->item[i].of->type == type)
-			return (i);
-	return (-1);
+	return (it && it->of && it->of->type == ITEM_WEAPON
+		&& it->of->data.weapon.type != WEAPON_GRENADA);
 }
 
-int					get_slot(t_player *player, t_itemstack *is)
+int					get_item_slot(t_entity *entity, t_itemstack *is)
 {
-	return (get_slot_of(player, is->of->type));
+	int				s;
+	t_itemstack		*inv_is;
+
+	s = get_slot(&entity->packet.doom->player, is);
+	if (s == -1 && (s = get_empty_slot(&entity->packet.doom->player)) == -1)
+		return (-1);
+	inv_is = &entity->packet.doom->player.item[s];
+	if (is_weapon_not_grenada(inv_is)
+		&& inv_is->of->data.weapon.type == is->of->data.weapon.type)
+		return (-1);
+	else if (is_weapon_not_grenada(inv_is)
+		&& (s = get_empty_slot(&entity->packet.doom->player)) == -1)
+		return (-1);
+	return (s);
 }
 
-int					get_empty_slot(t_player *player)
+void				consume_item(t_itemstack *inv_is, t_itemstack *is,
+	t_entity *entity, int i)
 {
-	int		i;
+	t_trigger t;
 
-	i = -1;
-	while (++i < PLAYER_INV_SIZE)
-		if (!player->item[i].of)
-			return (i);
-	return (-1);
+	if (inv_is->of->type == ITEM_WEAPON)
+		entity->packet.doom->gameover.weapon += ft_min(i, is->amount);
+	inv_is->amount += ft_min(i, is->amount);
+	is->amount -= ft_min(i, is->amount);
+	player_sound(&entity->packet.doom->audio, ITEM_PICK, 3, 1);
+	t = (t_trigger) { .type = TRIG_PICK_ITEM };
+	t.data.pick_item = (t_trigger_pick_item) {
+		.item_type = is->of->type,
+		.is_weapon_set = is->of->type == ITEM_WEAPON,
+		.weapon_type = is->of->type == ITEM_WEAPON
+			? is->of->data.weapon.type
+			: WEAPON_NONE
+	};
+	trigger_event(entity->packet.doom, t);
 }
 
 t_bool				entity_hit_itemstack(t_entity *entity, t_itemstack *is)
@@ -62,38 +80,12 @@ t_bool				entity_hit_itemstack(t_entity *entity, t_itemstack *is)
 			* entity->packet.doom->level.coeff_regen));
 		return (TRUE);
 	}
-	s = get_slot(&entity->packet.doom->player, is);
-	if (s == -1 && (s = get_empty_slot(&entity->packet.doom->player)) == -1)
-		return (TRUE);
-	inv_is = &entity->packet.doom->player.item[s];
-	if (inv_is->of && inv_is->of->type == ITEM_WEAPON
-		&& inv_is->of->data.weapon.type != WEAPON_GRENADA
-		&& inv_is->of->data.weapon.type == is->of->data.weapon.type)
-		return (TRUE);
-	else if (inv_is->of && inv_is->of->type == ITEM_WEAPON
-		&& inv_is->of->data.weapon.type != WEAPON_GRENADA
-		&& (s = get_empty_slot(&entity->packet.doom->player)) == -1)
+	if ((s = get_item_slot(entity, is)) == -1)
 		return (TRUE);
 	inv_is = &entity->packet.doom->player.item[s];
 	inv_is->of = is->of;
 	i = inv_is->of->max_stack_size - inv_is->amount;
 	if (i > 0)
-	{
-		if (inv_is->of->type == ITEM_WEAPON)
-			entity->packet.doom->gameover.weapon += ft_min(i, is->amount);
-		inv_is->amount += ft_min(i, is->amount);
-		is->amount -= ft_min(i, is->amount);
-		player_sound(&entity->packet.doom->audio, ITEM_PICK, 3, 1);
-		t_trigger t;
-		t = (t_trigger) { .type = TRIG_PICK_ITEM };
-		t.data.pick_item = (t_trigger_pick_item) {
-			.item_type = is->of->type,
-			.is_weapon_set = is->of->type == ITEM_WEAPON,
-			.weapon_type = is->of->type == ITEM_WEAPON
-				? is->of->data.weapon.type
-				: WEAPON_NONE
-		};
-		trigger_event(entity->packet.doom, t);
-	}
+		consume_item(inv_is, is, entity, i);
 	return (TRUE);
 }

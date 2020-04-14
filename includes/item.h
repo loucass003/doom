@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 20:30:43 by llelievr          #+#    #+#             */
-/*   Updated: 2020/03/07 03:18:05 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/14 19:31:40 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ typedef struct		s_itemstack
 	int				amount;
 }					t_itemstack;
 
+void				on_use_weapon(t_doom *d, t_itemstack *is);
+void				on_use_axe(t_doom *doom, t_itemstack *is);
 t_bool				create_itemstack_renderable(t_renderable *r, t_itemstack *is);
 t_item				*create_item(t_item_type type, t_ressource *image,
 						SDL_Rect bounds, int max_stack_size);
