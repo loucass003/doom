@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_es_wall_actions.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/10 21:20:51 by llelievr          #+#    #+#             */
-/*   Updated: 2020/03/10 22:34:30 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/14 19:22:00 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,7 @@ t_bool					g_es_wall_action_wall_type(t_component *cmp,
 		editor_settings_update(editor);
 		return (FALSE);
 	}
-		
 	return (TRUE);
-	
 }
 
 void					g_es_wall_action_settings(t_component *cmp,

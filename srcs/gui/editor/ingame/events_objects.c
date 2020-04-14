@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   events_objects.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/06 11:32:00 by lloncham          #+#    #+#             */
-/*   Updated: 2020/02/11 03:21:23 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/14 18:39:05 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom.h"
 #include "gui.h"
 #include "editor.h"
-
 
 void		unselect_all(t_doom *doom)
 {
@@ -29,6 +28,8 @@ void		unselect_all(t_doom *doom)
 
 void		transform_object(t_doom *doom, t_object *object, t_vec3 add)
 {
+	t_light *light;
+
 	object->pos = ft_vec3_add(object->pos, add);
 	if (object->r)
 	{
@@ -47,7 +48,7 @@ void		transform_object(t_doom *doom, t_object *object, t_vec3 add)
 		object->r->position.y += add.y;
 		if (object->type == OBJECT_LIGHT)
 		{
-			t_light *light = &doom->lights->values[object->of.light_index];
+			light = &doom->lights->values[object->of.light_index];
 			light->position = object->r->position;
 		}
 		object->r->dirty = TRUE;
@@ -65,7 +66,6 @@ void		rotation_mode(t_object *object, t_vec3 add)
 			object->r->rotation = object->rotation;
 		object->r->dirty = TRUE;
 	}
-
 }
 
 void		object_mode(t_doom *doom, t_vec3 add)
@@ -95,7 +95,7 @@ void		object_events(t_doom *doom, SDL_Event *event)
 {
 	t_vec3				add;
 	const SDL_Scancode	key = event->key.keysym.scancode;
-	
+
 	add = (t_vec3){ 0, 0, 0 };
 	if (key == SDL_SCANCODE_PAGEUP)
 	{

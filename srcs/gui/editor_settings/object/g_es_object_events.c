@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_es_object_events.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 15:48:19 by llelievr          #+#    #+#             */
-/*   Updated: 2020/03/10 18:12:19 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/14 19:23:47 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ t_bool			g_es_action_performed(t_component *cmp, t_doom *doom)
 	return (TRUE);
 }
 
-void	 set_es_object_gui(t_editor *editor, int id)
+void			set_es_object_gui(t_editor *editor, int id)
 {
 	if (editor->settings.current_gui_object >= 0)
 		leave_gui(editor->doom, editor->settings.guis_object,

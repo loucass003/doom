@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rocket.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/14 10:24:25 by lloncham          #+#    #+#             */
-/*   Updated: 2020/03/03 20:46:57 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/14 17:57:02 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ t_bool	renderable_rocket(t_doom *doom, t_vec3 from, t_vec3 to)
 {
 	t_renderable rocket;
 
-	copy_renderable(doom->res_manager.ressources->values[8]->data.model, &rocket);
+	copy_renderable(doom->res_manager.ressources->values[8]->data.model,
+		&rocket);
 	create_rocket(&rocket, doom);
 	rocket.of.data.entity->position = from;
 	rocket.of.data.entity->velocity = ft_vec3_mul_s(ft_vec3_norm(ft_vec3_sub(to,

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   doom.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/24 15:24:08 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/04/13 17:35:26 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,12 @@
 # include "ressource.h"
 # include "audio.h"
 # include "threads.h"
+
+typedef struct			s_entity_collision_check
+{
+	t_entity			*entity;
+	t_renderable		*r;
+}						t_entity_collision_check;
 
 typedef struct			s_stats
 {

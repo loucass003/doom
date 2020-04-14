@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gui.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 01:42:00 by llelievr          #+#    #+#             */
-/*   Updated: 2020/03/09 15:50:01 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/14 19:30:22 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -312,5 +312,10 @@ void							apply_text(t_doom *doom, t_component *self,
 void							apply_textfield(t_doom *doom, char *str,
 									t_component *self, t_textfield *tf);
 void							set_button_cell(t_button *btn, int x, int y);
+
+t_bool							selected_tool(t_doom *doom, int last_select);
+int								total_score(t_doom *doom);
+t_bool							add_score(char *text, int score, t_doom *doom);
+
 
 #endif

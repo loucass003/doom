@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/07 10:21:45 by lloncham          #+#    #+#             */
-/*   Updated: 2020/02/10 01:40:32 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/14 19:07:07 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,14 @@ void			draw_transforms_type(t_editor *editor)
 {
 	const char		types[3][12] = {"TRANSLATION\0", "ROTATION\0", "SCALING\0"};
 	const char		types_uv[2][12] = {"UV OFFSET\0", "UV REPEAT\0"};
-	
+
 	if (editor->doom->main_context.type != CTX_EDITOR)
 		return ;
 	if (editor->current_object != -1)
-		draw_text_overlay((char *)types[(int)editor->object_transform_mode], editor->doom);
-	else if (editor->wall_section != -1 || (editor->selected_floor_ceil != -1 && editor->current_room != -1))
-		draw_text_overlay((char *)types_uv[(int)editor->uv_transform_mode], editor->doom);
+		draw_text_overlay((char *)types[(int)editor->object_transform_mode],
+			editor->doom);
+	else if (editor->wall_section != -1 || (editor->selected_floor_ceil != -1
+		&& editor->current_room != -1))
+		draw_text_overlay((char *)types_uv[(int)editor->uv_transform_mode],
+			editor->doom);
 }

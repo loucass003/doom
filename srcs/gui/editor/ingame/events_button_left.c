@@ -6,7 +6,7 @@
 /*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 15:28:11 by lloncham          #+#    #+#             */
-/*   Updated: 2020/04/12 17:32:46 by Lisa             ###   ########.fr       */
+/*   Updated: 2020/04/14 18:33:55 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,23 @@
 #include "gui.h"
 #include "editor.h"
 #include "door.h"
+
+void			check_ray(t_face face, t_room *room, t_doom *doom)
+{
+	if (face.wall_index == -1)
+	{
+		doom->editor.wall_section = -1;
+		doom->editor.current_seg.x = -1;
+	}
+	else
+	{
+		doom->editor.current_seg.x = room->walls->values[face.wall_index]
+			.indice;
+		doom->editor.current_seg.y = room->walls->values[(face.wall_index + 1)
+			% room->walls->len].indice;
+		doom->editor.wall_section = face.wall_section;
+	}
+}
 
 void			hit_renderable_map(t_collision hit, t_doom *doom)
 {
@@ -23,26 +40,18 @@ void			hit_renderable_map(t_collision hit, t_doom *doom)
 
 	face = hit.renderable->faces->values[hit.who.data.triangle.face];
 	room = &doom->editor.rooms->values[face.room_index];
-	if (face.wall_index == -1)
-	{
-		doom->editor.wall_section = -1;
-		doom->editor.current_seg.x = -1;
-	}
-	else
-	{
-		doom->editor.current_seg.x = room->walls->values[face.wall_index].indice;
-		doom->editor.current_seg.y = room->walls->values[(face.wall_index + 1) % room->walls->len].indice;
-		doom->editor.wall_section = face.wall_section;
-	}
+	check_ray(face, room, doom);
 	select_room(&doom->editor, face.room_index);
-	if (hit.who.data.triangle.face >= room->floor_start && hit.who.data.triangle.face < room->walls_start)
+	if (hit.who.data.triangle.face >= room->floor_start && hit.who.data.triangle
+		.face < room->walls_start)
 	{
 		doom->editor.slope_mode = s[SDL_SCANCODE_LCTRL];
-		select_floor_ceil(&doom->editor, face.room_index, hit.who.data.triangle.face < room->ceilling_start);
+		select_floor_ceil(&doom->editor, face.room_index, hit.who.data.triangle
+			.face < room->ceilling_start);
 	}
 }
 
-void		hit_renderable_door(t_collision hit, t_doom *doom)
+void			hit_renderable_door(t_collision hit, t_doom *doom)
 {
 	t_door	*door;
 	t_room	*room;
@@ -56,7 +65,7 @@ void		hit_renderable_door(t_collision hit, t_doom *doom)
 	select_room(&doom->editor, door->indexes[0]);
 }
 
-void		event_hit_collide(t_doom *doom, t_collision hit)
+void			event_hit_collide(t_doom *doom, t_collision hit)
 {
 	if (doom->editor.current_object != -1)
 		doom->editor.objects->values[doom->editor.current_object].r
@@ -79,7 +88,7 @@ void		event_hit_collide(t_doom *doom, t_collision hit)
 	}
 }
 
-void		event_button_left(t_doom *doom)
+void			event_button_left(t_doom *doom)
 {
 	t_ray			ray;
 	t_collision		hit;

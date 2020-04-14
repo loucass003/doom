@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   entity.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 22:00:26 by llelievr          #+#    #+#             */
-/*   Updated: 2020/03/09 16:47:55 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/04/14 17:54:27 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,7 @@
 #include "sprite.h"
 #include <SDL.h>
 
-struct	s_entity_collision_check
-{
-	t_entity		*entity;
-	t_renderable	*r;
-};
-
-void		check_triangle_normal_type(struct s_entity_collision_check *data,
+void		check_triangle_normal_type(t_entity_collision_check *data,
 	t_face *f)
 {
 	if (f->normal_type == 1 || f->normal_type == 2)
@@ -53,7 +47,7 @@ void		check_triangle_normal_type(struct s_entity_collision_check *data,
 
 void		collide_with_face(int face, void *p)
 {
-	struct s_entity_collision_check	*data;
+	t_entity_collision_check		*data;
 	t_face							*f;
 
 	data = p;
@@ -86,7 +80,7 @@ void		collide_with_octree(t_renderable *r, t_entity *entity,
 	area.min = min;
 	area.max = max;
 	aabb_intersect_octree(octree, &area, collide_with_face,
-		&(struct s_entity_collision_check){ .entity = entity, .r = r });
+		&(t_entity_collision_check){ .entity = entity, .r = r });
 }
 
 void		teleport(t_entity *entity, t_vec3 pos, t_vec3 rot)
@@ -190,8 +184,19 @@ void	check_col_else(t_renderable r, t_entity *entity)
 
 	j = -1;
 	while (++j < r.faces->len)
-		collide_with_face(j, &(struct s_entity_collision_check){
+		collide_with_face(j, &(t_entity_collision_check){
 			.entity = entity, .r = &r });
+}
+
+void	check_col(t_renderable r, t_entity *entity, t_collide_aabb new_area,
+	int i)
+{
+	if (r.has_hitbox && r.hitbox.type == COLLIDE_ELLIPSOID)
+		check_col_collide_ellipsoid(r, entity, new_area, i);
+	else if (r.octree && r.faces->len > 100)
+		new_area = check_col_octree(new_area, r, entity, i);
+	else
+		check_col_else(r, entity);
 }
 
 t_bool		check_collision(t_entity *entity, t_collide_aabb area)
@@ -218,12 +223,7 @@ t_bool		check_collision(t_entity *entity, t_collide_aabb area)
 			continue;
 		new_area = area;
 		data = entity->packet;
-		if (r.has_hitbox && r.hitbox.type == COLLIDE_ELLIPSOID)
-			check_col_collide_ellipsoid(r, entity, new_area, i);
-		else if (r.octree && r.faces->len > 100)
-			new_area = check_col_octree(new_area, r, entity, i);
-		else
-			check_col_else(r, entity);
+		check_col(r, entity, new_area, i);
 		if (entity->packet.r
 			&& entity->packet.r->of.type == RENDERABLE_ITEMSTACK)
 			i = check_col_itemstack(entity, i, data);
@@ -236,12 +236,31 @@ t_bool		check_collision(t_entity *entity, t_collide_aabb area)
 	return (TRUE);
 }
 
+t_bool		damage_entity(t_entity *from, float dist, float damage, t_renderable *entity)
+{
+	t_entity	*e;
+
+	e = entity->of.data.entity;
+	if (from == e)
+		return (TRUE);
+	dist = ft_vec3_len(ft_vec3_sub(e->position, from->position));
+	if (dist < 10)
+	{
+		damage = from->of.rocket.damage;
+		if (dist != 0)
+			damage /= dist;
+		give_damage(from, e, e->packet.doom, damage);
+	}
+	return (FALSE);
+}
+
 void 		damage_explo(t_entity *from, t_doom *doom, float damage)
 {
 	t_renderables	*renderables;
 	float			dist;
 	int				i;
 	t_renderable	r;
+	t_renderable	*entity;
 
 	create_explosion_renderable(doom, &r);
 	r.position = from->position;
@@ -250,23 +269,10 @@ void 		damage_explo(t_entity *from, t_doom *doom, float damage)
 	renderables = doom->renderables;
 	while (++i < renderables->len)
 	{
-		t_renderable	*r;
-		r = &renderables->values[i];
-		if (r->of.type == RENDERABLE_ENTITY)
-		{
-			t_entity	*e;
-			e = r->of.data.entity;
-			if (from == e)
+		entity = &renderables->values[i];
+		if (entity->of.type == RENDERABLE_ENTITY)
+			if (damage_entity(from, dist, damage, entity))
 				continue;
-			dist = ft_vec3_len(ft_vec3_sub(e->position, from->position));
-			if (dist < 10)
-			{
-				damage = from->of.rocket.damage;
-				if (dist != 0)
-					damage /= dist;
-				give_damage(from, e, doom, damage);
-			}
-		}
 	}
 }
 

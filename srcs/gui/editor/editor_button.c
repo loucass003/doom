@@ -3,39 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   editor_button.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/24 15:17:54 by lloncham          #+#    #+#             */
-/*   Updated: 2020/03/09 02:43:14 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/14 19:15:07 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 #include "gui.h"
 #include "doom.h"
-
-t_bool					selected_tool(t_doom *doom, int last_select)
-{
-	if (doom->editor.selected_tool == TOOL_PLAYER
-		|| (last_select == TOOL_PLAYER
-			&& last_select != doom->editor.selected_tool))
-		editor_settings_update(&doom->editor);
-	if (doom->editor.selected_tool == 0)
-	{
-		if (!doom->editor.player_set)
-			return (TRUE);
-		doom->editor.selected_tool = -1;
-		doom->main_context.type = CTX_EDITOR;
-		init_player(doom);
-		spawn_player(doom);
-		unselect_all(doom);
-		free_renderables(&doom->renderables, FALSE);
-		editor_setmap(&doom->editor);
-		set_gui(doom, GUI_INGAME);
-		return (FALSE);
-	}
-	return (TRUE);
-}
 
 void					tool_current(t_doom *doom)
 {
@@ -92,9 +69,8 @@ static t_bool			action_performed(t_component *cmp, t_doom *doom)
 	return (TRUE);
 }
 
-void					g_editor_button(t_gui *self, t_doom *doom)
+void					construct_button(t_doom *doom, t_gui *self)
 {
-	int		i;
 	t_img	*img;
 
 	img = doom->res_manager.ressources->values[25]->data.texture;
@@ -112,8 +88,16 @@ void					g_editor_button(t_gui *self, t_doom *doom)
 		{268, 9, 50, 50}, img, NULL));
 	append_components_array(&self->components, create_button((SDL_Rect)
 		{S_WIDTH - 57, 9, 50, 50}, img, NULL));
-	((t_button *)self->components->values[6])->selected = doom->editor
-		.settings.open;
+}
+
+void					g_editor_button(t_gui *self, t_doom *doom)
+{
+	int		i;
+	t_bool	open;
+
+	open = doom->editor.settings.open;
+	construct_button(doom, self);
+	((t_button *)self->components->values[6])->selected = open;
 	i = -1;
 	while (++i < 7)
 	{
