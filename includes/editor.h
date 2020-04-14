@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 14:35:33 by lloncham          #+#    #+#             */
-/*   Updated: 2020/04/15 01:15:19 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/15 01:48:54 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -346,6 +346,8 @@ void				select_floor_ceil(t_editor *editor, int room_index, t_bool floor);
 int					point_in_rooms(t_editor *editor, t_vec2 point);
 void				hide_adjacent_walls(t_editor *editor, int room, int wall, t_wall_section *ws);
 void				hide_doors_wall(t_editor *editor);
+t_bool				gui_ingame_editor_events(t_doom *doom, t_editor *editor,
+						t_gui *self, SDL_Event *event);
 
 t_bool				create_map_points_and_floor(t_editor *editor, t_renderable *r);
 t_bool				create_walls(t_editor *editor, t_renderable *r);

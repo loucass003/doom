@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_gameover.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/15 20:19:09 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/14 21:05:41 by Lisa             ###   ########.fr       */
+/*   Updated: 2020/04/15 01:33:57 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,11 @@ static t_bool		action_performed(t_component *cmp, t_doom *doom)
 	}
 	if (cmp == doom->guis[doom->current_gui].components->values[2])
 	{
-		if (((t_textfield *)doom->guis[doom->current_gui].components->values[1])->text_len > 0)
+		if (((t_textfield *)doom->guis[doom->current_gui].components
+			->values[1])->text_len > 0)
 		{
-			text = ((t_textfield *)doom->guis[doom->current_gui].components->values[1])->text;
+			text = ((t_textfield *)doom->guis[doom->current_gui].components
+				->values[1])->text;
 			if (!add_score(text, total_score(doom), doom))
 				return (FALSE);
 			set_gui(doom, GUI_LEADERBOARD);

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/10 22:01:25 by llelievr          #+#    #+#             */
-/*   Updated: 2020/03/10 22:02:02 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/15 01:48:43 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 void			g_message_render_press_enter(t_doom *doom)
 {
 	SDL_Surface		*t;
-	
+
 	t = TTF_RenderText_Blended(doom->fonts.helvetica, "PRESS ENTER",
 		(SDL_Color){255, 255, 255, 0});
 	apply_surface_blended(&doom->screen, t,
@@ -34,7 +34,7 @@ void			g_message_render_message(t_doom *doom, t_action_message *md)
 		md->textes[doom->message.counter_m], (SDL_Color){255, 255, 255, 0});
 	apply_surface_blended(&doom->screen, t,
 		(SDL_Rect){0, 0, t->w, t->h},
-		(SDL_Rect){S_WIDTH/2 - t->w/2, S_HEIGHT - 100, t->w, t->h});
+		(SDL_Rect){S_WIDTH_2 - t->w / 2, S_HEIGHT - 100, t->w, t->h});
 	SDL_FreeSurface(t);
 	g_message_render_press_enter(doom);
 }
@@ -47,13 +47,13 @@ void			g_message_render_question(t_doom *doom, t_action_question *q)
 		(SDL_Color){255, 255, 255, 0});
 	apply_surface_blended(&doom->screen, t,
 		(SDL_Rect){0, 0, t->w, t->h},
-		(SDL_Rect){S_WIDTH/2 - t->w/2, S_HEIGHT - 100, t->w, t->h});
+		(SDL_Rect){S_WIDTH_2 - t->w / 2, S_HEIGHT - 100, t->w, t->h});
 	SDL_FreeSurface(t);
 	t = TTF_RenderText_Blended(doom->fonts.helvetica, q->quest[1],
 		(SDL_Color){255, 255, 255, 0});
 	apply_surface_blended(&doom->screen, t,
 		(SDL_Rect){0, 0, t->w, t->h},
-		(SDL_Rect){S_WIDTH/2 - t->w/2, S_HEIGHT - 40, t->w, t->h});
+		(SDL_Rect){S_WIDTH_2 - t->w / 2, S_HEIGHT - 40, t->w, t->h});
 	SDL_FreeSurface(t);
 	t = TTF_RenderText_Blended(doom->fonts.helvetica, "CHOOSE AN ANSWER",
 		(SDL_Color){255, 255, 255, 0});
@@ -77,7 +77,7 @@ void			g_message_render_questions(t_doom *doom, t_action_question *q)
 			q->answer[doom->message.counter_q], (SDL_Color){255, 255, 255, 0});
 		apply_surface_blended(&doom->screen, t,
 			(SDL_Rect){0, 0, t->w, t->h},
-			(SDL_Rect){S_WIDTH/2 - t->w/2, S_HEIGHT - 100, t->w, t->h});
+			(SDL_Rect){S_WIDTH_2 - t->w / 2, S_HEIGHT - 100, t->w, t->h});
 		SDL_FreeSurface(t);
 		g_message_render_press_enter(doom);
 	}

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   the_ingame_render.c                                :+:      :+:    :+:   */
+/*   ingame_scene.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/14 19:00:26 by Lisa              #+#    #+#             */
-/*   Updated: 2020/04/14 19:01:52 by Lisa             ###   ########.fr       */
+/*   Updated: 2020/04/15 01:50:15 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,10 @@ t_bool			ingame_render_entity(t_doom *doom, t_renderable *r)
 	return (FALSE);
 }
 
-void			the_ingame_render(t_doom *doom, int i)
+void			the_ingame_render(t_doom *doom)
 {
 	t_renderable	*r;
+	int				i;
 
 	i = -1;
 	while (++i < doom->renderables->len)
@@ -61,4 +62,24 @@ void			the_ingame_render(t_doom *doom, int i)
 			&& r->hitbox.type == COLLIDE_ELLIPSOID)
 			sphere_collide_ellipsoid(doom, r);
 	}
+}
+
+void			ingame_scene(t_doom *doom)
+{
+	int			i;
+
+	i = -1;
+	doom->main_context.image = &doom->screen;
+	while (++i < S_WIDTH * S_HEIGHT)
+		doom->main_context.buffer[i] = 0;
+	skybox_activated(doom, i);
+	threads_clear(&doom->threads);
+	if (doom->main_context.type == CTX_EDITOR)
+		sphere_context_editor(doom);
+	doom->closer_boss = NULL;
+	the_ingame_render(doom);
+	if (doom->main_context.type == CTX_EDITOR)
+		light_render(doom);
+	threads_launch(&doom->threads);
+	threads_wait(&doom->threads);
 }
