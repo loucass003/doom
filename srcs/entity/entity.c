@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   entity.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 22:00:26 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/15 17:03:47 by Lisa             ###   ########.fr       */
+/*   Updated: 2020/04/15 21:54:06 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,22 +26,24 @@ void		check_triangle_normal_type(t_entity_collision_check *data,
 	if (f->normal_type == 1 || f->normal_type == 2)
 	{
 		check_triangle(data->r, &data->entity->packet,
+		(t_vec3[3]) {
 		ft_vec3_div(vec4_to_3(data->r->pp_vertices[f->vertices_index[0] - 1]),
 		data->entity->packet.e_radius),
 		ft_vec3_div(vec4_to_3(data->r->pp_vertices[f->vertices_index[1] - 1]),
 		data->entity->packet.e_radius),
 		ft_vec3_div(vec4_to_3(data->r->pp_vertices[f->vertices_index[2] - 1]),
-		data->entity->packet.e_radius));
+		data->entity->packet.e_radius) });
 	}
 	if (f->normal_type == 0 || f->normal_type == 2)
 	{
 		check_triangle(data->r, &data->entity->packet,
+		(t_vec3[3]) {
 		ft_vec3_div(vec4_to_3(data->r->pp_vertices[f->vertices_index[2] - 1]),
 		data->entity->packet.e_radius),
 		ft_vec3_div(vec4_to_3(data->r->pp_vertices[f->vertices_index[1] - 1]),
 		data->entity->packet.e_radius),
 		ft_vec3_div(vec4_to_3(data->r->pp_vertices[f->vertices_index[0] - 1]),
-		data->entity->packet.e_radius));
+		data->entity->packet.e_radius)});
 	}
 }
 

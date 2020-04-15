@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   collision.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 01:15:48 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/16 14:32:01 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/04/15 21:51:22 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,19 @@ typedef struct					s_physics_data
 	struct s_doom				*doom;
 }								t_physics_data;
 
+typedef struct					s_physics_fields
+{
+	float						t0;
+	float						t1;
+	float						t;
+	t_bool						found_collision;
+	t_bool						in_plane;
+	t_vec3						colision_point;
+	float						a[3];
+	float						velocity_sq_len;
+	t_plane						plane;
+}								t_physics_fields;
+
 t_vec3							point_to_local(t_vec3 point, t_vec3 position,
 									t_vec3 rotation, t_vec3 scale);
 t_ray							to_local_ray(t_ray ray, t_vec3 position,
@@ -136,7 +149,18 @@ t_collision						triangle_hit_aabb(t_collide_triangle *triangle,
 t_bool							get_obb_collision(t_obb_box a, t_obb_box b);
 t_bool							ray_skip_renderable(struct s_renderable *r);
 t_physics_data					*check_triangle(struct s_renderable *r,
-									t_physics_data *packet, t_vec3 p1,
+									t_physics_data *packet, t_vec3 p[3]);
+void							lowest_collision(t_physics_fields *fields,
+									t_physics_data *packet, t_vec3 p);
+void							edge_collision(t_physics_fields *f,
+									t_physics_data *pa, t_vec3 p[2]);
+t_bool							point_in_triangle_cross(const t_vec3 u,
+									const t_vec3 v, const t_vec3 w,
+									const t_vec3 vw);
+t_bool							point_in_triangle(t_vec3 point, t_vec3 p1,
 									t_vec3 p2, t_vec3 p3);
+t_bool							lowest_root(t_vec3 v, float max, float *root);
+float							clamp(float min, float max, float v);
+void							swapf(float *a, float *b);
 
 #endif
