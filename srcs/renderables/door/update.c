@@ -73,6 +73,8 @@ t_bool					update_renderable_door(t_render_context *ctx,
 	update_door_open(ctx, r, door);
 	if (last_open != door->open_value)
 	{
+		if (last_open == 0 || last_open == 1)
+			play_music(&ctx->doom->audio, r->position, 9, FALSE);
 		i = -1;
 		while (++i < r->faces->len)
 		{

@@ -24,12 +24,15 @@
         "SOUND WILHELM": "song/wilhelm.wav",
         "SOUND GUN": "song/380.wav",
         "SOUND FOOTSTEP": "song/step24.wav",
-        "SOUND PICKITEM": "song/badum.wav",
+        "SOUND PICKITEM": "song/pick_item.wav",
         "SOUND BOSS FOOTSTEP": "song/boss_step.wav",
         "SOUND BOSS GUN": "song/boss_rocket.wav",
         "SOUND BOSS DIE": "song/boss_death.wav",
         "SOUND BOSS HIT": "song/boss_shot.wav",
-        "SOUND EXPLOSION": "song/explosion.wav"
+        "SOUND EXPLOSION": "song/explosion.wav",
+        "SOUND DOOR": "song/porte.wav",
+        "SOUND TRANSPORTEUR": "song/teleportation.wav",
+        "SOUND GRENADE": "song/grenade.wav"
     },
     "SCRIPTS": {
         "SCRIPT": "template_dialogues.json"

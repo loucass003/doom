@@ -91,7 +91,7 @@ void		on_use_grenada(t_doom *d, t_itemstack *is)
 		g.of.data.entity->velocity = forward;
 		g.of.data.entity->of.grenada.start = SDL_GetTicks();
 		append_renderables_array(&d->renderables, g);
-		player_sound(&d->audio, CHAR_SHOOTING, 1, 1.5);//TROUVER UN SON POUR LANCER DE GRENADE
+		player_sound(&d->audio, CHAR_SHOOTING, 11, 1.5);
 		is->amount--;
 	}
 	if (is->amount <= 0)

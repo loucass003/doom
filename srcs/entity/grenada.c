@@ -35,6 +35,8 @@ t_bool		create_grenada(t_renderable *r, t_doom *doom)
 	grenada->range = 10;
 	r->scale = (t_vec3){ 0.10, 0.10, 0.10 };
 	r->of.data.entity->radius = (t_vec3){ 0.5, 0.5, 0.5 };
+	r->of.data.entity->sources = grenada->sources;
+	alGenSources(1, grenada->sources);
 	return (TRUE);
 }
 
@@ -76,6 +78,7 @@ t_bool		entity_update_grenada(t_doom *doom, t_entity *entity)
 	g = &entity->of.grenada;
 	if (SDL_GetTicks() - g->start > g->delay)
 	{
+		entity_sound(entity, 8, 0, 1);
 		damage_explo(entity, doom, g->damage);
 		splice_renderables_array(doom->renderables,
 			renderable_from_entity(doom->renderables, entity), 1);

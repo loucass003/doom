@@ -90,6 +90,7 @@ void		teleport(t_entity *entity, t_vec3 pos, t_vec3 rot)
 	entity->position = pos;
 	entity->rotation = rot;
 	entity->ontp = FALSE;
+	player_sound(&entity->packet.doom->audio, CHAR_TELEPORT, 10, 1);
 }
 
 void		check_col_collide_ellipsoid(t_renderable r, t_entity *entity,

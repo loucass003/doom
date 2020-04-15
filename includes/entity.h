@@ -24,7 +24,7 @@ typedef enum			e_entity_type
 	ENTITY_ENEMY,
 	ENTITY_GRENADA,
 	ENTITY_BOSS,
-	ENTITY_ROCKET
+	ENTITY_ROCKET,
 }						t_entity_type;
 
 typedef struct			s_entity_grenada
@@ -33,6 +33,7 @@ typedef struct			s_entity_grenada
 	float				range;
 	long				delay;
 	long				start;
+	ALuint				sources[1];
 }						t_entity_grenada;
 
 typedef struct			s_entity_rocket

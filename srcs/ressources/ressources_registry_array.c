@@ -51,6 +51,7 @@ t_bool			registry_array_part1(t_doom *doom)
 	error |= a(doom, "SOUND BOSS HIT", RESSOURCE_SOUND, TRUE);
 	error |= a(doom, "SOUND EXPLOSION", RESSOURCE_SOUND, TRUE);
 	error |= a(doom, "LEADERBOARD", RESSOURCE_TEXTURE, TRUE);
+
 	return (error);
 }
 
@@ -65,5 +66,8 @@ t_bool			registry_array_part2(t_doom *doom)
 	error |= a(doom, "EXPLOSION", RESSOURCE_TEXTURE, TRUE);
 	error |= a(doom, "EDITOR ICONS", RESSOURCE_TEXTURE, TRUE);
 	error |= a(doom, "SCRIPT", RESSOURCE_SCRIPT, TRUE);
+	error |= a(doom, "SOUND DOOR", RESSOURCE_SOUND, TRUE);
+	error |= a(doom, "SOUND TRANSPORTEUR", RESSOURCE_SOUND, TRUE);
+	error |= a(doom, "SOUND GRENADE", RESSOURCE_SOUND, TRUE);
 	return (error);
 }

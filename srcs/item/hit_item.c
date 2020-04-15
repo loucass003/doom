@@ -53,7 +53,7 @@ void				consume_item(t_itemstack *inv_is, t_itemstack *is,
 		entity->packet.doom->gameover.weapon += ft_min(i, is->amount);
 	inv_is->amount += ft_min(i, is->amount);
 	is->amount -= ft_min(i, is->amount);
-	player_sound(&entity->packet.doom->audio, ITEM_PICK, 3, 1);
+	player_sound(&entity->packet.doom->audio, ITEM_PICK, 3, 0.6);
 	t = (t_trigger) { .type = TRIG_PICK_ITEM };
 	t.data.pick_item = (t_trigger_pick_item) {
 		.item_type = is->of->type,
