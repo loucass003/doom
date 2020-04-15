@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 15:46:39 by llelievr          #+#    #+#             */
-/*   Updated: 2020/03/09 16:34:18 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/15 03:29:59 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void				prev_transpo(t_transpo *transpo, t_doom *doom)
 void				next_transpo(t_transpo *transpo, t_doom *doom)
 {
 	if (transpo->connected == doom->editor.objects->len - 1)
-			transpo->connected = 0;
+		transpo->connected = 0;
 	else
 		transpo->connected++;
 	while (doom->editor.objects->values[transpo->connected].type

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gameover_tools.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/14 19:26:33 by Lisa              #+#    #+#             */
-/*   Updated: 2020/04/14 19:28:12 by Lisa             ###   ########.fr       */
+/*   Updated: 2020/04/15 01:53:57 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ t_bool				add_score(char *text, int score, t_doom *doom)
 		s->score = score;
 		ft_bzero(s->text, 255);
 		ft_memcpy(s->text, text, ft_strlen(text));
-		break;
+		break ;
 	}
 	return (TRUE);
 }

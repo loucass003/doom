@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/02 00:28:50 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/23 02:28:20 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/15 02:06:18 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,16 +51,15 @@ void		ft_swap(float *a, float *b)
 	*b = tmp;
 }
 
-void		draw(t_render_context *ctx, t_vec4 v0, t_vec4 v1, int color,
-	t_bool steep, t_vec3 v)
+void		draw(t_render_context *ctx, t_vec4 w[3], int color, t_bool steep)
 {
 	t_pixel		p;
 	float		a;
 	float		z;
 
-	p = steep ? (t_pixel){ v.y, v.x, 0 } : (t_pixel){ v.x, v.y, 0 };
-	a = (v.x - v0.x) / (v1.x - v0.x);
-	z = v0.w + (v1.w - v0.w) * a;
+	p = steep ? (t_pixel){ w[2].y, w[2].x, 0 } : (t_pixel){ w[2].x, w[2].y, 0 };
+	a = (w[2].x - w[0].x) / (w[1].x - w[0].x);
+	z = w[0].w + (w[1].w - w[0].w) * a;
 	if (p.x >= 0 && p.x < (int)ctx->image->width
 		&& p.y >= 0 && p.y < (int)ctx->image->height
 		&& ctx->buffer[(int)p.y * ctx->image->width + (int)p.x] >= z)
@@ -94,7 +93,7 @@ void		draw_line_zbuff(t_render_context *ctx, t_vec4 v0,
 	t_vec4 v1, int color)
 {
 	t_bool	steep;
-	t_vec3	v;
+	t_vec4	v;
 	t_vec2	d;
 	int		derror2;
 	int		error2;
@@ -108,7 +107,7 @@ void		draw_line_zbuff(t_render_context *ctx, t_vec4 v0,
 	v.x = v0.x - 1;
 	while (++v.x < v1.x)
 	{
-		draw(ctx, v0, v1, color, steep, v);
+		draw(ctx, (t_vec4[3]){v0, v1, v}, color, steep);
 		error2 += derror2;
 		if (error2 > d.x)
 		{
