@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/25 05:41:51 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/11 07:53:54 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/15 03:41:46 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,5 +137,9 @@ typedef struct		s_wr_data
 }					t_wr_data;
 
 # pragma pack(pop)
+
+t_bool		read_model_arrays(t_ressource_manager *r, t_renderable *model,
+	t_wr_model wr_model);
+t_bool		alloc_model(t_renderable *model, t_wr_model wr_model);
 
 #endif

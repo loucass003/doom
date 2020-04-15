@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ressource_mapper.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/29 13:50:12 by llelievr          #+#    #+#             */
-/*   Updated: 2020/03/25 16:51:07 by Lisa             ###   ########.fr       */
+/*   Updated: 2020/04/15 03:31:11 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void		msg_invalid_res(t_ressource_type type, t_json_member *e)
 }
 
 t_bool		read_ressource_type(t_ressource_manager *r, t_json_object *val,
-	char *name, t_ressource_type type) // A CONTINUER A NORMER
+	char *name, t_ressource_type type)
 {
 	t_json_object	*obj;
 	t_json_member	*e;
@@ -44,7 +44,7 @@ t_bool		read_ressource_type(t_ressource_manager *r, t_json_object *val,
 			return (FALSE);
 		}
 		s = (t_json_string *)e->value;
-		if(!load_ressource(r->doom, r->ressources->values[i], s->value))
+		if (!load_ressource(r->doom, r->ressources->values[i], s->value))
 		{
 			free_ressource(&r->ressources->values[i]);
 			return (FALSE);

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/25 10:50:33 by llelievr          #+#    #+#             */
-/*   Updated: 2020/03/08 20:46:00 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/15 03:40:42 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,42 +98,20 @@ t_bool		read_model(t_ressource_manager *r, t_renderable **m)
 {
 	t_renderable	*model;
 	t_wr_model		wr_model;
-	t_mtl			mtl;
 	int				i;
 
 	if (!(model = ft_memalloc(sizeof(t_renderable))))
 		return (FALSE);
-	if (!io_memcpy(&r->reader, &wr_model, sizeof(t_wr_model)))
-		return (FALSE);
-	if (!(model->faces = create_faces_array(wr_model.faces_count))
-		|| !(model->vertices = create_4dvertices_array(wr_model.vertices_count))
-		|| !(model->normals = create_3dvertices_array(wr_model.normals_count))
-		|| (wr_model.vertex_count > 0
-		&& !(model->vertex = create_2dvertices_array(wr_model.vertex_count)))
-		|| !(model->materials = create_mtllist(wr_model.materials_count)))
+	if (!io_memcpy(&r->reader, &wr_model, sizeof(t_wr_model))
+		|| !alloc_model(model, wr_model))
 		return (FALSE);
 	model->faces->len = wr_model.faces_count;
 	model->vertices->len = wr_model.vertices_count;
 	model->normals->len = wr_model.normals_count;
 	if (model->vertex)
 		model->vertex->len = wr_model.vertex_count;
-	if (!io_memcpy(&r->reader, model->faces->values,
-		wr_model.faces_count * sizeof(t_face))
-		|| !io_memcpy(&r->reader, model->vertices->vertices,
-		wr_model.vertices_count * sizeof(t_vec4))
-		|| !io_memcpy(&r->reader, model->normals->vertices,
-		wr_model.normals_count * sizeof(t_vec3))
-		|| (model->vertex && !io_memcpy(&r->reader, model->vertex->vertices,
-		wr_model.vertex_count * sizeof(t_vec2))))
+	if (!read_model_arrays(r, model, wr_model))
 		return (FALSE);
-	i = -1;
-	while (++i < wr_model.materials_count)
-	{
-		if (!read_material(r, &mtl))
-			return (FALSE);
-		if (!append_mtllist(&model->materials, mtl))
-			return (FALSE);
-	}
 	model->fixed = TRUE;
 	model->scale = (t_vec3){ 1, 1, 1 };
 	model->visible = TRUE;

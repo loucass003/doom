@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 10:19:30 by llelievr          #+#    #+#             */
-/*   Updated: 2020/03/08 20:45:52 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/15 03:51:41 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ typedef struct				s_ressource_manager
 }							t_ressource_manager;
 
 t_ressources				*create_ressources_array(int capacity);
+t_bool						registry_array_part1(t_doom *doom);
+t_bool						registry_array_part2(t_doom *doom);
 t_ressources				*append_ressources_array(t_ressources **arr,
 								t_ressource *v);
 t_ressources				*splice_ressources_array(t_ressources *arr,
@@ -146,6 +148,7 @@ t_bool						read_object(t_ressource_manager *r,
 								t_object *object);
 t_bool						read_entity(t_ressource_manager *r,
 								t_entity_type *type);
+t_bool						is_tga_ext(char *path);
 
 
 

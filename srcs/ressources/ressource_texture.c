@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/12 17:27:40 by llelievr          #+#    #+#             */
-/*   Updated: 2020/03/08 18:58:34 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/15 03:46:03 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,6 @@
 #include "ressource.h"
 #include "write_structs.h"
 #include "tga.h"
-
-static t_bool	is_tga_ext(char *path)
-{
-	char	*start;
-
-	start = ft_strrchr(path, '.');
-	return (start && *start && ft_memcmp(start + 1, "tga", 3) == 0);
-}
-
-t_bool			free_load_texture_surface(SDL_Surface *surface)
-{
-	if (surface)
-		SDL_FreeSurface(surface);
-	return (TRUE);
-}
 
 t_bool			load_texture_file(t_doom *doom, t_ressource *r, char *path)
 {
@@ -89,11 +74,4 @@ t_bool			write_texture(t_ressource_manager *rm, t_img *img)
 	dp_write(rm, &wr_img, sizeof(t_wr_img));
 	dp_write(rm, img->pixels, wr_img.size);
 	return (TRUE);
-}
-
-t_ressource		*get_default_texture(t_ressource_manager *rm, t_bool use)
-{
-	if (use)
-		rm->ressources->values[0]->used++;
-	return (rm->ressources->values[0]);
 }
