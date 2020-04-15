@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   editor_wall.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 18:54:05 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/15 00:24:11 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/15 16:58:24 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void			editor_render_wall_nornal(t_doom *doom, t_room *room, t_line l,
 	}
 }
 
-int			get_color(t_room *room, t_editor *editor)
+int				get_color(t_room *room, t_editor *editor)
 {
 	if (editor->current_room != -1
 		&& room == &editor->rooms->values[editor->current_room])

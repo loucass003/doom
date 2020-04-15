@@ -6,7 +6,7 @@
 /*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 22:00:26 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/14 17:54:27 by Lisa             ###   ########.fr       */
+/*   Updated: 2020/04/15 17:03:47 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ t_bool		renderable_transpo(t_entity *entity)
 	return (TRUE);
 }
 
-t_bool	check_collision_rocket(t_entity *entity, t_physics_data data)
+t_bool		check_collision_rocket(t_entity *entity, t_physics_data data)
 {
 	entity_sound(entity, 8, 0, 1);
 	damage_explo(entity, entity->packet.doom, entity->of.rocket.damage);

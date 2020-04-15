@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   update.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/15 03:01:33 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/15 03:04:53 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/15 17:18:04 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static t_bool			is_something_close(t_render_context *ctx,
 	return (FALSE);
 }
 
-void			update_door_open(t_render_context *ctx, t_renderable *r,
+void					update_door_open(t_render_context *ctx, t_renderable *r,
 	t_door *door)
 {
 	float		open_speed;
@@ -58,7 +58,8 @@ void			update_door_open(t_render_context *ctx, t_renderable *r,
 	}
 }
 
-t_bool			update_renderable_door(t_render_context *ctx, t_renderable *r)
+t_bool					update_renderable_door(t_render_context *ctx,
+	t_renderable *r)
 {
 	t_door		*door;
 	int			i;

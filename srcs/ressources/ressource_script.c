@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ressource_script.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 14:15:25 by lloncham          #+#    #+#             */
-/*   Updated: 2020/04/15 03:43:31 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/15 17:29:43 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,4 +56,3 @@ t_bool					write_script(t_ressource_manager *rm,
 	dp_write(rm, s_data->script_str, s_data->script_len * sizeof(char));
 	return (TRUE);
 }
-

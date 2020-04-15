@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   transpo_renderable.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 15:46:39 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/15 03:29:59 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/15 17:18:24 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom.h"
 #include "editor.h"
 
-t_transpo		*create_default_transpo(t_doom *doom, t_object *object)
+t_transpo			*create_default_transpo(t_doom *doom, t_object *object)
 {
 	t_transpo	*transpo;
 

@@ -6,7 +6,7 @@
 /*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/12 15:51:26 by llelievr          #+#    #+#             */
-/*   Updated: 2020/03/25 15:34:53 by Lisa             ###   ########.fr       */
+/*   Updated: 2020/04/15 17:36:37 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static float	area(t_4dvertices *vertices, int *filters, int filters_count)
 	return (A * 0.5f);
 }
 
-t_bool	inside_triangle(t_vec4 a, t_vec4 b, t_vec4 c, t_vec4 p)
+t_bool			inside_triangle(t_vec4 a, t_vec4 b, t_vec4 c, t_vec4 p)
 {
 	float ax, ay, bx, by, cx, cy, apx, apy, bpx, bpy, cpx, cpy;
 	float cCROSSap, bCROSScp, aCROSSbp;
@@ -71,7 +71,7 @@ static t_bool	snip(t_4dvertices *vertices, int u, int j, int w, int n, int *v)
 	return (TRUE);
 }
 
-t_bool	ear_clip2(int *filters, int filters_count, t_4dvertices *vertices,
+t_bool			ear_clip2(int *filters, int filters_count, t_4dvertices *vertices,
 	t_faces **faces, int normal_type, int face_material, int room_index)
 {
 	int		*v;
@@ -140,7 +140,7 @@ t_bool	ear_clip2(int *filters, int filters_count, t_4dvertices *vertices,
 	return (TRUE);
 }
 
-t_bool	compute_change_of_basis(t_vec3 n, t_mat4 *p_inv, t_mat4 *reverse)
+t_bool			compute_change_of_basis(t_vec3 n, t_mat4 *p_inv, t_mat4 *reverse)
 {
 	const t_vec3	up = (t_vec3){0, 0, 1};
 	t_vec3			u;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   threads_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/14 20:10:53 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/14 20:13:35 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/15 17:13:53 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void		wake_up_main_thread(t_thread *t)
 	}
 }
 
-void				threads_clear(t_threads *threads)
+void		threads_clear(t_threads *threads)
 {
 	int		i;
 
@@ -33,7 +33,7 @@ void				threads_clear(t_threads *threads)
 		threads->threads[i].datas->len = 0;
 }
 
-void				threads_wait(t_threads *threads)
+void		threads_wait(t_threads *threads)
 {
 	pthread_mutex_lock(&threads->wait_mtx);
 	while (threads->wait)

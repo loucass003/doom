@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   update_entity_type.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 15:12:59 by lloncham          #+#    #+#             */
-/*   Updated: 2020/03/09 15:15:36 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/04/15 17:03:23 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,4 +92,3 @@ t_bool		update_entity_type(t_doom *doom, t_entity *entity, double dt)
 		update_velocity_jump(entity);
 	return (TRUE);
 }
-

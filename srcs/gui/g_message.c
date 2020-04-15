@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_message.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/07 16:08:54 by lloncham          #+#    #+#             */
-/*   Updated: 2020/04/15 01:53:11 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/15 17:05:47 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ void			g_message_render(t_gui *self, t_doom *doom)
 
 	if (!doom->message.open)
 		return ;
-
 	if (doom->message.message_data
 		&& doom->message.message_data->textes_count > doom->message.counter_m
 		&& doom->message.counter_m != -1)

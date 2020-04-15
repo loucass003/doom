@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   transform.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/15 03:23:58 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/15 03:28:22 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/15 17:16:57 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ static void		update_faces(t_renderable *r)
 			vec4_to_3(r->pp_vertices[face->vertices_index[0] - 1]),
 			vec4_to_3(r->pp_vertices[face->vertices_index[1] - 1]),
 			vec4_to_3(r->pp_vertices[face->vertices_index[2] - 1]));
-
 		if (face->normal_type == 0)
 			face->face_normal = ft_vec3_inv(n);
 		else

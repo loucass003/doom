@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/04 16:51:59 by lloncham          #+#    #+#             */
-/*   Updated: 2020/03/04 17:14:15 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/04/15 17:23:04 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,7 +163,6 @@ t_bool					parse_script_data(t_script_data *s_data)
 	json_free_value(val);
 	return (TRUE);
 }
-
 
 void		reset_scripts(t_doom *doom)
 {

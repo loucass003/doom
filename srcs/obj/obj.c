@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   obj.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 15:28:48 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/14 20:18:10 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/15 17:14:48 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,6 @@ t_bool			load_obj(t_doom *doom, t_renderable *r, t_obj *obj, char *file)
 		return (FALSE);
 	return (TRUE);
 }
-
-
 
 t_bool			create_obj(t_doom *doom, t_renderable *r, char *file)
 {

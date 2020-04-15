@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ressource_texture_utils.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/15 03:44:25 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/15 03:45:27 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/15 17:30:00 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "ressource.h"
 #include <SDL_image.h>
 
-t_bool	is_tga_ext(char *path)
+t_bool			is_tga_ext(char *path)
 {
 	char	*start;
 
