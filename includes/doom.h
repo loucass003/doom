@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   doom.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/15 01:43:43 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/15 17:44:32 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,5 +130,7 @@ t_vec2					get_mouse_pos(t_doom *doom);
 void					update_selects(t_gui *self, t_ressource_manager *rm);
 void					apply_select_value(t_gui *self, t_doom *doom);
 void					ingame_scene(t_doom *doom);
+void					init_gameover(t_doom *doom);
+
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:43:35 by llelievr          #+#    #+#             */
-/*   Updated: 2020/03/25 14:41:16 by Lisa             ###   ########.fr       */
+/*   Updated: 2020/04/15 19:08:37 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void				update_player_camera(t_player *player)
 	update_trigger_area(doom, player);
 }
 
-t_bool	create_player(t_renderable *r, t_doom *doom)
+t_bool				create_player(t_renderable *r, t_doom *doom)
 {
 	if (!create_renderable(r, RENDERABLE_ENTITY))
 		return (FALSE);
@@ -147,7 +147,7 @@ void				player_inventory_event(t_doom *doom, SDL_Event *event)
 	}
 }
 
-void	inventory_item_grenada(t_doom *doom, t_weapon *weapon)
+void				inventory_item_grenada(t_doom *doom, t_weapon *weapon)
 {
 	if (weapon->type != WEAPON_GRENADA)
 		apply_image_blended(doom->main_context.image,
@@ -155,7 +155,7 @@ void	inventory_item_grenada(t_doom *doom, t_weapon *weapon)
 			(SDL_Rect){ S_WIDTH_2 - 80 / 2, S_HEIGHT - 300, 300, 300 });
 }
 
-float	inventory_item_weapon(t_doom *doom, float ticks)
+float				inventory_item_weapon(t_doom *doom, float ticks)
 {
 	t_itemstack	*is;
 	t_weapon	*weapon;
@@ -182,6 +182,41 @@ float	inventory_item_weapon(t_doom *doom, float ticks)
 	return (ticks);
 }
 
+t_bool				apply_img(t_doom *doom, t_itemstack *is, int i)
+{
+	const SDL_Color	color = {255, 255, 0, 0};
+	SDL_Surface		*text;
+
+	apply_image_blended(doom->main_context.image,
+		is->of->image->data.texture, is->of->bounds,
+		(SDL_Rect){ 10, 50 + i * 60, 50, 50 });
+	if (is->amount <= 1)
+		return (TRUE);
+	text = TTF_RenderText_Blended(doom->fonts.helvetica,
+		ft_int_to_str(is->amount).str, color);
+	apply_surface_blended(doom->main_context.image, text,
+		(SDL_Rect){0, 0, text->w, text->h},
+		(SDL_Rect){ 40, 50 + i * 60, 20, 20 });
+	SDL_FreeSurface(text);
+	return (FALSE);
+}
+
+t_bool				fill_inventory(t_doom *doom, int i)
+{
+	t_itemstack		*is;
+
+	is = &doom->player.item[i];
+	if (i == doom->player.selected_slot)
+		fill_rect(doom->main_context.image, (SDL_Rect){ 8, 48 + i
+			* 60, 54, 54 }, 0xFFFFFF00);
+	fill_rect(doom->main_context.image, (SDL_Rect){ 10, 50 + i
+		* 60, 50, 50 }, 0xFFFF0000);
+	if (is->of)
+		if (apply_img(doom, is, i))
+			return (TRUE);
+	return (FALSE);
+}
+
 t_bool				draw_player_inventory(t_doom *doom, t_gui *self)
 {
 	static float	ticks = 0;
@@ -192,30 +227,8 @@ t_bool				draw_player_inventory(t_doom *doom, t_gui *self)
 		i = -1;
 		while (++i < PLAYER_INV_SIZE)
 		{
-			t_itemstack		*is;
-			is = &doom->player.item[i];
-			if (i == doom->player.selected_slot)
-				fill_rect(doom->main_context.image, (SDL_Rect){ 8, 48 + i
-					* 60, 54, 54 }, 0xFFFFFF00);
-			fill_rect(doom->main_context.image, (SDL_Rect){ 10, 50 + i
-				* 60, 50, 50 }, 0xFFFF0000);
-			if (is->of)
-			{
-				apply_image_blended(doom->main_context.image,
-					is->of->image->data.texture, is->of->bounds,
-					(SDL_Rect){ 10, 50 + i * 60, 50, 50 });
-				if (is->amount <= 1)
-					continue;
-				const SDL_Color	color = {255, 255, 0, 0};
-				SDL_Surface		*text;
-
-				text = TTF_RenderText_Blended(doom->fonts.helvetica,
-					ft_int_to_str(is->amount).str, color);
-				apply_surface_blended(doom->main_context.image, text,
-					(SDL_Rect){0, 0, text->w, text->h},
-					(SDL_Rect){ 40, 50 + i * 60, 20, 20 });
-				SDL_FreeSurface(text);
-			}
+			if (fill_inventory(doom, i))
+				continue;
 		}
 		ticks += doom->stats.delta * 30.;
 		ticks = inventory_item_weapon(doom, ticks);
@@ -231,7 +244,7 @@ t_bool				draw_player_inventory(t_doom *doom, t_gui *self)
 	return (TRUE);
 }
 
-float	update_speed(t_doom *doom, const Uint8 *s)
+float				update_speed(t_doom *doom, const Uint8 *s)
 {
 	float			move_speed;
 
@@ -250,7 +263,8 @@ float	update_speed(t_doom *doom, const Uint8 *s)
 	return (move_speed);
 }
 
-void	update_direction(t_doom *doom, const Uint8 *s, float move_speed)
+void				update_direction(t_doom *doom, const Uint8 *s,
+	float move_speed)
 {
 	if (s[SDL_SCANCODE_W] || s[SDL_SCANCODE_S])
 	{
@@ -268,7 +282,7 @@ void	update_direction(t_doom *doom, const Uint8 *s, float move_speed)
 	}
 }
 
-void	update_up_down(t_doom *doom, const Uint8 *s)
+void				update_up_down(t_doom *doom, const Uint8 *s)
 {
 	if (doom->main_context.type == CTX_NORMAL)
 	{
@@ -290,7 +304,7 @@ void	update_up_down(t_doom *doom, const Uint8 *s)
 	}
 }
 
-void	update_mouse_focus(t_doom *doom)
+void				update_mouse_focus(t_doom *doom)
 {
 	int				m_x;
 	int				m_y;
@@ -310,7 +324,7 @@ void	update_mouse_focus(t_doom *doom)
 	}
 }
 
-void	update_controls(t_doom *doom)
+void				update_controls(t_doom *doom)
 {
 	const Uint8		*s = SDL_GetKeyboardState(NULL);
 	float			move_speed;
@@ -326,7 +340,7 @@ void	update_controls(t_doom *doom)
 	update_player_camera(&doom->player);
 }
 
-void	intersect_collide_ellipsoid(t_doom *doom, t_renderable *r)
+void				intersect_collide_ellipsoid(t_doom *doom, t_renderable *r)
 {
 	t_collide_ellipsoid	ellipsoid;
 	t_renderable		*sphere;
@@ -340,7 +354,18 @@ void	intersect_collide_ellipsoid(t_doom *doom, t_renderable *r)
 	r = sphere;
 }
 
-t_bool		aabb_intersect_world(t_doom *doom, t_collide_aabb aabb)
+t_bool				aabb_intersect_world_utils(t_renderable *r, t_doom *doom,
+	int j)
+{
+	if (!r->faces->values[j].has_collision
+		&& doom->main_context.type == CTX_NORMAL)
+		return (TRUE);
+	if (r->faces->values[j].face_normal.y >= -1e-6)
+		return (TRUE);
+	return (FALSE);
+}
+
+t_bool				aabb_intersect_world(t_doom *doom, t_collide_aabb aabb)
 {
 	t_collision		hit;
 	t_renderable	*r;
@@ -358,12 +383,10 @@ t_bool		aabb_intersect_world(t_doom *doom, t_collide_aabb aabb)
 		j = -1;
 		while (++j < r->faces->len)
 		{
-			if (!r->faces->values[j].has_collision
-				&& doom->main_context.type == CTX_NORMAL)
+			if (aabb_intersect_world_utils(r, doom, j))
 				continue;
-			if (r->faces->values[j].face_normal.y >= -1e-6)
-				continue;
-			hit = triangle_hit_aabb(&r->faces->values[j].collidable.data.triangle, &aabb);
+			hit = triangle_hit_aabb(&r->faces->values[j]
+				.collidable.data.triangle, &aabb);
 			if (hit.collide)
 				return (TRUE);
 		}
@@ -371,7 +394,8 @@ t_bool		aabb_intersect_world(t_doom *doom, t_collide_aabb aabb)
 	return (FALSE);
 }
 
-t_bool		set_player_height(t_doom *doom, t_player *player, float height)
+t_bool				set_player_height(t_doom *doom, t_player *player,
+	float height)
 {
 	t_entity		*e;
 	float			diff;
@@ -397,7 +421,7 @@ t_bool		set_player_height(t_doom *doom, t_player *player, float height)
 	return (TRUE);
 }
 
-void		set_player_state(t_doom *doom, t_player *player,
+void				set_player_state(t_doom *doom, t_player *player,
 	t_player_state state)
 {
 	player->desired_state = state;

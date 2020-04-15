@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:01:13 by llelievr          #+#    #+#             */
-/*   Updated: 2020/03/05 16:45:09 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/15 17:51:39 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,17 +69,6 @@ void			update_sounds(t_doom *doom)
 		}
 		++i;
 	}
-}
-
-void			init_gameover(t_doom *doom)
-{
-	t_gameover		*gameover;
-
-	gameover = &doom->gameover;
-	gameover->kill = 0;
-	gameover->bullets = 0;
-	gameover->weapon = 0;
-	gameover->totaldamage = 0;
 }
 
 void			loop_running(t_doom *doom)
