@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   events_uvs.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 00:50:38 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/15 01:29:23 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/16 19:42:43 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 
 void		change_transform_mode(const SDL_Scancode key, t_doom *doom)
 {
-	if (key == SDL_SCANCODE_F4)
+	if (key == SDL_SCANCODE_L)
 	{
 		doom->editor.uv_transform_mode++;
 		if ((int)doom->editor.uv_transform_mode == 2)
 			doom->editor.uv_transform_mode = 0;
 	}
-	else if (key == SDL_SCANCODE_F3)
+	else if (key == SDL_SCANCODE_P)
 	{
 		doom->editor.uv_transform_mode--;
 		if ((int)doom->editor.uv_transform_mode == -1)

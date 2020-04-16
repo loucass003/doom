@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   editor_event.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/24 14:53:54 by lloncham          #+#    #+#             */
-/*   Updated: 2020/04/16 04:49:57 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/16 18:53:02 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void					editor_mousebuttondown(SDL_Event *event, t_doom *doom)
 
 void					editor_keydown(SDL_Event *event, t_doom *doom)
 {
-	if (event->key.keysym.scancode == SDL_SCANCODE_BACKSPACE)
+	if (event->key.keysym.scancode == SDL_SCANCODE_D)
 		editor_delete_action(&doom->editor);
 	if (event->key.keysym.scancode == SDL_SCANCODE_EQUALS)
 		remove_point(&doom->editor, 0);

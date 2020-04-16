@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   events_ceil_floor.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/06 10:58:54 by lloncham          #+#    #+#             */
-/*   Updated: 2020/04/16 04:50:04 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/16 19:35:32 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void		ceil_floor_height(t_doom *doom, t_room *room, SDL_Scancode key,
 	float	add;
 
 	wall = &room->walls->values[i];
-	add = 0.1 * (key == SDL_SCANCODE_2 ? -1 : 1);
+	add = 0.1 * (key == SDL_SCANCODE_MINUS ? -1 : 1);
 	if (doom->editor.selected_floor_ceil == 0)
 		wall->floor_height += add;
 	else
@@ -92,7 +92,7 @@ void		ceil_floor_events(t_doom *doom, SDL_Event *event)
 	if (key == SDL_SCANCODE_LEFT || key == SDL_SCANCODE_RIGHT
 		|| key == SDL_SCANCODE_UP || key == SDL_SCANCODE_DOWN)
 		ceil_floor_rot(doom, room, key);
-	else if (key == SDL_SCANCODE_KP_PLUS || key == SDL_SCANCODE_EQUALS)
+	else if (key == SDL_SCANCODE_MINUS || key == SDL_SCANCODE_EQUALS)
 	{
 		while (++i < room->walls->len)
 			ceil_floor_height(doom, room, key, i);

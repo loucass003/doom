@@ -6,7 +6,7 @@
 /*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/16 17:23:52 by Lisa              #+#    #+#             */
-/*   Updated: 2020/04/16 17:57:24 by Lisa             ###   ########.fr       */
+/*   Updated: 2020/04/16 19:45:00 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void				player_inventory_event(t_doom *doom, SDL_Event *event)
 	player_inventory_normal(doom, key, event);
 	if (doom->main_context.type == CTX_EDITOR)
 	{
-		if (event->type == SDL_KEYDOWN && (key == SDL_SCANCODE_END))
+		if (event->type == SDL_KEYDOWN && (key == SDL_SCANCODE_RETURN))
 		{
 			pos = world_to_editor(doom->player.entity.position);
 			doom->player.spawn_data.position = pos;

@@ -6,7 +6,7 @@
 /*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:14:55 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/09 17:53:14 by Lisa             ###   ########.fr       */
+/*   Updated: 2020/04/16 18:42:37 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,7 @@ t_bool			key_events(t_doom *doom, SDL_Event *event)
 		SDL_SetRelativeMouseMode((SDL_bool)FALSE);
 		return (FALSE);
 	}
-	if (event->type == SDL_KEYDOWN && ((key == SDL_SCANCODE_HOME)
-		|| (key == SDL_SCANCODE_H)))
+	if (event->type == SDL_KEYDOWN && key == SDL_SCANCODE_H)
 	{
 		set_gui(doom, GUI_MAIN_MENU);
 		return (FALSE);

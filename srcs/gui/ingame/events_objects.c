@@ -6,7 +6,7 @@
 /*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/06 11:32:00 by lloncham          #+#    #+#             */
-/*   Updated: 2020/04/14 18:39:05 by Lisa             ###   ########.fr       */
+/*   Updated: 2020/04/16 19:41:42 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,13 +97,13 @@ void		object_events(t_doom *doom, SDL_Event *event)
 	const SDL_Scancode	key = event->key.keysym.scancode;
 
 	add = (t_vec3){ 0, 0, 0 };
-	if (key == SDL_SCANCODE_F4)
+	if (key == SDL_SCANCODE_L)
 	{
 		doom->editor.object_transform_mode++;
 		if (doom->editor.object_transform_mode == 3)
 			doom->editor.object_transform_mode = 0;
 	}
-	else if (key == SDL_SCANCODE_F3)
+	else if (key == SDL_SCANCODE_P)
 	{
 		doom->editor.object_transform_mode--;
 		if ((int)doom->editor.object_transform_mode == -1)
