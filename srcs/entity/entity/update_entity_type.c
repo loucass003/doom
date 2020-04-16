@@ -3,22 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   update_entity_type.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 15:12:59 by lloncham          #+#    #+#             */
-/*   Updated: 2020/04/15 17:03:23 by Lisa             ###   ########.fr       */
+/*   Updated: 2020/04/16 17:28:39 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 #include <limits.h>
 #include "doom.h"
-#include "maths/plane.h"
 #include "entity.h"
-#include "render.h"
-#include "octree.h"
-#include "sprite.h"
-#include <SDL.h>
 
 void		update_jetpack(t_doom *doom, t_entity *entity)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   triangle.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/14 17:23:29 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/15 16:21:43 by Lisa             ###   ########.fr       */
+/*   Updated: 2020/04/16 17:26:48 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
 
 #define EPSILON 1e-6
 
-t_collision		ray_hit(t_ray *ray, t_collide_triangle *collidable, t_vec3 pvec,
-	float invdet)
+t_collision		ray_hit(t_ray *ray, t_collide_triangle *collidable,
+	t_vec3 pvec, float invdet)
 {
 	t_vec3	tvec;
 	float	u;

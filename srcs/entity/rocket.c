@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rocket.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/14 10:24:25 by lloncham          #+#    #+#             */
-/*   Updated: 2020/04/14 17:57:02 by Lisa             ###   ########.fr       */
+/*   Updated: 2020/04/16 17:30:16 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,7 @@
 #include "sprite.h"
 #include "entity.h"
 #include "maths/mat4.h"
-#include "maths/quat.h"
 #include <math.h>
-#include <stdlib.h>
 
 t_bool	create_rocket(t_renderable *r, t_doom *doom)
 {

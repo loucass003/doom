@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 14:02:33 by rle-ru            #+#    #+#             */
-/*   Updated: 2020/04/15 23:22:35 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/16 17:30:03 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 #include "entity.h"
 #include "explosion.h"
 #include <stdlib.h>
-#include <SDL.h>
 
 t_bool		create_grenada(t_renderable *r, t_doom *doom)
 {

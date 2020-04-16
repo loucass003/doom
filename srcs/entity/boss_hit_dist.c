@@ -3,20 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   boss_hit_dist.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/19 17:21:55 by lloncham          #+#    #+#             */
-/*   Updated: 2020/02/19 17:30:05 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/04/16 17:29:09 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <limits.h>
 #include "doom.h"
-#include "render.h"
-#include "sprite.h"
-#include "entity.h"
 #include <math.h>
-#include <stdlib.h>
 
 void		boss_shoot(t_doom *doom, t_entity *entity, t_entity_boss *boss)
 {

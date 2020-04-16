@@ -3,22 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   entity_update.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 15:11:23 by lloncham          #+#    #+#             */
-/*   Updated: 2020/03/09 15:14:53 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/04/16 17:28:50 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 #include <limits.h>
 #include "doom.h"
-#include "maths/plane.h"
-#include "entity.h"
-#include "render.h"
-#include "octree.h"
-#include "sprite.h"
-#include <SDL.h>
 
 void		update_velocity(t_entity *entity)
 {
