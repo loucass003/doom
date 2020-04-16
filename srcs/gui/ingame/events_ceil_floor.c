@@ -46,10 +46,10 @@ void		ceil_floor_rot(t_doom *doom, t_room *room, SDL_Scancode key)
 
 	rot = doom->editor.selected_floor_ceil == 0 ? room->floor_rot
 		: room->ceil_rot;
-	if (key == SDL_SCANCODE_KP_4 || key == SDL_SCANCODE_KP_6)
-		rot.x += 0.01 * (key == SDL_SCANCODE_KP_4 ? 1 : -1);
-	if (key == SDL_SCANCODE_KP_8 || key == SDL_SCANCODE_KP_5)
-		rot.z += 0.01 * (key == SDL_SCANCODE_KP_8 ? 1 : -1);
+	if (key == SDL_SCANCODE_LEFT || key == SDL_SCANCODE_RIGHT)
+		rot.x += 0.01 * (key == SDL_SCANCODE_LEFT ? 1 : -1);
+	if (key == SDL_SCANCODE_UP || key == SDL_SCANCODE_DOWN)
+		rot.z += 0.01 * (key == SDL_SCANCODE_UP ? 1 : -1);
 	rot.x = clamp(-M_PI / 4, M_PI / 4, rot.x);
 	rot.z = clamp(-M_PI / 4, M_PI / 4, rot.z);
 	first_point = doom->editor.points->vertices[room->walls->values[0].indice];
@@ -72,7 +72,7 @@ void		ceil_floor_height(t_doom *doom, t_room *room, SDL_Scancode key,
 	float	add;
 
 	wall = &room->walls->values[i];
-	add = 0.1 * (key == SDL_SCANCODE_KP_PLUS ? -1 : 1);
+	add = 0.1 * (key == SDL_SCANCODE_2 ? -1 : 1);
 	if (doom->editor.selected_floor_ceil == 0)
 		wall->floor_height += add;
 	else
@@ -89,10 +89,10 @@ void		ceil_floor_events(t_doom *doom, SDL_Event *event)
 		return ;
 	i = -1;
 	room = &doom->editor.rooms->values[doom->editor.current_room];
-	if (key == SDL_SCANCODE_KP_4 || key == SDL_SCANCODE_KP_6
-		|| key == SDL_SCANCODE_KP_8 || key == SDL_SCANCODE_KP_5)
+	if (key == SDL_SCANCODE_LEFT || key == SDL_SCANCODE_RIGHT
+		|| key == SDL_SCANCODE_UP || key == SDL_SCANCODE_DOWN)
 		ceil_floor_rot(doom, room, key);
-	else if (key == SDL_SCANCODE_KP_PLUS || key == SDL_SCANCODE_KP_MINUS)
+	else if (key == SDL_SCANCODE_1 || key == SDL_SCANCODE_2)
 	{
 		while (++i < room->walls->len)
 			ceil_floor_height(doom, room, key, i);

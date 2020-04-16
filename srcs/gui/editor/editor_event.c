@@ -71,6 +71,6 @@ void					editor_keydown(SDL_Event *event, t_doom *doom)
 	if (event->key.keysym.scancode == SDL_SCANCODE_SLASH
 		&& doom->editor.rooms->len >= 2)
 		get_room_gaps(&doom->editor, &doom->editor.rooms->values[0]);
-	if (event->key.keysym.scancode == SDL_SCANCODE_EQUALS)
+	if (event->key.keysym.scancode == SDL_SCANCODE_2)
 		remove_point(&doom->editor, 0);
 }

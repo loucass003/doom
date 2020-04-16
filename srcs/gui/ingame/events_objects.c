@@ -97,20 +97,20 @@ void		object_events(t_doom *doom, SDL_Event *event)
 	const SDL_Scancode	key = event->key.keysym.scancode;
 
 	add = (t_vec3){ 0, 0, 0 };
-	if (key == SDL_SCANCODE_PAGEUP)
+	if (key == SDL_SCANCODE_F4)
 	{
 		doom->editor.object_transform_mode++;
 		if (doom->editor.object_transform_mode == 3)
 			doom->editor.object_transform_mode = 0;
 	}
-	else if (key == SDL_SCANCODE_PAGEDOWN)
+	else if (key == SDL_SCANCODE_F3)
 	{
 		doom->editor.object_transform_mode--;
 		if ((int)doom->editor.object_transform_mode == -1)
 			doom->editor.object_transform_mode = 2;
 	}
-	if (key == SDL_SCANCODE_KP_PLUS || key == SDL_SCANCODE_KP_MINUS)
-		add.y = 0.1 * (key == SDL_SCANCODE_KP_PLUS ? 1 : -1);
+	if (key == SDL_SCANCODE_2 || key == SDL_SCANCODE_1)
+		add.y = 0.1 * (key == SDL_SCANCODE_2 ? 1 : -1);
 	if (key == SDL_SCANCODE_LEFT || key == SDL_SCANCODE_RIGHT)
 		add.x = 0.1 * (key == SDL_SCANCODE_RIGHT ? 1 : -1);
 	if (key == SDL_SCANCODE_UP || key == SDL_SCANCODE_DOWN)

@@ -15,13 +15,13 @@
 
 void		change_transform_mode(const SDL_Scancode key, t_doom *doom)
 {
-	if (key == SDL_SCANCODE_PAGEUP)
+	if (key == SDL_SCANCODE_F4)
 	{
 		doom->editor.uv_transform_mode++;
 		if ((int)doom->editor.uv_transform_mode == 2)
 			doom->editor.uv_transform_mode = 0;
 	}
-	else if (key == SDL_SCANCODE_PAGEDOWN)
+	else if (key == SDL_SCANCODE_F3)
 	{
 		doom->editor.uv_transform_mode--;
 		if ((int)doom->editor.uv_transform_mode == -1)
