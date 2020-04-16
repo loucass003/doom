@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   io.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 10:06:09 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/19 17:53:42 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/04/16 21:36:27 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 # define IO_H
 
 # include <libft.h>
-# define READ_BUFFER (4096)
-# define ERR_INV_READ_SIZE ("Invalid read size")
+# define READ_BUFFER 4096
+# define ERR_INV_READ_SIZE "Invalid read size"
 
 typedef struct	s_reader
 {

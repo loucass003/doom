@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 14:35:33 by lloncham          #+#    #+#             */
-/*   Updated: 2020/04/15 01:48:54 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/16 21:09:05 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,21 +20,21 @@
 # include "arrays.h"
 # include "entity.h"
 
-# define TOOL_ROOM (1)
-# define TOOL_POINT (2)
-# define TOOL_SELECT (3)
-# define TOOL_OBJECTS (4)
-# define TOOL_PLAYER (5)
-# define CELLS_SPACING (10)
+# define TOOL_ROOM 1
+# define TOOL_POINT 2
+# define TOOL_SELECT 3
+# define TOOL_OBJECTS 4
+# define TOOL_PLAYER 5
+# define CELLS_SPACING 10
 
-# define ES_GUIS_COUNT (5)
-# define ES_GUI_ROOM (0)
-# define ES_GUI_WALL (1)
-# define ES_GUI_OBJECT (2)
-# define ES_GUI_GLOBAL (3)
-# define ES_GUI_PLAYER (4)
+# define ES_GUIS_COUNT 5
+# define ES_GUI_ROOM 0
+# define ES_GUI_WALL 1
+# define ES_GUI_OBJECT 2
+# define ES_GUI_GLOBAL 3
+# define ES_GUI_PLAYER 4
 
-# define ES_OBJ_GUIS_COUNT (6)
+# define ES_OBJ_GUIS_COUNT 6
 
 typedef enum				e_object_type
 {

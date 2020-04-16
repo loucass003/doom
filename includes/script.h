@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   script.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 13:36:27 by lloncham          #+#    #+#             */
-/*   Updated: 2020/03/04 17:33:21 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/04/16 21:09:07 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include "item.h"
 # include "ressource.h"
 
-# define MAX_ACTIONS (25)
+# define MAX_ACTIONS 25
 
 typedef enum			e_trigger_type
 {

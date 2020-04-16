@@ -6,14 +6,14 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 01:42:00 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/15 01:46:35 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/16 21:09:05 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GUI_H
 # define GUI_H
 
-# define PAGE_SIZE (17)
+# define PAGE_SIZE 17
 
 # include <SDL.h>
 # include <libft.h>

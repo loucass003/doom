@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/16 15:26:38 by lloncham          #+#    #+#             */
-/*   Updated: 2020/02/16 15:27:04 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/04/16 21:09:06 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include "camera.h"
 # include "item.h"
 
-# define PLAYER_INV_SIZE (8)
+# define PLAYER_INV_SIZE 8
 
 typedef enum			e_player_state
 {

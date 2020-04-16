@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 22:00:26 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/16 17:37:11 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/16 20:23:35 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void		teleport(t_entity *entity, t_vec3 pos, t_vec3 rot)
 	player_sound(&entity->packet.doom->audio, CHAR_TELEPORT, 10, 1);
 }
 
-t_bool		renderable_transpo(t_entity *entity)
+t_bool		check_collision_transpo(t_entity *entity)
 {
 	t_transpo	*transpo;
 	t_vec3		pos;
