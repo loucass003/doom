@@ -36,6 +36,7 @@ SRC+=light/light.c
 SRC+=sdl.c
 SRC+=colisions/aabb.c
 SRC+=colisions/compute_collidables.c
+SRC+=colisions/aabb_triangle.c
 SRC+=colisions/triangle.c
 SRC+=colisions/physics/physics.c
 SRC+=colisions/physics/maths.c

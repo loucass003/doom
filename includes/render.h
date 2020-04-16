@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:16:19 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/15 01:12:19 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/15 22:35:48 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,13 +220,15 @@ void						uv_mapping(t_4dvertices *vertices,
 								t_2dvertices *vertex, int *filter,
 								int filter_len, t_vec2 offset, t_vec2 repeat);
 
-
-void		free_materials(t_mtllist **m_addr, t_bool free_ressources);
-void		free_renderable_of(t_renderable *r);
-t_bool		free_renderable(t_renderable *r, t_bool free_resources,
-	t_bool free_of, t_bool res);
-void		face_and_triangle(t_renderable *r, int i);
-void		free_renderables(t_renderables **renderables, t_bool destroy_array);
-void		draw_pixel(t_render_data data, t_pixel_data pd);
+void						free_materials(t_mtllist **m_addr,
+								t_bool free_ressources);
+void						free_renderable_of(t_renderable *r);
+t_bool						free_renderable(t_renderable *r,
+								t_bool free_resources, t_bool free_of,
+								t_bool res);
+void						face_and_triangle(t_renderable *r, int i);
+void						free_renderables(t_renderables **renderables,
+								t_bool destroy_array);
+void						draw_pixel(t_render_data data, t_pixel_data pd);
 
 #endif
