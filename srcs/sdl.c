@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 20:10:35 by llelievr          #+#    #+#             */
-/*   Updated: 2020/03/08 20:03:14 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/15 23:03:42 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_bool			init_sdl(t_doom *doom)
 	doom->main_context.image = &doom->screen;
 	if (!load_fonts(doom))
 		return (sdl_quit(doom));
-	if ((doom->trigger_event = SDL_RegisterEvents(1)) == -(Uint32)1) // ecriture ok?
+	if ((doom->trigger_event = SDL_RegisterEvents(1)) == -(Uint32)1)
 		return (FALSE);
 	doom->fullscreen = FALSE;
 	return (TRUE);
@@ -49,7 +49,7 @@ t_bool			init_sdl(t_doom *doom)
 
 t_bool			sdl_quit(t_doom *doom)
 {
-	
+
 	destroy_image(&doom->screen);
 	TTF_CloseFont(doom->fonts.helvetica);
 	if (doom->renderer)

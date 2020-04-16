@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   events_ceil_floor.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/06 10:58:54 by lloncham          #+#    #+#             */
-/*   Updated: 2020/04/14 18:32:40 by Lisa             ###   ########.fr       */
+/*   Updated: 2020/04/16 04:50:04 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ void		ceil_floor_events(t_doom *doom, SDL_Event *event)
 	if (key == SDL_SCANCODE_LEFT || key == SDL_SCANCODE_RIGHT
 		|| key == SDL_SCANCODE_UP || key == SDL_SCANCODE_DOWN)
 		ceil_floor_rot(doom, room, key);
-	else if (key == SDL_SCANCODE_1 || key == SDL_SCANCODE_2)
+	else if (key == SDL_SCANCODE_KP_PLUS || key == SDL_SCANCODE_EQUALS)
 	{
 		while (++i < room->walls->len)
 			ceil_floor_height(doom, room, key, i);
