@@ -1,7 +1,7 @@
 {
     "TEXTURES": {
         "MAIN MENU BACKGROUND": "Doom.png",
-        "GAMEOVER BACKGROUND": "gameover.png",
+        "GAMEOVER BACKGROUND": "gameover2.png",
         "ITEMS ICONS": "assets/textures/items_atlas.png",
         "GUN ANNIMATION": "assets/textures/gun0.png",
         "AXE ANNIMATION": "assets/textures/axe.png",

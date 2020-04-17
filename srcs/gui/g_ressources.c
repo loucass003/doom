@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/24 12:20:04 by lloncham          #+#    #+#             */
-/*   Updated: 2020/03/10 21:33:03 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/17 21:12:10 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void				g_ressources_on_event(t_gui *s,
 			if (r->type == RESSOURCE_UNSET)
 				return ;
 			if (!load_ressource(doom, r, event->drop.file))
-				free_ressource(&r);
+				free_ressource(&r, FALSE);
 		}
 		else if (in_bounds(s->components->values[(PAGE_SIZE * 3) + 4]->
 			bounds, pos))

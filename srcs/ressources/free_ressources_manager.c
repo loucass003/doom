@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/11 06:02:31 by llelievr          #+#    #+#             */
-/*   Updated: 2020/03/09 02:09:26 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/17 21:10:26 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "image.h"
 #include "script.h"
 
-void	free_ressource(t_ressource **r_addr)
+void	free_ressource(t_ressource **r_addr, t_bool free_itself)
 {
 	t_ressource		*r;
 
@@ -36,7 +36,8 @@ void	free_ressource(t_ressource **r_addr)
 		else if (r->type == RESSOURCE_SCRIPT)
 			free_script(&r->data.script_data);
 	}
-	ft_memdel((void **)r_addr);
+	if (free_itself)
+		ft_memdel((void **)r_addr);
 }
 
 void	free_ressources(t_ressources **resources)
@@ -50,7 +51,7 @@ void	free_ressources(t_ressources **resources)
 	while (++i < (*resources)->len)
 	{
 		r = (*resources)->values[i];
-		free_ressource(&r);
+		free_ressource(&r, TRUE);
 	}
 	ft_memdel((void **)resources);
 }

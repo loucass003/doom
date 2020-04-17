@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ressources_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/24 12:23:55 by lloncham          #+#    #+#             */
-/*   Updated: 2020/01/24 14:28:08 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/04/17 21:07:39 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void				values_selects(t_gui *self, t_ressource_manager *rm, int i)
 	t_textfield		*text;
 
 	res_index = rm->page * PAGE_SIZE + i;
+	if (!rm->ressources->values[res_index])
+		return ;
 	self->components->values[i * 3]->visible = TRUE;
 	s = (t_select *)self->components->values[i * 3];
 	s->selected_item = rm->ressources->values[res_index]->type - 1;

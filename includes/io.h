@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 10:06:09 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/16 21:36:27 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/17 20:55:35 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,6 @@ t_bool			io_readnum(t_reader *r, int32_t *out);
 void			io_skip_ws(t_reader *r);
 void			io_skip_empty(t_reader *r);
 t_bool			io_memcpy(t_reader *r, void *dst, size_t n);
+t_bool			file_exists(char *file);
 
 #endif

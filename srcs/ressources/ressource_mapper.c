@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/29 13:50:12 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/15 03:31:11 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/17 21:12:51 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ t_bool		read_ressource_type(t_ressource_manager *r, t_json_object *val,
 		s = (t_json_string *)e->value;
 		if (!load_ressource(r->doom, r->ressources->values[i], s->value))
 		{
-			free_ressource(&r->ressources->values[i]);
+			free_ressource(&r->ressources->values[i], FALSE);
 			return (FALSE);
 		}
 		e = e->next;

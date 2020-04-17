@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 10:19:30 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/15 03:51:41 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/17 21:11:15 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,7 +156,8 @@ t_bool						read_entity(t_ressource_manager *r,
 								t_entity_type *type);
 t_bool						is_tga_ext(char *path);
 
-void						free_ressource(t_ressource **r_addr);
+void						free_ressource(t_ressource **r_addr,
+								t_bool free_itself);
 void						free_sound(t_sound **s_addr);
 t_bool						free_load_texture_surface(SDL_Surface *surface);
 void						free_ressources_manager(t_ressource_manager *rm);
