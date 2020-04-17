@@ -6,11 +6,12 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/15 03:43:19 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/15 03:43:29 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/18 00:57:10 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "script.h"
+#include "doom.h"
 
 t_bool					script_return_error(char *error)
 {
@@ -78,4 +79,19 @@ void					free_script(t_script_data **s_addr)
 	}
 	ft_memdel((void **)&sd->scripts);
 	ft_memdel((void **)s_addr);
+}
+
+void		reset_scripts(t_doom *doom)
+{
+	int				i;
+	t_script_data	*s_data;
+	t_script		*script;
+
+	i = -1;
+	s_data = doom->res_manager.ressources->values[26]->data.script_data;
+	while (++i < s_data->script_count)
+	{
+		script = &s_data->scripts[i];
+		script->use = script->use_default;
+	}
 }

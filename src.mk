@@ -24,6 +24,7 @@ SRC+=ressources/save_map_objects.c
 SRC+=ressources/ressource_script/trigger_pick_item.c
 SRC+=ressources/ressource_script/parse_json_actions.c
 SRC+=ressources/ressource_script/trigger.c
+SRC+=ressources/ressource_script/action_question.c
 SRC+=ressources/ressource_script/parse.c
 SRC+=ressources/ressource_script/get_type.c
 SRC+=ressources/ressource_script/utils.c

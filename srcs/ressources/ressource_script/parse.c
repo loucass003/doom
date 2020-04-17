@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/04 16:51:59 by lloncham          #+#    #+#             */
-/*   Updated: 2020/04/17 23:33:04 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/18 00:58:28 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,50 +62,6 @@ t_bool					parse_action_message(t_action_message *message,
 	return (TRUE);
 }
 
-t_bool					parse_action_question(t_action_question *question,
-	t_json_object *object)
-{
-	t_json_array	*array;
-	t_json_element	*element;
-	t_json_string	*string;
-
-	if (!(array = json_get_array(object, "choice")))
-		return (script_return_error("No text element or invalid text element"));
-	if (!(question->quest = ft_memalloc(array->elems_count * sizeof(char *))))
-		return (script_return_error("Unnable to alloc strings"));
-	element = array->elements;
-	while (element)
-	{
-		if (!(string = json_to_string(element->value)))
-			return (script_return_error("Invalid question type(NOT A STRING)"));
-		if (!(question->quest[question->quest_count] = ft_memalloc(sizeof(char)
-			* (string->value_len + 1))))
-			return (script_return_error("Unnable to alloc strings"));
-		ft_memcpy(question->quest[question->quest_count], string->value,
-			string->value_len);
-		question->quest_count++;
-		element = element->next;
-	}
-	if (!(array = json_get_array(object, "answer choice")))
-		return (script_return_error("No text element or invalid text element"));
-	if (!(question->answer = ft_memalloc(array->elems_count * sizeof(char *))))
-		return (script_return_error("Unnable to alloc strings"));
-	element = array->elements;
-	while (element)
-	{
-		if (!(string = json_to_string(element->value)))
-			return (script_return_error("Invalid question type(NOT A STRING)"));
-		if (!(question->answer[question->answer_count] = ft_memalloc(
-			sizeof(char) * (string->value_len + 1))))
-			return (script_return_error("Unnable to alloc strings"));
-		ft_memcpy(question->answer[question->answer_count], string->value,
-			string->value_len);
-		question->answer_count++;
-		element = element->next;
-	}
-	return (TRUE);
-}
-
 t_bool					parse_action_teleport(t_action_teleport *teleport,
 	t_json_object *object)
 {
@@ -119,6 +75,28 @@ t_bool					parse_action_teleport(t_action_teleport *teleport,
 			return (script_return_error("Invalid rotation element"));
 		teleport->is_rotation_set = TRUE;
 	}
+	return (TRUE);
+}
+
+t_bool					parse_script(t_script *script, t_script_data *s_data,
+	t_json_element *element)
+{
+	double *use_d;
+
+	if (element->value->type != JSON_OBJECT)
+		return (script_return_error("script mut be an object"));
+	if (!parse_json_trigger(script,
+		json_get_object((t_json_object *)element->value, "trigger")))
+		return (script_return_error("object 'trigger' doesn't exist"));
+	script->use = -1;
+	if (!!(use_d = (json_get_number(
+		(t_json_object *)element->value, "use"))))
+		script->use = (int)*use_d;
+	script->use_default = script->use;
+	if (!parse_json_actions(script,
+		json_get_array((t_json_object *)element->value, "actions")))
+		return (script_return_error("array 'actions' doesn't exist"));
+	s_data->script_count++;
 	return (TRUE);
 }
 
@@ -140,41 +118,11 @@ t_bool					parse_script_data(t_script_data *s_data)
 	element = array->elements;
 	while (element)
 	{
-		t_script	*script;
-
-		script = &s_data->scripts[s_data->script_count];
-		if (element->value->type != JSON_OBJECT)
-			return (script_return_error("script mut be an object"));
-		if (!parse_json_trigger(script,
-			json_get_object((t_json_object *)element->value, "trigger")))
-			return (script_return_error("object 'trigger' doesn't exist"));
-		double *use_d;
-		script->use = -1;
-		if (!!(use_d = (json_get_number(
-			(t_json_object *)element->value, "use"))))
-			script->use = (int)*use_d;
-		script->use_default = script->use;
-		if (!parse_json_actions(script,
-			json_get_array((t_json_object *)element->value, "actions")))
-			return (script_return_error("array 'actions' doesn't exist"));
-		s_data->script_count++;
+		if (!parse_script(&s_data->scripts[s_data->script_count],
+			s_data, element))
+			return (FALSE);
 		element = element->next;
 	}
 	json_free_value(val);
 	return (TRUE);
-}
-
-void		reset_scripts(t_doom *doom)
-{
-	int				i;
-	t_script_data	*s_data;
-	t_script		*script;
-
-	i = -1;
-	s_data = doom->res_manager.ressources->values[26]->data.script_data;
-	while (++i < s_data->script_count)
-	{
-		script = &s_data->scripts[i];
-		script->use = script->use_default;
-	}
 }
