@@ -68,7 +68,7 @@ typedef struct			s_sound
 t_bool					init_openal(struct s_doom *doom);
 void					quit_openal(struct s_doom *doom);
 void					entity_sound(struct s_entity *s, int buffer, int source,
-							int peach);
+							float peach);
 void					player_sound(t_audio *s, int source, int buffer,
 							float peach);
 t_bool					wav_return_error(char *error);

@@ -25,7 +25,7 @@ void	entity_update_sound(t_entity *entity)
 	{
 		alGetSourcei(entity->sources[2], AL_SOURCE_STATE, &status);
 		if (status != AL_PLAYING)
-			entity_sound(entity, 2, 2, 1);
+			entity_sound(entity, 2, 2, 0.25);
 	}
 }
 

@@ -14,7 +14,7 @@
 #include "audio.h"
 #include "entity.h"
 
-void			entity_sound(t_entity *s, int buffer, int source, int peach)
+void			entity_sound(t_entity *s, int buffer, int source, float peach)
 {
 	if (NO_AUDIO)
 		return ;
