@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_message.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/07 16:08:54 by lloncham          #+#    #+#             */
-/*   Updated: 2020/04/15 17:05:47 by Lisa             ###   ########.fr       */
+/*   Updated: 2020/04/18 01:17:14 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,14 @@
 #include "gui.h"
 #include "script.h"
 
-void			g_message_on_event(t_gui *self, SDL_Event *event, t_doom *doom)
+void			g_message_on_event(t_gui *self, SDL_Event *e, t_doom *doom)
 {
-	(void)self;
-	const SDL_Scancode	key = event->key.keysym.scancode;
+	const SDL_Scancode	k = e->key.keysym.scancode;
 	t_message			*message;
 
+	(void)self;
 	message = &doom->message;
-	if (event->type == SDL_KEYDOWN && key == SDL_SCANCODE_RETURN)
+	if (e->type == SDL_KEYDOWN && k == SDL_SCANCODE_RETURN)
 	{
 		if (message->message_data && message->counter_m != -1)
 		{
@@ -40,8 +40,7 @@ void			g_message_on_event(t_gui *self, SDL_Event *event, t_doom *doom)
 				message->open = FALSE;
 		}
 	}
-	if (event->type == SDL_KEYDOWN
-		&& (key == SDL_SCANCODE_1 || key == SDL_SCANCODE_2))
+	if (e->type == SDL_KEYDOWN && (k == SDL_SCANCODE_1 || k == SDL_SCANCODE_2))
 		message->counter_q = 0;
 }
 

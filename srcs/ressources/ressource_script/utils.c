@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/15 03:43:19 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/18 00:57:10 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/18 01:18:07 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void					free_script(t_script_data **s_addr)
 	ft_memdel((void **)s_addr);
 }
 
-void		reset_scripts(t_doom *doom)
+void					reset_scripts(t_doom *doom)
 {
 	int				i;
 	t_script_data	*s_data;

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/16 21:13:08 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/17 20:01:25 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/18 01:14:46 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void			check_col(t_renderable r, t_entity *entity,
 		check_col_else(r, entity);
 }
 
-t_bool				check_collision(t_entity *entity, t_collide_aabb area)
+t_bool			check_collision(t_entity *entity, t_collide_aabb area)
 {
 	int				i;
 	t_renderable	r;

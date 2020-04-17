@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/11 18:01:41 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/17 22:09:50 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/18 01:14:25 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ void	set_gui_settings(t_editor *editor, int id)
 
 void	editor_settings_update(t_editor *editor)
 {
-	// editor->settings.open = TRUE;
 	if (editor->selected_tool == TOOL_PLAYER)
 		set_gui_settings(editor, ES_GUI_PLAYER);
 	else if (editor->current_room != -1 && editor->current_seg.x == -1

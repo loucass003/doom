@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/17 23:19:27 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/17 23:20:12 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/18 01:17:41 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ void	render_face(int face_index, void *p)
 	t_mtl				*mtl;
 
 	face_data = p;
-
 	r = face_data->r;
 	ctx = face_data->ctx;
 	face = &r->faces->values[face_index];
