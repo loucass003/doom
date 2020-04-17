@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/16 17:32:09 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/17 19:54:56 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/17 20:09:08 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ t_vec3		collide_with_world(t_entity *e, t_vec3 ep,
 	t_plane	plane;
 	t_vec3	vel;
 
-	if (e->packet.depth > 5 && !!(++e->packet.depth))
+	if (++e->packet.depth > 5)
 		return (ep);
 	collide_reset_packet(e, ep, ev);
 	if ((*s || !check_collision(e, get_max_test_range(e, ep, ev))) && (*s = 1))
@@ -74,7 +74,7 @@ void		init_collide_and_slide(t_entity *e)
 	e->packet.r3_posision = e->position;
 	e->packet.r3_velocity = ft_vec3_mul_s(e->velocity, e->packet.dt);
 	e->packet.e_radius = e->radius;
-	e->packet.depth = 0;
+	e->packet.depth = -1;
 }
 
 t_bool		collide_and_slide(t_entity *e)
@@ -97,7 +97,7 @@ t_bool		collide_and_slide(t_entity *e)
 	e->packet.r3_posision = ft_vec3_mul(final_pos, e->packet.e_position);
 	e->packet.e_velocity = gravity;
 	e_velocity = ft_vec3_div(gravity, e->packet.e_radius);
-	e->packet.depth = 0;
+	e->packet.depth = -1;
 	stop = FALSE;
 	final_pos = collide_with_world(e, final_pos, e_velocity, &stop);
 	if (stop)
