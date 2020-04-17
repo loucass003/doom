@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/16 15:26:38 by lloncham          #+#    #+#             */
-/*   Updated: 2020/02/16 15:27:04 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/04/16 21:09:06 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include "camera.h"
 # include "item.h"
 
-# define PLAYER_INV_SIZE (8)
+# define PLAYER_INV_SIZE 8
 
 typedef enum			e_player_state
 {
@@ -54,7 +54,11 @@ void					player_inventory_event(struct s_doom *doom,
 							SDL_Event *event);
 t_bool					draw_player_inventory(struct s_doom *doom, t_gui *self);
 int						get_slot_of(t_player *player, t_item_type type);
+int						get_slot(t_player *player, t_itemstack *is);
+int						get_empty_slot(t_player *player);
 void					set_player_state(struct s_doom *doom, t_player *player,
 							t_player_state state);
+t_bool					create_player(t_renderable *r, t_doom *doom);
+t_bool					aabb_intersect_world(t_doom *doom, t_collide_aabb aabb);
 
 #endif

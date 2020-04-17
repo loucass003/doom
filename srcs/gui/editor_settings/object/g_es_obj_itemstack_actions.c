@@ -57,7 +57,7 @@ void					action_select_item_type(t_editor *e, t_select *select)
 		action_select_item_type_update(object, e, s);
 		if (object->r)
 		{
-			free_renderable(object->r, FALSE, FALSE, FALSE);
+			free_renderable(object->r, FALSE, FALSE);
 			create_object_renderable(e, e->current_object, object->r);
 		}
 	}
@@ -77,7 +77,7 @@ void					action_select_item_weapon_type(t_editor *e,
 		update_g_es_itemstack_textfield(e, object);
 		if (object->r)
 		{
-			free_renderable(object->r, FALSE, FALSE, FALSE);
+			free_renderable(object->r, FALSE, FALSE);
 			create_object_renderable(e, e->current_object, object->r);
 		}
 	}

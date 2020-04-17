@@ -76,11 +76,11 @@ t_bool	create_map_points_and_floor(t_editor *editor, t_renderable *r)
 		if (!append_mtllist(&r->materials, (t_mtl){.texture_map_set = TRUE,
 			.texture_map = room->floor_texture->data.texture,
 			.material_color_set = TRUE, .material_color = 0xFFFF0000 }))
-			return (free_renderable(r, FALSE, TRUE, FALSE));
+			return (free_renderable(r, FALSE, FALSE));
 		if (!append_mtllist(&r->materials, (t_mtl){.texture_map_set = TRUE,
 			.texture_map = room->ceiling_texture->data.texture,
 			.material_color_set = TRUE, .material_color = 0xFFFF0000 }))
-			return (free_renderable(r, FALSE, TRUE, FALSE));
+			return (free_renderable(r, FALSE, FALSE));
 		room->room_vertices_start = r->vertices->len;
 		add_room_points(editor, room, r);
 		room->floor_start = r->faces->len;

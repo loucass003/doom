@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "collision.h"
+#include <math.h>
 
 t_bool		point_in_triangle_cross(const t_vec3 u, const t_vec3 v,
 	const t_vec3 w, const t_vec3 vw)
@@ -82,5 +83,5 @@ t_bool		lowest_root(t_vec3 v, float max, float *root)
 
 float		clamp(float min, float max, float v)
 {
-	return (fmin(max, fmax(min, v)));
+	return (fminf(max, fmaxf(min, v)));
 }

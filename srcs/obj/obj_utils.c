@@ -32,14 +32,14 @@ t_bool			set_obj_working_dir(t_doom *doom, char *folder)
 t_bool			init_obj_renderable_arrays(t_renderable *r)
 {
 	if (!(r->vertices = create_4dvertices_array(800)))
-		return (free_renderable(r, FALSE, TRUE, FALSE));
+		return (free_renderable(r, FALSE, FALSE));
 	if (!(r->vertex = create_2dvertices_array(800)))
-		return (free_renderable(r, FALSE, TRUE, FALSE));
+		return (free_renderable(r, FALSE, FALSE));
 	if (!(r->normals = create_3dvertices_array(800)))
-		return (free_renderable(r, FALSE, TRUE, FALSE));
+		return (free_renderable(r, FALSE, FALSE));
 	if (!(r->faces = create_faces_array(800)))
-		return (free_renderable(r, FALSE, TRUE, FALSE));
+		return (free_renderable(r, FALSE, FALSE));
 	if (!(r->materials = create_mtllist(3)))
-		return (free_renderable(r, FALSE, TRUE, FALSE));
+		return (free_renderable(r, FALSE, FALSE));
 	return (TRUE);
 }

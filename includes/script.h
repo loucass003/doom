@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   script.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 13:36:27 by lloncham          #+#    #+#             */
-/*   Updated: 2020/03/04 17:33:21 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/04/16 21:09:07 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include "item.h"
 # include "ressource.h"
 
-# define MAX_ACTIONS (25)
+# define MAX_ACTIONS 25
 
 typedef enum			e_trigger_type
 {
@@ -128,6 +128,16 @@ t_trigger_type			get_trigger_type(char *str);
 t_action_type			get_action_type(char *str);
 t_bool					parse_json_actions(t_script *script,
 							t_json_array *array);
-
+t_bool					parse_action_message(t_action_message *message,
+	t_json_object *object);
+t_bool					parse_action_teleport(t_action_teleport *teleport,
+	t_json_object *object);
+t_bool					parse_action_question(t_action_question *question,
+	t_json_object *object);
+void					free_script(t_script_data **s_addr);
+void					teleport(t_entity *entity, t_vec3 pos, t_vec3 rot);
+t_bool					trigger_area(t_trigger_area *area,
+	t_json_object *object);
+void					reset_scripts(t_doom *doom);
 
 #endif

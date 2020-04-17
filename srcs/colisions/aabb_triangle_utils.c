@@ -42,7 +42,6 @@ void	findmax(t_vec3 v, t_vec2 *range)
 {
 	range->x = v.x;
 	range->y = v.x;
-
 	if (v.y < range->x)
 		range->x = v.y;
 	if (v.y > range->y)

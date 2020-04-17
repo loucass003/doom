@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/24 01:36:30 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/14 20:11:27 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/16 21:09:07 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,8 @@
 # undef _POSIX_C_SOURCE
 # define _POSIX_C_SOURCE 199309L
 
-# define RENDER_DATAS_CAPACITY (4096)
-# define THREADS_COUNT (8)
-
+# define RENDER_DATAS_CAPACITY 4096
+# define THREADS_COUNT 6
 
 typedef struct			s_thread
 {
@@ -57,5 +56,6 @@ void					threads_launch(t_threads *threads);
 void					threads_clear(t_threads *threads);
 t_bool					add_data_to_threads(t_threads *threads,
 							t_render_data data);
+void					threads_destroy(t_threads *threads);
 
 #endif

@@ -12,6 +12,7 @@
 
 #include "ressource.h"
 #include "image.h"
+#include "script.h"
 
 void	free_ressource(t_ressource **r_addr)
 {
@@ -22,7 +23,7 @@ void	free_ressource(t_ressource **r_addr)
 	{
 		if (r->type == RESSOURCE_MODEL)
 		{
-			free_renderable(r->data.model, TRUE, TRUE, TRUE);
+			free_renderable(r->data.model, TRUE, TRUE);
 			ft_memdel((void **)&r->data.model);
 		}
 		else if (r->type == RESSOURCE_TEXTURE)

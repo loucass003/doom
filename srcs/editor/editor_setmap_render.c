@@ -18,6 +18,7 @@
 #include "sprite.h"
 #include "ellipsoid.h"
 #include "door.h"
+#include "player.h"
 
 void		set_light(t_renderable *r, t_object *object, t_editor *editor)
 {

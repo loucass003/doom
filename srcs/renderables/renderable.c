@@ -14,6 +14,7 @@
 #include <libft.h>
 #include "render.h"
 #include "entity.h"
+#include "door.h"
 
 void		transform_renderable_all(t_renderable *r)
 {
@@ -53,15 +54,15 @@ t_bool		create_renderable(t_renderable *r, t_renderable_type type)
 	r->visible = TRUE;
 	r->model = FALSE;
 	if (!(r->vertices = create_4dvertices_array(4)))
-		return (free_renderable(r, FALSE, TRUE, FALSE));
+		return (free_renderable(r, FALSE, FALSE));
 	if (!(r->vertex = create_2dvertices_array(4)))
-		return (free_renderable(r, FALSE, TRUE, FALSE));
+		return (free_renderable(r, FALSE, FALSE));
 	if (!(r->normals = create_3dvertices_array(4)))
-		return (free_renderable(r, FALSE, TRUE, FALSE));
+		return (free_renderable(r, FALSE, FALSE));
 	if (!(r->faces = create_faces_array(2)))
-		return (free_renderable(r, FALSE, TRUE, FALSE));
+		return (free_renderable(r, FALSE, FALSE));
 	if (!(r->materials = create_mtllist(4)))
-		return (free_renderable(r, FALSE, TRUE, FALSE));
+		return (free_renderable(r, FALSE, FALSE));
 	return (TRUE);
 }
 

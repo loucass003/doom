@@ -14,6 +14,7 @@
 #include "doom.h"
 #include "editor.h"
 #include "render.h"
+#include "door.h"
 
 t_vec2		uv_setting(t_wall_section *ws, t_vec2 uv)
 {
@@ -50,7 +51,7 @@ t_bool		add_map(t_renderable *rmap, t_editor *editor)
 	i = editor->map_renderable - 1;
 	while (++i < editor->doom->renderables->len)
 		free_renderable(&editor->doom->renderables->values[i],
-			FALSE, TRUE, TRUE);
+			FALSE, TRUE);
 	editor->doom->renderables->len = editor->map_renderable;
 	create_map(rmap, editor);
 	if (!append_renderables_array(&editor->doom->renderables, *rmap))

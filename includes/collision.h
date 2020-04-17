@@ -162,5 +162,8 @@ t_bool							point_in_triangle(t_vec3 point, t_vec3 p1,
 t_bool							lowest_root(t_vec3 v, float max, float *root);
 float							clamp(float min, float max, float v);
 void							swapf(float *a, float *b);
+t_bool							axis_test(t_vec4 params, t_vec4 v, t_vec2 v3,
+	t_vec2 *range);
+void							findmax(t_vec3 v, t_vec2 *range);
 
 #endif

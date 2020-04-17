@@ -59,7 +59,7 @@ t_renderables	*splice_renderables_array(t_renderables *arr, int index, int n)
 		return (NULL);
 	i = -1;
 	while (++i < n)
-		free_renderable(&arr->values[index + i], FALSE, TRUE, TRUE);
+		free_renderable(&arr->values[index + i], FALSE, TRUE);
 	ft_memcpy(arr->values + index, arr->values + index + n,
 		(arr->len - (index + n)) * sizeof(t_renderable));
 	arr->len -= n;

@@ -20,11 +20,9 @@
 # include "constants.h"
 # include "entity.h"
 
-# define NO_AUDIO (FALSE)
-
 typedef struct			s_audio
 {
-	ALuint				buffer[12];
+	ALuint				buffer[13];
 	ALuint				source[MAX_SOUNDS];
 	t_bool				source_status[MAX_SOUNDS];
 	ALCdevice			*device;
@@ -68,7 +66,7 @@ typedef struct			s_sound
 t_bool					init_openal(struct s_doom *doom);
 void					quit_openal(struct s_doom *doom);
 void					entity_sound(struct s_entity *s, int buffer, int source,
-							int peach);
+							float peach);
 void					player_sound(t_audio *s, int source, int buffer,
 							float peach);
 t_bool					wav_return_error(char *error);
@@ -76,5 +74,7 @@ t_bool					load_wav(char *path, t_wav_format *wav);
 t_bool					free_wav(t_wav_format **wav);
 t_bool					set_default_sounds(struct s_doom *doom);
 int						get_source(t_audio *s);
+void					play_music(t_audio *s, t_vec3 pos, int idb,
+	t_bool glob);
 
 #endif

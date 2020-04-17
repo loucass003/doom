@@ -200,7 +200,7 @@ int		range_wall(t_wall *wall0, t_wall *wall1, t_editor *editor, int j)
 	return (1);
 }
 
-void		init_wall_len(t_room *room, t_wall *wall0, t_wall *wall1, int i)
+void		init_wall_len(t_wall *wall0, t_wall *wall1)
 {
 	if (wall0->start_rooms_range)
 		wall0->start_rooms_range->len = 0;
@@ -223,7 +223,7 @@ t_bool		get_room_gaps(t_editor *editor, t_room *room)
 		j = -1;
 		wall0 = &room->walls->values[i];
 		wall1 = &room->walls->values[(i + 1) % room->walls->len];
-		init_wall_len(room, wall0, wall1, i);
+		init_wall_len(wall0, wall1);
 		while (++j < editor->rooms->len)
 		{
 			if (room == &editor->rooms->values[j])

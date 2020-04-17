@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   entity.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 00:01:14 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/13 17:35:11 by Lisa             ###   ########.fr       */
+/*   Updated: 2020/04/16 21:30:23 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,8 @@ typedef struct			s_entity
 
 }						t_entity;
 
+# define VERRY_CLOSE_DIST 0.0005
+
 t_bool					entity_update(struct s_doom *doom, t_entity *entity,
 							double dt);
 t_bool					create_enemy_renderable(struct s_doom *doom,
@@ -160,5 +162,17 @@ void					entity_update_explosion(struct s_doom *doom,
 
 t_bool					update_entity_type(struct s_doom *doom,
 							t_entity *entity, double dt);
+t_bool					check_collision_transpo(t_entity *entity);
+t_vec3					ft_vec3_trim(t_vec3 v, float max_len);
+t_collide_aabb			get_max_test_range(t_entity *entity, t_vec3 e_position,
+							t_vec3 e_velocity);
+t_bool					entity_cant_slide(t_entity *entity, t_vec3 e_position,
+							t_vec3 e_velocity, t_plane sliding_plane);
+t_bool					collide_and_slide(t_entity *entity);
+void					collide_with_face(int face, void *p);
+void					check_col_collide_ellipsoid(t_renderable r,
+	t_entity *entity, t_collide_aabb new_area, int i);
+t_bool					entity_hit_something(t_entity *entity, int *i);
+t_bool					check_collision(t_entity *entity, t_collide_aabb area);
 
 #endif

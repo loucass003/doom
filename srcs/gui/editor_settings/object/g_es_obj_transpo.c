@@ -16,7 +16,6 @@
 static t_bool			action_performed(t_component *cmp, t_doom *doom)
 {
 	const t_editor		*editor = &doom->editor;
-	const t_objects		*objects = doom->editor.objects;
 	t_object			*object;
 	t_transpo			*transpo;
 

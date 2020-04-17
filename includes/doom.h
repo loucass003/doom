@@ -131,6 +131,8 @@ void					update_selects(t_gui *self, t_ressource_manager *rm);
 void					apply_select_value(t_gui *self, t_doom *doom);
 void					ingame_scene(t_doom *doom);
 void					init_gameover(t_doom *doom);
-
+void					skybox_activated(t_doom *doom);
+void					sphere_context_editor(t_doom *doom);
+void					draw_transforms_type(t_editor *editor);
 
 #endif

@@ -28,7 +28,7 @@ static void				action_checkbox_light(t_checkbox *cb, t_light *light,
 	light->model_visible = cb->value;
 	if (object->r)
 	{
-		free_renderable(object->r, FALSE, TRUE, FALSE);
+		free_renderable(object->r, FALSE, FALSE);
 		create_object_renderable(editor, editor->current_object, object->r);
 	}
 }
@@ -46,7 +46,7 @@ static t_bool			action_performed(t_component *cmp, t_doom *doom)
 		light->type = ((t_select *)cmp)->items
 			->values[((t_select *)cmp)->selected_item].value;
 	if (cmp == editor->settings.guis_object[OBJECT_LIGHT].components->values[1])
-		action_textarea_light((t_select *)cmp, light);
+		action_textarea_light((t_textfield *)cmp, light);
 	if (cmp == editor->settings.guis_object[OBJECT_LIGHT].components->values[2])
 		action_checkbox_light((t_checkbox *)cmp, light, object, &doom->editor);
 	if (cmp == editor->settings.guis_object[OBJECT_LIGHT].components->values[3])

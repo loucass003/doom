@@ -30,5 +30,6 @@ t_bool			create_door(struct s_doom *doom, int indexes[3],
 					t_renderable *r);
 t_bool			update_renderable_door(t_render_context *ctx, t_renderable *r);
 void			transform_renderable_door(t_renderable *r);
+void			free_door(t_door **d_addr);
 
 #endif
