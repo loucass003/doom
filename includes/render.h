@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:16:19 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/17 21:50:50 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/17 23:25:31 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -233,5 +233,10 @@ void						face_and_triangle(t_renderable *r, int i);
 void						free_renderables(t_renderables **renderables,
 								t_bool destroy_array);
 void						draw_pixel(t_render_data data, t_pixel_data pd);
+void						render_face(int face_index, void *p);
+void						prepare_points_light(float it[3],
+								t_face *face, t_face_data *fd);
+void						prepare_triangle(t_face_data *fd, t_face *face,
+								t_mtl *mtl);
 
 #endif
