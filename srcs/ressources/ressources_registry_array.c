@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/15 03:46:50 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/15 03:51:06 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/17 23:30:30 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ t_bool			registry_array_part1(t_doom *doom)
 	error |= a(doom, "SOUND BOSS HIT", RESSOURCE_SOUND, TRUE);
 	error |= a(doom, "SOUND EXPLOSION", RESSOURCE_SOUND, TRUE);
 	error |= a(doom, "LEADERBOARD", RESSOURCE_TEXTURE, TRUE);
-
 	return (error);
 }
 
