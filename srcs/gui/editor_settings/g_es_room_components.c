@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/10 19:34:23 by llelievr          #+#    #+#             */
-/*   Updated: 2020/03/10 19:35:22 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/17 19:06:24 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,9 +95,11 @@ void			g_es_room_action_ceil(t_component *cmp, t_doom *doom,
 	int				i;
 
 	if (cmp == editor->settings.guis[ES_GUI_ROOM].components->values[5])
-		update_floor((t_editor*)editor, editor->current_room, FALSE);
+		room->ceiling_texture = get_prev_ressource(&doom->res_manager,
+			room->ceiling_texture, RESSOURCE_TEXTURE);
 	if (cmp == editor->settings.guis[ES_GUI_ROOM].components->values[6])
-		update_floor((t_editor*)editor, editor->current_room, FALSE);
+		room->ceiling_texture = get_next_ressource(&doom->res_manager,
+			room->ceiling_texture, RESSOURCE_TEXTURE);
 	if (cmp == editor->settings.guis[ES_GUI_ROOM].components->values[7])
 		room->ceil_invisible = ((t_checkbox *)cmp)->value;
 	if (cmp == editor->settings.guis[ES_GUI_ROOM].components->values[8])

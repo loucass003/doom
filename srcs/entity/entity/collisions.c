@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/16 17:32:09 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/16 21:29:37 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/17 19:54:56 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ t_vec3		collide_with_world(t_entity *e, t_vec3 ep,
 		return (dest);
 	new = ep;
 	if (e->packet.distance >= VERRY_CLOSE_DIST)
-		close_dist_point(e, ev);
+		new = close_dist_point(e, ev);
 	plane = plane_new(e->packet.intersect_point, ft_vec3_norm(
 		ft_vec3_sub(new, e->packet.intersect_point)));
 	if (entity_cant_slide(e, ep, ev, plane) && (e->grounded = TRUE))

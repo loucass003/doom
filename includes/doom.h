@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   doom.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/15 17:44:32 by Lisa             ###   ########.fr       */
+/*   Updated: 2020/04/17 18:50:46 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ void					hook_events(t_doom *doom);
 void					render(t_doom *doom);
 void					game_loop(t_doom *doom);
 t_bool					obj_test(t_doom *doom);
-t_img					*surface_to_image(t_doom *doom, SDL_Surface *s); //TODO: NEED TO BE REMOVE
+t_img					*surface_to_image(t_doom *doom, SDL_Surface *s);
 void					give_damage(t_entity *from, t_entity *to, t_doom *doom,
 							float damage);
 void					damage_explo(t_entity *from, t_doom *doom,

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/16 21:27:37 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/16 21:28:35 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/17 19:48:30 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ t_bool			check_collision_rocket(t_entity *entity, t_physics_data data)
 	return (FALSE);
 }
 
-void				check_col_itemstack(t_entity *entity, int *i,
+void			check_col_itemstack(t_entity *entity, int *i,
 	t_physics_data data)
 {
 	if (entity_hit_itemstack(entity,
@@ -63,7 +63,7 @@ void				check_col_itemstack(t_entity *entity, int *i,
 	}
 }
 
-t_bool				entity_hit_something(t_entity *entity, int *i)
+t_bool			entity_hit_something(t_entity *entity, int *i)
 {
 	if (entity->packet.r
 		&& entity->packet.r->of.type == RENDERABLE_ITEMSTACK)

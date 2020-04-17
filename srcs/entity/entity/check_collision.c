@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/16 21:13:08 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/16 21:31:20 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/17 20:00:21 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,8 @@ t_bool				check_collision(t_entity *entity, t_collide_aabb area)
 			continue;
 		new_area = area;
 		check_col(r, entity, new_area, i);
-		entity_hit_something(entity, &i);
+		if (!entity_hit_something(entity, &i))
+			return (FALSE);
 	}
 	return (TRUE);
 }
