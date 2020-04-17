@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   editor_tool_object.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 17:24:14 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/17 15:01:49 by louali           ###   ########.fr       */
+/*   Updated: 2020/04/17 20:24:09 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,10 @@ void			editor_tool_objects(t_editor *editor)
 			init_object(editor, editor->grid_cell)))
 			return ;
 		editor->current_object = -1;
+		editor->grid_cell_grab = GG_OBJECT;
+		editor->close_object = editor->objects->len - 1;
 	}
-	if (editor->close_object != -1 && editor->grid_cell_grab == GG_OBJECT)
+	else if (editor->close_object != -1 && editor->grid_cell_grab == GG_OBJECT)
 	{
 		editor->current_object = editor->close_object;
 		editor->object_grab = TRUE;

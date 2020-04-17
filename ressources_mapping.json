@@ -32,7 +32,8 @@
         "SOUND EXPLOSION": "song/explosion.wav",
         "SOUND DOOR": "song/porte.wav",
         "SOUND TRANSPORTEUR": "song/teleportation.wav",
-        "SOUND GRENADE": "song/grenade.wav"
+        "SOUND GRENADE": "song/grenade.wav",
+        "SOUND GAME OVER": "song/gameover.wav"
     },
     "SCRIPTS": {
         "SCRIPT": "template_dialogues.json"
