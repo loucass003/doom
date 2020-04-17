@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:16:19 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/15 22:35:48 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/17 21:50:50 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,6 +149,12 @@ typedef struct				s_pixel_data
 	t_vertex	end;
 }							t_pixel_data;
 
+typedef struct				s_face_data
+{
+	t_render_context	*ctx;
+	t_renderable		*r;
+}							t_face_data;
+
 t_faces						*create_faces_array(int capacity);
 t_faces						*append_faces_array(t_faces **arr, t_face i);
 
@@ -183,9 +189,8 @@ void						transform_renderable(t_renderable *r);
 t_bool						post_process_renderable(struct s_doom *doom,
 								t_renderable *r, t_bool octree, t_bool replace);
 
-float						get_light_intensity(t_render_context *ctx,
-								t_renderable *r, t_vec3 normal, t_vec4 point,
-								t_face *face);
+float						get_lights_intensity(t_face_data *fd,
+								t_vec3 normal, t_vec4 point, t_face *face);
 
 t_collidable				compute_collidable(t_renderable *r, int face_index,
 								t_vec4 *vertices);

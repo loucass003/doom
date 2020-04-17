@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 15:55:03 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/15 00:25:22 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/17 22:11:20 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void		update_editor_var(t_editor *editor)
 {
 	editor->doom->renderables->len = 0;
 	editor->doom->skybox_index = -1;
-	editor->settings.open = FALSE;
+	editor->settings.open = TRUE;
 }
 
 t_bool		editor_setmap(t_editor *editor)
