@@ -25,7 +25,7 @@ static t_bool	action_performed(t_component *cmp, t_doom *doom)
 			o->of.model, RESSOURCE_MODEL);
 		if (o->r)
 		{
-			free_renderable(o->r, FALSE, TRUE, FALSE);
+			free_renderable(o->r, FALSE, FALSE);
 			create_object_renderable((t_editor *)e, e->current_object, o->r);
 		}
 	}
@@ -35,7 +35,7 @@ static t_bool	action_performed(t_component *cmp, t_doom *doom)
 			o->of.model, RESSOURCE_MODEL);
 		if (o->r)
 		{
-			free_renderable(o->r, FALSE, TRUE, FALSE);
+			free_renderable(o->r, FALSE, FALSE);
 			create_object_renderable((t_editor *)e, e->current_object, o->r);
 		}
 	}

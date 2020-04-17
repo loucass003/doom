@@ -224,8 +224,7 @@ void						free_materials(t_mtllist **m_addr,
 								t_bool free_ressources);
 void						free_renderable_of(t_renderable *r);
 t_bool						free_renderable(t_renderable *r,
-								t_bool free_resources, t_bool free_of,
-								t_bool res);
+								t_bool free_resources, t_bool res);
 void						face_and_triangle(t_renderable *r, int i);
 void						free_renderables(t_renderables **renderables,
 								t_bool destroy_array);

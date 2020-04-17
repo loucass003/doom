@@ -29,7 +29,7 @@ static t_bool	action_performed(t_component *cmp, t_doom *doom)
 		object->of.entity = val.value;
 		if (object->r)
 		{
-			free_renderable(object->r, FALSE, FALSE, FALSE);
+			free_renderable(object->r, FALSE, FALSE);
 			create_object_renderable(e, e->current_object, object->r);
 		}
 	}

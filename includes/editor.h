@@ -344,6 +344,7 @@ t_bool				create_wall(t_renderable *r, t_editor *editor, int indexes[3]);
 t_bool				update_floor(t_editor *editor, int room_index, t_bool floor);
 void				select_floor_ceil(t_editor *editor, int room_index, t_bool floor);
 int					point_in_rooms(t_editor *editor, t_vec2 point);
+t_bool				point_in_room(t_editor *editor, t_room *room, t_vec2 point);
 void				hide_adjacent_walls(t_editor *editor, int room, int wall, t_wall_section *ws);
 void				hide_doors_wall(t_editor *editor);
 t_bool				gui_ingame_editor_events(t_doom *doom, t_editor *editor,
@@ -396,6 +397,20 @@ void				g_ressources_row_cmps(t_gui *self, t_doom *doom);
 void				g_message_render_message(t_doom *doom, struct s_action_message *md);
 void				g_message_render_questions(t_doom *doom, struct s_action_question *q);
 
+void				g_es_room_cmps_floor(t_gui *self, t_doom *doom, int x, int y);
+void				g_es_room_cmps_ceilling(t_gui *self, t_doom *doom, int x, int y);
+
 void				default_renderables(t_doom *doom);
+void				free_room(t_room *room);
+void				free_rooms(t_rooms **rooms);
+void				free_wall(t_wall *wall);
+void				free_walls(t_walls **walls);
+void				free_objects(t_objects **objects, t_bool force);
+void				update_face(t_face *face, t_wall_section *ws, t_vec3 face_normal);
+void				event_button_left(t_doom *doom);
+void				uvs_events(t_doom *doom, SDL_Event *event);
+void				ceil_floor_events(t_doom *doom, SDL_Event *event);
+void				object_events(t_doom *doom, SDL_Event *event);
+
 
 #endif

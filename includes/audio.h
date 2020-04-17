@@ -24,7 +24,7 @@
 
 typedef struct			s_audio
 {
-	ALuint				buffer[12];
+	ALuint				buffer[13];
 	ALuint				source[MAX_SOUNDS];
 	t_bool				source_status[MAX_SOUNDS];
 	ALCdevice			*device;
@@ -76,5 +76,6 @@ t_bool					load_wav(char *path, t_wav_format *wav);
 t_bool					free_wav(t_wav_format **wav);
 t_bool					set_default_sounds(struct s_doom *doom);
 int						get_source(t_audio *s);
+void					play_music(t_audio *s, t_vec3 pos, int idb, t_bool glob);
 
 #endif

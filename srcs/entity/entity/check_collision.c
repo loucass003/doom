@@ -12,6 +12,7 @@
 
 #include "entity.h"
 #include "doom.h"
+#include "octree.h"
 
 t_collide_aabb	check_col_octree(t_collide_aabb new_area, t_renderable r,
 	t_entity *entity, int i)

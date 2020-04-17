@@ -41,6 +41,7 @@ void		damage_explo(t_entity *from,
 	t_renderable	r;
 	t_renderable	*entity;
 
+	dist = 0;
 	create_explosion_renderable(doom, &r);
 	r.position = from->position;
 	append_renderables_array(&doom->renderables, r);

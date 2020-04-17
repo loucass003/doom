@@ -128,6 +128,16 @@ t_trigger_type			get_trigger_type(char *str);
 t_action_type			get_action_type(char *str);
 t_bool					parse_json_actions(t_script *script,
 							t_json_array *array);
-
+t_bool					parse_action_message(t_action_message *message,
+	t_json_object *object);
+t_bool					parse_action_teleport(t_action_teleport *teleport,
+	t_json_object *object);
+t_bool					parse_action_question(t_action_question *question,
+	t_json_object *object);
+void					free_script(t_script_data **s_addr);
+void					teleport(t_entity *entity, t_vec3 pos, t_vec3 rot);
+t_bool					trigger_area(t_trigger_area *area,
+	t_json_object *object);
+void					reset_scripts(t_doom *doom);
 
 #endif

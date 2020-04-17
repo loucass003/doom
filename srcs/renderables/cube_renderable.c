@@ -90,7 +90,7 @@ t_bool			create_cube(t_doom *doom, t_renderable *r, t_bool inside)
 		return (FALSE);
 	if (!append_mtllist(&r->materials, (t_mtl){
 			.material_color_set = TRUE, .material_color = 0xFFFF0000 }))
-		return (free_renderable(r, FALSE, TRUE, FALSE));
+		return (free_renderable(r, FALSE, FALSE));
 	gen_cube_mesh(r, inside);
 	post_process_renderable(doom, r, TRUE, FALSE);
 	r->dirty = TRUE;

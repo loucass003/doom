@@ -72,7 +72,7 @@ void			ingame_scene(t_doom *doom)
 	doom->main_context.image = &doom->screen;
 	while (++i < S_WIDTH * S_HEIGHT)
 		doom->main_context.buffer[i] = 0;
-	skybox_activated(doom, i);
+	skybox_activated(doom);
 	threads_clear(&doom->threads);
 	if (doom->main_context.type == CTX_EDITOR)
 		sphere_context_editor(doom);

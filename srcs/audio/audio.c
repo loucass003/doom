@@ -65,6 +65,8 @@ t_bool			set_default_sounds(t_doom *doom)
 		->data.sound->buffer_id;
 	doom->audio.buffer[11] = doom->res_manager.ressources->values[29]
 		->data.sound->buffer_id;
+	doom->audio.buffer[12] = doom->res_manager.ressources->values[30]
+		->data.sound->buffer_id;
 	return (TRUE);
 }
 

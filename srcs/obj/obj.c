@@ -103,7 +103,7 @@ t_bool			create_obj(t_doom *doom, t_renderable *r, char *file)
 	if (!init_obj_renderable_arrays(r))
 		return (FALSE);
 	if (!load_obj(doom, r, &obj, file))
-		return (free_renderable(r, FALSE, TRUE, FALSE));
+		return (free_renderable(r, FALSE, FALSE));
 	if (r->materials->len == 0)
 	{
 		if (!append_mtllist(&r->materials, (t_mtl){

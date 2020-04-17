@@ -12,6 +12,7 @@
 
 #include "editor.h"
 #include "doom.h"
+#include "item.h"
 
 void		free_object(t_object *o)
 {

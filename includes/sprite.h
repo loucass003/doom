@@ -31,6 +31,9 @@ typedef struct	s_sprite
 void			set_current_cell(t_renderable *r, int x, int y);
 t_bool			create_sprite_renderable(t_renderable *r, t_sprite *sprite);
 t_sprite		*create_sprite(t_vec2 cells_count, t_ressource *texture);
+t_bool			write_sprite(t_ressource_manager *r, t_sprite *sprite);
+t_bool			read_sprite(t_ressource_manager *r, t_sprite **sprite);
 void			compute_sprite_hitbox(t_renderable *r);
+
 
 #endif

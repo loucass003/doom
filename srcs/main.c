@@ -11,10 +11,13 @@
 /* ************************************************************************** */
 
 #include "arrays.h"
+#include "editor.h"
 #include "doom.h"
 #include "octree.h"
 #include "sprite.h"
 #include "ellipsoid.h"
+#include "ressource.h"
+#include "threads.h"
 
 t_bool	init_map(t_doom *doom)
 {
@@ -44,7 +47,7 @@ int		exit_doom(t_doom *doom)
 	threads_destroy(&doom->threads);
 	ft_memdel((void **)&doom->main_context.buffer);
 	save_datapack(doom);
-	free_renderable(&doom->sphere_primitive, FALSE, TRUE, TRUE);
+	free_renderable(&doom->sphere_primitive, FALSE, TRUE);
 	free_map(doom);
 	free_ressources_manager(&doom->res_manager);
 	sdl_quit(doom);

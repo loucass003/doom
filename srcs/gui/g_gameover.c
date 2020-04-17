@@ -12,6 +12,7 @@
 
 #include "gui.h"
 #include "doom.h"
+#include "audio.h"
 
 static t_bool		action_performed(t_component *cmp, t_doom *doom)
 {
@@ -40,6 +41,7 @@ static t_bool		action_performed(t_component *cmp, t_doom *doom)
 
 void				g_gameover_on_enter(t_gui *self, t_doom *doom)
 {
+	play_music(&doom->audio, (t_vec3){0,0,0}, 12, TRUE);
 	doom->mouse_focus = FALSE;
 	append_components_array(&self->components, create_button((SDL_Rect){
 		(S_WIDTH - 250) / 2, (S_HEIGHT - 150) / 2,

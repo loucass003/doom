@@ -98,7 +98,6 @@ t_bool		read_model(t_ressource_manager *r, t_renderable **m)
 {
 	t_renderable	*model;
 	t_wr_model		wr_model;
-	int				i;
 
 	if (!(model = ft_memalloc(sizeof(t_renderable))))
 		return (FALSE);

@@ -32,7 +32,7 @@ static t_bool				action_performed(t_component *cmp, t_doom *doom)
 		sprite->always_facing_player = ((t_checkbox *)cmp)->value;
 	if (object->r)
 	{
-		free_renderable(object->r, FALSE, TRUE, FALSE);
+		free_renderable(object->r, FALSE, FALSE);
 		create_object_renderable((t_editor *)e, e->current_object, object->r);
 	}
 	return (TRUE);

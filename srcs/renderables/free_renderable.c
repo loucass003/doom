@@ -14,6 +14,9 @@
 #include <libft.h>
 #include "render.h"
 #include "entity.h"
+#include "obj.h"
+#include "door.h"
+#include "octree.h"
 
 void		free_materials(t_mtllist **m_addr, t_bool free_ressources)
 {
@@ -40,12 +43,12 @@ void		free_renderable_of(t_renderable *r)
 	if (r->of.type == RENDERABLE_ELLIPSOID)
 		ft_memdel((void **)&r->of.data.ellipsoid);
 	else if (r->of.type == RENDERABLE_OBJ)
-		free_obj((void **)&r->of.data.obj, FALSE);
+		free_obj(r->of.data.obj, FALSE);
 	else if (r->of.type == RENDERABLE_ENTITY
 		&& r->of.data.entity->type != ENTITY_PLAYER)
 		ft_memdel((void **)&r->of.data.entity);
 	else if (r->of.type == RENDERABLE_ITEMSTACK)
-		ft_memdel(&r->of.data.itemstack);
+		ft_memdel((void **)&r->of.data.itemstack);
 	else if (r->of.type == RENDERABLE_TRANSPO)
 		ft_memdel((void **)&r->of.data.transpo);
 	else if (r->of.type == RENDERABLE_EXPLOSION)
@@ -54,8 +57,7 @@ void		free_renderable_of(t_renderable *r)
 		free_door(&r->of.data.door);
 }
 
-t_bool		free_renderable(t_renderable *r, t_bool free_resources,
-	t_bool free_of, t_bool res)
+t_bool		free_renderable(t_renderable *r, t_bool free_resources, t_bool res)
 {
 	ft_memdel((void **)&r->vertices);
 	ft_memdel((void **)&r->pp_vertices);
@@ -108,7 +110,7 @@ void		free_renderables(t_renderables **renderables, t_bool destroy_array)
 	while (++i < (*renderables)->len)
 	{
 		r = &(*renderables)->values[i];
-		free_renderable(r, FALSE, FALSE, TRUE);
+		free_renderable(r, FALSE, TRUE);
 	}
 	if (destroy_array)
 		ft_memdel((void **)renderables);

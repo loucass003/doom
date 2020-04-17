@@ -14,6 +14,7 @@
 # define RESSOURCE_H
 
 # include <libft.h>
+# include <SDL.h>
 # include "gui.h"
 # include "io.h"
 # include "audio.h"
@@ -107,12 +108,16 @@ t_bool						write_map(t_ressource_manager *r);
 t_bool						write_rooms(t_ressource_manager *r);
 t_bool						write_room(t_ressource_manager *r,
 								struct s_room *room);
+t_bool						write_objects(t_ressource_manager *r);
+t_bool						write_points(t_ressource_manager *r);
 t_bool						write_wall(t_ressource_manager *r,
 								struct s_wall *wall);
 t_bool						write_texture(t_ressource_manager *rm, t_img *img);
 t_bool						write_model(t_ressource_manager *r,
 								struct s_renderable *model);
+t_bool						write_entity(t_ressource_manager *r, t_entity_type entity_type);
 
+t_bool						read_material(t_ressource_manager *r, t_mtl *mtl);
 t_bool						read_texture(t_ressource_manager *rm, t_img **img);
 t_bool						read_ressources(t_ressource_manager *rm);
 t_bool						read_ressource(t_ressource_manager *rm,
@@ -124,7 +129,7 @@ t_bool						read_wall(t_ressource_manager *r,
 								struct s_walls **walls);
 t_bool						read_model(t_ressource_manager *r,
 								struct s_renderable **m);
-
+t_bool						read_points(t_ressource_manager *r);
 t_bool						write_sound(t_ressource_manager *r,
 								struct s_sound *sound);
 t_bool						read_sounds(t_ressource_manager *r,
@@ -150,7 +155,9 @@ t_bool						read_entity(t_ressource_manager *r,
 								t_entity_type *type);
 t_bool						is_tga_ext(char *path);
 
-
-
+void						free_ressource(t_ressource **r_addr);
+void						free_sound(t_sound **s_addr);
+t_bool						free_load_texture_surface(SDL_Surface *surface);
+void						free_ressources_manager(t_ressource_manager *rm);
 
 #endif

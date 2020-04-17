@@ -1,3 +1,4 @@
+
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -54,7 +55,11 @@ void					player_inventory_event(struct s_doom *doom,
 							SDL_Event *event);
 t_bool					draw_player_inventory(struct s_doom *doom, t_gui *self);
 int						get_slot_of(t_player *player, t_item_type type);
+int						get_slot(t_player *player, t_itemstack *is);
+int						get_empty_slot(t_player *player);
 void					set_player_state(struct s_doom *doom, t_player *player,
 							t_player_state state);
+t_bool					create_player(t_renderable *r, t_doom *doom);
+t_bool					aabb_intersect_world(t_doom *doom, t_collide_aabb aabb);
 
 #endif

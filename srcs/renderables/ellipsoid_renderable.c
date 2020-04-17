@@ -102,16 +102,16 @@ t_bool				create_ellipsoid(t_doom *doom, t_renderable *r,
 		return (FALSE);
 	r->of.data.ellipsoid->radius = radius;
 	if (!(r->vertices = create_4dvertices_array(100)))
-		return (free_renderable(r, FALSE, TRUE, FALSE));
+		return (free_renderable(r, FALSE, FALSE));
 	if (!(r->normals = create_3dvertices_array(100)))
-		return (free_renderable(r, FALSE, TRUE, FALSE));
+		return (free_renderable(r, FALSE, FALSE));
 	if (!(r->faces = create_faces_array(50)))
-		return (free_renderable(r, FALSE, TRUE, FALSE));
+		return (free_renderable(r, FALSE, FALSE));
 	if (!(r->materials = create_mtllist(1)))
-		return (free_renderable(r, FALSE, TRUE, FALSE));
+		return (free_renderable(r, FALSE, FALSE));
 	if (!append_mtllist(&r->materials, (t_mtl){
 			.material_color_set = TRUE, .material_color = 0xFFFF0000 }))
-		return (free_renderable(r, FALSE, TRUE, FALSE));
+		return (free_renderable(r, FALSE, FALSE));
 	gen_ellipsoid_mesh(r, res, radius);
 	post_process_renderable(doom, r, TRUE, FALSE);
 	r->dirty = TRUE;

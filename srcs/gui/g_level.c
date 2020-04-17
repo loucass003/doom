@@ -12,6 +12,7 @@
 
 #include "doom.h"
 #include "gui.h"
+#include "script.h"
 
 void				play_game(t_doom *doom)
 {

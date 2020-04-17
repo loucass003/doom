@@ -69,5 +69,6 @@ t_bool			registry_array_part2(t_doom *doom)
 	error |= a(doom, "SOUND DOOR", RESSOURCE_SOUND, TRUE);
 	error |= a(doom, "SOUND TRANSPORTEUR", RESSOURCE_SOUND, TRUE);
 	error |= a(doom, "SOUND GRENADE", RESSOURCE_SOUND, TRUE);
+	error |= a(doom, "SOUND GAME OVER", RESSOURCE_SOUND, TRUE);
 	return (error);
 }

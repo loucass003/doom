@@ -77,7 +77,7 @@ t_bool			create_sprite_renderable(t_renderable *r, t_sprite *sprite)
 	if (!append_mtllist(&r->materials, (t_mtl){
 		.texture_map = sprite->texture->data.texture,
 		.texture_map_set = TRUE }))
-		return (free_renderable(r, FALSE, TRUE, FALSE));
+		return (free_renderable(r, FALSE, FALSE));
 	add_point(r, (t_vec4){ -0.5, -0.5, 0, 1 }, (t_vec2){ 1, 0 });
 	add_point(r, (t_vec4){ 0.5, -0.5, 0, 1 }, (t_vec2){ 0, 0 });
 	add_point(r, (t_vec4){ 0.5, 0.5, 0, 1 }, (t_vec2){ 0, 1 });

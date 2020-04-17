@@ -91,6 +91,10 @@ t_bool				entity_hit_itemstack(struct s_entity *entity,
 t_item				*create_item_weapon_axe(t_ressource *image,
 						t_ressource *animation);
 t_itemstack			*create_itemstack(t_item *item, int amount);
+t_bool				write_itemstack(t_ressource_manager *r, t_itemstack *is);
+t_bool				read_itemstack(t_ressource_manager *r, t_itemstack **is);
+
+
 t_itemstack			*create_itemstack_from_type(t_doom *doom, t_item_type type,
 						t_weapon_type weapon_type);
 t_item				*create_item_weapon_from_type(t_doom *doom,
@@ -98,5 +102,8 @@ t_item				*create_item_weapon_from_type(t_doom *doom,
 t_item				*create_item_from_type(t_doom *doom, t_item_type type,
 						t_weapon_type weapon_type);
 void				set_current_animation_step(t_weapon *weapon, int i);
+
+void				free_itemstack(t_itemstack **it);
+
 
 #endif

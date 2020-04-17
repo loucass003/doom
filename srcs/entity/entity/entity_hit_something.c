@@ -12,6 +12,7 @@
 
 #include "entity.h"
 #include "doom.h"
+#include "octree.h"
 
 void			check_col_collide_ellipsoid(t_renderable r, t_entity *entity,
 	t_collide_aabb new_area, int i)

@@ -17,6 +17,7 @@
 
 void			g_message_on_event(t_gui *self, SDL_Event *event, t_doom *doom)
 {
+	(void)self;
 	const SDL_Scancode	key = event->key.keysym.scancode;
 	t_message			*message;
 
@@ -46,8 +47,7 @@ void			g_message_on_event(t_gui *self, SDL_Event *event, t_doom *doom)
 
 void			g_message_render(t_gui *self, t_doom *doom)
 {
-	SDL_Surface		*t;
-
+	(void)self;
 	if (!doom->message.open)
 		return ;
 	if (doom->message.message_data

@@ -16,6 +16,7 @@
 t_bool		gui_ingame_editor_events(t_doom *doom, t_editor *editor,
 	t_gui *self, SDL_Event *event)
 {
+	(void)editor;
 	if (!doom->mouse_focus && is_settings_open(&doom->editor))
 	{
 		g_editor_settings_on_event(self, event, doom);

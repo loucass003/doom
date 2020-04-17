@@ -30,7 +30,7 @@ static void		select_object(t_doom *doom, t_object *object, t_select *select)
 		if (object->type == OBJECT_LIGHT)
 			remove_light(doom, object->of.light_index);
 		if (object->r)
-			free_renderable(object->r, FALSE, TRUE, FALSE);
+			free_renderable(object->r, FALSE, FALSE);
 		free_object(object);
 		object->type = select->items->values[select->selected_item].value;
 		if (object->type != OBJECT_NONE)

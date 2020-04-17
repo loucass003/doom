@@ -168,5 +168,12 @@ t_collide_aabb			get_max_test_range(t_entity *entity, t_vec3 e_position,
 							t_vec3 e_velocity);
 t_bool					entity_cant_slide(t_entity *entity, t_vec3 e_position,
 							t_vec3 e_velocity, t_plane sliding_plane);
+t_bool					collide_and_slide(t_entity *entity);
+void					collide_with_face(int face, void *p);
+void					check_col_collide_ellipsoid(t_renderable r, t_entity *entity,
+	t_collide_aabb new_area, int i);
+t_bool					entity_hit_something(t_entity *entity, int *i);
+t_bool					check_collision(t_entity *entity, t_collide_aabb area);
+
 
 #endif
