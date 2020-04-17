@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 16:49:48 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/17 19:39:23 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/17 20:38:12 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,9 +135,9 @@ void	render_face(int face_index, void *p)
 		mat43_mulv4(ctx->camera->matrix,
 		r->pp_vertices[face->vertices_index[2] - 1]));
 
-	vertex[0] = (t_vec2){0,0};
-	vertex[1] = (t_vec2){0,0};
-	vertex[2] = (t_vec2){0,0};
+	vertex[0] = (t_vec2){ 0, 0 };
+	vertex[1] = (t_vec2){ 0, 0 };
+	vertex[2] = (t_vec2){ 0, 0 };
 	if (r->vertex)
 	{
 		vertex[0] = r->vertex->vertices[face->vertex_index[0] - 1];

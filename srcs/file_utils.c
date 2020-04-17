@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   file_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/28 01:48:23 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/24 16:37:43 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/04/17 20:45:13 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,4 +71,14 @@ char		*get_file_content(char *file, int *content_len)
 	if (content)
 		free(content);
 	return (NULL);
+}
+
+t_bool		file_exists(char *file)
+{
+	int		fd;
+
+	if ((fd = open(file, O_RDONLY)) == -1)
+		return (FALSE);
+	close(fd);
+	return (TRUE);
 }
