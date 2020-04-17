@@ -45,7 +45,7 @@ void							frustum_intersect_octree(t_octree_node *n,
 									void *param);
 void							free_octree_nodes(t_octree_node *n);
 void							free_octree(t_octree_node **n);
-void							collide_with_octree(t_renderable *r, t_entity *entity,
-	t_octree_node *octree, t_collide_aabb area);
+void							collide_with_octree(t_renderable *r,
+	t_entity *entity, t_octree_node *octree, t_collide_aabb area);
 
 #endif

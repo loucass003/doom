@@ -115,7 +115,8 @@ t_bool						write_wall(t_ressource_manager *r,
 t_bool						write_texture(t_ressource_manager *rm, t_img *img);
 t_bool						write_model(t_ressource_manager *r,
 								struct s_renderable *model);
-t_bool						write_entity(t_ressource_manager *r, t_entity_type entity_type);
+t_bool						write_entity(t_ressource_manager *r,
+	t_entity_type entity_type);
 
 t_bool						read_material(t_ressource_manager *r, t_mtl *mtl);
 t_bool						read_texture(t_ressource_manager *rm, t_img **img);

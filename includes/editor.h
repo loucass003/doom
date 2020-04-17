@@ -236,181 +236,215 @@ typedef struct				s_editor
 	t_uv_transform_mode		uv_transform_mode;
 	t_bool					player_set;
 	t_bool					player_grab;
-}					t_editor;
+}							t_editor;
 
-
-typedef struct		s_face_params
+typedef struct				s_face_params
 {
-	t_wall_section	*ws;
-	int				n_start;
-	int				v_start;
-	t_vec3			face_normal;
-	int				room_index;
-	int				wall_index;
-	int				wall_section;
-	int				indexes[3];
-}					t_face_params;
+	t_wall_section			*ws;
+	int						n_start;
+	int						v_start;
+	t_vec3					face_normal;
+	int						room_index;
+	int						wall_index;
+	int						wall_section;
+	int						indexes[3];
+}							t_face_params;
 
-t_walls				*create_walls_array(int capacity);
-t_walls				*append_walls_array(t_walls **arr, t_wall i);
-t_walls				*splice_walls_array(t_walls *arr,
-						int index, int n);
-t_walls				*copy_walls_array(t_walls *src,
-						t_walls **dst);
+t_walls						*create_walls_array(int capacity);
+t_walls						*append_walls_array(t_walls **arr, t_wall i);
+t_walls						*splice_walls_array(t_walls *arr,
+	int index, int n);
+t_walls						*copy_walls_array(t_walls *src,
+	t_walls **dst);
 
-t_rooms				*create_rooms_array(int capacity);
-t_rooms				*append_rooms_array(t_rooms **arr, t_room i);
-t_rooms				*splice_rooms_array(t_rooms *arr,
-						int index, int n);
-t_rooms					*copy_rooms_array(t_rooms *src,
-						t_rooms **dst);
+t_rooms						*create_rooms_array(int capacity);
+t_rooms						*append_rooms_array(t_rooms **arr, t_room i);
+t_rooms						*splice_rooms_array(t_rooms *arr,
+	int index, int n);
+t_rooms						*copy_rooms_array(t_rooms *src,
+	t_rooms **dst);
 
-t_objects			*create_objects_array(int capacity);
-t_objects			*append_objects_array(t_objects **arr, t_object i);
-t_objects			*splice_objects_array(t_objects *arr,
-						int index, int n);
-t_objects			*copy_objects_array(t_objects *src,
-						t_objects **dst);
-int					objects_indexof(t_objects *arr, t_object *elem);
+t_objects					*create_objects_array(int capacity);
+t_objects					*append_objects_array(t_objects **arr, t_object i);
+t_objects					*splice_objects_array(t_objects *arr,
+	int index, int n);
+t_objects					*copy_objects_array(t_objects *src,
+	t_objects **dst);
+int							objects_indexof(t_objects *arr, t_object *elem);
 
-t_wall_sections		*create_wall_sections_array(int capacity);
-t_wall_sections		*append_wall_sections_array(t_wall_sections **arr, t_wall_section i);
-t_wall_sections		*splice_wall_sections_array(t_wall_sections *arr,
-						int index, int n);
-t_wall_sections		*copy_wall_sections_array(t_wall_sections *src,
-						t_wall_sections **dst);
-int					wall_sections_indexof(t_wall_sections *arr, t_wall_section *elem);
+t_wall_sections				*create_wall_sections_array(int capacity);
+t_wall_sections				*append_wall_sections_array(t_wall_sections **arr,
+	t_wall_section i);
+t_wall_sections				*splice_wall_sections_array(t_wall_sections *arr,
+	int index, int n);
+t_wall_sections				*copy_wall_sections_array(t_wall_sections *src,
+	t_wall_sections **dst);
+int							wall_sections_indexof(t_wall_sections *arr,
+	t_wall_section *elem);
 
-int					get_close_room(t_editor *editor);
-void				remove_room(t_editor *editor, int index);
-t_bool				room_intersect(t_editor *editor, t_room *room, t_room *room2, t_bool strict);
-t_vec2				room_height_range(t_room *room);
-t_vec3				room_center(t_editor *editor, t_room *room);
-void				remove_point(t_editor *editor, int index);
-void				insert_point(t_editor *editor, t_vec2 seg, int point_index);
-t_vec2				get_close_point(t_editor *editor, t_vec2 pos);
-t_bool				is_point_on_seg(t_vec2 project, t_vec2 pos);
-t_vec2				get_point_on_seg(t_vec2 p0, t_vec2 p1, t_vec2 pos);
-void				point_room(int index1, t_room *room0, int point_index, int index0);
-t_vec2				point_on_room(t_editor *editor, t_room *room, t_vec2 pos, t_bool *found);
-t_wall				init_wall(int indice);
-t_wall_section		init_wall_section(t_editor *editor);
-void				editor_grid_render(t_doom *doom, t_editor *editor);
-void				editor_render_rooms(t_doom *doom, t_editor *editor);
-t_bool				editor_render_wall(t_doom *doom, t_editor *editor, t_room *room, int j);
-int					wall_indexof_by_indice(t_walls *walls, int indice);
-void				editor_tool_point(t_editor *editor);
-void				editor_tool_select(t_editor *editor);
-void				editor_tool_point_move(t_editor *editor);
-void				editor_tool_point_release(t_editor *editor);
-void				editor_tool_room(t_editor *editor, SDL_Event *event);
-void				editor_tool_objects(t_editor *editor);
-void				editor_tool_player(t_editor *editor);
-void				editor_delete_action(t_editor *editor);
-void				select_room(t_editor *editor, int index);
-t_vec2				get_close_seg(t_editor *editor, t_room *room, t_vec2 pos);
-void				editor_settings_update(t_editor *editor);
-t_wall				*get_current_wall(t_editor *editor);
-t_bool				is_settings_open(t_editor *editor);
-t_bool				get_close_object(t_editor *editor, t_vec2 *pos);
-int					get_object(t_editor *editor, t_vec2 pos);
-t_bool				editor_render_objects(t_editor *editor);
-t_bool				is_in_range(t_vec2 pos, t_vec2 test);
-t_object			init_object(t_editor *editor, t_vec2 pos);
-t_wall				*get_current_wall(t_editor *editor);
-void				set_gui_settings(t_editor *editor, int id);
-void				free_object(t_object *object);
-t_bool				create_object_renderable(t_editor *editor, int object_index, t_renderable *r);
-t_vec3				editor_to_world(t_vec3 pos);
-t_bool				get_room_gaps(t_editor *editor, t_room *room);
-t_bool				update_rooms_gaps(t_editor *editor);
-t_bool				update_wall(t_editor *editor, int room_index, int wall_index, int wall_section);
-t_bool				post_process_map(t_editor *editor, t_renderable *r, t_bool replace);
-t_bool				create_walls(t_editor *editor, t_renderable *r);
-t_renderable		*get_map(t_editor *editor);
-t_bool				create_map(t_renderable	*r, t_editor *editor);
-t_vec3				world_to_editor(t_vec3 pos);
-t_bool				editor_setmap(t_editor *editor);
-void				editor_tool_objects_move(t_editor *editor);
-void				editor_tool_player_move(t_editor *editor);
-void				editor_tool_objects_release(t_editor *editor);
-void				editor_tool_player_release(t_editor *editor);
-t_bool				editor_render_player(t_doom *doom, t_editor *editor);
-t_bool				editor_settings_guis(t_editor *editor);
-void				set_object_default(t_doom *doom, t_object *object);
-t_bool				floor_visibility(t_editor *editor, t_renderable *r, int room_index);
-void				unselect_all(t_doom *doom);
-t_bool				create_wall(t_renderable *r, t_editor *editor, int indexes[3]);
-t_bool				update_floor(t_editor *editor, int room_index, t_bool floor);
-void				select_floor_ceil(t_editor *editor, int room_index, t_bool floor);
-int					point_in_rooms(t_editor *editor, t_vec2 point);
-t_bool				point_in_room(t_editor *editor, t_room *room, t_vec2 point);
-void				hide_adjacent_walls(t_editor *editor, int room, int wall, t_wall_section *ws);
-void				hide_doors_wall(t_editor *editor);
-t_bool				gui_ingame_editor_events(t_doom *doom, t_editor *editor,
-						t_gui *self, SDL_Event *event);
+int							get_close_room(t_editor *editor);
+void						remove_room(t_editor *editor, int index);
+t_bool						room_intersect(t_editor *editor, t_room *room,
+	t_room *room2, t_bool strict);
+t_vec2						room_height_range(t_room *room);
+t_vec3						room_center(t_editor *editor, t_room *room);
+void						remove_point(t_editor *editor, int index);
+void						insert_point(t_editor *editor, t_vec2 seg,
+	int point_index);
+t_vec2						get_close_point(t_editor *editor, t_vec2 pos);
+t_bool						is_point_on_seg(t_vec2 project, t_vec2 pos);
+t_vec2						get_point_on_seg(t_vec2 p0, t_vec2 p1, t_vec2 pos);
+void						point_room(int index1, t_room *room0,
+	int point_index, int index0);
+t_vec2						point_on_room(t_editor *editor, t_room *room,
+	t_vec2 pos, t_bool *found);
+t_wall						init_wall(int indice);
+t_wall_section				init_wall_section(t_editor *editor);
+void						editor_grid_render(t_doom *doom, t_editor *editor);
+void						editor_render_rooms(t_doom *doom, t_editor *editor);
+t_bool						editor_render_wall(t_doom *doom, t_editor *editor,
+	t_room *room, int j);
+int							wall_indexof_by_indice(t_walls *walls, int indice);
+void						editor_tool_point(t_editor *editor);
+void						editor_tool_select(t_editor *editor);
+void						editor_tool_point_move(t_editor *editor);
+void						editor_tool_point_release(t_editor *editor);
+void						editor_tool_room(t_editor *editor,
+	SDL_Event *event);
+void						editor_tool_objects(t_editor *editor);
+void						editor_tool_player(t_editor *editor);
+void						editor_delete_action(t_editor *editor);
+void						select_room(t_editor *editor, int index);
+t_vec2						get_close_seg(t_editor *editor, t_room *room,
+	t_vec2 pos);
+void						editor_settings_update(t_editor *editor);
+t_wall						*get_current_wall(t_editor *editor);
+t_bool						is_settings_open(t_editor *editor);
+t_bool						get_close_object(t_editor *editor, t_vec2 *pos);
+int							get_object(t_editor *editor, t_vec2 pos);
+t_bool						editor_render_objects(t_editor *editor);
+t_bool						is_in_range(t_vec2 pos, t_vec2 test);
+t_object					init_object(t_editor *editor, t_vec2 pos);
+t_wall						*get_current_wall(t_editor *editor);
+void						set_gui_settings(t_editor *editor, int id);
+void						free_object(t_object *object);
+t_bool						create_object_renderable(t_editor *editor,
+	int object_index, t_renderable *r);
+t_vec3						editor_to_world(t_vec3 pos);
+t_bool						get_room_gaps(t_editor *editor, t_room *room);
+t_bool						update_rooms_gaps(t_editor *editor);
+t_bool						update_wall(t_editor *editor, int room_index,
+	int wall_index, int wall_section);
+t_bool						post_process_map(t_editor *editor, t_renderable *r,
+	t_bool replace);
+t_bool						create_walls(t_editor *editor, t_renderable *r);
+t_renderable				*get_map(t_editor *editor);
+t_bool						create_map(t_renderable	*r, t_editor *editor);
+t_vec3						world_to_editor(t_vec3 pos);
+t_bool						editor_setmap(t_editor *editor);
+void						editor_tool_objects_move(t_editor *editor);
+void						editor_tool_player_move(t_editor *editor);
+void						editor_tool_objects_release(t_editor *editor);
+void						editor_tool_player_release(t_editor *editor);
+t_bool						editor_render_player(t_doom *doom,
+	t_editor *editor);
+t_bool						editor_settings_guis(t_editor *editor);
+void						set_object_default(t_doom *doom, t_object *object);
+t_bool						floor_visibility(t_editor *editor, t_renderable *r,
+	int room_index);
+void						unselect_all(t_doom *doom);
+t_bool						create_wall(t_renderable *r, t_editor *editor,
+	int indexes[3]);
+t_bool						update_floor(t_editor *editor, int room_index,
+	t_bool floor);
+void						select_floor_ceil(t_editor *editor, int room_index,
+	t_bool floor);
+int							point_in_rooms(t_editor *editor, t_vec2 point);
+t_bool						point_in_room(t_editor *editor, t_room *room,
+	t_vec2 point);
+void						hide_adjacent_walls(t_editor *editor, int room,
+	int wall, t_wall_section *ws);
+void						hide_doors_wall(t_editor *editor);
+t_bool						gui_ingame_editor_events(t_doom *doom,
+	t_editor *editor, t_gui *self, SDL_Event *event);
 
-t_bool				create_map_points_and_floor(t_editor *editor, t_renderable *r);
-t_bool				create_walls(t_editor *editor, t_renderable *r);
+t_bool						create_map_points_and_floor(t_editor *editor,
+	t_renderable *r);
+t_bool						create_walls(t_editor *editor, t_renderable *r);
 
+t_bool						add_map(t_renderable *rmap, t_editor *editor);
+t_vec2						uv_setting(t_wall_section *ws, t_vec2 uv);
 
+void						gg_point(t_editor *editor, t_room *curr_room,
+	int index);
+t_bool						gg_line(t_editor *editor, t_room *curr_room,
+	int index);
+void						gg_none(t_editor *editor, t_room *curr_room,
+	int index);
 
-t_bool				add_map(t_renderable *rmap, t_editor *editor);
-t_vec2				uv_setting(t_wall_section *ws, t_vec2 uv);
+t_wall_section				create_simple_wall_section(t_editor *editor,
+	t_room *room, int wall);
+t_wall_section				create_last_wall_section(t_editor *editor,
+	t_room *room, int wall, t_gap_filler_packet p);
+t_wall_section				create_gap_wall_section(t_editor *editor,
+	t_room *room, int wall, t_gap_filler_packet p);
+t_wall_section				create_between_gaps_wall_section(t_editor *editor,
+	t_room *room, int wall, t_gap_filler_packet p);
 
+void						set_itemstack(t_renderable *r,
+	struct s_object *object);
+t_bool						set_sprite(t_renderable *r,
+	struct s_object *object);
+void						set_entity(t_renderable *r, struct s_object *object,
+	struct s_editor *editor);
+void						set_model(t_renderable *r, struct s_object *object);
+void						set_transpo(t_renderable *r,
+	struct s_object *object, struct s_editor *editor);
 
-void				gg_point(t_editor *editor, t_room *curr_room, int index);
-t_bool				gg_line(t_editor *editor, t_room *curr_room, int index);
-void				gg_none(t_editor *editor, t_room *curr_room, int index);
-
-t_wall_section		create_simple_wall_section(t_editor *editor, t_room *room, int wall);
-t_wall_section		create_last_wall_section(t_editor *editor, t_room *room, int wall, t_gap_filler_packet p);
-t_wall_section		create_gap_wall_section(t_editor *editor, t_room *room, int wall, t_gap_filler_packet p);
-t_wall_section		create_between_gaps_wall_section(t_editor *editor, t_room *room, int wall, t_gap_filler_packet p);
-
-void				set_itemstack(t_renderable *r, struct s_object *object);
-t_bool				set_sprite(t_renderable *r, struct s_object *object);
-void				set_entity(t_renderable *r, struct s_object *object, struct s_editor *editor);
-void				set_model(t_renderable *r, struct s_object *object);
-void				set_transpo(t_renderable *r, struct s_object *object, struct s_editor *editor);
-
-t_transpo			*create_default_transpo(t_doom *doom, t_object *object);
-void				prev_transpo(t_transpo *transpo, t_doom *doom);
-void				next_transpo(t_transpo *transpo, t_doom *doom);
-
-void				update_g_es_itemstack_textfield(t_editor *e,
+t_transpo					*create_default_transpo(t_doom *doom,
 	t_object *object);
-void				action_select_item_type_update(t_object *object,
+void						prev_transpo(t_transpo *transpo, t_doom *doom);
+void						next_transpo(t_transpo *transpo, t_doom *doom);
+
+void						update_g_es_itemstack_textfield(t_editor *e,
+	t_object *object);
+void						action_select_item_type_update(t_object *object,
 	t_editor *e, t_select *s);
-void				action_select_item_type(t_editor *e, t_select *select);
-void				action_select_item_weapon_type(t_editor *e,
+void						action_select_item_type(t_editor *e,
+	t_select *select);
+void						action_select_item_weapon_type(t_editor *e,
 	t_object *object, t_select *select);
-void				remove_light(t_doom *doom, int light_index);
-void	 			set_es_object_gui(t_editor *editor, int id);
-t_bool				g_es_room_action_performed(t_component *cmp, t_doom *doom);
-t_select_items		*normals_types(void);
-void				g_es_wall_components_visibility(t_components *cmps,
-	t_wall_section *ws);
-t_bool				g_es_wall_action_performed(t_component *cmp,
+void						remove_light(t_doom *doom, int light_index);
+void						set_es_object_gui(t_editor *editor, int id);
+t_bool						g_es_room_action_performed(t_component *cmp,
 	t_doom *doom);
-void				g_ressources_row_cmps(t_gui *self, t_doom *doom);
-void				g_message_render_message(t_doom *doom, struct s_action_message *md);
-void				g_message_render_questions(t_doom *doom, struct s_action_question *q);
+t_select_items				*normals_types(void);
+void						g_es_wall_components_visibility(t_components *cmps,
+	t_wall_section *ws);
+t_bool						g_es_wall_action_performed(t_component *cmp,
+	t_doom *doom);
+void						g_ressources_row_cmps(t_gui *self, t_doom *doom);
+void						g_message_render_message(t_doom *doom,
+	struct s_action_message *md);
+void						g_message_render_questions(t_doom *doom,
+	struct s_action_question *q);
 
-void				g_es_room_cmps_floor(t_gui *self, t_doom *doom, int x, int y);
-void				g_es_room_cmps_ceilling(t_gui *self, t_doom *doom, int x, int y);
+void						g_es_room_cmps_floor(t_gui *self, t_doom *doom,
+	int x, int y);
+void						g_es_room_cmps_ceilling(t_gui *self, t_doom *doom,
+	int x, int y);
 
-void				default_renderables(t_doom *doom);
-void				free_room(t_room *room);
-void				free_rooms(t_rooms **rooms);
-void				free_wall(t_wall *wall);
-void				free_walls(t_walls **walls);
-void				free_objects(t_objects **objects, t_bool force);
-void				update_face(t_face *face, t_wall_section *ws, t_vec3 face_normal);
-void				event_button_left(t_doom *doom);
-void				uvs_events(t_doom *doom, SDL_Event *event);
-void				ceil_floor_events(t_doom *doom, SDL_Event *event);
-void				object_events(t_doom *doom, SDL_Event *event);
-
+void						default_renderables(t_doom *doom);
+void						free_room(t_room *room);
+void						free_rooms(t_rooms **rooms);
+void						free_wall(t_wall *wall);
+void						free_walls(t_walls **walls);
+void						free_objects(t_objects **objects, t_bool force);
+void						update_face(t_face *face, t_wall_section *ws,
+	t_vec3 face_normal);
+void						event_button_left(t_doom *doom);
+void						uvs_events(t_doom *doom, SDL_Event *event);
+void						ceil_floor_events(t_doom *doom, SDL_Event *event);
+void						object_events(t_doom *doom, SDL_Event *event);
 
 #endif

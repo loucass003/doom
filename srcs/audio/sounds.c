@@ -16,8 +16,6 @@
 
 void			entity_sound(t_entity *s, int buffer, int source, float peach)
 {
-	if (NO_AUDIO)
-		return ;
 	alSourcei(s->sources[source], AL_BUFFER,
 		s->packet.doom->audio.buffer[buffer]);
 	alSourcei(s->sources[source], AL_SOURCE_RELATIVE, 0);
@@ -33,8 +31,6 @@ void			entity_sound(t_entity *s, int buffer, int source, float peach)
 
 void			player_sound(t_audio *s, int source, int buffer, float peach)
 {
-	if (NO_AUDIO)
-		return ;
 	alSourcei(s->source[source], AL_BUFFER, s->buffer[buffer]);
 	alSourcei(s->source[source], AL_SOURCE_RELATIVE, 1);
 	alSourcef(s->source[source], AL_PITCH, peach * 2.0);
@@ -49,8 +45,6 @@ void			play_music(t_audio *s, t_vec3 pos, int idb, t_bool glob)
 {
 	int		ids;
 
-	if (NO_AUDIO)
-		return ;
 	if ((ids = get_source(s)) == -1)
 		return ;
 	alSourcei(s->source[ids], AL_BUFFER, s->buffer[idb]);

@@ -140,7 +140,6 @@ typedef union				u_color_r
 	t_rgba		argb;
 }							t_color_r;
 
-
 typedef struct				s_pixel_data
 {
 	int			x;

@@ -20,8 +20,6 @@
 # include "constants.h"
 # include "entity.h"
 
-# define NO_AUDIO (FALSE)
-
 typedef struct			s_audio
 {
 	ALuint				buffer[13];
@@ -76,6 +74,7 @@ t_bool					load_wav(char *path, t_wav_format *wav);
 t_bool					free_wav(t_wav_format **wav);
 t_bool					set_default_sounds(struct s_doom *doom);
 int						get_source(t_audio *s);
-void					play_music(t_audio *s, t_vec3 pos, int idb, t_bool glob);
+void					play_music(t_audio *s, t_vec3 pos, int idb,
+	t_bool glob);
 
 #endif

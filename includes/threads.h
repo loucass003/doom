@@ -21,9 +21,8 @@
 # undef _POSIX_C_SOURCE
 # define _POSIX_C_SOURCE 199309L
 
-# define RENDER_DATAS_CAPACITY (4096)
-# define THREADS_COUNT (6)
-
+# define RENDER_DATAS_CAPACITY 4096
+# define THREADS_COUNT 6
 
 typedef struct			s_thread
 {

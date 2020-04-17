@@ -319,5 +319,4 @@ t_bool							selected_tool(t_doom *doom, int last_select);
 int								total_score(t_doom *doom);
 t_bool							add_score(char *text, int score, t_doom *doom);
 
-
 #endif

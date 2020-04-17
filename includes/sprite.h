@@ -35,5 +35,4 @@ t_bool			write_sprite(t_ressource_manager *r, t_sprite *sprite);
 t_bool			read_sprite(t_ressource_manager *r, t_sprite **sprite);
 void			compute_sprite_hitbox(t_renderable *r);
 
-
 #endif
