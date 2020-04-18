@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/16 04:34:40 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/16 17:27:22 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/18 19:59:41 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ t_bool		plane_box_overlap(t_vec3 normal, t_vec3 vert, t_vec3 maxbox)
 		}
 	}
 	if (ft_vec3_dot(normal, v_min.v) > 0.0f)
-		return (TRUE);
+		return (FALSE);
 	if (ft_vec3_dot(normal, v_max.v) >= 0.0f)
 		return (TRUE);
 	return (FALSE);
@@ -48,23 +48,22 @@ t_bool		axis_tests(t_vec3 e[3], t_vec2 bh[3], t_vec3 v[3], t_vec2 *range)
 	t_vec3 fe;
 
 	fe = (t_vec3){ fabsf(e[0].x), fabsf(e[0].y), fabsf(e[0].z) };
-	if (!axis_test((t_vec4){ e[0].z, e[0].y, fe.z, fe.y },
-		(t_vec4){ v[0].y, v[0].z, v[2].y, v[2].z }, bh[0], range)
-		|| !axis_test((t_vec4){ e[0].z, e[0].x, fe.z, fe.x },
-			(t_vec4){ v[0].x, v[0].z, v[2].x, v[2].z }, bh[1], range)
-		|| !axis_test((t_vec4){ e[0].y, e[0].x, fe.y, fe.x },
-			(t_vec4){ v[1].x, v[1].y, v[2].x, v[2].y }, bh[2], range))
+	if (!axis_test((t_vec4){ e[0].z, e[0].y, fe.z, fe.y }, (t_vec4){ v[0].y,
+		v[0].z, v[2].y, v[2].z }, bh[0], range) || !axis_test2((t_vec4){ e[0].z,
+		e[0].x, fe.z, fe.x }, (t_vec4){ v[0].x, v[0].z, v[2].x, v[2].z },
+		bh[1], range) || !axis_test((t_vec4){ e[0].y, e[0].x, fe.y, fe.x },
+		(t_vec4){ v[1].x, v[1].y, v[2].x, v[2].y }, bh[2], range))
 		return (FALSE);
 	fe = (t_vec3){ fabsf(e[1].x), fabsf(e[1].y), fabsf(e[1].z) };
 	if (!axis_test((t_vec4){ e[1].z, e[1].y, fe.z, fe.y }, (t_vec4){ v[0].y,
-		v[0].z, v[2].y, v[2].z }, bh[0], range) || !axis_test((t_vec4){ e[1].z,
+		v[0].z, v[2].y, v[2].z }, bh[0], range) || !axis_test2((t_vec4){ e[1].z,
 		e[1].x, fe.z, fe.x }, (t_vec4){ v[0].x, v[0].z, v[2].x, v[2].z },
 		bh[1], range) || !axis_test((t_vec4){ e[1].y, e[1].x, fe.y, fe.x },
 		(t_vec4){ v[0].x, v[0].y, v[1].x, v[1].y }, bh[2], range))
 		return (FALSE);
 	fe = (t_vec3){ fabsf(e[2].x), fabsf(e[2].y), fabsf(e[2].z) };
 	if (!axis_test((t_vec4){ e[2].z, e[2].y, fe.z, fe.y }, (t_vec4){ v[0].y,
-		v[0].z, v[1].y, v[1].z }, bh[0], range) || !axis_test((t_vec4){ e[2].z,
+		v[0].z, v[1].y, v[1].z }, bh[0], range) || !axis_test2((t_vec4){ e[2].z,
 		e[2].x, fe.z, fe.x }, (t_vec4){ v[0].x, v[0].z, v[1].x, v[1].z },
 		bh[1], range) || !axis_test((t_vec4){ e[2].y, e[2].x, fe.y, fe.x },
 		(t_vec4){ v[1].x, v[1].y, v[2].x, v[2].y }, bh[2], range))

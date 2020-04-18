@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 01:15:48 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/15 21:51:22 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/18 19:56:45 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,7 +163,9 @@ t_bool							lowest_root(t_vec3 v, float max, float *root);
 float							clamp(float min, float max, float v);
 void							swapf(float *a, float *b);
 t_bool							axis_test(t_vec4 params, t_vec4 v, t_vec2 v3,
-	t_vec2 *range);
+									t_vec2 *range);
+t_bool							axis_test2(t_vec4 params, t_vec4 v, t_vec2 v3,
+									t_vec2 *range);
 void							findmax(t_vec3 v, t_vec2 *range);
 
 #endif

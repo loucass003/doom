@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/16 17:25:24 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/16 23:21:54 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/18 19:56:48 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,32 @@ t_bool	axis_test(t_vec4 params, t_vec4 v, t_vec2 v3, t_vec2 *range)
 	float	p1;
 	float	rad;
 
-	p0 = params.x * v.x - params.y * v.y;
-	p1 = params.x * v.z - params.y * v.z;
+	p0 = (params.x * v.x) - (params.y * v.y);
+	p1 = (params.x * v.z) - (params.y * v.w);
+	if (p0 < p1)
+	{
+		range->x = p0;
+		range->y = p1;
+	}
+	else
+	{
+		range->x = p1;
+		range->y = p0;
+	}
+	rad = params.z * v3.x + params.w * v3.y;
+	if (range->x > rad || range->y < -rad)
+		return (FALSE);
+	return (TRUE);
+}
+
+t_bool	axis_test2(t_vec4 params, t_vec4 v, t_vec2 v3, t_vec2 *range)
+{
+	float	p0;
+	float	p1;
+	float	rad;
+
+	p0 = (-params.x * v.x) + (params.y * v.y);
+	p1 = (-params.x * v.z) + (params.y * v.w);
 	if (p0 < p1)
 	{
 		range->x = p0;
