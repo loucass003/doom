@@ -1,0 +1,90 @@
+# Blender MTL File: 'None'
+# Material Count: 8
+
+newmtl brick_mat
+Ns 179.999996
+Ka 1.000000 1.000000 1.000000
+Kd 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd -s 0.125000 0.125000 1.000000 /Users/lisa/Downloads/a0910tje9zwg-metal/TexturesCom_BrickOldRounded0100_1_seamless_S.jpg
+
+newmtl concrete_mat
+Ns 179.999996
+Ka 1.000000 1.000000 1.000000
+Kd 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd -s 0.125000 0.125000 1.000000 /Users/lisa/Downloads/a0910tje9zwg-metal/ExposedConcrete_old_01.jpg
+
+newmtl handrail_mat
+Ns 179.999996
+Ka 1.000000 1.000000 1.000000
+Kd 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd -o 5.000000 0.000000 0.000000 -s 0.200000 0.200000 1.000000 /Users/lisa/Downloads/a0910tje9zwg-metal/metal.jpg
+
+newmtl lambert10
+Ns 179.999996
+Ka 1.000000 1.000000 1.000000
+Kd 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd /Users/lisa/Downloads/a0910tje9zwg-metal/ExposedConcrete_old_01.jpg
+
+newmtl road_mat
+Ns 179.999996
+Ka 1.000000 1.000000 1.000000
+Kd 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd -s 0.125000 0.125000 1.000000 /Users/lisa/Downloads/a0910tje9zwg-metal/TexturesCom_AsphaltDamaged0081_7_seamless_S.jpg
+
+newmtl semicircle_decor_mat
+Ns 179.999996
+Ka 1.000000 1.000000 1.000000
+Kd 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd -s 0.200000 0.200000 1.000000 /Users/lisa/Downloads/a0910tje9zwg-metal/ExposedConcrete_04.jpg
+
+newmtl steel_mat
+Ns 179.999996
+Ka 1.000000 1.000000 1.000000
+Kd 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd -s 0.125000 0.125000 1.000000 /Users/lisa/Downloads/a0910tje9zwg-metal/LimeStone_old_07.jpg
+
+newmtl vert_rail_mat
+Ns 179.999996
+Ka 1.000000 1.000000 1.000000
+Kd 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd /Users/lisa/Downloads/a0910tje9zwg-metal/ExposedConcrete_old_01.jpg
