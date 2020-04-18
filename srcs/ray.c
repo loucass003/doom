@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/14 16:37:29 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/24 15:43:24 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/04/18 12:32:12 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,12 +125,16 @@ t_collision		ray_hit_world(t_doom *doom, t_renderables *renderables,
 			continue;
 		if (r->has_hitbox && r->hitbox.type == COLLIDE_ELLIPSOID)
 			r = ray_transform_renderable(doom, r);
-		t_ray local = to_local_ray(ray, r->position, r->rotation, r->scale);
+		t_ray local;
+
+		local = to_local_ray(ray, r->position, r->rotation, r->scale);
 		ray.to_local = &local;
 		if (r->octree)
 		{
-			t_collision mincpy = min;
-			ray_intersect_octree(r->octree, r, &ray ,&min);
+			t_collision mincpy;
+
+			mincpy = min;
+			ray_intersect_octree(r->octree, r, &ray, &min);
 			if (min.collide && mincpy.dist > min.dist)
 				min.renderable = &renderables->values[i];
 			continue;

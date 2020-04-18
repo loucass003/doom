@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   g_editor_settings.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/11 00:11:31 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/11 11:15:47 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/18 18:58:18 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ void			g_editor_settings_on_enter(t_gui *self, t_doom *doom)
 
 void			g_editor_settings_on_leave(t_gui *self, t_doom *doom)
 {
-	printf("LEAVE\n");
 	(void)self;
 	set_gui_settings(&doom->editor, -1);
 }

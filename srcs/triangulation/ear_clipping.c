@@ -6,7 +6,7 @@
 /*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/12 15:51:26 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/15 17:36:37 by Lisa             ###   ########.fr       */
+/*   Updated: 2020/04/18 12:37:57 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,19 @@
 
 static float	area(t_4dvertices *vertices, int *filters, int filters_count)
 {
-	int n = filters_count;
-	float A = 0.0f;
+	int		n;
+	float	a;
+	t_vec4	pval;
+	t_vec4	qval;
+
+	n = filters_count;
+	a = 0.0f;
 	for (int p = n - 1, q = 0; q < n; p = q++) {
-		t_vec4 pval = vertices->vertices[filters[p]];
-		t_vec4 qval = vertices->vertices[filters[q]];
-		A += pval.x * qval.y - qval.x * pval.y;
+		pval = vertices->vertices[filters[p]];
+		qval = vertices->vertices[filters[q]];
+		a += pval.x * qval.y - qval.x * pval.y;
 	}
-	return (A * 0.5f);
+	return (a * 0.5f);
 }
 
 t_bool			inside_triangle(t_vec4 a, t_vec4 b, t_vec4 c, t_vec4 p)
@@ -53,12 +58,15 @@ t_bool			inside_triangle(t_vec4 a, t_vec4 b, t_vec4 c, t_vec4 p)
 static t_bool	snip(t_4dvertices *vertices, int u, int j, int w, int n, int *v)
 {
 	int		p;
-	t_vec4	a, b, c;
+	t_vec4	a;
+	t_vec4	b;
+	t_vec4	c;
+	float	t;
 
 	a = vertices->vertices[v[u]];
 	b = vertices->vertices[v[j]];
 	c = vertices->vertices[v[w]];
-	float t = ((b.x - a.x) * (c.y - a.y)) - ((b.y - a.y) * (c.x - a.x));
+	t = ((b.x - a.x) * (c.y - a.y)) - ((b.y - a.y) * (c.x - a.x));
 	if (EPSILON > t)
 		return (FALSE);
 	for (p = 0; p < n; p++)

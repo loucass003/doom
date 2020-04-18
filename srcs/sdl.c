@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sdl.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 20:10:35 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/15 23:03:42 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/18 12:14:58 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,9 @@ static t_bool	load_fonts(t_doom *doom)
 
 t_bool			init_sdl(t_doom *doom)
 {
+	Uint32	n;
+
+	n = 1;
 	if (SDL_Init(SDL_INIT_VIDEO) < 0
 		|| IMG_Init(IMG_INIT_PNG) != IMG_INIT_PNG
 		|| TTF_Init() < 0)
@@ -41,7 +44,7 @@ t_bool			init_sdl(t_doom *doom)
 	doom->main_context.image = &doom->screen;
 	if (!load_fonts(doom))
 		return (sdl_quit(doom));
-	if ((doom->trigger_event = SDL_RegisterEvents(1)) == -(Uint32)1)
+	if ((doom->trigger_event = SDL_RegisterEvents(1)) == -n)
 		return (FALSE);
 	doom->fullscreen = FALSE;
 	return (TRUE);
@@ -49,7 +52,6 @@ t_bool			init_sdl(t_doom *doom)
 
 t_bool			sdl_quit(t_doom *doom)
 {
-
 	destroy_image(&doom->screen);
 	TTF_CloseFont(doom->fonts.helvetica);
 	if (doom->renderer)

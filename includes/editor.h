@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   editor.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 14:35:33 by lloncham          #+#    #+#             */
-/*   Updated: 2020/04/16 21:09:05 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/18 13:28:29 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -370,7 +370,6 @@ t_bool						gui_ingame_editor_events(t_doom *doom,
 
 t_bool						create_map_points_and_floor(t_editor *editor,
 	t_renderable *r);
-t_bool						create_walls(t_editor *editor, t_renderable *r);
 
 t_bool						add_map(t_renderable *rmap, t_editor *editor);
 t_vec2						uv_setting(t_wall_section *ws, t_vec2 uv);

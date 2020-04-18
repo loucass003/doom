@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   entity.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 00:01:14 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/16 21:30:23 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/18 12:50:50 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,5 +174,7 @@ void					check_col_collide_ellipsoid(t_renderable r,
 	t_entity *entity, t_collide_aabb new_area, int i);
 t_bool					entity_hit_something(t_entity *entity, int *i);
 t_bool					check_collision(t_entity *entity, t_collide_aabb area);
+t_bool					update_renderable_entity(t_render_context *ctx,
+	t_renderable *r);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   save_ressource.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 01:08:20 by llelievr          #+#    #+#             */
-/*   Updated: 2020/03/02 16:15:23 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/04/18 18:46:09 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ t_bool		write_ressource(t_ressource_manager *rm, t_ressource *r)
 		.type = r->type,
 		.fixed = r->fixed,
 		.loaded = r->loaded,
-		.name_len = ft_strlen(r->display_name)
+		.name_len = ft_strlen(r->display_name),
+		.used = r->used,
 	};
 	dp_write(rm, &wr_res, sizeof(t_wr_ressource));
 	dp_write(rm, r->display_name, wr_res.name_len);

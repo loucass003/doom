@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   update_renderable.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/17 23:18:50 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/17 23:23:53 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/18 12:47:29 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,7 @@ void	update_renderable_entity_enemy(t_render_context *ctx, t_renderable *r,
 	set_current_cell(r, texture, enemy->animation_step);
 }
 
-void	update_renderable_entity_boss(t_render_context *ctx, t_renderable *r,
-	t_entity *entity)
+void	update_renderable_entity_boss(t_renderable *r, t_entity *entity)
 {
 	t_entity_boss	*boss;
 
@@ -56,6 +55,6 @@ t_bool	update_renderable_entity(t_render_context *ctx, t_renderable *r)
 	if (entity->type == ENTITY_ENEMY)
 		update_renderable_entity_enemy(ctx, r, entity);
 	else if (entity->type == ENTITY_BOSS)
-		update_renderable_entity_boss(ctx, r, entity);
+		update_renderable_entity_boss(r, entity);
 	return (TRUE);
 }

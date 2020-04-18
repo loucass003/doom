@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   light.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/17 23:22:00 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/17 23:22:31 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/18 12:48:28 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 #include "light.h"
 #include "doom.h"
 
-float	get_light_intensity(t_face_data *fd, t_light *light,
-	t_vec3 normal, t_vec4 point)
+float	get_light_intensity(t_light *light, t_vec3 normal, t_vec4 point)
 {
 	t_vec3	dir;
 	float	intensity;
@@ -46,7 +45,7 @@ float	get_lights_intensity(t_face_data *fd, t_vec3 normal, t_vec4 point,
 	sum = 0;
 	while (++i < fd->ctx->doom->lights->len)
 	{
-		sum += get_light_intensity(fd, fd->ctx->doom->lights->values + i,
+		sum += get_light_intensity(fd->ctx->doom->lights->values + i,
 			normal, point);
 	}
 	return (clamp(ambiant, 255, sum));

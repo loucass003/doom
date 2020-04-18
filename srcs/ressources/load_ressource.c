@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   load_ressource.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/24 01:51:49 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/17 20:45:01 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/18 18:57:53 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ t_bool		read_ressource(t_ressource_manager *rm, t_ressource *r)
 	ft_bzero(r->display_name, 255);
 	if (!io_memcpy(&rm->reader, &r->display_name, wr_res.name_len))
 		return (FALSE);
+	r->used = wr_res.used;
 	if (!r->fixed)
 	{
 		r->type = wr_res.type;

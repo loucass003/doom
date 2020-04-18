@@ -6,7 +6,7 @@
 /*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/25 05:41:51 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/15 17:33:27 by Lisa             ###   ########.fr       */
+/*   Updated: 2020/04/18 18:54:44 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ typedef struct			s_wr_ressource
 	t_bool				fixed;
 	t_bool				loaded;
 	int					name_len;
+	size_t				used;
 }						t_wr_ressource;
 
 typedef struct			s_wr_room
