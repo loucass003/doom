@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mtl_formaters.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/28 03:24:11 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/20 17:47:07 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/04/18 22:34:18 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,12 @@ t_bool			load_texture(char *path, t_mtl *mtl)
 {
 	if (!path)
 		return (FALSE);
+	if (!file_exists(path))
+	{
+		free(path);
+		ft_putstr("Invalid mtl map_Kd path");
+		return (FALSE);
+	}
 	if (!(mtl->texture_map = surface_to_image(NULL,
 		SDL_ConvertSurfaceFormat(IMG_Load(path), SDL_PIXELFORMAT_ARGB8888, 0))))
 	{
