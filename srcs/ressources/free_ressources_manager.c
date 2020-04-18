@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_ressources_manager.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/11 06:02:31 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/17 21:10:26 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/18 22:04:12 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	free_ressource(t_ressource **r_addr, t_bool free_itself)
 	r = *r_addr;
 	if (r->loaded)
 	{
-		if (r->type == RESSOURCE_MODEL)
+		if (r->type == RESSOURCE_MODEL && r->data.model)
 		{
 			free_renderable(r->data.model, TRUE, TRUE);
 			ft_memdel((void **)&r->data.model);
