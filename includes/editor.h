@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   editor.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 14:35:33 by lloncham          #+#    #+#             */
-/*   Updated: 2020/04/18 13:28:29 by Lisa             ###   ########.fr       */
+/*   Updated: 2020/04/19 00:54:35 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,9 @@ typedef struct				s_gap_filler_packet
 	t_vec4					range_b;
 	t_vec4					last_range_a;
 	t_vec4					last_range_b;
+	struct s_wall			*w0;
+	struct s_wall			*w1;
+	struct s_room			*room;
 }							t_gap_filler_packet;
 
 typedef struct				s_wall_sections
@@ -445,5 +448,11 @@ void						event_button_left(t_doom *doom);
 void						uvs_events(t_doom *doom, SDL_Event *event);
 void						ceil_floor_events(t_doom *doom, SDL_Event *event);
 void						object_events(t_doom *doom, SDL_Event *event);
+
+void						sort_ranges(t_4dvertices *range);
+int							range_wall(t_wall *wall0, t_wall *wall1,
+								t_editor *editor, int j);
+t_bool						update_walls_sections(t_editor *editor,
+								t_room *room);
 
 #endif
