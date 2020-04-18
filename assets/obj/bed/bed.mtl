@@ -21,8 +21,7 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 0.000000
 illum 1
-# map_Kd cloth.jpg
-map_Kd -s 0.500000 0.500000 0.500000 cloth.jpg
+map_Kd cloth.jpg
 
 newmtl Pilow
 Ns 86.470579
@@ -33,4 +32,4 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 0.000000
 illum 1
-map_Kd cloth_2.jpg
+# map_Kd cloth_2.jpg
