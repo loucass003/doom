@@ -6,7 +6,7 @@
 /*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:33:38 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/17 20:12:11 by Lisa             ###   ########.fr       */
+/*   Updated: 2020/04/18 20:39:41 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,5 +134,7 @@ void					init_gameover(t_doom *doom);
 void					skybox_activated(t_doom *doom);
 void					sphere_context_editor(t_doom *doom);
 void					draw_transforms_type(t_editor *editor);
+int						exit_error(char *str, int r);
+
 
 #endif

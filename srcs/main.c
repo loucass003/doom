@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 19:47:26 by llelievr          #+#    #+#             */
-/*   Updated: 2020/03/09 03:14:10 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/18 20:39:09 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,18 +78,12 @@ int		main(int argc, char **argv)
 
 	doom = init_doom();
 	if (argc != 2)
-	{
-		ft_putendl("Usage: ./doom-nukem <datapack>");
-		return (0);
-	}
+		return (exit_error("Usage: ./doom-nukem <datapack>", 0));
 	init_openal(&doom);
 	init_ressources_registry(&doom);
 	init_map(&doom);
 	if (!load_datapack(&doom, argv[1]))
-	{
-		ft_putendl("Error: invalid datapack");
-		return (exit_doom(&doom));
-	}
+		return (exit_error("Error: invalid datapack", exit_doom(&doom)));
 	doom.main_context.doom = &doom;
 	doom.editor.doom = &doom;
 	if (!init_threads(&doom.threads))

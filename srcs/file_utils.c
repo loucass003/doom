@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   file_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/28 01:48:23 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/17 20:45:13 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/18 20:39:03 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,4 +81,10 @@ t_bool		file_exists(char *file)
 		return (FALSE);
 	close(fd);
 	return (TRUE);
+}
+
+int		exit_error(char *str, int r)
+{
+	ft_putendl(str);
+	return (r);
 }
