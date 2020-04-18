@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/14 16:37:29 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/18 12:32:12 by Lisa             ###   ########.fr       */
+/*   Updated: 2020/04/18 23:26:34 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ t_ray			to_local_ray(t_ray ray, t_vec3 position, t_vec3 rotation,
 }
 
 t_collision		to_world_collision(t_ray original_ray,
-	t_collision local_collision, t_vec3 position, t_vec3 rotation, t_vec3 scale)
+	t_collision local_collision, t_vec3 prs[3])
 {
 	t_collision	collision;
 	t_ray		*local_ray;
@@ -65,9 +65,9 @@ t_collision		to_world_collision(t_ray original_ray,
 	local_ray = original_ray.to_local;
 	point = ft_vec3_add(local_ray->origin, ft_vec3_mul_s(local_ray->direction,
 		local_collision.dist));
-	point = ft_vec3_mul(point, scale);
-	point = vec3_rotate(point, rotation);
-	point = ft_vec3_add(point, position);
+	point = ft_vec3_mul(point, prs[2]);
+	point = vec3_rotate(point, prs[1]);
+	point = ft_vec3_add(point, prs[0]);
 	dist = ft_vec3_len(ft_vec3_sub(original_ray.origin, point));
 	collision.dist = dist;
 	collision.point = point;
@@ -106,16 +106,61 @@ t_renderable		*ray_transform_renderable(t_doom *doom, t_renderable *r)
 	return (r);
 }
 
+void			ray_test_faces(t_ray_test_data *data)
+{
+	int				j;
+	t_collision		hit;
+
+	j = -1;
+	while (++j < data->r->faces->len)
+	{
+		if (!data->r->faces->values[j].has_collision
+			&& data->doom->main_context.type == CTX_NORMAL)
+			continue;
+		hit = ray_hit_collidable(data->ray->to_local,
+			&data->r->faces->values[j].collidable);
+		if (hit.collide)
+		{
+			hit = to_world_collision(*data->ray, hit, (t_vec3[3]){
+				data->r->position, data->r->rotation, data->r->scale});
+			if (hit.dist > 0 && hit.dist < data->min.dist)
+			{
+				data->min = hit;
+				data->min.renderable = &data->renderables->values[data->i];
+			}
+		}
+	}
+}
+
+t_bool			ray_test_octree(t_ray_test_data *data)
+{
+	t_ray		local;
+	t_collision	mincpy;
+
+	local = to_local_ray(*data->ray, data->r->position, data->r->rotation,
+		data->r->scale);
+	data->ray->to_local = &local;
+	if (data->r->octree)
+	{
+		mincpy = data->min;
+		ray_intersect_octree(data->r->octree, data->r, data->ray, &data->min);
+		if (data->min.collide && mincpy.dist > data->min.dist)
+			data->min.renderable = &data->renderables->values[data->i];
+		return (FALSE);
+	}
+	return (TRUE);
+}
+
 t_collision		ray_hit_world(t_doom *doom, t_renderables *renderables,
 	t_ray ray)
 {
-	t_collision		min;
-	t_collision		hit;
+	t_ray_test_data	data;
 	t_renderable	*r;
 	int				i;
-	int				j;
 
-	min = (t_collision) { .collide = FALSE, .dist = INT_MAX };
+	data = (t_ray_test_data){ .i = -1, .ray = &ray, .renderables = renderables,
+		.doom = doom, .min = (t_collision) { .collide = FALSE,
+			.dist = INT_MAX } };
 	ray.doom = doom;
 	i = -1;
 	while (++i < renderables->len)
@@ -125,36 +170,11 @@ t_collision		ray_hit_world(t_doom *doom, t_renderables *renderables,
 			continue;
 		if (r->has_hitbox && r->hitbox.type == COLLIDE_ELLIPSOID)
 			r = ray_transform_renderable(doom, r);
-		t_ray local;
-
-		local = to_local_ray(ray, r->position, r->rotation, r->scale);
-		ray.to_local = &local;
-		if (r->octree)
-		{
-			t_collision mincpy;
-
-			mincpy = min;
-			ray_intersect_octree(r->octree, r, &ray, &min);
-			if (min.collide && mincpy.dist > min.dist)
-				min.renderable = &renderables->values[i];
+		data.r = r;
+		data.i = i;
+		if (!ray_test_octree(&data))
 			continue;
-		}
-		j = -1;
-		while (++j < r->faces->len)
-		{
-			if (!r->faces->values[j].has_collision && doom->main_context.type == CTX_NORMAL)
-				continue;
-			hit = ray_hit_collidable(ray.to_local, &r->faces->values[j].collidable);
-			if (hit.collide)
-			{
-				hit = to_world_collision(ray, hit, r->position, r->rotation, r->scale);
-				if (hit.dist > 0 && hit.dist < min.dist)
-				{
-					min = hit;
-					min.renderable = &renderables->values[i];
-				}
-			}
-		}
+		ray_test_faces(&data);
 	}
-	return (min);
+	return (data.min);
 }

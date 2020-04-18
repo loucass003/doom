@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 01:15:48 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/18 19:56:45 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/18 23:27:30 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,14 +127,23 @@ typedef struct					s_physics_fields
 	t_plane						plane;
 }								t_physics_fields;
 
+typedef struct					s_ray_test_data
+{
+	struct s_renderable			*r;
+	t_ray						*ray;
+	struct s_renderables		*renderables;
+	int							i;
+	t_collision					min;
+	struct s_doom				*doom;
+}								t_ray_test_data;
+
 t_vec3							point_to_local(t_vec3 point, t_vec3 position,
 									t_vec3 rotation, t_vec3 scale);
 t_ray							to_local_ray(t_ray ray, t_vec3 position,
 									t_vec3 rotation, t_vec3 scale);
 t_collision						to_world_collision(t_ray original_ray,
 									t_collision local_collision,
-									t_vec3 position, t_vec3 rotation,
-									t_vec3 scale);
+									t_vec3 prs[3]);
 t_collision						ray_hit_collidable(t_ray *ray,
 									t_collidable *collidable);
 t_collision						ray_hit_aabb(t_ray *ray,

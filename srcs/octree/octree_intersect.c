@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/14 20:20:28 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/14 20:21:09 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/18 23:09:40 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ void			ray_hit_coll_triangle(t_ray *ray, t_renderable *r,
 {
 	if (hit.collide)
 	{
-		hit = to_world_collision(*ray, hit, r->position, r->rotation,
-			r->scale);
+		hit = to_world_collision(*ray, hit, (t_vec3[3]){r->position,
+			r->rotation, r->scale});
 		if (hit.dist > 0 && hit.dist < closest_hit->dist)
 		{
 			*closest_hit = hit;
