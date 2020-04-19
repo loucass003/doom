@@ -6,12 +6,13 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/10 22:38:06 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/15 00:20:14 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/19 18:24:45 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom.h"
 #include "editor.h"
+#include "sprite.h"
 
 void			remove_all_room(t_editor *editor, int i)
 {
@@ -80,6 +81,10 @@ void			editor_delete_action(t_editor *editor)
 		object = &editor->objects->values[editor->current_object];
 		if (object->type == OBJECT_LIGHT)
 			remove_light(editor->doom, object->of.light_index);
+		if (object->type == OBJECT_MODEL)
+			object->of.model->used--;
+		if (object->type == OBJECT_SPRITE)
+			object->of.sprite->texture->used--;
 		splice_objects_array(editor->objects, editor->current_object, 1);
 		editor->current_object = -1;
 		editor_settings_update(editor);
