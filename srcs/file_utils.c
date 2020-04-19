@@ -6,7 +6,7 @@
 /*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/28 01:48:23 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/18 20:39:03 by Lisa             ###   ########.fr       */
+/*   Updated: 2020/04/19 11:59:38 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ t_bool		file_exists(char *file)
 	return (TRUE);
 }
 
-int		exit_error(char *str, int r)
+int			exit_error(char *str, int r)
 {
 	ft_putendl(str);
 	return (r);

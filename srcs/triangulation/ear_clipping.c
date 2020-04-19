@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ear_clipping.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/12 15:51:26 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/19 03:43:58 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/19 12:23:43 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,19 +106,22 @@ t_bool			ear_clip2(int *filters, int filters_count, t_4dvertices *vertices,
 			free(indices);
 			return (TRUE);
 		}
-		int u = v;
+		int u;
+		u = v;
 		if (nv <= u)
 			u = 0;
 		v = u + 1;
 		if (nv <= v)
 			v = 0;
-		int w = v + 1;
+		int w;
+		w = v + 1;
 		if (nv <= w)
 			w = 0;
 		if (snip(vertices, u, v, w, nv, indices))
 		{
-			int s, t;
-			t_face face;
+			int	s;
+			int	t;
+			t_face	face;
 
 			ft_bzero(&face, sizeof(t_face));
 			face.hidden = 0;

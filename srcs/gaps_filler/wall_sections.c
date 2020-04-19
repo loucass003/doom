@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   wall_sections.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/19 00:51:17 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/19 00:51:38 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/19 12:01:00 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "editor.h"
 
-t_bool			arrange_wall_sections(t_wall *w0,
+t_bool		arrange_wall_sections(t_wall *w0,
 	t_wall_sections *wall_sections)
 {
 	int		i;
@@ -122,4 +122,3 @@ t_bool		update_walls_sections(t_editor *editor, t_room *room)
 	}
 	return (TRUE);
 }
-

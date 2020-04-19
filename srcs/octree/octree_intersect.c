@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   octree_intersect.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/14 20:20:28 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/18 23:09:40 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/19 12:14:02 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@
 void			ray_hit_coll_triangle(t_ray *ray, t_renderable *r,
 	t_collision *closest_hit, t_collision hit)
 {
+	t_vec3 tmp;
+
+	(void)tmp;
 	if (hit.collide)
 	{
 		hit = to_world_collision(*ray, hit, (t_vec3[3]){r->position,
