@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   editor_setmap_render.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/14 15:15:34 by louali            #+#    #+#             */
-/*   Updated: 2020/02/24 16:35:26 by louali           ###   ########.fr       */
+/*   Updated: 2020/04/19 21:27:20 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,18 +87,9 @@ t_bool		create_object_renderable(t_editor *editor, int object_index,
 
 void		default_renderables(t_doom *doom)
 {
-	t_renderable	skybox;
 	t_renderable	r;
 
-	create_cube(doom, &skybox, TRUE);
-	skybox.materials->values[0].texture_map_set = TRUE;
-	skybox.materials->values[0].texture_map =
-		doom->res_manager.ressources->values[9]->data.texture;
-	skybox.scale = (t_vec3){FAR_CULL, FAR_CULL, FAR_CULL};
-	skybox.no_light = TRUE;
-	skybox.no_collision = TRUE;
-	doom->skybox_index = doom->renderables->len;
-	append_renderables_array(&doom->renderables, skybox);
+
 	create_player(&r, doom);
 	append_renderables_array(&doom->renderables, r);
 }

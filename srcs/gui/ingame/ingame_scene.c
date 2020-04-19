@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/14 19:00:26 by Lisa              #+#    #+#             */
-/*   Updated: 2020/04/19 21:06:15 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/19 21:26:28 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,6 @@ void			the_ingame_render(t_doom *doom)
 	while (++i < doom->renderables->len)
 	{
 		r = doom->renderables->values + i;
-		if (i == doom->skybox_index)
-			continue;
 		if (r->of.type == RENDERABLE_ENTITY)
 			if (ingame_render_entity(doom, r))
 				continue;
@@ -64,8 +62,6 @@ void			the_ingame_render(t_doom *doom)
 			&& r->hitbox.type == COLLIDE_ELLIPSOID)
 			sphere_collide_ellipsoid(doom, r);
 	}
-	render_renderable(&doom->main_context,
-		&doom->renderables->values[doom->skybox_index]);
 }
 
 void			ingame_scene(t_doom *doom)

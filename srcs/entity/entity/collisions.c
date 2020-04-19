@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/16 17:32:09 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/17 20:09:08 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/19 21:46:53 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,18 +90,26 @@ t_bool		collide_and_slide(t_entity *e)
 	e_position = ft_vec3_div(e->packet.r3_posision, e->packet.e_radius);
 	e_velocity = ft_vec3_div(e->packet.r3_velocity, e->packet.e_radius);
 	e_velocity.y = fmax(0.0, e_velocity.y);
-	stop = FALSE;
-	final_pos = collide_with_world(e, e_position, e_velocity, &stop);
-	if (stop)
-		return (FALSE);
-	e->packet.r3_posision = ft_vec3_mul(final_pos, e->packet.e_position);
-	e->packet.e_velocity = gravity;
-	e_velocity = ft_vec3_div(gravity, e->packet.e_radius);
-	e->packet.depth = -1;
-	stop = FALSE;
-	final_pos = collide_with_world(e, final_pos, e_velocity, &stop);
-	if (stop)
-		return (FALSE);
+	if (e_velocity.x != 0 || e_velocity.y != 0 || e_velocity.z != 0)
+	{
+		stop = FALSE;
+		final_pos = collide_with_world(e, e_position, e_velocity, &stop);
+		if (stop)
+			return (FALSE);
+		e->packet.r3_posision = ft_vec3_mul(final_pos, e->packet.e_position);
+	}
+	else
+		final_pos = e_position;
+	if (gravity.y != 0)
+	{
+		e->packet.e_velocity = gravity;
+		e_velocity = ft_vec3_div(gravity, e->packet.e_radius);
+		e->packet.depth = -1;
+		stop = FALSE;
+		final_pos = collide_with_world(e, final_pos, e_velocity, &stop);
+		if (stop)
+			return (FALSE);
+	}
 	e->packet.r3_posision = ft_vec3_mul(final_pos, e->packet.e_radius);
 	return (TRUE);
 }
