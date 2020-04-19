@@ -1,0 +1,13 @@
+# Blender MTL File: 'uploads-files-2053440-Dangerous+Tank.blend'
+# Material Count: 1
+
+newmtl Cargo_container_v1.001
+Ns 10.000002
+Ka 1.000000 1.000000 1.000000
+Kd 0.588235 0.588235 0.588235
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 1
+map_Kd Cargo_container_v1.tga
