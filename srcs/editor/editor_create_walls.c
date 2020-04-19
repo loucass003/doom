@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   editor_create_walls.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 11:36:27 by louali            #+#    #+#             */
-/*   Updated: 2020/04/19 18:09:41 by Lisa             ###   ########.fr       */
+/*   Updated: 2020/04/19 19:00:46 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,13 @@ void	floor_ceil(t_renderable *r, t_room *room, int i)
 	while (++j < room->walls->len)
 		filter[j] = room->room_vertices_start + j * 2;
 	f_c = init_triangulate_floor(filter, i, room);
-	triangulate_floor_ceil(r, f_c);
+	triangulate_floor_ceil(r, &f_c);
 	room->ceilling_start = r->faces->len;
 	j = -1;
 	while (++j < room->walls->len)
 		filter[j] = room->room_vertices_start + (j * 2) + 1;
 	f_c = init_triangulate_ceil(filter, i, room);
-	triangulate_floor_ceil(r, f_c);
+	triangulate_floor_ceil(r, &f_c);
 	room->ceilling_end = r->faces->len;
 	free(filter);
 }

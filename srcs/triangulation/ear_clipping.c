@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ear_clipping.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/12 15:51:26 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/19 18:21:34 by Lisa             ###   ########.fr       */
+/*   Updated: 2020/04/19 19:35:00 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,43 +17,7 @@
 #include "maths/mat4.h"
 #include "arrays.h"
 
-#define EPSILON (1e-6)
-
-static float	area(t_4dvertices *vertices, int *filters, int filters_count)
-{
-	float	a;
-	int		p;
-	int		q;
-	t_vec4	pval;
-	t_vec4	qval;
-
-	a = 0.0f;
-	p = filters_count - 1;
-	q = 0;
-	while (q < filters_count)
-	{
-		pval = vertices->vertices[filters[p]];
-		qval = vertices->vertices[filters[q]];
-		a += pval.x * qval.y - qval.x * pval.y;
-		p = q++;
-	}
-	return (a * 0.5f);
-}
-
-t_bool			inside_triangle(t_vec4 a, t_vec4 b, t_vec4 c, t_vec4 p)
-{
-	float	i;
-	float	j;
-	float	k;
-
-	i = (c.x - b.x) * (p.y - b.y) - (c.y - b.y) * (p.x - b.x);
-	j = (b.x - a.x) * (p.y - a.y) - (b.y - a.y) * (p.x - a.x);
-	k = (a.x - c.x) * (p.y - c.y) - (a.y - c.y) * (p.x - c.x);
-	return (i >= 0 && j >= 0 && k >= 0);
-}
-
-static t_bool	snip(t_4dvertices *vertices, int u, int v, int w, int n,
-	int *indices)
+t_bool	snip(t_4dvertices *vertices, int uvw[3], int n, int *indices)
 {
 	int		p;
 	t_vec4	a;
@@ -61,16 +25,16 @@ static t_bool	snip(t_4dvertices *vertices, int u, int v, int w, int n,
 	t_vec4	c;
 	float	t;
 
-	a = vertices->vertices[indices[u]];
-	b = vertices->vertices[indices[v]];
-	c = vertices->vertices[indices[w]];
+	a = vertices->vertices[indices[uvw[0]]];
+	b = vertices->vertices[indices[uvw[1]]];
+	c = vertices->vertices[indices[uvw[2]]];
 	t = ((b.x - a.x) * (c.y - a.y)) - ((b.y - a.y) * (c.x - a.x));
 	if (EPSILON > t)
 		return (FALSE);
 	p = -1;
 	while (++p < n)
 	{
-		if (p == u || p == v || p == w)
+		if (p == uvw[0] || p == uvw[1] || p == uvw[2])
 			continue;
 		if (inside_triangle(a, b, c, vertices->vertices[indices[p]]))
 			return (FALSE);
@@ -78,97 +42,93 @@ static t_bool	snip(t_4dvertices *vertices, int u, int v, int w, int n,
 	return (TRUE);
 }
 
-t_bool			ear_clip2(int *filters, int filters_count, t_4dvertices *vertices,
-	t_faces **faces, int normal_type, int face_material, int room_index)
+void			prepare_indices(int *filters, int filters_count,
+	t_4dvertices *vertices, int *indices)
+{
+	int		i;
+
+	i = -1;
+	if (area(vertices, filters, filters_count) > 0)
+		while (++i < filters_count)
+			indices[i] = filters[i];
+	else
+		while (++i < filters_count)
+			indices[i] = filters[(filters_count - 1) - i];
+}
+
+void			append_face(t_triangulate *t, int *indices, int uvw[3],
+	t_faces **faces)
+{
+	t_face	face;
+
+	ft_bzero(&face, sizeof(t_face));
+	face.hidden = 0;
+	face.normal_type = t->normal_type;
+	face.double_sided = t->normal_type == 2;
+	face.has_collision = TRUE;
+	face.vertices_index[0] = indices[uvw[0]] + 1;
+	face.vertices_index[1] = indices[uvw[1]] + 1;
+	face.vertices_index[2] = indices[uvw[2]] + 1;
+	face.vertex_set = TRUE;
+	face.vertex_index[0] = indices[uvw[0]] + 1;
+	face.vertex_index[1] = indices[uvw[1]] + 1;
+	face.vertex_index[2] = indices[uvw[2]] + 1;
+	face.normals_set = TRUE;
+	face.normals_index[0] = indices[uvw[0]] + 1;
+	face.normals_index[1] = indices[uvw[1]] + 1;
+	face.normals_index[2] = indices[uvw[2]] + 1;
+	face.mtl_index = t->mtl;
+	face.wall_index = -1;
+	face.room_index = t->room_index;
+	append_faces_array(&*faces, face);
+}
+
+t_bool			process(t_triangulate *t, t_faces **faces, int *indices,
+	int *var[3])
+{
+	int		uw[2];
+	int		i;
+	int		j;
+
+	if ((*var[1])-- <= 0)
+		return (FALSE);
+	uw[0] = *var[2];
+	if (*var[0] <= uw[0])
+		uw[0] = 0;
+	*var[2] = uw[0] + 1;
+	if (*var[0] <= *var[2])
+		*var[2] = 0;
+	uw[1] = *var[2] + 1;
+	if (*var[0] <= uw[1])
+		uw[1] = 0;
+	if (snip(t->vertices, (int[3]){uw[0], *var[2], uw[1]}, *var[0], indices))
+	{
+		append_face(t, indices, (int[3]){uw[0], *var[2], uw[1]}, faces);
+		i = *var[2];
+		j = *var[2] + 1;
+		while (j < *var[0])
+			indices[i++] = indices[j++];
+		*var[1] = 2 * --(*var[0]);
+	}
+	return (TRUE);
+}
+
+t_bool			ear_clip2(t_triangulate *t, t_faces **faces)
 {
 	int		*indices;
 	int		nv;
 	int		count;
 	int		v;
 
-	if (filters_count < 3
-		|| !(indices = (int *)malloc(filters_count * sizeof(int))))
+	if (t->filter_len < 3
+		|| !(indices = (int *)malloc(t->filter_len * sizeof(int))))
 		return (FALSE);
-	if (area(vertices, filters, filters_count) > 0) {
-		for (int i = 0; i < filters_count; i++)
-			indices[i] = filters[i];
-	}
-	else {
-		for (int i = 0; i < filters_count; i++)
-			indices[i] = filters[(filters_count - 1) - i];
-	}
-	nv = filters_count;
+	prepare_indices(t->filter, t->filter_len, t->vertices, indices);
+	nv = t->filter_len;
 	count = 2 * nv;
 	v = nv - 1;
 	while (nv > 2)
-	{
-		if (count-- <= 0)
-		{
-			free(indices);
-			return (TRUE);
-		}
-		int u = v;
-		if (nv <= u)
-			u = 0;
-		v = u + 1;
-		if (nv <= v)
-			v = 0;
-		int w = v + 1;
-		if (nv <= w)
-			w = 0;
-		if (snip(vertices, u, v, w, nv, indices))
-		{
-			int s, t;
-			t_face face;
-
-			ft_bzero(&face, sizeof(t_face));
-			face.hidden = 0;
-			face.normal_type = normal_type;
-			face.double_sided = normal_type == 2;
-			face.has_collision = TRUE;
-			face.vertices_index[0] = indices[u] + 1;
-			face.vertices_index[1] = indices[v] + 1;
-			face.vertices_index[2] = indices[w] + 1;
-			face.vertex_set = TRUE;
-			face.vertex_index[0] = indices[u] + 1;
-			face.vertex_index[1] = indices[v] + 1;
-			face.vertex_index[2] = indices[w] + 1;
-			face.normals_set = TRUE;
-			face.normals_index[0] = indices[u] + 1;
-			face.normals_index[1] = indices[v] + 1;
-			face.normals_index[2] = indices[w] + 1;
-			face.mtl_index = face_material;
-			face.wall_index = -1;
-			face.room_index = room_index;
-			append_faces_array(&*faces, face);
-			s = v;
-			t = v + 1;
-			while (t < nv)
-				indices[s++] = indices[t++];
-			nv--;
-			count = 2 * nv;
-		}
-	}
-	free(indices);
-	return (TRUE);
-}
-
-t_bool			compute_change_of_basis(t_vec3 n, t_mat4 *p_inv,
-		t_mat4 *reverse)
-{
-	const t_vec3	up = (t_vec3){0, 0, 1};
-	t_vec3			u;
-	t_vec3			w;
-
-	u = ft_vec3_cross(n, up);
-	if (ft_vec3_len(u) == 0)
-		u = (t_vec3){0, 1, 0};
-	w = ft_vec3_cross(u, n);
-	reverse->d = (t_mat4_data){
-		u.x, w.x, n.x, 0,
-		u.y, w.y, n.y, 0,
-		u.z, w.z, n.z, 0,
-		0, 0, 0, 1
-	};
-	return (mat4_inverse(*reverse, p_inv));
+		if (!process(t, faces, indices, (int*[3]){&nv, &count, &v}))
+			return (free_ret(indices, TRUE));
+	return (free_ret(indices, TRUE));
 }

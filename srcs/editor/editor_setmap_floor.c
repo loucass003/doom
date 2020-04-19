@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   editor_setmap_floor.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/14 14:41:09 by louali            #+#    #+#             */
-/*   Updated: 2020/04/19 18:06:42 by Lisa             ###   ########.fr       */
+/*   Updated: 2020/04/19 19:40:01 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,27 +19,26 @@
 #include "ellipsoid.h"
 #include "door.h"
 
-t_bool		triangulate_floor_ceil(t_renderable *r, t_triangulate f_c)
+t_bool		triangulate_floor_ceil(t_renderable *r, t_triangulate *f_c)
 {
 	t_mat4			p_inv;
 	t_mat4			reverse;
 	int				i;
 
-	if (!compute_change_of_basis(f_c.n, &p_inv, &reverse))
+	if (!compute_change_of_basis(f_c->n, &p_inv, &reverse))
 		return (FALSE);
 	i = -1;
-	while (++i < f_c.filter_len)
-		r->vertices->vertices[f_c.filter[i]] = mat4_mulv4(p_inv,
-			r->vertices->vertices[f_c.filter[i]]);
-	if (!ear_clip2(f_c.filter, f_c.filter_len, r->vertices, &r->faces,
-		f_c.normal_type, f_c.mtl, f_c.room_index))
+	while (++i < f_c->filter_len)
+		r->vertices->vertices[f_c->filter[i]] = mat4_mulv4(p_inv,
+			r->vertices->vertices[f_c->filter[i]]);
+	f_c->vertices = r->vertices;
+	if (!ear_clip2(f_c, &r->faces))
 		return (FALSE);
-	uv_mapping(r->vertices, r->vertex, f_c.filter, f_c.filter_len, f_c.offset,
-		f_c.repeat);
+	uv_mapping(f_c, r->vertex);
 	i = -1;
-	while (++i < f_c.filter_len)
-		r->vertices->vertices[f_c.filter[i]] = mat4_mulv4(reverse,
-			r->vertices->vertices[f_c.filter[i]]);
+	while (++i < f_c->filter_len)
+		r->vertices->vertices[f_c->filter[i]] = mat4_mulv4(reverse,
+			r->vertices->vertices[f_c->filter[i]]);
 	return (TRUE);
 }
 
