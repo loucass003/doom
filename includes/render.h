@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:16:19 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/19 18:11:59 by Lisa             ###   ########.fr       */
+/*   Updated: 2020/04/19 19:39:45 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 
 # define GROUPS_MAX 255
 # define GROUPS_NAME_LEN 255
+# define EPSILON 1e-6
 
 typedef struct				s_face
 {
@@ -165,6 +166,7 @@ typedef struct				s_triangulate
 	int						room_index;
 	t_vec2					offset;
 	t_vec2					repeat;
+	struct s_4dvertices		*vertices;
 }							t_triangulate;
 
 t_faces						*create_faces_array(int capacity);
@@ -223,16 +225,16 @@ void						draw_line_zbuff(t_render_context *ctx, t_vec4 v0,
 t_bool						render_renderable(t_render_context *ctx,
 								t_renderable *r);
 t_bool						triangulate_floor_ceil(t_renderable *r,
-								t_triangulate f_c);
+								t_triangulate *f_c);
 t_bool						compute_change_of_basis(t_vec3 n, t_mat4 *p_inv,
 								t_mat4 *reverse);
-t_bool						ear_clip2(int *filters, int filters_count,
-								t_4dvertices *vertices, t_faces **faces,
-								int normal_type, int face_material,
-								int room_index);
-void						uv_mapping(t_4dvertices *vertices,
-								t_2dvertices *vertex, int *filter,
-								int filter_len, t_vec2 offset, t_vec2 repeat);
+t_bool						ear_clip2(t_triangulate *t, t_faces **faces);
+t_bool						inside_triangle(t_vec4 a, t_vec4 b, t_vec4 c,
+								t_vec4 p);
+t_bool						free_ret(void *value, t_bool ret);
+float						area(t_4dvertices *vertices,
+								int *filters, int filters_count);
+void						uv_mapping(t_triangulate *t, t_2dvertices *vertex);
 
 void						free_materials(t_mtllist **m_addr,
 								t_bool free_ressources);
