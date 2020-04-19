@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:16:19 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/17 23:25:31 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/19 18:11:59 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,6 +155,18 @@ typedef struct				s_face_data
 	t_renderable		*r;
 }							t_face_data;
 
+typedef struct				s_triangulate
+{
+	t_vec3					n;
+	int						*filter;
+	int						filter_len;
+	int						normal_type;
+	int						mtl;
+	int						room_index;
+	t_vec2					offset;
+	t_vec2					repeat;
+}							t_triangulate;
+
 t_faces						*create_faces_array(int capacity);
 t_faces						*append_faces_array(t_faces **arr, t_face i);
 
@@ -210,10 +222,8 @@ void						draw_line_zbuff(t_render_context *ctx, t_vec4 v0,
 								t_vec4 v1, int color);
 t_bool						render_renderable(t_render_context *ctx,
 								t_renderable *r);
-t_bool						triangulate_floor_ceil(t_renderable *r, t_vec3 n,
-								int *filter, int filter_len, int normal_type,
-								int mtl, int room_index, t_vec2 offset,
-								t_vec2 repeat);
+t_bool						triangulate_floor_ceil(t_renderable *r,
+								t_triangulate f_c);
 t_bool						compute_change_of_basis(t_vec3 n, t_mat4 *p_inv,
 								t_mat4 *reverse);
 t_bool						ear_clip2(int *filters, int filters_count,
@@ -238,5 +248,6 @@ void						prepare_points_light(float it[3],
 								t_face *face, t_face_data *fd);
 void						prepare_triangle(t_face_data *fd, t_face *face,
 								t_mtl *mtl);
+
 
 #endif

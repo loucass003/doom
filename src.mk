@@ -41,6 +41,7 @@ SRC+=editor/editor_free.c
 SRC+=editor/editor_free_wall.c
 SRC+=editor/editor_grid.c
 SRC+=editor/editor_hide_wall.c
+SRC+=editor/editor_init_triangulate.c
 SRC+=editor/editor_intersect.c
 SRC+=editor/editor_object.c
 SRC+=editor/editor_player.c

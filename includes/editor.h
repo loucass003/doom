@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   editor.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 14:35:33 by lloncham          #+#    #+#             */
-/*   Updated: 2020/04/19 00:54:35 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/19 18:12:13 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -454,5 +454,8 @@ int							range_wall(t_wall *wall0, t_wall *wall1,
 								t_editor *editor, int j);
 t_bool						update_walls_sections(t_editor *editor,
 								t_room *room);
-
+t_triangulate				init_triangulate_floor(int *filter, int i,
+								t_room *room);
+t_triangulate				init_triangulate_ceil(int *filter, int i,
+								t_room *room);
 #endif

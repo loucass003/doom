@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   editor_create_walls.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 11:36:27 by louali            #+#    #+#             */
-/*   Updated: 2020/04/15 01:15:27 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/19 18:09:41 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,23 +41,22 @@ t_bool	add_room_points(t_editor *editor, t_room *room, t_renderable *r)
 
 void	floor_ceil(t_renderable *r, t_room *room, int i)
 {
-	int		j;
-	int		*filter;
+	int				j;
+	int				*filter;
+	t_triangulate	f_c;
 
 	j = -1;
 	filter = malloc(room->walls->len * sizeof(int));
 	while (++j < room->walls->len)
 		filter[j] = room->room_vertices_start + j * 2;
-	triangulate_floor_ceil(r, (t_vec3){ 0, -1, 0 }, filter, room->walls->len,
-		room->floor_normal, (i * 2), i, room->floor_uv_offset,
-		room->floor_uv_repeat);
+	f_c = init_triangulate_floor(filter, i, room);
+	triangulate_floor_ceil(r, f_c);
 	room->ceilling_start = r->faces->len;
 	j = -1;
 	while (++j < room->walls->len)
 		filter[j] = room->room_vertices_start + (j * 2) + 1;
-	triangulate_floor_ceil(r, (t_vec3){ 0, 1, 0 }, filter, room->walls->len,
-		room->ceil_normal, (i * 2) + 1, i, room->ceil_uv_offset,
-		room->ceil_uv_repeat);
+	f_c = init_triangulate_ceil(filter, i, room);
+	triangulate_floor_ceil(r, f_c);
 	room->ceilling_end = r->faces->len;
 	free(filter);
 }

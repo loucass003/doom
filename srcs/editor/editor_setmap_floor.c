@@ -6,7 +6,7 @@
 /*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/14 14:41:09 by louali            #+#    #+#             */
-/*   Updated: 2020/04/13 16:52:13 by Lisa             ###   ########.fr       */
+/*   Updated: 2020/04/19 18:06:42 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,28 +19,27 @@
 #include "ellipsoid.h"
 #include "door.h"
 
-t_bool		triangulate_floor_ceil(t_renderable *r, t_vec3 n, int *filter,
-	int filter_len, int normal_type, int mtl, int room_index,
-	t_vec2 offset, t_vec2 repeat)
+t_bool		triangulate_floor_ceil(t_renderable *r, t_triangulate f_c)
 {
 	t_mat4			p_inv;
 	t_mat4			reverse;
 	int				i;
 
-	if (!compute_change_of_basis(n, &p_inv, &reverse))
+	if (!compute_change_of_basis(f_c.n, &p_inv, &reverse))
 		return (FALSE);
 	i = -1;
-	while (++i < filter_len)
-		r->vertices->vertices[filter[i]] = mat4_mulv4(p_inv,
-			r->vertices->vertices[filter[i]]);
-	if (!ear_clip2(filter, filter_len, r->vertices, &r->faces,
-		normal_type, mtl, room_index))
+	while (++i < f_c.filter_len)
+		r->vertices->vertices[f_c.filter[i]] = mat4_mulv4(p_inv,
+			r->vertices->vertices[f_c.filter[i]]);
+	if (!ear_clip2(f_c.filter, f_c.filter_len, r->vertices, &r->faces,
+		f_c.normal_type, f_c.mtl, f_c.room_index))
 		return (FALSE);
-	uv_mapping(r->vertices, r->vertex, filter, filter_len, offset, repeat);
+	uv_mapping(r->vertices, r->vertex, f_c.filter, f_c.filter_len, f_c.offset,
+		f_c.repeat);
 	i = -1;
-	while (++i < filter_len)
-		r->vertices->vertices[filter[i]] = mat4_mulv4(reverse,
-			r->vertices->vertices[filter[i]]);
+	while (++i < f_c.filter_len)
+		r->vertices->vertices[f_c.filter[i]] = mat4_mulv4(reverse,
+			r->vertices->vertices[f_c.filter[i]]);
 	return (TRUE);
 }
 
