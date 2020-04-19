@@ -10,9 +10,7 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
 illum 2
-map_Bump Map #27
-map_Kd prop_aircon_l_03_decalprop_aircon_l_03_decal_a.dds
-refl prop_aircon_l_03_decal_s.png
+map_Kd prop_aircon_l_03_decalprop_aircon_l_03_decal_a.png
 
 newmtl Material_#54
 Ns 179.999996
@@ -23,9 +21,7 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
 illum 2
-map_Bump Map #18
 map_Kd prop_aircon_l_03.png
-refl prop_aircon_l_03_s.png
 
 newmtl Material_#55
 Ns 179.999996
@@ -47,9 +43,7 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
 illum 2
-map_Bump Map #8
 map_Kd prop_aircon_l_05.png
-refl prop_aircon_l_05_s.png
 
 newmtl Mtl.001
 Ns 179.999996
@@ -73,4 +67,3 @@ d 1.000000
 illum 2
 map_Bump Map #22
 map_Kd prop_aircon_l_03_decal_dprop_aircon_l_03_decal_a.png
-refl prop_aircon_l_03_decal_s.png
