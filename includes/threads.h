@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/24 01:36:30 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/16 21:09:07 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/19 21:02:50 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # define _POSIX_C_SOURCE 199309L
 
 # define RENDER_DATAS_CAPACITY 4096
-# define THREADS_COUNT 6
+# define THREADS_COUNT 10
 
 typedef struct			s_thread
 {

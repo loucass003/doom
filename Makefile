@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: louali <louali@student.42.fr>              +#+  +:+       +#+         #
+#    By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/07 14:49:27 by llelievr          #+#    #+#              #
-#    Updated: 2020/01/23 14:07:32 by louali           ###   ########.fr        #
+#    Updated: 2020/04/19 20:51:11 by llelievr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ OBJDIR	=./objs/
 DEPSDIR = ./deps/
 
 INCLUDE += $(shell pkg-config --cflags sdl2 SDL2_image SDL2_ttf openal)
-LIBS += $(shell pkg-config --libs sdl2 SDL2_image SDL2_ttf openal) 
+LIBS += $(shell pkg-config --libs sdl2 SDL2_image SDL2_ttf openal)
 
 PRECOMPILE = mkdir -p $(dir $@)
 POSTCOMPILE = sleep 0
@@ -60,7 +60,7 @@ $(OBJDIR)%.o: $(SRCDIR)%.c
 	@$(call run_and_test, $(CC) $(CFLAGS) $(INCLUDE) $(FT_INC) -I $(INCDIR)  -o $@ -c $<)
 	@$(POSTCOMPILE)
 
-make_ft: 
+make_ft:
 	make -C $(FT)
 
 $(FT_LIB): make_ft
