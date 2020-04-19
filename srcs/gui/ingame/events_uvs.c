@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   events_uvs.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 00:50:38 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/16 19:42:43 by Lisa             ###   ########.fr       */
+/*   Updated: 2020/04/19 04:42:55 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ void		uvs_events(t_doom *doom, SDL_Event *event)
 	t_vec2				add;
 	t_wall_section		*ws;
 	t_room				*room;
+	int					wi;
 
 	add = (t_vec2){ 0, 0 };
 	change_transform_mode(key, doom);
@@ -70,17 +71,19 @@ void		uvs_events(t_doom *doom, SDL_Event *event)
 		add.y = (key == SDL_SCANCODE_UP ? 1 : -1) * 0.1;
 	if (key == SDL_SCANCODE_LEFT || key == SDL_SCANCODE_RIGHT)
 		add.x = (key == SDL_SCANCODE_RIGHT ? 1 : -1) * 0.1;
-	room = &doom->editor.rooms->values[doom->editor.current_room];
-	ws = NULL;
-	if (doom->editor.current_seg.x != -1 && doom->editor.wall_section != -1)
-		ws = &room->walls->values[(int)doom->editor.current_seg.x]
-			.wall_sections->values[doom->editor.wall_section];
 	if (add.x == 0 && add.y == 0)
 		return ;
+	room = &doom->editor.rooms->values[doom->editor.current_room];
+	ws = NULL;
+	if (doom->editor.current_seg.x != -1 && doom->editor.wall_section != -1
+		&& (wi = wall_indexof_by_indice(room->walls,
+			doom->editor.current_seg.x)) != -1)
+		ws = &room->walls->values[wi].wall_sections
+				->values[doom->editor.wall_section];
 	uvs_mode(doom, ws, add, room);
 	if (ws)
-		update_wall(&doom->editor, doom->editor.current_room,
-			doom->editor.current_seg.x, doom->editor.wall_section);
+		update_wall(&doom->editor, doom->editor.current_room, wi,
+			doom->editor.wall_section);
 	else
 		add_map(get_map(&doom->editor), &doom->editor);
 }

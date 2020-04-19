@@ -6,7 +6,7 @@
 /*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/12 15:51:26 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/19 17:25:16 by Lisa             ###   ########.fr       */
+/*   Updated: 2020/04/19 18:21:34 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@ t_bool			inside_triangle(t_vec4 a, t_vec4 b, t_vec4 c, t_vec4 p)
 	return (i >= 0 && j >= 0 && k >= 0);
 }
 
-static t_bool	snip(t_4dvertices *vertices, int u, int j, int w, int n, int *v)
+static t_bool	snip(t_4dvertices *vertices, int u, int v, int w, int n,
+	int *indices)
 {
 	int		p;
 	t_vec4	a;
@@ -60,18 +61,18 @@ static t_bool	snip(t_4dvertices *vertices, int u, int j, int w, int n, int *v)
 	t_vec4	c;
 	float	t;
 
-	a = vertices->vertices[v[u]];
-	b = vertices->vertices[v[j]];
-	c = vertices->vertices[v[w]];
+	a = vertices->vertices[indices[u]];
+	b = vertices->vertices[indices[v]];
+	c = vertices->vertices[indices[w]];
 	t = ((b.x - a.x) * (c.y - a.y)) - ((b.y - a.y) * (c.x - a.x));
 	if (EPSILON > t)
 		return (FALSE);
 	p = -1;
 	while (++p < n)
 	{
-		if (p == u || p == j || p == w)
+		if (p == u || p == v || p == w)
 			continue;
-		if (inside_triangle(a, b, c, vertices->vertices[v[p]]))
+		if (inside_triangle(a, b, c, vertices->vertices[indices[p]]))
 			return (FALSE);
 	}
 	return (TRUE);
