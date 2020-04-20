@@ -1,16 +1,16 @@
 {
     "TEXTURES": {
-        "MAIN MENU BACKGROUND": "Doom.png",
-        "GAMEOVER BACKGROUND": "gameover.png",
+        "MAIN MENU BACKGROUND": "assets/textures/Doom.png",
+        "GAMEOVER BACKGROUND": "assets/textures/gameover.png",
         "ITEMS ICONS": "assets/textures/items_atlas.png",
         "GUN ANNIMATION": "assets/textures/gun0.png",
         "AXE ANNIMATION": "assets/textures/axe.png",
         "ENEMY SPRITESHEET": "assets/textures/enemy_1.png",
         "BOSS SPRITESHEET": "assets/textures/boss.png",
         "SKYBOX TEXTURE": "assets/obj/skybox.png",
-        "YOUWIN TEXTURE": "youwin.png",
-        "LEADERBOARD": "Leaderboard.jpg",
-        "HELP": "HELP.png",
+        "YOUWIN TEXTURE": "assets/textures/youwin.png",
+        "LEADERBOARD": "assets/textures/Leaderboard.jpg",
+        "HELP": "assets/textures/HELP.png",
         "EXPLOSION": "assets/textures/explosion.png",
         "EDITOR ICONS": "assets/textures/icons.png"
     },
@@ -21,21 +21,21 @@
         "TRANSPORTEUR": "assets/obj/teleporter/teleporter3.obj"
     },
     "SOUNDS": {
-        "SOUND WILHELM": "song/wilhelm.wav",
-        "SOUND GUN": "song/380.wav",
-        "SOUND FOOTSTEP": "song/step24.wav",
-        "SOUND PICKITEM": "song/pick_item.wav",
-        "SOUND BOSS FOOTSTEP": "song/boss_step.wav",
-        "SOUND BOSS GUN": "song/boss_rocket.wav",
-        "SOUND BOSS DIE": "song/boss_death.wav",
-        "SOUND BOSS HIT": "song/boss_shot.wav",
-        "SOUND EXPLOSION": "song/explosion.wav",
-        "SOUND DOOR": "song/porte.wav",
-        "SOUND TRANSPORTEUR": "song/teleportation.wav",
-        "SOUND GRENADE": "song/grenade.wav",
-        "SOUND GAME OVER": "song/gameover.wav"
+        "SOUND WILHELM": "assets/song/wilhelm.wav",
+        "SOUND GUN": "assets/song/380.wav",
+        "SOUND FOOTSTEP": "assets/song/step24.wav",
+        "SOUND PICKITEM": "assets/song/pick_item.wav",
+        "SOUND BOSS FOOTSTEP": "assets/song/boss_step.wav",
+        "SOUND BOSS GUN": "assets/song/boss_rocket.wav",
+        "SOUND BOSS DIE": "assets/song/boss_death.wav",
+        "SOUND BOSS HIT": "assets/song/boss_shot.wav",
+        "SOUND EXPLOSION": "assets/song/explosion.wav",
+        "SOUND DOOR": "assets/song/porte.wav",
+        "SOUND TRANSPORTEUR": "assets/song/teleportation.wav",
+        "SOUND GRENADE": "assets/song/grenade.wav",
+        "SOUND GAME OVER": "assets/song/gameover.wav"
     },
     "SCRIPTS": {
-        "SCRIPT": "template_dialogues.json"
+        "SCRIPT": "assets/script.json"
     }
 }
