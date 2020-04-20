@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 15:55:03 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/19 21:36:04 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/19 22:43:50 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,21 +42,6 @@ t_bool		add_door(int j, int i, t_editor *editor, t_room *room)
 	return (TRUE);
 }
 
-void		add_skybox(t_editor *editor)
-{
-	t_renderable	skybox;
-
-	create_cube(editor->doom, &skybox, TRUE);
-	skybox.materials->values[0].texture_map_set = TRUE;
-	skybox.materials->values[0].texture_map =
-		editor->doom->res_manager.ressources->values[9]->data.texture;
-	skybox.scale = (t_vec3){FAR_CULL, FAR_CULL, FAR_CULL};
-	skybox.no_light = TRUE;
-	skybox.no_collision = TRUE;
-	editor->doom->skybox_index = editor->doom->renderables->len;
-	append_renderables_array(&editor->doom->renderables, skybox);
-}
-
 t_bool		add_map(t_renderable *rmap, t_editor *editor)
 {
 	int		i;
@@ -81,7 +66,6 @@ t_bool		add_map(t_renderable *rmap, t_editor *editor)
 			if (add_door(j, i, editor, room) == FALSE)
 				return (FALSE);
 	}
-	add_skybox(editor);
 	return (TRUE);
 }
 
@@ -116,7 +100,6 @@ t_bool		editor_setmap(t_editor *editor)
 	editor->map_renderable = editor->doom->renderables->len;
 	update_rooms_gaps(editor);
 	add_map(&r, editor);
-
 	spawn_player(editor->doom);
 	return (TRUE);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ressource_model.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/25 10:50:33 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/18 21:56:58 by Lisa             ###   ########.fr       */
+/*   Updated: 2020/04/20 18:51:14 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_bool		load_model_file(t_doom *doom, t_ressource *r, char *path)
 	if (!(model = malloc(sizeof(t_renderable))))
 		return (FALSE);
 	if (!create_obj(doom, model, ft_strrchr(path, '/')))
-		return (FALSE);
+		return (free_ret(model, FALSE));
 	r->loaded = TRUE;
 	r->data.model = model;
 	return (TRUE);

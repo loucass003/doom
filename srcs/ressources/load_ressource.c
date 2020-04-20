@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   load_ressource.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/24 01:51:49 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/18 18:57:53 by Lisa             ###   ########.fr       */
+/*   Updated: 2020/04/20 18:51:05 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,23 @@
 
 t_bool		load_ressource(t_doom *doom, t_ressource *r, char *path)
 {
+	t_bool	result;
+
+	result = TRUE;
 	if (!file_exists(path))
-		return (FALSE);
-	if (r->type == RESSOURCE_TEXTURE)
-		return (load_texture_file(doom, r, path));
-	else if (r->type == RESSOURCE_MODEL)
-		return (load_model_file(doom, r, path));
-	else if (r->type == RESSOURCE_SOUND)
-		return (load_sound(r, path));
-	else if (r->type == RESSOURCE_SCRIPT)
-		return (load_script(r, path));
-	else
-		return (FALSE);
+		result = FALSE;
+	if (result)
+	{
+		if (r->type == RESSOURCE_TEXTURE)
+			result = (load_texture_file(doom, r, path));
+		else if (r->type == RESSOURCE_MODEL)
+			result = (load_model_file(doom, r, path));
+		else if (r->type == RESSOURCE_SOUND)
+			result = (load_sound(r, path));
+		else if (r->type == RESSOURCE_SCRIPT)
+			result = (load_script(r, path));
+	}
+	return (result || r->loaded);
 }
 
 t_bool		result_ress(t_bool result, t_ressource_manager *rm, t_ressource *r)
