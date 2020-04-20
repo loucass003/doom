@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/29 17:16:19 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/19 19:39:45 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/20 19:21:47 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -250,6 +250,5 @@ void						prepare_points_light(float it[3],
 								t_face *face, t_face_data *fd);
 void						prepare_triangle(t_face_data *fd, t_face *face,
 								t_mtl *mtl);
-
 
 #endif

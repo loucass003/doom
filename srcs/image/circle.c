@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   circle.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 13:06:49 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/22 15:05:13 by louali           ###   ########.fr       */
+/*   Updated: 2020/04/20 19:20:30 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 static inline void	put_cpixel(t_img *img, t_pixel p)
 {
-	if (p.y * img->width + p.x < 0 || p.y * img->width
+	if ((int)(p.y * img->width + p.x) < 0 || p.y * img->width
 		+ p.x > img->width * img->height)
 		return ;
 	img->pixels[p.y * img->width + p.x] = p.color;

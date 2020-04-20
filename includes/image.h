@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   image.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lloncham <lloncham@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 21:21:40 by llelievr          #+#    #+#             */
-/*   Updated: 2020/02/16 15:11:18 by lloncham         ###   ########.fr       */
+/*   Updated: 2020/04/20 19:20:58 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void				fill_color(t_img *img, uint32_t color);
 void				draw_line(t_img *img, t_pixel p0, t_pixel p1);
 void				draw_circle(t_img *img, t_pixel center, int r);
 Uint32				get_surface_pixel(SDL_Surface *surface, int x, int y);
-t_bool				put_pixel(t_img *img, uint32_t x, uint32_t y, int color);
+t_bool				put_pixel(t_img *img, int x, int y, int color);
 void				apply_surface_blended(t_img *img, SDL_Surface *s,
 						SDL_Rect src, SDL_Rect dst);
 void				apply_surface(t_img *img, SDL_Surface *s,

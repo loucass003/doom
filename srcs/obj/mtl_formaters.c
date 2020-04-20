@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mtl_formaters.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/28 03:24:11 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/19 18:00:02 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/20 19:22:58 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ t_bool			mtl_newmtl_formatter(t_obj *obj, t_reader *reader,
 
 t_bool			load_texture(char *path, t_mtl *mtl)
 {
+	SDL_Surface	*surface;
+
 	if (!path)
 		return (FALSE);
 	if (!file_exists(path))
@@ -56,7 +58,7 @@ t_bool			load_texture(char *path, t_mtl *mtl)
 		ft_putstr("Invalid mtl map_Kd path");
 		return (FALSE);
 	}
-	if (!(mtl->texture_map = IMG_Load(path)))
+	if (!(surface = IMG_Load(path)))
 	{
 		free(path);
 		ft_putstr("Invalid mtl map_Kd image format: ");
@@ -64,7 +66,7 @@ t_bool			load_texture(char *path, t_mtl *mtl)
 		return (FALSE);
 	}
 	if (!(mtl->texture_map = surface_to_image(NULL,
-		SDL_ConvertSurfaceFormat(mtl->texture_map, SDL_PIXELFORMAT_ARGB8888, 0))))
+		SDL_ConvertSurfaceFormat(surface, SDL_PIXELFORMAT_ARGB8888, 0))))
 	{
 		free(path);
 		ft_putstr("Unable to load material texture: ");

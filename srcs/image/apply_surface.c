@@ -3,18 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   apply_surface.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louali <louali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 22:28:48 by llelievr          #+#    #+#             */
-/*   Updated: 2020/01/22 15:03:33 by louali           ###   ########.fr       */
+/*   Updated: 2020/04/20 19:24:25 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "image.h"
 
-inline t_bool		put_pixel(t_img *img, uint32_t x, uint32_t y, int color)
+inline t_bool		put_pixel(t_img *img, int x, int y, int color)
 {
-	if (img->secure && (x < 0 || x >= img->width || y < 0 || y >= img->height))
+	if (img->secure && (x < 0 || x >= (int)img->width || y < 0
+		|| y >= (int)img->height))
 		return (FALSE);
 	img->pixels[(y * img->width) + x] = color;
 	return (TRUE);
