@@ -184,6 +184,7 @@ SRC+=editor/editor_set_render.c
 SRC+=editor/editor_setmap_floor.c
 SRC+=editor/editor_free_wall.c
 SRC+=editor/editor_create_walls.c
+SRC+=editor/editor_setmap_objects.c
 SRC+=editor/editor_world.c
 SRC+=editor/editor_setmap_wall.c
 SRC+=entity/entity.c

@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 11:22:28 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/15 01:45:43 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/20 23:54:38 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,9 +80,6 @@ void			g_ingame_on_events(t_gui *self, SDL_Event *event, t_doom *doom)
 
 void			g_ingame_render(t_gui *s, t_doom *doom)
 {
-	int i;
-
-	i = -1;
 	update_controls(doom);
 	ingame_scene(doom);
 	render_hud(doom, s);

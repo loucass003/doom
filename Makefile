@@ -6,12 +6,12 @@
 #    By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/07 14:49:27 by llelievr          #+#    #+#              #
-#    Updated: 2020/04/19 20:51:11 by llelievr         ###   ########.fr        #
+#    Updated: 2020/04/21 00:02:00 by llelievr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME=doom-nukem
-GFLAGS=-Wall -Wextra
+GFLAGS=-Wall -Wextra -Werror
 OPTI_FLAGS=-flto -O3 -march=native -ffast-math
 CFLAGS=$(GFLAGS) $(OPTI_FLAGS)
 LIBS=-lm -lft

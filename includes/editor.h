@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   editor.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 14:35:33 by lloncham          #+#    #+#             */
-/*   Updated: 2020/04/19 18:12:13 by Lisa             ###   ########.fr       */
+/*   Updated: 2020/04/21 00:25:49 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -458,4 +458,5 @@ t_triangulate				init_triangulate_floor(int *filter, int i,
 								t_room *room);
 t_triangulate				init_triangulate_ceil(int *filter, int i,
 								t_room *room);
+t_bool						add_objects(t_editor *editor);
 #endif

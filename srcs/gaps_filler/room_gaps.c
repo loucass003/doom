@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/19 00:46:52 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/19 00:50:13 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/20 23:59:13 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ t_bool		walls_range(t_editor *editor, t_room *room, t_wall *wall0,
 t_bool		get_room_gaps(t_editor *editor, t_room *room)
 {
 	int			i;
-	int			j;
 	t_wall		*wall0;
 	t_wall		*wall1;
 
@@ -61,7 +60,6 @@ t_bool		get_room_gaps(t_editor *editor, t_room *room)
 	i = -1;
 	while (++i < room->walls->len)
 	{
-		j = -1;
 		wall0 = &room->walls->values[i];
 		wall1 = &room->walls->values[(i + 1) % room->walls->len];
 		init_wall_len(wall0, wall1);

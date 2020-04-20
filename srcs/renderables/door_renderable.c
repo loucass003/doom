@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:22:26 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/15 03:24:25 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/20 23:18:10 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ t_bool		create_door_faces_index(t_renderable *r, int indexes[3])
 		else if (face.group == r->of.data.door->door_2)
 			filter_door_side(face, &r->of.data.door->door_2_indexes);
 	}
-	ft_memcpy(r->of.data.door->indexes, indexes, sizeof(int) * 4);
+	ft_memcpy(r->of.data.door->indexes, indexes, sizeof(int) * 3);
 	return (TRUE);
 }
 

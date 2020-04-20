@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   events_uvs.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 00:50:38 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/20 20:19:14 by Lisa             ###   ########.fr       */
+/*   Updated: 2020/04/21 00:03:49 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,11 @@ void		uvs_mode(t_doom *doom, t_wall_section *ws, t_vec2 add, t_room *room)
 void		if_ws(t_doom *doom, int wi, t_wall_section *ws)
 {
 	if (ws)
-		update_wall(&doom->editor, doom->editor.current_room, wi,
-			doom->editor.wall_section);
+	{
+		if (wi != -1)
+			update_wall(&doom->editor, doom->editor.current_room, wi,
+				doom->editor.wall_section);
+	}
 	else
 		add_map(get_map(&doom->editor), &doom->editor);
 }
@@ -75,6 +78,7 @@ void		uvs_events(t_doom *doom, SDL_Event *event)
 	int					wi;
 
 	add = (t_vec2){ 0, 0 };
+	wi = -1;
 	change_transform_mode(key, doom);
 	if (key == SDL_SCANCODE_UP || key == SDL_SCANCODE_DOWN)
 		add.y = (key == SDL_SCANCODE_UP ? 1 : -1) * 0.1;

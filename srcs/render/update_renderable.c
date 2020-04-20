@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   update_renderable.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/17 23:18:50 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/18 12:47:29 by Lisa             ###   ########.fr       */
+/*   Updated: 2020/04/20 23:57:41 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,12 @@
 void	update_renderable_entity_enemy(t_render_context *ctx, t_renderable *r,
 	t_entity *entity)
 {
-	t_sprite		*sprite;
 	t_entity_enemy	*enemy;
 	t_vec3			view;
 	float			a;
 	int				texture;
 
 	enemy = &entity->of.enemy;
-	sprite = r->sprite;
 	view = ft_vec3_sub(ctx->camera->pos, entity->position);
 	view = vec3_rotate(view, (t_vec3){ 0, -entity->rotation.y, 0 });
 	a = atan2(view.z, view.x);

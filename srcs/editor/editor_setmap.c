@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 15:55:03 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/19 22:43:50 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/21 00:24:19 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,25 +78,11 @@ void		update_editor_var(t_editor *editor)
 
 t_bool		editor_setmap(t_editor *editor)
 {
-	int				i;
 	t_renderable	r;
-	t_object		*object;
 
 	update_editor_var(editor);
 	default_renderables(editor->doom);
-	i = -1;
-	while (++i < editor->objects->len)
-	{
-		object = &editor->objects->values[i];
-		if (object->type == OBJECT_NONE)
-			continue ;
-		if (!create_object_renderable(editor, i, &r)
-			|| !append_renderables_array(&editor->doom->renderables, r))
-			return (FALSE);
-		object->r = &editor->doom->renderables
-			->values[editor->doom->renderables->len - 1];
-		object->r->has_hitbox ? object->r->show_hitbox = FALSE : 0;
-	}
+	add_objects(editor);
 	editor->map_renderable = editor->doom->renderables->len;
 	update_rooms_gaps(editor);
 	add_map(&r, editor);

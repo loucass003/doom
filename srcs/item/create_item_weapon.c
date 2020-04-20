@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_item_weapon.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/22 14:43:37 by lloncham          #+#    #+#             */
-/*   Updated: 2020/04/15 17:10:43 by Lisa             ###   ########.fr       */
+/*   Updated: 2020/04/20 23:56:52 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,11 +73,9 @@ t_item		*create_item_weapon_axe(t_ressource *image, t_ressource *animation)
 
 void		on_use_grenada(t_doom *d, t_itemstack *is)
 {
-	t_weapon		*weapon;
 	t_renderable	g;
 	t_vec3			forward;
 
-	weapon = &is->of->data.weapon;
 	if (is->amount > 0)
 	{
 		copy_renderable(d->res_manager.ressources->values[7]->data.model, &g);
