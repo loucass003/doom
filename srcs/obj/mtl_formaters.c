@@ -6,7 +6,7 @@
 /*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/28 03:24:11 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/20 19:22:58 by Lisa             ###   ########.fr       */
+/*   Updated: 2020/04/20 20:25:31 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,12 @@ t_bool			mtl_newmtl_formatter(t_obj *obj, t_reader *reader,
 	return (TRUE);
 }
 
+void			error(char *str, char *path)
+{
+	free(path);
+	ft_putstr(str);
+}
+
 t_bool			load_texture(char *path, t_mtl *mtl)
 {
 	SDL_Surface	*surface;
@@ -54,22 +60,19 @@ t_bool			load_texture(char *path, t_mtl *mtl)
 		return (FALSE);
 	if (!file_exists(path))
 	{
-		free(path);
-		ft_putstr("Invalid mtl map_Kd path");
+		error("Invalid mtl map_Kd path", path);
 		return (FALSE);
 	}
 	if (!(surface = IMG_Load(path)))
 	{
-		free(path);
-		ft_putstr("Invalid mtl map_Kd image format: ");
+		error("Invalid mtl map_Kd image format: ", path);
 		ft_putendl(SDL_GetError());
 		return (FALSE);
 	}
 	if (!(mtl->texture_map = surface_to_image(NULL,
 		SDL_ConvertSurfaceFormat(surface, SDL_PIXELFORMAT_ARGB8888, 0))))
 	{
-		free(path);
-		ft_putstr("Unable to load material texture: ");
+		error("Unable to load material texture: ", path);
 		ft_putendl(SDL_GetError());
 		return (FALSE);
 	}

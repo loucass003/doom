@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   events_uvs.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 00:50:38 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/19 04:42:55 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/20 20:19:14 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,15 @@ void		uvs_mode(t_doom *doom, t_wall_section *ws, t_vec2 add, t_room *room)
 	}
 }
 
+void		if_ws(t_doom *doom, int wi, t_wall_section *ws)
+{
+	if (ws)
+		update_wall(&doom->editor, doom->editor.current_room, wi,
+			doom->editor.wall_section);
+	else
+		add_map(get_map(&doom->editor), &doom->editor);
+}
+
 void		uvs_events(t_doom *doom, SDL_Event *event)
 {
 	const SDL_Scancode	key = event->key.keysym.scancode;
@@ -81,9 +90,5 @@ void		uvs_events(t_doom *doom, SDL_Event *event)
 		ws = &room->walls->values[wi].wall_sections
 				->values[doom->editor.wall_section];
 	uvs_mode(doom, ws, add, room);
-	if (ws)
-		update_wall(&doom->editor, doom->editor.current_room, wi,
-			doom->editor.wall_section);
-	else
-		add_map(get_map(&doom->editor), &doom->editor);
+	if_ws(doom, wi, ws);
 }

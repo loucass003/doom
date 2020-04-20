@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ear_clipping.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/12 15:51:26 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/19 19:35:00 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/20 20:20:38 by Lisa             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include "maths/mat4.h"
 #include "arrays.h"
 
-t_bool	snip(t_4dvertices *vertices, int uvw[3], int n, int *indices)
+t_bool			snip(t_4dvertices *vertices, int uvw[3], int n, int *indices)
 {
 	int		p;
 	t_vec4	a;
