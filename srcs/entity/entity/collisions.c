@@ -6,7 +6,7 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/16 17:32:09 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/19 21:46:53 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/20 19:46:59 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,8 @@ t_bool		collide_and_slide(t_entity *e)
 	e_position = ft_vec3_div(e->packet.r3_posision, e->packet.e_radius);
 	e_velocity = ft_vec3_div(e->packet.r3_velocity, e->packet.e_radius);
 	e_velocity.y = fmax(0.0, e_velocity.y);
-	if (e_velocity.x != 0 || e_velocity.y != 0 || e_velocity.z != 0)
+	if (e->type == ENTITY_PLAYER
+		|| e_velocity.x != 0 || e_velocity.y != 0 || e_velocity.z != 0)
 	{
 		stop = FALSE;
 		final_pos = collide_with_world(e, e_position, e_velocity, &stop);
@@ -100,7 +101,7 @@ t_bool		collide_and_slide(t_entity *e)
 	}
 	else
 		final_pos = e_position;
-	if (gravity.y != 0)
+	if (e->type == ENTITY_PLAYER || gravity.y != 0)
 	{
 		e->packet.e_velocity = gravity;
 		e_velocity = ft_vec3_div(gravity, e->packet.e_radius);
