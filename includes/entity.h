@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   entity.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Lisa <Lisa@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 00:01:14 by llelievr          #+#    #+#             */
-/*   Updated: 2020/04/18 12:50:50 by Lisa             ###   ########.fr       */
+/*   Updated: 2020/04/21 01:28:41 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,5 +176,7 @@ t_bool					entity_hit_something(t_entity *entity, int *i);
 t_bool					check_collision(t_entity *entity, t_collide_aabb area);
 t_bool					update_renderable_entity(t_render_context *ctx,
 	t_renderable *r);
+t_bool					gravity_test(t_entity *e, t_vec3 gravity,
+							t_vec3 final_pos);
 
 #endif

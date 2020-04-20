@@ -196,6 +196,7 @@ SRC+=entity/enemy_tools.c
 SRC+=entity/entity/damage.c
 SRC+=entity/entity/colide_with.c
 SRC+=entity/entity/check_collision.c
+SRC+=entity/entity/gravity_test.c
 SRC+=entity/entity/collisions.c
 SRC+=entity/entity/entity_hit_something.c
 SRC+=entity/entity/entity_update.c
