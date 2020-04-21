@@ -6,14 +6,15 @@
 #    By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/07 14:49:27 by llelievr          #+#    #+#              #
-#    Updated: 2020/04/21 00:02:00 by llelievr         ###   ########.fr        #
+#    Updated: 2020/04/21 04:24:24 by llelievr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME=doom-nukem
 GFLAGS=-Wall -Wextra -Werror
-OPTI_FLAGS=-flto -O3 -march=native -ffast-math
+OPTI_FLAGS=-O3 -march=native -ffast-math
 CFLAGS=$(GFLAGS) $(OPTI_FLAGS)
+LINK_FLAGS=$(CFLAGS) -flto
 LIBS=-lm -lft
 CC=clang
 
@@ -67,7 +68,7 @@ $(FT_LIB): make_ft
 
 
 $(NAME): $(OBJS) $(FT_LIB)
-	$(CC) $(CFLAGS) -o $(NAME) $(FT_LNK) $(INCLUDE) $(LIBS) $(OBJS) $(FT_LIB)
+	$(CC) $(LINK_FLAGS) -o $(NAME) $(FT_LNK) $(INCLUDE) $(LIBS) $(OBJS) $(FT_LIB)
 
 clean:
 	make -C $(FT) clean
