@@ -6,12 +6,11 @@
 /*   By: llelievr <llelievr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 16:55:56 by louali            #+#    #+#             */
-/*   Updated: 2020/03/09 02:34:01 by llelievr         ###   ########.fr       */
+/*   Updated: 2020/04/21 02:06:41 by llelievr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ressource.h"
-#include <SDL_mixer.h>
 #include <al.h>
 #include "write_structs.h"
 
